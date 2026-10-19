@@ -1,0 +1,30 @@
+{
+  "name": "destiny-echo-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "packageManager": "bun@1.4.3",
+  "engines": {
+    "bun": ">=1.4.3"
+  },
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bun run typecheck && bunx --bun vite build",
+    "preview": "bunx --bun vite preview",
+    "typecheck": "bunx --bun tsc --noEmit",
+    "lint": "bunx --bun biome check .",
+    "format": "bunx --bun biome check --write .",
+    "test:browser": "bunx --bun playwright test"
+  },
+  "dependencies": {
+    "phaser": "4.2.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.64.1",
+    "@types/bun": "1.4.3",
+    "typescript": "7.0.2",
+    "vite": "8.3.4"
+  }
+}

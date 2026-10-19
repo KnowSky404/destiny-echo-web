@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "Echoes Serif";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/fantasy-serif-500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Echoes Serif";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/fantasy-serif-600.ttf") format("truetype");
+}
+:root {
+  --background: #080b14;
+  --text: #f0e9e5;
+  --muted: #a7adc4;
+  --gold: #dec28a;
+  --violet: #a795ed;
+  --blue: #91dbea;
+  --pink: #d96889;
+  --border: #dec28a6b;
+  --serif: "Echoes Serif", "Noto Serif CJK SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+  --sans: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
