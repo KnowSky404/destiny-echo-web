@@ -5,12 +5,9 @@ import { Pool } from "../../src/game/pool";
 import { seededRandom } from "../../src/game/random";
 import { RunState } from "../../src/game/state";
 import { damagePlayer } from "../../src/game/systems/damage";
-import { movePlayer, segmentHitsCircle } from "../../src/game/systems/movement";
+import { segmentHitsCircle } from "../../src/game/systems/movement";
 import { createPlayer, World } from "../../src/game/world";
-
-function tick(world: World, seconds: number): void {
-  for (let index = 0; index < Math.round(seconds * 120); index++) world.update(1 / 120);
-}
+import { enemy, tick } from "./helpers";
 
 function chestInFiringLane(world: World) {
   const chest = world.chests.acquire();
@@ -19,44 +16,47 @@ function chestInFiringLane(world: World) {
   return chest;
 }
 
-describe("movement and timing", () => {
-  test("clamps all four configurable player boundaries", () => {
-    const player = createPlayer();
-    movePlayer(player, { x: -1, y: -1 }, 100);
-    expect(player.x).toBe(CONFIG.movement.left);
-    expect(player.y).toBe(CONFIG.movement.top);
-    movePlayer(player, { x: 1, y: 1 }, 100);
-    expect(player.x).toBe(CONFIG.movement.right);
-    expect(player.y).toBe(CONFIG.movement.bottom);
+describe("fixed position and timing", () => {
+  test("simulation restores the configured position and targeting never moves the player", () => {
+    const world = new World();
+    world.start(7);
+    world.player.x = 20;
+    world.player.y = 580;
+    const target = enemy(world, { x: 393, y: 200, defenseX: 393 });
+    world.selectTargetAt(target);
+    tick(world, 1);
+    expect({ x: world.player.x, y: world.player.y }).toEqual(CONFIG.player);
+    world.clearTarget();
+    tick(world, 1);
+    expect({ x: world.player.x, y: world.player.y }).toEqual(CONFIG.player);
   });
 
-  test("diagonal movement has the same speed and drag never overshoots", () => {
-    const player = createPlayer();
-    const initial = { x: player.x, y: player.y };
-    movePlayer(player, { x: 1, y: -1 }, 0.1);
-    expect(Math.hypot(player.x - initial.x, player.y - initial.y)).toBeCloseTo(26, 8);
-    movePlayer(player, { x: 0, y: 0, target: { x: 250, y: 700 } }, 1);
-    expect(player.x).toBe(250);
-    expect(player.y).toBe(700);
-  });
-
-  test("30, 60 and 144 Hz produce the same simulation, movement and shooting", () => {
+  test("30, 60 and 144 Hz produce identical targeting, attacks and damage", () => {
     const worlds = [30, 60, 144].map((rate) => {
       const world = new World();
       world.start(7);
-      for (let frame = 0; frame < rate / 2; frame++) world.update(1 / rate, { x: 1, y: 0 });
+      enemy(world, {
+        id: 9000,
+        x: 393,
+        y: 620,
+        defenseX: 393,
+        arrived: true,
+        hp: 1000,
+        maxHp: 1000,
+      });
+      for (let frame = 0; frame < rate * 4; frame++) world.update(1 / rate);
       return world.snapshot();
     });
-    for (const world of worlds) {
-      expect(world.player.x).toBeCloseTo(355, 6);
-      expect(world.elapsed).toBeCloseTo(0.5, 6);
-      expect(world.shots.length).toBe(2);
-    }
+    expect(worlds[0]).toEqual(worlds[1]);
+    expect(worlds[0]).toEqual(worlds[2]);
+    expect(worlds[0]?.metrics.enemyAttacks).toBeGreaterThan(0);
+    expect(worlds[0]?.player.hp).toBeLessThan(100);
+    expect(worlds[0]?.player.x).toBe(CONFIG.player.x);
   });
 
   test("paused, reward, menu and terminal states cannot advance time or move", () => {
     const world = new World();
-    world.update(1, { x: 1, y: 0 });
+    world.update(1);
     expect(world.elapsed).toBe(0);
     world.start(1);
     world.pause();
@@ -68,7 +68,7 @@ describe("movement and timing", () => {
     tick(world, 1);
     expect(world.phase).toBe("RewardSelection");
     const rewardBefore = world.snapshot();
-    world.update(0.1, { x: 1, y: 1 });
+    world.update(0.1);
     expect(world.snapshot()).toEqual(rewardBefore);
     expect(world.resume()).toBe(false);
   });
@@ -125,6 +125,7 @@ describe("damage and collision", () => {
       vy: 240,
       radius: 6,
       damage: 16,
+      lifetime: 6,
     });
     tick(world, 0.1);
     expect(world.player.hp).toBe(0);
@@ -138,46 +139,33 @@ describe("damage and collision", () => {
     const world = new World();
     world.start(1);
     world.player.stats.piercing = 3;
-    const enemy = world.enemies.acquire();
-    if (!enemy) throw new Error("No enemy");
-    Object.assign(enemy, {
-      id: 500,
-      kind: "sentinel",
+    const target = enemy(world, {
       x: 225,
-      originX: 225,
-      y: 680,
+      y: 620,
+      defenseX: 225,
+      arrived: true,
       hp: 100,
       maxHp: 100,
       radius: 30,
       speed: 0,
-      age: 0,
-      shotCooldown: 100,
-      patternCooldown: 100,
     });
     tick(world, 0.2);
-    expect(enemy.hp).toBe(88);
+    expect(target.hp).toBe(88);
   });
 
   test("defeating a boss through normal shooting produces victory", () => {
     const world = new World();
     world.start(1);
     world.bossSpawned = true;
-    const boss = world.enemies.acquire();
-    if (!boss) throw new Error("No boss");
-    Object.assign(boss, {
-      id: 500,
+    enemy(world, {
       kind: "boss",
       x: 225,
-      originX: 225,
-      y: 110,
+      y: 620,
+      defenseX: 225,
+      arrived: true,
       hp: 12,
-      maxHp: 12,
-      radius: 48,
+      maxHp: 1700,
       speed: 0,
-      age: 0,
-      shotCooldown: 100,
-      patternCooldown: 100,
-      telegraph: 0,
     });
     tick(world, 5);
     expect(world.phase).toBe("Victory");
@@ -190,7 +178,8 @@ describe("damage and collision", () => {
 
 describe("cards and one-time rewards", () => {
   test("all seven cards change actual player data and have full definitions", () => {
-    expect(CARDS.length).toBeGreaterThanOrEqual(6);
+    expect(CARDS.length).toBe(7);
+    expect(CARDS.some((card) => card.id === "drift")).toBe(false);
     expect(new Set(CARDS.map((card) => card.id)).size).toBe(CARDS.length);
     for (const card of CARDS) {
       const player = createPlayer();
@@ -211,11 +200,12 @@ describe("cards and one-time rewards", () => {
     expect(player.stats.damage).toBe(20);
     expect(stacks.get("overload")).toBe(2);
     for (let i = 0; i < 20; i++)
-      for (const id of ["haste", "multishot", "piercing", "drift"]) applyCard(id, player, stacks);
+      for (const id of ["haste", "multishot", "piercing", "execution"])
+        applyCard(id, player, stacks);
     expect(player.stats.interval).toBeGreaterThanOrEqual(0.13);
     expect(player.stats.projectiles).toBe(5);
     expect(player.stats.piercing).toBe(3);
-    expect(player.stats.speed).toBe(380);
+    expect(player.stats.execution).toBe(3);
     expect(stacks.get("haste")).toBe(6);
     player.hp = 95;
     applyCard("vitality", player, stacks);
@@ -228,7 +218,8 @@ describe("cards and one-time rewards", () => {
     const player = createPlayer();
     const stacks = new Map<string, number>();
     for (let i = 0; i < 20; i++)
-      for (const id of ["haste", "multishot", "piercing", "drift"]) applyCard(id, player, stacks);
+      for (const id of ["haste", "multishot", "piercing", "execution"])
+        applyCard(id, player, stacks);
     const cards = drawCards(player, stacks, seededRandom(8));
     expect(cards.length).toBe(3);
     expect(new Set(cards).size).toBe(3);
@@ -261,11 +252,13 @@ describe("cards and one-time rewards", () => {
     world.start(1);
     for (const id of ["overload", "haste", "multishot", "piercing"])
       applyCard(id, world.player, world.stacks);
+    enemy(world, { y: 200 });
     world.update(1 / 120);
     const shots = world.shots.items.filter((shot) => shot.active);
     expect(shots.length).toBe(2);
-    expect(shots.every((shot) => shot.damage === 16 && shot.hitsLeft === 2)).toBe(true);
-    expect(world.player.cooldown).toBeLessThan(0.28);
+    expect(shots.map((shot) => shot.damage)).toEqual([16, 16 * 0.6]);
+    expect(shots.every((shot) => shot.hitsLeft === 2)).toBe(true);
+    expect(world.player.cooldown).toBeLessThan(0.34);
   });
 });
 
@@ -318,6 +311,8 @@ describe("state and resource lifetime", () => {
     world.player.hp = 40;
     world.player.invulnerable = 2;
     world.player.shield = 80;
+    const locked = enemy(world, { x: 393, y: 400, defenseX: 393 });
+    world.selectTargetAt(locked);
     world.score = 1500;
     world.kills = 8;
     world.pause();
@@ -330,6 +325,9 @@ describe("state and resource lifetime", () => {
     expect(world.openedChests).toBe(0);
     expect(world.reward).toBeNull();
     expect(world.bossSpawned).toBe(false);
+    expect(world.targetId).toBeNull();
+    expect(world.manualTargetId).toBeNull();
+    expect(world.arrivals + world.enemyAttacks + world.bossInterrupts + world.bossSpecials).toBe(0);
     expect(world.snapshot().shots.length).toBe(0);
     expect(world.snapshot().enemies.length).toBe(0);
     expect(world.snapshot().chests.length).toBe(0);

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { ENEMIES } from "../../data/enemies";
 import { CONFIG } from "../config";
 import { InputController } from "../input";
 import { seededRandom } from "../random";
@@ -25,15 +26,20 @@ export class BattleScene extends Phaser.Scene {
   create(): void {
     createTextures(this);
     this.background();
-    this.ship = this.add.image(225, CONFIG.playerY, "player").setScale(0.74).setDepth(5);
+    this.ship = this.add
+      .image(CONFIG.player.x, CONFIG.player.y, "player")
+      .setScale(0.74)
+      .setDepth(5);
     this.halo = this.add.graphics().setDepth(4);
     this.overlay = this.add.graphics().setDepth(6);
     this.inputController = new InputController(this.game.canvas, this.world);
     this.game.canvas.setAttribute(
       "aria-label",
-      "命运残响战场：使用 WASD 或方向键移动，也可按住并拖动",
+      "命运残响固定阵地：点击敌人或宝箱优先攻击，点击空白恢复自动。聚焦战场后 T 切换目标，C 恢复自动。",
     );
     this.game.canvas.setAttribute("role", "img");
+    this.game.canvas.tabIndex = 0;
+    this.game.canvas.setAttribute("aria-keyshortcuts", "T C");
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.inputController?.destroy());
     this.ready();
   }
@@ -73,30 +79,35 @@ export class BattleScene extends Phaser.Scene {
     sigil.generateTexture("sigil", 420, 420);
     sigil.destroy();
     this.sigil = this.add.image(225, 315, "sigil").setDepth(-1);
-    g.lineStyle(1, COLORS.gold, 0.22);
-    g.lineBetween(18, CONFIG.movement.top, 432, CONFIG.movement.top);
+    g.fillStyle(COLORS.gold, 0.035);
+    g.fillRect(18, CONFIG.defense.y - CONFIG.defense.rowGap - 25, 414, CONFIG.defense.rowGap + 50);
+    g.lineStyle(1.5, COLORS.gold, 0.5);
+    g.lineBetween(18, CONFIG.defense.y + 25, 432, CONFIG.defense.y + 25);
     g.lineStyle(1, 0x5b749d, 0.18);
-    g.strokeCircle(225, CONFIG.playerY, 68);
-    g.strokeCircle(225, CONFIG.playerY, 82);
-    g.lineBetween(225, 632, 225, 795);
+    g.strokeCircle(CONFIG.player.x, CONFIG.player.y, 44);
+    g.strokeCircle(CONFIG.player.x, CONFIG.player.y, 52);
     g.fillStyle(0x7185a4, 0.5);
-    for (let x = 24; x < 450; x += 18) g.fillCircle(x, CONFIG.movement.top, 0.7);
+    for (let lane = 0; lane < CONFIG.defense.lanes; lane++) {
+      const x = CONFIG.player.x + (lane - (CONFIG.defense.lanes - 1) / 2) * CONFIG.defense.laneGap;
+      g.strokeEllipse(x, CONFIG.defense.y, 42, 14);
+      g.strokeEllipse(x, CONFIG.defense.y - CONFIG.defense.rowGap, 42, 14);
+    }
     // Hundreds of static star / circle primitives become two cached GPU textures.
     g.generateTexture("background", CONFIG.width, CONFIG.height);
     g.destroy();
     this.add.image(0, 0, "background").setOrigin(0).setDepth(-2);
     this.add
-      .text(225, CONFIG.movement.top + 13, "移 动 区 域  /  MOVEMENT ZONE", {
+      .text(22, CONFIG.defense.y + 36, "DEFENSE LINE  /  防线", {
         fontFamily: "sans-serif",
         fontSize: "9px",
-        color: "#71809d",
+        color: "#bea773",
       })
-      .setOrigin(0.5, 0);
+      .setOrigin(0, 0);
   }
 
   update(_time: number, delta: number): void {
     if (!this.ship || !this.halo || !this.overlay) return;
-    this.world.update(delta / 1000, this.inputController?.frame());
+    this.world.update(delta / 1000);
     const { player } = this.world;
     this.ship.setPosition(player.x, player.y);
     this.ship.setAlpha(
@@ -115,13 +126,63 @@ export class BattleScene extends Phaser.Scene {
     if (this.sigil) this.sigil.rotation = this.reducedMotion ? 0 : this.world.elapsed * 0.025;
     this.renderPools();
     this.overlay.clear();
-    const boss = this.world.boss;
-    if (boss && boss.telegraph > 0) {
-      this.overlay.fillStyle(COLORS.gold, 0.1 + boss.telegraph * 0.1);
-      this.overlay.fillRect(boss.targetX - 28, boss.y + 45, 56, 800);
-      this.overlay.lineStyle(1, COLORS.gold, 0.7);
-      this.overlay.lineBetween(boss.targetX - 28, boss.y + 45, boss.targetX - 28, 800);
-      this.overlay.lineBetween(boss.targetX + 28, boss.y + 45, boss.targetX + 28, 800);
+    for (const enemy of this.world.enemies.items) {
+      if (!enemy.active) continue;
+      const preparing = enemy.stage === "Preparing";
+      const attacking = enemy.stage === "Attacking";
+      const color = preparing ? COLORS.gold : attacking ? 0xe57d98 : COLORS.blue;
+      this.overlay.lineStyle(
+        preparing || attacking ? 2 : 1,
+        color,
+        preparing || attacking ? 0.8 : 0.25,
+      );
+      this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 5);
+      const width = enemy.kind === "boss" ? 84 : 34;
+      const y = enemy.y + enemy.radius + 10;
+      this.overlay.fillStyle(0x303044, 1);
+      this.overlay.fillRect(enemy.x - width / 2, y, width, 3);
+      this.overlay.fillStyle(color, 1);
+      this.overlay.fillRect(enemy.x - width / 2, y, (width * enemy.hp) / enemy.maxHp, 3);
+      if (preparing) {
+        this.overlay.lineStyle(3, COLORS.gold, 1);
+        this.overlay.beginPath();
+        this.overlay.arc(
+          enemy.x,
+          enemy.y,
+          enemy.radius + 8,
+          -Math.PI / 2,
+          -Math.PI / 2 + Math.PI * 2 * (1 - enemy.preparation / ENEMIES[enemy.kind].preparation),
+        );
+        this.overlay.strokePath();
+      }
+      if (enemy.telegraph > 0) {
+        this.overlay.lineStyle(2, COLORS.gold, 0.55);
+        this.overlay.lineBetween(enemy.x, enemy.y + enemy.radius, player.x, player.y);
+        this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 12);
+        this.overlay.fillStyle(COLORS.gold, 1);
+        this.overlay.fillRect(
+          enemy.x - 42,
+          y + 7,
+          84 * Math.min(1, enemy.interruptDamage / enemy.interruptRequired),
+          4,
+        );
+      }
+    }
+    const target = this.world.target;
+    if (target) {
+      const radius = target.radius + 14;
+      this.overlay.lineStyle(
+        2,
+        this.world.manualTargetId !== null ? COLORS.gold : COLORS.blue,
+        0.95,
+      );
+      for (let corner = 0; corner < 4; corner++) {
+        const angle = (corner * Math.PI) / 2 + Math.PI / 4;
+        const x = target.x + Math.cos(angle) * radius;
+        const y = target.y + Math.sin(angle) * radius;
+        this.overlay.lineBetween(x, y, x - Math.sign(x - target.x) * 9, y);
+        this.overlay.lineBetween(x, y, x, y - Math.sign(y - target.y) * 9);
+      }
     }
     for (const chest of this.world.chests.items) {
       if (!chest.active) continue;
@@ -146,7 +207,18 @@ export class BattleScene extends Phaser.Scene {
       );
       this.render(kind, enemies, (image, enemy) => {
         image.setPosition(enemy.x, enemy.y).setScale(kind === "boss" ? 0.9 : 0.8);
-        image.rotation = kind === "sentinel" ? enemy.age * 0.4 : Math.sin(enemy.age) * 0.06;
+        image.rotation = this.reducedMotion
+          ? 0
+          : kind === "sentinel"
+            ? enemy.age * 0.4
+            : Math.sin(enemy.age) * 0.06;
+        image.setTint(
+          enemy.stage === "Attacking"
+            ? 0xffb3cc
+            : enemy.stage === "Preparing"
+              ? 0xffdf9c
+              : 0xffffff,
+        );
       });
     }
     this.render(

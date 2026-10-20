@@ -223,16 +223,9 @@ svg {
   background: #dec28a2b;
   flex: 1;
 }
-.key-groups {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 16px;
-  text-align: center;
-}
-.key-groups > span {
-  font-size: 11px;
-  color: var(--muted);
+.target-guide {
+  color: var(--gold);
+  line-height: 1.9;
 }
 kbd {
   font-family: var(--sans);
@@ -613,6 +606,23 @@ kbd {
 .status-star {
   margin-left: auto;
   color: var(--gold);
+}
+.target-status {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #080d17;
+  color: var(--gold);
+  font-size: 10px;
+}
+#target-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#threat-label {
+  flex-shrink: 0;
+  color: var(--muted);
 }
 .build-panel {
   padding-top: 25px;

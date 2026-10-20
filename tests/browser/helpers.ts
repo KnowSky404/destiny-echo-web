@@ -35,10 +35,7 @@ export async function dragTo(page: Page, x: number, y: number) {
   );
   await page.mouse.down();
   await page.mouse.move(box.x + (x / 450) * box.width, box.y + (y / 800) * box.height);
-  const travelMs = Math.ceil(
-    (Math.hypot(x - state.player.x, y - state.player.y) / state.player.stats.speed) * 1000,
-  );
-  await page.clock.runFor(travelMs + 150);
+  await page.clock.runFor(400);
   await page.mouse.up();
 }
 
@@ -71,4 +68,66 @@ export async function resizeAndFit(page: Page, width: number, height: number) {
     if (fitted) break;
   }
   expect(fitted, "Phaser canvas must fit its resized parent before input").toBe(true);
+}
+
+export async function clickTarget(page: Page, x: number, y: number, touch = false) {
+  const box = await page.locator("canvas").boundingBox();
+  if (!box) throw new Error("Canvas bounds unavailable");
+  const clientX = box.x + (x / 450) * box.width;
+  const clientY = box.y + (y / 800) * box.height;
+  if (touch) await page.touchscreen.tap(clientX, clientY);
+  else await page.mouse.click(clientX, clientY);
+}
+
+export async function firstReward(page: Page) {
+  for (let attempt = 0; attempt < 48; attempt++) {
+    const state = await snapshot(page);
+    if (state.phase === "RewardSelection") return;
+    const chest = state.chests[0];
+    if (chest && state.manualTargetId !== chest.id) await clickTarget(page, chest.x, chest.y);
+    await page.clock.runFor(250);
+  }
+  throw new Error("First chest never opened");
+}
+
+export async function bootFixture(page: Page, setup: string) {
+  await page.route("**/src/main.ts", (route) =>
+    route.fulfill({
+      contentType: "text/javascript",
+      body: `
+      import { World } from "/src/game/world.ts";
+      import { ENEMIES } from "/src/data/enemies.ts";
+      import { GameUI } from "/src/ui/GameUI.ts";
+      import { createGame } from "/src/game/createGame.ts";
+      import "/src/ui/style.css";
+      const world = new World();
+      world.start(3);
+      world.bossSpawned = true;
+      let fixtureId = 1000000;
+      function enemy(overrides = {}) {
+        const kind = overrides.kind ?? "wisp";
+        const data = ENEMIES[kind];
+        const entity = world.enemies.acquire();
+        Object.assign(entity, { id: fixtureId++, kind, x: 225, y: 620, hp: data.hp,
+          maxHp: data.hp, radius: data.radius, speed: data.speed, age: 0,
+          shotCooldown: 0, patternCooldown: 2.8, stage: "Approaching",
+          attackPolicy: { ...data.attackPolicy }, preparation: 0, arrived: true,
+          slot: 3, defenseX: 225, defenseY: 620, telegraph: 0,
+          interruptDamage: 0, interruptRequired: 0 }, overrides);
+        return entity;
+      }
+      ${setup}
+      world.pause();
+      const ui = new GameUI(world);
+      createGame(document.querySelector("#game-canvas"), world, () => ui.ready());
+      window.__ECHOES__ = () => world.snapshot();
+    `,
+    }),
+  );
+  await page.clock.install();
+  await page.goto("/");
+  await expect(page.getByRole("button", { name: "继续共鸣", exact: true })).toBeEnabled();
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
+  await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
+  await page.clock.runFor(100);
 }

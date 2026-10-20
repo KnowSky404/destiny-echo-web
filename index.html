@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#080b14" />
-    <meta name="description" content="命运残响：圣杯失控中。一局约 75 秒的原创弹幕射击 Roguelike，击破宝箱、选择卡牌、改写终局。" />
+    <meta name="description" content="命运残响：圣杯失控中。固定阵地防守 Roguelike：自动索敌、点选目标、阻止敌人突破防线，构筑卡牌并击败圣杯。" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>命运残响 · Echoes of Destiny</title>
   </head>
@@ -26,17 +26,18 @@
         <p class="theme-english">Grail Gone Rogue</p>
         <div class="ornament" aria-hidden="true">✧</div>
         <h3 class="intro-tagline">收集残响，改写终局。</h3>
-        <p class="intro-copy">失控的圣杯在无数世界间流淌，<br />残响化为星屑，坠入此地。<br />于弹幕的缝隙中穿行，击破宝箱，<br />收集力量，构筑属于你的命运。</p>
+        <p class="intro-copy">失控的圣杯在无数世界间流淌，<br />残响化为星屑，坠入此地。<br />守住最后一道防线，击破宝箱，<br />收集力量，构筑属于你的命运。</p>
         <div class="controls-guide">
           <h3 class="small-heading">操作方式</h3>
-          <div class="key-groups"><div><kbd>W</kbd><div><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></div></div><span>或</span><div><kbd>↑</kbd><div><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd></div></div></div>
-          <p>键盘移动 · 鼠标 / 触屏拖动</p>
+          <p class="target-guide">点击敌人 / 宝箱，指定优先目标<br />点击空白，恢复智能索敌</p>
+          <p>战机固定 · 自动攻击，无需连点</p>
+          <p>聚焦战场后 <kbd>T</kbd> 切换 · <kbd>C</kbd> 自动</p>
           <p><kbd>Esc</kbd> / <kbd>P</kbd> 暂停与继续</p>
         </div>
         <h3 class="small-heading">核心玩法</h3>
         <ol class="gameplay-steps">
-          <li><span>01</span><div><h4>自动攻击</h4><p>角色自动发射弹幕，专注走位生存。</p></div></li>
-          <li><span>02</span><div><h4>击破宝箱</h4><p>对准金色宝箱，获得随机残响。</p></div></li>
+          <li><span>01</span><div><h4>自动攻击</h4><p>智能追踪横向目标，优先处理防线威胁。</p></div></li>
+          <li><span>02</span><div><h4>击破宝箱</h4><p>点击金色宝箱优先击破，获取随机残响。</p></div></li>
           <li><span>03</span><div><h4>构筑命运</h4><p>从三张卡牌中选择强化，迎战圣杯。</p></div></li>
         </ol>
       </section>
@@ -51,9 +52,10 @@
           <div id="game-canvas"></div>
           <div class="boss-health" id="boss-health" hidden><span>失控圣杯 · 空愿之器</span><div><span id="boss-fill"></span></div></div>
           <div class="arena-notice" id="arena-notice" aria-live="polite"></div>
-          <div class="overlay" id="overlay"><section class="modal"><div class="modal-emblem" aria-hidden="true">✧</div><h2>开启这一轮命运</h2><p>一局约 75 秒 · 自动攻击 · 三选一构筑</p><button class="button button-primary" type="button" disabled>正在连接残响…</button><p class="modal-hint">WASD / 方向键移动 · 触屏拖动</p></section></div>
+          <div class="overlay" id="overlay"><section class="modal"><div class="modal-emblem" aria-hidden="true">✧</div><h2>开启这一轮命运</h2><p>固定阵地 · 自动索敌 · 三选一构筑</p><button class="button button-primary" type="button" disabled>正在连接残响…</button><p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p></section></div>
         </div>
         <div class="battle-status"><span id="wave-label">等待共鸣</span><output id="kill-label">击破 0</output><span class="status-star" aria-hidden="true">✧</span></div>
+        <div class="target-status"><output id="target-label" aria-live="polite">自动索敌 · 等待目标</output><output id="threat-label">防线威胁 0</output></div>
         <noscript><p class="noscript-message">这款游戏需要 JavaScript，请在浏览器设置中启用。</p></noscript>
       </section>
 
@@ -67,8 +69,8 @@
     <footer class="page-footer">原创几何美术<span>✧</span><a href="https://github.com/KnowSky404/destiny-echo-web" target="_blank" rel="noopener noreferrer">源代码 · AGPL-3.0-only</a></footer>
     <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
       <h2 id="help-title">在残响中，改写命运。</h2>
-      <p>你是最后的共鸣者。躲开敌方弹幕，击败失控的圣杯。</p>
-      <dl><dt>移动</dt><dd>WASD / 方向键，或按住战场任意位置拖动。只可在底部 28% 区域移动；角色中心亮点为受击点。</dd><dt>攻击与宝箱</dt><dd>自动向上射击。移动到金色宝箱下方将其击破，战斗暂停后，从三张不同卡牌中选择一张。</dd><dt>构筑</dt><dd>强化即时生效，可以叠加。攻速、弹幕数量、穿透与移速有上限；达到上限的卡牌不再出现。</dd><dt>终局</dt><dd>第 52 秒圣杯降临。金色竖线是特殊攻击预警。88 秒前击败它即可胜利，生命耗尽或仪式超时则失败。</dd><dt>暂停</dt><dd>Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
+      <p>你是最后的共鸣者。固定阵地，提前消灭威胁，击败失控的圣杯。</p>
+      <dl><dt>固定阵地与点选</dt><dd>战机始终居中，WASD、方向键和拖动不会移动。点击敌人或宝箱设为优先目标；点击空白取消。聚焦战场后用 T 切换目标、C 恢复自动，不影响 Tab 焦点。</dd><dt>自动攻击与防线</dt><dd>蓝色友方弹幕会追踪目标。蓝环敌人正在推进，不会攻击；抵达底部金色防线区域后停止，金色环蓄力结束才进入红环攻击阶段。提前击杀可阻止释放，已发射的粉色弹幕仍会造成伤害。护盾优先承伤。</dd><dt>宝箱与构筑</dt><dd>击破金色宝箱后战斗完全冻结，从三张不同强化中选一张。多弹可分配不同目标，穿透可继续追踪其他目标，防线裁决仅对红环攻击阶段敌人增伤。攻速、多弹、穿透和裁决有叠加上限。</dd><dt>终局与打断</dt><dd>第 52 秒圣杯从上方推进，抵达防线后蓄力攻击。金色连线与下方进度条表示特殊攻击：蓄力期间造成 90 伤害可打断，半血后需要 120 伤害。集中火力与输出构筑可以反制，护盾和生命构筑帮助承伤。88 秒前击败它即可胜利，生命耗尽或仪式超时则失败。</dd><dt>暂停</dt><dd>Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
       <button class="button button-primary" id="close-help" type="button">明白了</button>
     </dialog>
     <script type="module" src="/src/main.ts"></script>

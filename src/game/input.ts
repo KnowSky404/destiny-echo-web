@@ -1,11 +1,9 @@
 import { CONFIG } from "./config";
-import type { InputFrame, Vec2 } from "./types";
+import type { Vec2 } from "./types";
 import type { World } from "./world";
 
 export class InputController {
-  private readonly keys = new Set<string>();
-  private target: Vec2 | undefined;
-  private drag: { id: number; offset: Vec2 } | undefined;
+  private contact: { id: number; start: Vec2; moved: boolean } | undefined;
   private readonly abort = new AbortController();
   private readonly unsubscribe: () => void;
 
@@ -13,49 +11,40 @@ export class InputController {
     private readonly canvas: HTMLCanvasElement,
     world: World,
   ) {
-    // Clear old input synchronously at transitions, before new Playing input
-    // arrives. A render-frame reset can discard a fresh key or drag on resume.
     this.unsubscribe = world.state.subscribe(() => this.reset());
     const options = { signal: this.abort.signal };
-    window.addEventListener(
+    window.addEventListener("blur", () => this.reset(), options);
+    canvas.addEventListener(
       "keydown",
       (event) => {
         if (
           world.phase !== "Playing" ||
+          event.repeat ||
           event.ctrlKey ||
           event.metaKey ||
-          event.altKey ||
-          !["w", "a", "s", "d", "arrowup", "arrowleft", "arrowdown", "arrowright"].includes(
-            event.key.toLowerCase(),
-          )
+          event.altKey
         )
           return;
+        const key = event.key.toLowerCase();
+        if (key === "t") world.cycleTarget();
+        else if (key === "c") world.clearTarget();
+        else return;
         event.preventDefault();
-        this.keys.add(event.key.toLowerCase());
-        this.target = undefined;
       },
       options,
     );
-    window.addEventListener(
-      "keyup",
-      (event) => {
-        this.keys.delete(event.key.toLowerCase());
-      },
-      options,
-    );
-    window.addEventListener("blur", () => this.reset(), options);
     canvas.addEventListener(
       "pointerdown",
       (event) => {
-        if (world.phase !== "Playing" || this.drag || !event.isPrimary || event.button !== 0)
+        if (world.phase !== "Playing" || this.contact || !event.isPrimary || event.button !== 0)
           return;
         event.preventDefault();
-        const position = this.toLogical(event);
-        this.drag = {
+        canvas.focus({ preventScroll: true });
+        this.contact = {
           id: event.pointerId,
-          offset: { x: world.player.x - position.x, y: world.player.y - position.y },
+          start: { x: event.clientX, y: event.clientY },
+          moved: false,
         };
-        this.target = { x: world.player.x, y: world.player.y };
         canvas.setPointerCapture(event.pointerId);
       },
       options,
@@ -63,52 +52,58 @@ export class InputController {
     canvas.addEventListener(
       "pointermove",
       (event) => {
-        if (this.drag?.id !== event.pointerId || world.phase !== "Playing") return;
-        event.preventDefault();
-        const position = this.toLogical(event);
-        this.target = { x: position.x + this.drag.offset.x, y: position.y + this.drag.offset.y };
+        const contact = this.contact;
+        if (!contact || contact.id !== event.pointerId) return;
+        if (Math.hypot(event.clientX - contact.start.x, event.clientY - contact.start.y) > 12)
+          contact.moved = true;
       },
       options,
     );
-    for (const name of ["pointerup", "pointercancel", "lostpointercapture"] as const) {
+    canvas.addEventListener(
+      "pointerup",
+      (event) => {
+        const contact = this.contact;
+        if (!contact || contact.id !== event.pointerId) return;
+        const rect = canvas.getBoundingClientRect();
+        if (
+          !contact.moved &&
+          world.phase === "Playing" &&
+          rect.width > 0 &&
+          rect.height > 0 &&
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom
+        ) {
+          // Use CSS pixels for touch tolerance, logical pixels for the simulation; never DPR.
+          world.selectTargetAt(
+            {
+              x: ((event.clientX - rect.left) / rect.width) * CONFIG.width,
+              y: ((event.clientY - rect.top) / rect.height) * CONFIG.height,
+            },
+            ((event.pointerType === "touch" ? 22 : 10) / rect.width) * CONFIG.width,
+          );
+        }
+        this.reset();
+      },
+      options,
+    );
+    for (const name of ["pointercancel", "lostpointercapture"] as const) {
       canvas.addEventListener(
         name,
         (event) => {
-          if (this.drag?.id !== event.pointerId) return;
-          this.drag = undefined;
-          this.target = undefined;
+          if (this.contact?.id === event.pointerId) this.reset();
         },
         options,
       );
     }
   }
 
-  private toLogical(event: PointerEvent): Vec2 {
-    const rect = this.canvas.getBoundingClientRect();
-    return {
-      x: ((event.clientX - rect.left) / rect.width) * CONFIG.width,
-      y: ((event.clientY - rect.top) / rect.height) * CONFIG.height,
-    };
-  }
-
-  frame(): InputFrame {
-    return {
-      x:
-        Number(this.keys.has("d") || this.keys.has("arrowright")) -
-        Number(this.keys.has("a") || this.keys.has("arrowleft")),
-      y:
-        Number(this.keys.has("s") || this.keys.has("arrowdown")) -
-        Number(this.keys.has("w") || this.keys.has("arrowup")),
-      target: this.target,
-    };
-  }
-
   reset(): void {
-    this.keys.clear();
-    if (this.drag && this.canvas.hasPointerCapture(this.drag.id))
-      this.canvas.releasePointerCapture(this.drag.id);
-    this.drag = undefined;
-    this.target = undefined;
+    const id = this.contact?.id;
+    this.contact = undefined;
+    if (id !== undefined && this.canvas.hasPointerCapture(id))
+      this.canvas.releasePointerCapture(id);
   }
 
   destroy(): void {

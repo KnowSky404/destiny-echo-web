@@ -32,7 +32,7 @@ export const CARDS: readonly Card[] = [
   {
     id: "multishot",
     name: "分岔祷言",
-    description: "一个愿望，分多路提交。",
+    description: "增加一道追踪副弹，造成主弹 60% 伤害，优先分流至其他目标。",
     rarity: "rare",
     symbol: "multishot",
     maxStacks: 4,
@@ -72,17 +72,18 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 30`,
   },
   {
-    id: "drift",
-    name: "星轨偏移",
-    description: "命运追上你之前，先挪一步。",
+    id: "execution",
+    name: "防线裁决",
+    description: "对进入攻击阶段的敌人，每层额外造成 20% 伤害。推进与准备阶段不生效。",
     rarity: "common",
-    symbol: "drift",
-    maxStacks: 4,
-    eligible: (player) => player.stats.speed < 380,
+    symbol: "execution",
+    maxStacks: 3,
+    eligible: (player) => player.stats.execution < 3,
     apply: (player) => {
-      player.stats.speed = Math.min(380, player.stats.speed + 30);
+      player.stats.execution = Math.min(3, player.stats.execution + 1);
     },
-    preview: (player) => `移速 ${player.stats.speed} → ${Math.min(380, player.stats.speed + 30)}`,
+    preview: (player) =>
+      `攻击阶段增伤 ${player.stats.execution * 20}% → ${Math.min(3, player.stats.execution + 1) * 20}%`,
   },
   {
     id: "ward",
