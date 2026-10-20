@@ -20,8 +20,10 @@
 | Phaser | **4.2.1** | WebGL、场景、缩放、精灵渲染 |
 | Biome | 2.5.15 | 代码规范与格式化 |
 | Playwright Test | 1.64.1 | 浏览器交互与静态产物验证 |
+| Cloudflare CLI / Wrangler | 1.0.0-beta.17 / 4.151.0 | Workers 发布与静态资源打包 |
+| Node.js | 24.16.0 | Cloudflare 部署工具所需的运行时 |
 
-依赖由 `bun.lock` 锁定，未采用预发布版。`engines.bun` 要求 `>=1.4.3`，不设置未来主版本上限；`packageManager` 记录本次验证版本。升级稳定 Bun 后需重新运行检查。Bun 只运行开发工具，浏览器代码不依赖 Bun 服务端 API。JS CLI 均使用 `bunx --bun`，无需 Node.js 开发工作流。
+依赖由 `bun.lock` 锁定；游戏与前端构建工具使用稳定版，Cloudflare CLI 当前为固定版本的 beta。`engines.bun` 要求 `>=1.4.3`，不设置未来主版本上限；`packageManager` 记录本次验证版本。升级稳定 Bun 后需重新运行检查。Bun 只运行开发工具，浏览器代码不依赖 Bun 服务端 API。前端 JS CLI 使用 `bunx --bun`；Cloudflare 的配置加载器暂不支持 Bun，部署命令由工具自身的 Node.js 启动器运行，需要 Node.js `>=22.18.0`，不影响游戏构建与运行。
 
 | 方案 | 手机兼容与弹幕渲染 | 碰撞、维护与扩展 |
 | --- | --- | --- |
@@ -169,7 +171,23 @@ docs/architecture.md     状态、奖励、性能与浏览器契约
 
 `bun run build` 产出 **`dist/`**。将其完整内容上传到任意静态 HTTPS 托管、CDN 或 VPS 静态文件目录，包括 `assets/`、`fonts/` 和许可文件；无需 Bun 常驻服务。`base: "./"` 支持根路径或子目录部署，必须通过 HTTP(S) 提供文件，不能直接双击 HTML。
 
-`bun run preview` 用于本地验证，不作为公网生产服务器。正式托管建议 HTML 不长期缓存、带 hash 的 `assets/` 长期缓存，并开启压缩。本任务未自动推送远程或修改生产配置。
+`bun run preview` 用于本地验证，不作为公网生产服务器。
+
+### Cloudflare Workers
+
+使用 Workers Static Assets 托管完整静态产物，无 Worker 服务端入口、绑定或应用密钥。`cloudflare.config.ts` 固定目标账户与 Worker 名称；`wrangler.config.ts` 只声明 `dist/` 的打包路径，发布入口统一使用 `cf`。发布其他账户前应修改配置并核对目标。
+
+```sh
+bun install --frozen-lockfile
+bunx cf auth whoami              # 优先复用当前系统登录
+bunx cf auth login --no-browser   # 仅在缺少有效登录时进行设备授权
+bun run deploy:check             # 构建并检查发布包，不上传
+bun run deploy                   # 重新构建，上传并发布到 workers.dev
+```
+
+`build:workers` 先执行现有的类型检查与 Vite 构建，再调用锁定版本的 Wrangler 本地打包器生成 `.cloudflare/output/v0/`；`cf` 以 `--prebuilt` 发布该产物。直接运行 `cf build` 会检测到普通 Vite 并跳过此打包步骤，因此使用仓库脚本。这保留了纯 Vite 的开发／预览方式，不需要引入 Cloudflare Vite 插件。该输出目录与本地认证辅助文件不提交 Git。只有发布工具使用 Node.js，不需要在线运行 Bun 或 Node.js 服务。配置语法与运行时要求见 [Cloudflare 配置文档](https://developers.cloudflare.com/cf/projects/cloudflare-config/)，预构建发布流程见 [cf 部署文档](https://developers.cloudflare.com/cf/projects/#deploy-a-prebuilt-build)。
+
+`public/_headers` 为首页配置重新验证缓存，为带 hash 的 `assets/` 配置一年不可变缓存，并设置内容类型保护与 Referrer Policy。未配置 SPA 回退，缺失资源应返回 404。首次发布后须分别核对首页、JS／字体、缓存响应头和实际浏览器交互；本地构建或 dry run 通过不代表公网验收通过。
 
 ## License
 
