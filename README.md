@@ -113,7 +113,8 @@ PLAYWRIGHT_BROWSERS_PATH=/tmp/destiny-echo-browsers LIBGL_ALWAYS_SOFTWARE=1 WEBK
 - [ ] 更多武器、原创角色、协同流派、异常事件和难度选项。
 - [ ] 经验升级、跨局进度、排行榜或存档（本次不包含）。
 - [ ] 原创音乐/音效、正式角色美术、更多首领与剧情。
-- [ ] 真机长时间性能与操控调优、正式静态站点发布。
+- [x] Cloudflare Workers Static Assets 静态站点发布。
+- [ ] 真机长时间性能与操控调优。
 
 继续遵循浏览器优先、跨设备、玩法优先、模块化、数据驱动与原创资源六项原则。只将已有实现标记为完成；浏览器模拟不等于真机验收。
 
@@ -163,7 +164,7 @@ docs/architecture.md     状态、奖励、性能与浏览器契约
 
 - Phaser 4 依赖 WebGL；不可用时显示恢复提示，不提供 Canvas 降级。图形上下文丢失会停止战斗。
 - 桌面居中、手机竖屏优先；小高度窗口允许页面滚动。真实 iOS Safari / Android、温度、电量与长时间性能仍需人工验收。
-- 无音频、账户、云服务或持久化；刷新会丢失当前局。
+- 无音频、账户、后端 API 或持久化；刷新会丢失当前局。
 - 首次加载包含 Phaser 引擎，约 1.37 MB minified / 357 KB gzip。弱网和低端机仍需后续优化；静态托管应启用 gzip/Brotli。
 - 难度和随机卡牌需要更多玩家调优，未宣称达到商业发行质量或真机全浏览器认证。
 
@@ -174,6 +175,8 @@ docs/architecture.md     状态、奖励、性能与浏览器契约
 `bun run preview` 用于本地验证，不作为公网生产服务器。
 
 ### Cloudflare Workers
+
+在线地址：[destiny-echo-web.littlecontrol.workers.dev](https://destiny-echo-web.littlecontrol.workers.dev/)。
 
 使用 Workers Static Assets 托管完整静态产物，无 Worker 服务端入口、绑定或应用密钥。`cloudflare.config.ts` 固定目标账户与 Worker 名称；`wrangler.config.ts` 只声明 `dist/` 的打包路径，发布入口统一使用 `cf`。发布其他账户前应修改配置并核对目标。
 
@@ -188,6 +191,8 @@ bun run deploy                   # 重新构建，上传并发布到 workers.dev
 `build:workers` 先执行现有的类型检查与 Vite 构建，再调用锁定版本的 Wrangler 本地打包器生成 `.cloudflare/output/v0/`；`cf` 以 `--prebuilt` 发布该产物。直接运行 `cf build` 会检测到普通 Vite 并跳过此打包步骤，因此使用仓库脚本。这保留了纯 Vite 的开发／预览方式，不需要引入 Cloudflare Vite 插件。该输出目录与本地认证辅助文件不提交 Git。只有发布工具使用 Node.js，不需要在线运行 Bun 或 Node.js 服务。配置语法与运行时要求见 [Cloudflare 配置文档](https://developers.cloudflare.com/cf/projects/cloudflare-config/)，预构建发布流程见 [cf 部署文档](https://developers.cloudflare.com/cf/projects/#deploy-a-prebuilt-build)。
 
 `public/_headers` 为首页配置重新验证缓存，为带 hash 的 `assets/` 配置一年不可变缓存，并设置内容类型保护与 Referrer Policy。未配置 SPA 回退，缺失资源应返回 404。首次发布后须分别核对首页、JS／字体、缓存响应头和实际浏览器交互；本地构建或 dry run 通过不代表公网验收通过。
+
+2026-10-20 首次发布已核对 11 个线上文件与本地构建的 SHA-256 完全一致；首页缓存、资源缓存与 404 响应符合配置。线上 Chromium 桌面和 320px 触屏模拟均完成 WebGL 启动、开始、暂停和继续，无应用报错或资源加载失败；生产页不暴露测试诊断。该检查不替代真机与长局验收。
 
 ## License
 
