@@ -15,5 +15,12 @@
     "noEmit": true,
     "types": ["bun", "vite/client"]
   },
-  "include": ["src", "tests", "vite.config.ts", "playwright.config.ts"]
+  "include": [
+    "src",
+    "tests",
+    "vite.config.ts",
+    "playwright.config.ts",
+    "cloudflare.config.ts",
+    "wrangler.config.ts"
+  ]
 }
