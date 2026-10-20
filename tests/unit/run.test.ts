@@ -1,62 +1,74 @@
-import { expect, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { CONFIG } from "../../src/game/config";
-import { clamp } from "../../src/game/systems/movement";
 import { World } from "../../src/game/world";
 
-test("a full unmodified seeded run reaches boss victory in 60–90 combat seconds", () => {
+function run(seed: number, policy: "active" | "auto" | "defensive" = "active"): World {
   const world = new World();
-  world.start(1337);
-  let bossSeen = false;
-  let specialAttackSeen = false;
-  let damageSeen = false;
+  world.start(seed);
   for (let frame = 0; frame < 120 * 90; frame++) {
-    if (world.phase === "RewardSelection") {
-      const reward = world.reward;
-      if (!reward) throw new Error("Missing reward");
+    if (world.phase === "RewardSelection" && world.reward) {
       const priorities =
-        world.player.hp < 55
-          ? ["vitality", "ward", "multishot", "overload", "haste", "piercing", "drift"]
-          : ["multishot", "overload", "haste", "piercing", "vitality", "ward", "drift"];
-      const choice = priorities.find((id) => reward.choices.includes(id));
-      if (!choice) throw new Error("Missing eligible card");
-      expect(world.chooseCard(choice, reward.token)).toBe(true);
+        policy === "defensive"
+          ? ["vitality", "ward", "piercing", "execution", "haste", "overload", "multishot"]
+          : world.player.hp < 35
+            ? ["vitality", "ward", "multishot", "overload", "haste", "execution", "piercing"]
+            : ["multishot", "overload", "haste", "execution", "piercing", "vitality", "ward"];
+      const choice = priorities.find((id) => world.reward?.choices.includes(id));
+      if (!choice || !world.chooseCard(choice, world.reward.token))
+        throw new Error("No eligible reward");
     }
     if (world.phase !== "Playing") break;
-    const chest = world.chests.items.find((item) => item.active);
-    const boss = world.boss;
-    const nearestEnemy = world.enemies.items
-      .filter((item) => item.active)
-      .sort((a, b) => b.y - a.y)[0];
-    let aim =
-      chest?.x ?? (boss ? 225 + Math.sin((boss.age + 0.8) * 0.65) * 125 : (nearestEnemy?.x ?? 225));
-    if (boss) {
-      bossSeen = true;
-      expect(world.elapsed).toBeGreaterThanOrEqual(CONFIG.bossAt);
-      if (boss.telegraph > 0) {
-        specialAttackSeen = true;
-        if (Math.abs(aim - boss.targetX) < 50) aim = boss.targetX + (boss.targetX < 225 ? 75 : -75);
-      }
+    if (policy === "active" && frame % 60 === 0) {
+      const chest = world.chests.items.find((item) => item.active);
+      if (chest && !world.boss) world.selectTargetAt(chest);
+      else world.clearTarget();
     }
-    for (const shot of world.hostileShots.items) {
-      if (!shot.active || shot.vy <= 0) continue;
-      const timeToPlayer = (736 - shot.y) / shot.vy;
-      const predictedX = shot.x + shot.vx * timeToPlayer;
-      if (timeToPlayer > 0 && timeToPlayer < 0.65 && Math.abs(world.player.x - predictedX) < 22) {
-        aim = world.player.x + (predictedX < 225 ? 75 : -75);
-        break;
-      }
-    }
-    // Only normal input and actual offered choices; no health / damage / clock mutations.
-    world.update(1 / 120, { x: 0, y: 0, target: { x: clamp(aim, 20, 430), y: 736 } });
-    if (world.player.hp < 100) damageSeen = true;
+    // Only public target-selection input and actual offered rewards. No movement,
+    // health, stats, enemy, RNG, schedule or clock mutations.
+    world.update(CONFIG.fixedStep);
+    expect(world.player.x).toBe(CONFIG.player.x);
+    expect(world.player.y).toBe(CONFIG.player.y);
   }
-  expect(world.phase).toBe("Victory");
-  expect(world.elapsed).toBeGreaterThanOrEqual(60);
-  expect(world.elapsed).toBeLessThanOrEqual(90);
-  expect(bossSeen && specialAttackSeen && damageSeen).toBe(true);
-  expect(world.openedChests).toBe(5);
-  expect([...world.stacks.values()].reduce((a, b) => a + b, 0)).toBe(5);
-  expect(world.kills).toBeGreaterThan(20);
-  expect(world.shots.items.length).toBeLessThanOrEqual(CONFIG.limits.playerShots);
-  expect(world.hostileShots.items.length).toBeLessThanOrEqual(CONFIG.limits.enemyShots);
+  return world;
+}
+
+describe("natural unmodified complete runs", () => {
+  test("target and card decisions win in 60–90 seconds under observable defense pressure", () => {
+    const world = run(3);
+    expect(world.phase).toBe("Victory");
+    expect(world.elapsed).toBeGreaterThanOrEqual(60);
+    expect(world.elapsed).toBeLessThan(CONFIG.deadline);
+    expect(world.regularAttacks).toBeGreaterThan(0);
+    expect(world.arrivals).toBeGreaterThan(1);
+    expect(world.bossInterrupts + world.bossSpecials).toBeGreaterThan(0);
+    expect(world.player.hp).toBeLessThan(100);
+    expect(world.openedChests).toBe(5);
+    expect([...world.stacks.values()].reduce((a, b) => a + b, 0)).toBe(5);
+    expect(world.kills).toBeGreaterThan(20);
+  });
+
+  test("20 seeds produce both wins and losses with real threats, rewards and bounded pools", () => {
+    const worlds = Array.from({ length: 20 }, (_, index) => run(index + 1));
+    const winners = worlds.filter((world) => world.phase === "Victory");
+    const losers = worlds.filter((world) => world.phase === "GameOver");
+    expect(winners.length).toBeGreaterThan(0);
+    expect(losers.length).toBeGreaterThan(0);
+    expect(winners.length + losers.length).toBe(20);
+    expect(worlds.some((world) => world.regularAttacks > 5)).toBe(true);
+    for (const world of worlds) {
+      expect(world.openedChests).toBeGreaterThan(0);
+      expect(world.shots.items.length).toBeLessThanOrEqual(CONFIG.limits.playerShots);
+      expect(world.hostileShots.items.length).toBeLessThanOrEqual(CONFIG.limits.enemyShots);
+      expect(world.enemies.items.length).toBeLessThanOrEqual(CONFIG.limits.enemies);
+    }
+  });
+
+  test("automatic targeting alone is not a guaranteed win, and decisions can change an outcome", () => {
+    expect(run(14, "auto").phase).toBe("GameOver");
+    expect(run(14, "active").phase).toBe("Victory");
+    const poorBuild = run(3, "defensive");
+    expect(poorBuild.phase).toBe("GameOver");
+    expect(poorBuild.regularAttacks).toBeGreaterThan(0);
+    expect(poorBuild.player.hp).toBe(0);
+  });
 });

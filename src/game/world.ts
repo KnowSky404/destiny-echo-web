@@ -5,27 +5,29 @@ import { Pool } from "./pool";
 import { type Random, seededRandom } from "./random";
 import { RunState } from "./state";
 import { damagePlayer } from "./systems/damage";
-import { movePlayer, segmentHitsCircle } from "./systems/movement";
+import { advanceAttackStage, advanceEnemy } from "./systems/enemy";
+import { clamp, segmentHitsCircle } from "./systems/movement";
+import { chooseTarget, isEnemy, isTargetable, rankedTargets } from "./systems/targeting";
 import type {
   Chest,
   Enemy,
   EnemyKind,
-  InputFrame,
   Particle,
   Player,
   Projectile,
   Reward,
+  Target,
+  Vec2,
 } from "./types";
 
 export function createPlayer(): Player {
   return {
-    x: CONFIG.width / 2,
-    y: CONFIG.playerY,
+    ...CONFIG.player,
     hp: 100,
     shield: 0,
     invulnerable: 0,
     cooldown: 0,
-    stats: { damage: 12, interval: 0.28, projectiles: 1, piercing: 0, maxHp: 100, speed: 260 },
+    stats: { damage: 12, interval: 0.34, projectiles: 1, piercing: 0, maxHp: 100, execution: 0 },
   };
 }
 
@@ -43,6 +45,8 @@ function createProjectile(): Projectile {
     damage: 0,
     hitsLeft: 1,
     hitIds: new Set(),
+    targetId: null,
+    lifetime: 0,
   };
 }
 
@@ -61,9 +65,16 @@ export class World {
     age: 0,
     shotCooldown: 0,
     patternCooldown: 0,
-    originX: 0,
     telegraph: 0,
-    targetX: 0,
+    stage: "Approaching",
+    attackPolicy: { type: "defense" },
+    preparation: 0,
+    arrived: false,
+    slot: 0,
+    defenseX: 0,
+    defenseY: 0,
+    interruptDamage: 0,
+    interruptRequired: 0,
   }));
   readonly shots = new Pool<Projectile>(CONFIG.limits.playerShots, createProjectile);
   readonly hostileShots = new Pool<Projectile>(CONFIG.limits.enemyShots, createProjectile);
@@ -100,6 +111,14 @@ export class World {
   notice = "";
   noticeUntil = 0;
   seed = 0;
+  targetId: number | null = null;
+  manualTargetId: number | null = null;
+  arrivals = 0;
+  enemyAttacks = 0;
+  regularAttacks = 0;
+  bossSpecials = 0;
+  bossInterrupts = 0;
+  peakEnemies = 0;
   private random: Random = seededRandom(0);
   private nextId = 1;
   private rewardSerial = 0;
@@ -115,6 +134,51 @@ export class World {
   }
   get boss(): Enemy | undefined {
     return this.enemies.items.find((enemy) => enemy.active && enemy.kind === "boss");
+  }
+
+  get targets(): Target[] {
+    return [...this.enemies.items, ...this.chests.items].filter(isTargetable);
+  }
+
+  get target(): Target | undefined {
+    return this.targets.find((target) => target.id === this.targetId);
+  }
+
+  selectTargetAt(point: Vec2, tolerance = 14): boolean {
+    if (this.phase !== "Playing" || !Number.isFinite(point.x) || !Number.isFinite(point.y))
+      return false;
+    const candidates = this.targets
+      .map((target) => ({ target, distance: Math.hypot(target.x - point.x, target.y - point.y) }))
+      .filter(({ target, distance }) => distance <= target.radius + clamp(tolerance, 0, 36))
+      .sort(
+        (a, b) =>
+          Number(b.distance <= b.target.radius) - Number(a.distance <= a.target.radius) ||
+          a.distance / a.target.radius - b.distance / b.target.radius ||
+          a.target.id - b.target.id,
+      );
+    this.manualTargetId = candidates[0]?.target.id ?? null;
+    this.refreshTarget();
+    return true;
+  }
+
+  cycleTarget(): void {
+    if (this.phase !== "Playing") return;
+    const targets = rankedTargets(this.targets);
+    const index = targets.findIndex((target) => target.id === this.manualTargetId);
+    this.manualTargetId = targets[(index + 1) % targets.length]?.id ?? null;
+    this.refreshTarget();
+  }
+
+  clearTarget(): void {
+    if (this.phase !== "Playing") return;
+    this.manualTargetId = null;
+    this.refreshTarget();
+  }
+
+  private refreshTarget(): void {
+    const targets = this.targets;
+    if (!targets.some((target) => target.id === this.manualTargetId)) this.manualTargetId = null;
+    this.targetId = chooseTarget(targets, this.targetId, this.manualTargetId)?.id ?? null;
   }
 
   start(seed = Date.now()): boolean {
@@ -152,7 +216,15 @@ export class World {
     this.lastHitAt = -10;
     this.notice = "";
     this.noticeUntil = 0;
-    this.nextId = 1;
+    // IDs remain monotonic across pool reuse and runs; locks never alias a recycled entity.
+    this.targetId = null;
+    this.manualTargetId = null;
+    this.arrivals = 0;
+    this.enemyAttacks = 0;
+    this.regularAttacks = 0;
+    this.bossSpecials = 0;
+    this.bossInterrupts = 0;
+    this.peakEnemies = 0;
     this.accumulator = 0;
     this.spawnCooldown = 0.8;
     this.nextChestAt = CONFIG.chestFirstAt;
@@ -178,23 +250,27 @@ export class World {
     return true;
   }
 
-  update(delta: number, input: InputFrame = { x: 0, y: 0 }): void {
+  update(delta: number): void {
     if (this.phase !== "Playing" || !Number.isFinite(delta) || delta <= 0) return;
     this.accumulator += Math.min(delta, CONFIG.maxFrameDelta);
     while (this.accumulator + 1e-9 >= CONFIG.fixedStep && this.phase === "Playing") {
       this.accumulator -= CONFIG.fixedStep;
-      this.step(CONFIG.fixedStep, input);
+      this.step(CONFIG.fixedStep);
     }
     if (this.phase !== "Playing") this.accumulator = 0;
   }
 
-  private step(delta: number, input: InputFrame): void {
+  private step(delta: number): void {
     this.elapsed += delta;
     this.player.invulnerable = Math.max(0, this.player.invulnerable - delta);
-    movePlayer(this.player, input, delta);
-    this.attack(delta);
+    // Position is a simulation invariant, independent of all browser input.
+    Object.assign(this.player, CONFIG.player);
     this.spawn(delta);
-    this.moveEnemies(delta);
+    for (const enemy of this.enemies.items) {
+      if (enemy.active && advanceEnemy(enemy, delta, this.wave)) this.arrivals++;
+    }
+    this.refreshTarget();
+    this.attack(delta);
     this.moveShots(this.shots, delta);
     this.moveShots(this.hostileShots, delta);
     for (const chest of this.chests.items) {
@@ -203,7 +279,10 @@ export class World {
       chest.y = Math.min(340, chest.y + 7 * delta);
     }
     this.collisions();
+    this.refreshTarget();
     if (this.phase !== "Playing") return;
+    // Resolve incoming friendly hits before releasing an attack on this step.
+    this.enemyAttack(delta);
     for (const particle of this.particles.items) {
       if (!particle.active) continue;
       particle.x += particle.vx * delta;
@@ -218,21 +297,28 @@ export class World {
   }
 
   private attack(delta: number): void {
-    this.player.cooldown -= delta;
-    if (this.player.cooldown > 0) return;
+    this.player.cooldown = Math.max(0, this.player.cooldown - delta);
+    const target = this.target;
+    if (this.player.cooldown > 1e-9 || !target) return;
     this.player.cooldown += this.player.stats.interval;
     const count = this.player.stats.projectiles;
+    const others = rankedTargets(this.targets).filter((item) => item.id !== target.id);
     for (let index = 0; index < count; index++) {
       const offset = index - (count - 1) / 2;
+      const aim = index === 0 ? target : (others[(index - 1) % others.length] ?? target);
+      const x = this.player.x + offset * 10;
+      const y = this.player.y - 22;
+      const angle = Math.atan2(aim.y - y, aim.x - x);
       this.projectile(
         this.shots,
-        this.player.x + offset * 10,
-        this.player.y - 22,
-        offset * 24,
-        -620,
-        this.player.stats.damage,
+        x,
+        y,
+        Math.cos(angle) * CONFIG.friendlyShot.speed,
+        Math.sin(angle) * CONFIG.friendlyShot.speed,
+        this.player.stats.damage * (index === 0 ? 1 : CONFIG.friendlyShot.secondaryDamage),
         4,
         this.player.stats.piercing + 1,
+        aim.id,
       );
     }
   }
@@ -246,6 +332,7 @@ export class World {
     damage: number,
     radius = 6,
     hits = 1,
+    targetId: number | null = null,
   ): void {
     const shot = pool.acquire();
     if (!shot) return;
@@ -260,6 +347,8 @@ export class World {
       damage,
       radius,
       hitsLeft: hits,
+      targetId,
+      lifetime: pool === this.shots ? CONFIG.friendlyShot.lifetime : 6,
     });
     shot.hitIds.clear();
   }
@@ -270,13 +359,13 @@ export class World {
       this.enemies.clear();
       this.hostileShots.clear();
       this.spawnEnemy("boss", CONFIG.width / 2);
-      this.notice = "失控圣杯降临 · 留意金色预警";
+      this.notice = "圣杯正推进 · 金色蓄力时集中火力可打断";
       this.noticeUntil = this.elapsed + 3;
     }
     if (!this.bossSpawned) {
       this.spawnCooldown -= delta;
       if (this.spawnCooldown <= 0) {
-        this.spawnCooldown += Math.max(0.48, 1.15 - this.wave * 0.12);
+        this.spawnCooldown += Math.max(0.85, 1.5 - this.wave * 0.1);
         this.spawnEnemy(this.random() < 0.65 ? "wisp" : "sentinel", 42 + this.random() * 366);
       }
       if (
@@ -288,15 +377,15 @@ export class World {
         if (chest) {
           Object.assign(chest, {
             id: this.nextId++,
-            x: this.openedChests === 0 ? 225 : 100 + this.random() * 250,
+            x: this.openedChests === 0 ? 110 : 70 + this.random() * 310,
             y: 240,
-            hp: 32,
-            maxHp: 32,
+            hp: 36,
+            maxHp: 36,
             radius: 26,
             age: 0,
           });
           this.nextChestAt = this.elapsed + CONFIG.chestInterval;
-          this.notice = "宝箱显现 · 对准金色宝箱持续攻击";
+          this.notice = "宝箱显现 · 点击可优先击破，获取残响";
           this.noticeUntil = this.elapsed + 3;
         }
       }
@@ -304,100 +393,144 @@ export class World {
   }
 
   private spawnEnemy(kind: EnemyKind, x: number): void {
+    const occupied = new Set(
+      this.enemies.items.filter((item) => item.active).map((item) => item.slot),
+    );
+    const slots = Array.from(
+      { length: CONFIG.defense.lanes * CONFIG.defense.rows },
+      (_, index) => index,
+    );
+    const slotX = (slot: number) =>
+      CONFIG.player.x +
+      ((slot % CONFIG.defense.lanes) - (CONFIG.defense.lanes - 1) / 2) * CONFIG.defense.laneGap;
+    const slot =
+      kind === "boss"
+        ? Math.floor(CONFIG.defense.lanes / 2)
+        : slots
+            .filter((index) => !occupied.has(index))
+            .sort(
+              (a, b) =>
+                Math.floor(a / CONFIG.defense.lanes) - Math.floor(b / CONFIG.defense.lanes) ||
+                Math.abs(slotX(a) - x) - Math.abs(slotX(b) - x) ||
+                a - b,
+            )[0];
+    if (slot === undefined) return;
     const enemy = this.enemies.acquire();
     if (!enemy) return;
     const data = ENEMIES[kind];
-    const hp = kind === "boss" ? data.hp : Math.round(data.hp * (1 + (this.wave - 1) * 0.1));
+    const hp = kind === "boss" ? data.hp : Math.round(data.hp * (1 + (this.wave - 1) * 0.12));
     Object.assign(enemy, {
       id: this.nextId++,
       kind,
-      x,
-      originX: x,
-      y: kind === "boss" ? 110 : -30,
+      x: slotX(slot),
+      y: kind === "boss" ? -55 : -30,
       hp,
       maxHp: hp,
       radius: data.radius,
       speed: data.speed,
       age: 0,
       telegraph: 0,
-      shotCooldown: kind === "boss" ? 1.4 : 1.3 + this.random() * 0.7,
-      patternCooldown: 3.5,
-      targetX: 0,
+      shotCooldown: 0,
+      patternCooldown: 2.8,
+      stage: "Approaching",
+      attackPolicy: { ...data.attackPolicy },
+      preparation: 0,
+      arrived: false,
+      slot,
+      defenseX: slotX(slot),
+      defenseY: CONFIG.defense.y - Math.floor(slot / CONFIG.defense.lanes) * CONFIG.defense.rowGap,
+      interruptDamage: 0,
+      interruptRequired: 0,
     });
+    this.peakEnemies = Math.max(
+      this.peakEnemies,
+      this.enemies.items.filter((item) => item.active).length,
+    );
   }
 
-  private moveEnemies(delta: number): void {
+  private enemyAttack(delta: number): void {
     for (const enemy of this.enemies.items) {
-      if (!enemy.active) continue;
-      enemy.age += delta;
+      if (!enemy.active || !advanceAttackStage(enemy, delta)) continue;
+      const enraged = enemy.kind === "boss" && enemy.hp < enemy.maxHp / 2;
       if (enemy.kind === "boss") {
-        enemy.x = 225 + Math.sin(enemy.age * 0.65) * 125;
-        enemy.y = 112 + Math.sin(enemy.age * 0.9) * 15;
-        this.bossPattern(enemy, delta);
-      } else {
-        enemy.x = enemy.originX + Math.sin(enemy.age * (enemy.kind === "wisp" ? 2 : 0.9)) * 26;
-        enemy.y += enemy.speed * (1 + (this.wave - 1) * 0.07) * delta;
-      }
-      if (enemy.y > CONFIG.height + 40) {
-        enemy.active = false;
-        continue;
+        if (enemy.telegraph > 0) {
+          enemy.telegraph = Math.max(0, enemy.telegraph - delta);
+          if (enemy.telegraph <= 1e-9) {
+            // Consume the charge even when subtraction leaves a tiny positive residue.
+            enemy.telegraph = 0;
+            this.aimedVolley(enemy, 1, enraged ? 30 : 26, 240, 10);
+            this.bossSpecials++;
+            enemy.patternCooldown = enraged ? 3.6 : 4.5;
+            enemy.shotCooldown = 1.2;
+          }
+          continue;
+        }
+        enemy.patternCooldown -= delta;
+        if (enemy.patternCooldown <= 0) {
+          enemy.telegraph = enraged ? 1.7 : 2;
+          enemy.interruptDamage = 0;
+          enemy.interruptRequired = enraged ? 120 : 90;
+          this.notice = `圣杯蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`;
+          this.noticeUntil = this.elapsed + enemy.telegraph;
+          continue;
+        }
       }
       enemy.shotCooldown -= delta;
-      if (enemy.shotCooldown <= 0 && enemy.y > 0 && enemy.y < 580) {
-        const data = ENEMIES[enemy.kind];
-        enemy.shotCooldown +=
-          data.interval * (enemy.kind === "boss" ? 1 : Math.max(0.7, 1 - this.wave * 0.04));
-        const angle = Math.atan2(this.player.y - enemy.y, this.player.x - enemy.x);
-        const fan = enemy.kind === "wisp" ? 1 : enemy.kind === "boss" ? 5 : 3;
-        const speed = enemy.kind === "boss" ? 168 : 110 + this.wave * 9;
-        for (let index = 0; index < fan; index++) {
-          const direction = angle + (index - (fan - 1) / 2) * 0.19;
-          this.projectile(
-            this.hostileShots,
-            enemy.x,
-            enemy.y + 12,
-            Math.cos(direction) * speed,
-            Math.sin(direction) * speed,
-            data.damage,
-          );
-        }
-      }
+      if (enemy.shotCooldown > 1e-9) continue;
+      const data = ENEMIES[enemy.kind];
+      enemy.shotCooldown += data.interval * (enraged ? 0.8 : 1);
+      this.aimedVolley(enemy, data.fan, data.damage, data.shotSpeed);
     }
   }
 
-  private bossPattern(boss: Enemy, delta: number): void {
-    boss.patternCooldown -= delta;
-    if (boss.patternCooldown <= 0) {
-      boss.patternCooldown += boss.hp < boss.maxHp / 2 ? 3.4 : 4.5;
-      boss.telegraph = 0.9;
-      boss.targetX = this.player.x;
-      const count = 16;
-      for (let index = 0; index < count; index++) {
-        const angle = index * ((Math.PI * 2) / count) + boss.age * 0.3;
-        this.projectile(
-          this.hostileShots,
-          boss.x,
-          boss.y,
-          Math.cos(angle) * 138,
-          Math.sin(angle) * 138,
-          16,
-          5,
-        );
-      }
+  private aimedVolley(
+    enemy: Enemy,
+    count: number,
+    damage: number,
+    speed: number,
+    radius = 6,
+  ): void {
+    const angle = Math.atan2(this.player.y - enemy.y, this.player.x - enemy.x);
+    for (let index = 0; index < count; index++) {
+      const direction = angle + (index - (count - 1) / 2) * 0.18;
+      this.projectile(
+        this.hostileShots,
+        enemy.x,
+        enemy.y + 12,
+        Math.cos(direction) * speed,
+        Math.sin(direction) * speed,
+        damage,
+        radius,
+      );
     }
-    if (boss.telegraph > 0) {
-      boss.telegraph -= delta;
-      if (boss.telegraph <= 0) {
-        for (const offset of [-20, 0, 20]) {
-          this.projectile(this.hostileShots, boss.targetX + offset, boss.y + 42, 0, 390, 24, 8);
-        }
-      }
-    }
+    this.enemyAttacks++;
+    if (enemy.kind !== "boss") this.regularAttacks++;
   }
 
   private moveShots(pool: Pool<Projectile>, delta: number): void {
     for (const shot of pool.items) {
       if (!shot.active) continue;
+      shot.lifetime -= delta;
+      if (shot.lifetime <= 0) {
+        shot.active = false;
+        continue;
+      }
+      if (pool === this.shots) {
+        const targets = this.targets;
+        const target =
+          targets.find((item) => item.id === shot.targetId && !shot.hitIds.has(item.id)) ??
+          chooseTarget(targets, this.targetId, this.manualTargetId, shot.hitIds);
+        shot.targetId = target?.id ?? null;
+        if (target) {
+          const angle = Math.atan2(shot.vy, shot.vx);
+          const wanted = Math.atan2(target.y - shot.y, target.x - shot.x);
+          const difference = Math.atan2(Math.sin(wanted - angle), Math.cos(wanted - angle));
+          const turn = CONFIG.friendlyShot.turnRate * delta;
+          const heading = angle + clamp(difference, -turn, turn);
+          shot.vx = Math.cos(heading) * CONFIG.friendlyShot.speed;
+          shot.vy = Math.sin(heading) * CONFIG.friendlyShot.speed;
+        }
+      }
       shot.previousX = shot.x;
       shot.previousY = shot.y;
       shot.x += shot.vx * delta;
@@ -421,7 +554,23 @@ export class World {
 
   private consume(shot: Projectile, target: Enemy | Chest): void {
     shot.hitIds.add(target.id);
-    target.hp = Math.max(0, target.hp - shot.damage);
+    const bonus =
+      isEnemy(target) && target.stage === "Attacking" ? this.player.stats.execution * 0.2 : 0;
+    const damage = shot.damage * (1 + bonus);
+    const actualDamage = Math.min(target.hp, damage);
+    target.hp = Math.max(0, target.hp - damage);
+    if (isEnemy(target) && target.kind === "boss" && target.telegraph > 0 && target.hp > 0) {
+      target.interruptDamage += actualDamage;
+      if (target.interruptDamage >= target.interruptRequired) {
+        target.telegraph = 0;
+        target.patternCooldown = target.hp < target.maxHp / 2 ? 3.2 : 4;
+        target.shotCooldown = 1;
+        this.bossInterrupts++;
+        this.notice = "蓄力已打断 · 防线暂时安全";
+        this.noticeUntil = this.elapsed + 1.5;
+        this.burst(target.x, target.y, 0x8cc6f2, 18);
+      }
+    }
     shot.hitsLeft--;
     if (shot.hitsLeft <= 0) shot.active = false;
   }
@@ -485,16 +634,6 @@ export class World {
       this.hurt(shot.damage);
       if (this.phase !== "Playing") return;
     }
-    for (const enemy of this.enemies.items) {
-      if (
-        !enemy.active ||
-        Math.hypot(enemy.x - this.player.x, enemy.y - this.player.y) > enemy.radius + 7
-      )
-        continue;
-      if (enemy.kind !== "boss") enemy.active = false;
-      this.hurt(20);
-      if (this.phase !== "Playing") return;
-    }
   }
 
   private hurt(damage: number): void {
@@ -535,24 +674,59 @@ export class World {
       openedChests: this.openedChests,
       stacks: Object.fromEntries(this.stacks),
       reward: this.reward ? structuredClone(this.reward) : null,
+      targetId: this.targetId,
+      manualTargetId: this.manualTargetId,
+      metrics: {
+        arrivals: this.arrivals,
+        enemyAttacks: this.enemyAttacks,
+        regularAttacks: this.regularAttacks,
+        bossSpecials: this.bossSpecials,
+        bossInterrupts: this.bossInterrupts,
+        peakEnemies: this.peakEnemies,
+      },
       enemies: this.enemies.items
         .filter((item) => item.active)
-        .map(({ id, kind, x, y, hp, radius, telegraph, targetX }) => ({
-          id,
-          kind,
-          x,
-          y,
-          hp,
-          radius,
-          telegraph,
-          targetX,
-        })),
+        .map(
+          ({
+            id,
+            kind,
+            x,
+            y,
+            hp,
+            maxHp,
+            radius,
+            telegraph,
+            stage,
+            preparation,
+            arrived,
+            defenseX,
+            defenseY,
+            interruptDamage,
+            interruptRequired,
+          }) => ({
+            id,
+            kind,
+            x,
+            y,
+            hp,
+            maxHp,
+            radius,
+            telegraph,
+            stage,
+            preparation,
+            arrived,
+            defenseX,
+            defenseY,
+            interruptDamage,
+            interruptRequired,
+          }),
+        ),
       chests: this.chests.items
         .filter((item) => item.active)
         .map(({ id, x, y, hp }) => ({ id, x, y, hp })),
       shots: this.shots.items
         .filter((item) => item.active)
-        .map(({ x, y, vx, vy }) => ({ x, y, vx, vy })),
+        .map(({ x, y, vx, vy, targetId }) => ({ x, y, vx, vy, targetId })),
       hostileShots: this.hostileShots.items
         .filter((item) => item.active)
         .map(({ x, y, vx, vy }) => ({ x, y, vx, vy })),

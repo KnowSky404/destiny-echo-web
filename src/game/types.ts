@@ -1,16 +1,15 @@
 export type Phase = "Menu" | "Playing" | "Paused" | "RewardSelection" | "Victory" | "GameOver";
 export type EnemyKind = "wisp" | "sentinel" | "boss";
 export type Rarity = "common" | "rare";
+export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
+export type AttackPolicy =
+  | { type: "defense" }
+  | { type: "region"; y: number }
+  | { type: "anywhere" };
 
 export interface Vec2 {
   x: number;
   y: number;
-}
-
-export interface InputFrame {
-  x: number;
-  y: number;
-  target?: Vec2;
 }
 
 export interface Stats {
@@ -19,7 +18,7 @@ export interface Stats {
   projectiles: number;
   piercing: number;
   maxHp: number;
-  speed: number;
+  execution: number;
 }
 
 export interface Player extends Vec2 {
@@ -38,12 +37,19 @@ export interface Enemy extends Vec2 {
   maxHp: number;
   radius: number;
   speed: number;
+  stage: EnemyStage;
+  attackPolicy: AttackPolicy;
+  preparation: number;
+  arrived: boolean;
+  slot: number;
+  defenseX: number;
+  defenseY: number;
   age: number;
   shotCooldown: number;
   patternCooldown: number;
-  originX: number;
   telegraph: number;
-  targetX: number;
+  interruptDamage: number;
+  interruptRequired: number;
 }
 
 export interface Projectile extends Vec2 {
@@ -57,6 +63,8 @@ export interface Projectile extends Vec2 {
   damage: number;
   hitsLeft: number;
   hitIds: Set<number>;
+  targetId: number | null;
+  lifetime: number;
 }
 
 export interface Chest extends Vec2 {
@@ -67,6 +75,8 @@ export interface Chest extends Vec2 {
   radius: number;
   age: number;
 }
+
+export type Target = Enemy | Chest;
 
 export interface Particle extends Vec2 {
   active: boolean;

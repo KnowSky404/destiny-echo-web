@@ -1,27 +1,7 @@
-import { CONFIG } from "../config";
-import type { InputFrame, Player, Vec2 } from "../types";
+import type { Vec2 } from "../types";
 
 export function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
-}
-
-export function movePlayer(player: Player, input: InputFrame, delta: number): void {
-  let x = input.x;
-  let y = input.y;
-  if (input.target) {
-    x = input.target.x - player.x;
-    y = input.target.y - player.y;
-  }
-  const length = Math.hypot(x, y);
-  if (length > 0) {
-    const distance = player.stats.speed * delta;
-    const scale = input.target ? Math.min(distance / length, 1) : distance / Math.max(length, 1);
-    player.x += x * scale;
-    player.y += y * scale;
-  }
-  const bounds = CONFIG.movement;
-  player.x = clamp(player.x, bounds.left, bounds.right);
-  player.y = clamp(player.y, bounds.top, bounds.bottom);
 }
 
 export function segmentHitsCircle(from: Vec2, to: Vec2, center: Vec2, radius: number): boolean {

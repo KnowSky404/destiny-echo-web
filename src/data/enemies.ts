@@ -1,4 +1,4 @@
-import type { EnemyKind } from "../game/types";
+import type { AttackPolicy, EnemyKind } from "../game/types";
 
 export const ENEMIES: Record<
   EnemyKind,
@@ -10,25 +10,49 @@ export const ENEMIES: Record<
     interval: number;
     damage: number;
     score: number;
+    preparation: number;
+    attackPolicy: AttackPolicy;
+    fan: number;
+    shotSpeed: number;
   }
 > = {
-  wisp: { name: "游离残响", hp: 24, radius: 16, speed: 72, interval: 2.5, damage: 12, score: 100 },
+  wisp: {
+    name: "游离残响",
+    hp: 50,
+    radius: 16,
+    speed: 112,
+    interval: 3.2,
+    damage: 6,
+    score: 100,
+    preparation: 1.4,
+    attackPolicy: { type: "defense" },
+    fan: 1,
+    shotSpeed: 155,
+  },
   sentinel: {
     name: "棱镜守卫",
-    hp: 40,
+    hp: 108,
     radius: 21,
-    speed: 38,
-    interval: 2,
-    damage: 16,
+    speed: 86,
+    interval: 3.8,
+    damage: 9,
     score: 180,
+    preparation: 1.8,
+    attackPolicy: { type: "defense" },
+    fan: 3,
+    shotSpeed: 140,
   },
   boss: {
     name: "失控圣杯 · 空愿之器",
-    hp: 1000,
+    hp: 2000,
     radius: 48,
-    speed: 0,
-    interval: 1.2,
-    damage: 18,
+    speed: 112,
+    interval: 2.7,
+    damage: 10,
     score: 3000,
+    preparation: 2,
+    attackPolicy: { type: "defense" },
+    fan: 3,
+    shotSpeed: 170,
   },
 };

@@ -1,5 +1,7 @@
 import { CARD_BY_ID } from "../data/cards";
+import { ENEMIES } from "../data/enemies";
 import { CONFIG } from "../game/config";
+import { isEnemy } from "../game/systems/targeting";
 import type { Phase } from "../game/types";
 import type { World } from "../game/world";
 import { icon } from "./icons";
@@ -27,7 +29,10 @@ export class GameUI {
   private readonly timer = element("#timer");
   private readonly waveLabel = element("#wave-label");
   private readonly killLabel = element("#kill-label");
+  private readonly targetLabel = element("#target-label");
+  private readonly threatLabel = element("#threat-label");
   private readonly bossHealth = element("#boss-health");
+  private readonly bossName = element("#boss-health > span");
   private readonly bossFill = element("#boss-fill");
   private readonly notice = element("#arena-notice");
   private readonly stats = element("#stats");
@@ -133,6 +138,14 @@ export class GameUI {
           ? "终局 · 圣杯失控"
           : `第 ${world.wave} 波 · 残响涌动`;
     this.killLabel.textContent = `击破 ${world.kills}`;
+    const target = world.target;
+    this.targetLabel.textContent = target
+      ? `${world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? ENEMIES[target.kind].name : "残响宝箱"}`
+      : "自动索敌 · 等待目标";
+    const threats = world.enemies.items.filter(
+      (enemy) => enemy.active && enemy.stage !== "Approaching",
+    ).length;
+    this.threatLabel.textContent = `防线威胁 ${threats}`;
     this.pauseButton.disabled = !this.loaded || !["Playing", "Paused"].includes(world.phase);
     this.pauseButton.dataset.action = world.phase === "Paused" ? "resume" : "pause";
     this.pauseButton.setAttribute("aria-label", world.phase === "Paused" ? "继续游戏" : "暂停游戏");
@@ -143,7 +156,11 @@ export class GameUI {
       ?.setAttribute("d", world.phase === "Paused" ? "m8 5 11 7-11 7Z" : "M8 5v14M16 5v14");
     const boss = world.boss;
     this.bossHealth.hidden = !boss;
-    if (boss) this.bossFill.style.width = `${(boss.hp / boss.maxHp) * 100}%`;
+    if (boss) {
+      this.bossFill.style.width = `${(boss.hp / boss.maxHp) * 100}%`;
+      this.bossName.textContent =
+        boss.hp < boss.maxHp / 2 ? "失控圣杯 · 狂乱阶段" : "失控圣杯 · 空愿之器";
+    }
     const notice =
       world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.notice : "";
     if (this.notice.textContent !== notice) this.notice.textContent = notice;
@@ -156,7 +173,7 @@ export class GameUI {
         ["multishot", "弹幕数量", String(player.stats.projectiles)],
         ["piercing", "穿透目标", String(player.stats.piercing)],
         ["vitality", "生命上限", String(player.stats.maxHp)],
-        ["drift", "移动速度", String(player.stats.speed)],
+        ["execution", "防线增伤", `+${player.stats.execution * 20}%`],
       ];
       this.stats.innerHTML = rows
         .map(
@@ -195,10 +212,10 @@ export class GameUI {
     this.overlay.classList.toggle("reward-overlay", phase === "RewardSelection");
     if (phase === "Playing") return;
     let title = "开启这一轮命运";
-    let description = "一局约 75 秒 · 自动攻击 · 三选一构筑";
+    let description = "固定阵地 · 自动索敌 · 三选一构筑";
     let buttons =
       '<button type="button" class="button button-primary" data-action="start">开始共鸣</button>';
-    let extra = '<p class="modal-hint">WASD / 方向键移动 · 触屏拖动</p>';
+    let extra = '<p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p>';
     if (phase === "Paused") {
       title = "命运暂歇";
       description = "深呼吸，下一道残响正在等待。";
