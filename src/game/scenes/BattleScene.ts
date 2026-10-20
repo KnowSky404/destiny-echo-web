@@ -3,6 +3,7 @@ import { ENEMIES } from "../../data/enemies";
 import { CONFIG } from "../config";
 import { InputController } from "../input";
 import { seededRandom } from "../random";
+import { synergyTier } from "../synergies";
 import type { World } from "../world";
 import { COLORS, createTextures } from "./textures";
 
@@ -123,9 +124,22 @@ export class BattleScene extends Phaser.Scene {
     // The small central dot is the real hit box, not the decorative wings.
     this.halo.fillStyle(0xffffff, 0.95);
     this.halo.fillCircle(player.x, player.y, 3);
-    if (this.sigil) this.sigil.rotation = this.reducedMotion ? 0 : this.world.elapsed * 0.025;
+    if (this.sigil) {
+      this.sigil.rotation = this.reducedMotion ? 0 : this.world.elapsed * 0.025;
+      this.sigil.setTint(this.world.stage.color);
+    }
     this.renderPools();
     this.overlay.clear();
+    for (const blast of this.world.blasts.items) {
+      if (!blast.active) continue;
+      const progress = 1 - blast.life / blast.maxLife;
+      this.overlay.lineStyle(3, blast.color, (1 - progress) * 0.8);
+      this.overlay.strokeCircle(
+        blast.x,
+        blast.y,
+        blast.radius * (this.reducedMotion ? 1 : 0.25 + progress * 0.75),
+      );
+    }
     for (const enemy of this.world.enemies.items) {
       if (!enemy.active) continue;
       const preparing = enemy.stage === "Preparing";
@@ -217,7 +231,9 @@ export class BattleScene extends Phaser.Scene {
             ? 0xffb3cc
             : enemy.stage === "Preparing"
               ? 0xffdf9c
-              : 0xffffff,
+              : kind === "boss"
+                ? this.world.stage.color
+                : 0xffffff,
         );
       });
     }
@@ -233,6 +249,7 @@ export class BattleScene extends Phaser.Scene {
       this.world.shots.items.filter((item) => item.active),
       (image, item) => {
         image.setPosition(item.x, item.y).setScale(0.7).setRotation(Math.atan2(item.vx, -item.vy));
+        image.setTint(synergyTier(this.world.stacks, "blast") >= 2 ? 0xffc3a1 : 0xffffff);
       },
     );
     this.render(

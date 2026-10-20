@@ -2,9 +2,10 @@ import type { Phase } from "./types";
 
 const TRANSITIONS: Record<Phase, readonly Phase[]> = {
   Menu: ["Playing"],
-  Playing: ["Paused", "RewardSelection", "Victory", "GameOver"],
+  Playing: ["Paused", "RewardSelection", "StageClear", "Victory", "GameOver"],
   Paused: ["Playing", "Menu"],
   RewardSelection: ["Playing"],
+  StageClear: ["Playing"],
   Victory: ["Playing", "Menu"],
   GameOver: ["Playing", "Menu"],
 };

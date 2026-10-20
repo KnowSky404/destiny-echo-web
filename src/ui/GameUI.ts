@@ -1,6 +1,8 @@
 import { CARD_BY_ID } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
-import { CONFIG } from "../game/config";
+import { STAGES, stageAt } from "../data/stages";
+import { SYNERGY_BY_ID } from "../data/synergies";
+import { synergyPreview, synergyProgress, synergyTier } from "../game/synergies";
 import { isEnemy } from "../game/systems/targeting";
 import type { Phase } from "../game/types";
 import type { World } from "../game/world";
@@ -37,6 +39,9 @@ export class GameUI {
   private readonly notice = element("#arena-notice");
   private readonly stats = element("#stats");
   private readonly collection = element("#collected-cards");
+  private readonly synergies = element("#synergies");
+  private readonly stageLabel = element("#stage-label");
+  private readonly stageRoute = element("#stage-route");
   private readonly help = element<HTMLDialogElement>("#help-dialog");
   private lastPhase: Phase | undefined;
   private lastReward = 0;
@@ -126,21 +131,27 @@ export class GameUI {
     const world = this.world;
     const { player } = world;
     this.healthValue.textContent = `${Math.ceil(player.hp)} / ${player.stats.maxHp}`;
-    this.shieldValue.textContent = player.shield > 0 ? `+${player.shield} 护盾` : "";
+    this.shieldValue.textContent = player.shield > 0 ? `+${Math.ceil(player.shield)} 护盾` : "";
     this.healthFill.style.width = `${(player.hp / player.stats.maxHp) * 100}%`;
     this.healthMeter.max = player.stats.maxHp;
     this.healthMeter.value = Math.ceil(player.hp);
     this.timer.textContent = formatTime(world.elapsed);
+    this.timer.setAttribute(
+      "aria-label",
+      `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
+    );
+    this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
         : world.bossSpawned
-          ? "终局 · 圣杯失控"
+          ? "首领战 · 集中火力"
           : `第 ${world.wave} 波 · 残响涌动`;
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
-      ? `${world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? ENEMIES[target.kind].name : "残响宝箱"}`
+      ? `${world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
       : "自动索敌 · 等待目标";
     const threats = world.enemies.items.filter(
       (enemy) => enemy.active && enemy.stage !== "Approaching",
@@ -159,7 +170,7 @@ export class GameUI {
     if (boss) {
       this.bossFill.style.width = `${(boss.hp / boss.maxHp) * 100}%`;
       this.bossName.textContent =
-        boss.hp < boss.maxHp / 2 ? "失控圣杯 · 狂乱阶段" : "失控圣杯 · 空愿之器";
+        boss.hp < boss.maxHp / 2 ? `${world.stage.bossName} · 狂乱阶段` : world.stage.bossName;
     }
     const notice =
       world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.notice : "";
@@ -169,7 +180,11 @@ export class GameUI {
       this.lastStats = statKey;
       const rows = [
         ["damage", "术式伤害", String(player.stats.damage)],
-        ["haste", "攻击间隔", `${player.stats.interval.toFixed(2)}s`],
+        [
+          "haste",
+          "攻击间隔",
+          `${(player.stats.interval * (synergyTier(world.stacks, "barrage") >= 2 ? 0.85 : 1)).toFixed(2)}s`,
+        ],
         ["multishot", "弹幕数量", String(player.stats.projectiles)],
         ["piercing", "穿透目标", String(player.stats.piercing)],
         ["vitality", "生命上限", String(player.stats.maxHp)],
@@ -185,6 +200,20 @@ export class GameUI {
     const buildKey = JSON.stringify([...world.stacks]);
     if (this.lastBuild !== buildKey) {
       this.lastBuild = buildKey;
+      const openSynergies = new Set(
+        [...this.synergies.querySelectorAll<HTMLDetailsElement>("details[open]")].map(
+          (details) => details.dataset.synergy,
+        ),
+      );
+      this.synergies.innerHTML = synergyProgress(world.stacks)
+        .map(
+          (synergy) => `
+        <details class="synergy-card ${synergy.tier > 0 ? "active" : ""}" data-synergy="${synergy.id}" style="--synergy-color:${synergy.color}" ${openSynergies.has(synergy.id) ? "open" : ""}>
+          <summary><span class="synergy-symbol">${icon(synergy.symbol)}</span><strong>${synergy.name}</strong><span class="synergy-count">${synergy.count}/3 · ${synergy.tier === 3 ? "质变" : synergy.tier === 2 ? "激活" : "待集齐"}</span></summary>
+          <div class="synergy-details"><p>${synergy.cards.map((card) => `<span class="${card.owned ? "owned" : ""}">${card.owned ? "✦" : "◇"} ${card.name}</span>`).join(" · ")}</p>${synergy.tiers.map((description, index) => `<p class="${synergy.count >= index + 2 ? "unlocked" : ""}"><b>${index + 2} 张</b> ${description}</p>`).join("")}</div>
+        </details>`,
+        )
+        .join("");
       if (world.stacks.size > 0)
         this.collection.innerHTML = `<p class="build-caption">已收集 ${[...world.stacks.values()].reduce((total, n) => total + n, 0)} 道残响</p>${[
           ...world.stacks,
@@ -209,10 +238,13 @@ export class GameUI {
     this.lastPhase = phase;
     this.lastReward = world.reward?.token ?? 0;
     this.overlay.hidden = phase === "Playing";
-    this.overlay.classList.toggle("reward-overlay", phase === "RewardSelection");
+    this.overlay.classList.toggle(
+      "reward-overlay",
+      phase === "RewardSelection" || phase === "StageClear",
+    );
     if (phase === "Playing") return;
     let title = "开启这一轮命运";
-    let description = "固定阵地 · 自动索敌 · 三选一构筑";
+    let description = "四关连战 · 流派联动 · 通关后无尽挑战";
     let buttons =
       '<button type="button" class="button button-primary" data-action="start">开始共鸣</button>';
     let extra = '<p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p>';
@@ -222,16 +254,23 @@ export class GameUI {
       buttons =
         '<button type="button" class="button button-primary" data-action="resume">继续共鸣</button><button type="button" class="button button-quiet" data-action="menu">返回开始界面</button>';
       extra = '<p class="modal-hint">P / Esc 继续 · 战斗计时已停止</p>';
-    } else if (phase === "RewardSelection" && world.reward) {
+    } else if ((phase === "RewardSelection" || phase === "StageClear") && world.reward) {
       const reward = world.reward;
       const choices = reward.choices
         .map((id) => {
           const card = CARD_BY_ID.get(id);
           if (!card) return "";
-          return `<button type="button" class="reward-card ${card.rarity}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${card.rarity === "rare" ? "稀有" : "普通"}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-description">${card.description}</span></span></button>`;
+          const synergy = SYNERGY_BY_ID.get(card.synergy);
+          const count = world.stacks.has(card.id)
+            ? 0
+            : (synergyProgress(world.stacks).find((item) => item.id === card.synergy)?.count ?? 0);
+          const unlock = count === 1 || count === 2 ? synergy?.tiers[count - 1] : undefined;
+          return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${card.rarity === "rare" ? "稀有" : "普通"}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${unlock ?? card.description}</span></span></button>`;
         })
         .join("");
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">选择一道残响</h2><p>每一次选择，都是命运的回响。</p><div class="reward-choices">${choices}</div><p class="modal-hint">选择一张，立即强化 · 战斗已暂停</p></section>`;
+      const stageClear = phase === "StageClear";
+      const next = stageAt(world.stageIndex + 1);
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : "选择一道残响"}</h2><p>${stageClear ? `下一站：${next.name} · 保留构筑，恢复 35 生命` : "同流派 2 张激活 · 3 张质变（不同卡牌）"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;
@@ -239,13 +278,12 @@ export class GameUI {
       title = phase === "Victory" ? "终局，由你改写" : "残响尚未终结";
       description =
         phase === "Victory"
-          ? "圣杯归于沉寂。你的愿望，留下了回声。"
+          ? `四关已突破。构筑仍在，继续无尽，让这套牌尽兴。`
           : world.endingReason === "timeout"
             ? "仪式已失控。下一次，更早击碎圣杯。"
             : "这不是终点，只是另一轮命运的起点。";
-      extra = `<dl class="result-stats"><div><dt>存续时间</dt><dd>${formatTime(world.elapsed)}</dd></div><div><dt>击破敌人</dt><dd>${world.kills}</dd></div><div><dt>收集残响</dt><dd>${world.openedChests}</dd></div><div><dt>本局得分</dt><dd>${world.score}</dd></div></dl>`;
-      buttons =
-        '<button type="button" class="button button-primary" data-action="start">再次共鸣</button><button type="button" class="button button-quiet" data-action="menu">返回开始界面</button>';
+      extra = `<p class="run-progress">已突破 ${world.clearedStages} 关 · ${world.stage.name}</p><dl class="result-stats"><div><dt>存续时间</dt><dd>${formatTime(world.elapsed)}</dd></div><div><dt>击破敌人</dt><dd>${world.kills}</dd></div><div><dt>收集残响</dt><dd>${[...world.stacks.values()].reduce((sum, count) => sum + count, 0)}</dd></div><div><dt>本局得分</dt><dd>${world.score}</dd></div></dl>`;
+      buttons = `${phase === "Victory" ? '<button type="button" class="button button-primary" data-action="endless">继续无尽 · 保留构筑</button>' : ""}<button type="button" class="button ${phase === "Victory" ? "button-quiet" : "button-primary"}" data-action="start">再次共鸣</button><button type="button" class="button button-quiet" data-action="menu">返回开始界面</button>`;
     }
     this.overlay.innerHTML = `<section class="modal ${phase === "Victory" ? "victory-modal" : ""}" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${title}</h2><p>${description}</p>${phase === "Victory" || phase === "GameOver" ? extra : ""}<div class="modal-actions">${buttons}</div>${phase === "Victory" || phase === "GameOver" ? "" : extra}</section>`;
     this.bindActions();
@@ -258,6 +296,7 @@ export class GameUI {
         if (button.dataset.card) {
           this.world.chooseCard(button.dataset.card, Number(button.dataset.token));
         } else if (button.dataset.action === "start") this.world.start();
+        else if (button.dataset.action === "endless") this.world.continueEndless();
         else if (button.dataset.action === "resume") this.world.resume();
         else if (button.dataset.action === "menu") this.world.toMenu();
       });
@@ -292,4 +331,4 @@ export class GameUI {
   }
 }
 
-export const RUN_DESCRIPTION = `${CONFIG.bossAt} 秒 Boss · ${CONFIG.deadline} 秒仪式期限`;
+export const RUN_DESCRIPTION = `${STAGES.length} 关连续挑战 · 流派联动 · 可继续无尽`;

@@ -6,10 +6,8 @@ export const CONFIG = {
   friendlyShot: { speed: 620, turnRate: 10, lifetime: 3, secondaryDamage: 0.6 },
   fixedStep: 1 / 120,
   maxFrameDelta: 0.1,
-  bossAt: 52,
-  deadline: 88,
   chestFirstAt: 5,
   chestInterval: 10,
   chestLastAt: 46,
-  limits: { enemies: 14, playerShots: 240, enemyShots: 360, chests: 1, particles: 120 },
+  limits: { enemies: 14, playerShots: 240, enemyShots: 360, chests: 1, particles: 120, blasts: 24 },
 } as const;

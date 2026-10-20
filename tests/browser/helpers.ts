@@ -91,12 +91,13 @@ export async function firstReward(page: Page) {
 }
 
 export async function bootFixture(page: Page, setup: string) {
-  await page.route("**/src/main.ts", (route) =>
+  await page.route(/\/src\/main\.ts(?:\?.*)?$/, (route) =>
     route.fulfill({
       contentType: "text/javascript",
       body: `
       import { World } from "/src/game/world.ts";
       import { ENEMIES } from "/src/data/enemies.ts";
+      import { applyCard } from "/src/data/cards.ts";
       import { GameUI } from "/src/ui/GameUI.ts";
       import { createGame } from "/src/game/createGame.ts";
       import "/src/ui/style.css";
@@ -126,8 +127,10 @@ export async function bootFixture(page: Page, setup: string) {
   );
   await page.clock.install();
   await page.goto("/");
-  await expect(page.getByRole("button", { name: "继续共鸣", exact: true })).toBeEnabled();
+  await expect(page.locator("#overlay button").first()).toBeEnabled();
   await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
-  await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
+  const phase = (await snapshot(page)).phase;
+  expect(["Paused", "RewardSelection", "StageClear"]).toContain(phase);
+  if (phase === "Paused") await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
   await page.clock.runFor(100);
 }

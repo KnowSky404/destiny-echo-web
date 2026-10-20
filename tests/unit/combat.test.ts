@@ -324,7 +324,7 @@ describe("boss counterplay, execution and endings", () => {
   test("the scheduled boss moves to the defense and releases a damaging special", () => {
     const world = new World();
     world.start(8);
-    world.elapsed = CONFIG.bossAt - 0.01;
+    world.stageElapsed = world.stage.bossAt - 0.01;
     world.player.cooldown = 100;
     world.player.shield = 100;
     tick(world, 0.1);
@@ -395,7 +395,7 @@ describe("boss counterplay, execution and endings", () => {
 
   test("timeout ends the run and terminal state freezes coordinates and attacks", () => {
     const world = arena();
-    world.elapsed = CONFIG.deadline - 0.01;
+    world.stageElapsed = world.stage.deadline - 0.01;
     tick(world, 0.02);
     expect(world.phase).toBe("GameOver");
     expect(world.endingReason).toBe("timeout");

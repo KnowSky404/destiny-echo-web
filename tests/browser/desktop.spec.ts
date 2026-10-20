@@ -152,7 +152,7 @@ test("shoots a real chest, offers three unique cards, freezes the run and applie
 });
 
 for (const strategy of ["offense", "defensive"] as const) {
-  test(`a natural ${strategy} run reaches ${strategy === "offense" ? "victory" : "failure"} and restarts cleanly`, async ({
+  test(`a natural ${strategy} run reaches ${strategy === "offense" ? "stage two" : "failure"} and restarts cleanly`, async ({
     page,
     browserName,
   }, info) => {
@@ -160,28 +160,70 @@ for (const strategy of ["offense", "defensive"] as const) {
       browserName !== "chromium",
       "Full natural runs execute once; every engine verifies combat, input, rewards and endings.",
     );
-    test.setTimeout(180_000);
+    test.setTimeout(300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 3 : 1));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 3));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
-      if (state.phase === "GameOver" || state.phase === "Victory") break;
+      if (["GameOver", "Victory", "StageClear"].includes(state.phase)) break;
       if (state.phase === "RewardSelection" && state.reward) {
         const priorities =
           strategy === "defensive"
-            ? ["vitality", "ward", "piercing", "execution", "haste", "overload", "multishot"]
-            : state.player.hp < 35
-              ? ["vitality", "ward", "multishot", "overload", "haste", "execution", "piercing"]
-              : ["multishot", "overload", "haste", "execution", "piercing", "vitality", "ward"];
+            ? [
+                "vitality",
+                "ward",
+                "thorns",
+                "harvest",
+                "piercing",
+                "execution",
+                "haste",
+                "overload",
+                "multishot",
+                "focus",
+                "fuse",
+                "bloodpact",
+              ]
+            : state.player.hp < 45
+              ? [
+                  "harvest",
+                  "vitality",
+                  "ward",
+                  "thorns",
+                  "multishot",
+                  "haste",
+                  "overload",
+                  "piercing",
+                  "execution",
+                  "focus",
+                  "fuse",
+                  "bloodpact",
+                ]
+              : [
+                  "multishot",
+                  "haste",
+                  "overload",
+                  "piercing",
+                  "harvest",
+                  "focus",
+                  "execution",
+                  "fuse",
+                  "bloodpact",
+                  "vitality",
+                  "ward",
+                  "thorns",
+                ];
         const id = priorities.find((id) => state.reward?.choices.includes(id));
         if (!id) throw new Error("Missing reward");
         await page.locator(`[data-card="${id}"]`).click();
       }
+      const chest = state.chests[0];
+      if (chest && !state.enemies.some((enemy) => enemy.kind === "boss"))
+        await clickTarget(page, chest.x, chest.y);
       await page.clock.runFor(1000);
     }
     const result = await snapshot(page);
-    expect(result.phase).toBe(strategy === "offense" ? "Victory" : "GameOver");
+    expect(result.phase).toBe(strategy === "offense" ? "StageClear" : "GameOver");
     expect(result.metrics.regularAttacks).toBeGreaterThan(0);
     expect(result.player.hp).toBeLessThan(100);
     expect(result.kills).toBeGreaterThan(0);
@@ -190,11 +232,26 @@ for (const strategy of ["offense", "defensive"] as const) {
       expect(result.openedChests).toBe(5);
       expect(result.metrics.bossInterrupts).toBeGreaterThan(0);
     }
-    await expect(page.getByRole("button", { name: "再次共鸣" })).toBeVisible();
     await page.screenshot({
       path: join(tmpdir(), `destiny-${info.project.name}-${strategy}-result.png`),
     });
-    await page.getByRole("button", { name: "再次共鸣" }).click();
+    if (strategy === "offense") {
+      const frozen = await snapshot(page);
+      await page.clock.runFor(1000);
+      expect(await snapshot(page)).toEqual(frozen);
+      await page.locator(".reward-card").first().click();
+      await page.clock.runFor(100);
+      expect((await snapshot(page)).stageIndex).toBe(1);
+      expect((await snapshot(page)).player.stats.projectiles).toBeGreaterThan(1);
+      await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
+      await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+      await page.clock.runFor(100);
+      await page.getByRole("button", { name: "返回开始界面", exact: true }).click();
+      await page.clock.runFor(100);
+      await page.getByRole("button", { name: "开始共鸣", exact: true }).click();
+    } else {
+      await page.getByRole("button", { name: "再次共鸣" }).click();
+    }
     await page.clock.runFor(100);
     const fresh = await snapshot(page);
     expect(fresh.phase).toBe("Playing");
@@ -243,7 +300,10 @@ test("production static build loads without diagnostics or missing assets", asyn
 test("a near-defeated boss resolves through real homing fire to victory and restart", async ({
   page,
 }, info) => {
-  await bootFixture(page, `world.elapsed = 68; enemy({ kind: "boss", hp: 12 });`);
+  await bootFixture(
+    page,
+    `world.elapsed = 250; world.stageIndex = 3; world.clearedStages = 3; enemy({ kind: "boss", hp: 12 });`,
+  );
   await page.clock.runFor(2000);
   await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
   const victory = await snapshot(page);
@@ -365,4 +425,78 @@ test("focused fire interrupts an enraged boss and shows the second phase", async
   await page.screenshot({
     path: join(tmpdir(), `destiny-${info.project.name}-boss-interrupt.png`),
   });
+});
+
+test("synergy previews activate distinct-card tiers and a real explosion chain", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `
+    world.player.cooldown = 100;
+    applyCard("overload", world.player, world.stacks);
+    applyCard("fuse", world.player, world.stacks);
+    const chest = world.chests.acquire();
+    Object.assign(chest, { id: 900000, x: 100, y: 250, hp: 0, maxHp: 36, radius: 26, age: 0, active: false });
+    world.reward = { token: 100, choices: ["bloodpact", "overload", "vitality"], source: "chest" };
+    world.state.transition("RewardSelection");
+    enemy({ x: 100, defenseX: 100, y: 400, speed: 0, hp: 1 });
+    enemy({ x: 240, defenseX: 240, y: 400, speed: 0, hp: 20 });
+    enemy({ x: 380, defenseX: 380, y: 400, speed: 0, hp: 20 });
+    const shot = world.shots.acquire();
+    Object.assign(shot, { x: 100, y: 400, previousX: 100, previousY: 400,
+      vx: 0, vy: 0, damage: 1, lifetime: 1, hitsLeft: 1, targetId: world.enemies.items[0].id });
+  `,
+  );
+  await expect(page.locator('[data-card="bloodpact"]')).toContainText("2 → 3/3 · 流派质变");
+  await expect(page.locator('[data-card="overload"]')).toContainText("升级不重复计数");
+  await page.screenshot({
+    path: join(tmpdir(), `destiny-${info.project.name}-synergy-reward.png`),
+  });
+  await page.locator('[data-card="bloodpact"]').click();
+  await page.clock.runFor(100);
+  const state = await snapshot(page);
+  expect(state.kills).toBe(3);
+  expect(state.metrics.chainKills).toBe(2);
+  expect(state.metrics.explosionCount).toBe(3);
+  await expect(page.locator('[data-synergy="blast"]')).toContainText("3/3 · 质变");
+  await page.locator('[data-synergy="blast"] summary').click();
+  await expect(page.locator('[data-synergy="blast"] .synergy-details')).toBeVisible();
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-synergy-chain.png`) });
+});
+
+test("final victory offers endless continuation with the existing build and fresh stage time", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 3;
+    world.clearedStages = 3;
+    world.elapsed = 250;
+    world.player.hp = 50;
+    world.player.shield = 24;
+    for (const id of ["haste", "multishot", "piercing"]) applyCard(id, world.player, world.stacks);
+    enemy({ kind: "boss", hp: 12 });
+  `,
+  );
+  await page.clock.runFor(1000);
+  await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
+  await page.screenshot({
+    path: join(tmpdir(), `destiny-${info.project.name}-campaign-victory.png`),
+  });
+  const before = await snapshot(page);
+  await page.getByRole("button", { name: "继续无尽 · 保留构筑", exact: true }).click();
+  await page.clock.runFor(100);
+  const after = await snapshot(page);
+  expect(after.phase).toBe("Playing");
+  expect(after.stageIndex).toBe(4);
+  expect(after.endless).toBe(true);
+  expect(after.stacks).toEqual(before.stacks);
+  expect(after.player.hp).toBe(85);
+  expect(after.player.shield).toBe(24);
+  expect(after.score).toBe(before.score);
+  expect(after.elapsed).toBeGreaterThanOrEqual(250);
+  expect(after.stageElapsed).toBeLessThan(0.3);
+  await expect(page.locator("#stage-label")).toContainText("无尽");
 });

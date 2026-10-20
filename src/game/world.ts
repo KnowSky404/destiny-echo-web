@@ -1,14 +1,18 @@
 import { applyCard, drawCards } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
+import { STAGES, stageAt } from "../data/stages";
+import { SYNERGIES } from "../data/synergies";
 import { CONFIG } from "./config";
 import { Pool } from "./pool";
 import { type Random, seededRandom } from "./random";
 import { RunState } from "./state";
+import { synergyProgress, synergyTier } from "./synergies";
 import { damagePlayer } from "./systems/damage";
 import { advanceAttackStage, advanceEnemy } from "./systems/enemy";
 import { clamp, segmentHitsCircle } from "./systems/movement";
 import { chooseTarget, isEnemy, isTargetable, rankedTargets } from "./systems/targeting";
 import type {
+  Blast,
   Chest,
   Enemy,
   EnemyKind,
@@ -27,7 +31,19 @@ export function createPlayer(): Player {
     shield: 0,
     invulnerable: 0,
     cooldown: 0,
-    stats: { damage: 12, interval: 0.34, projectiles: 1, piercing: 0, maxHp: 100, execution: 0 },
+    stats: {
+      damage: 12,
+      interval: 0.34,
+      projectiles: 1,
+      piercing: 0,
+      maxHp: 100,
+      execution: 0,
+      fuse: 0,
+      bloodpact: 0,
+      thorns: 0,
+      focus: 0,
+      harvest: 0,
+    },
   };
 }
 
@@ -98,10 +114,22 @@ export class World {
     maxLife: 0,
     color: 0,
   }));
+  readonly blasts = new Pool<Blast>(CONFIG.limits.blasts, () => ({
+    active: false,
+    x: 0,
+    y: 0,
+    radius: 0,
+    life: 0,
+    maxLife: 0.45,
+    color: 0,
+  }));
   readonly stacks = new Map<string, number>();
   player = createPlayer();
   reward: Reward | null = null;
   elapsed = 0;
+  stageIndex = 0;
+  stageElapsed = 0;
+  clearedStages = 0;
   kills = 0;
   score = 0;
   openedChests = 0;
@@ -119,18 +147,34 @@ export class World {
   bossSpecials = 0;
   bossInterrupts = 0;
   peakEnemies = 0;
+  explosionCount = 0;
+  chainKills = 0;
+  echoVolleys = 0;
+  shieldRestored = 0;
+  executions = 0;
   private random: Random = seededRandom(0);
   private nextId = 1;
   private rewardSerial = 0;
   private accumulator = 0;
   private spawnCooldown = 0.8;
   private nextChestAt: number = CONFIG.chestFirstAt;
+  private bloodCooldown = 5;
+  private shieldCooldown = 3;
+  private supportCooldown = 0;
+  private volleys = 0;
+  private readonly blastQueue: Array<{ x: number; y: number; radius: number; damage: number }> = [];
 
   get phase() {
     return this.state.phase;
   }
   get wave() {
-    return Math.min(5, Math.floor(this.elapsed / 11) + 1);
+    return Math.min(5, Math.floor(this.stageElapsed / 11) + 1);
+  }
+  get stage() {
+    return stageAt(this.stageIndex);
+  }
+  get endless() {
+    return this.stageIndex >= STAGES.length;
   }
   get boss(): Enemy | undefined {
     return this.enemies.items.find((enemy) => enemy.active && enemy.kind === "boss");
@@ -182,7 +226,7 @@ export class World {
   }
 
   start(seed = Date.now()): boolean {
-    if (this.phase === "Playing" || this.phase === "RewardSelection") return false;
+    if (["Playing", "RewardSelection", "StageClear"].includes(this.phase)) return false;
     if (!this.state.transition("Playing")) return false;
     this.reset(seed);
     return true;
@@ -208,6 +252,9 @@ export class World {
     this.stacks.clear();
     this.reward = null;
     this.elapsed = 0;
+    this.stageIndex = 0;
+    this.stageElapsed = 0;
+    this.clearedStages = 0;
     this.kills = 0;
     this.score = 0;
     this.openedChests = 0;
@@ -225,28 +272,83 @@ export class World {
     this.bossSpecials = 0;
     this.bossInterrupts = 0;
     this.peakEnemies = 0;
+    this.explosionCount = 0;
+    this.chainKills = 0;
+    this.echoVolleys = 0;
+    this.shieldRestored = 0;
+    this.executions = 0;
+    this.resetStage();
+  }
+
+  private resetStage(): void {
+    this.stageElapsed = 0;
+    this.bossSpawned = false;
+    this.reward = null;
+    this.targetId = null;
+    this.manualTargetId = null;
+    this.player.cooldown = 0;
+    this.player.invulnerable = 0;
+    this.lastHitAt = -10;
     this.accumulator = 0;
     this.spawnCooldown = 0.8;
     this.nextChestAt = CONFIG.chestFirstAt;
-    for (const pool of [this.enemies, this.shots, this.hostileShots, this.chests, this.particles])
-      pool.clear();
+    this.bloodCooldown = 5;
+    this.shieldCooldown = 3;
+    this.supportCooldown = this.stage.support?.interval ?? 0;
+    this.volleys = 0;
+    this.blastQueue.length = 0;
+    this.clearCombat();
+    this.particles.clear();
+    this.blasts.clear();
+  }
+
+  private clearCombat(): void {
+    for (const pool of [this.enemies, this.shots, this.hostileShots, this.chests]) pool.clear();
+    this.targetId = null;
+    this.manualTargetId = null;
+    this.blastQueue.length = 0;
+  }
+
+  private advanceStage(): void {
+    this.stageIndex++;
+    this.player.hp = Math.min(this.player.stats.maxHp, this.player.hp + 35);
+    this.resetStage();
+    this.notice = `${this.stage.name} · 构筑已保留，恢复 35 生命`;
+    this.noticeUntil = this.elapsed + 3;
+  }
+
+  continueEndless(): boolean {
+    if (this.phase !== "Victory" || this.clearedStages < STAGES.length) return false;
+    this.advanceStage();
+    return this.state.transition("Playing");
   }
 
   chooseCard(id: string, token: number): boolean {
     if (
-      this.phase !== "RewardSelection" ||
+      !["RewardSelection", "StageClear"].includes(this.phase) ||
       !this.reward ||
       this.reward.token !== token ||
-      !this.reward.choices.includes(id)
+      !this.reward.choices.includes(id) ||
+      (this.reward.source === "stage") !== (this.phase === "StageClear")
     )
       return false;
+    const before = synergyProgress(this.stacks);
+    const stageReward = this.reward.source === "stage";
     if (!applyCard(id, this.player, this.stacks)) return false;
     // Remove the capability before resuming: stale clicks cannot claim this reward again.
     this.reward = null;
+    if (stageReward) this.advanceStage();
     this.state.transition("Playing");
     this.accumulator = 0;
-    this.notice = "残响已融合 · 继续改写命运";
-    this.noticeUntil = this.elapsed + 2;
+    const activated = SYNERGIES.find(
+      (synergy, index) => synergyTier(this.stacks, synergy.id) > (before[index]?.tier ?? 0),
+    );
+    this.notice = activated
+      ? `${activated.name} · ${synergyTier(this.stacks, activated.id) === 3 ? "流派质变" : "联动激活"}${stageReward ? " · 下一关已开启" : ""}`
+      : stageReward
+        ? this.notice
+        : "残响已融合 · 继续改写命运";
+    this.noticeUntil = this.elapsed + 3;
     return true;
   }
 
@@ -262,6 +364,7 @@ export class World {
 
   private step(delta: number): void {
     this.elapsed += delta;
+    this.stageElapsed += delta;
     this.player.invulnerable = Math.max(0, this.player.invulnerable - delta);
     // Position is a simulation invariant, independent of all browser input.
     Object.assign(this.player, CONFIG.player);
@@ -281,6 +384,9 @@ export class World {
     this.collisions();
     this.refreshTarget();
     if (this.phase !== "Playing") return;
+    this.buildEffects(delta);
+    this.refreshTarget();
+    if (this.phase !== "Playing") return;
     // Resolve incoming friendly hits before releasing an attack on this step.
     this.enemyAttack(delta);
     for (const particle of this.particles.items) {
@@ -290,7 +396,12 @@ export class World {
       particle.life -= delta;
       if (particle.life <= 0) particle.active = false;
     }
-    if (this.elapsed >= CONFIG.deadline) {
+    for (const blast of this.blasts.items) {
+      if (!blast.active) continue;
+      blast.life -= delta;
+      if (blast.life <= 0) blast.active = false;
+    }
+    if (this.stageElapsed >= this.stage.deadline) {
       this.endingReason = "timeout";
       this.state.transition("GameOver");
     }
@@ -300,7 +411,17 @@ export class World {
     this.player.cooldown = Math.max(0, this.player.cooldown - delta);
     const target = this.target;
     if (this.player.cooldown > 1e-9 || !target) return;
-    this.player.cooldown += this.player.stats.interval;
+    const barrage = synergyTier(this.stacks, "barrage");
+    this.player.cooldown += this.player.stats.interval * (barrage >= 2 ? 0.85 : 1);
+    this.volleys++;
+    this.fireVolley(target, barrage >= 2 ? 1 : CONFIG.friendlyShot.secondaryDamage);
+    if (barrage === 3 && this.volleys % 4 === 0) {
+      this.fireVolley(target, 1);
+      this.echoVolleys++;
+    }
+  }
+
+  private fireVolley(target: Target, secondaryDamage: number): void {
     const count = this.player.stats.projectiles;
     const others = rankedTargets(this.targets).filter((item) => item.id !== target.id);
     for (let index = 0; index < count; index++) {
@@ -315,7 +436,7 @@ export class World {
         y,
         Math.cos(angle) * CONFIG.friendlyShot.speed,
         Math.sin(angle) * CONFIG.friendlyShot.speed,
-        this.player.stats.damage * (index === 0 ? 1 : CONFIG.friendlyShot.secondaryDamage),
+        this.player.stats.damage * (index === 0 ? 1 : secondaryDamage),
         4,
         this.player.stats.piercing + 1,
         aim.id,
@@ -354,40 +475,51 @@ export class World {
   }
 
   private spawn(delta: number): void {
-    if (!this.bossSpawned && this.elapsed >= CONFIG.bossAt) {
+    const stage = this.stage;
+    if (!this.bossSpawned && this.stageElapsed >= stage.bossAt) {
       this.bossSpawned = true;
       this.enemies.clear();
       this.hostileShots.clear();
       this.spawnEnemy("boss", CONFIG.width / 2);
-      this.notice = "圣杯正推进 · 金色蓄力时集中火力可打断";
+      this.supportCooldown = stage.support?.interval ?? 0;
+      this.notice = `${stage.bossName} · 金色蓄力时集中火力可打断`;
       this.noticeUntil = this.elapsed + 3;
     }
     if (!this.bossSpawned) {
       this.spawnCooldown -= delta;
       if (this.spawnCooldown <= 0) {
-        this.spawnCooldown += Math.max(0.85, 1.5 - this.wave * 0.1);
-        this.spawnEnemy(this.random() < 0.65 ? "wisp" : "sentinel", 42 + this.random() * 366);
+        this.spawnCooldown += Math.max(0.55, stage.spawnInterval - this.wave * 0.1);
+        this.spawnEnemy(
+          this.random() < stage.sentinelChance ? "sentinel" : "wisp",
+          42 + this.random() * 366,
+        );
       }
       if (
-        this.elapsed >= this.nextChestAt &&
-        this.nextChestAt <= CONFIG.chestLastAt &&
+        this.stageElapsed >= this.nextChestAt &&
+        this.nextChestAt <= Math.min(CONFIG.chestLastAt, stage.bossAt - 5) &&
         !this.chests.items.some((chest) => chest.active)
       ) {
         const chest = this.chests.acquire();
         if (chest) {
           Object.assign(chest, {
             id: this.nextId++,
-            x: this.openedChests === 0 ? 110 : 70 + this.random() * 310,
+            x: this.nextChestAt === CONFIG.chestFirstAt ? 110 : 70 + this.random() * 310,
             y: 240,
             hp: 36,
             maxHp: 36,
             radius: 26,
             age: 0,
           });
-          this.nextChestAt = this.elapsed + CONFIG.chestInterval;
+          this.nextChestAt = this.stageElapsed + CONFIG.chestInterval;
           this.notice = "宝箱显现 · 点击可优先击破，获取残响";
           this.noticeUntil = this.elapsed + 3;
         }
+      }
+    } else if (stage.support && this.boss) {
+      this.supportCooldown -= delta;
+      if (this.supportCooldown <= 0) {
+        this.supportCooldown += stage.support.interval;
+        this.spawnEnemy(stage.support.kind, 42 + this.random() * 366);
       }
     }
   }
@@ -418,7 +550,10 @@ export class World {
     const enemy = this.enemies.acquire();
     if (!enemy) return;
     const data = ENEMIES[kind];
-    const hp = kind === "boss" ? data.hp : Math.round(data.hp * (1 + (this.wave - 1) * 0.12));
+    const hp =
+      kind === "boss"
+        ? this.stage.bossHp
+        : Math.round(data.hp * this.stage.health * (1 + (this.wave - 1) * 0.12));
     Object.assign(enemy, {
       id: this.nextId++,
       kind,
@@ -427,13 +562,13 @@ export class World {
       hp,
       maxHp: hp,
       radius: data.radius,
-      speed: data.speed,
+      speed: data.speed * (kind === "boss" ? 1 : this.stage.speed),
       age: 0,
       telegraph: 0,
       shotCooldown: 0,
       patternCooldown: 2.8,
       stage: "Approaching",
-      attackPolicy: { ...data.attackPolicy },
+      attackPolicy: { ...(kind === "boss" ? data.attackPolicy : this.stage.attackPolicy) },
       preparation: 0,
       arrived: false,
       slot,
@@ -458,7 +593,7 @@ export class World {
           if (enemy.telegraph <= 1e-9) {
             // Consume the charge even when subtraction leaves a tiny positive residue.
             enemy.telegraph = 0;
-            this.aimedVolley(enemy, 1, enraged ? 30 : 26, 240, 10);
+            this.aimedVolley(enemy, 1, this.stage.specialDamage + (enraged ? 4 : 0), 240, 10);
             this.bossSpecials++;
             enemy.patternCooldown = enraged ? 3.6 : 4.5;
             enemy.shotCooldown = 1.2;
@@ -467,10 +602,10 @@ export class World {
         }
         enemy.patternCooldown -= delta;
         if (enemy.patternCooldown <= 0) {
-          enemy.telegraph = enraged ? 1.7 : 2;
+          enemy.telegraph = this.stage.chargeTime - (enraged ? 0.3 : 0);
           enemy.interruptDamage = 0;
-          enemy.interruptRequired = enraged ? 120 : 90;
-          this.notice = `圣杯蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`;
+          enemy.interruptRequired = Math.round(this.stage.interrupt * (enraged ? 4 / 3 : 1));
+          this.notice = `首领蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`;
           this.noticeUntil = this.elapsed + enemy.telegraph;
           continue;
         }
@@ -478,8 +613,14 @@ export class World {
       enemy.shotCooldown -= delta;
       if (enemy.shotCooldown > 1e-9) continue;
       const data = ENEMIES[enemy.kind];
-      enemy.shotCooldown += data.interval * (enraged ? 0.8 : 1);
-      this.aimedVolley(enemy, data.fan, data.damage, data.shotSpeed);
+      enemy.shotCooldown +=
+        data.interval * (enraged ? 0.8 : 1) * (enemy.kind === "boss" ? this.stage.bossInterval : 1);
+      this.aimedVolley(
+        enemy,
+        enemy.kind === "boss" ? this.stage.bossFan : data.fan,
+        data.damage,
+        data.shotSpeed,
+      );
     }
   }
 
@@ -499,7 +640,7 @@ export class World {
         enemy.y + 12,
         Math.cos(direction) * speed,
         Math.sin(direction) * speed,
-        damage,
+        damage * this.stage.damage,
         radius,
       );
     }
@@ -554,25 +695,151 @@ export class World {
 
   private consume(shot: Projectile, target: Enemy | Chest): void {
     shot.hitIds.add(target.id);
-    const bonus =
-      isEnemy(target) && target.stage === "Attacking" ? this.player.stats.execution * 0.2 : 0;
-    const damage = shot.damage * (1 + bonus);
-    const actualDamage = Math.min(target.hp, damage);
-    target.hp = Math.max(0, target.hp - damage);
-    if (isEnemy(target) && target.kind === "boss" && target.telegraph > 0 && target.hp > 0) {
-      target.interruptDamage += actualDamage;
-      if (target.interruptDamage >= target.interruptRequired) {
-        target.telegraph = 0;
-        target.patternCooldown = target.hp < target.maxHp / 2 ? 3.2 : 4;
-        target.shotCooldown = 1;
-        this.bossInterrupts++;
-        this.notice = "蓄力已打断 · 防线暂时安全";
-        this.noticeUntil = this.elapsed + 1.5;
-        this.burst(target.x, target.y, 0x8cc6f2, 18);
-      }
+    if (isEnemy(target)) {
+      this.damageEnemy(target, shot.damage, "shot");
+      this.resolveBlasts();
+    } else {
+      target.hp = Math.max(0, target.hp - shot.damage);
     }
     shot.hitsLeft--;
     if (shot.hitsLeft <= 0) shot.active = false;
+  }
+
+  private damageEnemy(enemy: Enemy, rawDamage: number, source: "shot" | "blast" | "counter"): void {
+    if (!enemy.active || enemy.hp <= 0 || this.phase !== "Playing") return;
+    const judgment = synergyTier(this.stacks, "judgment");
+    const bonus =
+      (enemy.stage === "Attacking" ? this.player.stats.execution * 0.2 : 0) +
+      (enemy.kind === "boss" ? this.player.stats.focus * 0.2 : 0) +
+      (judgment >= 2 && enemy.stage !== "Approaching" ? 0.35 : 0);
+    const damage =
+      rawDamage *
+      (1 + bonus) *
+      (judgment === 3 && enemy.kind === "boss" && enemy.telegraph > 0 ? 2 : 1);
+    const actualDamage = Math.min(enemy.hp, damage);
+    enemy.hp = Math.max(0, enemy.hp - damage);
+    if (judgment === 3 && enemy.hp > 0 && enemy.hp <= enemy.maxHp * 0.15) {
+      enemy.hp = 0;
+      this.executions++;
+    }
+    if (enemy.hp <= 0) {
+      this.defeatEnemy(enemy, source);
+      return;
+    }
+    if (enemy.kind === "boss" && enemy.telegraph > 0) {
+      enemy.interruptDamage += actualDamage;
+      if (enemy.interruptDamage >= enemy.interruptRequired) {
+        enemy.telegraph = 0;
+        enemy.patternCooldown = enemy.hp < enemy.maxHp / 2 ? 3.2 : 4;
+        enemy.shotCooldown = 1;
+        this.bossInterrupts++;
+        this.notice = "蓄力已打断 · 防线暂时安全";
+        this.noticeUntil = this.elapsed + 1.5;
+        this.burst(enemy.x, enemy.y, 0x8cc6f2, 18);
+      }
+    }
+  }
+
+  private defeatEnemy(enemy: Enemy, source: "shot" | "blast" | "counter"): void {
+    enemy.active = false;
+    this.kills++;
+    this.score += ENEMIES[enemy.kind].score;
+    if (source === "blast") this.chainKills++;
+    this.player.hp = Math.min(
+      this.player.stats.maxHp,
+      this.player.hp + this.player.stats.harvest * 2,
+    );
+    this.burst(
+      enemy.x,
+      enemy.y,
+      enemy.kind === "boss" ? 0xdec28a : 0xa795ed,
+      enemy.kind === "boss" ? 60 : 14,
+    );
+    if (enemy.kind === "boss") {
+      this.clearedStages++;
+      this.score += Math.ceil(this.player.hp) * 10;
+      this.clearCombat();
+      if (this.stageIndex === STAGES.length - 1) {
+        this.state.transition("Victory");
+      } else {
+        this.reward = {
+          token: ++this.rewardSerial,
+          choices: drawCards(this.player, this.stacks, this.random),
+          source: "stage",
+        };
+        this.state.transition("StageClear");
+      }
+      return;
+    }
+    if (
+      this.player.stats.fuse > 0 &&
+      (source !== "blast" || synergyTier(this.stacks, "blast") === 3)
+    ) {
+      this.queueBlast(enemy, this.player.stats.fuse * 16);
+    }
+  }
+
+  private queueBlast(center: Vec2, damage: number): void {
+    const amplified = synergyTier(this.stacks, "blast") >= 2;
+    this.blastQueue.push({
+      x: center.x,
+      y: center.y,
+      damage: damage * (amplified ? 1.8 : 1),
+      radius: amplified ? 175 : 130,
+    });
+  }
+
+  private showBlast(center: Vec2, radius: number, color: number): void {
+    const blast = this.blasts.acquire();
+    if (blast)
+      Object.assign(blast, { x: center.x, y: center.y, radius, color, life: 0.45, maxLife: 0.45 });
+    this.burst(center.x, center.y, color, 12);
+  }
+
+  private resolveBlasts(): void {
+    // Each victim deactivates before it can enqueue another explosion. The queue
+    // therefore drains in at most the enemy-pool size, without recursive calls.
+    while (this.blastQueue.length > 0 && this.phase === "Playing") {
+      const blast = this.blastQueue.shift();
+      if (!blast) break;
+      this.explosionCount++;
+      this.showBlast(blast, blast.radius, 0xf5a17d);
+      for (const enemy of this.enemies.items) {
+        if (
+          enemy.active &&
+          Math.hypot(enemy.x - blast.x, enemy.y - blast.y) <= blast.radius + enemy.radius
+        )
+          this.damageEnemy(enemy, blast.damage, "blast");
+        if (this.phase !== "Playing") break;
+      }
+    }
+    if (this.phase !== "Playing") this.blastQueue.length = 0;
+  }
+
+  private buildEffects(delta: number): void {
+    const stats = this.player.stats;
+    if (stats.bloodpact > 0) {
+      const complete = synergyTier(this.stacks, "blast") === 3;
+      this.bloodCooldown = Math.min(this.bloodCooldown, complete ? 3 : 5);
+      this.bloodCooldown -= delta;
+      const target = this.target;
+      if (this.bloodCooldown <= 1e-9 && target && isEnemy(target)) {
+        this.bloodCooldown = complete ? 3 : 5;
+        this.player.hp -= Math.min(3, Math.max(0, this.player.hp - 1));
+        this.queueBlast(target, stats.bloodpact * 20 + stats.maxHp * (complete ? 0.45 : 0.15));
+        this.resolveBlasts();
+      }
+    }
+    if (this.phase !== "Playing") return;
+    if (synergyTier(this.stacks, "bastion") >= 2) {
+      this.shieldCooldown -= delta;
+      if (this.shieldCooldown <= 1e-9) {
+        this.shieldCooldown = 3;
+        const amount = Math.max(0, Math.min(10, stats.maxHp * 0.6 - this.player.shield));
+        this.player.shield += amount;
+        this.shieldRestored += amount;
+      }
+    }
   }
 
   private collisions(): void {
@@ -588,6 +855,7 @@ export class World {
           this.reward = {
             token: ++this.rewardSerial,
             choices: drawCards(this.player, this.stacks, this.random),
+            source: "chest",
           };
           this.burst(chest.x, chest.y, 0xdec28a, 20);
           this.state.transition("RewardSelection");
@@ -600,22 +868,7 @@ export class World {
         if (!enemy.active || !this.hit(shot, enemy)) continue;
         this.consume(shot, enemy);
         this.burst(shot.x, shot.y, 0xb5a2ee, 2);
-        if (enemy.hp <= 0) {
-          enemy.active = false;
-          this.kills++;
-          this.score += ENEMIES[enemy.kind].score;
-          this.burst(
-            enemy.x,
-            enemy.y,
-            enemy.kind === "boss" ? 0xdec28a : 0xa795ed,
-            enemy.kind === "boss" ? 60 : 14,
-          );
-          if (enemy.kind === "boss") {
-            this.score += Math.ceil(this.player.hp) * 10;
-            this.state.transition("Victory");
-            return;
-          }
-        }
+        if (this.phase !== "Playing") return;
         if (!shot.active) break;
       }
     }
@@ -637,11 +890,27 @@ export class World {
   }
 
   private hurt(damage: number): void {
-    if (this.player.invulnerable > 0) return;
+    if (this.player.invulnerable > 0 || this.player.hp <= 0 || damage <= 0) return;
     damagePlayer(this.player, damage);
     this.lastHitAt = this.elapsed;
     this.burst(this.player.x, this.player.y, 0xe57d98, 12);
-    if (this.player.hp <= 0) this.state.transition("GameOver");
+    if (this.player.hp <= 0) {
+      this.state.transition("GameOver");
+      return;
+    }
+    const complete = synergyTier(this.stacks, "bastion") === 3;
+    const target = this.target;
+    if (target && isEnemy(target) && this.player.stats.thorns > 0) {
+      this.damageEnemy(target, this.player.stats.thorns * 18 * (complete ? 2 : 1), "counter");
+    }
+    if (complete && this.phase === "Playing") {
+      this.showBlast(this.player, 800, 0x95d9be);
+      for (const enemy of this.enemies.items) {
+        this.damageEnemy(enemy, this.player.stats.maxHp * 0.5, "counter");
+        if (this.phase !== "Playing") break;
+      }
+    }
+    this.resolveBlasts();
   }
 
   private burst(x: number, y: number, color: number, count: number): void {
@@ -667,12 +936,18 @@ export class World {
     return {
       phase: this.phase,
       elapsed: this.elapsed,
+      stageIndex: this.stageIndex,
+      stageElapsed: this.stageElapsed,
+      stageName: this.stage.name,
+      clearedStages: this.clearedStages,
+      endless: this.endless,
       seed: this.seed,
       player: structuredClone(this.player),
       kills: this.kills,
       score: this.score,
       openedChests: this.openedChests,
       stacks: Object.fromEntries(this.stacks),
+      synergies: synergyProgress(this.stacks),
       reward: this.reward ? structuredClone(this.reward) : null,
       targetId: this.targetId,
       manualTargetId: this.manualTargetId,
@@ -683,6 +958,11 @@ export class World {
         bossSpecials: this.bossSpecials,
         bossInterrupts: this.bossInterrupts,
         peakEnemies: this.peakEnemies,
+        explosionCount: this.explosionCount,
+        chainKills: this.chainKills,
+        echoVolleys: this.echoVolleys,
+        shieldRestored: this.shieldRestored,
+        executions: this.executions,
       },
       enemies: this.enemies.items
         .filter((item) => item.active)

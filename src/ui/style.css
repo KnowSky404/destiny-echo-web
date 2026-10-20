@@ -364,6 +364,24 @@ kbd {
   aspect-ratio: 9 / 16;
   overflow: hidden;
 }
+.stage-status {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  border-bottom: 1px solid #dec28a30;
+  background: #dec28a07;
+}
+.stage-status strong {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 500;
+}
+.stage-status > span {
+  font-size: 9px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
 #game-canvas {
   width: 100%;
   height: 100%;
@@ -591,6 +609,86 @@ kbd {
   font-size: 10px;
   color: var(--muted);
   line-height: 1.6;
+}
+.card-synergy {
+  font-size: 10px;
+  line-height: 1.5;
+}
+.reward-card.synergy-upgrade {
+  border-color: var(--gold);
+  box-shadow: inset 2px 0 var(--gold);
+}
+.next-stage-rule {
+  padding: 6px 8px;
+  background: #dec28a0b;
+  border-radius: 3px;
+}
+.synergies {
+  margin-top: 18px;
+  display: grid;
+  gap: 6px;
+}
+.synergy-card {
+  border: 1px solid #a795ed30;
+  border-radius: 3px;
+  background: #15162980;
+}
+.synergy-card.active {
+  border-color: var(--synergy-color);
+}
+.synergy-card summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 7px;
+  cursor: pointer;
+  list-style: none;
+}
+.synergy-card summary::-webkit-details-marker {
+  display: none;
+}
+.synergy-card summary::after {
+  content: "+";
+  color: var(--muted);
+}
+.synergy-card[open] summary::after {
+  content: "−";
+}
+.synergy-symbol {
+  display: flex;
+  color: var(--synergy-color);
+}
+.synergy-symbol svg {
+  width: 17px;
+  height: 17px;
+}
+.synergy-card strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.synergy-count {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 9px;
+  color: var(--muted);
+}
+.synergy-card.active .synergy-count,
+.synergy-details .unlocked,
+.synergy-details .owned {
+  color: var(--synergy-color);
+}
+.synergy-details {
+  padding: 0 9px 9px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+}
+.synergy-details p + p {
+  margin-top: 6px;
+}
+.synergy-details b {
+  white-space: nowrap;
+  font-weight: 500;
 }
 .battle-status {
   display: flex;
@@ -941,6 +1039,20 @@ kbd {
   .card-description {
     font-size: 9px;
   }
+  .card-synergy {
+    font-size: 9px;
+  }
+  .synergies {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .synergy-card summary {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .synergy-count {
+    margin-left: 0;
+  }
   .modal > .modal-hint {
     font-size: 9px;
     margin-top: 11px;
@@ -1010,6 +1122,21 @@ kbd {
   }
   .modal {
     padding-inline: 9px;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .modal-emblem {
+    display: none;
+  }
+  .victory-modal .button-primary {
+    font-size: 16px;
+    padding-inline: 10px;
+  }
+  .modal > .next-stage-rule {
+    font-size: 9px;
+    line-height: 1.5;
+    padding: 5px 6px;
   }
   .card-description {
     display: none;
@@ -1027,6 +1154,9 @@ kbd {
   }
   .card-change {
     font-size: 9px;
+  }
+  .card-synergy {
+    font-size: 8px;
   }
   .reward-choices {
     gap: 8px;

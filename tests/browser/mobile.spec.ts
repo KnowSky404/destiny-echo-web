@@ -120,3 +120,85 @@ test("320px touch selects distinct enemies near the defense after scaling", asyn
   }
   await page.screenshot({ path: join(tmpdir(), "destiny-mobile-defense.png") });
 });
+
+test("320px stage supply shows synergy progress and preserves the build on a native tap", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.player.hp = 40;
+    world.player.shield = 24;
+    world.elapsed = 65;
+    world.stageElapsed = 65;
+    applyCard("overload", world.player, world.stacks);
+    applyCard("fuse", world.player, world.stacks);
+    world.clearedStages = 1;
+    world.reward = { token: 100, choices: ["bloodpact", "overload", "vitality"], source: "stage" };
+    world.state.transition("StageClear");
+  `,
+  );
+  await expect(page.getByRole("heading", { name: "第 1 关突破" })).toBeVisible();
+  await expect(page.locator('[data-card="bloodpact"]')).toContainText("流派质变");
+  const frame = await page.locator(".arena-frame").boundingBox();
+  const modal = await page.locator(".reward-modal").boundingBox();
+  if (!frame || !modal) throw new Error("Missing supply bounds");
+  expect(modal.y).toBeGreaterThanOrEqual(frame.y);
+  expect(modal.y + modal.height).toBeLessThanOrEqual(frame.y + frame.height);
+  const frozen = await snapshot(page);
+  await page.clock.runFor(1000);
+  expect(await snapshot(page)).toEqual(frozen);
+  await page.screenshot({ path: join(tmpdir(), "destiny-mobile-stage-supply.png") });
+  await page.locator(".reward-card").last().scrollIntoViewIfNeeded();
+  const lastCard = await page.locator(".reward-card").last().boundingBox();
+  if (!lastCard) throw new Error("Missing last supply card");
+  expect(lastCard.y).toBeGreaterThanOrEqual(modal.y);
+  expect(lastCard.y + lastCard.height).toBeLessThanOrEqual(modal.y + modal.height);
+  await page.locator('[data-card="bloodpact"]').tap();
+  await page.clock.runFor(100);
+  const next = await snapshot(page);
+  expect(next.stageIndex).toBe(1);
+  expect(next.player.hp).toBe(75);
+  expect(next.player.shield).toBe(24);
+  expect(next.stacks).toEqual({ overload: 1, fuse: 1, bloodpact: 1 });
+  expect(next.manualTargetId).toBeNull();
+  await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
+  await page.locator('[data-synergy="blast"] summary').tap();
+  await expect(page.locator('[data-synergy="blast"] .synergy-details')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.screenshot({ path: join(tmpdir(), "destiny-mobile-synergy.png") });
+});
+
+test("320px final victory keeps the endless action visible and accepts a native tap", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 3;
+    world.clearedStages = 3;
+    world.elapsed = 250;
+    for (const id of ["overload", "fuse", "bloodpact"]) applyCard(id, world.player, world.stacks);
+    enemy({ kind: "boss", hp: 1 });
+  `,
+  );
+  await page.clock.runFor(1000);
+  await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
+  const frame = await page.locator(".arena-frame").boundingBox();
+  const modal = await page.locator(".victory-modal").boundingBox();
+  if (!frame || !modal) throw new Error("Missing ending bounds");
+  expect(modal.y).toBeGreaterThanOrEqual(frame.y);
+  expect(modal.y + modal.height).toBeLessThanOrEqual(frame.y + frame.height);
+  await page.screenshot({ path: join(tmpdir(), "destiny-mobile-campaign-victory.png") });
+  await page.getByRole("button", { name: "继续无尽 · 保留构筑", exact: true }).tap();
+  await page.clock.runFor(100);
+  const state = await snapshot(page);
+  expect(state.endless).toBe(true);
+  expect(state.stageIndex).toBe(4);
+  expect(state.stacks).toEqual({ overload: 1, fuse: 1, bloodpact: 1 });
+  expect(state.stageElapsed).toBeLessThan(0.3);
+});

@@ -1,4 +1,12 @@
-export type Phase = "Menu" | "Playing" | "Paused" | "RewardSelection" | "Victory" | "GameOver";
+export type Phase =
+  | "Menu"
+  | "Playing"
+  | "Paused"
+  | "RewardSelection"
+  | "StageClear"
+  | "Victory"
+  | "GameOver";
+export type SynergyId = "blast" | "barrage" | "bastion" | "judgment";
 export type EnemyKind = "wisp" | "sentinel" | "boss";
 export type Rarity = "common" | "rare";
 export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
@@ -19,6 +27,11 @@ export interface Stats {
   piercing: number;
   maxHp: number;
   execution: number;
+  fuse: number;
+  bloodpact: number;
+  thorns: number;
+  focus: number;
+  harvest: number;
 }
 
 export interface Player extends Vec2 {
@@ -90,6 +103,7 @@ export interface Particle extends Vec2 {
 export interface Reward {
   token: number;
   choices: string[];
+  source: "chest" | "stage";
 }
 
 export interface Card {
@@ -98,8 +112,17 @@ export interface Card {
   description: string;
   rarity: Rarity;
   symbol: string;
+  synergy: SynergyId;
   maxStacks: number | null;
   eligible: (player: Player) => boolean;
   apply: (player: Player) => void;
   preview: (player: Player) => string;
+}
+
+export interface Blast extends Vec2 {
+  active: boolean;
+  radius: number;
+  life: number;
+  maxLife: number;
+  color: number;
 }

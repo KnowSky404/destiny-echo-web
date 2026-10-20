@@ -153,10 +153,11 @@ describe("damage and collision", () => {
     expect(target.hp).toBe(88);
   });
 
-  test("defeating a boss through normal shooting produces victory", () => {
+  test("defeating the final boss through normal shooting produces victory", () => {
     const world = new World();
     world.start(1);
     world.bossSpawned = true;
+    world.stageIndex = 3;
     enemy(world, {
       kind: "boss",
       x: 225,
@@ -177,8 +178,8 @@ describe("damage and collision", () => {
 });
 
 describe("cards and one-time rewards", () => {
-  test("all seven cards change actual player data and have full definitions", () => {
-    expect(CARDS.length).toBe(7);
+  test("all twelve cards change actual player data and have full definitions", () => {
+    expect(CARDS.length).toBe(12);
     expect(CARDS.some((card) => card.id === "drift")).toBe(false);
     expect(new Set(CARDS.map((card) => card.id)).size).toBe(CARDS.length);
     for (const card of CARDS) {
@@ -218,8 +219,8 @@ describe("cards and one-time rewards", () => {
     const player = createPlayer();
     const stacks = new Map<string, number>();
     for (let i = 0; i < 20; i++)
-      for (const id of ["haste", "multishot", "piercing", "execution"])
-        applyCard(id, player, stacks);
+      for (const card of CARDS.filter((card) => card.maxStacks !== null))
+        applyCard(card.id, player, stacks);
     const cards = drawCards(player, stacks, seededRandom(8));
     expect(cards.length).toBe(3);
     expect(new Set(cards).size).toBe(3);
@@ -256,7 +257,7 @@ describe("cards and one-time rewards", () => {
     world.update(1 / 120);
     const shots = world.shots.items.filter((shot) => shot.active);
     expect(shots.length).toBe(2);
-    expect(shots.map((shot) => shot.damage)).toEqual([16, 16 * 0.6]);
+    expect(shots.map((shot) => shot.damage)).toEqual([16, 16]);
     expect(shots.every((shot) => shot.hitsLeft === 2)).toBe(true);
     expect(world.player.cooldown).toBeLessThan(0.34);
   });

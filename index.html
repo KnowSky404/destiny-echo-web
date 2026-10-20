@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#080b14" />
-    <meta name="description" content="命运残响：圣杯失控中。固定阵地防守 Roguelike：自动索敌、点选目标、阻止敌人突破防线，构筑卡牌并击败圣杯。" />
+    <meta name="description" content="命运残响：圣杯失控中。固定阵地防守 Roguelike：自动索敌、点选目标、阻止敌人突破防线，集齐流派卡牌，连续突破四关并挑战无尽。" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>命运残响 · Echoes of Destiny</title>
   </head>
@@ -38,7 +38,7 @@
         <ol class="gameplay-steps">
           <li><span>01</span><div><h4>自动攻击</h4><p>智能追踪横向目标，优先处理防线威胁。</p></div></li>
           <li><span>02</span><div><h4>击破宝箱</h4><p>点击金色宝箱优先击破，获取随机残响。</p></div></li>
-          <li><span>03</span><div><h4>构筑命运</h4><p>从三张卡牌中选择强化，迎战圣杯。</p></div></li>
+          <li><span>03</span><div><h4>构筑命运</h4><p>集齐 2 / 3 种同类卡牌，让流派产生质变。</p></div></li>
         </ol>
       </section>
 
@@ -48,6 +48,7 @@
           <output class="timer" id="timer" aria-label="战斗用时">00:00</output>
           <button type="button" class="pause-button" id="pause-button" aria-label="暂停游戏" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></button>
         </div>
+        <div class="stage-status"><strong id="stage-label">第 1 / 4 关 · 圣杯前庭</strong><span id="stage-route">构筑贯穿整局</span></div>
         <div class="arena-frame">
           <div id="game-canvas"></div>
           <div class="boss-health" id="boss-health" hidden><span>失控圣杯 · 空愿之器</span><div><span id="boss-fill"></span></div></div>
@@ -63,6 +64,7 @@
         <h2 id="build-title">本局构筑</h2>
         <div class="ornament" aria-hidden="true">✧</div>
         <dl class="stats" id="stats"></dl>
+        <section class="synergies" id="synergies" aria-label="流派联动进度"></section>
         <div class="collected-cards" id="collected-cards"><div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>击破宝箱，<br />收集你的第一张卡牌。</p></div></div>
       </aside>
     </main>
@@ -70,7 +72,7 @@
     <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
       <h2 id="help-title">在残响中，改写命运。</h2>
       <p>你是最后的共鸣者。固定阵地，提前消灭威胁，击败失控的圣杯。</p>
-      <dl><dt>固定阵地与点选</dt><dd>战机始终居中，WASD、方向键和拖动不会移动。点击敌人或宝箱设为优先目标；点击空白取消。聚焦战场后用 T 切换目标、C 恢复自动，不影响 Tab 焦点。</dd><dt>自动攻击与防线</dt><dd>蓝色友方弹幕会追踪目标。蓝环敌人正在推进，不会攻击；抵达底部金色防线区域后停止，金色环蓄力结束才进入红环攻击阶段。提前击杀可阻止释放，已发射的粉色弹幕仍会造成伤害。护盾优先承伤。</dd><dt>宝箱与构筑</dt><dd>击破金色宝箱后战斗完全冻结，从三张不同强化中选一张。多弹可分配不同目标，穿透可继续追踪其他目标，防线裁决仅对红环攻击阶段敌人增伤。攻速、多弹、穿透和裁决有叠加上限。</dd><dt>终局与打断</dt><dd>第 52 秒圣杯从上方推进，抵达防线后蓄力攻击。金色连线与下方进度条表示特殊攻击：蓄力期间造成 90 伤害可打断，半血后需要 120 伤害。集中火力与输出构筑可以反制，护盾和生命构筑帮助承伤。88 秒前击败它即可胜利，生命耗尽或仪式超时则失败。</dd><dt>暂停</dt><dd>Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
+      <dl><dt>固定阵地与点选</dt><dd>战机始终居中，WASD、方向键和拖动不会移动。点击敌人或宝箱设为优先目标；点击空白取消。聚焦战场后用 T 切换目标、C 恢复自动，不影响 Tab 焦点。</dd><dt>自动攻击与防线</dt><dd>蓝色友方弹幕会追踪目标。蓝环敌人正在推进；通常抵达底部防线后蓄力，熔炉中的敌人会提前在场内准备。金环蓄力结束后进入红环攻击阶段。提前击杀可阻止释放，已发射的粉色弹幕仍会造成伤害。护盾优先承伤。</dd><dt>宝箱与构筑</dt><dd>击破金色宝箱后战斗完全冻结，从三张不同强化中选一张。多弹可分配不同目标，穿透可继续追踪其他目标，防线裁决仅对红环攻击阶段敌人增伤。12 张卡牌分属自爆、弹幕、壁垒和裁决四条流派；集齐 2 种激活联动、3 种产生质变。重复同一张只增加层数。每次选牌会尽量提供一张补全已有流派的卡。</dd><dt>终局与打断</dt><dd>四关依次为圣杯前庭、棱镜回廊、焚星熔炉和终愿核心。每关都有独立首领、期限与敌人配置；金色连线表示可打断的首领蓄力。击败首领后选一张补给卡，保留全部构筑并回复 35 生命，再进入下一关。四关通关后可选择保留构筑继续无尽；生命耗尽或本关超时则失败。</dd><dt>暂停</dt><dd>Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
       <button class="button button-primary" id="close-help" type="button">明白了</button>
     </dialog>
     <script type="module" src="/src/main.ts"></script>
