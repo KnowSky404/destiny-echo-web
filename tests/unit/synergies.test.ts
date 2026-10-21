@@ -379,7 +379,7 @@ describe("AOE, slowing and crowd control", () => {
     },
   );
 
-  test("six-layer control creates bullet time and clears enemy bullets", () => {
+  test("six-layer control creates sanctuary and clears enemy bullets", () => {
     const world = arena();
     grant(world, "dominion", 6);
     stationary(world);
@@ -388,7 +388,7 @@ describe("AOE, slowing and crowd control", () => {
     Object.assign(shot, { x: 10, y: 10, vx: 0, vy: 0, lifetime: 60, damage: 10 });
     tick(world, 6);
     expect(shot.active).toBe(false);
-    expect(world.bulletTimeRemaining).toBeGreaterThan(0.6);
+    expect(world.sanctuaryRemaining).toBeGreaterThan(0.6);
     expect(world.controlProcs).toBeGreaterThan(0);
   });
 

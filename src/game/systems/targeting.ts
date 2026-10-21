@@ -24,8 +24,10 @@ export function rankedTargets(targets: Target[]): Target[] {
     .sort((a, b) => targetPriority(a) - targetPriority(b) || b.y - a.y || a.id - b.id);
 }
 
-export function tauntedTargets(targets: Target[], endless = false): Target[] {
+export function tauntedTargets(targets: Target[], endless = false, sanctuary = false): Target[] {
   const living = targets.filter(isTargetable);
+  // Stopped enemies cannot force a lock; saved manual preferences are usable again.
+  if (sanctuary) return living;
   if (endless) {
     const threats = living.filter((target) => isEnemy(target) && attackPermitted(target));
     if (threats.length > 0) return threats;
@@ -41,8 +43,9 @@ export function chooseTarget(
   manualId: number | null,
   excluded?: ReadonlySet<number>,
   endless = false,
+  sanctuary = false,
 ): Target | undefined {
-  const ranked = rankedTargets(tauntedTargets(targets, endless)).filter(
+  const ranked = rankedTargets(tauntedTargets(targets, endless, sanctuary)).filter(
     (target) => !excluded?.has(target.id),
   );
   const manual = ranked.find((target) => target.id === manualId);

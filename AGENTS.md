@@ -7,6 +7,7 @@
 - Preserve touch controls, safe areas, narrow reward layouts, pause on background, and keyboard access. Keep rendering resolution independent of device DPR.
 - Maintain meaningful Bun tests for changes to combat, cards, rewards, states and restart behavior. Use browser tests for input, rendering and responsive behavior.
 - Keep README claims and validation boundaries aligned with the implementation. Use original or appropriately licensed assets; preserve `LICENSE` and third-party notices.
+- Gameplay/card/enemy changes must update the player guide in the same commit: review the prose in `scripts/game-guide.ts`, run `bun run docs:generate`, and require `bun run docs:check`. Keep README, in-game help and the design specs consistent. When Wiki publication is authorized, run `bun run wiki:publish` after validation; the guide and Wiki share one source. See `docs/wiki-publishing.md`.
 - This is a static frontend. Do not introduce accounts, databases or backend services without a concrete requirement.
 - Keep dev / preview servers on loopback unless a protected access path is explicitly configured. Do not change firewall, DNS or production configuration as part of routine development.
 
