@@ -61,6 +61,9 @@ export interface Stats {
   stun: number;
   control: number;
   controlPulse: number;
+  overheal: number;
+  shieldCapacity: number;
+  shieldLeech: number;
 }
 
 export interface Player extends Vec2 {
@@ -70,6 +73,7 @@ export interface Player extends Vec2 {
   cooldown: number;
   poisonTime: number;
   poisonSlowTime: number;
+  poisonPotency: number;
   stats: Stats;
 }
 
@@ -105,6 +109,14 @@ export interface Enemy extends Vec2 {
   skillsUsed: number;
   lastSkill: BossSkill | null;
   damageReductionTime: number;
+  stars: number;
+  damageScale: number;
+  fusionTime: number;
+  fusionPeers: string;
+  tauntRemaining: number;
+  skillCooldown: number;
+  lastAction: "attack" | "taunt" | "poison" | null;
+  formation: boolean;
 }
 
 export interface Projectile extends Vec2 {
@@ -151,6 +163,7 @@ export interface Reward {
 }
 
 export interface Card {
+  type: "augment";
   id: string;
   name: string;
   description: string;
@@ -162,6 +175,10 @@ export interface Card {
   eligible: (player: Player) => boolean;
   apply: (player: Player) => void;
   preview: (player: Player) => string;
+}
+
+export interface Training extends Omit<Card, "type" | "synergy" | "offense"> {
+  type: "training";
 }
 
 export interface Blast extends Vec2 {

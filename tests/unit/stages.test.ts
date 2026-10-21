@@ -55,7 +55,9 @@ describe("continuous campaign and stage-reward lifetime", () => {
     expect(world.player.hp).toBe(75);
     expect(world.player.shield).toBeGreaterThanOrEqual(17);
     expect(world.stacks.get("overload")).toBeGreaterThanOrEqual(1);
-    expect([...world.stacks.values()].reduce((sum, n) => sum + n, 0)).toBe(2);
+    expect(
+      [...world.stacks.values(), ...world.trainingStacks.values()].reduce((sum, n) => sum + n, 0),
+    ).toBe(2);
     expect(world.score).toBe(frozen.score);
     expect(world.kills).toBe(1);
     expect(world.openedChests).toBe(0);
@@ -80,6 +82,10 @@ describe("continuous campaign and stage-reward lifetime", () => {
     world.player.shield = 40;
     world.player.hp = 50;
     finishBoss(world);
+    expect(world.phase).toBe("StageClear");
+    const finale = world.reward;
+    if (!finale) throw new Error("No finale reward");
+    world.chooseCard(finale.choices[0] ?? "", finale.token);
     expect(world.phase).toBe("Victory");
     expect(world.clearedStages).toBe(4);
     const victory = world.snapshot();
@@ -115,6 +121,9 @@ describe("continuous campaign and stage-reward lifetime", () => {
     world.clearedStages = 3;
     applyCard("bloodpact", world.player, world.stacks);
     finishBoss(world);
+    const finale = world.reward;
+    if (!finale) throw new Error("No finale reward");
+    world.chooseCard(finale.choices[0] ?? "", finale.token);
     world.continueEndless();
     world.pause();
     expect(world.start(5)).toBe(true);

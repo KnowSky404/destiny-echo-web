@@ -16,9 +16,11 @@ export function healPlayer(player: Player, amount: number): number {
 export function cleansePlayer(player: Player): void {
   player.poisonTime = 0;
   player.poisonSlowTime = 0;
+  player.poisonPotency = 1;
 }
 
-export function applyPoison(player: Player): void {
+export function applyPoison(player: Player, potency = 1): void {
+  player.poisonPotency = player.poisonTime > 0 ? Math.max(player.poisonPotency, potency) : potency;
   player.poisonTime = CONFIG.endless.poisonDuration;
 }
 
@@ -30,7 +32,7 @@ export function advancePoison(player: Player, delta: number): number {
   player.poisonTime = Math.max(0, player.poisonTime - delta);
   if (player.poisonTime < 1e-9) player.poisonTime = 0;
   if (duration <= 0 || player.hp <= 0) return 0;
-  const damage = duration * CONFIG.endless.poisonDamagePerSecond;
+  const damage = duration * CONFIG.endless.poisonDamagePerSecond * player.poisonPotency;
   const absorbed = Math.min(player.shield, damage);
   player.shield -= absorbed;
   const loss = Math.min(player.hp, damage - absorbed);

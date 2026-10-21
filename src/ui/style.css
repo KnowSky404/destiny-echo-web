@@ -348,6 +348,7 @@ kbd {
   transition: width 120ms;
 }
 .timer {
+  flex-shrink: 0;
   font-size: 13px;
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
@@ -577,6 +578,15 @@ kbd {
   border-color: #dc9cfa;
   background: linear-gradient(120deg, #30213f, #201c33);
   box-shadow: inset 3px 0 #dc9cfa;
+}
+.reward-card.training {
+  border-color: #8cc6a580;
+  background: #152620;
+}
+.training .card-icon,
+.training .card-topline small,
+.collected-card.training > span {
+  color: #a5d6bd;
 }
 .epic .card-icon,
 .epic .card-topline small,
@@ -990,14 +1000,24 @@ kbd {
     padding-inline: 7px;
   }
   .health-label {
-    gap: 5px;
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    column-gap: 5px;
     font-size: 9px;
   }
   #health-value {
     font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   #shield-value {
+    grid-column: 1 / -1;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 8px;
+  }
+  #shield-value:empty {
+    display: none;
   }
   .timer {
     font-size: 12px;

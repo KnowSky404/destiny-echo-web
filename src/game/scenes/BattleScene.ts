@@ -164,15 +164,36 @@ export class BattleScene extends Phaser.Scene {
         preparing || attacking ? 0.8 : 0.25,
       );
       this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 5);
-      if (enemy.kind === "tank" || enemy.damageReductionTime > 0 || enemy.enhanced) {
-        this.overlay.lineStyle(2, enemy.kind === "tank" ? 0xf1b464 : COLORS.gold, 0.85);
-        this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 11);
+      if (enemy.tauntRemaining > 0 || enemy.damageReductionTime > 0 || enemy.enhanced) {
+        this.overlay.lineStyle(2, enemy.tauntRemaining > 0 ? 0xf1b464 : COLORS.gold, 0.85);
+        this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 10);
+      }
+      if (this.world.endless && enemy.kind !== "boss") {
+        const y = enemy.y - enemy.radius - 9;
+        this.overlay.fillStyle(enemy.stars > 1 ? COLORS.gold : 0x8894b2, 0.95);
+        for (let star = 0; star < enemy.stars; star++) {
+          const x = enemy.x + (star - (enemy.stars - 1) / 2) * 9;
+          this.overlay.fillTriangle(x, y - 4, x - 3, y + 2, x + 3, y + 2);
+          this.overlay.fillTriangle(x, y + 4, x - 3, y - 2, x + 3, y - 2);
+        }
+        if (enemy.fusionTime > 0) {
+          this.overlay.lineStyle(2, 0xc7b7e8, 0.95);
+          this.overlay.beginPath();
+          this.overlay.arc(
+            enemy.x,
+            enemy.y,
+            enemy.radius + 8,
+            -Math.PI / 2,
+            -Math.PI / 2 + (Math.PI * 2 * enemy.fusionTime) / CONFIG.fusion.duration,
+          );
+          this.overlay.strokePath();
+        }
       }
       const width = enemy.kind === "boss" ? 84 : 34;
       const y = enemy.y + enemy.radius + 10;
       this.overlay.fillStyle(0x303044, 1);
       this.overlay.fillRect(enemy.x - width / 2, y, width, 3);
-      this.overlay.fillStyle(color, 1);
+      this.overlay.fillStyle(enemy.stars > 1 ? COLORS.gold : color, 1);
       this.overlay.fillRect(enemy.x - width / 2, y, (width * enemy.hp) / enemy.maxHp, 3);
       if (preparing) {
         this.overlay.lineStyle(3, COLORS.gold, 1);

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../../src/data/enemies";
-import { STAGES, stageAt } from "../../src/data/stages";
+import { stageAt } from "../../src/data/stages";
 import { CONFIG } from "../../src/game/config";
 import { World } from "../../src/game/world";
 import { enemy, hit } from "./helpers";
@@ -69,7 +69,8 @@ describe("ranged enemies and mixed boss encounters", () => {
         true,
       );
       expect(entourage().some((item) => ENEMIES[item.kind].attackStyle === "melee")).toBe(true);
-      expect(entourage()).toHaveLength(
+      expect(entourage().length).toBeGreaterThanOrEqual(3);
+      expect(entourage().length).toBeLessThanOrEqual(
         Math.min(world.stage.supportCount, world.stage.maxEnemies - 1),
       );
       for (const item of entourage()) item.active = false;
@@ -104,25 +105,6 @@ describe("ranged enemies and mixed boss encounters", () => {
     }
   });
 
-  test("oversized endless escort batches fill free slots without overflowing or queuing entities", () => {
-    const world = passive(10000);
-    world.stageElapsed = world.stage.bossAt;
-    advance(world, 0.1);
-    const living = () => world.enemies.items.filter((item) => item.active);
-    expect(world.stage.supportCount).toBeGreaterThan(CONFIG.limits.enemies);
-    expect(living()).toHaveLength(CONFIG.limits.enemies);
-    const admitted = world.rangedSpawns + world.meleeSpawns;
-    advance(world, world.stage.supportInterval * 2);
-    expect(world.rangedSpawns + world.meleeSpawns).toBe(admitted);
-    const casualty = living().find((item) => item.kind !== "boss");
-    if (!casualty) throw new Error("No escort");
-    casualty.active = false;
-    advance(world, world.stage.supportInterval + 0.01);
-    expect(world.rangedSpawns + world.meleeSpawns).toBe(admitted + 1);
-    expect(living()).toHaveLength(CONFIG.limits.enemies);
-    expect(new Set(living().map((item) => item.slot)).size).toBe(CONFIG.limits.enemies);
-  });
-
   test("boss death clears living escorts immediately and stops every combat schedule", () => {
     for (const index of [0, 3, 4]) {
       const world = passive(index);
@@ -134,7 +116,7 @@ describe("ranged enemies and mixed boss encounters", () => {
       if (!boss) throw new Error("No boss");
       hit(world, boss, boss.maxHp + 1);
       advance(world, 0.1);
-      expect(world.phase).toBe(index === STAGES.length - 1 ? "Victory" : "StageClear");
+      expect(world.phase).toBe("StageClear");
       expect(world.snapshot().enemies).toEqual([]);
       expect(world.snapshot().hostileShots).toEqual([]);
       expect(world.snapshot().shots).toEqual([]);
@@ -161,30 +143,32 @@ describe("ranged enemies and mixed boss encounters", () => {
   test("endless successful admissions balance wisp, tank and wizard equally", () => {
     const world = passive(4);
     advance(world, 23);
-    expect(world.stageSpawned).toBe(CONFIG.limits.enemies);
+    expect(world.stageSpawned).toBeGreaterThanOrEqual(24);
+    expect(world.enemies.items.filter((item) => item.active).length).toBeLessThanOrEqual(24);
     expectBalanced(world);
     expect(world.stageKindSpawns.tank).toBeGreaterThan(0);
     expect(world.stageKindSpawns.wizard).toBeGreaterThan(0);
     expect(
       new Set(world.enemies.items.filter((item) => item.active).map((item) => item.slot)).size,
-    ).toBe(CONFIG.limits.enemies);
+    ).toBe(world.enemies.items.filter((item) => item.active).length);
   });
 });
 
-describe("compounding endless population and health", () => {
-  test("every endless stage doubles population, escort packs and health without theme resets", () => {
+describe("bounded endless population and growing attributes", () => {
+  test("endless health grows while population and escorts plateau without theme resets", () => {
     const finale = stageAt(3);
     let previous = finale;
     for (let depth = 1; depth <= 40; depth++) {
       const stage = stageAt(3 + depth);
       expect(stage.health / previous.health).toBeCloseTo(2, 9);
       expect(stage.bossHp / previous.bossHp).toBeCloseTo(2, 3);
-      expect(stage.enemyCount).toBeGreaterThan(previous.enemyCount);
-      expect(stage.enemyCount).toBe(Math.ceil(finale.enemyCount * stage.growth));
-      expect(stage.supportCount).toBe(Math.ceil(finale.supportCount * stage.growth));
-      expect(stage.supportCount).toBeGreaterThan(previous.supportCount);
+      expect(stage.enemyCount).toBeGreaterThanOrEqual(previous.enemyCount);
+      expect(stage.enemyCount).toBe(Math.min(360, Math.ceil(finale.enemyCount * stage.growth)));
+      expect(stage.supportCount).toBe(12);
+      expect(stage.populationScale).toBeGreaterThan(previous.populationScale);
+      expect(stage.supportCount).toBeLessThanOrEqual(CONFIG.endless.escortCap);
       expect(stage.supportInterval).toBe(2);
-      expect(stage.spawnInterval).toBeLessThan(previous.spawnInterval);
+      expect(stage.spawnInterval).toBeLessThanOrEqual(previous.spawnInterval);
       expect(stage.spawnInterval).toBeGreaterThan(0);
       expect(stage.damage).toBeLessThanOrEqual(4);
       expect(stage.attackPolicy).toEqual(finale.attackPolicy);
@@ -207,7 +191,7 @@ describe("compounding endless population and health", () => {
         advance(world, CONFIG.fixedStep);
       }
       expect(world.stageSpawned).toBe(world.stage.enemyCount);
-      expect(world.stageSpawned).toBeGreaterThan(previous);
+      expect(world.stageSpawned).toBeGreaterThanOrEqual(previous);
       if (world.endless) expectBalanced(world);
       previous = world.stageSpawned;
     }

@@ -73,6 +73,14 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       skillsUsed: 0,
       lastSkill: null,
       damageReductionTime: 0,
+      stars: 1,
+      damageScale: 1,
+      fusionTime: 0,
+      fusionPeers: "",
+      tauntRemaining: 0,
+      skillCooldown: 1000,
+      lastAction: null,
+      formation: false,
     },
     overrides,
   );
@@ -89,6 +97,7 @@ export function naturalRun(seed: number, policy: RunPolicy = "active", endless =
       if (!choice || !world.chooseCard(choice, world.reward.token))
         throw new Error("No eligible reward");
     }
+    if (endless && world.phase === "Victory") world.continueEndless();
     if (world.clearedStages >= (endless ? 6 : 4) || world.phase !== "Playing") break;
     if (policy !== "auto" && frame % 60 === 0) {
       const chest = world.chests.items.find((item) => item.active);

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { applyCard, CARD_BY_ID, drawCards, isControlCard } from "../../src/data/cards";
 import { STAGES } from "../../src/data/stages";
+import { TRAINING_BY_ID } from "../../src/data/training";
 import { CONFIG } from "../../src/game/config";
 import { seededRandom } from "../../src/game/random";
 import { applyPoison, cleansePlayer, healingMultiplier } from "../../src/game/systems/damage";
@@ -22,7 +23,7 @@ describe("sanctuary releases taunts for the entire stopped interval", () => {
     const world = arena();
     world.player.stats.projectiles = 3;
     const preferred = enemy(world, { x: 390, y: 100, speed: 0, hp: 10000 });
-    const tank = enemy(world, { kind: "tank", x: 80, y: 250, speed: 0 });
+    const tank = enemy(world, { kind: "tank", x: 80, y: 250, speed: 0, tauntRemaining: 10 });
     world.selectTargetAt(preferred);
     expect(world.targetId).toBe(tank.id);
     world.sanctuaryRemaining = 0.5;
@@ -210,7 +211,7 @@ describe("first-stage reward pool", () => {
     expect(
       reward.choices.every((id) => {
         const card = CARD_BY_ID.get(id);
-        return card !== undefined && !isControlCard(card);
+        return TRAINING_BY_ID.has(id) || (card !== undefined && !isControlCard(card));
       }),
     ).toBe(true);
     world.chooseCard(reward.choices[0] ?? "", reward.token);
@@ -220,7 +221,7 @@ describe("first-stage reward pool", () => {
     expect(
       world.reward?.choices.every((id) => {
         const card = CARD_BY_ID.get(id);
-        return card !== undefined && !isControlCard(card);
+        return TRAINING_BY_ID.has(id) || (card !== undefined && !isControlCard(card));
       }),
     ).toBe(true);
   });

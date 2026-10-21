@@ -72,7 +72,8 @@ describe("balanced species and upper-half spawning", () => {
     world.bossSpawned = false;
     tick(world, 6);
     const minions = world.enemies.items.filter((item) => item.active);
-    expect(minions).toHaveLength(CONFIG.limits.enemies);
+    expect(minions.length).toBeGreaterThan(4);
+    expect(minions.length).toBeLessThanOrEqual(24);
     for (const item of minions) {
       expect(item.spawnY).toBeGreaterThanOrEqual(0);
       expect(item.spawnY).toBeLessThanOrEqual(400);
@@ -81,8 +82,8 @@ describe("balanced species and upper-half spawning", () => {
       expect(item.y).toBeGreaterThanOrEqual(item.spawnY);
     }
     expect(minions.some((item) => item.spawnY < 100)).toBe(true);
-    expect(minions.some((item) => item.spawnY > 300)).toBe(true);
-    expect(new Set(minions.map((item) => item.spawnX)).size).toBe(minions.length);
+    expect(new Set(minions.map((item) => item.spawnY)).size).toBeGreaterThan(1);
+    expect(new Set(minions.map((item) => item.spawnX)).size).toBe(4);
     world.stageElapsed = world.stage.bossAt;
     tick(world, 0.1);
     expect(world.boss?.spawnY).toBe(-55);
@@ -110,7 +111,7 @@ describe("tank taunts actual fire", () => {
     const oldShot = world.shots.items.find((shot) => shot.active);
     if (!oldShot) throw new Error("No homing projectile");
     for (const item of world.enemies.items) if (item !== target) item.active = false;
-    const tank = enemy(world, { kind: "tank", x: 57, y: 300, speed: 0 });
+    const tank = enemy(world, { kind: "tank", x: 57, y: 300, speed: 0, tauntRemaining: 10 });
     world.player.stats.projectiles = 3;
     world.player.cooldown = 0;
     world.update(CONFIG.fixedStep);
@@ -129,7 +130,7 @@ describe("tank taunts actual fire", () => {
   test("off-screen, dead and recycled tanks cannot leave a stale taunt", () => {
     const world = arena();
     const target = enemy(world, { y: 300 });
-    const tank = enemy(world, { kind: "tank", y: -100 });
+    const tank = enemy(world, { kind: "tank", y: -100, tauntRemaining: 10 });
     expect(chooseTarget(world.targets, null, target.id)?.id).toBe(target.id);
     tank.y = 200;
     expect(chooseTarget(world.targets, null, target.id)?.id).toBe(tank.id);
@@ -144,7 +145,7 @@ describe("tank taunts actual fire", () => {
   test("attack-area taunt preempts tanks for manual locks, secondary shots and flying projectiles, then hands back", () => {
     const world = arena();
     const preferred = enemy(world, { x: 390, y: 200, speed: 0 });
-    const tank = enemy(world, { kind: "tank", x: 57, y: 250, speed: 0 });
+    const tank = enemy(world, { kind: "tank", x: 57, y: 250, speed: 0, tauntRemaining: 10 });
     world.selectTargetAt(preferred);
     world.player.cooldown = 0;
     world.player.stats.projectiles = 3;
@@ -171,7 +172,7 @@ describe("tank taunts actual fire", () => {
 
   test("ranged entry boundaries and boss anywhere permission grant priority only in endless", () => {
     const world = arena();
-    const tank = enemy(world, { kind: "tank", y: 250 });
+    const tank = enemy(world, { kind: "tank", y: 250, tauntRemaining: 10 });
     const wizard = enemy(world, { kind: "wizard", y: 119, arrived: false, speed: 0 });
     expect(chooseTarget(world.targets, null, tank.id, undefined, true)?.id).toBe(tank.id);
     wizard.y = 120;
@@ -193,20 +194,16 @@ describe("tank taunts actual fire", () => {
 });
 
 describe("single poison effect and conditional attack slow", () => {
-  test("wizard attack applies poison at release; wizard death applies it independently", () => {
+  test("a normal wizard shot and wizard death do not apply the poison skill", () => {
     const world = arena();
     const wizard = enemy(world, { kind: "wizard", y: 200, stage: "Attacking", speed: 0 });
     world.update(CONFIG.fixedStep);
+    expect(wizard.lastAction).toBe("attack");
     expect(world.regularAttacks).toBe(1);
-    expect(world.player.poisonTime).toBe(3);
-    expect(world.player.hp).toBe(1000);
-    wizard.active = false;
-    tick(world, 0.5);
-    expect(world.player.poisonTime).toBeCloseTo(2.5, 6);
-    const doomed = enemy(world, { kind: "wizard", y: 300, hp: 1, speed: 0 });
-    hit(world, doomed, 1);
-    expect(doomed.active).toBe(false);
-    expect(world.player.poisonTime).toBe(3);
+    expect(world.player.poisonTime).toBe(0);
+    hit(world, wizard, 10000);
+    expect(wizard.active).toBe(false);
+    expect(world.player.poisonTime).toBe(0);
   });
 
   test("poison drains shields first and only HP damage adds a three-second 30% attack slow", () => {
@@ -239,6 +236,8 @@ describe("single poison effect and conditional attack slow", () => {
     world.update(CONFIG.fixedStep);
     first.active = false;
     second.active = false;
+    applyPoison(world.player);
+    applyPoison(world.player);
     const before = world.player.shield;
     tick(world, 1);
     expect(before - world.player.shield).toBeCloseTo(6, 5);
@@ -312,9 +311,11 @@ describe("endless boss health thresholds and independent skills", () => {
     const world = arena();
     world.bossSpawned = false;
     world.stageElapsed = world.stage.bossAt;
-    tick(world, 3);
+    tick(world, 0.1);
     const target = world.boss;
     if (!target) throw new Error("Missing boss");
+    for (const item of world.enemies.items) if (item !== target) item.active = false;
+    tick(world, 2.9);
     expect(target.attackPolicy).toEqual({ type: "anywhere" });
     expect(target.arrived).toBe(false);
     expect(target.stage).toBe("Attacking");
@@ -388,45 +389,6 @@ describe("endless boss health thresholds and independent skills", () => {
     expect(before - target.hp).toBeCloseTo(100, 6);
   });
 
-  test("summon replaces a saturated escort pool with many enhanced balanced random troops", () => {
-    const world = arena(4); // Summon is drawn at each threshold.
-    world.bossSpawned = false;
-    world.stageElapsed = world.stage.bossAt;
-    tick(world, 0.1);
-    const target = world.boss;
-    if (!target) throw new Error("Missing boss");
-    expect(world.enemies.items.filter((item) => item.active)).toHaveLength(28);
-    const ids = new Set(
-      world.enemies.items.filter((item) => item.active && item !== target).map((item) => item.id),
-    );
-    hit(world, target, target.maxHp * 0.3);
-    expect(target.lastSkill).toBe("summon");
-    const escorts = world.enemies.items.filter((item) => item.active && item !== target);
-    expect(escorts).toHaveLength(27);
-    expect(escorts.every((item) => item.enhanced && !ids.has(item.id))).toBe(true);
-    for (const kind of ENDLESS_KINDS)
-      expect(escorts.filter((item) => item.kind === kind)).toHaveLength(9);
-    for (const escort of escorts) {
-      expect(escort.maxHp).toBe(
-        Math.round(ENEMIES[escort.kind].hp * world.stage.health * 1.48 * 1.5),
-      );
-      expect(escort.spawnY).toBeGreaterThanOrEqual(0);
-      expect(escort.spawnY).toBeLessThanOrEqual(400);
-    }
-    const melee = escorts.find((item) => item.kind === "wisp");
-    if (!melee) throw new Error("Missing summoned melee");
-    for (const item of world.enemies.items) if (item !== melee) item.active = false;
-    Object.assign(melee, { y: 620, arrived: true, stage: "Attacking", shotCooldown: 0 });
-    world.player.shield = 100;
-    world.player.invulnerable = 0;
-    world.update(CONFIG.fixedStep);
-    expect(100 - world.player.shield).toBeCloseTo(
-      ENEMIES.wisp.damage * world.stage.damage * 1.5,
-      6,
-    );
-    expect(world.enemies.items.length).toBeLessThanOrEqual(CONFIG.limits.enemies);
-  });
-
   test("slam removes exactly 100 HP through shields and invulnerability and can be lethal", () => {
     const world = arena(11);
     const target = boss(world);
@@ -444,7 +406,7 @@ describe("endless boss health thresholds and independent skills", () => {
   });
 });
 
-describe("three random supplies plus one boss card", () => {
+describe("three random supplies plus one mixed boss reward", () => {
   test("different seeds have different schedules, fixed three awards, and frozen one-use choices", () => {
     const schedules: number[][] = [];
     for (const seed of [4, 5]) {
@@ -479,7 +441,9 @@ describe("three random supplies plus one boss card", () => {
       expect(world.reward?.source).toBe("stage");
       claim(world);
       expect(world.stageIndex).toBe(5);
-      expect([...world.stacks.values()].reduce((a, b) => a + b, 0)).toBe(4);
+      expect(
+        [...world.stacks.values(), ...world.trainingStacks.values()].reduce((a, b) => a + b, 0),
+      ).toBe(4);
       expect(world.stageSupplies).toBe(0);
       expect(world.player.poisonTime + world.player.poisonSlowTime).toBe(0);
     }
@@ -490,7 +454,10 @@ describe("three random supplies plus one boss card", () => {
     const world = arena();
     world.stageSupplies = 0;
     for (const stage of [4, 5]) {
-      const countBefore = [...world.stacks.values()].reduce((a, b) => a + b, 0);
+      const countBefore = [...world.stacks.values(), ...world.trainingStacks.values()].reduce(
+        (a, b) => a + b,
+        0,
+      );
       const target = boss(world);
       hit(world, target, 1001);
       for (let supply = 1; supply <= 3; supply++) {
@@ -506,7 +473,9 @@ describe("three random supplies plus one boss card", () => {
       expect(world.reward?.source).toBe("stage");
       claim(world);
       expect(world.stageIndex).toBe(stage + 1);
-      expect([...world.stacks.values()].reduce((a, b) => a + b, 0)).toBe(countBefore + 4);
+      expect(
+        [...world.stacks.values(), ...world.trainingStacks.values()].reduce((a, b) => a + b, 0),
+      ).toBe(countBefore + 4);
       expect(world.enemies.items.every((item) => !item.active)).toBe(true);
     }
   });

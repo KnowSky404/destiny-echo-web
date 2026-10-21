@@ -1,3 +1,5 @@
+import { CONFIG } from "../game/config";
+import { ENCOUNTER_CAPACITY } from "../game/systems/crowd";
 import type { AttackPolicy } from "../game/types";
 
 export interface Stage {
@@ -11,6 +13,7 @@ export interface Stage {
   enemyCount: number;
   maxEnemies: number;
   growth: number;
+  populationScale: number;
   attackPolicy: AttackPolicy;
   bossAt: number;
   deadline: number;
@@ -27,7 +30,13 @@ export interface Stage {
 
 type CampaignEncounter = Omit<
   Stage,
-  "health" | "enemyCount" | "growth" | "spawnInterval" | "supportInterval" | "supportCount"
+  | "health"
+  | "enemyCount"
+  | "growth"
+  | "populationScale"
+  | "spawnInterval"
+  | "supportInterval"
+  | "supportCount"
 >;
 
 function campaignStage(index: number, encounter: CampaignEncounter): Stage {
@@ -38,6 +47,7 @@ function campaignStage(index: number, encounter: CampaignEncounter): Stage {
     health: growth,
     enemyCount,
     growth,
+    populationScale: 1,
     spawnInterval: (encounter.bossAt - 0.8) / enemyCount,
     supportInterval: 2,
     supportCount: Math.ceil(4 * growth),
@@ -119,8 +129,7 @@ export const STAGES: readonly Stage[] = [
   }),
 ];
 
-// Count is a per-stage spawn budget, separate from the bounded simultaneous pool.
-// Every endless stage doubles population, escort packs and health.
+// Population and packs plateau; excess budget strengthens minions, never the boss.
 export function stageAt(index: number): Stage {
   if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
   const authored = STAGES[index];
@@ -130,13 +139,17 @@ export function stageAt(index: number): Stage {
   if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
   // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
-  const growth = Math.min(2 ** depth, Math.exp(500));
-  const enemyCount = Math.ceil(finale.enemyCount * growth);
+  const growth = Math.min(2 ** depth, Math.exp(200));
+  const plannedCount = Math.ceil(finale.enemyCount * growth);
+  const enemyCount = Math.min(plannedCount, CONFIG.endless.populationCap);
+  const plannedSupport = Math.ceil(finale.supportCount * growth);
+  const supportCount = Math.min(plannedSupport, CONFIG.endless.escortCap);
+  const populationScale = 1 + (plannedCount / enemyCount - 1) + (plannedSupport / supportCount - 1);
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
     subtitle:
-      "怪物数量与生命逐关翻倍；小怪、嘲讽坦克、腐毒巫师各占 1/3。每关随机发放 3 张卡，击败首领再选 1 张。",
+      "最多 24 只小怪与 1 个首领；超额数量转为小怪属性。同类同星三合一，升星回满血。每关 3 次补给，首领奖励为两项锻体与一张残响三选一。",
     attackPolicy: { ...finale.attackPolicy },
     bossFan: finale.bossFan,
     bossInterval: finale.bossInterval,
@@ -144,8 +157,9 @@ export function stageAt(index: number): Stage {
     chargeTime: finale.chargeTime,
     health: finale.health * growth,
     growth,
+    populationScale,
     enemyCount,
-    maxEnemies: finale.maxEnemies,
+    maxEnemies: ENCOUNTER_CAPACITY,
     damage: Math.min(4, finale.damage * 1.04 ** Math.min(depth, 100)),
     speed: finale.speed,
     spawnInterval: (finale.bossAt - 0.8) / enemyCount,
@@ -154,6 +168,6 @@ export function stageAt(index: number): Stage {
     deadline: finale.deadline,
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
     supportInterval: finale.supportInterval,
-    supportCount: Math.ceil(finale.supportCount * growth),
+    supportCount,
   };
 }

@@ -1,6 +1,7 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
+import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
 import { boot, bootFixture, clickTarget, firstReward, snapshot, start } from "./helpers";
 import {
   attackAreaFlow,
@@ -217,6 +218,9 @@ test("320px final victory keeps the endless action visible and accepts a native 
   `,
   );
   await page.clock.runFor(1000);
+  await expect(page.locator(".reward-card.training")).toHaveCount(2);
+  await page.locator(".reward-card.training").first().tap();
+  await page.clock.runFor(100);
   await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
   const frame = await page.locator(".arena-frame").boundingBox();
   const modal = await page.locator(".victory-modal").boundingBox();
@@ -289,12 +293,17 @@ test("320px endless random supplies fit and grant three cards followed by the bo
     await page.clock.runFor(100);
   }
   await expect(page.getByRole("heading", { name: "第 5 关突破" })).toBeVisible();
-  await expect(page.locator(".reward-modal")).toContainText("首领额外奖励");
+  await expect(page.locator(".reward-modal")).toContainText("两项锻体与一张残响三选一");
   await page.locator(".reward-card").first().tap();
   await page.clock.runFor(100);
   const next = await snapshot(page);
   expect(next.stageIndex).toBe(5);
-  expect(Object.values(next.stacks).reduce((a, b) => a + b, 0)).toBe(4);
+  expect(
+    [...Object.values(next.stacks), ...Object.values(next.trainingStacks)].reduce(
+      (a, b) => a + b,
+      0,
+    ),
+  ).toBe(4);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
@@ -325,9 +334,19 @@ test("320px poison and taunt labels remain readable and override native touch pr
   expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("wizard");
   await expect(page.locator("#status-effects")).toContainText("中毒");
   await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
-  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  await expect(page.locator("#target-label")).toContainText("攻击区优先");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
   await page.screenshot({ path: join(tmpdir(), "destiny-mobile-endless-status.png") });
+});
+
+test("mixed boss training reward settles before victory and survives endless", async ({
+  page,
+}, info) => {
+  await trainingRewardFlow(page, info.project.name, true);
+});
+
+test("full endless formation shows capacity and fusion star upgrades", async ({ page }, info) => {
+  await crowdFusionFlow(page, info.project.name, true);
 });

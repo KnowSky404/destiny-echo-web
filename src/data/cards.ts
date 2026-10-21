@@ -25,6 +25,7 @@ function statCard(definition: StatCard): Card {
       : `${Number(value.toFixed(2))}${definition.unit === "seconds" ? "s" : definition.unit === "multiplier" ? "×" : ""}`;
   return {
     ...definition,
+    type: "augment",
     rarity: definition.field === "chain" || definition.field === "controlPulse" ? "rare" : "common",
     eligible: () => true,
     apply: (player) => {
@@ -255,7 +256,7 @@ const EXTRA_CARDS: readonly Card[] = [
     id: "edict",
     name: "静默王权",
     description:
-      "每 8 秒展开遗世庇护，净化中毒、重伤与攻速降低。首层时停 0.75 秒，敌方嘲讽与巫师死亡施毒失效，玩家继续攻击。",
+      "每 8 秒展开遗世庇护，净化中毒、重伤与攻速降低。首层时停 0.75 秒，敌方嘲讽失效，融合与技能计时冻结，玩家继续攻击。",
     synergy: "dominion",
     symbol: "control",
     field: "controlPulse",
@@ -275,6 +276,7 @@ function epicCard(
 ): Card {
   return {
     ...definition,
+    type: "augment",
     rarity: "epic",
     maxStacks: 1,
     eligible: () => true,
@@ -397,6 +399,7 @@ export const EPIC_CARDS: readonly Card[] = [
 
 export const CARDS: readonly Card[] = [
   {
+    type: "augment",
     id: "overload",
     offense: true,
     synergy: "blast",
@@ -412,6 +415,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `伤害 ${player.stats.damage} → ${player.stats.damage + 4}`,
   },
   {
+    type: "augment",
     id: "haste",
     offense: true,
     synergy: "barrage",
@@ -428,6 +432,7 @@ export const CARDS: readonly Card[] = [
       `间隔 ${player.stats.interval.toFixed(2)}s → ${Math.max(0.13, player.stats.interval * 0.88).toFixed(2)}s`,
   },
   {
+    type: "augment",
     id: "multishot",
     offense: true,
     synergy: "barrage",
@@ -444,6 +449,7 @@ export const CARDS: readonly Card[] = [
       `弹幕 ${player.stats.projectiles} → ${Math.min(6, player.stats.projectiles + 1)} 枚`,
   },
   {
+    type: "augment",
     id: "piercing",
     offense: true,
     synergy: "barrage",
@@ -459,6 +465,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `额外穿透 ${player.stats.piercing} → ${player.stats.piercing + 1} 个`,
   },
   {
+    type: "augment",
     id: "vitality",
     offense: false,
     synergy: "bastion",
@@ -475,6 +482,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 30`,
   },
   {
+    type: "augment",
     id: "execution",
     offense: true,
     synergy: "judgment",
@@ -491,6 +499,7 @@ export const CARDS: readonly Card[] = [
       `攻击阶段增伤 ${player.stats.execution * 20}% → ${(player.stats.execution + 1) * 20}%`,
   },
   {
+    type: "augment",
     id: "ward",
     offense: false,
     synergy: "bastion",
@@ -506,6 +515,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `护盾 ${Math.ceil(player.shield)} → ${Math.ceil(player.shield + 24)}`,
   },
   {
+    type: "augment",
     id: "fuse",
     offense: true,
     synergy: "blast",
@@ -521,6 +531,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `击杀爆炸 ${player.stats.fuse * 16} → ${(player.stats.fuse + 1) * 16}`,
   },
   {
+    type: "augment",
     id: "bloodpact",
     offense: true,
     synergy: "blast",
@@ -537,6 +548,7 @@ export const CARDS: readonly Card[] = [
       `献祭基础伤害 ${player.stats.bloodpact * 20} → ${(player.stats.bloodpact + 1) * 20} · 生命加成`,
   },
   {
+    type: "augment",
     id: "thorns",
     offense: false,
     synergy: "bastion",
@@ -552,6 +564,7 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `受击反击 ${player.stats.thorns * 18} → ${(player.stats.thorns + 1) * 18}`,
   },
   {
+    type: "augment",
     id: "focus",
     offense: true,
     synergy: "judgment",
@@ -568,6 +581,7 @@ export const CARDS: readonly Card[] = [
       `首领增伤 +${player.stats.focus * 20}% → +${(player.stats.focus + 1) * 20}%`,
   },
   {
+    type: "augment",
     id: "harvest",
     offense: false,
     synergy: "judgment",
@@ -583,6 +597,50 @@ export const CARDS: readonly Card[] = [
     preview: (player) => `击杀回复 ${player.stats.harvest * 2} → ${(player.stats.harvest + 1) * 2}`,
   },
   ...EXTRA_CARDS,
+  statCard({
+    id: "overflow",
+    name: "余血屏障",
+    description:
+      "战斗中过量治疗的 10% 转为护盾，基础储量上限为最大生命的 20%；可与吸血、回复联动。",
+    synergy: "blood",
+    symbol: "ward",
+    field: "overheal",
+    amount: 0.1,
+    label: "过量转盾",
+    unit: "percent",
+    maxStacks: 3,
+    offense: false,
+  }),
+  {
+    type: "augment",
+    id: "reservoir",
+    name: "血铸容器",
+    description: "过量治疗转盾 +5 个百分点，储量上限 +10% 最大生命；可单独启动转盾。",
+    synergy: "bastion",
+    rarity: "rare",
+    symbol: "ward",
+    maxStacks: 3,
+    offense: false,
+    eligible: () => true,
+    apply: (player) => {
+      player.stats.overheal += 0.05;
+      player.stats.shieldCapacity += 0.1;
+    },
+    preview: () => "过量转盾 +5% · 转盾储量上限 +10% 最大生命",
+  },
+  statCard({
+    id: "shield-leech",
+    name: "赤盾汲取",
+    description: "持有护盾时普攻吸血 +2 个百分点；护盾耗尽后失效，与过量治疗转盾联动。",
+    synergy: "blood",
+    symbol: "bloodpact",
+    field: "shieldLeech",
+    amount: 0.02,
+    label: "有盾额外吸血",
+    unit: "percent",
+    maxStacks: 3,
+    offense: false,
+  }),
   ...EPIC_CARDS,
 ];
 
