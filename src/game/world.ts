@@ -8,7 +8,14 @@ import { type Random, seededRandom } from "./random";
 import { RunState } from "./state";
 import { combatStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
-import { advancePoison, applyPoison, cleansePlayer, damagePlayer } from "./systems/damage";
+import {
+  advancePoison,
+  applyPoison,
+  cleansePlayer,
+  damagePlayer,
+  healingMultiplier,
+  healPlayer,
+} from "./systems/damage";
 import { advanceAttackStage, advanceEnemy } from "./systems/enemy";
 import { clamp, segmentHitsCircle } from "./systems/movement";
 import {
@@ -171,7 +178,7 @@ export class World {
   elapsed = 0;
   stageIndex = 0;
   stageElapsed = 0;
-  bulletTimeRemaining = 0;
+  sanctuaryRemaining = 0;
   clearedStages = 0;
   kills = 0;
   score = 0;
@@ -245,6 +252,12 @@ export class World {
   get endless() {
     return this.stageIndex >= STAGES.length;
   }
+  get bossSlamDamage() {
+    return (
+      CONFIG.endless.slamDamage +
+      Math.max(0, this.stageIndex - STAGES.length) * CONFIG.endless.slamDamagePerStage
+    );
+  }
   get boss(): Enemy | undefined {
     return this.enemies.items.find((enemy) => enemy.active && enemy.kind === "boss");
   }
@@ -276,7 +289,9 @@ export class World {
 
   cycleTarget(): void {
     if (this.phase !== "Playing") return;
-    const targets = rankedTargets(tauntedTargets(this.targets, this.endless));
+    const targets = rankedTargets(
+      tauntedTargets(this.targets, this.endless, this.sanctuaryRemaining > 0),
+    );
     const index = targets.findIndex((target) => target.id === this.manualTargetId);
     this.manualTargetId = targets[(index + 1) % targets.length]?.id ?? null;
     this.refreshTarget();
@@ -292,8 +307,14 @@ export class World {
     const targets = this.targets;
     if (!targets.some((target) => target.id === this.manualTargetId)) this.manualTargetId = null;
     this.targetId =
-      chooseTarget(targets, this.targetId, this.manualTargetId, undefined, this.endless)?.id ??
-      null;
+      chooseTarget(
+        targets,
+        this.targetId,
+        this.manualTargetId,
+        undefined,
+        this.endless,
+        this.sanctuaryRemaining > 0,
+      )?.id ?? null;
   }
 
   start(seed = Date.now()): boolean {
@@ -362,7 +383,7 @@ export class World {
 
   private resetStage(): void {
     this.stageElapsed = 0;
-    this.bulletTimeRemaining = 0;
+    this.sanctuaryRemaining = 0;
     this.bossSpawned = false;
     this.reward = null;
     this.targetId = null;
@@ -404,7 +425,8 @@ export class World {
 
   private advanceStage(): void {
     this.stageIndex++;
-    this.player.hp = Math.min(this.player.stats.maxHp, this.player.hp + 35);
+    cleansePlayer(this.player);
+    healPlayer(this.player, 35);
     this.resetStage();
     this.notice = `${this.stage.name} · 构筑已保留，恢复 35 生命`;
     this.noticeUntil = this.elapsed + 3;
@@ -464,7 +486,7 @@ export class World {
     this.stageSupplies++;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawCards(this.player, this.stacks, this.random, "supply"),
+      choices: drawCards(this.player, this.stacks, this.random, "supply", this.stageIndex),
       source: "supply",
     };
     this.state.transition("RewardSelection");
@@ -474,7 +496,7 @@ export class World {
     this.pendingStageReward = false;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawCards(this.player, this.stacks, this.random, "stage"),
+      choices: drawCards(this.player, this.stacks, this.random, "stage", this.stageIndex),
       source: "stage",
     };
     this.state.transition("StageClear");
@@ -493,34 +515,33 @@ export class World {
   private step(delta: number): void {
     this.advanceControlPulse(delta);
     this.advanceCombat(delta);
-    this.bulletTimeRemaining = Math.max(0, this.bulletTimeRemaining - delta);
-    if (this.bulletTimeRemaining < 1e-9) this.bulletTimeRemaining = 0;
+    this.sanctuaryRemaining = Math.max(0, this.sanctuaryRemaining - delta);
+    if (this.sanctuaryRemaining < 1e-9) this.sanctuaryRemaining = 0;
   }
 
   private advanceControlPulse(delta: number): void {
     // This cooldown uses hostile time, so a pulse cannot recharge itself while time is stopped.
-    if (this.bulletTimeRemaining > 0) return;
+    if (this.sanctuaryRemaining > 0) return;
     const dominion = synergyTier(this.stacks, "dominion");
     if (this.player.stats.controlPulse <= 0 && dominion < 6) return;
-    const interval =
-      dominion >= 6 ? CONFIG.bulletTime.empoweredInterval : CONFIG.bulletTime.interval;
+    const interval = dominion >= 6 ? CONFIG.sanctuary.empoweredInterval : CONFIG.sanctuary.interval;
     this.controlCooldown = Math.min(this.controlCooldown, interval) - delta;
     if (this.controlCooldown > 1e-9) return;
     this.controlCooldown = interval;
-    this.bulletTimeRemaining =
-      (CONFIG.bulletTime.baseDuration +
-        this.player.stats.controlPulse * CONFIG.bulletTime.durationPerLayer) *
+    this.sanctuaryRemaining =
+      (CONFIG.sanctuary.baseDuration +
+        this.player.stats.controlPulse * CONFIG.sanctuary.durationPerLayer) *
       (dominion >= 9 ? 1.6 : dominion >= 3 ? 1.3 : 1);
     cleansePlayer(this.player);
     if (dominion >= 6) this.hostileShots.clear();
     this.controlProcs++;
     this.showBlast({ x: 225, y: 350 }, 500, 0xc7b7e8);
-    this.notice = "子弹时间 · 状态已净化，敌方与关卡计时冻结";
-    this.noticeUntil = this.elapsed + this.bulletTimeRemaining;
+    this.notice = "遗世庇护 · 状态已净化，时序暂歇，敌方嘲讽失效";
+    this.noticeUntil = this.elapsed + this.sanctuaryRemaining;
   }
 
   private advanceCombat(delta: number): void {
-    const frozen = this.bulletTimeRemaining > 0;
+    const frozen = this.sanctuaryRemaining > 0;
     const hostileDelta = frozen ? 0 : delta;
     this.elapsed += delta;
     this.stageElapsed += hostileDelta;
@@ -595,7 +616,7 @@ export class World {
   }
 
   private enemyDelta(enemy: Enemy, delta: number): number {
-    return this.bulletTimeRemaining > 0 || enemy.stunTime > 0
+    return this.sanctuaryRemaining > 0 || enemy.stunTime > 0
       ? 0
       : delta * (1 - (enemy.slowTime > 0 ? enemy.slow : 0));
   }
@@ -624,9 +645,9 @@ export class World {
   private fireVolley(target: Target, multiplier: number): void {
     const stats = combatStats(this.player, this.stacks);
     const count = stats.projectiles;
-    const others = rankedTargets(tauntedTargets(this.targets, this.endless)).filter(
-      (item) => item.id !== target.id,
-    );
+    const others = rankedTargets(
+      tauntedTargets(this.targets, this.endless, this.sanctuaryRemaining > 0),
+    ).filter((item) => item.id !== target.id);
     const guaranteed = synergyTier(this.stacks, "precision") >= 9 && this.volleys % 3 === 0;
     for (let index = 0; index < count; index++) {
       const offset = index - (count - 1) / 2;
@@ -975,12 +996,12 @@ export class World {
         this.reinforceBoss(true);
         this.notice = "首领 · 召唤强化援军，生命与伤害 ×1.5";
       } else {
-        const loss = Math.min(this.player.hp, CONFIG.endless.slamDamage);
+        const loss = Math.min(this.player.hp, this.bossSlamDamage);
         this.player.hp -= loss;
         this.damageTaken += loss;
         this.lastHitAt = this.elapsed;
         this.burst(this.player.x, this.player.y, 0xe57d98, 18);
-        this.notice = "首领 · 重击，直接损失 90 生命";
+        this.notice = `首领 · 重击，直接损失 ${this.bossSlamDamage} 生命`;
         if (this.player.hp <= 0) this.state.transition("GameOver");
       }
       this.noticeUntil = this.elapsed + 3;
@@ -996,10 +1017,17 @@ export class World {
         continue;
       }
       if (pool === this.shots) {
-        const targets = tauntedTargets(this.targets, this.endless);
+        const targets = tauntedTargets(this.targets, this.endless, this.sanctuaryRemaining > 0);
         const target =
           targets.find((item) => item.id === shot.targetId && !shot.hitIds.has(item.id)) ??
-          chooseTarget(targets, this.targetId, this.manualTargetId, shot.hitIds, this.endless);
+          chooseTarget(
+            targets,
+            this.targetId,
+            this.manualTargetId,
+            shot.hitIds,
+            this.endless,
+            this.sanctuaryRemaining > 0,
+          );
         shot.targetId = target?.id ?? null;
         if (target) {
           const angle = Math.atan2(shot.vy, shot.vx);
@@ -1053,7 +1081,7 @@ export class World {
     const frost = synergyTier(this.stacks, "frost");
     const dominion = synergyTier(this.stacks, "dominion");
     const controlled =
-      this.bulletTimeRemaining > 0 ||
+      this.sanctuaryRemaining > 0 ||
       enemy.stunTime > 0 ||
       enemy.telegraph > 0 ||
       enemy.stage === "Preparing";
@@ -1092,7 +1120,7 @@ export class World {
       this.defeatEnemy(enemy, source);
       return;
     }
-    if (enemy.kind === "boss" && this.endless && this.bulletTimeRemaining <= 0)
+    if (enemy.kind === "boss" && this.endless && this.sanctuaryRemaining <= 0)
       this.endlessBossSkills(enemy);
     if (enemy.kind === "boss" && enemy.telegraph > 0) {
       enemy.interruptDamage += actualDamage * (dominion >= 9 ? 1.5 : 1);
@@ -1111,7 +1139,7 @@ export class World {
   private heal(amount: number): void {
     if (amount <= 0 || this.player.hp <= 0) return;
     const blood = synergyTier(this.stacks, "blood");
-    const scaled = amount * (1 + this.player.stats.recovery);
+    const scaled = amount * (1 + this.player.stats.recovery) * healingMultiplier(this.player);
     const restored = Math.min(scaled, this.player.stats.maxHp - this.player.hp);
     this.player.hp += restored;
     this.healingDone += restored;
@@ -1209,13 +1237,13 @@ export class World {
 
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
-    if (enemy.kind === "wizard" && this.bulletTimeRemaining <= 0) applyPoison(this.player);
+    if (enemy.kind === "wizard" && this.sanctuaryRemaining <= 0) applyPoison(this.player);
     this.kills++;
     this.score += ENEMIES[enemy.kind].score;
     if (source === "blast") this.chainKills++;
     this.heal(this.player.stats.harvest * 2);
     if (
-      (enemy.stunTime > 0 || this.bulletTimeRemaining > 0) &&
+      (enemy.stunTime > 0 || this.sanctuaryRemaining > 0) &&
       synergyTier(this.stacks, "dominion") >= 9
     )
       this.player.shield += Math.max(0, Math.min(8, this.player.stats.maxHp - this.player.shield));
@@ -1230,7 +1258,7 @@ export class World {
       this.score += Math.ceil(this.player.hp) * 10;
       this.clearCombat();
       cleansePlayer(this.player);
-      this.bulletTimeRemaining = 0;
+      this.sanctuaryRemaining = 0;
       if (this.endless) {
         this.pendingStageReward = true;
         if (this.stageSupplies < CONFIG.endless.supplies) this.offerEndlessSupply();
@@ -1368,7 +1396,7 @@ export class World {
           this.openedChests++;
           this.reward = {
             token: ++this.rewardSerial,
-            choices: drawCards(this.player, this.stacks, this.random),
+            choices: drawCards(this.player, this.stacks, this.random, "chest", this.stageIndex),
             source: "chest",
           };
           this.burst(chest.x, chest.y, 0xdec28a, 20);
@@ -1386,7 +1414,7 @@ export class World {
         if (!shot.active) break;
       }
     }
-    if (this.bulletTimeRemaining > 0) return;
+    if (this.sanctuaryRemaining > 0) return;
     for (const shot of this.hostileShots.items) {
       if (
         !shot.active ||
@@ -1456,7 +1484,8 @@ export class World {
       elapsed: this.elapsed,
       stageIndex: this.stageIndex,
       stageElapsed: this.stageElapsed,
-      bulletTimeRemaining: this.bulletTimeRemaining,
+      sanctuaryRemaining: this.sanctuaryRemaining,
+      bossSlamDamage: this.bossSlamDamage,
       stageName: this.stage.name,
       stageSpawned: this.stageSpawned,
       stageQuota: this.stage.enemyCount,

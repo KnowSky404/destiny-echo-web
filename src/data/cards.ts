@@ -1,4 +1,5 @@
 import { type Random, shuffled } from "../game/random";
+import { healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
 
 export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
@@ -254,12 +255,12 @@ const EXTRA_CARDS: readonly Card[] = [
     id: "edict",
     name: "静默王权",
     description:
-      "每 8 秒进入子弹时间，净化中毒与攻速降低；冻结敌方、弹幕与关卡倒计时，玩家继续攻击。首领不减免。",
+      "每 8 秒展开遗世庇护，净化中毒、重伤与攻速降低。首层时停 0.75 秒，敌方嘲讽与巫师死亡施毒失效，玩家继续攻击。",
     synergy: "dominion",
     symbol: "control",
     field: "controlPulse",
     amount: 1,
-    label: "子弹时间强化层数",
+    label: "遗世庇护强化层数",
     maxStacks: 4,
     offense: false,
   }),
@@ -281,7 +282,7 @@ function epicCard(
       for (const [field, amount] of Object.entries(definition.bonuses) as [keyof Stats, number][])
         player.stats[field] += amount;
       if (definition.restore) {
-        player.hp = Math.min(player.stats.maxHp, player.hp + definition.restore.hp);
+        healPlayer(player, definition.restore.hp);
         player.shield += definition.restore.shield;
       }
     },
@@ -388,9 +389,9 @@ export const EPIC_CARDS: readonly Card[] = [
     symbol: "control",
     offense: true,
     description:
-      "单独获得即可解锁 2 秒子弹时间；已有子弹时间额外延长 1 秒，再受王权羁绊加成。每局限取一次。",
+      "单独获得即可展开 1 秒遗世庇护；已有庇护额外延长 0.5 秒，再受王权羁绊加成。每局限取一次。",
     bonuses: { controlPulse: 2, control: 0.35, stun: 0.3 },
-    change: "子弹时间 +2 层 · 控制增伤 +35% · 命中眩晕 +0.3s",
+    change: "遗世庇护 +2 层 · 控制增伤 +35% · 命中眩晕 +0.3s",
   }),
 ];
 
@@ -469,7 +470,7 @@ export const CARDS: readonly Card[] = [
     eligible: () => true,
     apply: (player) => {
       player.stats.maxHp += 20;
-      player.hp = Math.min(player.stats.maxHp, player.hp + 30);
+      healPlayer(player, 30);
     },
     preview: (player) => `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 30`,
   },
@@ -587,6 +588,10 @@ export const CARDS: readonly Card[] = [
 
 export const CARD_BY_ID = new Map(CARDS.map((card) => [card.id, card]));
 
+export function isControlCard(card: Card): boolean {
+  return card.synergy === "frost" || card.synergy === "dominion";
+}
+
 export function eligibleCards(player: Player, stacks: ReadonlyMap<string, number>): Card[] {
   return CARDS.filter(
     (card) =>
@@ -600,8 +605,11 @@ export function drawCards(
   stacks: ReadonlyMap<string, number>,
   random: Random,
   source: Reward["source"] = "chest",
+  stageIndex = 0,
 ): string[] {
-  const eligible = eligibleCards(player, stacks);
+  const eligible = eligibleCards(player, stacks).filter(
+    (card) => stageIndex > 0 || !isControlCard(card),
+  );
   const pool = shuffled(
     eligible.filter((card) => card.rarity !== "epic"),
     random,

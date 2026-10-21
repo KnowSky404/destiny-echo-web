@@ -427,14 +427,14 @@ describe("endless boss health thresholds and independent skills", () => {
     expect(world.enemies.items.length).toBeLessThanOrEqual(CONFIG.limits.enemies);
   });
 
-  test("slam removes exactly 90 HP through shields and invulnerability and can be lethal", () => {
+  test("slam removes exactly 100 HP through shields and invulnerability and can be lethal", () => {
     const world = arena(11);
     const target = boss(world);
     world.player.invulnerable = 10;
     const shield = world.player.shield;
     hit(world, target, 300);
     expect(target.lastSkill).toBe("slam");
-    expect(world.player.hp).toBe(910);
+    expect(world.player.hp).toBe(900);
     expect(world.player.shield).toBe(shield);
     world.player.hp = 80;
     hit(world, target, 300);

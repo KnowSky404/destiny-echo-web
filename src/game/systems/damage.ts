@@ -1,6 +1,18 @@
 import { CONFIG } from "../config";
 import type { Player } from "../types";
 
+export function healingMultiplier(player: Player): number {
+  return player.poisonTime > 0 ? 1 - CONFIG.endless.poisonHealingReduction : 1;
+}
+
+// Fixed card heals share poison's grievous wound penalty with combat healing.
+export function healPlayer(player: Player, amount: number): number {
+  if (amount <= 0 || player.hp <= 0) return 0;
+  const restored = Math.min(amount * healingMultiplier(player), player.stats.maxHp - player.hp);
+  player.hp += restored;
+  return restored;
+}
+
 export function cleansePlayer(player: Player): void {
   player.poisonTime = 0;
   player.poisonSlowTime = 0;

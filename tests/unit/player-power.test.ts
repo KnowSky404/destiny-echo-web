@@ -16,7 +16,7 @@ function ready(ids = ["edict"]): World {
   return world;
 }
 
-describe("cleansing bullet time has separate player and hostile clocks", () => {
+describe("cleansing sanctuary has separate player and hostile clocks", () => {
   test("cleanses lethal poison and attack slow before the activation step can hurt the player", () => {
     const world = ready();
     world.player.hp = 0.01;
@@ -28,7 +28,7 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     expect(world.player.poisonTime).toBe(0);
     expect(world.player.poisonSlowTime).toBe(0);
     expect(combatStats(world.player, world.stacks).interval).toBe(0.34);
-    expect(world.bulletTimeRemaining).toBeCloseTo(1.5 - CONFIG.fixedStep, 6);
+    expect(world.sanctuaryRemaining).toBeCloseTo(0.75 - CONFIG.fixedStep, 6);
   });
 
   test("freezes movement, boss charge, status timers, hostile projectiles and chests while firing continues", () => {
@@ -55,9 +55,9 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     world.player.cooldown = 0;
     const stageTime = world.stageElapsed;
     world.update(CONFIG.fixedStep);
-    tick(world, 1);
+    tick(world, 0.5);
     expect(world.stageElapsed).toBe(stageTime);
-    expect(world.elapsed).toBeGreaterThan(8.9);
+    expect(world.elapsed).toBeGreaterThan(8.4);
     expect([mover.x, mover.y, mover.slowTime]).toEqual([80, 100, 2]);
     expect([boss.telegraph, boss.shotCooldown, boss.damageReductionTime]).toEqual([2, 1, 2]);
     expect([hostile.x, hostile.y, hostile.lifetime]).toEqual([10, 10, 6]);
@@ -76,7 +76,7 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     if (!hostile) throw new Error("No hostile fixture");
     Object.assign(hostile, { x: 225, y: 736, vx: 0, vy: 0, lifetime: 6, damage: 10 });
     world.update(CONFIG.fixedStep);
-    tick(world, 1.4);
+    tick(world, 0.6);
     expect(world.player.hp).toBe(100);
     expect(hostile.active).toBe(true);
     tick(world, 0.2);
@@ -101,15 +101,15 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     hit(world, boss, 500);
     expect(boss.hp).toBe(500);
     expect(boss.skillsUsed).toBe(0);
-    tick(world, 1);
-    expect(world.bulletTimeRemaining).toBeGreaterThan(0.4);
+    tick(world, 0.3);
+    expect(world.sanctuaryRemaining).toBeGreaterThan(0.4);
     expect(boss.skillsUsed).toBe(0);
-    tick(world, 0.6);
+    tick(world, 0.5);
     expect(boss.skillsUsed).toBe(1);
     expect(world.bossSpecials).toBe(1);
   });
 
-  test("killing a wizard during bullet time cannot reapply poison", () => {
+  test("killing a wizard during sanctuary cannot reapply poison", () => {
     const world = ready();
     world.update(CONFIG.fixedStep);
     const wizard = enemy(world, { kind: "wizard", x: 225, y: 300, hp: 1, speed: 0 });
@@ -125,7 +125,7 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     world.bossSpawned = false;
     const before = world.stageElapsed;
     world.update(CONFIG.fixedStep);
-    tick(world, 1.4);
+    tick(world, 0.6);
     expect(world.phase).toBe("Playing");
     expect(world.stageElapsed).toBe(before);
     expect(world.bossSpawned).toBe(false);
@@ -136,9 +136,9 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
 
     const cooldown = ready();
     cooldown.update(CONFIG.fixedStep);
-    tick(cooldown, 8);
+    tick(cooldown, 7.9);
     expect(cooldown.controlProcs).toBe(1);
-    tick(cooldown, 1.5);
+    tick(cooldown, 0.9);
     expect(cooldown.controlProcs).toBe(2);
   });
 
@@ -162,22 +162,22 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     const reward = world.reward;
     if (!reward) throw new Error("No reward");
     expect(world.chooseCard(reward.choices[0] ?? "", reward.token)).toBe(true);
-    expect(world.bulletTimeRemaining).toBe(frozen.bulletTimeRemaining);
+    expect(world.sanctuaryRemaining).toBe(frozen.sanctuaryRemaining);
     const boss = enemy(world, { kind: "boss", x: 225, y: 500, hp: 1 });
     hit(world, boss, 1);
     expect(world.phase).toBe("StageClear");
-    expect(world.bulletTimeRemaining).toBe(0);
+    expect(world.sanctuaryRemaining).toBe(0);
     const stageReward = world.reward;
     if (!stageReward) throw new Error("No stage reward");
     world.chooseCard(stageReward.choices[0] ?? "", stageReward.token);
     expect(world.stageElapsed).toBe(0);
     world.pause();
     world.start(30);
-    expect(world.bulletTimeRemaining).toBe(0);
+    expect(world.sanctuaryRemaining).toBe(0);
     expect(world.player).toEqual(createPlayer());
   });
 
-  test("bullet time and epic builds are deterministic at 30, 60 and 144 Hz", () => {
+  test("sanctuary and epic builds are deterministic at 30, 60 and 144 Hz", () => {
     const snapshots = [30, 60, 144].map((rate) => {
       const world = new World();
       world.start(99);
@@ -191,7 +191,7 @@ describe("cleansing bullet time has separate player and hostile clocks", () => {
     expect(snapshots[0]).toEqual(snapshots[1]);
     expect(snapshots[0]).toEqual(snapshots[2]);
     expect(snapshots[0]?.metrics.controlProcs).toBeGreaterThanOrEqual(2);
-    expect(snapshots[0]?.stageElapsed).toBeCloseTo(16, 6);
+    expect(snapshots[0]?.stageElapsed).toBeCloseTo(18, 6);
   });
 });
 

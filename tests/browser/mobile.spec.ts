@@ -2,13 +2,29 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { boot, bootFixture, clickTarget, firstReward, snapshot, start } from "./helpers";
-import { attackAreaFlow, bulletTimeFlow, epicRewardFlow } from "./player-power";
+import {
+  attackAreaFlow,
+  epicRewardFlow,
+  sanctuaryFlow,
+  sanctuaryTauntFlow,
+  woundsFlow,
+} from "./player-power";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
-test("touch bullet time cleanses poison, freezes the deadline and survives pause", async ({
+test("320px touch sanctuary releases a native manual lock from tank taunt", async ({
   page,
 }, info) => {
-  await bulletTimeFlow(page, info.project.name);
+  await sanctuaryTauntFlow(page, info.project.name, true);
+});
+test("320px grievous wounds and growing slam remain readable and pause with combat", async ({
+  page,
+}, info) => {
+  await woundsFlow(page, info.project.name, true);
+});
+test("touch sanctuary cleanses poison, freezes the deadline and survives pause", async ({
+  page,
+}, info) => {
+  await sanctuaryFlow(page, info.project.name);
 });
 test("320px epic rewards fit and a native tap grants the chosen upgrade", async ({
   page,
@@ -252,7 +268,8 @@ test("320px endless random supplies fit and grant three cards followed by the bo
     page,
     `
     world.stageIndex = 4;
-    enemy({ kind: "boss", hp: 1 });
+    // A living 1-HP boss has already consumed its health-threshold skills.
+    enemy({ kind: "boss", hp: 1, skillsUsed: 3 });
   `,
   );
   await page.clock.runFor(1000);

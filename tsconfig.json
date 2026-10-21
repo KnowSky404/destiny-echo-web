@@ -18,6 +18,7 @@
   "include": [
     "src",
     "tests",
+    "scripts",
     "vite.config.ts",
     "playwright.config.ts",
     "cloudflare.config.ts",

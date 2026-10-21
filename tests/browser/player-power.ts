@@ -3,7 +3,70 @@ import { join } from "node:path";
 import { expect, type Page } from "@playwright/test";
 import { bootFixture, clickTarget, snapshot } from "./helpers";
 
-export async function bulletTimeFlow(page: Page, name: string) {
+export async function sanctuaryTauntFlow(page: Page, name: string, touch = false) {
+  if (touch) await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageSupplies = 3;
+    applyCard("edict", world.player, world.stacks);
+    world.player.cooldown = 1000;
+    for (let frame = 0; frame < 959; frame++) world.update(1 / 120);
+    enemy({ kind: "tank", x: 80, defenseX: 80, y: 620, speed: 0, stage: "Attacking" });
+    enemy({ x: 350, y: 300, arrived: false, speed: 0 });
+  `,
+  );
+  const preferred = (await snapshot(page)).enemies.find((item) => item.kind === "wisp");
+  if (!preferred) throw new Error("Missing manual target");
+  await page.locator("canvas").scrollIntoViewIfNeeded();
+  await clickTarget(page, preferred.x, preferred.y, touch);
+  await page.clock.runFor(100);
+  expect((await snapshot(page)).targetId).toBe(preferred.id);
+  await expect(page.locator("#target-label")).toContainText("手动优先");
+  await expect(page.locator("#target-label")).not.toContainText("嘲讽");
+  await expect(page.locator("#status-effects")).toContainText("遗世庇护");
+  await page.screenshot({ path: join(tmpdir(), `destiny-${name}-sanctuary-taunt.png`) });
+  await page.clock.runFor(800);
+  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  expect((await snapshot(page)).manualTargetId).toBe(preferred.id);
+}
+
+export async function woundsFlow(page: Page, name: string, touch = false) {
+  if (touch) await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 5;
+    world.stageSupplies = 3;
+    world.player.hp = 40;
+    world.player.shield = 100;
+    world.player.stats.regeneration = 10;
+    world.player.poisonTime = 3;
+    world.player.cooldown = 1000;
+    enemy({ kind: "boss", x: 225, y: 100, speed: 0, shotCooldown: 1000, preparation: 1000 });
+  `,
+  );
+  const before = await snapshot(page);
+  await expect(page.locator("#status-effects")).toContainText("重伤：治疗 -90%");
+  await expect(page.locator("#boss-health")).toContainText("重击 105");
+  await page.clock.runFor(1000);
+  const after = await snapshot(page);
+  // Native rAF cadence can cover one fewer fixed step than the requested wall time.
+  expect(after.player.hp - before.player.hp).toBeCloseTo(after.elapsed - before.elapsed, 6);
+  expect(after.player.poisonSlowTime).toBe(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.screenshot({ path: join(tmpdir(), `destiny-${name}-grievous-wounds.png`) });
+  await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+  await page.clock.runFor(100);
+  const paused = await snapshot(page);
+  await page.clock.runFor(1000);
+  expect(await snapshot(page)).toEqual(paused);
+}
+
+export async function sanctuaryFlow(page: Page, name: string) {
   await bootFixture(
     page,
     `
@@ -22,10 +85,10 @@ export async function bulletTimeFlow(page: Page, name: string) {
   `,
   );
   const before = await snapshot(page);
-  expect(before.bulletTimeRemaining).toBeGreaterThan(1);
+  expect(before.sanctuaryRemaining).toBeGreaterThan(0.5);
   expect(before.player.poisonTime).toBe(0);
   expect(before.player.poisonSlowTime).toBe(0);
-  await page.clock.runFor(600);
+  await page.clock.runFor(300);
   const after = await snapshot(page);
   expect(after.stageElapsed).toBe(before.stageElapsed);
   expect(after.hostileShots).toEqual(before.hostileShots);
@@ -34,11 +97,11 @@ export async function bulletTimeFlow(page: Page, name: string) {
   );
   expect(after.metrics.damageDealt).toBeGreaterThan(before.metrics.damageDealt);
   expect(after.player.hp).toBe(60);
-  await expect(page.locator("#status-effects")).toContainText("子弹时间");
+  await expect(page.locator("#status-effects")).toContainText("遗世庇护");
   await expect(page.locator("#status-effects")).toContainText("已净化");
   await expect(page.locator("#stage-route")).toContainText("倒计时已冻结");
   await expect(page.locator("#status-effects")).not.toContainText("中毒");
-  await page.screenshot({ path: join(tmpdir(), `destiny-${name}-bullet-time.png`) });
+  await page.screenshot({ path: join(tmpdir(), `destiny-${name}-sanctuary.png`) });
   await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
   await page.clock.runFor(100);
   const paused = await snapshot(page);
@@ -47,7 +110,7 @@ export async function bulletTimeFlow(page: Page, name: string) {
   await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
   await page.clock.runFor(1600);
   expect((await snapshot(page)).stageElapsed).toBeGreaterThan(after.stageElapsed);
-  await expect(page.locator("#status-effects")).not.toContainText("子弹时间");
+  await expect(page.locator("#status-effects")).not.toContainText("遗世庇护");
 }
 
 export async function epicRewardFlow(page: Page, name: string, touch = false) {

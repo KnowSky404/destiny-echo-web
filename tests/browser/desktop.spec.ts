@@ -13,13 +13,29 @@ import {
   snapshot,
   start,
 } from "./helpers";
-import { attackAreaFlow, bulletTimeFlow, epicRewardFlow } from "./player-power";
+import {
+  attackAreaFlow,
+  epicRewardFlow,
+  sanctuaryFlow,
+  sanctuaryTauntFlow,
+  woundsFlow,
+} from "./player-power";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
-test("cleansing bullet time freezes enemy action and the deadline while shots keep dealing damage", async ({
+test("sanctuary disables tank and attack-area taunts until time resumes", async ({
   page,
 }, info) => {
-  await bulletTimeFlow(page, info.project.name);
+  await sanctuaryTauntFlow(page, info.project.name);
+});
+test("grievous wounds reduce healing and show the current endless slam damage", async ({
+  page,
+}, info) => {
+  await woundsFlow(page, info.project.name);
+});
+test("cleansing sanctuary freezes enemy action and the deadline while shots keep dealing damage", async ({
+  page,
+}, info) => {
+  await sanctuaryFlow(page, info.project.name);
 });
 test("stage rewards offer an epic and keyboard selection carries its power into the next stage", async ({
   page,
@@ -177,7 +193,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     );
     test.setTimeout(300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 10 : 3));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 1 : 3));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
@@ -279,7 +295,14 @@ test("production static build loads without diagnostics or missing assets", asyn
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
   await expect(help).toContainText("40 张卡牌");
-  await expect(help).toContainText("子弹时间");
+  await expect(help).toContainText("遗世庇护");
+  await expect(help).toContainText("首层 0.75 秒");
+  await expect(help).toContainText("全部生命治疗效率降低 90%");
+  await expect(help).toContainText("100 / 105 / 110");
+  await expect(help).toContainText("首关宝箱和首领奖励排除");
+  await expect(
+    help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),
+  ).toHaveAttribute("href", "https://github.com/KnowSky404/destiny-echo-web/wiki");
   await expect(help).toContainText("攻击区没有敌人时才由坦克嘲讽接管");
   await page.getByRole("button", { name: "明白了", exact: true }).click();
   expect(failures).toEqual([]);

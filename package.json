@@ -10,7 +10,10 @@
   },
   "scripts": {
     "dev": "bunx --bun vite",
-    "build": "bun run typecheck && bunx --bun vite build",
+    "build": "bun run docs:check && bun run typecheck && bunx --bun vite build",
+    "docs:generate": "bun scripts/game-guide.ts",
+    "docs:check": "bun scripts/game-guide.ts --check",
+    "wiki:publish": "bun scripts/publish-wiki.ts",
     "build:workers": "bun run build && node node_modules/wrangler/bin/wrangler.js build --experimental-new-config --experimental-cf-build-output",
     "deploy:check": "bun run build:workers && cf deploy --prebuilt --dry-run",
     "deploy": "bun run build:workers && cf deploy --prebuilt",
