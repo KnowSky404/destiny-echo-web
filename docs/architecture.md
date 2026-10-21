@@ -1,85 +1,48 @@
 # Fixed-defense combat architecture
 
-**Echoes of Destiny / 圣杯失控中** is a static, run-local defense Roguelike. The player holds a fixed position, tracks enemies automatically, can prioritize a target, and builds twelve cards across four consecutive encounters. The campaign takes roughly four to six simulation minutes for the tested strategies; early defeat can end sooner. Four authored bosses share the boss entity type, with distinct encounter parameters. Campaign victory offers optional endless continuation with the same build. The authoritative content contract is [Builds and stages](builds-and-stages.md).
+Echoes of Destiny is a static, run-local defense Roguelike. The player holds `(225, 736)`, fires tracking projectiles, selects priority targets and collects thirty cards across ten families. Four authored encounters lead to optional endless continuation. [Builds and stages](builds-and-stages.md) is the authoritative gameplay/parameter contract; this file defines ownership and lifecycle boundaries.
 
-## Boundaries and time
+## Ownership and fixed time
 
-- `src/game/world.ts` owns the run, pools, scheduling, projectiles, rewards and endings. It imports no Phaser, DOM or Bun APIs.
-- `src/game/config.ts` owns the 450 × 800 field, player position `(225, 736)`, defense geometry, danger threshold, shot and visual-effect budgets. Per-stage schedules belong to `src/data/stages.ts`. No player speed or movement bounds remain.
-- `src/game/systems/enemy.ts` owns advance, arrival and attack-permission transitions. `targeting.ts` owns valid targets, threat bands and stable locks; `movement.ts` contains scalar clamping and swept collision geometry. `damage.ts` owns shield absorption and invulnerability.
-- `src/data` owns enemy stats/attack policies and card effects/eligibility/previews. `src/game/scenes` renders the model in Phaser 4; `src/ui` owns semantic menus, HUD, card choices and focus.
+- `src/game/world.ts`: run state, bounded pools, spawning, actual combat effects, rewards and endings; no Phaser, DOM, Bun or server imports.
+- `src/game/config.ts`: 450 × 800 field, defense geometry, fixed step, shot/effect budgets and chest cadence.
+- `src/game/systems`: targeting, movement/swept collision, attack-permission stages, shield absorption and invulnerability.
+- `src/game/stats.ts`: derived attack, interval, projectile, critical and lifesteal values. Base stats stay separate from family bonuses.
+- `src/data`: card effects/eligibility, ten 3/6/9 family descriptions, enemy attack roles and per-stage parameters.
+- `src/game/scenes`: Phaser textures, rendering and canvas input binding. `src/ui`: DOM HUD, overlays and keyboard/touch disclosure controls.
 
-Only `Playing` advances the 1/120-second accumulator. Rendering at 30/60/144 Hz produces the same fixed-step combat, including targeting, hostile fire and damage. Frame gaps are capped at 100 ms; backgrounding pauses rather than accumulating catch-up work. Player coordinates are restored to the configured position at every step. Input cannot move them.
+Only `Playing` advances the 1/120-second accumulator. Frame gaps cap at 100ms and backgrounding pauses instead of collecting catch-up work. No rule depends on render frames, CSS pixels or DPR. The player position is restored every step, independent of browser input. Ordinary simulation RNG and critical-hit RNG have separate seeded streams. Cosmetic particles consume neither.
 
-A step advances total and stage time, spawns scheduled entities, advances enemies, chooses the firing target, launches and moves shots, resolves collisions, applies timed build effects, then advances enemy attack timers. A lethal friendly hit on the same step as a charge expiry cancels that unreleased attack. A reward, stage-clear or terminal transition stops further combat immediately. Explosions and retaliation use the same enemy-damage and defeat path as projectiles; dead entities deactivate before enqueuing bounded chain effects. Collision and event ordering are deterministic.
+The fixed step advances stage/run clocks and enemies, refreshes targets, fires/moves projectiles, resolves swept hits and rewards, resolves periodic build effects, then enemy attacks. Friendly hits and newly applied control therefore resolve before an enemy can release an attack on that step. Any phase change stops subsequent combat settlement. Status timers, particles and visual rings advance only while combat remains active. The current stage deadline, not cumulative run time, can cause timeout.
 
 ## Targeting and projectiles
 
-Targets must be active, have positive health and intersect the visible vertical field. Selection order is:
+`Target` is an active living enemy or chest. Automatic ranking favors bosses, preparing/attacking enemies, approaching enemies in the danger band, chests and remaining enemies. Locks remain stable within a band and recover when an entity dies or deactivates. Manual selection overrides automatic ranking until the target disappears or an empty click clears it. Monotonic entity IDs prevent a recycled pool object from acquiring an old lock.
 
-| Band | Candidates |
-| --- | --- |
-| Manual | A valid player-selected enemy or chest overrides automatic threat ranking |
-| 0 | Boss, or an enemy in `Preparing` / `Attacking` |
-| 1 | An approaching enemy at or below danger y = 500 |
-| 2 | A chest |
-| 3 | Other approaching enemies |
+The primary projectile tracks the selected target. Secondary projectiles distribute over other ranked targets and wrap when necessary; each projectile retains its own target ID and hit-ID set. Penetration seeks another valid target and cannot hit a victim twice. Tracking uses logical coordinates, angular turn rate, fixed speed and swept circle tests, with a bounded lifetime. Baseline secondary damage is 60%; family bonuses and effective counts are documented in the content contract.
 
-Automatic selection keeps its current living target within a band. Only a higher priority band preempts it; a new selection breaks ties by descending y, then ascending entity ID. This prevents lock oscillation between similarly dangerous enemies. Boss arrival removes ordinary enemies; the boss outranks any surviving chest. Manual overrides remain explicit, including selecting a chest during the boss fight.
+Heavy/critical multipliers are applied when a volley is emitted. `primary` and `critical` projectile fields reset on pool reuse and carry the correct control trigger and rendering color. Actual damage settlement applies victim-dependent bonuses, boss charge modifiers and execution, records actual removed HP, heals direct-hit lifesteal from non-overkill damage, then either settles one death or contributes to interrupt. A lethal incoming hit ends the run before counterattacks or healing can revive the player.
 
-The main shot aims at the selected target. Additional shots distribute across other ranked targets, wrapping when there are fewer targets than shots; a lone boss receives the whole volley. Each secondary normally deals 60% of main-shot damage. The two-piece barrage synergy raises this to 100% and reduces the effective firing interval by 15%; the three-piece set adds a real extra volley every fourth firing event. The multishot card increases real damage and coverage without multiplying boss damage as aggressively as full-strength extra homing shots.
+Lightning/splash/periodic storms use the common enemy-damage path but cannot recursively trigger on-hit lightning/splash or drain chests. Death explosions settle through an iterative queue: every victim deactivates before enqueuing another explosion, bounding a chain by the enemy pool. Score, healing and death procs settle once. A stage transition clears pending chains immediately. Cosmetic-ring exhaustion never cancels damage.
 
-Friendly shots travel at 620 units/s, turn at most 10 radians/s and expire after three seconds or leaving bounds. In-flight shots keep their living target even if the player changes the next-volley priority. After a kill, disappearance or penetration hit, they acquire another valid target, excluding their own `hitIds`. With no target, they continue ballistically until expiry. Swept circle collision preserves visible flight while catching fast crossings. Every hit consumes one penetration allowance; a projectile can damage each entity only once.
+## Enemy roles, readiness and control
 
-References contain numeric IDs, never pooled object pointers. IDs are monotonic across both recycling and restart. Every spawn resets all enemy stage, policy, charge and arrival fields; every projectile acquisition clears hit history, target and lifetime. A recycled object cannot inherit a previous lock or charge. Replaying a seed in a fresh world reproduces the same simulation; serial IDs intentionally do not reset within an existing world.
+Enemies have separate movement readiness (`arrived`) and attack readiness:
 
-## Defense and attack permission
-
-Normal enemies spawn at y = -30. Seven columns have centers x = 57, 113, 169, 225, 281, 337 and 393. Two defense rows stop at y = 620 and 566. The first row is reserved before the second, preferring the free column nearest the seeded spawn position. Slots are reserved at spawn and released on death. A maximum of 14 normals fits without overlapping stopped collision circles. A full pool drops a scheduled normal spawn; it cannot prevent the boss, which clears ordinary enemies first.
-
-Approach sway tapers to zero near a slot. On reaching its stop coordinate, an enemy clamps to the slot and sets `arrived` once. There is no old bottom-of-screen removal rule.
-
-```mermaid
-stateDiagram-v2
-  [*] --> Approaching
-  Approaching --> Preparing: attack policy permits
-  Preparing --> Attacking: preparation expires
-  Preparing --> Approaching: permission revoked
-  Attacking --> Approaching: permission revoked
-  Approaching --> Dead: lethal damage
-  Preparing --> Dead: lethal damage cancels charge
-  Attacking --> Dead: no further releases
+```text
+Approaching -> permission -> Preparing -> timer expires -> Attacking
+      ^            permission revoked resets preparation and pending charge
 ```
 
-`stage` describes attack readiness; `arrived` separately describes movement. This permits future enemies to prepare and attack while still advancing. `AttackPolicy` is a small discriminated union:
+`AttackPolicy` supports `defense`, `region` with a y threshold and `anywhere`. Most authored melee enemies use defense permission; furnace enemies can prepare early from y=450, but melee strikes still require arrival. Wisps/sentinels directly damage the defense after arrival/preparation, with their own repeated cooldowns. They do not create misleading melee projectiles.
 
-- `defense`: permission only after reaching the assigned slot.
-- `region` with `y`: permission after entering that region.
-- `anywhere`: permission anywhere on screen.
+Hexers use region y=120 and can shoot while advancing, then stop in the midfield. Their aimed projectiles remain dangerous after the source dies, expire after six seconds/leaving bounds and use swept collision against the player's five-unit hit core. Shields absorb first; an effective incoming hit grants 0.7s invulnerability. Invulnerability suppresses repeated damage and retaliation. Nonlethal hits can trigger thorns and bastion retaliation even if shields absorb the entire hit. Sacrifice bypasses shield/invulnerability and cannot kill.
 
-Most encounters, including all bosses, use `defense`. Furnace normals and their boss reinforcements use `region` at y = 450 and can prepare before reaching their slots. Stage data selects this policy without adding another AI system. `anywhere` remains a tested extension point. A revoked permission resets preparation and any pending special. All timers live in simulation fields; no `setTimeout`, callback or external AI framework drives combat.
+Slow scales enemy movement, preparation and attack/charge cooldown deltas. Stun freezes them. Their remaining durations consume real combat delta, expire normally and freeze during every non-playing phase. Bosses receive half slow strength and one-quarter stun duration. Reapplication takes the stronger strength/longer remaining duration rather than accumulating arbitrary duration. Projectile-hit and primary-hit counters are distinct, so frost and impact follow their stated triggers. Periodic control can clear hostile bullets before that step's enemy attacks.
 
-On permission, `Approaching` enters `Preparing` with its full configured duration. Only after that duration does it enter `Attacking` and release its first aimed volley. Later volleys use that enemy's interval. A dead enemy is skipped immediately. Already released pink shots remain dangerous after their source dies, expire after six seconds or leaving bounds, and use swept collision against the player's five-unit core. Shields absorb first; a successful hit grants 0.7 seconds of invulnerability. Nonlethal incoming hits can trigger thorns and full-bastion field retaliation even when entirely absorbed by shields. A lethal hit ends the run before retaliation or kill-healing can revive the player. Sacrifice damage is separate: it consumes at most three HP without causing death, consuming shields or granting invulnerability. No enemy body contact damage is needed across the separated defense/player positions.
+Every boss entrance clears the ordinary wave/hostile shots and admits the boss plus melee and ranged escorts in the same step, so a saturated ordinary pool cannot block it. Mixed support repeats while the boss lives, including during gold charges. Boss arrival, initial preparation, special cooldown, charge, interrupt damage and half-health enrage remain independent timers. A charge releases at most once, including floating-point timer residue; enough real damage cancels it. All timers are simulation fields, without external callbacks or AI frameworks.
 
-## Numbers and boss counterplay
-
-| Enemy | Base HP | Advance speed | Initial preparation | Repeat interval | Volley / damage per shot |
-| --- | --- | --- | --- | --- | --- |
-| Wisp | 50 | 112/s | 1.4s | 3.2s | One aimed shot / 6 |
-| Sentinel | 108 | 86/s | 1.8s | 3.8s | Three-shot fan / 9 |
-| Boss | 2000 | 112/s | 2s | 2.7s | Three-shot fan / 10 |
-
-Normal HP scales by +12% per wave after the first; advance speed by +5%. Waves increase every 11 stage seconds. Authored encounters also scale health, speed, damage and spawn interval; stage one retains the original 1.4s-to-1.0s cadence. Wave, chest and boss schedules restart independently on each stage. A stationary player cannot dodge old radial/column patterns, so hostile damage and cadence are lower, and all first attacks have observable preparation.
-
-Base player fire is 12 damage every 0.34s. Overload, haste, multishot, piercing, vitality and ward remain effective. `execution` / **防线裁决** replaces movement growth: +20% damage per stack, up to three, only against `Attacking` enemies. It applies during boss special charging because the boss is already in that stage; it does not affect approaching/preparing enemies or chests.
-
-In the first stage, the boss spawns at second 52, at y = -55, and reaches y = 620 in about six seconds. It then prepares for two seconds, retaining its independent HP bar. This creates a real engagement window before the second-88 deadline despite accurate tracking fire.
-
-After 2.8 attacking seconds the boss charges a special. The following values describe stage one; other bosses use the charge duration, interrupt threshold, volley fan, damage and reinforcement schedule in `src/data/stages.ts`. While charging, regular volleys pause. Dealing 90 damage within two seconds interrupts it, delays its next normal attack and shows blue/gold feedback. Otherwise it consumes the charge and releases exactly one aimed heavy projectile for 26 damage, even when timer subtraction leaves a floating-point residue. Below half HP the special needs 120 damage within 1.7s and deals 30 damage; normal attack intervals shorten by 20%. Released specials recharge for 4.5s / 3.6s, interrupted specials for 4s / 3.2s. Focused damage, execution and shields/health provide practical counterplay; old radial volleys and unavoidable multi-column barrages are removed.
-
-The first chest appears off-center at `(110, 240)` at second 5, has 36 HP, and drifts slowly until y = 340. Later x positions are seeded, at least ten seconds apart, while no chest is active and the next scheduled stage time is at most `min(46, bossAt - 5)`. A chest remains attackable until destroyed. Stable auto targeting provides access; manual targeting can trade immediate defense pressure for an earlier upgrade.
-
-## Run states and reward lifetime
+## Run states and one-use rewards
 
 ```mermaid
 stateDiagram-v2
@@ -90,38 +53,40 @@ stateDiagram-v2
   Paused --> Menu
   Playing --> RewardSelection: destroy chest
   RewardSelection --> Playing: claim one offered card
-  Playing --> StageClear: defeat a non-final boss
-  StageClear --> Playing: claim supply / heal 35 / enter next stage
+  Playing --> StageClear: defeat non-final boss
+  StageClear --> Playing: claim supply / heal 35 / next stage
   Playing --> Victory: defeat campaign boss four
-  Playing --> GameOver: health exhausted / timeout
-  Victory --> Playing: reset or preserve build / start endless
+  Playing --> GameOver: health exhausted / stage timeout
+  Victory --> Playing: reset or preserve build into endless
   GameOver --> Playing: restart and reset
   Victory --> Menu
   GameOver --> Menu
 ```
 
-A chest deactivates before granting a reward. Collision processing stops immediately, freezing enemy movement, preparation, cooldowns, projectiles, particles and elapsed time. `resume()` cannot bypass `RewardSelection` or `StageClear`. Stage supplies use the same one-use reward contract with source `stage`; choosing a supply advances exactly one stage. A boss clears enemies, projectiles, pending chains and target locks before the overlay appears. Each reward contains three distinct eligible IDs, a source and a monotonic token; a claim validates phase, token, offered membership and eligibility, then consumes the capability before resuming. Overload/vitality/ward always remain eligible, so three choices remain available after other cards cap. One slot prioritizes an unowned card from an already collected family when eligible; every offer includes a direct offense option. Repeated copies never count twice toward a synergy. All tier effects are derived from the current collection rather than permanently multiplying base stats.
+Each reward contains three distinct eligible IDs, a source and a monotonic token. A chest deactivates before the collision loop freezes in `RewardSelection`. A boss clears enemies, shots, pending chains and locks before a stage/victory overlay. A claim validates phase/source/token/offered membership/eligibility, consumes the capability and resumes once. `resume()` cannot bypass rewards. Several base cards remain uncapped, preserving three eligible choices after finite effects cap.
 
-Stage advance retains health, shield, base stats, cards, RNG progression, total elapsed time, kills and score; it heals up to 35 HP and resets only the stage clock, schedules, combat timers, locks and pools. Victory can continue into cycling authored themes with increasing health and damage.
+Family points sum acquired layers including duplicate upgrades. Bonuses derive from thresholds 3/6/9, rather than being permanently applied a second time. The first reward retains two foundation upgrades; later rewards favor two eligible cards in the most invested family while always keeping a foundation option. See the content contract for the exact pool and effects.
 
-Restart resets health, fixed coordinates, buffs, locks, rewards, pools, timers, score, RNG and combat counters. Entity and reward serials remain monotonic to invalidate stale references. The first lethal event resolves the run and later processing stops.
+Stage advance retains HP, shield, base stats, cards, score, kills, both RNG progressions and cumulative time. It heals at most 35 HP and resets stage time, spawn/chest/support timers, periodic effects, volley cycle, target locks, statuses and combat pools. Victory can preserve the same build into endless. Restart restores the initial player, first stage, empty collection, fresh RNGs and zero run metrics. Entity and reward serials remain monotonic across restarts to invalidate stale references.
 
-## Input, presentation and resource budgets
+Endless health and ordinary-population budgets compound 30% for its first three transitions and 10% afterwards, independently of the rotated visual theme. Regular admissions and endless escort packs use one hexer per three melee. Spawn quota is separate from simultaneous capacity: at most one admission per step and 28 living enemies bound deep-endless work. A full pool can constrain realized admissions before the scheduled boss transition. No unbounded array of pending monsters is allocated.
 
-`InputController` listens on the canvas for primary pointer contacts and focused `T` / `C` keyboard commands. A release without a swipe selects a target; movement exceeding 12 CSS pixels cancels the gesture. Coordinates use the actual canvas rectangle, not CSS pixel positions or device DPR. Added hit tolerance is 22 CSS pixels for touch, ten for mouse, capped at 36 logical units. Overlapping candidates prefer a direct body hit, then normalized distance, then stable ID. An empty tap clears manual priority.
+## Input, presentation and budgets
 
-There are no WASD, arrow-key or movement-drag listeners. The focusable canvas offers T to cycle targets and C to return to automatic selection; Tab and DOM controls retain their normal behavior. State changes, blur, pointer cancellation and scene shutdown release pending capture. Reward/pause/help controls do not send combat targeting input. The displayed pause-button intent prevents blur/click races. HUD refreshes preserve native button/SVG nodes.
+`InputController` binds primary pointer contacts to the canvas. A release without a swipe selects a target; movement exceeding 12 CSS pixels cancels the gesture. Coordinates derive from the actual canvas rectangle. Added touch/mouse hit tolerance is 22/10 CSS pixels, capped at 36 logical units. Overlap selection prefers direct body hits, then normalized distance, then stable ID. Empty taps clear manual priority.
 
-The existing dark navy, blue/violet and gold visual language remains. A labeled gold defense band and marked slots replace the movement-zone boundary. Blue rings mean approach, gold progress rings mean preparation, pink rings mean attacking. A blue automatic or gold manual bracket shows the current target. Small enemy HP bars, a boss charge line/progress bar and DOM target/threat labels make the decisions visible. Rendering respects reduced-motion preferences for rotation and hit shake; timing does not depend on those preferences.
+The focusable canvas supports T to cycle and C to restore automatic selection. WASD/arrows/drags cannot move the player; Tab retains DOM focus behavior. Blur, pointer cancellation, phase changes and shutdown release capture. HUD refresh preserves pause-button nodes and their displayed intent to avoid pointer/blur races. Reward/help controls do not send combat targeting input.
 
-Budgets: 14 enemies, 240 friendly shots, 360 hostile shots, one chest, 120 particles and 24 explosion-ring effects. Explosion resolution uses an iterative queue; every victim can enqueue at most once per death, bounded by the 14-enemy pool. Cosmetic effect exhaustion never suppresses combat damage. Simulation and image pools reuse objects. Stars/sigils are cached procedural textures. Canvas backing stays 450 × 800 on high-DPR devices. The app preflights WebGL and shows a readable recovery screen if unavailable or lost. No Canvas fallback, backend, accounts, remote API, audio or persistence is claimed. Font and dependency notices remain with the static build.
+The navy, blue/violet and gold style remains. Blue/gold/pink rings indicate approach/preparation/attack; cyan hexers have an original procedural silhouette. Slow, stun and critical shots have distinct colors. A target bracket, enemy/boss HP, boss gold charge/interrupt progress, stage progress, effective stats and ten expandable family rows expose decisions. Rendering respects reduced motion without changing simulation timing. Reward/victory overlays stay bounded and scroll internally on 320px displays.
 
-## Verification contract
+Global budgets: **28 enemies, 240 friendly shots, 360 hostile shots, one chest, 120 particles and 32 rings**. Authored simultaneous enemy caps rise from 14 through 18/21 to 28. Image/simulation pools reuse objects. Canvas backing remains 450 × 800 independent of DPR. WebGL failure/context loss shows a readable recovery state. No Canvas fallback, audio, accounts, backend, analytics service or persistence is claimed. License/third-party notices remain in the static build.
 
-Bun tests cover fixed position, cross-field and chest hits, stable/manual/recovered locks, actual multishot damage, two-target penetration without repeat hits, lost-target expiry, arrival/preparation/first and repeated volleys, death cancellation, released-shot damage, configurable policies, full defense capacity, pool recycling, boss advance/special/interrupt/half-health behavior, all twelve cards, every synergy threshold and actual combat proc, finite explosion chains, shield caps, independent stage clocks, reinforcement spawns, stage supplies, endless continuation, frozen combat, rewards, endings, restart and 30/60/144 Hz equivalence.
+## Verification boundaries and tuning metrics
 
-`tests/unit/run.test.ts` uses only normal target selection and offered card choices. It verifies a full seed-4 four-stage victory under normal-enemy pressure and boss counterplay, a 20-seed success/failure sample, target decisions that change an outcome, and a family-building run through two additional endless bosses. It does not move the player or patch HP, damage, RNG, clock or waves. The sample measures these fixed policies; it is not an estimated human win rate.
+Bun tests exercise fixed position, 30/60/144 Hz equivalence, tracking/penetration, readiness and actual melee/ranged damage, boss counterplay, all thirty cards and ten tier families, unique chain settlement, lifesteal/overheal bounds, slow/stun/boss resistance, mixed escorts, 1:3 admissions, compounding growth, independent clocks, rewards, pause, endings and restart.
 
-Browser plugin not available: Playwright runs the real WebGL game using native keyboard, mouse and touchscreen input. Chromium exercises a natural first-stage clear into stage two and a natural failure; the full campaign and two endless bosses are exercised in simulation tests. Every desktop engine verifies final-victory/endless and chain-explosion fixtures; every desktop engine exercises target selection, defense preparation/damage, a boss special, rewards, pause races, static build and final-shot/restart fixtures. Fixture coverage is named separately from unmodified natural runs. Mobile Chromium covers high DPR, canceled swipes, touch tolerance, both rows of a full 14-enemy defense, 320px cards, bounded scrollable stage supplies and the final endless action. Browser diagnostics expose only cloned snapshots in the test-mode dev server; production removes them.
+`tests/unit/run.test.ts` uses normal target inputs, offered-card choices and endless continuation. It covers a four-stage victory under actual pressure, twenty seeds with success/failure, target decisions that change an outcome and two additional endless bosses. `tests/policy.ts` is a fixed test policy, not game automation; the runs do not patch HP, damage, RNG, stages or clocks. Results are not human win rates or proof of balance.
 
-Screenshots/traces live under the system temporary directory. Test servers bind only to loopback. On this VPS, Firefox/WebKit need Xvfb and software WebGL; the README records actual executed checks and their boundaries. Browser emulation does not establish acceptance on physical Android/iOS or long-running low-end devices.
+Snapshot metrics record effective incoming HP/shield loss, actual enemy HP removed, effective HP healing, critical hits, control procs, actual melee/ranged admissions, current stage admissions/quota/growth and existing kills/arrivals/specials/interrupts/procs. They support later reproducible tuning. The browser exposes only cloned snapshots in test-mode development; production excludes the diagnostic API. Nothing is uploaded or persisted.
+
+Browser plugin not available: repository Playwright runs the real WebGL app and native desktop/touch input. Explicit fixtures cover thresholds, chains, ranged waves, mixed gold-charge encounters and final-victory/endless actions. Natural browser runs separately verify first-stage success/failure and restart; full campaigns/endless are simulation proof. Screenshots/traces remain in `/tmp`; local servers bind to loopback. README records the executed engine/viewport counts and remaining boundaries. Physical phones, long endless performance and subjective difficulty still need human acceptance.

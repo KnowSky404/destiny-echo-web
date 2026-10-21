@@ -1,71 +1,88 @@
 # Card builds and continuous stages
 
-Status: implemented locally. Content is run-local, data-driven and uses the existing fixed-defense simulation. This document defines gameplay behavior; [architecture](architecture.md) defines engine and input boundaries.
+Status: implemented. This is the content and baseline-parameter contract, not a claim that difficulty is balanced. [Architecture](architecture.md) defines engine/input/state boundaries. Runtime sources are `src/data/{cards,synergies,enemies,stages}.ts`, `src/game/stats.ts` and `src/game/world.ts`.
 
-## Goals
+## Ten families, thirty cards, three breakpoints
 
-- Make collecting related **different** cards unlock major combat changes.
-- Let a completed build keep fighting beyond the first boss.
-- Preserve the current visual style, fixed position, targeting, pause behavior, bounded pools and static hosting.
+Each acquired card layer contributes **one family point**, including repeat upgrades. At **3 / 6 / 9** points, a family gains a small / medium / large transformation. Higher tiers retain lower-tier effects unless explicitly replacing a number or cadence. Tiers are derived from the collection rather than permanently multiplying base stats. Base-card upgrades can continue after tier nine; the HUD caps the progress bar at nine and shows the actual layer total in the disclosure. Multiple families coexist.
 
-## Cards and synergy thresholds
+| Family | Three cards and their base effects | 3 layers | 6 layers | 9 layers |
+| --- | --- | --- | --- | --- |
+| 殉星自爆 / `blast` | 过载刻印: +4 damage; 余烬引信: death explosion 16 damage/layer; 殉星契约: sacrifice explosion | Explosions ×1.4, radius 160; all ordinary-enemy kills can create the base death explosion | Blast kills propagate; sacrifice every 4s, including without a sacrifice card | Explosions ×2, radius 190; sacrifice every 3s, max-HP scaling 45% |
+| 祷言弹幕 / `barrage` | 急速咏唱: interval ×0.88; 分岔祷言: +1 secondary; 因果贯穿: +1 penetration | Interval ×0.88, secondary damage 80% | Every fourth volley echoes; secondary damage 100% | Interval ×0.75, +1 projectile, echo every third volley |
+| 不落壁垒 / `bastion` | 续杯仪式: +20 max HP / heal 30; 守夜契约: +24 shield; 荆棘圣约: retaliate for 18/layer | Restore 10 shield every 3s, automatic cap 60% max HP | Thorns ×2; incoming hits retaliate globally for 25% max HP | Restore 20 shield, automatic cap 100% max HP; global retaliation 50% max HP |
+| 终焉裁决 / `judgment` | 防线裁决: +20%/layer vs Attacking; 破绽凝视: +20%/layer vs bosses; 终焉回响: heal 2/layer per kill | +20% vs Preparing/Attacking | Execute at 8% HP; charging-boss damage ×1.5 | Execute at 15%; charging-boss damage ×2 |
+| 泰坦重击 / `might` | 巨力刻印: +5 damage; 泰坦意志: +12 percentage points attack multiplier; 破城重锤: +25% heavy-volley damage/layer every fifth volley | Attack damage ×1.2 | Heavy volley every fourth volley, +30% in addition to the card | Heavy volley every third volley, +80% in addition to the card |
+| 猩红渴望 / `blood` | 渴血刻印: 4% lifesteal/layer; 不息血泉: 1.2 HP/s/layer; 赤色恩赐: +15% combat healing/layer | +5 percentage points lifesteal | 50% overheal becomes shield, cap 40% max HP | +10 percentage points lifesteal instead; regeneration ×2; all overheal becomes shield, cap 80% max HP |
+| 命定暴击 / `precision` | 命定锋芒: +8 percentage points crit chance; 致命祷词: +0.25 crit multiplier; 弱点解剖: +12%/layer vs enemies below half HP | +10 percentage points crit chance | +0.25 crit multiplier | Another +0.5 crit multiplier; every third volley guarantees crits |
+| 雷霆共振 / `storm` | 跃迁闪电: +1 lightning target, 30% shot damage; 共振电弧: 15% splash damage/layer, radius 85; 雷暴仪式: periodic AOE | +1 lightning target; splash radius +20 | Another +2 lightning targets; storm every 4s, including without its card | Storm every 3s; lightning/storm damage ×2 |
+| 永冬结界 / `frost` | 寒霜刻印: 10% slow/layer for 2s; 碎冰咒: +12%/layer vs slowed enemies; 永冬脉冲: field slow every 6s | +10 percentage points on-hit slow; duration 3s | Every fourth hit on an enemy freezes it for 0.6s | Every third hit freezes for 1s; +30% damage vs slowed enemies |
+| 王权禁锢 / `dominion` | 震慑刻印: every fourth primary hit stuns for 0.15s/layer; 破阵敕令: +12%/layer vs stunned/charging enemies; 静默王权: field stun every 8s | Stun duration ×1.3; +20% vs stunned/charging enemies | Field stun every 6s even without its card; also clears hostile bullets | Stun duration ×1.6; +50% interrupt contribution; stunned kills restore 8 shield up to max HP |
 
-Twelve cards belong to four families. One copy of each different card counts toward its family. Repeated copies only strengthen that card. Tiers activate at two and three different cards, derive from the collection, and do not mutate base stats a second time. Mixed families can coexist.
+Base player stats: 100 HP, no shield, 12 damage, 0.34s interval, one projectile, no penetration, 0% crit chance and a 1.5 crit multiplier. Effective interval has a 0.08s floor; total projectile count caps at six, random crit chance at 85%, lifesteal at 50%, slow at 70%. Guaranteed critical volleys bypass the random chance cap. Crit chance uses an independent seeded combat RNG, so rolling crits does not consume reward/spawn randomness.
 
-| Family | Cards | Two different cards | Three different cards |
-| --- | --- | --- | --- |
-| 殉星自爆 / Blast | 过载刻印, 余烬引信, 殉星契约 | Explosion damage ×1.8; radius 130 → 175 | Explosion kills propagate the death explosion; sacrifice repeats every 3s instead of 5s and max-HP scaling rises from 15% to 45% |
-| 祷言弹幕 / Barrage | 急速咏唱, 分岔祷言, 因果贯穿 | Effective firing interval ×0.85; secondary damage 60% → 100% | Every fourth volley launches one extra full volley |
-| 不落壁垒 / Bastion | 续杯仪式, 守夜契约, 荆棘圣约 | Restore 10 shield every 3s, up to 60% max HP | Successful incoming hits also damage every enemy for 50% max HP; thorns damage doubles |
-| 终焉裁决 / Judgment | 防线裁决, 破绽凝视, 终焉回响 | Add 35% damage against preparing/attacking enemies | Double damage against charging bosses; an enemy damaged to ≤15% HP is executed, including bosses |
+Card caps remain per ID. `overload`, `vitality`, `ward`, `force` and `renewal` are uncapped; haste caps at six, multishot at four/five base projectiles, piercing at three. Judgment's three cards cap at three each, so all nine points are reachable. Other new caps are recorded in the card data, and capped cards leave the reward pool. Every family can reach nine using its eligible cards.
 
-Base cards retain their earlier effects. New card behavior:
+Attack damage is `base damage × (1 + power) × might bonus`, followed by heavy-volley/secondary/critical multipliers. Target-dependent damage bonuses add before the charging-boss multiplier. Lifesteal uses **actual direct projectile damage**, excluding overkill, executions' extra removed HP, chests, explosions, lightning and retaliation. Combat healing amplification applies to lifesteal, kill healing and regeneration. Fixed card/supply heals retain their stated values. Neither regeneration nor overheal removes shield above an automatic cap.
 
-| ID | Effect per stack | Cap |
-| --- | --- | --- |
-| `fuse` | A kill explodes at the victim for 16 damage in radius 130 | 4 |
-| `bloodpact` | Every 5s with a valid enemy target, sacrifice up to 3 HP and explode there for `20 × stacks + 15% max HP` | 3 |
-| `thorns` | A successful nonlethal incoming hit retaliates against the current enemy for 18 damage | 4 |
-| `focus` | Add 20% damage against bosses | 3 |
-| `harvest` | Heal 2 HP on each kill, up to max HP | 3 |
+Sacrifice consumes up to 3 HP without killing, consuming shield, granting invulnerability or triggering retaliation. Its base explosion is `20 × max(1, bloodpact layers) + 15% max HP`; nine blast points replace the HP term with 45%. It waits for an enemy target, never a chest. Retaliation cannot revive a lethally hit player.
 
-Sacrifice cannot kill or heal the player, consume shield, trigger thorns or grant invulnerability. Its countdown can wait for a valid enemy; chests cannot trigger sacrifice. Regeneration never removes shield above its automatic cap. Invulnerability blocks both another incoming hit and its retaliation; a lethal incoming hit resolves defeat before any retaliation/healing.
+Lightning chooses distinct nearby enemies per projectile and never returns to its primary victim. Splash excludes its primary victim. AOE cannot damage chests or claim rewards. Death explosions use an iterative queue; victims deactivate before enqueuing, so chains settle each death/score/heal once and stop when a stage or run ends. Cosmetic pool exhaustion never suppresses damage.
 
-All enemy damage uses the same path: apply attacking/boss/judgment bonuses, charging multiplier and execution, then either record an interrupt or deactivate and settle one kill. Death healing and score occur exactly once. Blast kills only enqueue another death explosion with the full blast family. Resolution is iterative and bounded by the enemy pool, and stops as soon as a stage or run ends. AoE and retaliation do not damage chests or grant rewards. Exhausting visual pools never cancels gameplay damage.
+Slow affects movement, preparation, ordinary attack timers and boss charge timers. Stun freezes those timers while its own duration advances in combat. Bosses receive half slow strength and one-quarter stun/freeze duration. Repeated effects refresh durations with `max`, rather than adding unbounded stun durations. Freeze counts all projectile hits; 震慑 counts primary-projectile hits separately. Pause, rewards and endings freeze all status timers.
 
-## Reward selection and visibility
+Periodic storm damage is `effective attack damage × (1 + 0.5 × max(1, storm layers))` in radius 150, every 6s before its family bonuses. Frost pulse slows the field by `20% + 5% × layers`, for 2s/3s. The control pulse lasts `max(0.5, 0.25 × layers)` seconds before duration bonuses and boss resistance.
 
-- Every offer contains three distinct eligible cards. Existing stack caps apply in every stage and endless mode.
-- If an eligible missing card belongs to an already owned family, one slot offers such a card. Other slots preserve alternative builds.
-- Every offer includes a direct offense card (`overload`, `haste`, `multishot`, `fuse` or `bloodpact`). Overload, vitality and ward remain uncapped, preserving three choices after bounded cards cap.
-- Cards show their family and `owned → next / 3` progress, identify tier activation/transformation and preview the newly unlocked effect. Duplicate cards explicitly say they do not increase the family count.
-- Four keyboard/touch-operable disclosure rows show family progress, constituent cards and both tier effects. Active tiers have family colors. Explosion rings use a bounded effect pool and respect reduced motion.
-- Narrow-screen overlays stay within the arena and scroll internally when needed; reward cards and the endless action remain touch-operable. Reward and supply overlays freeze all simulation, including both clocks, build timers and enemies. Claiming validates phase, source, token, membership and eligibility before consuming the reward. Tokens remain monotonic across stages and restarts.
+## Rewards and visibility
 
-## Four authored encounters
+- Every offer has three distinct eligible IDs. The first offer includes two foundation upgrades.
+- Up to two slots follow the eligible family with the highest accumulated investment. Repeat copies count and can cross a breakpoint. The remaining slot permits another route.
+- Every offer retains at least one foundation upgrade: overload, haste, multishot, piercing, force, momentum, chain, splash or stormcall. Pure conditional bonuses cannot be the only way out of a weak opening.
+- The first chest appears at 3s. Further chests schedule seven seconds after the previous admission, through `min(46, bossAt - 5)`, with at most one chest active.
+- The reward preview names the next breakpoint and newly unlocked effect. Ten keyboard/touch disclosure rows show progress, per-card layers and all three tier effects. HUD values use effective firing/crit/lifesteal stats.
+- Reward/supply overlays stay within the arena and scroll internally on narrow displays. Claims validate phase, source, monotonic token, offered membership and eligibility, then consume the capability before resuming. Stale clicks cannot claim again or advance twice.
 
-| Stage | Regular encounter | Boss | Boss HP | Arrival / deadline | Boss support |
+## Authored encounters and both attack roles
+
+| Stage | Ordinary budget / simultaneous limit | Regular HP / speed / damage | Boss HP | Arrival / deadline | Mixed escort repeat |
 | --- | --- | --- | --- | --- | --- |
-| 1 · 圣杯前庭 | Original mixed defense; 35% sentinels | 失控圣杯 · 空愿之器 | 2,000 | 52s / 88s | None |
-| 2 · 棱镜回廊 | 70% sentinels; HP ×1.3, damage ×1.1 | 折光主教 · 千面棱镜 | 4,300 | 48s / 90s | Sentinel every 9s |
-| 3 · 焚星熔炉 | 80% wisps; HP ×1.7, speed ×1.25, damage ×1.2; prepare from y = 450 | 焚星之心 · 永燃余烬 | 7,200 | 46s / 90s | Wisp every 7s |
-| 4 · 终愿核心 | Mixed pressure; HP ×2.1, speed ×1.15, damage ×1.35 | 终愿之器 · 命运归零 | 11,000 | 48s / 96s | Sentinel every 6s |
+| 圣杯前庭 | 40 / 14 | ×1 / ×1 / ×1; 35% sentinels | 2,000 | 52s / 88s | Every 9s |
+| 棱镜回廊 | 42 / 18 | ×1.3 / ×1 / ×1.1; 70% sentinels | 4,300 | 48s / 90s | Every 8s |
+| 焚星熔炉 | 44 / 21 | ×1.7 / ×1.25 / ×1.2; prepare at y=450 | 7,200 | 46s / 90s | Every 7s |
+| 终愿核心 | 48 / 28 | ×2.1 / ×1.15 / ×1.35; mixed melee | 11,000 | 48s / 96s | Every 6s |
 
-Authored boss identities share the original procedural boss silhouette; palette, HP, fan size, attack cadence, charge timing/thresholds and support differ. They do not claim four new art assets. Stage data owns these parameters. All bosses still advance to the defense and prepare before attacking. Furnace support uses the stage's region policy. Reinforcements reserve ordinary defense slots and share the 14-enemy budget with the boss.
+Wisps and sentinels now perform melee strikes against the defense only after arriving and preparing. The new cyan **蚀光术士 / hexer** has 66 base HP, speed 96/s, 1.2s preparation, one 7-damage projectile every 2.8s at speed 190/s. It can prepare from y=120, shoots while approaching, and stops in the midfield around y=340 (adjusted by its slot row). Its released projectiles remain dangerous after it dies.
 
-Each stage has its own elapsed time, five-wave progression, chest schedule, boss arrival and deadline. Total elapsed time is cumulative. Stage one keeps the original schedule; later chests stop scheduling at `min(46, bossAt - 5)`. The stage HUD shows encounter name, cleared count, local time and deadline; the main clock shows cumulative time. Tested complete campaigns take roughly 4–6 minutes, excluding overlays/pauses.
+**Every boss**, including stage one, immediately enters with at least one melee escort and one ranged hexer; that mixed pack repeats for as long as the boss lives. Authored packs have one of each; endless packs have three melee and one hexer. Boss entrance clears the preceding regular wave and hostile shots, then admits the boss and the mixed pack in the same simulation step. A full regular pool cannot block it. Escorts keep acting during the boss's gold charge, providing actual multitarget pressure.
 
-## Stage progression and endless continuation
+All bosses retain defense arrival, preparation, gold charge, interrupt and half-HP mechanics. They share the original procedural boss silhouette; palette, parameters, fans and support differ. There are no four new boss art assets. Hexers have their own original procedural texture. Frozen/slowed enemies and critical shots receive distinct colors.
 
-1. Defeating bosses one to three clears combat entities, target locks and pending chains, awards the boss score/health bonus, and enters `StageClear`.
-2. `StageClear` shows the next encounter and its rule, plus a three-card supply. It cannot be bypassed with pause, resume or restart actions.
-3. Claiming one supply keeps cards, base stats, shield, HP, score, kills, RNG progression and total elapsed time. It heals up to 35 HP and advances exactly one stage. Stage time, schedules, cooldowns, volley cycle, particles and rings restart. A stale or repeated click cannot advance twice.
-4. Defeating boss four enters `Victory`. The player can restart, return to the menu, or choose **继续无尽 · 保留构筑**.
-5. Endless preserves the build and heals up to 35 HP. It cycles the four encounter themes. At depth `d ≥ 1`, health uses `min(1000, 1.25^d)` times the fourth-stage baseline; damage is capped at ×4 and spawns remain bounded. Boss HP begins at 13,750 and rises each stage until its finite safety cap. Interrupt thresholds also grow. Every endless boss grants a stage supply and the next encounter.
-6. HP exhaustion or the current stage's deadline ends the run. Restart always returns to stage one with base stats, no build, no effects and cleared counters. There is no persistent save.
+## Endless growth and progression
 
-## Acceptance and limits
+Campaign bosses one to three grant a frozen supply; claiming retains the build, shield, score, kills and total time, heals up to 35 HP, advances one stage and resets combat schedules/statuses/pools. Boss four grants victory with the optional **继续无尽 · 保留构筑** action. Subsequent endless bosses grant another stage supply. HP exhaustion or the current stage deadline ends the run; restart always resets the campaign and build.
 
-Bun tests verify actual tier effects, repeated-card rules, eligible offers, nonlethal sacrifice, chain bounds/unique kills, healing, shield caps, retaliation invulnerability, boss execution/interrupts, independent stage clocks, early preparation, boss reinforcements, stage supplies, stale tokens, restart, full campaigns and two additional endless bosses using only public target/card/continue inputs.
+Let `d=1` be the first endless stage, relative to campaign stage four:
 
-Playwright verifies desktop and 320px touch rewards, tier previews/activation, real rendered chain kills, frozen stage supplies, carried builds, final-victory/endless actions, pause/target input and production assets. Browser fixtures are explicit and separate from natural runs. Full multi-stage natural runs are simulation evidence; browser natural coverage exercises first-stage advancement and failure. Screenshots and traces stay in the system temporary directory. Physical mobile devices, long endless performance and human difficulty tuning remain manual checks. No deployment is implied by local verification.
+```text
+g(d) = 1.3 ^ min(d, 3) × 1.1 ^ max(d - 3, 0)
+regular HP multiplier = 2.1 × g(d)
+boss HP = round(11,000 × g(d))
+regular spawn budget = ceil(48 × g(d))
+spawn interval = (48 - 0.8) / spawn budget
+```
+
+Thus the first three endless transitions each increase health/density 30%, followed by 10% per transition. Rounding changes population by at most one enemy from the ideal target. The initial budgets are 63, 82, 106, 117; initial boss HP is 14,300, 18,590, 24,167, 26,584. Theme rotation changes names/palette, without resetting combat composition, attack policies, health, speed, boss time or density to an easier baseline. Base speed remains ×1.15, boss arrival/deadline remains 48s/96s, and support cadence scales from `6/g(d)` with a 0.5s floor. Sentinel chance, ordinary attack policy, boss fan/cadence, special damage and charge time also retain the finale baseline. Enemy damage grows 4% per stage from ×1.35, capped at ×4; interrupt thresholds use `220 × sqrt(g(d))`.
+
+Each group of four successful regular admissions contains **three melee and one ranged**. Endless escort packs follow the same composition. Counters advance on successful admission, not failed pool acquisition. Population is a per-stage admission budget, not an unbounded simultaneous count: 28 enemies and one admission per fixed step bound runtime work. A saturated pool can reduce realized regular admissions before the scheduled boss transition. In reachable depths health/population have no gameplay plateau; an exponent ceiling of 500 only prevents floating-point overflow at unreachable depths.
+
+Each stage has its own elapsed time, five-wave progression, chest/boss schedules and deadline; cumulative run time is independent. Regular enemies additionally retain within-stage wave HP/speed bonuses. The endless HUD shows the planned population. There is no cross-run persistence.
+
+## Validation, quantification and design references
+
+Meaningful Bun tests cover all ten 3/6/9 thresholds, duplicates and eligibility, actual crit/heavy damage, real lifesteal/overkill/overheal, AOE non-recursion, slow/stun timers and boss resistance, every boss's mixed entrance/replacement, attacks during gold charges, actual ranged projectiles, 1:3 admission counts, forty growing endless configurations, actual population admission, pause/restart and natural full campaigns plus two endless bosses.
+
+`World.snapshot().metrics` adds total actual damage, incoming HP/shield loss, effective HP healing, critical hits, control procs and actual melee/ranged spawns. Stage admission count/quota and growth are exposed alongside existing kills, arrivals, interrupts, specials and proc counters. Diagnostics remain test-only and read-only; there is no online analytics service or persistence. Fixed policies/seeds can compare survival, clearing time and builds later. Their results are **not** human win rates or proof of balance; first-stage losses and overpowered completed builds remain tuning work.
+
+Playwright uses explicit fixtures for tier previews, chain kills, ranged waves and mixed gold-charge encounters, and native desktop/touch reward actions. Natural browser runs separately cover first-stage advance/failure/restart; simulation covers the full campaign/endless path. Physical phones and long endless performance remain manual acceptance. Local checks do not imply production publication.
+
+Mechanism references, not copied balance values: Riot's [Fates II gameplay overview](https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-fates-ii-gameplay-overview/) describes vertical 3/6/9 traits and damage-based healing; its [12.11 notes](https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-12-11-notes/) distinguish lifesteal from omnivamp. This game's base numbers and fixed-defense adaptations are provisional values defined above.

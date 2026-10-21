@@ -1,4 +1,4 @@
-import type { AttackPolicy, EnemyKind } from "../game/types";
+import type { AttackPolicy } from "../game/types";
 
 export interface Stage {
   name: string;
@@ -9,6 +9,10 @@ export interface Stage {
   speed: number;
   damage: number;
   spawnInterval: number;
+  enemyCount: number;
+  maxEnemies: number;
+  growth: number;
+  rangedEvery: number;
   attackPolicy: AttackPolicy;
   bossAt: number;
   deadline: number;
@@ -19,7 +23,7 @@ export interface Stage {
   specialDamage: number;
   chargeTime: number;
   interrupt: number;
-  support: { kind: Exclude<EnemyKind, "boss">; interval: number } | null;
+  supportInterval: number;
 }
 
 export const STAGES: readonly Stage[] = [
@@ -32,6 +36,10 @@ export const STAGES: readonly Stage[] = [
     speed: 1,
     damage: 1,
     spawnInterval: 1.5,
+    enemyCount: 40,
+    maxEnemies: 14,
+    growth: 1,
+    rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 52,
     deadline: 88,
@@ -42,7 +50,7 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 26,
     chargeTime: 2,
     interrupt: 90,
-    support: null,
+    supportInterval: 9,
   },
   {
     name: "棱镜回廊",
@@ -53,6 +61,10 @@ export const STAGES: readonly Stage[] = [
     speed: 1,
     damage: 1.1,
     spawnInterval: 1.4,
+    enemyCount: 42,
+    maxEnemies: 18,
+    growth: 1,
+    rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 48,
     deadline: 90,
@@ -63,7 +75,7 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 28,
     chargeTime: 2.1,
     interrupt: 130,
-    support: { kind: "sentinel", interval: 9 },
+    supportInterval: 8,
   },
   {
     name: "焚星熔炉",
@@ -74,6 +86,10 @@ export const STAGES: readonly Stage[] = [
     speed: 1.25,
     damage: 1.2,
     spawnInterval: 1.2,
+    enemyCount: 44,
+    maxEnemies: 21,
+    growth: 1,
+    rangedEvery: 0,
     attackPolicy: { type: "region", y: 450 },
     bossAt: 46,
     deadline: 90,
@@ -84,7 +100,7 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 30,
     chargeTime: 1.9,
     interrupt: 170,
-    support: { kind: "wisp", interval: 7 },
+    supportInterval: 7,
   },
   {
     name: "终愿核心",
@@ -95,6 +111,10 @@ export const STAGES: readonly Stage[] = [
     speed: 1.15,
     damage: 1.35,
     spawnInterval: 1.1,
+    enemyCount: 48,
+    maxEnemies: 28,
+    growth: 1,
+    rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 48,
     deadline: 96,
@@ -105,29 +125,47 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 34,
     chargeTime: 1.8,
     interrupt: 220,
-    support: { kind: "sentinel", interval: 6 },
+    supportInterval: 6,
   },
 ];
 
+// Count is a per-stage spawn budget, separate from the bounded simultaneous pool.
+// The first three endless stages compound by 30%; subsequent stages compound by 10%.
 export function stageAt(index: number): Stage {
+  if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
   const authored = STAGES[index];
   if (authored) return authored;
   const theme = STAGES[index % STAGES.length];
   const finale = STAGES[STAGES.length - 1];
-  if (!theme || !finale || index < 0 || !Number.isInteger(index))
-    throw new Error("Invalid stage index");
+  if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
-  const growth = Math.min(1000, 1.25 ** depth);
+  // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
+  const growth = Math.exp(
+    Math.min(500, Math.min(depth, 3) * Math.log(1.3) + Math.max(0, depth - 3) * Math.log(1.1)),
+  );
+  const enemyCount = Math.ceil(finale.enemyCount * growth);
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
-    subtitle: "构筑继续保留，敌人的生命与火力逐关增强。还能走多远？",
+    subtitle: `敌人数量与生命较上一关 +${depth <= 3 ? 30 : 10}%；每 4 只常规敌人含 1 名远程术士。`,
+    sentinelChance: finale.sentinelChance,
+    attackPolicy: { ...finale.attackPolicy },
+    bossFan: finale.bossFan,
+    bossInterval: finale.bossInterval,
+    specialDamage: finale.specialDamage,
+    chargeTime: finale.chargeTime,
     health: finale.health * growth,
-    damage: Math.min(4, finale.damage * 1.07 ** depth),
-    spawnInterval: Math.max(0.9, finale.spawnInterval - depth * 0.02),
+    growth,
+    enemyCount,
+    maxEnemies: finale.maxEnemies,
+    rangedEvery: 4,
+    damage: Math.min(4, finale.damage * 1.04 ** Math.min(depth, 100)),
+    speed: finale.speed,
+    spawnInterval: (finale.bossAt - 0.8) / enemyCount,
+    bossAt: finale.bossAt,
     bossHp: Math.round(finale.bossHp * growth),
-    deadline: 96,
+    deadline: finale.deadline,
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
-    support: theme.support ?? { kind: "wisp", interval: 7 },
+    supportInterval: Math.max(0.5, finale.supportInterval / growth),
   };
 }

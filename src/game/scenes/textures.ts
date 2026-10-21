@@ -33,6 +33,23 @@ export function createTextures(scene: Phaser.Scene): void {
     g.fillStyle(COLORS.blue, 0.5);
     g.fillTriangle(27, 52, 32, 70, 37, 52);
   });
+  texture("hexer", 56, 60, () => {
+    g.fillStyle(0x172839, 0.95);
+    g.lineStyle(1.5, 0x9ce2ef, 1);
+    polygon([
+      { x: 28, y: 4 },
+      { x: 46, y: 17 },
+      { x: 42, y: 47 },
+      { x: 28, y: 57 },
+      { x: 14, y: 47 },
+      { x: 10, y: 17 },
+    ]);
+    g.strokeCircle(28, 28, 17);
+    g.fillStyle(0x9ce2ef, 1);
+    g.fillCircle(28, 28, 4);
+    g.lineBetween(4, 28, 17, 28);
+    g.lineBetween(39, 28, 52, 28);
+  });
   texture("wisp", 48, 56, () => {
     g.fillStyle(0x292448, 0.9);
     g.lineStyle(1.4, COLORS.violet, 1);

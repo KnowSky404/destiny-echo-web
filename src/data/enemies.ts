@@ -14,6 +14,7 @@ export const ENEMIES: Record<
     attackPolicy: AttackPolicy;
     fan: number;
     shotSpeed: number;
+    attackStyle: "melee" | "ranged";
   }
 > = {
   wisp: {
@@ -28,6 +29,7 @@ export const ENEMIES: Record<
     attackPolicy: { type: "defense" },
     fan: 1,
     shotSpeed: 155,
+    attackStyle: "melee",
   },
   sentinel: {
     name: "棱镜守卫",
@@ -41,6 +43,21 @@ export const ENEMIES: Record<
     attackPolicy: { type: "defense" },
     fan: 3,
     shotSpeed: 140,
+    attackStyle: "melee",
+  },
+  hexer: {
+    name: "蚀光术士",
+    hp: 66,
+    radius: 18,
+    speed: 96,
+    interval: 2.8,
+    damage: 7,
+    score: 160,
+    preparation: 1.2,
+    attackPolicy: { type: "region", y: 120 },
+    fan: 1,
+    shotSpeed: 190,
+    attackStyle: "ranged",
   },
   boss: {
     name: "失控圣杯 · 空愿之器",
@@ -54,5 +71,6 @@ export const ENEMIES: Record<
     attackPolicy: { type: "defense" },
     fan: 3,
     shotSpeed: 170,
+    attackStyle: "ranged",
   },
 };

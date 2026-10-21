@@ -1,11 +1,12 @@
 import { applyCard, drawCards } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
-import { SYNERGIES } from "../data/synergies";
+import { SYNERGIES, TIER_NAMES } from "../data/synergies";
 import { CONFIG } from "./config";
 import { Pool } from "./pool";
 import { type Random, seededRandom } from "./random";
 import { RunState } from "./state";
+import { combatStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
 import { damagePlayer } from "./systems/damage";
 import { advanceAttackStage, advanceEnemy } from "./systems/enemy";
@@ -23,6 +24,8 @@ import type {
   Target,
   Vec2,
 } from "./types";
+
+type DamageSource = "shot" | "blast" | "counter" | "arc";
 
 export function createPlayer(): Player {
   return {
@@ -43,6 +46,23 @@ export function createPlayer(): Player {
       thorns: 0,
       focus: 0,
       harvest: 0,
+      power: 0,
+      crush: 0,
+      lifesteal: 0,
+      regeneration: 0,
+      recovery: 0,
+      critChance: 0,
+      critDamage: 1.5,
+      expose: 0,
+      chain: 0,
+      splash: 0,
+      storm: 0,
+      slow: 0,
+      frostbite: 0,
+      frostPulse: 0,
+      stun: 0,
+      control: 0,
+      controlPulse: 0,
     },
   };
 }
@@ -63,6 +83,8 @@ function createProjectile(): Projectile {
     hitIds: new Set(),
     targetId: null,
     lifetime: 0,
+    primary: false,
+    critical: false,
   };
 }
 
@@ -91,6 +113,11 @@ export class World {
     defenseY: 0,
     interruptDamage: 0,
     interruptRequired: 0,
+    slow: 0,
+    slowTime: 0,
+    stunTime: 0,
+    receivedHits: 0,
+    primaryHits: 0,
   }));
   readonly shots = new Pool<Projectile>(CONFIG.limits.playerShots, createProjectile);
   readonly hostileShots = new Pool<Projectile>(CONFIG.limits.enemyShots, createProjectile);
@@ -152,7 +179,16 @@ export class World {
   echoVolleys = 0;
   shieldRestored = 0;
   executions = 0;
+  stageSpawned = 0;
+  meleeSpawns = 0;
+  rangedSpawns = 0;
+  damageDealt = 0;
+  damageTaken = 0;
+  healingDone = 0;
+  criticalHits = 0;
+  controlProcs = 0;
   private random: Random = seededRandom(0);
+  private combatRandom: Random = seededRandom(1);
   private nextId = 1;
   private rewardSerial = 0;
   private accumulator = 0;
@@ -160,6 +196,9 @@ export class World {
   private nextChestAt: number = CONFIG.chestFirstAt;
   private bloodCooldown = 5;
   private shieldCooldown = 3;
+  private stormCooldown = 6;
+  private frostCooldown = 6;
+  private controlCooldown = 8;
   private supportCooldown = 0;
   private volleys = 0;
   private readonly blastQueue: Array<{ x: number; y: number; radius: number; damage: number }> = [];
@@ -248,6 +287,7 @@ export class World {
   private reset(seed: number): void {
     this.seed = seed;
     this.random = seededRandom(seed);
+    this.combatRandom = seededRandom(seed ^ 0x5a17);
     this.player = createPlayer();
     this.stacks.clear();
     this.reward = null;
@@ -277,6 +317,13 @@ export class World {
     this.echoVolleys = 0;
     this.shieldRestored = 0;
     this.executions = 0;
+    this.meleeSpawns = 0;
+    this.rangedSpawns = 0;
+    this.damageDealt = 0;
+    this.damageTaken = 0;
+    this.healingDone = 0;
+    this.criticalHits = 0;
+    this.controlProcs = 0;
     this.resetStage();
   }
 
@@ -294,7 +341,11 @@ export class World {
     this.nextChestAt = CONFIG.chestFirstAt;
     this.bloodCooldown = 5;
     this.shieldCooldown = 3;
-    this.supportCooldown = this.stage.support?.interval ?? 0;
+    this.supportCooldown = this.stage.supportInterval;
+    this.stormCooldown = 6;
+    this.frostCooldown = 6;
+    this.controlCooldown = 8;
+    this.stageSpawned = 0;
     this.volleys = 0;
     this.blastQueue.length = 0;
     this.clearCombat();
@@ -344,7 +395,7 @@ export class World {
       (synergy, index) => synergyTier(this.stacks, synergy.id) > (before[index]?.tier ?? 0),
     );
     this.notice = activated
-      ? `${activated.name} · ${synergyTier(this.stacks, activated.id) === 3 ? "流派质变" : "联动激活"}${stageReward ? " · 下一关已开启" : ""}`
+      ? `${activated.name} · ${TIER_NAMES[synergyTier(this.stacks, activated.id)]}${stageReward ? " · 下一关已开启" : ""}`
       : stageReward
         ? this.notice
         : "残响已融合 · 继续改写命运";
@@ -370,7 +421,8 @@ export class World {
     Object.assign(this.player, CONFIG.player);
     this.spawn(delta);
     for (const enemy of this.enemies.items) {
-      if (enemy.active && advanceEnemy(enemy, delta, this.wave)) this.arrivals++;
+      if (enemy.active && advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave))
+        this.arrivals++;
     }
     this.refreshTarget();
     this.attack(delta);
@@ -389,6 +441,13 @@ export class World {
     if (this.phase !== "Playing") return;
     // Resolve incoming friendly hits before releasing an attack on this step.
     this.enemyAttack(delta);
+    if (this.phase !== "Playing") return;
+    for (const enemy of this.enemies.items) {
+      if (!enemy.active) continue;
+      enemy.stunTime = Math.max(0, enemy.stunTime - delta);
+      enemy.slowTime = Math.max(0, enemy.slowTime - delta);
+      if (enemy.slowTime === 0) enemy.slow = 0;
+    }
     for (const particle of this.particles.items) {
       if (!particle.active) continue;
       particle.x += particle.vx * delta;
@@ -407,40 +466,61 @@ export class World {
     }
   }
 
+  private enemyDelta(enemy: Enemy, delta: number): number {
+    return enemy.stunTime > 0 ? 0 : delta * (1 - (enemy.slowTime > 0 ? enemy.slow : 0));
+  }
+
   private attack(delta: number): void {
     this.player.cooldown = Math.max(0, this.player.cooldown - delta);
     const target = this.target;
     if (this.player.cooldown > 1e-9 || !target) return;
+    const stats = combatStats(this.player, this.stacks);
     const barrage = synergyTier(this.stacks, "barrage");
-    this.player.cooldown += this.player.stats.interval * (barrage >= 2 ? 0.85 : 1);
+    const might = synergyTier(this.stacks, "might");
+    this.player.cooldown += stats.interval;
     this.volleys++;
-    this.fireVolley(target, barrage >= 2 ? 1 : CONFIG.friendlyShot.secondaryDamage);
-    if (barrage === 3 && this.volleys % 4 === 0) {
-      this.fireVolley(target, 1);
+    const cadence = might >= 9 ? 3 : might >= 6 ? 4 : 5;
+    const heavy =
+      this.volleys % cadence === 0
+        ? this.player.stats.crush + (might >= 9 ? 0.8 : might >= 6 ? 0.3 : 0)
+        : 0;
+    this.fireVolley(target, 1 + heavy);
+    if (barrage >= 6 && this.volleys % (barrage >= 9 ? 3 : 4) === 0) {
+      this.fireVolley(target, 1 + heavy);
       this.echoVolleys++;
     }
   }
 
-  private fireVolley(target: Target, secondaryDamage: number): void {
-    const count = this.player.stats.projectiles;
+  private fireVolley(target: Target, multiplier: number): void {
+    const stats = combatStats(this.player, this.stacks);
+    const count = stats.projectiles;
     const others = rankedTargets(this.targets).filter((item) => item.id !== target.id);
+    const guaranteed = synergyTier(this.stacks, "precision") >= 9 && this.volleys % 3 === 0;
     for (let index = 0; index < count; index++) {
       const offset = index - (count - 1) / 2;
       const aim = index === 0 ? target : (others[(index - 1) % others.length] ?? target);
       const x = this.player.x + offset * 10;
       const y = this.player.y - 22;
       const angle = Math.atan2(aim.y - y, aim.x - x);
-      this.projectile(
+      const critical = guaranteed || this.combatRandom() < stats.critChance;
+      const shot = this.projectile(
         this.shots,
         x,
         y,
         Math.cos(angle) * CONFIG.friendlyShot.speed,
         Math.sin(angle) * CONFIG.friendlyShot.speed,
-        this.player.stats.damage * (index === 0 ? 1 : secondaryDamage),
+        stats.damage *
+          multiplier *
+          (index === 0 ? 1 : stats.secondaryDamage) *
+          (critical ? stats.critDamage : 1),
         4,
         this.player.stats.piercing + 1,
         aim.id,
       );
+      if (shot) {
+        shot.primary = index === 0;
+        shot.critical = critical;
+      }
     }
   }
 
@@ -454,7 +534,7 @@ export class World {
     radius = 6,
     hits = 1,
     targetId: number | null = null,
-  ): void {
+  ): Projectile | undefined {
     const shot = pool.acquire();
     if (!shot) return;
     Object.assign(shot, {
@@ -470,8 +550,11 @@ export class World {
       hitsLeft: hits,
       targetId,
       lifetime: pool === this.shots ? CONFIG.friendlyShot.lifetime : 6,
+      primary: false,
+      critical: false,
     });
     shot.hitIds.clear();
+    return shot;
   }
 
   private spawn(delta: number): void {
@@ -481,18 +564,25 @@ export class World {
       this.enemies.clear();
       this.hostileShots.clear();
       this.spawnEnemy("boss", CONFIG.width / 2);
-      this.supportCooldown = stage.support?.interval ?? 0;
-      this.notice = `${stage.bossName} · 金色蓄力时集中火力可打断`;
+      this.reinforceBoss();
+      this.supportCooldown = stage.supportInterval;
+      this.notice = `${stage.bossName} · 远近护卫到场，金色蓄力可打断`;
       this.noticeUntil = this.elapsed + 3;
     }
     if (!this.bossSpawned) {
       this.spawnCooldown -= delta;
-      if (this.spawnCooldown <= 0) {
-        this.spawnCooldown += Math.max(0.55, stage.spawnInterval - this.wave * 0.1);
-        this.spawnEnemy(
-          this.random() < stage.sentinelChance ? "sentinel" : "wisp",
-          42 + this.random() * 366,
-        );
+      if (this.spawnCooldown <= 0 && this.stageSpawned < stage.enemyCount) {
+        const kind =
+          stage.rangedEvery > 0 && (this.stageSpawned + 1) % stage.rangedEvery === 0
+            ? "hexer"
+            : this.random() < stage.sentinelChance
+              ? "sentinel"
+              : "wisp";
+        if (this.spawnEnemy(kind, 42 + this.random() * 366)) this.stageSpawned++;
+        // One admission per fixed step bounds catch-up work at extreme endless depths.
+        this.spawnCooldown += this.endless
+          ? stage.spawnInterval
+          : Math.max(0.55, stage.spawnInterval - this.wave * 0.1);
       }
       if (
         this.stageElapsed >= this.nextChestAt &&
@@ -515,16 +605,29 @@ export class World {
           this.noticeUntil = this.elapsed + 3;
         }
       }
-    } else if (stage.support && this.boss) {
+    } else if (this.boss) {
       this.supportCooldown -= delta;
       if (this.supportCooldown <= 0) {
-        this.supportCooldown += stage.support.interval;
-        this.spawnEnemy(stage.support.kind, 42 + this.random() * 366);
+        this.supportCooldown += stage.supportInterval;
+        this.reinforceBoss();
       }
     }
   }
 
-  private spawnEnemy(kind: EnemyKind, x: number): void {
+  private reinforceBoss(): void {
+    // Both attack roles are present on every boss entrance, including stage one.
+    // Endless packs retain the same one-ranged-to-three-melee composition.
+    this.spawnEnemy("hexer", 380);
+    this.spawnEnemy(this.stage.sentinelChance >= 0.5 ? "sentinel" : "wisp", 70);
+    if (this.endless) {
+      this.spawnEnemy("wisp", 130);
+      this.spawnEnemy("sentinel", 320);
+    }
+  }
+
+  private spawnEnemy(kind: EnemyKind, x: number): Enemy | undefined {
+    if (this.enemies.items.filter((item) => item.active).length >= this.stage.maxEnemies) return;
+    const data = ENEMIES[kind];
     const occupied = new Set(
       this.enemies.items.filter((item) => item.active).map((item) => item.slot),
     );
@@ -549,7 +652,6 @@ export class World {
     if (slot === undefined) return;
     const enemy = this.enemies.acquire();
     if (!enemy) return;
-    const data = ENEMIES[kind];
     const hp =
       kind === "boss"
         ? this.stage.bossHp
@@ -568,28 +670,43 @@ export class World {
       shotCooldown: 0,
       patternCooldown: 2.8,
       stage: "Approaching",
-      attackPolicy: { ...(kind === "boss" ? data.attackPolicy : this.stage.attackPolicy) },
+      attackPolicy: {
+        ...(kind === "boss" || kind === "hexer" ? data.attackPolicy : this.stage.attackPolicy),
+      },
       preparation: 0,
       arrived: false,
       slot,
       defenseX: slotX(slot),
-      defenseY: CONFIG.defense.y - Math.floor(slot / CONFIG.defense.lanes) * CONFIG.defense.rowGap,
+      defenseY:
+        (kind === "hexer" ? 340 : CONFIG.defense.y) -
+        Math.floor(slot / CONFIG.defense.lanes) * CONFIG.defense.rowGap,
       interruptDamage: 0,
       interruptRequired: 0,
+      slow: 0,
+      slowTime: 0,
+      stunTime: 0,
+      receivedHits: 0,
+      primaryHits: 0,
     });
+    if (kind === "hexer") this.rangedSpawns++;
+    else if (kind !== "boss") this.meleeSpawns++;
     this.peakEnemies = Math.max(
       this.peakEnemies,
       this.enemies.items.filter((item) => item.active).length,
     );
+    return enemy;
   }
 
   private enemyAttack(delta: number): void {
     for (const enemy of this.enemies.items) {
-      if (!enemy.active || !advanceAttackStage(enemy, delta)) continue;
+      if (this.phase !== "Playing") break;
+      const effectiveDelta = this.enemyDelta(enemy, delta);
+      if (!enemy.active || effectiveDelta <= 0 || !advanceAttackStage(enemy, effectiveDelta))
+        continue;
       const enraged = enemy.kind === "boss" && enemy.hp < enemy.maxHp / 2;
       if (enemy.kind === "boss") {
         if (enemy.telegraph > 0) {
-          enemy.telegraph = Math.max(0, enemy.telegraph - delta);
+          enemy.telegraph = Math.max(0, enemy.telegraph - effectiveDelta);
           if (enemy.telegraph <= 1e-9) {
             // Consume the charge even when subtraction leaves a tiny positive residue.
             enemy.telegraph = 0;
@@ -600,7 +717,7 @@ export class World {
           }
           continue;
         }
-        enemy.patternCooldown -= delta;
+        enemy.patternCooldown -= effectiveDelta;
         if (enemy.patternCooldown <= 0) {
           enemy.telegraph = this.stage.chargeTime - (enraged ? 0.3 : 0);
           enemy.interruptDamage = 0;
@@ -610,11 +727,19 @@ export class World {
           continue;
         }
       }
-      enemy.shotCooldown -= delta;
+      if (ENEMIES[enemy.kind].attackStyle === "melee" && !enemy.arrived) continue;
+      enemy.shotCooldown -= effectiveDelta;
       if (enemy.shotCooldown > 1e-9) continue;
       const data = ENEMIES[enemy.kind];
       enemy.shotCooldown +=
         data.interval * (enraged ? 0.8 : 1) * (enemy.kind === "boss" ? this.stage.bossInterval : 1);
+      if (data.attackStyle === "melee") {
+        this.enemyAttacks++;
+        this.regularAttacks++;
+        this.showBlast({ x: enemy.x, y: enemy.defenseY }, 36, 0xe57d98);
+        this.hurt(data.damage * this.stage.damage);
+        continue;
+      }
       this.aimedVolley(
         enemy,
         enemy.kind === "boss" ? this.stage.bossFan : data.fan,
@@ -696,7 +821,9 @@ export class World {
   private consume(shot: Projectile, target: Enemy | Chest): void {
     shot.hitIds.add(target.id);
     if (isEnemy(target)) {
+      if (shot.critical) this.criticalHits++;
       this.damageEnemy(target, shot.damage, "shot");
+      if (this.phase === "Playing") this.onHitEffects(target, shot);
       this.resolveBlasts();
     } else {
       target.hp = Math.max(0, target.hp - shot.damage);
@@ -705,29 +832,46 @@ export class World {
     if (shot.hitsLeft <= 0) shot.active = false;
   }
 
-  private damageEnemy(enemy: Enemy, rawDamage: number, source: "shot" | "blast" | "counter"): void {
-    if (!enemy.active || enemy.hp <= 0 || this.phase !== "Playing") return;
+  private damageEnemy(enemy: Enemy, rawDamage: number, source: DamageSource): void {
+    if (!enemy.active || enemy.hp <= 0 || rawDamage <= 0 || this.phase !== "Playing") return;
+    const stats = this.player.stats;
     const judgment = synergyTier(this.stacks, "judgment");
+    const frost = synergyTier(this.stacks, "frost");
+    const dominion = synergyTier(this.stacks, "dominion");
+    const controlled = enemy.stunTime > 0 || enemy.telegraph > 0 || enemy.stage === "Preparing";
     const bonus =
-      (enemy.stage === "Attacking" ? this.player.stats.execution * 0.2 : 0) +
-      (enemy.kind === "boss" ? this.player.stats.focus * 0.2 : 0) +
-      (judgment >= 2 && enemy.stage !== "Approaching" ? 0.35 : 0);
-    const damage =
-      rawDamage *
-      (1 + bonus) *
-      (judgment === 3 && enemy.kind === "boss" && enemy.telegraph > 0 ? 2 : 1);
+      (enemy.stage === "Attacking" ? stats.execution * 0.2 : 0) +
+      (enemy.kind === "boss" ? stats.focus * 0.2 : 0) +
+      (judgment >= 3 && enemy.stage !== "Approaching" ? 0.2 : 0) +
+      (enemy.hp <= enemy.maxHp / 2 ? stats.expose : 0) +
+      (enemy.slowTime > 0 ? stats.frostbite + (frost >= 9 ? 0.3 : 0) : 0) +
+      (controlled ? stats.control + (dominion >= 3 ? 0.2 : 0) : 0);
+    const chargedMultiplier =
+      enemy.kind === "boss" && enemy.telegraph > 0
+        ? judgment >= 9
+          ? 2
+          : judgment >= 6
+            ? 1.5
+            : 1
+        : 1;
+    const damage = rawDamage * (1 + bonus) * chargedMultiplier;
+    const previousHp = enemy.hp;
     const actualDamage = Math.min(enemy.hp, damage);
     enemy.hp = Math.max(0, enemy.hp - damage);
-    if (judgment === 3 && enemy.hp > 0 && enemy.hp <= enemy.maxHp * 0.15) {
+    const executeAt = judgment >= 9 ? 0.15 : judgment >= 6 ? 0.08 : 0;
+    if (executeAt > 0 && enemy.hp > 0 && enemy.hp <= enemy.maxHp * executeAt) {
       enemy.hp = 0;
       this.executions++;
     }
+    this.damageDealt += previousHp - enemy.hp;
+    if (source === "shot")
+      this.heal(actualDamage * combatStats(this.player, this.stacks).lifesteal);
     if (enemy.hp <= 0) {
       this.defeatEnemy(enemy, source);
       return;
     }
     if (enemy.kind === "boss" && enemy.telegraph > 0) {
-      enemy.interruptDamage += actualDamage;
+      enemy.interruptDamage += actualDamage * (dominion >= 9 ? 1.5 : 1);
       if (enemy.interruptDamage >= enemy.interruptRequired) {
         enemy.telegraph = 0;
         enemy.patternCooldown = enemy.hp < enemy.maxHp / 2 ? 3.2 : 4;
@@ -740,15 +884,113 @@ export class World {
     }
   }
 
-  private defeatEnemy(enemy: Enemy, source: "shot" | "blast" | "counter"): void {
+  private heal(amount: number): void {
+    if (amount <= 0 || this.player.hp <= 0) return;
+    const blood = synergyTier(this.stacks, "blood");
+    const scaled = amount * (1 + this.player.stats.recovery);
+    const restored = Math.min(scaled, this.player.stats.maxHp - this.player.hp);
+    this.player.hp += restored;
+    this.healingDone += restored;
+    if (blood >= 6) {
+      const shield = (scaled - restored) * (blood >= 9 ? 1 : 0.5);
+      this.player.shield += Math.max(
+        0,
+        Math.min(shield, this.player.stats.maxHp * (blood >= 9 ? 0.8 : 0.4) - this.player.shield),
+      );
+    }
+  }
+
+  private slowEnemy(enemy: Enemy, strength: number, duration: number): void {
+    if (!enemy.active || strength <= 0) return;
+    const slow = Math.min(0.7, strength) * (enemy.kind === "boss" ? 0.5 : 1);
+    enemy.slow = Math.max(enemy.slow, slow);
+    enemy.slowTime = Math.max(enemy.slowTime, duration);
+  }
+
+  private stunEnemy(enemy: Enemy, duration: number): void {
+    if (!enemy.active || duration <= 0) return;
+    const dominion = synergyTier(this.stacks, "dominion");
+    enemy.stunTime = Math.max(
+      enemy.stunTime,
+      duration *
+        (dominion >= 9 ? 1.6 : dominion >= 3 ? 1.3 : 1) *
+        (enemy.kind === "boss" ? 0.25 : 1),
+    );
+    this.controlProcs++;
+    this.burst(enemy.x, enemy.y, 0xc7b7e8, 4);
+  }
+
+  private onHitEffects(target: Enemy, shot: Projectile): void {
+    const stats = this.player.stats;
+    const frost = synergyTier(this.stacks, "frost");
+    const storm = synergyTier(this.stacks, "storm");
+    if (target.active) {
+      target.receivedHits++;
+      if (shot.primary) target.primaryHits++;
+      this.slowEnemy(target, stats.slow + (frost >= 3 ? 0.1 : 0), frost >= 3 ? 3 : 2);
+      if (shot.primary && target.primaryHits % 4 === 0) this.stunEnemy(target, stats.stun);
+      if (frost >= 6 && target.receivedHits % (frost >= 9 ? 3 : 4) === 0)
+        this.stunEnemy(target, frost >= 9 ? 1 : 0.6);
+    }
+    const links = stats.chain + (storm >= 6 ? 3 : storm >= 3 ? 1 : 0);
+    const visited = new Set([target.id]);
+    let origin: Vec2 = target;
+    for (let index = 0; index < links && this.phase === "Playing"; index++) {
+      const next = this.enemies.items
+        .filter(
+          (enemy) =>
+            enemy.active &&
+            !visited.has(enemy.id) &&
+            Math.hypot(enemy.x - origin.x, enemy.y - origin.y) <= 220,
+        )
+        .sort(
+          (a, b) =>
+            Math.hypot(a.x - origin.x, a.y - origin.y) -
+              Math.hypot(b.x - origin.x, b.y - origin.y) || a.id - b.id,
+        )[0];
+      if (!next) break;
+      visited.add(next.id);
+      this.damageEnemy(next, shot.damage * 0.3 * (storm >= 9 ? 2 : 1), "arc");
+      this.showBlast(next, 24, 0xa7b8fa);
+      origin = next;
+    }
+    if (stats.splash > 0 && this.phase === "Playing")
+      this.areaDamage(
+        target,
+        shot.damage * stats.splash * 0.15,
+        85 + (storm >= 3 ? 20 : 0),
+        0xa7b8fa,
+        target.id,
+      );
+  }
+
+  private areaDamage(
+    center: Vec2,
+    damage: number,
+    radius: number,
+    color: number,
+    excludeId?: number,
+  ): void {
+    this.showBlast(center, radius, color);
+    for (const enemy of this.enemies.items) {
+      if (this.phase !== "Playing") break;
+      if (
+        enemy.active &&
+        enemy.id !== excludeId &&
+        Math.hypot(enemy.x - center.x, enemy.y - center.y) <= radius + enemy.radius
+      )
+        this.damageEnemy(enemy, damage, "arc");
+    }
+  }
+
+  private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
     this.kills++;
     this.score += ENEMIES[enemy.kind].score;
     if (source === "blast") this.chainKills++;
-    this.player.hp = Math.min(
-      this.player.stats.maxHp,
-      this.player.hp + this.player.stats.harvest * 2,
-    );
+    this.heal(this.player.stats.harvest * 2);
+    if (enemy.stunTime > 0 && synergyTier(this.stacks, "dominion") >= 9)
+      this.player.shield += Math.max(0, Math.min(8, this.player.stats.maxHp - this.player.shield));
     this.burst(
       enemy.x,
       enemy.y,
@@ -772,20 +1014,20 @@ export class World {
       return;
     }
     if (
-      this.player.stats.fuse > 0 &&
-      (source !== "blast" || synergyTier(this.stacks, "blast") === 3)
+      (this.player.stats.fuse > 0 || synergyTier(this.stacks, "blast") >= 3) &&
+      (source !== "blast" || synergyTier(this.stacks, "blast") >= 6)
     ) {
-      this.queueBlast(enemy, this.player.stats.fuse * 16);
+      this.queueBlast(enemy, Math.max(1, this.player.stats.fuse) * 16);
     }
   }
 
   private queueBlast(center: Vec2, damage: number): void {
-    const amplified = synergyTier(this.stacks, "blast") >= 2;
+    const tier = synergyTier(this.stacks, "blast");
     this.blastQueue.push({
       x: center.x,
       y: center.y,
-      damage: damage * (amplified ? 1.8 : 1),
-      radius: amplified ? 175 : 130,
+      damage: damage * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
+      radius: tier >= 9 ? 190 : tier >= 3 ? 160 : 130,
     });
   }
 
@@ -818,26 +1060,79 @@ export class World {
 
   private buildEffects(delta: number): void {
     const stats = this.player.stats;
-    if (stats.bloodpact > 0) {
-      const complete = synergyTier(this.stacks, "blast") === 3;
-      this.bloodCooldown = Math.min(this.bloodCooldown, complete ? 3 : 5);
-      this.bloodCooldown -= delta;
+    const blast = synergyTier(this.stacks, "blast");
+    const bastion = synergyTier(this.stacks, "bastion");
+    const blood = synergyTier(this.stacks, "blood");
+    const storm = synergyTier(this.stacks, "storm");
+    const frost = synergyTier(this.stacks, "frost");
+    const dominion = synergyTier(this.stacks, "dominion");
+    this.heal(stats.regeneration * delta * (blood >= 9 ? 2 : 1));
+    if (stats.bloodpact > 0 || blast >= 6) {
+      const interval = blast >= 9 ? 3 : blast >= 6 ? 4 : 5;
+      this.bloodCooldown = Math.min(this.bloodCooldown, interval) - delta;
       const target = this.target;
       if (this.bloodCooldown <= 1e-9 && target && isEnemy(target)) {
-        this.bloodCooldown = complete ? 3 : 5;
+        this.bloodCooldown = interval;
         this.player.hp -= Math.min(3, Math.max(0, this.player.hp - 1));
-        this.queueBlast(target, stats.bloodpact * 20 + stats.maxHp * (complete ? 0.45 : 0.15));
+        this.queueBlast(
+          target,
+          Math.max(1, stats.bloodpact) * 20 + stats.maxHp * (blast >= 9 ? 0.45 : 0.15),
+        );
         this.resolveBlasts();
       }
     }
     if (this.phase !== "Playing") return;
-    if (synergyTier(this.stacks, "bastion") >= 2) {
+    if (bastion >= 3) {
       this.shieldCooldown -= delta;
       if (this.shieldCooldown <= 1e-9) {
         this.shieldCooldown = 3;
-        const amount = Math.max(0, Math.min(10, stats.maxHp * 0.6 - this.player.shield));
+        const amount = Math.max(
+          0,
+          Math.min(
+            bastion >= 9 ? 20 : 10,
+            stats.maxHp * (bastion >= 9 ? 1 : 0.6) - this.player.shield,
+          ),
+        );
         this.player.shield += amount;
         this.shieldRestored += amount;
+      }
+    }
+    const target = this.target;
+    if (stats.storm > 0 || storm >= 6) {
+      const interval = storm >= 9 ? 3 : storm >= 6 ? 4 : 6;
+      this.stormCooldown = Math.min(this.stormCooldown, interval) - delta;
+      if (this.stormCooldown <= 1e-9 && target && isEnemy(target)) {
+        this.stormCooldown = interval;
+        this.areaDamage(
+          target,
+          combatStats(this.player, this.stacks).damage *
+            (1 + Math.max(1, stats.storm) * 0.5) *
+            (storm >= 9 ? 2 : 1),
+          150,
+          0xa7b8fa,
+        );
+        this.resolveBlasts();
+      }
+    }
+    if (this.phase !== "Playing") return;
+    if (stats.frostPulse > 0) {
+      this.frostCooldown -= delta;
+      if (this.frostCooldown <= 1e-9) {
+        this.frostCooldown = 6;
+        this.showBlast({ x: 225, y: 350 }, 500, 0x9ce2ef);
+        for (const enemy of this.enemies.items)
+          this.slowEnemy(enemy, 0.2 + stats.frostPulse * 0.05, frost >= 3 ? 3 : 2);
+      }
+    }
+    if (stats.controlPulse > 0 || dominion >= 6) {
+      const interval = dominion >= 6 ? 6 : 8;
+      this.controlCooldown = Math.min(this.controlCooldown, interval) - delta;
+      if (this.controlCooldown <= 1e-9) {
+        this.controlCooldown = interval;
+        this.showBlast({ x: 225, y: 350 }, 500, 0xc7b7e8);
+        for (const enemy of this.enemies.items)
+          this.stunEnemy(enemy, Math.max(0.5, stats.controlPulse * 0.25));
+        if (dominion >= 6) this.hostileShots.clear();
       }
     }
   }
@@ -891,14 +1186,17 @@ export class World {
 
   private hurt(damage: number): void {
     if (this.player.invulnerable > 0 || this.player.hp <= 0 || damage <= 0) return;
+    const before = this.player.hp + this.player.shield;
     damagePlayer(this.player, damage);
+    this.damageTaken += before - this.player.hp - this.player.shield;
     this.lastHitAt = this.elapsed;
     this.burst(this.player.x, this.player.y, 0xe57d98, 12);
     if (this.player.hp <= 0) {
       this.state.transition("GameOver");
       return;
     }
-    const complete = synergyTier(this.stacks, "bastion") === 3;
+    const bastion = synergyTier(this.stacks, "bastion");
+    const complete = bastion >= 6;
     const target = this.target;
     if (target && isEnemy(target) && this.player.stats.thorns > 0) {
       this.damageEnemy(target, this.player.stats.thorns * 18 * (complete ? 2 : 1), "counter");
@@ -906,7 +1204,7 @@ export class World {
     if (complete && this.phase === "Playing") {
       this.showBlast(this.player, 800, 0x95d9be);
       for (const enemy of this.enemies.items) {
-        this.damageEnemy(enemy, this.player.stats.maxHp * 0.5, "counter");
+        this.damageEnemy(enemy, this.player.stats.maxHp * (bastion >= 9 ? 0.5 : 0.25), "counter");
         if (this.phase !== "Playing") break;
       }
     }
@@ -939,10 +1237,14 @@ export class World {
       stageIndex: this.stageIndex,
       stageElapsed: this.stageElapsed,
       stageName: this.stage.name,
+      stageSpawned: this.stageSpawned,
+      stageQuota: this.stage.enemyCount,
+      growth: this.stage.growth,
       clearedStages: this.clearedStages,
       endless: this.endless,
       seed: this.seed,
       player: structuredClone(this.player),
+      combat: combatStats(this.player, this.stacks),
       kills: this.kills,
       score: this.score,
       openedChests: this.openedChests,
@@ -952,6 +1254,13 @@ export class World {
       targetId: this.targetId,
       manualTargetId: this.manualTargetId,
       metrics: {
+        meleeSpawns: this.meleeSpawns,
+        rangedSpawns: this.rangedSpawns,
+        damageDealt: this.damageDealt,
+        damageTaken: this.damageTaken,
+        healingDone: this.healingDone,
+        criticalHits: this.criticalHits,
+        controlProcs: this.controlProcs,
         arrivals: this.arrivals,
         enemyAttacks: this.enemyAttacks,
         regularAttacks: this.regularAttacks,

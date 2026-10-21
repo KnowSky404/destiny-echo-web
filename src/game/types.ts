@@ -6,8 +6,19 @@ export type Phase =
   | "StageClear"
   | "Victory"
   | "GameOver";
-export type SynergyId = "blast" | "barrage" | "bastion" | "judgment";
-export type EnemyKind = "wisp" | "sentinel" | "boss";
+export type SynergyId =
+  | "blast"
+  | "barrage"
+  | "bastion"
+  | "judgment"
+  | "might"
+  | "blood"
+  | "precision"
+  | "storm"
+  | "frost"
+  | "dominion";
+export type SynergyTier = 0 | 3 | 6 | 9;
+export type EnemyKind = "wisp" | "sentinel" | "hexer" | "boss";
 export type Rarity = "common" | "rare";
 export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
 export type AttackPolicy =
@@ -32,6 +43,23 @@ export interface Stats {
   thorns: number;
   focus: number;
   harvest: number;
+  power: number;
+  crush: number;
+  lifesteal: number;
+  regeneration: number;
+  recovery: number;
+  critChance: number;
+  critDamage: number;
+  expose: number;
+  chain: number;
+  splash: number;
+  storm: number;
+  slow: number;
+  frostbite: number;
+  frostPulse: number;
+  stun: number;
+  control: number;
+  controlPulse: number;
 }
 
 export interface Player extends Vec2 {
@@ -63,6 +91,11 @@ export interface Enemy extends Vec2 {
   telegraph: number;
   interruptDamage: number;
   interruptRequired: number;
+  slow: number;
+  slowTime: number;
+  stunTime: number;
+  receivedHits: number;
+  primaryHits: number;
 }
 
 export interface Projectile extends Vec2 {
@@ -78,6 +111,8 @@ export interface Projectile extends Vec2 {
   hitIds: Set<number>;
   targetId: number | null;
   lifetime: number;
+  primary: boolean;
+  critical: boolean;
 }
 
 export interface Chest extends Vec2 {
@@ -113,6 +148,7 @@ export interface Card {
   rarity: Rarity;
   symbol: string;
   synergy: SynergyId;
+  offense: boolean;
   maxStacks: number | null;
   eligible: (player: Player) => boolean;
   apply: (player: Player) => void;

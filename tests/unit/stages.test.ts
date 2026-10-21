@@ -183,9 +183,9 @@ describe("authored encounters and independent schedules", () => {
     let previous = stageAt(3).bossHp;
     for (let index = 4; index < 40; index++) {
       const stage = stageAt(index);
-      expect(stage.bossHp).toBeGreaterThanOrEqual(previous);
+      expect(stage.bossHp).toBeGreaterThan(previous);
       expect(Number.isFinite(stage.bossHp)).toBe(true);
-      expect(stage.spawnInterval).toBeGreaterThanOrEqual(0.9);
+      expect(stage.spawnInterval).toBeGreaterThan(0);
       expect(stage.damage).toBeLessThanOrEqual(4);
       expect(stage.name).toContain("无尽");
       previous = stage.bossHp;

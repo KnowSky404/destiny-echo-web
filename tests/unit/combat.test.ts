@@ -240,6 +240,7 @@ describe("approach, defense and attack permission", () => {
     const world = arena();
     world.player.cooldown = 100;
     const target = enemy(world, {
+      kind: "hexer",
       x: 225,
       defenseX: 225,
       y: 620,
@@ -250,16 +251,21 @@ describe("approach, defense and attack permission", () => {
     expect(world.enemyAttacks).toBe(1);
     target.active = false;
     tick(world, 1);
-    expect(world.player.hp).toBe(100 - ENEMIES.wisp.damage);
+    expect(world.player.hp).toBe(100 - ENEMIES.hexer.damage);
     expect(world.enemyAttacks).toBe(1);
   });
 
-  test("all shipped enemies require the defense; region and anywhere policies work without new AI", () => {
-    for (const data of Object.values(ENEMIES))
-      expect(data.attackPolicy).toEqual({ type: "defense" });
+  test("melee enemies require the defense and ranged policies can attack earlier", () => {
+    for (const kind of ["wisp", "sentinel", "boss"] as const)
+      expect(ENEMIES[kind].attackPolicy).toEqual({ type: "defense" });
+    expect(ENEMIES.hexer.attackPolicy).toEqual({ type: "region", y: 120 });
     const world = arena();
     world.player.cooldown = 100;
-    const target = enemy(world, { y: 200, attackPolicy: { type: "region", y: 220 } });
+    const target = enemy(world, {
+      kind: "hexer",
+      y: 200,
+      attackPolicy: { type: "region", y: 220 },
+    });
     expect(attackPermitted(target)).toBe(false);
     tick(world, 1.8);
     expect(target.y).toBeLessThan(CONFIG.defense.y);
@@ -269,7 +275,7 @@ describe("approach, defense and attack permission", () => {
     expect(target.stage).toBe("Approaching");
     expect(target.telegraph).toBe(0);
     target.attackPolicy = { type: "anywhere" };
-    tick(world, ENEMIES.wisp.preparation + 0.05);
+    tick(world, ENEMIES.hexer.preparation + 0.05);
     expect(world.enemyAttacks).toBe(2);
   });
 
@@ -280,7 +286,7 @@ describe("approach, defense and attack permission", () => {
     world.player.shield = 10000;
     tick(world, 40);
     const active = world.enemies.items.filter((item) => item.active);
-    expect(active.length).toBe(CONFIG.limits.enemies);
+    expect(active.length).toBe(world.stage.maxEnemies);
     expect(new Set(active.map((item) => item.slot)).size).toBe(active.length);
     const stopped = active.filter((item) => item.arrived);
     expect(stopped.length).toBeGreaterThan(7);
@@ -296,7 +302,8 @@ describe("approach, defense and attack permission", () => {
     }
     tick(world, 12.1);
     expect(world.boss?.stage).toBe("Approaching");
-    expect(world.enemies.items.filter((item) => item.active).length).toBe(1);
+    expect(world.enemies.items.filter((item) => item.active).length).toBe(3);
+    expect(world.enemies.items.some((item) => item.active && item.kind === "hexer")).toBe(true);
   });
 });
 

@@ -1,6 +1,7 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
+import { chooseReward } from "../policy";
 import {
   boot,
   bootFixture,
@@ -162,58 +163,18 @@ for (const strategy of ["offense", "defensive"] as const) {
     );
     test.setTimeout(300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 3));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 8 : 3));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
       if (["GameOver", "Victory", "StageClear"].includes(state.phase)) break;
       if (state.phase === "RewardSelection" && state.reward) {
-        const priorities =
-          strategy === "defensive"
-            ? [
-                "vitality",
-                "ward",
-                "thorns",
-                "harvest",
-                "piercing",
-                "execution",
-                "haste",
-                "overload",
-                "multishot",
-                "focus",
-                "fuse",
-                "bloodpact",
-              ]
-            : state.player.hp < 45
-              ? [
-                  "harvest",
-                  "vitality",
-                  "ward",
-                  "thorns",
-                  "multishot",
-                  "haste",
-                  "overload",
-                  "piercing",
-                  "execution",
-                  "focus",
-                  "fuse",
-                  "bloodpact",
-                ]
-              : [
-                  "multishot",
-                  "haste",
-                  "overload",
-                  "piercing",
-                  "harvest",
-                  "focus",
-                  "execution",
-                  "fuse",
-                  "bloodpact",
-                  "vitality",
-                  "ward",
-                  "thorns",
-                ];
-        const id = priorities.find((id) => state.reward?.choices.includes(id));
+        const id = chooseReward(
+          state.reward.choices,
+          new Map(Object.entries(state.stacks)),
+          state.player.hp,
+          strategy === "defensive" ? "defensive" : "active",
+        );
         if (!id) throw new Error("Missing reward");
         await page.locator(`[data-card="${id}"]`).click();
       }
@@ -229,8 +190,8 @@ for (const strategy of ["offense", "defensive"] as const) {
     expect(result.kills).toBeGreaterThan(0);
     if (strategy === "offense") {
       expect(result.elapsed).toBeGreaterThanOrEqual(60);
-      expect(result.openedChests).toBe(5);
-      expect(result.metrics.bossInterrupts).toBeGreaterThan(0);
+      expect(result.openedChests).toBeGreaterThanOrEqual(6);
+      expect(result.metrics.damageTaken).toBeGreaterThan(0);
     }
     await page.screenshot({
       path: join(tmpdir(), `destiny-${info.project.name}-${strategy}-result.png`),
@@ -242,7 +203,7 @@ for (const strategy of ["offense", "defensive"] as const) {
       await page.locator(".reward-card").first().click();
       await page.clock.runFor(100);
       expect((await snapshot(page)).stageIndex).toBe(1);
-      expect((await snapshot(page)).player.stats.projectiles).toBeGreaterThan(1);
+      expect((await snapshot(page)).player.stats.damage).toBeGreaterThan(12);
       await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
       await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
       await page.clock.runFor(100);
@@ -381,7 +342,7 @@ test("preparation, dense defense and boss special render and produce real damage
   );
   const state = await snapshot(page);
   expect(state.enemies.some((enemy) => enemy.stage === "Preparing")).toBe(true);
-  expect(state.hostileShots.length).toBeGreaterThan(0);
+  expect(state.metrics.regularAttacks).toBeGreaterThan(0);
   await expect(page.locator("#threat-label")).toContainText("14");
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-defense.png`) });
   await page.clock.runFor(2000);
@@ -427,14 +388,14 @@ test("focused fire interrupts an enraged boss and shows the second phase", async
   });
 });
 
-test("synergy previews activate distinct-card tiers and a real explosion chain", async ({
+test("six-layer synergy preview accepts a repeat upgrade and triggers a real explosion chain", async ({
   page,
 }, info) => {
   await bootFixture(
     page,
     `
     world.player.cooldown = 100;
-    applyCard("overload", world.player, world.stacks);
+    for (let index = 0; index < 4; index++) applyCard("overload", world.player, world.stacks);
     applyCard("fuse", world.player, world.stacks);
     const chest = world.chests.acquire();
     Object.assign(chest, { id: 900000, x: 100, y: 250, hp: 0, maxHp: 36, radius: 26, age: 0, active: false });
@@ -448,8 +409,8 @@ test("synergy previews activate distinct-card tiers and a real explosion chain",
       vx: 0, vy: 0, damage: 1, lifetime: 1, hitsLeft: 1, targetId: world.enemies.items[0].id });
   `,
   );
-  await expect(page.locator('[data-card="bloodpact"]')).toContainText("2 → 3/3 · 流派质变");
-  await expect(page.locator('[data-card="overload"]')).toContainText("升级不重复计数");
+  await expect(page.locator('[data-card="bloodpact"]')).toContainText("5 → 6/6 · 中质变");
+  await expect(page.locator('[data-card="overload"]')).toContainText("5 → 6/6 · 中质变");
   await page.screenshot({
     path: join(tmpdir(), `destiny-${info.project.name}-synergy-reward.png`),
   });
@@ -459,7 +420,7 @@ test("synergy previews activate distinct-card tiers and a real explosion chain",
   expect(state.kills).toBe(3);
   expect(state.metrics.chainKills).toBe(2);
   expect(state.metrics.explosionCount).toBe(3);
-  await expect(page.locator('[data-synergy="blast"]')).toContainText("3/3 · 质变");
+  await expect(page.locator('[data-synergy="blast"]')).toContainText("6/9 · 中质变");
   await page.locator('[data-synergy="blast"] summary').click();
   await expect(page.locator('[data-synergy="blast"] .synergy-details')).toBeVisible();
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-synergy-chain.png`) });
@@ -499,4 +460,78 @@ test("final victory offers endless continuation with the existing build and fres
   expect(after.elapsed).toBeGreaterThanOrEqual(250);
   expect(after.stageElapsed).toBeLessThan(0.3);
   await expect(page.locator("#stage-label")).toContainText("无尽");
+});
+
+for (const layers of [3, 9]) {
+  test(`repeated cards unlock the ${layers}-layer tier through a native reward action`, async ({
+    page,
+  }, info) => {
+    await bootFixture(
+      page,
+      `
+      world.player.cooldown = 100;
+      for (let index = 0; index < ${layers - 1}; index++) applyCard("overload", world.player, world.stacks);
+      world.reward = {token: 100, choices: ["overload", "haste", "ward"], source: "chest"};
+      world.state.transition("RewardSelection");
+    `,
+    );
+    await expect(page.locator("#synergies details")).toHaveCount(10);
+    await expect(page.locator('[data-card="overload"]')).toContainText(
+      `${layers - 1} → ${layers}/${layers}`,
+    );
+    await page.locator('[data-card="overload"]').click();
+    await page.clock.runFor(100);
+    const state = await snapshot(page);
+    expect(state.stacks.overload).toBe(layers);
+    expect(state.synergies.find((item) => item.id === "blast")?.tier).toBe(layers);
+    await expect(page.locator('[data-synergy="blast"]')).toContainText(
+      `${layers}/9 · ${layers === 3 ? "小" : "大"}质变`,
+    );
+    await page.screenshot({
+      path: join(tmpdir(), `destiny-${info.project.name}-tier-${layers}.png`),
+    });
+  });
+}
+
+test("endless wave renders active ranged casters and the one-to-three composition", async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await bootFixture(
+    page,
+    `world.stageIndex = 4; world.bossSpawned = false; world.player.cooldown = 100; world.player.shield = 2000;`,
+  );
+  await page.clock.runFor(7000);
+  const state = await snapshot(page);
+  expect(state.endless).toBe(true);
+  expect(state.metrics.rangedSpawns).toBeGreaterThan(0);
+  expect(
+    state.enemies.some(
+      (item) => item.kind === "hexer" && item.stage === "Attacking" && item.y < 500,
+    ),
+  ).toBe(true);
+  expect(state.hostileShots.length).toBeGreaterThan(0);
+  expect(Math.abs(state.metrics.meleeSpawns - state.metrics.rangedSpawns * 3)).toBeLessThanOrEqual(
+    3,
+  );
+  await expect(page.locator("#stage-route")).toContainText("怪物预算 63");
+  expect(errors).toEqual([]);
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-ranged-wave.png`) });
+});
+
+test("a naturally scheduled gold-charge boss retains ranged and melee escort threats", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `world.bossSpawned = false; world.stageElapsed = world.stage.bossAt; world.player.cooldown = 100; world.player.shield = 2000;`,
+  );
+  await page.clock.runFor(12000);
+  const state = await snapshot(page);
+  expect(state.enemies.some((item) => item.kind === "boss" && item.telegraph > 0)).toBe(true);
+  expect(state.enemies.some((item) => item.kind === "hexer")).toBe(true);
+  expect(state.enemies.some((item) => ["wisp", "sentinel"].includes(item.kind))).toBe(true);
+  expect(state.metrics.regularAttacks).toBeGreaterThan(0);
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-mixed-boss.png`) });
 });

@@ -140,7 +140,7 @@ test("320px stage supply shows synergy progress and preserves the build on a nat
   `,
   );
   await expect(page.getByRole("heading", { name: "第 1 关突破" })).toBeVisible();
-  await expect(page.locator('[data-card="bloodpact"]')).toContainText("流派质变");
+  await expect(page.locator('[data-card="bloodpact"]')).toContainText("小质变");
   const frame = await page.locator(".arena-frame").boundingBox();
   const modal = await page.locator(".reward-modal").boundingBox();
   if (!frame || !modal) throw new Error("Missing supply bounds");
@@ -201,4 +201,31 @@ test("320px final victory keeps the endless action visible and accepts a native 
   expect(state.stageIndex).toBe(4);
   expect(state.stacks).toEqual({ overload: 1, fuse: 1, bloodpact: 1 });
   expect(state.stageElapsed).toBeLessThan(0.3);
+});
+
+test("320px touch can inspect all ten families and select a nine-layer critical upgrade", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.player.cooldown = 100;
+    for (let index = 0; index < 6; index++) applyCard("keen", world.player, world.stacks);
+    for (let index = 0; index < 2; index++) applyCard("lethal", world.player, world.stacks);
+    world.reward = {token: 100, choices: ["lethal", "chill", "edict"], source: "chest"};
+    world.state.transition("RewardSelection");
+  `,
+  );
+  await expect(page.locator('[data-card="lethal"]')).toContainText("8 → 9/9 · 大质变");
+  await page.locator('[data-card="lethal"]').tap();
+  await page.clock.runFor(100);
+  await expect(page.locator("#synergies details")).toHaveCount(10);
+  await expect(page.locator('[data-synergy="precision"]')).toContainText("9/9 · 大质变");
+  await page.locator('[data-synergy="dominion"] summary').tap();
+  await expect(page.locator('[data-synergy="dominion"] .synergy-details')).toContainText("9 层");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.screenshot({ path: join(tmpdir(), "destiny-mobile-ten-families.png") });
 });

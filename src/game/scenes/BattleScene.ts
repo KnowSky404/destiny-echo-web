@@ -144,7 +144,16 @@ export class BattleScene extends Phaser.Scene {
       if (!enemy.active) continue;
       const preparing = enemy.stage === "Preparing";
       const attacking = enemy.stage === "Attacking";
-      const color = preparing ? COLORS.gold : attacking ? 0xe57d98 : COLORS.blue;
+      const color =
+        enemy.stunTime > 0
+          ? 0xc7b7e8
+          : enemy.slowTime > 0
+            ? 0x9ce2ef
+            : preparing
+              ? COLORS.gold
+              : attacking
+                ? 0xe57d98
+                : COLORS.blue;
       this.overlay.lineStyle(
         preparing || attacking ? 2 : 1,
         color,
@@ -215,7 +224,7 @@ export class BattleScene extends Phaser.Scene {
 
   private renderPools(): void {
     const menu = this.world.phase === "Menu";
-    for (const kind of ["wisp", "sentinel", "boss"] as const) {
+    for (const kind of ["wisp", "sentinel", "hexer", "boss"] as const) {
       const enemies = this.world.enemies.items.filter(
         (enemy) => enemy.active && enemy.kind === kind,
       );
@@ -227,13 +236,17 @@ export class BattleScene extends Phaser.Scene {
             ? enemy.age * 0.4
             : Math.sin(enemy.age) * 0.06;
         image.setTint(
-          enemy.stage === "Attacking"
-            ? 0xffb3cc
-            : enemy.stage === "Preparing"
-              ? 0xffdf9c
-              : kind === "boss"
-                ? this.world.stage.color
-                : 0xffffff,
+          enemy.stunTime > 0
+            ? 0xc7b7e8
+            : enemy.slowTime > 0
+              ? 0x9ce2ef
+              : enemy.stage === "Attacking"
+                ? 0xffb3cc
+                : enemy.stage === "Preparing"
+                  ? 0xffdf9c
+                  : kind === "boss"
+                    ? this.world.stage.color
+                    : 0xffffff,
         );
       });
     }
@@ -249,7 +262,13 @@ export class BattleScene extends Phaser.Scene {
       this.world.shots.items.filter((item) => item.active),
       (image, item) => {
         image.setPosition(item.x, item.y).setScale(0.7).setRotation(Math.atan2(item.vx, -item.vy));
-        image.setTint(synergyTier(this.world.stacks, "blast") >= 2 ? 0xffc3a1 : 0xffffff);
+        image.setTint(
+          item.critical
+            ? 0xf1ce7a
+            : synergyTier(this.world.stacks, "blast") >= 3
+              ? 0xffc3a1
+              : 0xffffff,
+        );
       },
     );
     this.render(

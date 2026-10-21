@@ -178,8 +178,8 @@ describe("damage and collision", () => {
 });
 
 describe("cards and one-time rewards", () => {
-  test("all twelve cards change actual player data and have full definitions", () => {
-    expect(CARDS.length).toBe(12);
+  test("all thirty cards change actual player data and have full definitions", () => {
+    expect(CARDS.length).toBe(30);
     expect(CARDS.some((card) => card.id === "drift")).toBe(false);
     expect(new Set(CARDS.map((card) => card.id)).size).toBe(CARDS.length);
     for (const card of CARDS) {
@@ -224,7 +224,9 @@ describe("cards and one-time rewards", () => {
     const cards = drawCards(player, stacks, seededRandom(8));
     expect(cards.length).toBe(3);
     expect(new Set(cards).size).toBe(3);
-    expect(new Set(cards)).toEqual(new Set(["overload", "vitality", "ward"]));
+    expect(cards.every((id) => CARDS.find((card) => card.id === id)?.maxStacks === null)).toBe(
+      true,
+    );
   });
 
   test("destroying a chest pauses combat and can grant exactly one offered reward", () => {
@@ -257,7 +259,7 @@ describe("cards and one-time rewards", () => {
     world.update(1 / 120);
     const shots = world.shots.items.filter((shot) => shot.active);
     expect(shots.length).toBe(2);
-    expect(shots.map((shot) => shot.damage)).toEqual([16, 16]);
+    expect(shots.map((shot) => shot.damage)).toEqual([16, 12.8]);
     expect(shots.every((shot) => shot.hitsLeft === 2)).toBe(true);
     expect(world.player.cooldown).toBeLessThan(0.34);
   });

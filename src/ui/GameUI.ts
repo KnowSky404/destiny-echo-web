@@ -1,8 +1,9 @@
 import { CARD_BY_ID } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
-import { SYNERGY_BY_ID } from "../data/synergies";
-import { synergyPreview, synergyProgress, synergyTier } from "../game/synergies";
+import { SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
+import { combatStats } from "../game/stats";
+import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../game/synergies";
 import { isEnemy } from "../game/systems/targeting";
 import type { Phase } from "../game/types";
 import type { World } from "../game/world";
@@ -141,7 +142,7 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount}` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
@@ -175,20 +176,28 @@ export class GameUI {
     const notice =
       world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.notice : "";
     if (this.notice.textContent !== notice) this.notice.textContent = notice;
-    const statKey = JSON.stringify(player.stats);
+    const effective = combatStats(player, world.stacks);
+    const statKey = JSON.stringify([player.stats, effective]);
     if (this.lastStats !== statKey) {
       this.lastStats = statKey;
       const rows = [
-        ["damage", "术式伤害", String(player.stats.damage)],
-        [
-          "haste",
-          "攻击间隔",
-          `${(player.stats.interval * (synergyTier(world.stacks, "barrage") >= 2 ? 0.85 : 1)).toFixed(2)}s`,
-        ],
-        ["multishot", "弹幕数量", String(player.stats.projectiles)],
+        ["damage", "术式伤害", String(Number(effective.damage.toFixed(1)))],
+        ["haste", "攻击间隔", `${effective.interval.toFixed(2)}s`],
+        ["multishot", "弹幕数量", String(effective.projectiles)],
         ["piercing", "穿透目标", String(player.stats.piercing)],
         ["vitality", "生命上限", String(player.stats.maxHp)],
-        ["execution", "防线增伤", `+${player.stats.execution * 20}%`],
+        [
+          "critical",
+          "暴击率 / 倍率",
+          `${Math.round(effective.critChance * 100)}% / ${effective.critDamage.toFixed(2)}×`,
+        ],
+        ["bloodpact", "普攻吸血", `${Math.round(effective.lifesteal * 100)}%`],
+        [
+          "frost",
+          "命中减速",
+          `${Math.round(Math.min(0.7, player.stats.slow + (synergyTier(world.stacks, "frost") >= 3 ? 0.1 : 0)) * 100)}%`,
+        ],
+        ["control", "命中眩晕", `${player.stats.stun.toFixed(2)}s`],
       ];
       this.stats.innerHTML = rows
         .map(
@@ -209,8 +218,8 @@ export class GameUI {
         .map(
           (synergy) => `
         <details class="synergy-card ${synergy.tier > 0 ? "active" : ""}" data-synergy="${synergy.id}" style="--synergy-color:${synergy.color}" ${openSynergies.has(synergy.id) ? "open" : ""}>
-          <summary><span class="synergy-symbol">${icon(synergy.symbol)}</span><strong>${synergy.name}</strong><span class="synergy-count">${synergy.count}/3 · ${synergy.tier === 3 ? "质变" : synergy.tier === 2 ? "激活" : "待集齐"}</span></summary>
-          <div class="synergy-details"><p>${synergy.cards.map((card) => `<span class="${card.owned ? "owned" : ""}">${card.owned ? "✦" : "◇"} ${card.name}</span>`).join(" · ")}</p>${synergy.tiers.map((description, index) => `<p class="${synergy.count >= index + 2 ? "unlocked" : ""}"><b>${index + 2} 张</b> ${description}</p>`).join("")}</div>
+          <summary><span class="synergy-symbol">${icon(synergy.symbol)}</span><strong>${synergy.name}</strong><span class="synergy-count">${Math.min(9, synergy.count)}/9 · ${TIER_NAMES[synergy.tier]}</span></summary>
+          <div class="synergy-details"><p>累计 ${synergy.count} 层 · 重复升级计入</p><p>${synergy.cards.map((card) => `<span class="${card.owned ? "owned" : ""}">${card.owned ? "✦" : "◇"} ${card.name}${card.stacks > 0 ? ` ×${card.stacks}` : ""}</span>`).join(" · ")}</p>${synergy.tiers.map((description, index) => `<p class="${synergy.count >= (SYNERGY_THRESHOLDS[index] ?? 9) ? "unlocked" : ""}"><b>${SYNERGY_THRESHOLDS[index]} 层</b> ${description}</p>`).join("")}</div>
         </details>`,
         )
         .join("");
@@ -244,7 +253,7 @@ export class GameUI {
     );
     if (phase === "Playing") return;
     let title = "开启这一轮命运";
-    let description = "四关连战 · 流派联动 · 通关后无尽挑战";
+    let description = "10 大流派 · 3 / 6 / 9 层质变 · 四关后无尽挑战";
     let buttons =
       '<button type="button" class="button button-primary" data-action="start">开始共鸣</button>';
     let extra = '<p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p>';
@@ -261,16 +270,13 @@ export class GameUI {
           const card = CARD_BY_ID.get(id);
           if (!card) return "";
           const synergy = SYNERGY_BY_ID.get(card.synergy);
-          const count = world.stacks.has(card.id)
-            ? 0
-            : (synergyProgress(world.stacks).find((item) => item.id === card.synergy)?.count ?? 0);
-          const unlock = count === 1 || count === 2 ? synergy?.tiers[count - 1] : undefined;
+          const unlock = synergyUnlock(world.stacks, id);
           return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${card.rarity === "rare" ? "稀有" : "普通"}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${unlock ?? card.description}</span></span></button>`;
         })
         .join("");
       const stageClear = phase === "StageClear";
       const next = stageAt(world.stageIndex + 1);
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : "选择一道残响"}</h2><p>${stageClear ? `下一站：${next.name} · 保留构筑，恢复 35 生命` : "同流派 2 张激活 · 3 张质变（不同卡牌）"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : "选择一道残响"}</h2><p>${stageClear ? `下一站：${next.name} · 保留构筑，恢复 35 生命` : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;

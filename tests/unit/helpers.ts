@@ -1,7 +1,8 @@
 import { ENEMIES } from "../../src/data/enemies";
 import { CONFIG } from "../../src/game/config";
 import type { Enemy, EnemyKind } from "../../src/game/types";
-import type { World } from "../../src/game/world";
+import { World } from "../../src/game/world";
+import { chooseReward, type RunPolicy } from "../policy";
 
 let fixtureId = 1_000_000;
 
@@ -39,8 +40,35 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       telegraph: 0,
       interruptDamage: 0,
       interruptRequired: 0,
+      slow: 0,
+      slowTime: 0,
+      stunTime: 0,
+      receivedHits: 0,
+      primaryHits: 0,
     },
     overrides,
   );
   return entity;
+}
+
+export function naturalRun(seed: number, policy: RunPolicy = "active", endless = false): World {
+  const world = new World();
+  world.start(seed);
+  for (let frame = 0; frame < 120 * 650; frame++) {
+    if (endless && world.phase === "Victory") world.continueEndless();
+    if (["RewardSelection", "StageClear"].includes(world.phase) && world.reward) {
+      const choice = chooseReward(world.reward.choices, world.stacks, world.player.hp, policy);
+      if (!choice || !world.chooseCard(choice, world.reward.token))
+        throw new Error("No eligible reward");
+    }
+    if (world.clearedStages >= (endless ? 6 : 4) || world.phase !== "Playing") break;
+    if (policy !== "auto" && frame % 60 === 0) {
+      const chest = world.chests.items.find((item) => item.active);
+      if (chest && !world.boss) world.selectTargetAt(chest);
+      else world.clearTarget();
+    }
+    // Only native run actions: no HP, output, stage, schedule, RNG or clock mutations.
+    world.update(CONFIG.fixedStep);
+  }
+  return world;
 }
