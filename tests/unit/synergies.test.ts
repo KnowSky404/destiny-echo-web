@@ -76,10 +76,10 @@ function stationary(world: World, overrides: Partial<Enemy> = {}) {
 }
 
 describe("ten families and cumulative 3/6/9 breakpoints", () => {
-  test("forty unique cards provide four real effects in each of ten families", () => {
-    expect(CARDS).toHaveLength(40);
+  test("forty-three unique augments retain ten complete families", () => {
+    expect(CARDS).toHaveLength(43);
     expect(SYNERGIES).toHaveLength(10);
-    expect(new Set(CARDS.map((card) => card.id)).size).toBe(40);
+    expect(new Set(CARDS.map((card) => card.id)).size).toBe(43);
     for (const card of CARDS) {
       const player = createPlayer();
       const before = structuredClone(player);
@@ -91,7 +91,7 @@ describe("ten families and cumulative 3/6/9 breakpoints", () => {
 
   test.each(SYNERGIES)("$name reaches all three tiers, including repeated upgrades", (family) => {
     const world = arena();
-    expect(CARDS.filter((card) => card.synergy === family.id)).toHaveLength(4);
+    expect(CARDS.filter((card) => card.synergy === family.id).length).toBeGreaterThanOrEqual(4);
     for (let count = 1; count <= 9; count++) {
       const offered = eligibleCards(world.player, world.stacks).find(
         (card) => card.synergy === family.id,

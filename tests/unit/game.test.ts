@@ -169,6 +169,10 @@ describe("damage and collision", () => {
       speed: 0,
     });
     tick(world, 5);
+    expect(world.phase).toBe("StageClear");
+    const reward = world.reward;
+    if (!reward) throw new Error("No final boss reward");
+    world.chooseCard(reward.choices[0] ?? "", reward.token);
     expect(world.phase).toBe("Victory");
     expect(world.kills).toBe(1);
     const before = world.snapshot();
@@ -178,8 +182,8 @@ describe("damage and collision", () => {
 });
 
 describe("cards and one-time rewards", () => {
-  test("all forty cards change actual player data and have full definitions", () => {
-    expect(CARDS.length).toBe(40);
+  test("all forty-three cards change actual player data and have full definitions", () => {
+    expect(CARDS.length).toBe(43);
     expect(CARDS.some((card) => card.id === "drift")).toBe(false);
     expect(new Set(CARDS.map((card) => card.id)).size).toBe(CARDS.length);
     for (const card of CARDS) {

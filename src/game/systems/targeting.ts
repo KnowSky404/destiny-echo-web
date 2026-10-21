@@ -32,7 +32,9 @@ export function tauntedTargets(targets: Target[], endless = false, sanctuary = f
     const threats = living.filter((target) => isEnemy(target) && attackPermitted(target));
     if (threats.length > 0) return threats;
   }
-  const tanks = living.filter((target) => isEnemy(target) && target.kind === "tank");
+  const tanks = living.filter(
+    (target) => isEnemy(target) && target.kind === "tank" && target.tauntRemaining > 0,
+  );
   return tanks.length > 0 ? tanks : living;
 }
 

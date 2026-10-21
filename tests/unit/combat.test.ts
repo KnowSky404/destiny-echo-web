@@ -286,7 +286,7 @@ describe("approach, defense and attack permission", () => {
     world.player.shield = 10000;
     tick(world, 40);
     const active = world.enemies.items.filter((item) => item.active);
-    expect(active.length).toBe(world.stage.maxEnemies);
+    expect(active.length).toBe(world.stage.maxEnemies - 1);
     expect(new Set(active.map((item) => item.slot)).size).toBe(active.length);
     const stopped = active.filter((item) => item.arrived);
     expect(stopped.length).toBeGreaterThan(7);
@@ -302,9 +302,8 @@ describe("approach, defense and attack permission", () => {
     }
     tick(world, 12.1);
     expect(world.boss?.stage).toBe("Approaching");
-    expect(world.enemies.items.filter((item) => item.active).length).toBe(
-      1 + world.stage.supportCount,
-    );
+    expect(world.enemies.items.filter((item) => item.active).length).toBe(world.stage.maxEnemies);
+    expect(active.every((item) => item.active)).toBe(true);
     expect(world.enemies.items.some((item) => item.active && item.kind === "hexer")).toBe(true);
   });
 });

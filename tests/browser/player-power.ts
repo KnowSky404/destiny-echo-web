@@ -28,7 +28,7 @@ export async function sanctuaryTauntFlow(page: Page, name: string, touch = false
   await expect(page.locator("#status-effects")).toContainText("遗世庇护");
   await page.screenshot({ path: join(tmpdir(), `destiny-${name}-sanctuary-taunt.png`) });
   await page.clock.runFor(800);
-  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  await expect(page.locator("#target-label")).toContainText("攻击区优先");
   expect((await snapshot(page)).manualTargetId).toBe(preferred.id);
 }
 
@@ -169,7 +169,7 @@ export async function attackAreaFlow(page: Page, name: string, touch = false) {
   const after = await snapshot(page);
   expect(after.manualTargetId).toBe(tank.id);
   expect(after.enemies.find((item) => item.id === after.targetId)?.kind).toBe("wisp");
-  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  await expect(page.locator("#target-label")).toContainText("攻击区优先");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );

@@ -11,6 +11,9 @@ export const CONFIG = {
   chestLastAt: 46,
   sanctuary: { interval: 8, empoweredInterval: 6, baseDuration: 0.5, durationPerLayer: 0.25 },
   endless: {
+    populationCap: 360,
+    escortCap: 12,
+    summonCount: 6,
     supplies: 3,
     poisonDuration: 3,
     poisonDamagePerSecond: 6,
@@ -23,5 +26,8 @@ export const CONFIG = {
     slamDamage: 100,
     slamDamagePerStage: 5,
   },
+  crowd: { margin: 18, cellWidth: 68, cellHeight: 84, top: 116, reservedColumns: 2 },
+  fusion: { distance: 150, duration: 3, grace: 4, maxStars: 3, health: 3.5, damage: 2.5 },
+  skills: { tauntDuration: 2.5, approachInterval: 4, tauntChance: 0.4, poisonChance: 0.4 },
   limits: { enemies: 28, playerShots: 240, enemyShots: 360, chests: 1, particles: 120, blasts: 32 },
 } as const;

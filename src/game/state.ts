@@ -5,7 +5,7 @@ const TRANSITIONS: Record<Phase, readonly Phase[]> = {
   Playing: ["Paused", "RewardSelection", "StageClear", "Victory", "GameOver"],
   Paused: ["Playing", "Menu"],
   RewardSelection: ["Playing"],
-  StageClear: ["Playing"],
+  StageClear: ["Playing", "Victory"],
   Victory: ["Playing", "Menu"],
   GameOver: ["Playing", "Menu"],
 };

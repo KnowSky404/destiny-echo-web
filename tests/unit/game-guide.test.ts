@@ -3,12 +3,13 @@ import { checkGuide, renderGuide, wikiMarkdown } from "../../scripts/game-guide"
 import { CARDS } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { SYNERGIES } from "../../src/data/synergies";
+import { TRAININGS } from "../../src/data/training";
 
 describe("player guide and wiki synchronization", () => {
   test("checked-in pages match the current rules and every card, enemy and synergy is documented", async () => {
     expect(await checkGuide()).toEqual([]);
     const pages = await renderGuide();
-    for (const card of CARDS) {
+    for (const card of [...CARDS, ...TRAININGS]) {
       expect(pages.Cards).toContain(card.name);
       expect(pages.Cards).toContain(`\`${card.id}\``);
     }

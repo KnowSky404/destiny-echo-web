@@ -117,6 +117,8 @@ export async function bootFixture(page: Page, setup: string) {
           spawnX: overrides.x ?? 225, spawnY: overrides.y ?? 620, enhanced: false,
           interruptDamage: 0, interruptRequired: 0,
           skillsUsed: 0, lastSkill: null, damageReductionTime: 0,
+          stars: 1, damageScale: 1, fusionTime: 0, fusionPeers: "", tauntRemaining: 0,
+          skillCooldown: 1000, lastAction: null, formation: false,
           slow: 0, slowTime: 0, stunTime: 0, receivedHits: 0, primaryHits: 0 }, overrides);
         return entity;
       }

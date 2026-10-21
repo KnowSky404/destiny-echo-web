@@ -2,7 +2,8 @@ import { CARD_BY_ID, RARITY_NAMES } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
 import { SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
-import { combatStats } from "../game/stats";
+import { REWARD_BY_ID, TRAINING_BY_ID } from "../data/training";
+import { combatStats, overhealStats } from "../game/stats";
 import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../game/synergies";
 import { attackPermitted } from "../game/systems/enemy";
 import { isEnemy } from "../game/systems/targeting";
@@ -140,7 +141,7 @@ export class GameUI {
         ? `遗世庇护 ${world.sanctuaryRemaining.toFixed(1)}s · 已净化 · 倒计时冻结`
         : "",
       player.poisonTime > 0
-        ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 6 伤害 · 重伤：治疗 -90%`
+        ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 ${(6 * player.poisonPotency).toFixed(1)} 伤害 · 重伤：治疗 -90%`
         : "",
       player.poisonSlowTime > 0 ? `攻速 -30% ${player.poisonSlowTime.toFixed(1)}s` : "",
     ]
@@ -156,7 +157,7 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.sanctuaryRemaining > 0 ? " · 倒计时已冻结" : ""}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount} · 随机补给 ${world.stageSupplies}/3 · 首领奖励 +1` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.sanctuaryRemaining > 0 ? " · 倒计时已冻结" : ""}${world.endless ? ` · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
@@ -166,7 +167,7 @@ export class GameUI {
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
-      ? `${world.sanctuaryRemaining <= 0 && world.endless && isEnemy(target) && attackPermitted(target) ? "攻击区嘲讽" : world.sanctuaryRemaining <= 0 && isEnemy(target) && target.kind === "tank" ? "嘲讽锁定" : world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
+      ? `${world.sanctuaryRemaining <= 0 && world.endless && isEnemy(target) && attackPermitted(target) ? "攻击区优先" : world.sanctuaryRemaining <= 0 && isEnemy(target) && target.kind === "tank" && target.tauntRemaining > 0 ? "嘲讽锁定" : world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : `${ENEMIES[target.kind].name} · ${target.stars}星${target.tauntRemaining > 0 ? ` · 嘲讽 ${target.tauntRemaining.toFixed(1)}s` : ""}`) : "残响宝箱"}`
       : "自动索敌 · 等待目标";
     const threats = world.enemies.items.filter(
       (enemy) => enemy.active && enemy.stage !== "Approaching",
@@ -194,7 +195,8 @@ export class GameUI {
       world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.notice : "";
     if (this.notice.textContent !== notice) this.notice.textContent = notice;
     const effective = combatStats(player, world.stacks);
-    const statKey = JSON.stringify([player.stats, effective]);
+    const overflow = overhealStats(player, world.stacks);
+    const statKey = JSON.stringify([player.stats, effective, overflow]);
     if (this.lastStats !== statKey) {
       this.lastStats = statKey;
       const rows = [
@@ -210,6 +212,11 @@ export class GameUI {
         ],
         ["bloodpact", "普攻吸血", `${Math.round(effective.lifesteal * 100)}%`],
         [
+          "ward",
+          "过量转盾 / 储量",
+          `${Math.round(overflow.conversion * 100)}% / ${Math.round(overflow.capacity)}`,
+        ],
+        [
           "frost",
           "命中减速",
           `${Math.round(Math.min(0.7, player.stats.slow + (synergyTier(world.stacks, "frost") >= 3 ? 0.1 : 0)) * 100)}%`,
@@ -223,7 +230,7 @@ export class GameUI {
         )
         .join("");
     }
-    const buildKey = JSON.stringify([...world.stacks]);
+    const buildKey = JSON.stringify([[...world.stacks], [...world.trainingStacks]]);
     if (this.lastBuild !== buildKey) {
       this.lastBuild = buildKey;
       const openSynergies = new Set(
@@ -254,6 +261,18 @@ export class GameUI {
       else
         this.collection.innerHTML =
           '<div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>击破宝箱，<br/>收集你的第一张卡牌。</p></div>';
+      if (world.trainingStacks.size > 0) {
+        this.collection.innerHTML += `<p class="build-caption">首领锻体 · 不计入羁绊</p>${[
+          ...world.trainingStacks,
+        ]
+          .map(([id, count]) => {
+            const item = TRAINING_BY_ID.get(id);
+            return item
+              ? `<div class="collected-card training"><span>${icon(item.symbol)}</span><div><strong>${item.name}</strong><small>${count} 次锻体</small></div></div>`
+              : "";
+          })
+          .join("")}`;
+      }
     }
     document.body.dataset.phase = world.phase;
   }
@@ -284,8 +303,10 @@ export class GameUI {
       const reward = world.reward;
       const choices = reward.choices
         .map((id) => {
-          const card = CARD_BY_ID.get(id);
+          const card = REWARD_BY_ID.get(id);
           if (!card) return "";
+          if (card.type === "training")
+            return `<button type="button" class="reward-card training" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>锻体</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy">首领专属 · 数值强化</span><span class="card-description">${card.description}</span></span></button>`;
           const synergy = SYNERGY_BY_ID.get(card.synergy);
           const unlock = synergyUnlock(world.stacks, id);
           return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${RARITY_NAMES[card.rarity]}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${card.description}${unlock ? `<br>${unlock}` : ""}</span></span></button>`;
@@ -294,7 +315,8 @@ export class GameUI {
       const stageClear = phase === "StageClear";
       const next = stageAt(world.stageIndex + 1);
       const supply = reward.source === "supply";
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${world.endless ? "首领额外奖励 · " : ""}下一站：${next.name} · 保留构筑，恢复 35 生命` : supply ? "本关固定三次随机补给 · 击败首领额外获得一张卡" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
+      const finale = stageClear && world.stageIndex === STAGES.length - 1;
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? "本关固定三次随机补给 · 首领另有锻体与残响三选一" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;

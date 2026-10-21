@@ -2,6 +2,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { chooseReward } from "../policy";
+import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
 import {
   boot,
   bootFixture,
@@ -193,7 +194,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     );
     test.setTimeout(300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 1 : 3));
+    await page.clock.setSystemTime(new Date(3));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
@@ -216,7 +217,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     const result = await snapshot(page);
     expect(result.phase).toBe(strategy === "offense" ? "StageClear" : "GameOver");
     expect(result.metrics.regularAttacks).toBeGreaterThan(0);
-    expect(result.player.hp).toBeLessThan(100);
+    expect(result.metrics.damageTaken).toBeGreaterThan(0);
     expect(result.kills).toBeGreaterThan(0);
     if (strategy === "offense") {
       expect(result.elapsed).toBeGreaterThanOrEqual(52);
@@ -238,9 +239,12 @@ for (const strategy of ["offense", "defensive"] as const) {
       expect(carried.stageIndex).toBe(1);
       for (const [id, count] of Object.entries(frozen.stacks))
         expect(carried.stacks[id]).toBeGreaterThanOrEqual(count);
-      expect(Object.values(carried.stacks).reduce((sum, count) => sum + count, 0)).toBe(
-        Object.values(frozen.stacks).reduce((sum, count) => sum + count, 0) + 1,
-      );
+      expect(
+        [...Object.values(carried.stacks), ...Object.values(carried.trainingStacks)].reduce(
+          (sum, count) => sum + count,
+          0,
+        ),
+      ).toBe(Object.values(frozen.stacks).reduce((sum, count) => sum + count, 0) + 1);
       await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
       await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
       await page.clock.runFor(100);
@@ -294,16 +298,18 @@ test("production static build loads without diagnostics or missing assets", asyn
   expect(await page.evaluate(() => window.__ECHOES__)).toBeUndefined();
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
-  await expect(help).toContainText("40 张卡牌");
+  await expect(help).toContainText("43 张构筑残响卡");
+  await expect(help).toContainText("两项随机锻体与一张构筑残响三选一");
+  await expect(help).toContainText("无尽最多 24 只小怪与 1 个 Boss");
   await expect(help).toContainText("遗世庇护");
   await expect(help).toContainText("首层 0.75 秒");
-  await expect(help).toContainText("全部生命治疗效率降低 90%");
-  await expect(help).toContainText("100 / 105 / 110");
+  await expect(help).toContainText("治疗 -90%");
+  await expect(help).toContainText("此后每关 +5");
   await expect(help).toContainText("首关宝箱和首领奖励排除");
   await expect(
     help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),
   ).toHaveAttribute("href", "https://github.com/KnowSky404/destiny-echo-web/wiki");
-  await expect(help).toContainText("攻击区没有敌人时才由坦克嘲讽接管");
+  await expect(help).toContainText("没有有效嘲讽时不强制锁定坦克");
   await page.getByRole("button", { name: "明白了", exact: true }).click();
   expect(failures).toEqual([]);
 });
@@ -316,6 +322,9 @@ test("a near-defeated boss resolves through real homing fire to victory and rest
     `world.elapsed = 250; world.stageIndex = 3; world.clearedStages = 3; enemy({ kind: "boss", hp: 12 });`,
   );
   await page.clock.runFor(2000);
+  await expect(page.locator(".reward-card.training")).toHaveCount(2);
+  await page.locator(".reward-card.training").first().click();
+  await page.clock.runFor(100);
   await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
   const victory = await snapshot(page);
   expect(victory.phase).toBe("Victory");
@@ -492,6 +501,9 @@ test("final victory offers endless continuation with the existing build and fres
   `,
   );
   await page.clock.runFor(1000);
+  await expect(page.locator(".reward-card.training")).toHaveCount(2);
+  await page.locator(".reward-card.training").first().click();
+  await page.clock.runFor(100);
   await expect(page.getByRole("heading", { name: "终局，由你改写" })).toBeVisible();
   await page.screenshot({
     path: join(tmpdir(), `destiny-${info.project.name}-campaign-victory.png`),
@@ -569,9 +581,9 @@ test("endless wave renders tanks and poison wizards in equal three-species compo
   ];
   expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
   expect(state.player.poisonTime).toBeGreaterThan(0);
-  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  await expect(page.locator("#target-label")).toContainText("攻击区优先");
   await expect(page.locator("#status-effects")).toContainText("中毒");
-  await expect(page.locator("#stage-route")).toContainText("怪物预算 270");
+  await expect(page.locator("#stage-route")).toContainText("出怪预算 270");
   expect(errors).toEqual([]);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-ranged-wave.png`) });
 });
@@ -598,7 +610,7 @@ test("endless poison and taunt feedback survive manual priority input and pausin
   const state = await snapshot(page);
   expect(state.manualTargetId).toBe(wizard.id);
   expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("wizard");
-  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
+  await expect(page.locator("#target-label")).toContainText("攻击区优先");
   await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
   expect(state.combat.interval).toBeGreaterThan(0.34);
   await page.screenshot({
@@ -677,4 +689,14 @@ test("a naturally scheduled gold-charge boss retains ranged and melee escort thr
   expect(state.enemies.some((item) => ["wisp", "sentinel"].includes(item.kind))).toBe(true);
   expect(state.metrics.regularAttacks).toBeGreaterThan(0);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-mixed-boss.png`) });
+});
+
+test("mixed boss training reward settles before victory and survives endless", async ({
+  page,
+}, info) => {
+  await trainingRewardFlow(page, info.project.name, false);
+});
+
+test("full endless formation shows capacity and fusion star upgrades", async ({ page }, info) => {
+  await crowdFusionFlow(page, info.project.name, false);
 });
