@@ -210,7 +210,7 @@ bun run deploy                   # 重新构建，上传并发布到 workers.dev
 
 ## License
 
-项目代码采用 **GNU AGPL v3**，本项目声明为 `AGPL-3.0-only`，详见已有 [LICENSE](LICENSE)；本次未修改或替换许可证。
+项目代码采用 **GNU AGPL v3.0 or later**（`AGPL-3.0-or-later`）：你可以选择遵循自由软件基金会发布的第 3 版或任何后续版本。完整条款见 [LICENSE](LICENSE)。
 
 Phaser 按 MIT 许可分发，构建携带 [第三方声明](public/THIRD_PARTY_NOTICES.txt)。自托管 Noto Serif SC 字体子集使用 [SIL Open Font License 1.1](public/fonts/OFL.txt)。游戏美术是原创程序化几何图形。未来第三方美术和音乐必须单独确认授权，其资源许可与项目代码许可分别记录。
 
