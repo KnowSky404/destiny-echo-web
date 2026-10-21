@@ -24,21 +24,37 @@ export interface Stage {
   chargeTime: number;
   interrupt: number;
   supportInterval: number;
+  supportCount: number;
+}
+
+type CampaignEncounter = Omit<
+  Stage,
+  "health" | "enemyCount" | "growth" | "spawnInterval" | "supportInterval" | "supportCount"
+>;
+
+function campaignStage(index: number, encounter: CampaignEncounter): Stage {
+  const growth = 1.3 ** index;
+  const enemyCount = Math.ceil(40 * growth);
+  return {
+    ...encounter,
+    health: growth,
+    enemyCount,
+    growth,
+    spawnInterval: (encounter.bossAt - 0.8) / enemyCount,
+    supportInterval: 2,
+    supportCount: Math.ceil(4 * growth),
+  };
 }
 
 export const STAGES: readonly Stage[] = [
-  {
+  campaignStage(0, {
     name: "圣杯前庭",
     subtitle: "游离残响正在聚集。击破宝箱，启动你的第一条流派。",
     color: 0x8cc6f2,
     sentinelChance: 0.35,
-    health: 1,
     speed: 1,
     damage: 1,
-    spawnInterval: 1.5,
-    enemyCount: 40,
     maxEnemies: 14,
-    growth: 1,
     rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 52,
@@ -50,20 +66,15 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 26,
     chargeTime: 2,
     interrupt: 90,
-    supportInterval: 9,
-  },
-  {
+  }),
+  campaignStage(1, {
     name: "棱镜回廊",
     subtitle: "重甲守卫占据回廊。首领会召来援军，范围与穿透更有用。",
     color: 0xc6a5f4,
     sentinelChance: 0.7,
-    health: 1.3,
     speed: 1,
     damage: 1.1,
-    spawnInterval: 1.4,
-    enemyCount: 42,
     maxEnemies: 18,
-    growth: 1,
     rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 48,
@@ -75,20 +86,15 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 28,
     chargeTime: 2.1,
     interrupt: 130,
-    supportInterval: 8,
-  },
-  {
+  }),
+  campaignStage(2, {
     name: "焚星熔炉",
     subtitle: "残响加速涌入，在防线前开始蓄力。优先消灭金环目标。",
     color: 0xf5a17d,
     sentinelChance: 0.2,
-    health: 1.7,
     speed: 1.25,
     damage: 1.2,
-    spawnInterval: 1.2,
-    enemyCount: 44,
     maxEnemies: 21,
-    growth: 1,
     rangedEvery: 0,
     attackPolicy: { type: "region", y: 450 },
     bossAt: 46,
@@ -100,20 +106,15 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 30,
     chargeTime: 1.9,
     interrupt: 170,
-    supportInterval: 7,
-  },
-  {
+  }),
+  campaignStage(3, {
     name: "终愿核心",
     subtitle: "密集混编与持续援军。让成型的流派改写最后的愿望。",
     color: 0xdec28a,
     sentinelChance: 0.55,
-    health: 2.1,
     speed: 1.15,
     damage: 1.35,
-    spawnInterval: 1.1,
-    enemyCount: 48,
     maxEnemies: 28,
-    growth: 1,
     rangedEvery: 0,
     attackPolicy: { type: "defense" },
     bossAt: 48,
@@ -125,12 +126,11 @@ export const STAGES: readonly Stage[] = [
     specialDamage: 34,
     chargeTime: 1.8,
     interrupt: 220,
-    supportInterval: 6,
-  },
+  }),
 ];
 
 // Count is a per-stage spawn budget, separate from the bounded simultaneous pool.
-// The first three endless stages compound by 30%; subsequent stages compound by 10%.
+// Every endless stage compounds population, escort packs and health by 50%.
 export function stageAt(index: number): Stage {
   if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
   const authored = STAGES[index];
@@ -140,14 +140,12 @@ export function stageAt(index: number): Stage {
   if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
   // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
-  const growth = Math.exp(
-    Math.min(500, Math.min(depth, 3) * Math.log(1.3) + Math.max(0, depth - 3) * Math.log(1.1)),
-  );
+  const growth = Math.min(1.5 ** depth, Math.exp(500));
   const enemyCount = Math.ceil(finale.enemyCount * growth);
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
-    subtitle: `敌人数量与生命较上一关 +${depth <= 3 ? 30 : 10}%；每 4 只常规敌人含 1 名远程术士。`,
+    subtitle: "出怪量、援军规模与小怪／首领生命较上一关 +50%；远程与近战约 1:3。",
     sentinelChance: finale.sentinelChance,
     attackPolicy: { ...finale.attackPolicy },
     bossFan: finale.bossFan,
@@ -166,6 +164,7 @@ export function stageAt(index: number): Stage {
     bossHp: Math.round(finale.bossHp * growth),
     deadline: finale.deadline,
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
-    supportInterval: Math.max(0.5, finale.supportInterval / growth),
+    supportInterval: finale.supportInterval,
+    supportCount: Math.ceil(finale.supportCount * growth),
   };
 }

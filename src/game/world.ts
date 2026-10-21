@@ -200,6 +200,7 @@ export class World {
   private frostCooldown = 6;
   private controlCooldown = 8;
   private supportCooldown = 0;
+  private supportSpawned = 0;
   private volleys = 0;
   private readonly blastQueue: Array<{ x: number; y: number; radius: number; damage: number }> = [];
 
@@ -342,6 +343,7 @@ export class World {
     this.bloodCooldown = 5;
     this.shieldCooldown = 3;
     this.supportCooldown = this.stage.supportInterval;
+    this.supportSpawned = 0;
     this.stormCooldown = 6;
     this.frostCooldown = 6;
     this.controlCooldown = 8;
@@ -580,9 +582,7 @@ export class World {
               : "wisp";
         if (this.spawnEnemy(kind, 42 + this.random() * 366)) this.stageSpawned++;
         // One admission per fixed step bounds catch-up work at extreme endless depths.
-        this.spawnCooldown += this.endless
-          ? stage.spawnInterval
-          : Math.max(0.55, stage.spawnInterval - this.wave * 0.1);
+        this.spawnCooldown += stage.spawnInterval;
       }
       if (
         this.stageElapsed >= this.nextChestAt &&
@@ -615,13 +615,24 @@ export class World {
   }
 
   private reinforceBoss(): void {
-    // Both attack roles are present on every boss entrance, including stage one.
-    // Endless packs retain the same one-ranged-to-three-melee composition.
-    this.spawnEnemy("hexer", 380);
-    this.spawnEnemy(this.stage.sentinelChance >= 0.5 ? "sentinel" : "wisp", 70);
-    if (this.endless) {
-      this.spawnEnemy("wisp", 130);
-      this.spawnEnemy("sentinel", 320);
+    // Reinforcements have no total quota while the boss lives. Bound each batch
+    // by free slots even when its planned size grows beyond the physical pool.
+    const available =
+      this.stage.maxEnemies - this.enemies.items.filter((item) => item.active).length;
+    const count = Math.min(this.stage.supportCount, available);
+    for (let index = 0; index < count; index++) {
+      const position = this.supportSpawned % 4;
+      const kind =
+        position === 0
+          ? "hexer"
+          : position === 2
+            ? "wisp"
+            : this.stage.sentinelChance >= 0.5
+              ? "sentinel"
+              : "wisp";
+      if (!this.spawnEnemy(kind, [380, 70, 130, 320][position] ?? 225)) break;
+      // Failed admissions do not consume the one-ranged-to-three-melee cycle.
+      this.supportSpawned++;
     }
   }
 

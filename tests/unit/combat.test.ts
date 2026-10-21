@@ -302,7 +302,9 @@ describe("approach, defense and attack permission", () => {
     }
     tick(world, 12.1);
     expect(world.boss?.stage).toBe("Approaching");
-    expect(world.enemies.items.filter((item) => item.active).length).toBe(3);
+    expect(world.enemies.items.filter((item) => item.active).length).toBe(
+      1 + world.stage.supportCount,
+    );
     expect(world.enemies.items.some((item) => item.active && item.kind === "hexer")).toBe(true);
   });
 });

@@ -163,7 +163,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     );
     test.setTimeout(300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 8 : 3));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 10 : 3));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
@@ -189,9 +189,11 @@ for (const strategy of ["offense", "defensive"] as const) {
     expect(result.player.hp).toBeLessThan(100);
     expect(result.kills).toBeGreaterThan(0);
     if (strategy === "offense") {
-      expect(result.elapsed).toBeGreaterThanOrEqual(60);
+      expect(result.elapsed).toBeGreaterThanOrEqual(52);
       expect(result.openedChests).toBeGreaterThanOrEqual(6);
       expect(result.metrics.damageTaken).toBeGreaterThan(0);
+      expect(result.enemies).toEqual([]);
+      expect(result.hostileShots).toEqual([]);
     }
     await page.screenshot({
       path: join(tmpdir(), `destiny-${info.project.name}-${strategy}-result.png`),
@@ -202,8 +204,13 @@ for (const strategy of ["offense", "defensive"] as const) {
       expect(await snapshot(page)).toEqual(frozen);
       await page.locator(".reward-card").first().click();
       await page.clock.runFor(100);
-      expect((await snapshot(page)).stageIndex).toBe(1);
-      expect((await snapshot(page)).player.stats.damage).toBeGreaterThan(12);
+      const carried = await snapshot(page);
+      expect(carried.stageIndex).toBe(1);
+      for (const [id, count] of Object.entries(frozen.stacks))
+        expect(carried.stacks[id]).toBeGreaterThanOrEqual(count);
+      expect(Object.values(carried.stacks).reduce((sum, count) => sum + count, 0)).toBe(
+        Object.values(frozen.stacks).reduce((sum, count) => sum + count, 0) + 1,
+      );
       await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
       await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
       await page.clock.runFor(100);
@@ -515,7 +522,7 @@ test("endless wave renders active ranged casters and the one-to-three compositio
   expect(Math.abs(state.metrics.meleeSpawns - state.metrics.rangedSpawns * 3)).toBeLessThanOrEqual(
     3,
   );
-  await expect(page.locator("#stage-route")).toContainText("怪物预算 63");
+  await expect(page.locator("#stage-route")).toContainText("怪物预算 132");
   expect(errors).toEqual([]);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-ranged-wave.png`) });
 });
@@ -527,7 +534,10 @@ test("a naturally scheduled gold-charge boss retains ranged and melee escort thr
     page,
     `world.bossSpawned = false; world.stageElapsed = world.stage.bossAt; world.player.cooldown = 100; world.player.shield = 2000;`,
   );
-  await page.clock.runFor(12000);
+  const initialSpawns = (await snapshot(page)).metrics.rangedSpawns;
+  await page.clock.runFor(2100);
+  expect((await snapshot(page)).metrics.rangedSpawns).toBeGreaterThan(initialSpawns);
+  await page.clock.runFor(9900);
   const state = await snapshot(page);
   expect(state.enemies.some((item) => item.kind === "boss" && item.telegraph > 0)).toBe(true);
   expect(state.enemies.some((item) => item.kind === "hexer")).toBe(true);

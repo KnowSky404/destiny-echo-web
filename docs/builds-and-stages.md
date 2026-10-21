@@ -46,14 +46,16 @@ Periodic storm damage is `effective attack damage × (1 + 0.5 × max(1, storm la
 
 | Stage | Ordinary budget / simultaneous limit | Regular HP / speed / damage | Boss HP | Arrival / deadline | Mixed escort repeat |
 | --- | --- | --- | --- | --- | --- |
-| 圣杯前庭 | 40 / 14 | ×1 / ×1 / ×1; 35% sentinels | 2,000 | 52s / 88s | Every 9s |
-| 棱镜回廊 | 42 / 18 | ×1.3 / ×1 / ×1.1; 70% sentinels | 4,300 | 48s / 90s | Every 8s |
-| 焚星熔炉 | 44 / 21 | ×1.7 / ×1.25 / ×1.2; prepare at y=450 | 7,200 | 46s / 90s | Every 7s |
-| 终愿核心 | 48 / 28 | ×2.1 / ×1.15 / ×1.35; mixed melee | 11,000 | 48s / 96s | Every 6s |
+| 圣杯前庭 | 40 / 14 | ×1 / ×1 / ×1; 35% sentinels | 2,000 | 52s / 88s | 4 every 2s |
+| 棱镜回廊 | 52 / 18 | ×1.3 / ×1 / ×1.1; 70% sentinels | 4,300 | 48s / 90s | 6 every 2s |
+| 焚星熔炉 | 68 / 21 | ×1.69 / ×1.25 / ×1.2; prepare at y=450 | 7,200 | 46s / 90s | 7 every 2s |
+| 终愿核心 | 88 / 28 | ×2.197 / ×1.15 / ×1.35; mixed melee | 11,000 | 48s / 96s | 9 every 2s |
+
+Campaign difficulty compounds from stage one with `c(i)=1.3^i` for `i=0..3`: regular HP uses `c(i)`, ordinary admission budgets use `ceil(40×c(i))`, and escort batch sizes use `ceil(4×c(i))`. The ordinary spawn interval is `(boss arrival - 0.8)/budget`, with the first admission at 0.8s. Counts are rounded from the unrounded baseline. Boss HP retains the authored values above, which already increase more than 30% at each campaign transition; speed, damage and attack patterns remain encounter-specific.
 
 Wisps and sentinels now perform melee strikes against the defense only after arriving and preparing. The new cyan **蚀光术士 / hexer** has 66 base HP, speed 96/s, 1.2s preparation, one 7-damage projectile every 2.8s at speed 190/s. It can prepare from y=120, shoots while approaching, and stops in the midfield around y=340 (adjusted by its slot row). Its released projectiles remain dangerous after it dies.
 
-**Every boss**, including stage one, immediately enters with at least one melee escort and one ranged hexer; that mixed pack repeats for as long as the boss lives. Authored packs have one of each; endless packs have three melee and one hexer. Boss entrance clears the preceding regular wave and hostile shots, then admits the boss and the mixed pack in the same simulation step. A full regular pool cannot block it. Escorts keep acting during the boss's gold charge, providing actual multitarget pressure.
+**Every boss**, including stage one, immediately enters with melee and ranged escorts. New mixed batches arrive every **2 seconds** while the boss lives, without a total escort quota and independently of the ordinary-wave budget. All escort admissions follow a persistent one-hexer/three-melee cycle, including partially admitted batches. Boss entrance clears the preceding regular wave and hostile shots, then admits the boss and initial mixed batch in the same simulation step. A full regular pool cannot block it. Subsequent batches fill only free slots within the stage's simultaneous cap; unused batch capacity is discarded rather than accumulating an unbounded queue. Escorts keep acting during the boss's gold charge, providing actual multitarget pressure. Killing the boss immediately clears every escort, chest and projectile and freezes the stage supply/victory screen; surviving escorts never delay clearance. Existing HP/deadline failures still apply.
 
 All bosses retain defense arrival, preparation, gold charge, interrupt and half-HP mechanics. They share the original procedural boss silhouette; palette, parameters, fans and support differ. There are no four new boss art assets. Hexers have their own original procedural texture. Frozen/slowed enemies and critical shots receive distinct colors.
 
@@ -64,14 +66,15 @@ Campaign bosses one to three grant a frozen supply; claiming retains the build, 
 Let `d=1` be the first endless stage, relative to campaign stage four:
 
 ```text
-g(d) = 1.3 ^ min(d, 3) × 1.1 ^ max(d - 3, 0)
-regular HP multiplier = 2.1 × g(d)
+g(d) = 1.5 ^ d
+regular HP multiplier = 2.197 × g(d)
 boss HP = round(11,000 × g(d))
-regular spawn budget = ceil(48 × g(d))
+regular spawn budget = ceil(88 × g(d))
 spawn interval = (48 - 0.8) / spawn budget
+escorts per batch = ceil(9 × g(d)), every 2 seconds while the boss lives
 ```
 
-Thus the first three endless transitions each increase health/density 30%, followed by 10% per transition. Rounding changes population by at most one enemy from the ideal target. The initial budgets are 63, 82, 106, 117; initial boss HP is 14,300, 18,590, 24,167, 26,584. Theme rotation changes names/palette, without resetting combat composition, attack policies, health, speed, boss time or density to an easier baseline. Base speed remains ×1.15, boss arrival/deadline remains 48s/96s, and support cadence scales from `6/g(d)` with a 0.5s floor. Sentinel chance, ordinary attack policy, boss fan/cadence, special damage and charge time also retain the finale baseline. Enemy damage grows 4% per stage from ×1.35, capped at ×4; interrupt thresholds use `220 × sqrt(g(d))`.
+Every endless transition increases ordinary population, escort batch size, ordinary HP and boss HP **50%**, starting from campaign stage four. Rounding changes counts by at most one enemy from the ideal target. The initial budgets are 132, 198, 297, 446; escort batch sizes are 14, 21, 31, 46; boss HP is 16,500, 24,750, 37,125, 55,688. Theme rotation changes names/palette, without resetting combat composition, attack policies, health, speed, boss time or density to an easier baseline. Base speed remains ×1.15, boss arrival/deadline remains 48s/96s, and support cadence stays at 2s. Sentinel chance, ordinary attack policy, boss fan/cadence, special damage and charge time also retain the finale baseline. Enemy damage grows 4% per stage from ×1.35, capped at ×4; interrupt thresholds use `220 × sqrt(g(d))`.
 
 Each group of four successful regular admissions contains **three melee and one ranged**. Endless escort packs follow the same composition. Counters advance on successful admission, not failed pool acquisition. Population is a per-stage admission budget, not an unbounded simultaneous count: 28 enemies and one admission per fixed step bound runtime work. A saturated pool can reduce realized regular admissions before the scheduled boss transition. In reachable depths health/population have no gameplay plateau; an exponent ceiling of 500 only prevents floating-point overflow at unreachable depths.
 
@@ -79,7 +82,7 @@ Each stage has its own elapsed time, five-wave progression, chest/boss schedules
 
 ## Validation, quantification and design references
 
-Meaningful Bun tests cover all ten 3/6/9 thresholds, duplicates and eligibility, actual crit/heavy damage, real lifesteal/overkill/overheal, AOE non-recursion, slow/stun timers and boss resistance, every boss's mixed entrance/replacement, attacks during gold charges, actual ranged projectiles, 1:3 admission counts, forty growing endless configurations, actual population admission, pause/restart and natural full campaigns plus two endless bosses.
+Meaningful Bun tests cover all ten 3/6/9 thresholds, duplicates and eligibility, actual crit/heavy damage, real lifesteal/overkill/overheal, AOE non-recursion, slow/stun timers and boss resistance, every boss's mixed entrance/replacement, repeated escorts exceeding the regular quota, oversized batches and pool saturation, immediate boss-death clearance, attacks during gold charges, actual ranged projectiles, 1:3 admission counts, four campaign and forty endless growth configurations, actual population admission, pause/restart and natural full campaigns plus two endless bosses. Natural completion samples verify real incoming damage; a completed build can kill a boss before its first charge. Dedicated mixed-boss tests independently verify gold charges and escort attacks.
 
 `World.snapshot().metrics` adds total actual damage, incoming HP/shield loss, effective HP healing, critical hits, control procs and actual melee/ranged spawns. Stage admission count/quota and growth are exposed alongside existing kills, arrivals, interrupts, specials and proc counters. Diagnostics remain test-only and read-only; there is no online analytics service or persistence. Fixed policies/seeds can compare survival, clearing time and builds later. Their results are **not** human win rates or proof of balance; first-stage losses and overpowered completed builds remain tuning work.
 
