@@ -76,10 +76,10 @@ function stationary(world: World, overrides: Partial<Enemy> = {}) {
 }
 
 describe("ten families and cumulative 3/6/9 breakpoints", () => {
-  test("thirty unique cards provide three real effects in each of ten families", () => {
-    expect(CARDS).toHaveLength(30);
+  test("forty unique cards provide four real effects in each of ten families", () => {
+    expect(CARDS).toHaveLength(40);
     expect(SYNERGIES).toHaveLength(10);
-    expect(new Set(CARDS.map((card) => card.id)).size).toBe(30);
+    expect(new Set(CARDS.map((card) => card.id)).size).toBe(40);
     for (const card of CARDS) {
       const player = createPlayer();
       const before = structuredClone(player);
@@ -91,7 +91,7 @@ describe("ten families and cumulative 3/6/9 breakpoints", () => {
 
   test.each(SYNERGIES)("$name reaches all three tiers, including repeated upgrades", (family) => {
     const world = arena();
-    expect(CARDS.filter((card) => card.synergy === family.id)).toHaveLength(3);
+    expect(CARDS.filter((card) => card.synergy === family.id)).toHaveLength(4);
     for (let count = 1; count <= 9; count++) {
       const offered = eligibleCards(world.player, world.stacks).find(
         (card) => card.synergy === family.id,
@@ -379,16 +379,16 @@ describe("AOE, slowing and crowd control", () => {
     },
   );
 
-  test("six-layer control creates a real field stun and clears enemy bullets", () => {
+  test("six-layer control creates bullet time and clears enemy bullets", () => {
     const world = arena();
     grant(world, "dominion", 6);
-    const target = stationary(world);
+    stationary(world);
     const shot = world.hostileShots.acquire();
     if (!shot) throw new Error("No shot");
     Object.assign(shot, { x: 10, y: 10, vx: 0, vy: 0, lifetime: 60, damage: 10 });
     tick(world, 6);
     expect(shot.active).toBe(false);
-    expect(target.stunTime).toBeGreaterThan(0.6);
+    expect(world.bulletTimeRemaining).toBeGreaterThan(0.6);
     expect(world.controlProcs).toBeGreaterThan(0);
   });
 

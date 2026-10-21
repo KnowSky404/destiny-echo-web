@@ -573,6 +573,16 @@ kbd {
   border-color: #dec28a90;
   background: #201c23;
 }
+.reward-card.epic {
+  border-color: #dc9cfa;
+  background: linear-gradient(120deg, #30213f, #201c33);
+  box-shadow: inset 3px 0 #dc9cfa;
+}
+.epic .card-icon,
+.epic .card-topline small,
+.collected-card.epic > span {
+  color: #e4b2ff;
+}
 .reward-card:hover {
   border-color: var(--blue);
   background: #23263d;

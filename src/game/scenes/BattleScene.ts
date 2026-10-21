@@ -149,7 +149,7 @@ export class BattleScene extends Phaser.Scene {
       const preparing = enemy.stage === "Preparing";
       const attacking = enemy.stage === "Attacking";
       const color =
-        enemy.stunTime > 0
+        this.world.bulletTimeRemaining > 0 || enemy.stunTime > 0
           ? 0xc7b7e8
           : enemy.slowTime > 0
             ? 0x9ce2ef

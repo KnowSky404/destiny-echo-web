@@ -100,9 +100,10 @@ describe("tank taunts actual fire", () => {
     expect(ENEMIES.wizard.hp).toBe(ENEMIES.wisp.hp * 5);
   });
 
-  test("taunt overrides manual boss priority, secondary shots and existing homing locks", () => {
+  test("tank taunt controls manual, secondary and in-flight locks when the attack area is empty", () => {
     const world = arena();
     const target = boss(world);
+    target.attackPolicy = { type: "defense" };
     world.selectTargetAt(target);
     world.player.cooldown = 0;
     world.update(CONFIG.fixedStep);
@@ -119,7 +120,7 @@ describe("tank taunts actual fire", () => {
     expect(
       world.shots.items.filter((shot) => shot.active).every((shot) => shot.targetId === tank.id),
     ).toBe(true);
-    expect(chooseTarget(world.targets, target.id, target.id)?.id).toBe(tank.id);
+    expect(chooseTarget(world.targets, target.id, target.id, undefined, true)?.id).toBe(tank.id);
     tank.active = false;
     world.update(CONFIG.fixedStep);
     expect(world.targetId).toBe(target.id);
@@ -138,6 +139,56 @@ describe("tank taunts actual fire", () => {
     const reused = enemy(world, { kind: "wisp", y: 200 });
     expect(reused).toBe(tank);
     expect(chooseTarget(world.targets, target.id, target.id)?.id).toBe(target.id);
+  });
+
+  test("attack-area taunt preempts tanks for manual locks, secondary shots and flying projectiles, then hands back", () => {
+    const world = arena();
+    const preferred = enemy(world, { x: 390, y: 200, speed: 0 });
+    const tank = enemy(world, { kind: "tank", x: 57, y: 250, speed: 0 });
+    world.selectTargetAt(preferred);
+    world.player.cooldown = 0;
+    world.player.stats.projectiles = 3;
+    world.update(CONFIG.fixedStep);
+    const oldShot = world.shots.items.find((shot) => shot.active);
+    if (!oldShot) throw new Error("No projectile");
+    expect(oldShot.targetId).toBe(tank.id);
+    const threat = enemy(world, { x: 225, y: 620, arrived: true, speed: 0, hp: 10000 });
+    world.player.cooldown = 0;
+    world.update(CONFIG.fixedStep);
+    expect(world.targetId).toBe(threat.id);
+    expect(world.manualTargetId).toBe(preferred.id);
+    expect(oldShot.targetId).toBe(threat.id);
+    expect(
+      world.shots.items.filter((shot) => shot.active).every((shot) => shot.targetId === threat.id),
+    ).toBe(true);
+    threat.active = false;
+    world.update(CONFIG.fixedStep);
+    expect(world.targetId).toBe(tank.id);
+    tank.active = false;
+    world.update(CONFIG.fixedStep);
+    expect(world.targetId).toBe(preferred.id);
+  });
+
+  test("ranged entry boundaries and boss anywhere permission grant priority only in endless", () => {
+    const world = arena();
+    const tank = enemy(world, { kind: "tank", y: 250 });
+    const wizard = enemy(world, { kind: "wizard", y: 119, arrived: false, speed: 0 });
+    expect(chooseTarget(world.targets, null, tank.id, undefined, true)?.id).toBe(tank.id);
+    wizard.y = 120;
+    expect(chooseTarget(world.targets, tank.id, tank.id, undefined, true)?.id).toBe(wizard.id);
+    expect(chooseTarget(world.targets, tank.id, tank.id)?.id).toBe(tank.id);
+    wizard.active = false;
+    const target = boss(world);
+    expect(chooseTarget(world.targets, tank.id, tank.id, undefined, true)?.id).toBe(target.id);
+    target.y = -1;
+    expect(chooseTarget(world.targets, null, target.id, undefined, true)?.id).toBe(tank.id);
+  });
+
+  test("a tank inside the attack area shares its threat band instead of stealing an existing attacker lock", () => {
+    const world = arena();
+    const attacker = enemy(world, { x: 225, y: 620, arrived: true, stage: "Attacking" });
+    enemy(world, { kind: "tank", y: 620, arrived: true, stage: "Attacking" });
+    expect(chooseTarget(world.targets, attacker.id, null, undefined, true)?.id).toBe(attacker.id);
   });
 });
 

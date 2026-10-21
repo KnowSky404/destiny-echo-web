@@ -20,7 +20,7 @@ export type SynergyId =
 export type SynergyTier = 0 | 3 | 6 | 9;
 export type EnemyKind = "wisp" | "sentinel" | "hexer" | "tank" | "wizard" | "boss";
 export type BossSkill = "guard" | "summon" | "slam";
-export type Rarity = "common" | "rare";
+export type Rarity = "common" | "rare" | "epic";
 export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
 export type AttackPolicy =
   | { type: "defense" }

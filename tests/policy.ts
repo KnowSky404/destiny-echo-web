@@ -10,6 +10,16 @@ export function chooseReward(
   policy: RunPolicy = "active",
 ): string | undefined {
   const weights: Record<string, number> = {
+    "nova-heart": 42,
+    "heavenly-barrage": 43,
+    "aegis-core": 30,
+    "final-verdict": 38,
+    "titan-heart": 44,
+    "crimson-grail": 32,
+    "fate-eye": 38,
+    "tempest-core": 44,
+    "absolute-zero": 35,
+    chronocrown: 40,
     multishot: 30,
     haste: 26,
     piercing: 18,

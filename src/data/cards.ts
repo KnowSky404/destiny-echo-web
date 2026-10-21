@@ -1,5 +1,7 @@
 import { type Random, shuffled } from "../game/random";
-import type { Card, Player, Stats, SynergyId } from "../game/types";
+import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
+
+export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
 
 interface StatCard {
   id: string;
@@ -251,14 +253,144 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "edict",
     name: "静默王权",
-    description: "每 8 秒全场眩晕，每层持续 0.25 秒；首领持续四分之一。",
+    description:
+      "每 8 秒进入子弹时间，净化中毒与攻速降低；冻结敌方、弹幕与关卡倒计时，玩家继续攻击。首领不减免。",
     synergy: "dominion",
     symbol: "control",
     field: "controlPulse",
     amount: 1,
-    label: "禁锢层数",
+    label: "子弹时间强化层数",
     maxStacks: 4,
     offense: false,
+  }),
+];
+
+function epicCard(
+  definition: Pick<Card, "id" | "name" | "description" | "synergy" | "symbol" | "offense"> & {
+    bonuses: Partial<Stats>;
+    change: string;
+    restore?: { hp: number; shield: number };
+  },
+): Card {
+  return {
+    ...definition,
+    rarity: "epic",
+    maxStacks: 1,
+    eligible: () => true,
+    apply: (player) => {
+      for (const [field, amount] of Object.entries(definition.bonuses) as [keyof Stats, number][])
+        player.stats[field] += amount;
+      if (definition.restore) {
+        player.hp = Math.min(player.stats.maxHp, player.hp + definition.restore.hp);
+        player.shield += definition.restore.shield;
+      }
+    },
+    preview: () => definition.change,
+  };
+}
+
+export const EPIC_CARDS: readonly Card[] = [
+  epicCard({
+    id: "nova-heart",
+    name: "超新星之心",
+    synergy: "blast",
+    symbol: "blast",
+    offense: true,
+    description: "星核替你承担过载。强化击杀爆炸与自动献祭，并提高普攻伤害。每局限取一次。",
+    bonuses: { damage: 8, fuse: 2, bloodpact: 1 },
+    change: "基础伤害 +8 · 爆炸 +2 层 · 献祭 +1 层",
+  }),
+  epicCard({
+    id: "heavenly-barrage",
+    name: "万千祷言",
+    synergy: "barrage",
+    symbol: "multishot",
+    offense: true,
+    description: "圣杯同时回应每一道祈祷。增加两枚弹幕并提高穿透；最终弹数最多六枚。每局限取一次。",
+    bonuses: { projectiles: 2, piercing: 1 },
+    change: "弹幕 +2 枚 · 额外穿透 +1",
+  }),
+  epicCard({
+    id: "aegis-core",
+    name: "不灭圣城",
+    synergy: "bastion",
+    symbol: "ward",
+    offense: false,
+    description: "立即扩展生命上限、治疗并获得护盾，荆棘反击再增加一层。每局限取一次。",
+    bonuses: { maxHp: 60, thorns: 1 },
+    restore: { hp: 80, shield: 60 },
+    change: "生命上限 +60 · 治疗 80 · 护盾 +60 · 荆棘 +1",
+  }),
+  epicCard({
+    id: "final-verdict",
+    name: "终焉敕令",
+    synergy: "judgment",
+    symbol: "execution",
+    offense: true,
+    description: "对首领和攻击阶段的敌人各增加 40% 伤害，每次击杀额外回复 4 生命。每局限取一次。",
+    bonuses: { focus: 2, execution: 2, harvest: 2 },
+    change: "首领增伤 +40% · 攻击阶段增伤 +40% · 击杀回复 +4",
+  }),
+  epicCard({
+    id: "titan-heart",
+    name: "泰坦神躯",
+    synergy: "might",
+    symbol: "damage",
+    offense: true,
+    description: "巨神将力量借给凡人。固定伤害与攻击倍率同时提升。每局限取一次。",
+    bonuses: { damage: 18, power: 0.3 },
+    change: "基础伤害 +18 · 攻击加成 +30 个百分点",
+  }),
+  epicCard({
+    id: "crimson-grail",
+    name: "猩红圣杯",
+    synergy: "blood",
+    symbol: "bloodpact",
+    offense: false,
+    description: "以敌人的伤口修复防线。吸血、持续回复和治疗加成同时强化。每局限取一次。",
+    bonuses: { lifesteal: 0.12, regeneration: 3, recovery: 0.25 },
+    change: "吸血 +12% · 每秒回复 +3 · 治疗加成 +25%",
+  }),
+  epicCard({
+    id: "fate-eye",
+    name: "命运之眼",
+    synergy: "precision",
+    symbol: "critical",
+    offense: true,
+    description: "看见下一次暴击，也让它更加致命。每局限取一次。",
+    bonuses: { critChance: 0.2, critDamage: 0.75 },
+    change: "暴击率 +20 个百分点 · 暴击倍率 +0.75",
+  }),
+  epicCard({
+    id: "tempest-core",
+    name: "万雷归一",
+    synergy: "storm",
+    symbol: "storm",
+    offense: true,
+    description: "连锁、溅射与周期雷暴同时强化，单体攻击也能清场。每局限取一次。",
+    bonuses: { chain: 2, splash: 2, storm: 2 },
+    change: "闪电跳跃 +2 · 溅射 +2 层 · 雷暴 +2 层",
+  }),
+  epicCard({
+    id: "absolute-zero",
+    name: "绝对零域",
+    synergy: "frost",
+    symbol: "frost",
+    offense: true,
+    description: "同时强化命中减速、碎冰增伤与周期寒潮。首领仍抵抗普通减速。每局限取一次。",
+    bonuses: { slow: 0.2, frostbite: 0.35, frostPulse: 2 },
+    change: "命中减速 +20% · 减速增伤 +35% · 寒潮 +2 层",
+  }),
+  epicCard({
+    id: "chronocrown",
+    name: "时序王冠",
+    synergy: "dominion",
+    symbol: "control",
+    offense: true,
+    description:
+      "单独获得即可解锁 2 秒子弹时间；已有子弹时间额外延长 1 秒，再受王权羁绊加成。每局限取一次。",
+    bonuses: { controlPulse: 2, control: 0.35, stun: 0.3 },
+    change: "子弹时间 +2 层 · 控制增伤 +35% · 命中眩晕 +0.3s",
   }),
 ];
 
@@ -303,12 +435,12 @@ export const CARDS: readonly Card[] = [
     rarity: "rare",
     symbol: "multishot",
     maxStacks: 4,
-    eligible: (player) => player.stats.projectiles < 5,
+    eligible: (player) => player.stats.projectiles < 6,
     apply: (player) => {
-      player.stats.projectiles = Math.min(5, player.stats.projectiles + 1);
+      player.stats.projectiles = Math.min(6, player.stats.projectiles + 1);
     },
     preview: (player) =>
-      `弹幕 ${player.stats.projectiles} → ${Math.min(5, player.stats.projectiles + 1)} 枚`,
+      `弹幕 ${player.stats.projectiles} → ${Math.min(6, player.stats.projectiles + 1)} 枚`,
   },
   {
     id: "piercing",
@@ -319,12 +451,11 @@ export const CARDS: readonly Card[] = [
     rarity: "rare",
     symbol: "piercing",
     maxStacks: 3,
-    eligible: (player) => player.stats.piercing < 3,
+    eligible: () => true,
     apply: (player) => {
-      player.stats.piercing = Math.min(3, player.stats.piercing + 1);
+      player.stats.piercing++;
     },
-    preview: (player) =>
-      `额外穿透 ${player.stats.piercing} → ${Math.min(3, player.stats.piercing + 1)} 个`,
+    preview: (player) => `额外穿透 ${player.stats.piercing} → ${player.stats.piercing + 1} 个`,
   },
   {
     id: "vitality",
@@ -351,12 +482,12 @@ export const CARDS: readonly Card[] = [
     rarity: "common",
     symbol: "execution",
     maxStacks: 3,
-    eligible: (player) => player.stats.execution < 3,
+    eligible: () => true,
     apply: (player) => {
-      player.stats.execution = Math.min(3, player.stats.execution + 1);
+      player.stats.execution++;
     },
     preview: (player) =>
-      `攻击阶段增伤 ${player.stats.execution * 20}% → ${Math.min(3, player.stats.execution + 1) * 20}%`,
+      `攻击阶段增伤 ${player.stats.execution * 20}% → ${(player.stats.execution + 1) * 20}%`,
   },
   {
     id: "ward",
@@ -382,7 +513,7 @@ export const CARDS: readonly Card[] = [
     rarity: "rare",
     symbol: "blast",
     maxStacks: 4,
-    eligible: (player) => player.stats.fuse < 4,
+    eligible: () => true,
     apply: (player) => {
       player.stats.fuse++;
     },
@@ -397,7 +528,7 @@ export const CARDS: readonly Card[] = [
     rarity: "rare",
     symbol: "bloodpact",
     maxStacks: 3,
-    eligible: (player) => player.stats.bloodpact < 3,
+    eligible: () => true,
     apply: (player) => {
       player.stats.bloodpact++;
     },
@@ -413,7 +544,7 @@ export const CARDS: readonly Card[] = [
     rarity: "rare",
     symbol: "thorns",
     maxStacks: 4,
-    eligible: (player) => player.stats.thorns < 4,
+    eligible: () => true,
     apply: (player) => {
       player.stats.thorns++;
     },
@@ -428,7 +559,7 @@ export const CARDS: readonly Card[] = [
     rarity: "common",
     symbol: "focus",
     maxStacks: 3,
-    eligible: (player) => player.stats.focus < 3,
+    eligible: () => true,
     apply: (player) => {
       player.stats.focus++;
     },
@@ -444,13 +575,14 @@ export const CARDS: readonly Card[] = [
     rarity: "common",
     symbol: "harvest",
     maxStacks: 3,
-    eligible: (player) => player.stats.harvest < 3,
+    eligible: () => true,
     apply: (player) => {
       player.stats.harvest++;
     },
     preview: (player) => `击杀回复 ${player.stats.harvest * 2} → ${(player.stats.harvest + 1) * 2}`,
   },
   ...EXTRA_CARDS,
+  ...EPIC_CARDS,
 ];
 
 export const CARD_BY_ID = new Map(CARDS.map((card) => [card.id, card]));
@@ -467,8 +599,13 @@ export function drawCards(
   player: Player,
   stacks: ReadonlyMap<string, number>,
   random: Random,
+  source: Reward["source"] = "chest",
 ): string[] {
-  const pool = shuffled(eligibleCards(player, stacks), random);
+  const eligible = eligibleCards(player, stacks);
+  const pool = shuffled(
+    eligible.filter((card) => card.rarity !== "epic"),
+    random,
+  );
   const counts = new Map<SynergyId, number>();
   for (const [id, count] of stacks) {
     const family = CARD_BY_ID.get(id)?.synergy;
@@ -489,6 +626,10 @@ export function drawCards(
     "chain",
     "splash",
     "stormcall",
+    "nova-heart",
+    "heavenly-barrage",
+    "titan-heart",
+    "tempest-core",
   ]);
   const preferred = focused
     ? pool.filter((card) => card.synergy === focused).slice(0, 2)
@@ -499,6 +640,17 @@ export function drawCards(
   if (!choices.some((card) => foundations.has(card.id))) {
     const attack = pool.find((card) => foundations.has(card.id) && !choices.includes(card));
     if (attack) choices[choices.length - 1] = attack;
+  }
+  const collected = [...stacks.values()].reduce((sum, count) => sum + count, 0);
+  const epics = eligible.filter((card) => card.rarity === "epic");
+  if (epics.length > 0 && (source === "stage" || (collected >= 3 && random() < 0.25))) {
+    const promoted = shuffled(epics, random);
+    const epic = promoted.find((card) => card.synergy === focused) ?? promoted[0];
+    if (epic) {
+      // Preserve a foundation option even when the epic itself is defensive.
+      const replacement = choices.findIndex((card) => !foundations.has(card.id));
+      choices[replacement >= 0 ? replacement : choices.length - 1] = epic;
+    }
   }
   return choices.map((card) => card.id);
 }

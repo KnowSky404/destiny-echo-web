@@ -2,8 +2,22 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { boot, bootFixture, clickTarget, firstReward, snapshot, start } from "./helpers";
+import { attackAreaFlow, bulletTimeFlow, epicRewardFlow } from "./player-power";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
+test("touch bullet time cleanses poison, freezes the deadline and survives pause", async ({
+  page,
+}, info) => {
+  await bulletTimeFlow(page, info.project.name);
+});
+test("320px epic rewards fit and a native tap grants the chosen upgrade", async ({
+  page,
+}, info) => {
+  await epicRewardFlow(page, info.project.name, true);
+});
+test("320px attack-area taunt overrides a native touch tank lock", async ({ page }, info) => {
+  await attackAreaFlow(page, info.project.name, true);
+});
 test.beforeEach(({ page }) => {
   const errors: string[] = [];
   runtimeErrors.set(page, errors);
@@ -280,7 +294,7 @@ test("320px poison and taunt labels remain readable and override native touch pr
     world.stageSupplies = 3;
     world.player.cooldown = 100;
     world.player.poisonTime = 3;
-    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, speed: 0 });
+    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, arrived: false, speed: 0 });
     enemy({ kind: "wizard", x: 360, defenseX: 360, y: 240, speed: 0 });
   `,
   );
@@ -291,10 +305,10 @@ test("320px poison and taunt labels remain readable and override native touch pr
   await page.clock.runFor(200);
   const state = await snapshot(page);
   expect(state.manualTargetId).toBe(wizard.id);
-  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("tank");
+  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("wizard");
   await expect(page.locator("#status-effects")).toContainText("中毒");
   await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
-  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );

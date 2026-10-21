@@ -9,6 +9,7 @@ export const CONFIG = {
   chestFirstAt: 3,
   chestInterval: 7,
   chestLastAt: 46,
+  bulletTime: { interval: 8, empoweredInterval: 6, baseDuration: 1, durationPerLayer: 0.5 },
   endless: {
     supplies: 3,
     poisonDuration: 3,

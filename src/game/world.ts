@@ -8,7 +8,7 @@ import { type Random, seededRandom } from "./random";
 import { RunState } from "./state";
 import { combatStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
-import { advancePoison, applyPoison, damagePlayer } from "./systems/damage";
+import { advancePoison, applyPoison, cleansePlayer, damagePlayer } from "./systems/damage";
 import { advanceAttackStage, advanceEnemy } from "./systems/enemy";
 import { clamp, segmentHitsCircle } from "./systems/movement";
 import {
@@ -171,6 +171,7 @@ export class World {
   elapsed = 0;
   stageIndex = 0;
   stageElapsed = 0;
+  bulletTimeRemaining = 0;
   clearedStages = 0;
   kills = 0;
   score = 0;
@@ -275,7 +276,7 @@ export class World {
 
   cycleTarget(): void {
     if (this.phase !== "Playing") return;
-    const targets = rankedTargets(this.targets);
+    const targets = rankedTargets(tauntedTargets(this.targets, this.endless));
     const index = targets.findIndex((target) => target.id === this.manualTargetId);
     this.manualTargetId = targets[(index + 1) % targets.length]?.id ?? null;
     this.refreshTarget();
@@ -290,7 +291,9 @@ export class World {
   private refreshTarget(): void {
     const targets = this.targets;
     if (!targets.some((target) => target.id === this.manualTargetId)) this.manualTargetId = null;
-    this.targetId = chooseTarget(targets, this.targetId, this.manualTargetId)?.id ?? null;
+    this.targetId =
+      chooseTarget(targets, this.targetId, this.manualTargetId, undefined, this.endless)?.id ??
+      null;
   }
 
   start(seed = Date.now()): boolean {
@@ -359,14 +362,14 @@ export class World {
 
   private resetStage(): void {
     this.stageElapsed = 0;
+    this.bulletTimeRemaining = 0;
     this.bossSpawned = false;
     this.reward = null;
     this.targetId = null;
     this.manualTargetId = null;
     this.player.cooldown = 0;
     this.player.invulnerable = 0;
-    this.player.poisonTime = 0;
-    this.player.poisonSlowTime = 0;
+    cleansePlayer(this.player);
     this.lastHitAt = -10;
     this.accumulator = 0;
     this.spawnCooldown = 0.8;
@@ -461,7 +464,7 @@ export class World {
     this.stageSupplies++;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawCards(this.player, this.stacks, this.random),
+      choices: drawCards(this.player, this.stacks, this.random, "supply"),
       source: "supply",
     };
     this.state.transition("RewardSelection");
@@ -471,7 +474,7 @@ export class World {
     this.pendingStageReward = false;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawCards(this.player, this.stacks, this.random),
+      choices: drawCards(this.player, this.stacks, this.random, "stage"),
       source: "stage",
     };
     this.state.transition("StageClear");
@@ -488,35 +491,67 @@ export class World {
   }
 
   private step(delta: number): void {
+    this.advanceControlPulse(delta);
+    this.advanceCombat(delta);
+    this.bulletTimeRemaining = Math.max(0, this.bulletTimeRemaining - delta);
+    if (this.bulletTimeRemaining < 1e-9) this.bulletTimeRemaining = 0;
+  }
+
+  private advanceControlPulse(delta: number): void {
+    // This cooldown uses hostile time, so a pulse cannot recharge itself while time is stopped.
+    if (this.bulletTimeRemaining > 0) return;
+    const dominion = synergyTier(this.stacks, "dominion");
+    if (this.player.stats.controlPulse <= 0 && dominion < 6) return;
+    const interval =
+      dominion >= 6 ? CONFIG.bulletTime.empoweredInterval : CONFIG.bulletTime.interval;
+    this.controlCooldown = Math.min(this.controlCooldown, interval) - delta;
+    if (this.controlCooldown > 1e-9) return;
+    this.controlCooldown = interval;
+    this.bulletTimeRemaining =
+      (CONFIG.bulletTime.baseDuration +
+        this.player.stats.controlPulse * CONFIG.bulletTime.durationPerLayer) *
+      (dominion >= 9 ? 1.6 : dominion >= 3 ? 1.3 : 1);
+    cleansePlayer(this.player);
+    if (dominion >= 6) this.hostileShots.clear();
+    this.controlProcs++;
+    this.showBlast({ x: 225, y: 350 }, 500, 0xc7b7e8);
+    this.notice = "子弹时间 · 状态已净化，敌方与关卡计时冻结";
+    this.noticeUntil = this.elapsed + this.bulletTimeRemaining;
+  }
+
+  private advanceCombat(delta: number): void {
+    const frozen = this.bulletTimeRemaining > 0;
+    const hostileDelta = frozen ? 0 : delta;
     this.elapsed += delta;
-    this.stageElapsed += delta;
+    this.stageElapsed += hostileDelta;
     this.player.invulnerable = Math.max(0, this.player.invulnerable - delta);
-    this.damageTaken += advancePoison(this.player, delta);
+    this.damageTaken += advancePoison(this.player, hostileDelta);
     if (this.player.hp <= 0) {
       this.state.transition("GameOver");
       return;
     }
     for (const enemy of this.enemies.items) {
-      if (enemy.active) enemy.damageReductionTime = Math.max(0, enemy.damageReductionTime - delta);
+      if (enemy.active)
+        enemy.damageReductionTime = Math.max(0, enemy.damageReductionTime - hostileDelta);
     }
     if (this.endless) {
       this.prepareEndlessSupplies();
     }
     // Position is a simulation invariant, independent of all browser input.
     Object.assign(this.player, CONFIG.player);
-    this.spawn(delta);
+    if (!frozen) this.spawn(delta);
     for (const enemy of this.enemies.items) {
-      if (enemy.active && advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave))
+      if (!frozen && enemy.active && advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave))
         this.arrivals++;
     }
     this.refreshTarget();
     this.attack(delta);
     this.moveShots(this.shots, delta);
-    this.moveShots(this.hostileShots, delta);
+    if (!frozen) this.moveShots(this.hostileShots, delta);
     for (const chest of this.chests.items) {
-      if (!chest.active) continue;
-      chest.age += delta;
-      chest.y = Math.min(340, chest.y + 7 * delta);
+      if (!chest.active || frozen) continue;
+      chest.age += hostileDelta;
+      chest.y = Math.min(340, chest.y + 7 * hostileDelta);
     }
     this.collisions();
     this.refreshTarget();
@@ -525,12 +560,14 @@ export class World {
     this.refreshTarget();
     if (this.phase !== "Playing") return;
     // Resolve incoming friendly hits before releasing an attack on this step.
+    if (!frozen && this.boss && this.endless) this.endlessBossSkills(this.boss);
+    if (this.phase !== "Playing") return;
     this.enemyAttack(delta);
     if (this.phase !== "Playing") return;
     for (const enemy of this.enemies.items) {
       if (!enemy.active) continue;
-      enemy.stunTime = Math.max(0, enemy.stunTime - delta);
-      enemy.slowTime = Math.max(0, enemy.slowTime - delta);
+      enemy.stunTime = Math.max(0, enemy.stunTime - hostileDelta);
+      enemy.slowTime = Math.max(0, enemy.slowTime - hostileDelta);
       if (enemy.slowTime === 0) enemy.slow = 0;
     }
     for (const particle of this.particles.items) {
@@ -545,11 +582,12 @@ export class World {
       blast.life -= delta;
       if (blast.life <= 0) blast.active = false;
     }
-    if (this.stageElapsed >= this.stage.deadline) {
+    if (!frozen && this.stageElapsed >= this.stage.deadline) {
       this.endingReason = "timeout";
       this.state.transition("GameOver");
     } else if (
       this.endless &&
+      !frozen &&
       this.stageElapsed >= (this.endlessRewardTimes[this.stageSupplies] ?? Infinity)
     ) {
       this.offerEndlessSupply();
@@ -557,7 +595,9 @@ export class World {
   }
 
   private enemyDelta(enemy: Enemy, delta: number): number {
-    return enemy.stunTime > 0 ? 0 : delta * (1 - (enemy.slowTime > 0 ? enemy.slow : 0));
+    return this.bulletTimeRemaining > 0 || enemy.stunTime > 0
+      ? 0
+      : delta * (1 - (enemy.slowTime > 0 ? enemy.slow : 0));
   }
 
   private attack(delta: number): void {
@@ -584,7 +624,7 @@ export class World {
   private fireVolley(target: Target, multiplier: number): void {
     const stats = combatStats(this.player, this.stacks);
     const count = stats.projectiles;
-    const others = rankedTargets(tauntedTargets(this.targets)).filter(
+    const others = rankedTargets(tauntedTargets(this.targets, this.endless)).filter(
       (item) => item.id !== target.id,
     );
     const guaranteed = synergyTier(this.stacks, "precision") >= 9 && this.volleys % 3 === 0;
@@ -956,10 +996,10 @@ export class World {
         continue;
       }
       if (pool === this.shots) {
-        const targets = tauntedTargets(this.targets);
+        const targets = tauntedTargets(this.targets, this.endless);
         const target =
           targets.find((item) => item.id === shot.targetId && !shot.hitIds.has(item.id)) ??
-          chooseTarget(targets, this.targetId, this.manualTargetId, shot.hitIds);
+          chooseTarget(targets, this.targetId, this.manualTargetId, shot.hitIds, this.endless);
         shot.targetId = target?.id ?? null;
         if (target) {
           const angle = Math.atan2(shot.vy, shot.vx);
@@ -1012,7 +1052,11 @@ export class World {
     const judgment = synergyTier(this.stacks, "judgment");
     const frost = synergyTier(this.stacks, "frost");
     const dominion = synergyTier(this.stacks, "dominion");
-    const controlled = enemy.stunTime > 0 || enemy.telegraph > 0 || enemy.stage === "Preparing";
+    const controlled =
+      this.bulletTimeRemaining > 0 ||
+      enemy.stunTime > 0 ||
+      enemy.telegraph > 0 ||
+      enemy.stage === "Preparing";
     const bonus =
       (enemy.stage === "Attacking" ? stats.execution * 0.2 : 0) +
       (enemy.kind === "boss" ? stats.focus * 0.2 : 0) +
@@ -1048,7 +1092,8 @@ export class World {
       this.defeatEnemy(enemy, source);
       return;
     }
-    if (enemy.kind === "boss" && this.endless) this.endlessBossSkills(enemy);
+    if (enemy.kind === "boss" && this.endless && this.bulletTimeRemaining <= 0)
+      this.endlessBossSkills(enemy);
     if (enemy.kind === "boss" && enemy.telegraph > 0) {
       enemy.interruptDamage += actualDamage * (dominion >= 9 ? 1.5 : 1);
       if (enemy.interruptDamage >= enemy.interruptRequired) {
@@ -1164,12 +1209,15 @@ export class World {
 
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
-    if (enemy.kind === "wizard") applyPoison(this.player);
+    if (enemy.kind === "wizard" && this.bulletTimeRemaining <= 0) applyPoison(this.player);
     this.kills++;
     this.score += ENEMIES[enemy.kind].score;
     if (source === "blast") this.chainKills++;
     this.heal(this.player.stats.harvest * 2);
-    if (enemy.stunTime > 0 && synergyTier(this.stacks, "dominion") >= 9)
+    if (
+      (enemy.stunTime > 0 || this.bulletTimeRemaining > 0) &&
+      synergyTier(this.stacks, "dominion") >= 9
+    )
       this.player.shield += Math.max(0, Math.min(8, this.player.stats.maxHp - this.player.shield));
     this.burst(
       enemy.x,
@@ -1181,8 +1229,8 @@ export class World {
       this.clearedStages++;
       this.score += Math.ceil(this.player.hp) * 10;
       this.clearCombat();
-      this.player.poisonTime = 0;
-      this.player.poisonSlowTime = 0;
+      cleansePlayer(this.player);
+      this.bulletTimeRemaining = 0;
       if (this.endless) {
         this.pendingStageReward = true;
         if (this.stageSupplies < CONFIG.endless.supplies) this.offerEndlessSupply();
@@ -1248,7 +1296,6 @@ export class World {
     const blood = synergyTier(this.stacks, "blood");
     const storm = synergyTier(this.stacks, "storm");
     const frost = synergyTier(this.stacks, "frost");
-    const dominion = synergyTier(this.stacks, "dominion");
     this.heal(stats.regeneration * delta * (blood >= 9 ? 2 : 1));
     if (stats.bloodpact > 0 || blast >= 6) {
       const interval = blast >= 9 ? 3 : blast >= 6 ? 4 : 5;
@@ -1307,17 +1354,6 @@ export class World {
           this.slowEnemy(enemy, 0.2 + stats.frostPulse * 0.05, frost >= 3 ? 3 : 2);
       }
     }
-    if (stats.controlPulse > 0 || dominion >= 6) {
-      const interval = dominion >= 6 ? 6 : 8;
-      this.controlCooldown = Math.min(this.controlCooldown, interval) - delta;
-      if (this.controlCooldown <= 1e-9) {
-        this.controlCooldown = interval;
-        this.showBlast({ x: 225, y: 350 }, 500, 0xc7b7e8);
-        for (const enemy of this.enemies.items)
-          this.stunEnemy(enemy, Math.max(0.5, stats.controlPulse * 0.25));
-        if (dominion >= 6) this.hostileShots.clear();
-      }
-    }
   }
 
   private collisions(): void {
@@ -1350,6 +1386,7 @@ export class World {
         if (!shot.active) break;
       }
     }
+    if (this.bulletTimeRemaining > 0) return;
     for (const shot of this.hostileShots.items) {
       if (
         !shot.active ||
@@ -1419,6 +1456,7 @@ export class World {
       elapsed: this.elapsed,
       stageIndex: this.stageIndex,
       stageElapsed: this.stageElapsed,
+      bulletTimeRemaining: this.bulletTimeRemaining,
       stageName: this.stage.name,
       stageSpawned: this.stageSpawned,
       stageQuota: this.stage.enemyCount,

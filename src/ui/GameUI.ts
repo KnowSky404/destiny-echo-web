@@ -1,9 +1,10 @@
-import { CARD_BY_ID } from "../data/cards";
+import { CARD_BY_ID, RARITY_NAMES } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
 import { SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
 import { combatStats } from "../game/stats";
 import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../game/synergies";
+import { attackPermitted } from "../game/systems/enemy";
 import { isEnemy } from "../game/systems/targeting";
 import type { Phase } from "../game/types";
 import type { World } from "../game/world";
@@ -135,6 +136,9 @@ export class GameUI {
     this.healthValue.textContent = `${Math.ceil(player.hp)} / ${player.stats.maxHp}`;
     this.shieldValue.textContent = player.shield > 0 ? `+${Math.ceil(player.shield)} 护盾` : "";
     this.statusEffects.textContent = [
+      world.bulletTimeRemaining > 0
+        ? `子弹时间 ${world.bulletTimeRemaining.toFixed(1)}s · 已净化 · 倒计时冻结`
+        : "",
       player.poisonTime > 0 ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 6 伤害` : "",
       player.poisonSlowTime > 0 ? `攻速 -30% ${player.poisonSlowTime.toFixed(1)}s` : "",
     ]
@@ -150,7 +154,7 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount} · 随机补给 ${world.stageSupplies}/3 · 首领奖励 +1` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.bulletTimeRemaining > 0 ? " · 倒计时已冻结" : ""}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount} · 随机补给 ${world.stageSupplies}/3 · 首领奖励 +1` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
@@ -160,7 +164,7 @@ export class GameUI {
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
-      ? `${isEnemy(target) && target.kind === "tank" ? "嘲讽锁定" : world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
+      ? `${world.endless && isEnemy(target) && attackPermitted(target) ? "攻击区嘲讽" : isEnemy(target) && target.kind === "tank" ? "嘲讽锁定" : world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
       : "自动索敌 · 等待目标";
     const threats = world.enemies.items.filter(
       (enemy) => enemy.active && enemy.stage !== "Approaching",
@@ -282,7 +286,7 @@ export class GameUI {
           if (!card) return "";
           const synergy = SYNERGY_BY_ID.get(card.synergy);
           const unlock = synergyUnlock(world.stacks, id);
-          return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${card.rarity === "rare" ? "稀有" : "普通"}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${unlock ?? card.description}</span></span></button>`;
+          return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${RARITY_NAMES[card.rarity]}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${card.description}${unlock ? `<br>${unlock}` : ""}</span></span></button>`;
         })
         .join("");
       const stageClear = phase === "StageClear";

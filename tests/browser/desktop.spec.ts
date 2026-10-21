@@ -13,8 +13,22 @@ import {
   snapshot,
   start,
 } from "./helpers";
+import { attackAreaFlow, bulletTimeFlow, epicRewardFlow } from "./player-power";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
+test("cleansing bullet time freezes enemy action and the deadline while shots keep dealing damage", async ({
+  page,
+}, info) => {
+  await bulletTimeFlow(page, info.project.name);
+});
+test("stage rewards offer an epic and keyboard selection carries its power into the next stage", async ({
+  page,
+}, info) => {
+  await epicRewardFlow(page, info.project.name);
+});
+test("endless attack-area taunt overrides a manual tank lock", async ({ page }, info) => {
+  await attackAreaFlow(page, info.project.name);
+});
 test.beforeEach(({ page }) => {
   const errors: string[] = [];
   runtimeErrors.set(page, errors);
@@ -262,6 +276,12 @@ test("production static build loads without diagnostics or missing assets", asyn
   await expect(page.getByRole("button", { name: "开始共鸣", exact: true })).toBeEnabled();
   await expect(page.locator("canvas")).toBeVisible();
   expect(await page.evaluate(() => window.__ECHOES__)).toBeUndefined();
+  await page.getByRole("button", { name: "玩法说明", exact: true }).click();
+  const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
+  await expect(help).toContainText("40 张卡牌");
+  await expect(help).toContainText("子弹时间");
+  await expect(help).toContainText("攻击区没有敌人时才由坦克嘲讽接管");
+  await page.getByRole("button", { name: "明白了", exact: true }).click();
   expect(failures).toEqual([]);
 });
 
@@ -526,7 +546,7 @@ test("endless wave renders tanks and poison wizards in equal three-species compo
   ];
   expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
   expect(state.player.poisonTime).toBeGreaterThan(0);
-  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
   await expect(page.locator("#status-effects")).toContainText("中毒");
   await expect(page.locator("#stage-route")).toContainText("怪物预算 270");
   expect(errors).toEqual([]);
@@ -543,7 +563,7 @@ test("endless poison and taunt feedback survive manual priority input and pausin
     world.stageSupplies = 3;
     world.player.cooldown = 100;
     world.player.poisonTime = 3;
-    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, speed: 0, hp: 500 });
+    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, arrived: false, speed: 0, hp: 500 });
     enemy({ kind: "wizard", x: 365, defenseX: 365, y: 240, speed: 0, hp: 250 });
   `,
   );
@@ -554,8 +574,8 @@ test("endless poison and taunt feedback survive manual priority input and pausin
   await page.clock.runFor(100);
   const state = await snapshot(page);
   expect(state.manualTargetId).toBe(wizard.id);
-  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("tank");
-  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("wizard");
+  await expect(page.locator("#target-label")).toContainText("攻击区嘲讽");
   await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
   expect(state.combat.interval).toBeGreaterThan(0.34);
   await page.screenshot({

@@ -1,5 +1,6 @@
 import { CONFIG } from "../config";
 import type { Enemy, Target } from "../types";
+import { attackPermitted } from "./enemy";
 
 export function isEnemy(target: Target): target is Enemy {
   return "kind" in target;
@@ -13,7 +14,6 @@ export function isTargetable(target: Target): boolean {
 
 export function targetPriority(target: Target): number {
   if (!isEnemy(target)) return 2;
-  if (target.kind === "tank") return -1;
   if (target.kind === "boss" || target.stage !== "Approaching") return 0;
   return target.y >= CONFIG.defense.dangerY ? 1 : 3;
 }
@@ -24,8 +24,12 @@ export function rankedTargets(targets: Target[]): Target[] {
     .sort((a, b) => targetPriority(a) - targetPriority(b) || b.y - a.y || a.id - b.id);
 }
 
-export function tauntedTargets(targets: Target[]): Target[] {
+export function tauntedTargets(targets: Target[], endless = false): Target[] {
   const living = targets.filter(isTargetable);
+  if (endless) {
+    const threats = living.filter((target) => isEnemy(target) && attackPermitted(target));
+    if (threats.length > 0) return threats;
+  }
   const tanks = living.filter((target) => isEnemy(target) && target.kind === "tank");
   return tanks.length > 0 ? tanks : living;
 }
@@ -36,8 +40,9 @@ export function chooseTarget(
   currentId: number | null,
   manualId: number | null,
   excluded?: ReadonlySet<number>,
+  endless = false,
 ): Target | undefined {
-  const ranked = rankedTargets(tauntedTargets(targets)).filter(
+  const ranked = rankedTargets(tauntedTargets(targets, endless)).filter(
     (target) => !excluded?.has(target.id),
   );
   const manual = ranked.find((target) => target.id === manualId);

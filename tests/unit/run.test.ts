@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { SYNERGIES } from "../../src/data/synergies";
 import { CONFIG } from "../../src/game/config";
 import { synergyCount } from "../../src/game/synergies";
 
@@ -52,7 +53,7 @@ describe("natural unmodified multi-stage runs", () => {
     expect(world.stageKindSpawns.tank).toBeGreaterThan(0);
     expect(world.stageKindSpawns.wizard).toBeGreaterThan(0);
     expect(world.player.poisonTime).toBeGreaterThan(0);
-    expect(synergyCount(world.stacks, "blast")).toBeGreaterThanOrEqual(9);
+    expect(SYNERGIES.some((family) => synergyCount(world.stacks, family.id) >= 9)).toBe(true);
     expect(world.explosionCount).toBeGreaterThan(100);
     expect(world.chainKills).toBeGreaterThan(0);
     expect(world.echoVolleys).toBeGreaterThan(0);

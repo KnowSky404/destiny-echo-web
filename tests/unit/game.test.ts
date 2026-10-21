@@ -178,8 +178,8 @@ describe("damage and collision", () => {
 });
 
 describe("cards and one-time rewards", () => {
-  test("all thirty cards change actual player data and have full definitions", () => {
-    expect(CARDS.length).toBe(30);
+  test("all forty cards change actual player data and have full definitions", () => {
+    expect(CARDS.length).toBe(40);
     expect(CARDS.some((card) => card.id === "drift")).toBe(false);
     expect(new Set(CARDS.map((card) => card.id)).size).toBe(CARDS.length);
     for (const card of CARDS) {

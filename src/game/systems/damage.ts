@@ -1,6 +1,11 @@
 import { CONFIG } from "../config";
 import type { Player } from "../types";
 
+export function cleansePlayer(player: Player): void {
+  player.poisonTime = 0;
+  player.poisonSlowTime = 0;
+}
+
 export function applyPoison(player: Player): void {
   player.poisonTime = CONFIG.endless.poisonDuration;
 }
