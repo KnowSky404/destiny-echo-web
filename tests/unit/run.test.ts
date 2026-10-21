@@ -43,11 +43,15 @@ describe("natural unmodified multi-stage runs", () => {
     expect(poorBuild.regularAttacks).toBeGreaterThan(0);
   });
 
-  test("a complete explosion build continues through two real endless bosses", () => {
+  test("a winning campaign build enters harder endless combat with real tank and poison pressure", () => {
     const world = run(10, "families", true);
-    expect(world.clearedStages).toBeGreaterThanOrEqual(6);
+    expect(world.clearedStages).toBe(4);
     expect(world.endless).toBe(true);
-    expect(world.stageIndex).toBeGreaterThanOrEqual(5);
+    expect(world.stageIndex).toBe(4);
+    expect(world.phase).toBe("GameOver");
+    expect(world.stageKindSpawns.tank).toBeGreaterThan(0);
+    expect(world.stageKindSpawns.wizard).toBeGreaterThan(0);
+    expect(world.player.poisonTime).toBeGreaterThan(0);
     expect(synergyCount(world.stacks, "blast")).toBeGreaterThanOrEqual(9);
     expect(world.explosionCount).toBeGreaterThan(100);
     expect(world.chainKills).toBeGreaterThan(0);

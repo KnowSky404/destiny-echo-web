@@ -318,6 +318,19 @@ kbd {
   font-size: 9px;
   color: var(--blue);
 }
+
+.status-effects {
+  display: block;
+  padding: 5px 8px;
+  color: #b6e7a4;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.status-effects[hidden] {
+  display: none;
+}
 .health-track {
   width: 100%;
   height: 4px;

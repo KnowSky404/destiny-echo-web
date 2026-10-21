@@ -20,7 +20,14 @@ export function advanceEnemy(enemy: Enemy, delta: number, wave: number): boolean
   enemy.y = Math.min(enemy.defenseY, enemy.y + enemy.speed * multiplier * delta);
   const sway = enemy.kind === "boss" ? 12 : 16;
   const taper = Math.min(1, Math.max(0, (enemy.defenseY - enemy.y) / 120));
-  enemy.x = enemy.defenseX + Math.sin(enemy.age * 1.6) * sway * taper;
+  const remaining = Math.max(
+    0,
+    Math.min(1, (enemy.defenseY - enemy.y) / Math.max(1, enemy.defenseY - enemy.spawnY)),
+  );
+  enemy.x =
+    enemy.defenseX +
+    (enemy.spawnX - enemy.defenseX) * remaining +
+    Math.sin(enemy.age * 1.6) * sway * taper;
   if (enemy.y < enemy.defenseY) return false;
   enemy.x = enemy.defenseX;
   enemy.arrived = true;

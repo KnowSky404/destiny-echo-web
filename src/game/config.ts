@@ -9,5 +9,16 @@ export const CONFIG = {
   chestFirstAt: 3,
   chestInterval: 7,
   chestLastAt: 46,
+  endless: {
+    supplies: 3,
+    poisonDuration: 3,
+    poisonDamagePerSecond: 6,
+    poisonAttackSlow: 0.3,
+    bossThresholds: [0.7, 0.4, 0.1],
+    bossReduction: 0.9,
+    bossReductionDuration: 3,
+    summonMultiplier: 1.5,
+    slamDamage: 90,
+  },
   limits: { enemies: 28, playerShots: 240, enemyShots: 360, chests: 1, particles: 120, blasts: 32 },
 } as const;

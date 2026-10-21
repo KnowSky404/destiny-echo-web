@@ -95,6 +95,10 @@ describe("continuous campaign and stage-reward lifetime", () => {
     expect(world.stacks.get("multishot")).toBe(1);
     expect(world.continueEndless()).toBe(false);
     finishBoss(world);
+    while (world.reward?.source === "supply") {
+      const supply = world.reward;
+      world.chooseCard(supply.choices[0] ?? "", supply.token);
+    }
     expect(world.phase).toBe("StageClear");
     expect(world.clearedStages).toBe(5);
     const reward = world.reward;
@@ -123,24 +127,24 @@ describe("continuous campaign and stage-reward lifetime", () => {
 });
 
 describe("authored encounters and independent schedules", () => {
-  test("campaign health, population and escort packs compound 30% through all four stages", () => {
+  test("campaign health, population and escort packs compound 50% through all four stages", () => {
     const first = stageAt(0);
     for (let index = 0; index < STAGES.length; index++) {
       const stage = stageAt(index);
-      const growth = 1.3 ** index;
+      const growth = 1.5 ** index;
       expect(stage.health).toBeCloseTo(first.health * growth, 10);
       expect(stage.enemyCount).toBe(Math.ceil(first.enemyCount * growth));
       expect(stage.supportCount).toBe(Math.ceil(first.supportCount * growth));
       expect(stage.supportInterval).toBe(2);
       if (index > 0) {
         const previous = stageAt(index - 1);
-        expect(stage.health / previous.health).toBeCloseTo(1.3, 10);
+        expect(stage.health / previous.health).toBeCloseTo(1.5, 10);
         expect(stage.spawnInterval).toBeLessThan(previous.spawnInterval);
-        expect(stage.bossHp).toBeGreaterThanOrEqual(previous.bossHp * 1.3);
+        expect(stage.bossHp).toBeGreaterThanOrEqual(previous.bossHp * 1.5);
       }
     }
-    expect(STAGES.map((stage) => stage.enemyCount)).toEqual([40, 52, 68, 88]);
-    expect(STAGES.map((stage) => stage.supportCount)).toEqual([4, 6, 7, 9]);
+    expect(STAGES.map((stage) => stage.enemyCount)).toEqual([40, 60, 90, 135]);
+    expect(STAGES.map((stage) => stage.supportCount)).toEqual([4, 6, 9, 14]);
   });
 
   test("four distinct encounters spawn the correct bosses", () => {

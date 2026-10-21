@@ -229,3 +229,74 @@ test("320px touch can inspect all ten families and select a nine-layer critical 
   );
   await page.screenshot({ path: join(tmpdir(), "destiny-mobile-ten-families.png") });
 });
+
+test("320px endless random supplies fit and grant three cards followed by the boss card", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    enemy({ kind: "boss", hp: 1 });
+  `,
+  );
+  await page.clock.runFor(1000);
+  for (let supply = 1; supply <= 3; supply++) {
+    await expect(page.getByRole("heading", { name: `无尽随机补给 ${supply} / 3` })).toBeVisible();
+    const frame = await page.locator(".arena-frame").boundingBox();
+    const modal = await page.locator(".reward-modal").boundingBox();
+    if (!frame || !modal) throw new Error("Missing random supply bounds");
+    expect(modal.y).toBeGreaterThanOrEqual(frame.y);
+    expect(modal.y + modal.height).toBeLessThanOrEqual(frame.y + frame.height);
+    const frozen = await snapshot(page);
+    await page.clock.runFor(500);
+    expect(await snapshot(page)).toEqual(frozen);
+    if (supply === 1)
+      await page.screenshot({ path: join(tmpdir(), "destiny-mobile-endless-supply.png") });
+    await page.locator(".reward-card").first().tap();
+    await page.clock.runFor(100);
+  }
+  await expect(page.getByRole("heading", { name: "第 5 关突破" })).toBeVisible();
+  await expect(page.locator(".reward-modal")).toContainText("首领额外奖励");
+  await page.locator(".reward-card").first().tap();
+  await page.clock.runFor(100);
+  const next = await snapshot(page);
+  expect(next.stageIndex).toBe(5);
+  expect(Object.values(next.stacks).reduce((a, b) => a + b, 0)).toBe(4);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+});
+
+test("320px poison and taunt labels remain readable and override native touch priority", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageSupplies = 3;
+    world.player.cooldown = 100;
+    world.player.poisonTime = 3;
+    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, speed: 0 });
+    enemy({ kind: "wizard", x: 360, defenseX: 360, y: 240, speed: 0 });
+  `,
+  );
+  const wizard = (await snapshot(page)).enemies.find((item) => item.kind === "wizard");
+  if (!wizard) throw new Error("No wizard");
+  await page.locator("canvas").scrollIntoViewIfNeeded();
+  await clickTarget(page, wizard.x, wizard.y, true);
+  await page.clock.runFor(200);
+  const state = await snapshot(page);
+  expect(state.manualTargetId).toBe(wizard.id);
+  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("tank");
+  await expect(page.locator("#status-effects")).toContainText("中毒");
+  await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
+  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.screenshot({ path: join(tmpdir(), "destiny-mobile-endless-status.png") });
+});

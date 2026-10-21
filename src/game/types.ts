@@ -18,7 +18,8 @@ export type SynergyId =
   | "frost"
   | "dominion";
 export type SynergyTier = 0 | 3 | 6 | 9;
-export type EnemyKind = "wisp" | "sentinel" | "hexer" | "boss";
+export type EnemyKind = "wisp" | "sentinel" | "hexer" | "tank" | "wizard" | "boss";
+export type BossSkill = "guard" | "summon" | "slam";
 export type Rarity = "common" | "rare";
 export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
 export type AttackPolicy =
@@ -67,6 +68,8 @@ export interface Player extends Vec2 {
   shield: number;
   invulnerable: number;
   cooldown: number;
+  poisonTime: number;
+  poisonSlowTime: number;
   stats: Stats;
 }
 
@@ -85,6 +88,9 @@ export interface Enemy extends Vec2 {
   slot: number;
   defenseX: number;
   defenseY: number;
+  spawnX: number;
+  spawnY: number;
+  enhanced: boolean;
   age: number;
   shotCooldown: number;
   patternCooldown: number;
@@ -96,6 +102,9 @@ export interface Enemy extends Vec2 {
   stunTime: number;
   receivedHits: number;
   primaryHits: number;
+  skillsUsed: number;
+  lastSkill: BossSkill | null;
+  damageReductionTime: number;
 }
 
 export interface Projectile extends Vec2 {
@@ -138,7 +147,7 @@ export interface Particle extends Vec2 {
 export interface Reward {
   token: number;
   choices: string[];
-  source: "chest" | "stage";
+  source: "chest" | "supply" | "stage";
 }
 
 export interface Card {

@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { ENEMIES } from "../../src/data/enemies";
+import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../../src/data/enemies";
 import { STAGES, stageAt } from "../../src/data/stages";
 import { CONFIG } from "../../src/game/config";
 import { World } from "../../src/game/world";
-import { enemy, tick } from "./helpers";
+import { enemy, hit } from "./helpers";
 
 function passive(index = 0) {
   const world = new World();
@@ -14,17 +14,33 @@ function passive(index = 0) {
   return world;
 }
 
+function advance(world: World, seconds: number) {
+  for (let frame = 0; frame < Math.round(seconds * 120); frame++) {
+    while (world.reward?.source === "supply") {
+      const reward = world.reward;
+      world.chooseCard(reward.choices[0] ?? "", reward.token);
+    }
+    world.update(CONFIG.fixedStep);
+  }
+}
+
+function expectBalanced(world: World) {
+  const kinds = world.endless ? ENDLESS_KINDS : CAMPAIGN_KINDS;
+  const counts = kinds.map((kind) => world.stageKindSpawns[kind]);
+  expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+}
+
 describe("ranged enemies and mixed boss encounters", () => {
   test("hexers release real projectiles before reaching their stopping point", () => {
     const world = passive();
     world.bossSpawned = true;
     const caster = enemy(world, { kind: "hexer", defenseY: 340 });
-    tick(world, 3);
+    advance(world, 3);
     expect(caster.arrived).toBe(false);
     expect(caster.stage).toBe("Attacking");
     expect(world.regularAttacks).toBeGreaterThan(0);
     expect(world.hostileShots.items.some((shot) => shot.active)).toBe(true);
-    tick(world, 3);
+    advance(world, 3);
     expect(world.player.shield).toBeLessThan(1000000);
   });
 
@@ -32,9 +48,9 @@ describe("ranged enemies and mixed boss encounters", () => {
     const world = passive();
     world.bossSpawned = true;
     const melee = enemy(world, { x: 225, defenseX: 225 });
-    tick(world, 3);
+    advance(world, 3);
     expect(world.regularAttacks).toBe(0);
-    tick(world, 4.5);
+    advance(world, 4.5);
     expect(melee.arrived).toBe(true);
     expect(world.regularAttacks).toBe(1);
     expect(world.hostileShots.items.some((shot) => shot.active)).toBe(false);
@@ -45,18 +61,22 @@ describe("ranged enemies and mixed boss encounters", () => {
     for (let index = 0; index < 8; index++) {
       const world = passive(index);
       world.stageElapsed = world.stage.bossAt;
-      tick(world, 0.02);
+      advance(world, 0.1);
       expect(world.boss).toBeDefined();
       const entourage = () =>
         world.enemies.items.filter((item) => item.active && item.kind !== "boss");
-      expect(entourage().some((item) => item.kind === "hexer")).toBe(true);
+      expect(entourage().some((item) => item.kind === (world.endless ? "wizard" : "hexer"))).toBe(
+        true,
+      );
       expect(entourage().some((item) => ENEMIES[item.kind].attackStyle === "melee")).toBe(true);
       expect(entourage()).toHaveLength(
         Math.min(world.stage.supportCount, world.stage.maxEnemies - 1),
       );
       for (const item of entourage()) item.active = false;
-      tick(world, world.stage.supportInterval + 0.1);
-      expect(entourage().some((item) => item.kind === "hexer")).toBe(true);
+      advance(world, world.stage.supportInterval + 0.1);
+      expect(entourage().some((item) => item.kind === (world.endless ? "wizard" : "hexer"))).toBe(
+        true,
+      );
       expect(entourage().some((item) => ENEMIES[item.kind].attackStyle === "melee")).toBe(true);
     }
   });
@@ -66,18 +86,20 @@ describe("ranged enemies and mixed boss encounters", () => {
       const world = passive(index);
       world.stageElapsed = world.stage.bossAt;
       world.stageSpawned = world.stage.enemyCount;
-      tick(world, 0.02);
+      advance(world, 0.1);
       const bossId = world.boss?.id;
       for (let batch = 0; batch < 15; batch++) {
         for (const item of world.enemies.items) if (item.kind !== "boss") item.active = false;
         const before = world.rangedSpawns + world.meleeSpawns;
-        tick(world, world.stage.supportInterval + 0.01);
+        advance(world, world.stage.supportInterval + 0.01);
         expect(world.phase).toBe("Playing");
         expect(world.boss?.id).toBe(bossId);
         expect(world.rangedSpawns + world.meleeSpawns).toBeGreaterThan(before);
       }
-      expect(world.rangedSpawns + world.meleeSpawns).toBeGreaterThan(world.stage.enemyCount);
-      expect(Math.abs(world.meleeSpawns - world.rangedSpawns * 3)).toBeLessThanOrEqual(3);
+      expect(world.stageSpawned + world.rangedSpawns + world.meleeSpawns).toBeGreaterThan(
+        world.stage.enemyCount,
+      );
+      expectBalanced(world);
       expect(world.enemies.items.length).toBeLessThanOrEqual(CONFIG.limits.enemies);
     }
   });
@@ -85,17 +107,17 @@ describe("ranged enemies and mixed boss encounters", () => {
   test("oversized endless escort batches fill free slots without overflowing or queuing entities", () => {
     const world = passive(10000);
     world.stageElapsed = world.stage.bossAt;
-    tick(world, 0.02);
+    advance(world, 0.1);
     const living = () => world.enemies.items.filter((item) => item.active);
     expect(world.stage.supportCount).toBeGreaterThan(CONFIG.limits.enemies);
     expect(living()).toHaveLength(CONFIG.limits.enemies);
     const admitted = world.rangedSpawns + world.meleeSpawns;
-    tick(world, world.stage.supportInterval * 2);
+    advance(world, world.stage.supportInterval * 2);
     expect(world.rangedSpawns + world.meleeSpawns).toBe(admitted);
     const casualty = living().find((item) => item.kind !== "boss");
     if (!casualty) throw new Error("No escort");
     casualty.active = false;
-    tick(world, world.stage.supportInterval + 0.01);
+    advance(world, world.stage.supportInterval + 0.01);
     expect(world.rangedSpawns + world.meleeSpawns).toBe(admitted + 1);
     expect(living()).toHaveLength(CONFIG.limits.enemies);
     expect(new Set(living().map((item) => item.slot)).size).toBe(CONFIG.limits.enemies);
@@ -105,19 +127,20 @@ describe("ranged enemies and mixed boss encounters", () => {
     for (const index of [0, 3, 4]) {
       const world = passive(index);
       world.stageElapsed = world.stage.bossAt;
-      tick(world, 10);
+      advance(world, 10);
       expect(world.enemies.items.some((item) => item.active && item.kind !== "boss")).toBe(true);
       expect(world.hostileShots.items.some((item) => item.active)).toBe(true);
-      world.player.stats.damage = world.stage.bossHp + 1;
-      world.player.cooldown = 0;
-      tick(world, 2);
+      const boss = world.boss;
+      if (!boss) throw new Error("No boss");
+      hit(world, boss, boss.maxHp + 1);
+      advance(world, 0.1);
       expect(world.phase).toBe(index === STAGES.length - 1 ? "Victory" : "StageClear");
       expect(world.snapshot().enemies).toEqual([]);
       expect(world.snapshot().hostileShots).toEqual([]);
       expect(world.snapshot().shots).toEqual([]);
       expect(world.clearedStages).toBe(1);
       const cleared = world.snapshot();
-      tick(world, 30);
+      advance(world, 30);
       expect(world.snapshot()).toEqual(cleared);
     }
   });
@@ -129,18 +152,19 @@ describe("ranged enemies and mixed boss encounters", () => {
       world.update(CONFIG.fixedStep);
     expect(world.boss?.telegraph).toBeGreaterThan(0);
     const before = world.regularAttacks;
-    tick(world, 1.6);
+    advance(world, 1.6);
     expect(world.boss?.telegraph).toBeGreaterThan(0);
     expect(world.regularAttacks).toBeGreaterThan(before);
     expect(world.bossSpecials).toBe(0);
   });
 
-  test("endless successful regular spawns follow one ranged to three melee", () => {
+  test("endless successful admissions balance wisp, tank and wizard equally", () => {
     const world = passive(4);
-    tick(world, 23);
+    advance(world, 23);
     expect(world.stageSpawned).toBe(CONFIG.limits.enemies);
-    expect(world.rangedSpawns).toBe(CONFIG.limits.enemies / 4);
-    expect(world.meleeSpawns).toBe(world.rangedSpawns * 3);
+    expectBalanced(world);
+    expect(world.stageKindSpawns.tank).toBeGreaterThan(0);
+    expect(world.stageKindSpawns.wizard).toBeGreaterThan(0);
     expect(
       new Set(world.enemies.items.filter((item) => item.active).map((item) => item.slot)).size,
     ).toBe(CONFIG.limits.enemies);
@@ -148,13 +172,13 @@ describe("ranged enemies and mixed boss encounters", () => {
 });
 
 describe("compounding endless population and health", () => {
-  test("every endless stage grows population, escort packs and health 50% without theme resets", () => {
+  test("every endless stage doubles population, escort packs and health without theme resets", () => {
     const finale = stageAt(3);
     let previous = finale;
     for (let depth = 1; depth <= 40; depth++) {
       const stage = stageAt(3 + depth);
-      expect(stage.health / previous.health).toBeCloseTo(1.5, 9);
-      expect(stage.bossHp / previous.bossHp).toBeCloseTo(1.5, 3);
+      expect(stage.health / previous.health).toBeCloseTo(2, 9);
+      expect(stage.bossHp / previous.bossHp).toBeCloseTo(2, 3);
       expect(stage.enemyCount).toBeGreaterThan(previous.enemyCount);
       expect(stage.enemyCount).toBe(Math.ceil(finale.enemyCount * stage.growth));
       expect(stage.supportCount).toBe(Math.ceil(finale.supportCount * stage.growth));
@@ -163,8 +187,6 @@ describe("compounding endless population and health", () => {
       expect(stage.spawnInterval).toBeLessThan(previous.spawnInterval);
       expect(stage.spawnInterval).toBeGreaterThan(0);
       expect(stage.damage).toBeLessThanOrEqual(4);
-      expect(stage.rangedEvery).toBe(4);
-      expect(stage.sentinelChance).toBe(finale.sentinelChance);
       expect(stage.attackPolicy).toEqual(finale.attackPolicy);
       expect(stage.bossFan).toBe(finale.bossFan);
       expect(stage.bossInterval).toBe(finale.bossInterval);
@@ -182,12 +204,11 @@ describe("compounding endless population and health", () => {
       // Fixture clears targets to observe admission throughput independently of DPS.
       for (let frame = 0; frame < 120 * (world.stage.bossAt - CONFIG.fixedStep); frame++) {
         for (const item of world.enemies.items) item.active = false;
-        world.update(CONFIG.fixedStep);
+        advance(world, CONFIG.fixedStep);
       }
       expect(world.stageSpawned).toBe(world.stage.enemyCount);
       expect(world.stageSpawned).toBeGreaterThan(previous);
-      if (world.endless)
-        expect(Math.abs(world.meleeSpawns - world.rangedSpawns * 3)).toBeLessThanOrEqual(3);
+      if (world.endless) expectBalanced(world);
       previous = world.stageSpawned;
     }
   });

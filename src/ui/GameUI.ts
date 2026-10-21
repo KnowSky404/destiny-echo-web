@@ -27,6 +27,7 @@ export class GameUI {
   private readonly pauseButton = element<HTMLButtonElement>("#pause-button");
   private readonly healthValue = element("#health-value");
   private readonly shieldValue = element("#shield-value");
+  private readonly statusEffects = element("#status-effects");
   private readonly healthFill = element("#health-fill");
   private readonly healthMeter = element<HTMLMeterElement>("#health-meter");
   private readonly timer = element("#timer");
@@ -133,6 +134,13 @@ export class GameUI {
     const { player } = world;
     this.healthValue.textContent = `${Math.ceil(player.hp)} / ${player.stats.maxHp}`;
     this.shieldValue.textContent = player.shield > 0 ? `+${Math.ceil(player.shield)} 护盾` : "";
+    this.statusEffects.textContent = [
+      player.poisonTime > 0 ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 6 伤害` : "",
+      player.poisonSlowTime > 0 ? `攻速 -30% ${player.poisonSlowTime.toFixed(1)}s` : "",
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    this.statusEffects.hidden = !this.statusEffects.textContent;
     this.healthFill.style.width = `${(player.hp / player.stats.maxHp) * 100}%`;
     this.healthMeter.max = player.stats.maxHp;
     this.healthMeter.value = Math.ceil(player.hp);
@@ -142,7 +150,7 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount}` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.endless ? ` · 怪物预算 ${world.stage.enemyCount} · 随机补给 ${world.stageSupplies}/3 · 首领奖励 +1` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
@@ -152,7 +160,7 @@ export class GameUI {
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
-      ? `${world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
+      ? `${isEnemy(target) && target.kind === "tank" ? "嘲讽锁定" : world.manualTargetId !== null ? "手动优先" : "自动锁定"} · ${isEnemy(target) ? (target.kind === "boss" ? world.stage.bossName : ENEMIES[target.kind].name) : "残响宝箱"}`
       : "自动索敌 · 等待目标";
     const threats = world.enemies.items.filter(
       (enemy) => enemy.active && enemy.stage !== "Approaching",
@@ -170,8 +178,11 @@ export class GameUI {
     this.bossHealth.hidden = !boss;
     if (boss) {
       this.bossFill.style.width = `${(boss.hp / boss.maxHp) * 100}%`;
-      this.bossName.textContent =
-        boss.hp < boss.maxHp / 2 ? `${world.stage.bossName} · 狂乱阶段` : world.stage.bossName;
+      this.bossName.textContent = world.endless
+        ? `${world.stage.bossName} · 技能 ${boss.skillsUsed}/3${boss.damageReductionTime > 0 ? ` · 减伤 90% ${boss.damageReductionTime.toFixed(1)}s` : ""}${boss.arrived ? " · 攻击 ×2" : ""}`
+        : boss.hp < boss.maxHp / 2
+          ? `${world.stage.bossName} · 狂乱阶段`
+          : world.stage.bossName;
     }
     const notice =
       world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.notice : "";
@@ -276,7 +287,8 @@ export class GameUI {
         .join("");
       const stageClear = phase === "StageClear";
       const next = stageAt(world.stageIndex + 1);
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : "选择一道残响"}</h2><p>${stageClear ? `下一站：${next.name} · 保留构筑，恢复 35 生命` : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
+      const supply = reward.source === "supply";
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${world.endless ? "首领额外奖励 · " : ""}下一站：${next.name} · 保留构筑，恢复 35 生命` : supply ? "本关固定三次随机补给 · 击败首领额外获得一张卡" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? "选择一张，进入下一关" : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;

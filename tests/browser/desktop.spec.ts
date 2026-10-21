@@ -500,14 +500,14 @@ for (const layers of [3, 9]) {
   });
 }
 
-test("endless wave renders active ranged casters and the one-to-three composition", async ({
+test("endless wave renders tanks and poison wizards in equal three-species composition", async ({
   page,
 }, info) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await bootFixture(
     page,
-    `world.stageIndex = 4; world.bossSpawned = false; world.player.cooldown = 100; world.player.shield = 2000;`,
+    `world.stageIndex = 4; world.stageSupplies = 3; world.bossSpawned = false; world.player.cooldown = 100; world.player.shield = 2000;`,
   );
   await page.clock.runFor(7000);
   const state = await snapshot(page);
@@ -515,16 +515,102 @@ test("endless wave renders active ranged casters and the one-to-three compositio
   expect(state.metrics.rangedSpawns).toBeGreaterThan(0);
   expect(
     state.enemies.some(
-      (item) => item.kind === "hexer" && item.stage === "Attacking" && item.y < 500,
+      (item) => item.kind === "wizard" && item.stage === "Attacking" && item.y < 500,
     ),
   ).toBe(true);
   expect(state.hostileShots.length).toBeGreaterThan(0);
-  expect(Math.abs(state.metrics.meleeSpawns - state.metrics.rangedSpawns * 3)).toBeLessThanOrEqual(
-    3,
-  );
-  await expect(page.locator("#stage-route")).toContainText("怪物预算 132");
+  const counts = [
+    state.stageKindSpawns.wisp,
+    state.stageKindSpawns.tank,
+    state.stageKindSpawns.wizard,
+  ];
+  expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+  expect(state.player.poisonTime).toBeGreaterThan(0);
+  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  await expect(page.locator("#status-effects")).toContainText("中毒");
+  await expect(page.locator("#stage-route")).toContainText("怪物预算 270");
   expect(errors).toEqual([]);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-ranged-wave.png`) });
+});
+
+test("endless poison and taunt feedback survive manual priority input and pausing", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageSupplies = 3;
+    world.player.cooldown = 100;
+    world.player.poisonTime = 3;
+    enemy({ kind: "tank", x: 80, defenseX: 80, y: 280, speed: 0, hp: 500 });
+    enemy({ kind: "wizard", x: 365, defenseX: 365, y: 240, speed: 0, hp: 250 });
+  `,
+  );
+  await page.clock.runFor(300);
+  const wizard = (await snapshot(page)).enemies.find((item) => item.kind === "wizard");
+  if (!wizard) throw new Error("No wizard");
+  await clickTarget(page, wizard.x, wizard.y);
+  await page.clock.runFor(100);
+  const state = await snapshot(page);
+  expect(state.manualTargetId).toBe(wizard.id);
+  expect(state.enemies.find((item) => item.id === state.targetId)?.kind).toBe("tank");
+  await expect(page.locator("#target-label")).toContainText("嘲讽锁定");
+  await expect(page.locator("#status-effects")).toContainText("攻速 -30%");
+  expect(state.combat.interval).toBeGreaterThan(0.34);
+  await page.screenshot({
+    path: join(tmpdir(), `destiny-${info.project.name}-endless-status.png`),
+  });
+  await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+  await page.clock.runFor(100);
+  const frozen = await snapshot(page);
+  await page.clock.runFor(1000);
+  expect(await snapshot(page)).toEqual(frozen);
+});
+
+test("endless boss guard renders reduction, skill count and arrival damage bonus", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageSupplies = 3;
+    world.player.cooldown = 100;
+    world.player.shield = 2000;
+    const boss = enemy({ kind: "boss", hp: 1000, maxHp: 1000, damageReductionTime: 3,
+      skillsUsed: 1, lastSkill: "guard", stage: "Attacking", attackPolicy: { type: "anywhere" } });
+  `,
+  );
+  await expect(page.locator("#boss-health")).toContainText("减伤 90%");
+  await expect(page.locator("#boss-health")).toContainText("技能 1/3");
+  await expect(page.locator("#boss-health")).toContainText("攻击 ×2");
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-endless-guard.png`) });
+});
+
+test("random endless supply freezes and accepts exactly one native card choice", async ({
+  page,
+}) => {
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageElapsed = 43;
+    world.player.cooldown = 100;
+    world.player.shield = 2000;
+  `,
+  );
+  await expect(page.getByRole("heading", { name: "无尽随机补给 1 / 3" })).toBeVisible();
+  await expect(page.locator(".reward-card")).toHaveCount(3);
+  const frozen = await snapshot(page);
+  await page.clock.runFor(1000);
+  expect(await snapshot(page)).toEqual(frozen);
+  const token = frozen.reward?.token;
+  await page.locator(".reward-card").first().click();
+  await page.clock.runFor(100);
+  const next = await snapshot(page);
+  expect(Object.values(next.stacks).reduce((a, b) => a + b, 0)).toBe(1);
+  expect(next.reward?.token).not.toBe(token);
 });
 
 test("a naturally scheduled gold-charge boss retains ranged and melee escort threats", async ({
@@ -534,9 +620,13 @@ test("a naturally scheduled gold-charge boss retains ranged and melee escort thr
     page,
     `world.bossSpawned = false; world.stageElapsed = world.stage.bossAt; world.player.cooldown = 100; world.player.shield = 2000;`,
   );
-  const initialSpawns = (await snapshot(page)).metrics.rangedSpawns;
+  const before = await snapshot(page);
+  const initialSpawns = before.metrics.rangedSpawns + before.metrics.meleeSpawns;
   await page.clock.runFor(2100);
-  expect((await snapshot(page)).metrics.rangedSpawns).toBeGreaterThan(initialSpawns);
+  const replenished = await snapshot(page);
+  expect(replenished.metrics.rangedSpawns + replenished.metrics.meleeSpawns).toBeGreaterThan(
+    initialSpawns,
+  );
   await page.clock.runFor(9900);
   const state = await snapshot(page);
   expect(state.enemies.some((item) => item.kind === "boss" && item.telegraph > 0)).toBe(true);

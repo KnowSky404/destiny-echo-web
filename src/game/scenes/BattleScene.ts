@@ -121,6 +121,10 @@ export class BattleScene extends Phaser.Scene {
       this.halo.lineStyle(1.5, COLORS.blue, 0.65);
       this.halo.strokeCircle(player.x, player.y, 35);
     }
+    if (player.poisonTime > 0) {
+      this.halo.lineStyle(2, 0xb6e7a4, 0.9);
+      this.halo.strokeCircle(player.x, player.y, 40);
+    }
     // The small central dot is the real hit box, not the decorative wings.
     this.halo.fillStyle(0xffffff, 0.95);
     this.halo.fillCircle(player.x, player.y, 3);
@@ -160,6 +164,10 @@ export class BattleScene extends Phaser.Scene {
         preparing || attacking ? 0.8 : 0.25,
       );
       this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 5);
+      if (enemy.kind === "tank" || enemy.damageReductionTime > 0 || enemy.enhanced) {
+        this.overlay.lineStyle(2, enemy.kind === "tank" ? 0xf1b464 : COLORS.gold, 0.85);
+        this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 11);
+      }
       const width = enemy.kind === "boss" ? 84 : 34;
       const y = enemy.y + enemy.radius + 10;
       this.overlay.fillStyle(0x303044, 1);
@@ -224,7 +232,7 @@ export class BattleScene extends Phaser.Scene {
 
   private renderPools(): void {
     const menu = this.world.phase === "Menu";
-    for (const kind of ["wisp", "sentinel", "hexer", "boss"] as const) {
+    for (const kind of ["wisp", "sentinel", "hexer", "tank", "wizard", "boss"] as const) {
       const enemies = this.world.enemies.items.filter(
         (enemy) => enemy.active && enemy.kind === kind,
       );

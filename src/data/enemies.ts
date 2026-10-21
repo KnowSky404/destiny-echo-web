@@ -1,5 +1,8 @@
 import type { AttackPolicy, EnemyKind } from "../game/types";
 
+export const CAMPAIGN_KINDS = ["wisp", "sentinel", "hexer"] as const;
+export const ENDLESS_KINDS = ["wisp", "tank", "wizard"] as const;
+
 export const ENEMIES: Record<
   EnemyKind,
   {
@@ -53,6 +56,34 @@ export const ENEMIES: Record<
     interval: 2.8,
     damage: 7,
     score: 160,
+    preparation: 1.2,
+    attackPolicy: { type: "region", y: 120 },
+    fan: 1,
+    shotSpeed: 190,
+    attackStyle: "ranged",
+  },
+  tank: {
+    name: "嘲讽巨像",
+    hp: 500,
+    radius: 23,
+    speed: 72,
+    interval: 4,
+    damage: 9,
+    score: 250,
+    preparation: 1.8,
+    attackPolicy: { type: "defense" },
+    fan: 1,
+    shotSpeed: 140,
+    attackStyle: "melee",
+  },
+  wizard: {
+    name: "腐毒巫师",
+    hp: 250,
+    radius: 19,
+    speed: 92,
+    interval: 3.4,
+    damage: 7,
+    score: 220,
     preparation: 1.2,
     attackPolicy: { type: "region", y: 120 },
     fan: 1,

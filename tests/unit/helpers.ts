@@ -10,6 +10,28 @@ export function tick(world: World, seconds: number): void {
   for (let index = 0; index < Math.round(seconds * 120); index++) world.update(1 / 120);
 }
 
+export function hit(world: World, target: Enemy, damage: number): void {
+  const shot = world.shots.acquire();
+  if (!shot) throw new Error("Shot pool exhausted");
+  Object.assign(shot, {
+    x: target.x,
+    y: target.y,
+    previousX: target.x,
+    previousY: target.y,
+    vx: 0,
+    vy: 0,
+    damage,
+    radius: 4,
+    lifetime: 1,
+    hitsLeft: 1,
+    targetId: target.id,
+    primary: true,
+    critical: false,
+  });
+  shot.hitIds.clear();
+  world.update(CONFIG.fixedStep);
+}
+
 export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
   const kind: EnemyKind = overrides.kind ?? "wisp";
   const data = ENEMIES[kind];
@@ -37,6 +59,9 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       slot: 0,
       defenseX: 57,
       defenseY: CONFIG.defense.y,
+      spawnX: overrides.x ?? 57,
+      spawnY: overrides.y ?? -30,
+      enhanced: false,
       telegraph: 0,
       interruptDamage: 0,
       interruptRequired: 0,
@@ -45,6 +70,9 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       stunTime: 0,
       receivedHits: 0,
       primaryHits: 0,
+      skillsUsed: 0,
+      lastSkill: null,
+      damageReductionTime: 0,
     },
     overrides,
   );

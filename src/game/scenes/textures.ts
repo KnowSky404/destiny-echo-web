@@ -78,6 +78,40 @@ export function createTextures(scene: Phaser.Scene): void {
     g.fillStyle(0xffe4ee, 1);
     g.fillCircle(32, 32, 2.5);
   });
+  texture("tank", 64, 68, () => {
+    g.fillStyle(0x30251a, 1);
+    g.lineStyle(2, 0xf1b464, 1);
+    polygon([
+      { x: 32, y: 4 },
+      { x: 56, y: 14 },
+      { x: 52, y: 45 },
+      { x: 32, y: 63 },
+      { x: 12, y: 45 },
+      { x: 8, y: 14 },
+    ]);
+    g.strokeCircle(32, 30, 15);
+    g.lineBetween(32, 18, 32, 34);
+    g.fillStyle(0xffdf9c, 1);
+    g.fillCircle(32, 42, 3);
+  });
+  texture("wizard", 60, 68, () => {
+    g.fillStyle(0x1b2c27, 1);
+    g.lineStyle(1.5, 0xb6e7a4, 1);
+    polygon([
+      { x: 30, y: 3 },
+      { x: 49, y: 28 },
+      { x: 42, y: 34 },
+      { x: 51, y: 60 },
+      { x: 9, y: 60 },
+      { x: 18, y: 34 },
+      { x: 11, y: 28 },
+    ]);
+    g.strokeCircle(30, 39, 11);
+    g.fillStyle(0xb6e7a4, 1);
+    g.fillCircle(30, 39, 4);
+    g.lineBetween(6, 20, 6, 56);
+    g.strokeCircle(6, 17, 4);
+  });
   texture("chest", 72, 64, () => {
     g.fillStyle(0x2d261d, 1);
     g.lineStyle(1.5, COLORS.gold, 1);

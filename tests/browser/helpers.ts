@@ -114,7 +114,9 @@ export async function bootFixture(page: Page, setup: string) {
           shotCooldown: 0, patternCooldown: 2.8, stage: "Approaching",
           attackPolicy: { ...data.attackPolicy }, preparation: 0, arrived: true,
           slot: 3, defenseX: 225, defenseY: 620, telegraph: 0,
+          spawnX: overrides.x ?? 225, spawnY: overrides.y ?? 620, enhanced: false,
           interruptDamage: 0, interruptRequired: 0,
+          skillsUsed: 0, lastSkill: null, damageReductionTime: 0,
           slow: 0, slowTime: 0, stunTime: 0, receivedHits: 0, primaryHits: 0 }, overrides);
         return entity;
       }
