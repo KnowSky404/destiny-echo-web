@@ -662,6 +662,21 @@ describe("browser-local version lifecycle", () => {
     expect(full.state.draft.payload.player.stats.damage).toBe(99);
     expect(new ProfileStore(storage).state.versions).toEqual([first]);
   });
+  test("expected write conflicts never throw across the native lock callback boundary", async () => {
+    const storage = memoryStorage();
+    const locks = {
+      request: async (_name: string, callback: (lock: Lock) => unknown) => {
+        let result: unknown;
+        expect(() => {
+          result = callback({} as Lock);
+        }).not.toThrow();
+        return result;
+      },
+    } as unknown as Pick<LockManager, "request">;
+    const stale = new ProfileStore(storage, locks);
+    new ProfileStore(storage).saveVersion();
+    await expect(stale.withWriteLock(() => stale.saveVersion())).rejects.toThrow("其他 PRE 标签页");
+  });
   test("blocked/corrupt storage has a readable fallback and never silently rewrites the original", () => {
     const storage = memoryStorage();
     storage.data.set(STORAGE_KEY, "bad JSON");
