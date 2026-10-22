@@ -1,0 +1,913 @@
+{
+  "kind": "completed-historical-formal-actual-budget-audit",
+  "recordedAt": "2026-10-22T20:58:59.760684+00:00",
+  "simulationsExecuted": 0,
+  "scope": [
+    "artifacts/balance/calibration-selection-v1-rejected/cells",
+    "artifacts/balance/calibration-v2-rejected/cells",
+    "artifacts/balance/calibration-v3-rejected/cells",
+    "artifacts/balance/calibration-v4-rejected/cells"
+  ],
+  "toleranceSeconds": 1e-7,
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "cells": [
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "1b6d41f363d0b988f344c36eca5cfa5692b90fba96511d0484b18352649d391f",
+      "runsSha256": "8f487194ac2dbdb635d18053ba7bb10179010ca95b7b18a84c51404120bc719d"
+    },
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 79,
+        "campaign_victory": 121
+      },
+      "manifestSha256": "d7d462335d3140e5cac407ad2d3bc5ff3381ec90a39414024e1321fccdbfe46d",
+      "runsSha256": "45d1ef52861709361fad8ea1273121cfd52da99d40921b50e0638fed884ad24d"
+    },
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 113,
+        "budget_exhausted": 1
+      },
+      "manifestSha256": "331b51e61ad30534ce642173441f35a9d1fe10d07acada1d928a5c08791f7ffa",
+      "runsSha256": "c797f60608142289e505ab83137e84fef998a7079076cbfc25e2a4f017c58f80"
+    },
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 84,
+        "campaign_victory": 116
+      },
+      "manifestSha256": "54c640fb973b6f49307b1a25a5a4e89ebbdc0e38840948c2e11e1ae497d50453",
+      "runsSha256": "f0d8fcf79ecde734945a6b9a7c4d762803209a70355d7b1da2dab13b0e98e090"
+    },
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 176,
+        "campaign_victory": 24
+      },
+      "manifestSha256": "f4cd4f3e7d123f399170fddba0232d81a6a7fd7954b7bf5962a5dd9bf4841f40",
+      "runsSha256": "ba14953aab7a64ec9fd42de0b2e824da94d0b24b7d86c794c08cf73f7e4c6c51"
+    },
+    {
+      "directory": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584"
+      ],
+      "terminationCounts": {
+        "death": 172,
+        "campaign_victory": 28
+      },
+      "manifestSha256": "816139f2eb0a327bb9065fb35df598f97c578d7b06628021046a23aa969dbb69",
+      "runsSha256": "87b1d4e7646cf475abc52d8f29fba7c506d3b7e3c6ba2fdc843050491aa8064e"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "9c95b1d37149b940bf036b6226a74f015402fb298c7b9cd7df5d207785098200",
+      "runsSha256": "8fc14e9a6f436bcdad40bd4a93af412176e4ed664bce43e9026f8ed9e19d7b1c"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 79,
+        "campaign_victory": 121
+      },
+      "manifestSha256": "09f399eda790b80a5d03b81207b7c353ab74f6ab99bad60d9d73fe6c35d33e1a",
+      "runsSha256": "5cb630b92fbbfa5b3f63cfeaba397e8cc573b95cd58b13936cccae2a1f21c26b"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "f1a16e6eb695f7e1ebdfb65fbcaabbabcb30343d8d322315604c49a25cb0aa46",
+      "runsSha256": "9f049209c2074c8a3ccfe21b0eef68545e28f9d8ce734601f353236a5c447b68"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 84,
+        "campaign_victory": 116
+      },
+      "manifestSha256": "1c5cfe041184aae1aa0bc75ddc087f7235abce761d0978fc708ad88e74af951c",
+      "runsSha256": "56471e26685c5ae47702441402d2bbfe46fc63a68f06c7a6a009e2add88b3f02"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 176,
+        "campaign_victory": 24
+      },
+      "manifestSha256": "e32bfe7202c22c7fcff95e2935836030a223eea32242bb9b225ad4db3b5a4c2d",
+      "runsSha256": "75a1054f588be7efd71434115006e91e876b70f7768d084a5f6c9dbf0ff028e7"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/selection-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 172,
+        "campaign_victory": 28
+      },
+      "manifestSha256": "b31ad7770ba130ef5f49660fa50d154d3998cbf742fa7a394263008ca1ceeba3",
+      "runsSha256": "2280eacc3285b6cc743e297e5701a015acc602a1293714379ae49dcea14b9e5d"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 81,
+        "campaign_victory": 119
+      },
+      "manifestSha256": "60fc52d98f8f6a85b536b27ec1dde5955a09aade637bd527b3f734209c849297",
+      "runsSha256": "fbfb74eca11755d8fac5badde198af42582f8e928d45975339258b35030c5efc"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 94,
+        "campaign_victory": 106
+      },
+      "manifestSha256": "a2dc7d5397492112bab0af77cf9298bc6e516a94a9851d4d846603451da9795c",
+      "runsSha256": "935c0741a24d36d13de4901ef96045853d3a1c1af13da1a40496410c355d01ef"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 83,
+        "campaign_victory": 117
+      },
+      "manifestSha256": "01a06ecddb1b1ef360efc9c096b42ca8227c7f41ffde3ee6ac9c56951e10cced",
+      "runsSha256": "05fa4735d08d3c53181b4291cdd0baee999e4c82bcc60bb80df9cdb235d3b358"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 94,
+        "campaign_victory": 105,
+        "budget_exhausted": 1
+      },
+      "manifestSha256": "65971c02a1e60fd1e5b641116b78867b4360de8883b90c9ab2f021e80993502c",
+      "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 173,
+        "campaign_victory": 27
+      },
+      "manifestSha256": "3ac5a7846e87e9768b9cb504a1cd6854e2118a1b8acd41f2c3786f636afb822d",
+      "runsSha256": "311728c44c679d962d0f85d26da58b3c4c07482f4718a345396241d006ca1855"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be"
+      ],
+      "terminationCounts": {
+        "death": 174,
+        "campaign_victory": 26
+      },
+      "manifestSha256": "837a1c38a3be27d48d8f24f7161480381951c40ceadb37e9f2e35f1a08639d6d",
+      "runsSha256": "76cb04f49bdc3cb3ec1f67824d5c378b2ae10af862d022cfd50e0f5d139153e6"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 85,
+        "campaign_victory": 115
+      },
+      "manifestSha256": "b36aba15d289428f50ff2266243e9d74eebe75ca875f6089a1a4b51e07c00bb7",
+      "runsSha256": "06845dce1627bfffec03c6b5dd3fca08e7b4eec0c880577a5769f6682773e71a"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 79,
+        "campaign_victory": 121
+      },
+      "manifestSha256": "f31c7a04b399276651d949ea6d23cdbe58bc9c15c755dc78be98c0968e614b0b",
+      "runsSha256": "5e7172ebe50e5576d674caabbd10e9116f021eb89698b16eacf4b223b8cc3595"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "52a4d8eae7ead73ae43518f0f2c5d9053aa2bb7994f41636893657fbc1af1fd9",
+      "runsSha256": "78a76c00bbeb8446e06a68534d00c3dfa13710785ccd5af3166ce05d5b2fba61"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 84,
+        "campaign_victory": 116
+      },
+      "manifestSha256": "dd5beb43542293e3942a54dac3df9be09a37d9f00d5e6b06e86cb7a2ac83c3ee",
+      "runsSha256": "3cb78b5be6894cd1028bb03bcef433b4d8ddbe4d1dc488d1955ba1b5e3685a6e"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 176,
+        "campaign_victory": 24
+      },
+      "manifestSha256": "e76fb7bedcece31031314a0b8e9e909d3455c9893f14b5af9935536a375045c0",
+      "runsSha256": "22b9f9a5265d7497f447f2dba445c323144d9471d0c316ee5146f6444c4a73c9"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 172,
+        "campaign_victory": 28
+      },
+      "manifestSha256": "04f22e56755da94c4a75532c0d65c2f5c9d90918fb0635713706c406d423fe8f",
+      "runsSha256": "295ccc122bdb1c053acb80d5ed340479349ee1a80b7405b70ebc3d95bac56407"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "campaign_victory": 122,
+        "death": 78
+      },
+      "manifestSha256": "b5cf1b0cf5e3c9887b68c3ea45787629004df7d979532df2f3b6c2a84f17ebf6",
+      "runsSha256": "ee631534c69886186eeb76e72843d9f9102b701ec0b9de7ef5395059f09be548"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 85,
+        "campaign_victory": 115
+      },
+      "manifestSha256": "31409cb51894f7c9ce6f3bef4f51ee92de1b53d2c4e0596db7d698ef6a21ed51",
+      "runsSha256": "24891f8fafcbef9d2d9ff197e73e59c887c79ef2852fac7f5c6676a1ee8ddad8"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "ce10c7de54dbdb4eb849907d0ab11e9e55629b2eed6add4dea38be95ec01347a",
+      "runsSha256": "864b2695ad8eeec1cd6bef31004b0b679a0854c5207ac5833f8ae5013a2c970f"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 88,
+        "campaign_victory": 112
+      },
+      "manifestSha256": "9fd314e19a660e9b6aab2e3a78e7ff05e8f9a1ce2beebce41e8c8764fa3768a2",
+      "runsSha256": "e0612d3b2a65ad5f1245c14d7fee11c3c75dffc5852068b495c2ac6372b314c2"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 176,
+        "campaign_victory": 24
+      },
+      "manifestSha256": "cf6cdb3600dbceb1e574aa7cdba01bd14859ba3b2bc5c31fcb63c9257dbefb6e",
+      "runsSha256": "ff0cd767dc6adab94959fc9cbd225bcf4d229dbd8a2a737acb52fec89db5fa7b"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9"
+      ],
+      "terminationCounts": {
+        "death": 171,
+        "campaign_victory": 28,
+        "budget_exhausted": 1
+      },
+      "manifestSha256": "5754e2100ceacc479a9a613e63db17b2651b876bf1ac819ff12cc5397926707c",
+      "runsSha256": "efabccbc3ff26e3253781e54c667740d5cfe88b98eda8c66550f8e29586b6bb3"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 86,
+        "campaign_victory": 114
+      },
+      "manifestSha256": "65d7cc44c7705363efab18ac21c92629be8a21ae1b80cbd3a9c463b0582b6e37",
+      "runsSha256": "78d056004a17d393bb16e8aed6cc89110cf537825e624bdd7f97b71cef7dbf9d"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 78,
+        "campaign_victory": 122
+      },
+      "manifestSha256": "27a39645760ba5e97192ae43418ebd7fe1761e1792cf6da5c733df3bfb9134ee",
+      "runsSha256": "c09a5224cf53919e3e7da746528d967b61e6a52b297fe449473fa5d1a54d744f"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 84,
+        "campaign_victory": 116
+      },
+      "manifestSha256": "032ce2d01994a55c90717ad5e460f18ae222e035a86c4d435bc9eda8e9086c56",
+      "runsSha256": "cd166d5279250540d8d6cc6d052590455febfbfcb7d79d1068745f97408ae941"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 84,
+        "campaign_victory": 116
+      },
+      "manifestSha256": "ceb4207f6554e7e2e39b2c9ea98ce31582ff922330745d04f3aaacd25fa0b67a",
+      "runsSha256": "8cd799bd992eef1b1be93c0664a4ed59f68b71affee8e0574072629ec874b3cf"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 175,
+        "campaign_victory": 25
+      },
+      "manifestSha256": "6d353698baf333362d2e8d3755c97443599ae1a516498f36c8520eb5e95f2880",
+      "runsSha256": "43905391bb862f516370a161d9f1ee2a0be5555def8cd179a58d4d2ecd066aaf"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "masterSeed": null,
+      "seedCount": 100,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 172,
+        "campaign_victory": 28
+      },
+      "manifestSha256": "e0179beaf6a8fadf48425cc3e1c1d237abb94758d9ae1ce9ecbd617b562a5640",
+      "runsSha256": "813069eada63167d2d51f7e43138b834fb06be9747c9f822d24a1ed4e8fd9a62"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 258,
+        "campaign_victory": 342
+      },
+      "manifestSha256": "37f6e36fdd1290799a9c34d7d933e4a5a12465b8e4d807afa9fa6f3a1d1dd2b3",
+      "runsSha256": "095945931148a792a273b1f1ef9dc9d1f01b0f7a75b427ab927b2296c23b0ca9"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 243,
+        "campaign_victory": 357
+      },
+      "manifestSha256": "1e6448a045d89ff444ec82c898a10a7f1964c3e63e3e36669fca84b84ed3435c",
+      "runsSha256": "8730105d0b234d6512c0515d8f884d457dcad6dc29e3caff6852f40bc9ca53a4"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 268,
+        "campaign_victory": 332
+      },
+      "manifestSha256": "00000ec304bf87b6452c669f1f96e7b639b115abd4b506ed17c3ec2b0d59ae52",
+      "runsSha256": "5963baa3711ce46a717e13bfe86e6b3d92210fe8971a4e54b6801774315c4697"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 244,
+        "campaign_victory": 356
+      },
+      "manifestSha256": "8b737f020020b9ae9c06927f4cc2a8111b940644ba6b40a14f37a75801b5271d",
+      "runsSha256": "aa327958d9d73a8f3fd76c47ce9c9763a3cc9bf14bba7d333b0fab9c3c90e7be"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 520,
+        "campaign_victory": 79,
+        "budget_exhausted": 1
+      },
+      "manifestSha256": "a2e477eede6e50e1fc10c8d6d47b2f3c61becfdddf38c79c60c87e9cf7d67518",
+      "runsSha256": "10971082512459868332aa76c013e1b99f08305ecaca566322af0ffeddc7ad5e"
+    },
+    {
+      "directory": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait",
+      "status": "complete",
+      "planned": 600,
+      "completed": 600,
+      "masterSeed": null,
+      "seedCount": 300,
+      "maxSteps": 78000,
+      "maxSeconds": 650,
+      "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "profileHashes": [
+        "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+        "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+      ],
+      "terminationCounts": {
+        "death": 525,
+        "campaign_victory": 75
+      },
+      "manifestSha256": "60b1c88bed9f73def556556f28fe2a9323654110b00577b6994c12fa34a51547",
+      "runsSha256": "4aff544d89e47b6f9ea0910cd8d5fa6e40570a22051138b8029bc17b8ae1d453"
+    }
+  ],
+  "violations": [],
+  "records": 10800,
+  "maxClockDiscrepancySeconds": 4.267803888069466e-10,
+  "maxClockDiscrepancyRecord": {
+    "cell": "artifacts/balance/calibration-selection-v1-rejected/cells/selection-build-auto-desktop",
+    "id": "run-169",
+    "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+    "seed": 553415033
+  },
+  "excluded": "Exploratory E/F/G outcomes, all future/unstarted formal phases, and diagnostics are not read; excluded extensions are checked separately only as explicit forged-budget regression inputs.",
+  "cellCount": 42,
+  "pass": true
+}

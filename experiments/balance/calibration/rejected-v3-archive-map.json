@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "kind": "historical-rejected-candidate-archive-map",
+  "candidate": "V3",
+  "adoptionEligible": false,
+  "createdAt": "2026-10-22T19:34:34.943178+00:00",
+  "archiveRoot": "artifacts/balance/calibration-v3-rejected/cells",
+  "verifiedCells": 12,
+  "verifiedFiles": 48,
+  "sourceCodeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+  "profileHash": "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9",
+  "historicalCollectorSha256": "88bd2d972ee2c1d1f3debf5ec98526820c3016b64968130ae742a901bcc6cc76",
+  "selectionEvidence": {
+    "pathAtAudit": "artifacts/balance/calibration-selection-v3-evidence.json",
+    "sha256": "9d7af6909295cf21be430635b95d1cf478f74249ffe0a1552c5c44b865d5ce02",
+    "strictSelectionPassed": true,
+    "finalCandidateRejectedByValidation": true
+  },
+  "rejectionAudit": {
+    "path": "experiments/balance/calibration/rejected-v3-audit.json",
+    "sha256": "9687910e7665ef7684a7822d1608e4cf0d891ae4d37093a61d1f7d6424d7c5c2"
+  },
+  "pathNote": "All source paths in original reports remain historical. This separate annex maps unchanged bytes to their archive location; original audit/decision/config files were not rewritten.",
+  "cells": [
+    {
+      "id": "selection-random-auto-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-random-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait/manifest.json",
+          "sha256": "04f22e56755da94c4a75532c0d65c2f5c9d90918fb0635713706c406d423fe8f",
+          "bytes": 19905
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait/runs.jsonl",
+          "sha256": "295ccc122bdb1c053acb80d5ed340479349ee1a80b7405b70ebc3d95bac56407",
+          "bytes": 6074562
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "selection-random-auto-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-random-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop/manifest.json",
+          "sha256": "e76fb7bedcece31031314a0b8e9e909d3455c9893f14b5af9935536a375045c0",
+          "bytes": 19903
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop/runs.jsonl",
+          "sha256": "22b9f9a5265d7497f447f2dba445c323144d9471d0c316ee5146f6444c4a73c9",
+          "bytes": 8207556
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-random-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "selection-build-auto-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait/manifest.json",
+          "sha256": "dd5beb43542293e3942a54dac3df9be09a37d9f00d5e6b06e86cb7a2ac83c3ee",
+          "bytes": 19902
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait/runs.jsonl",
+          "sha256": "3cb78b5be6894cd1028bb03bcef433b4d8ddbe4d1dc488d1955ba1b5e3685a6e",
+          "bytes": 7818446
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "selection-build-auto-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop/manifest.json",
+          "sha256": "52a4d8eae7ead73ae43518f0f2c5d9053aa2bb7994f41636893657fbc1af1fd9",
+          "bytes": 19900
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop/runs.jsonl",
+          "sha256": "78a76c00bbeb8446e06a68534d00c3dfa13710785ccd5af3166ce05d5b2fba61",
+          "bytes": 8528979
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "selection-build-active-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-active-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait/manifest.json",
+          "sha256": "f31c7a04b399276651d949ea6d23cdbe58bc9c15c755dc78be98c0968e614b0b",
+          "bytes": 19908
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait/runs.jsonl",
+          "sha256": "5e7172ebe50e5576d674caabbd10e9116f021eb89698b16eacf4b223b8cc3595",
+          "bytes": 13872538
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "selection-build-active-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-active-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop/manifest.json",
+          "sha256": "b36aba15d289428f50ff2266243e9d74eebe75ca875f6089a1a4b51e07c00bb7",
+          "bytes": 19906
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop/runs.jsonl",
+          "sha256": "06845dce1627bfffec03c6b5dd3fca08e7b4eec0c880577a5769f6682773e71a",
+          "bytes": 14192936
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/selection-build-active-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-random-auto-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-random-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait/manifest.json",
+          "sha256": "5754e2100ceacc479a9a613e63db17b2651b876bf1ac819ff12cc5397926707c",
+          "bytes": 19909
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait/runs.jsonl",
+          "sha256": "efabccbc3ff26e3253781e54c667740d5cfe88b98eda8c66550f8e29586b6bb3",
+          "bytes": 6309479
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-random-auto-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-random-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop/manifest.json",
+          "sha256": "cf6cdb3600dbceb1e574aa7cdba01bd14859ba3b2bc5c31fcb63c9257dbefb6e",
+          "bytes": 19907
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop/runs.jsonl",
+          "sha256": "ff0cd767dc6adab94959fc9cbd225bcf4d229dbd8a2a737acb52fec89db5fa7b",
+          "bytes": 7753936
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-random-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-build-auto-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait/manifest.json",
+          "sha256": "9fd314e19a660e9b6aab2e3a78e7ff05e8f9a1ce2beebce41e8c8764fa3768a2",
+          "bytes": 19906
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait/runs.jsonl",
+          "sha256": "e0612d3b2a65ad5f1245c14d7fee11c3c75dffc5852068b495c2ac6372b314c2",
+          "bytes": 7454611
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-build-auto-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop/manifest.json",
+          "sha256": "ce10c7de54dbdb4eb849907d0ab11e9e55629b2eed6add4dea38be95ec01347a",
+          "bytes": 19904
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop/runs.jsonl",
+          "sha256": "864b2695ad8eeec1cd6bef31004b0b679a0854c5207ac5833f8ae5013a2c970f",
+          "bytes": 8088366
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-auto-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-build-active-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-active-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait/manifest.json",
+          "sha256": "31409cb51894f7c9ce6f3bef4f51ee92de1b53d2c4e0596db7d698ef6a21ed51",
+          "bytes": 19912
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait/runs.jsonl",
+          "sha256": "24891f8fafcbef9d2d9ff197e73e59c887c79ef2852fac7f5c6676a1ee8ddad8",
+          "bytes": 13029182
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-portrait/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    },
+    {
+      "id": "validation-build-active-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-active-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop/manifest.json",
+          "sha256": "b5cf1b0cf5e3c9887b68c3ea45787629004df7d979532df2f3b6c2a84f17ebf6",
+          "bytes": 19910
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop/runs.jsonl",
+          "sha256": "ee631534c69886186eeb76e72843d9f9102b701ec0b9de7ef5395059f09be548",
+          "bytes": 13702534
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "archivedPath": "artifacts/balance/calibration-v3-rejected/cells/validation-build-active-desktop/profiles/3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9.json",
+          "sha256": "4b4cacd1d9df5bdc429ccc01ff4d616823e471737bca9fb4955c435756b162d1",
+          "bytes": 4508
+        }
+      ]
+    }
+  ]
+}

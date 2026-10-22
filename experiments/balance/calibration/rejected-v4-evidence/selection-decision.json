@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "kind": "selection-to-independent-validation-decision",
+  "recordedAt": "2026-10-22T19:52:06.635842+00:00",
+  "round": "v4-A",
+  "adoptionEligible": false,
+  "finalAdoption": false,
+  "decision": "Freeze unchanged A and proceed to prospectively reserved independent validation; all final adoption phases remain required.",
+  "identity": {
+    "code": {
+      "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+      "dirty": true,
+      "fingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+      "bunVersion": "1.4.3",
+      "fixedStep": 0.008333333333333333,
+      "files": {
+        "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+        "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+        "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+        "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+        "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+        "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+        "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+        "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+        "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+        "src/balance-sim/runner.ts": "e736664c0419627ee744678bb97f37ef4ee8192e55dd33a30defe7c2e8f2b26a",
+        "src/balance-sim/strategies.ts": "47836ab4a076344005895ca7ba2e1a7ecf0b98f05d40d15030b306b9f377a65d",
+        "src/balance-sim/types.ts": "7c687b47fa9b3b94e6b033c9ff97af048e27f6892c0528c6f4fc957729a8bd1f",
+        "src/data/balance/model.ts": "bd97c21a0811a9ba73836a22849899c67fa2e0e616ec98a6717411b7b4f87e2d",
+        "src/data/balance/official.json": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+        "src/data/balance/profile.ts": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d",
+        "src/data/cards.ts": "5cbb12fbb4807b83af21f76a4430d9e8ac05e25304af4c48aa84a185b6fa422d",
+        "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+        "src/data/stages.ts": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9",
+        "src/data/synergies.ts": "8ec86760b8e5e9cc95629063da9834b046a55ccbfb88f88f75eddec3b523e13f",
+        "src/data/training.ts": "62be0e187d6858ca70969b48a0be38cbc58c7a579d62574f16d009a9fe13d7fd",
+        "src/game/arena.ts": "0d10ea8917098361ed8ccfa1a86b67b390685d13680209e3bef7c61ed7ff274b",
+        "src/game/config.ts": "09a3af4af2452a61a0b365cd9492a9fe3bc0eecba4978933d0be7023d3d9e208",
+        "src/game/createGame.ts": "8cb8a71d7aaaaef385a51ef40cea6bfca1adc3a98d0aacf6bce0222f92811139",
+        "src/game/debug/DebugWorld.ts": "7e7899083cd109f4657da0740cbb13a779e637725e5671150285e9068ebbaf70",
+        "src/game/input.ts": "dfa617792cf39f967bbfdbbce45f49c28813192273155aeb102815172784d9bc",
+        "src/game/observation.ts": "609f18ba6eb0876952e67aa1cbe4ad3d552b53b830c2a70d5755b8a0719138a6",
+        "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+        "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+        "src/game/scenes/BattleScene.ts": "50e931afbf4c6c0f3737db9ba2b5607150276f4ca93dcd43935bbcf6322211da",
+        "src/game/scenes/textures.ts": "6c795ab6b01d56ee3e9b84a35ae0c88aa4ce965e1a24d6778bf6f6e6eadccb6c",
+        "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+        "src/game/stats.ts": "e4c9ccb1b7218751d8544a3b21771a8d476b76d0425ce807ebc1e0977f9063ba",
+        "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+        "src/game/systems/crowd.ts": "35bcf98a6e2c00b92b1d88a9c05980893f47d7b8aaac7fe102f0809596405935",
+        "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+        "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+        "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+        "src/game/systems/targeting.ts": "4f407647168600ec382d89e6f84df3ebdb563cd401af69a48863a256f56f972b",
+        "src/game/types.ts": "3e33f13caaed9fc9978f66b836af255c10df718afd79841db89cebbfb05343d7",
+        "src/game/world.ts": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+        "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+      }
+    },
+    "profile": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b"
+  },
+  "collectorSha256": "0227e80e0ba9f636368989fbe8dc58cb86552c19277fc85bdaa47aeb79250e21",
+  "sourceDigests": {
+    "artifacts/balance/calibration-selection-v4-audit-at-decision.json": "9cf38259b9ac195cfd5403c2834d6b66b3432440fd4c37ca00b56e2102b3c805",
+    "artifacts/balance/calibration-selection-v4-audit-at-decision.md": "7587f0739cdc1c0e15daacb907a23455d5c3ac6606e77d75cfa25e501dcb76a5",
+    "artifacts/balance/calibration-selection-v4-evidence.json": "3ca0b228db81efbc00bee125693869faeedc35bf0a8a532e369684cfa5ad24cb"
+  },
+  "independentPeerReview": "Complete strict evidence, all source/raw/profile hashes, Wilson intervals and203 improvements/18 harms independently recomputed; supports advancing unchanged only.",
+  "retainedExceptions": [
+    "build-auto1600 first-stage99%, campaign79%; build-active450 campaign77%, outside predeclared soft observation ranges.",
+    "random opening desktop-portrait gap32pp and second-stage conditional clearance80%/29.85%; structural layout and survivor-selection differences not causally isolated.",
+    "Finale353/353 entrants clear, hostileHP+shield median0 in all six groups; injury fractions8/27,9/20,18/75,34/79,22/77,24/75. Do not claim uniformly sustained typical late pressure.",
+    "Baseline paired203 improvements and18 harms; versusV3 four rescues andone new stage3death retained.349 common wins include239faster/110slower, maxslowdown54.84s.",
+    "Selection longestwinner511.83s does not guarantee unseen outcomes."
+  ],
+  "validation": {
+    "masterSeed": 20261027,
+    "seedsPerGroup": 300,
+    "pairedRuns": 3600,
+    "maxSeconds": 650,
+    "maxSteps": 78000,
+    "outcomesInspectedBeforeDecision": false
+  },
+  "pendingPhases": {
+    "validation": 3600,
+    "endless": 360,
+    "sensitivity": 288
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "independent-stable-V5-selection-audit-comparison",
+  "recordedAt": "2026-10-22T21:26:27.707857+00:00",
+  "pass": true,
+  "simulationsExecuted": 0,
+  "rawRecordsReparsed": 0,
+  "rawCacheSha256": "0d587e8128587351914b4200f8f96dfa4ebad7c390d457fb2aa95dcd94d9069f",
+  "stableAuditSha256": "4ccda4aff5f7066ef859f45339e261c9ccc1d160ba2e93647b05bf20c08e5757",
+  "stableMarkdownSha256": "898456b7f115cc88884b369936c1ac24846ab84663f9b293bf2402c39545e5b7",
+  "distributionScalarComparisons": 5388,
+  "ciChecks": 60,
+  "allPairedHarmsRetained": 17,
+  "allV4CommonWinSlowdownsRetained": 71,
+  "sourceRawIdentityChecks": "Complete raw peer cache remains bound to unchanged strict evidence SHA64aae; stable JSON/MD copies byte-identical. All cached strict groups, stage pressure distributions, successful tails, CI/paired seed sets/counts and warnings match.",
+  "interpretationToleranceNote": "Only prose recommendation.maxSlowdownSeconds differs from exact computed record by6.96e-13s; exact71 authoritative records agree bit-for-bit.",
+  "decision": "No integrity or correctness blocker to freezing unchanged candidate into reserved independent validation; selection alone cannot adopt.",
+  "retainedDesignLimits": [
+    "all four builder campaign point rates above75percent soft ceiling",
+    "build-auto1600 first clear99percent exceeds95percent soft ceiling",
+    "random first-stage width gap32pp and second-stage conditional gap-50.149pp",
+    "all357 stage2 survivors clear remaining campaign stages",
+    "all six groups stage3 and4 hostileHPplusShield median zero",
+    "17 baseline paired harms and71 V4 common-win slowdowns retained"
+  ],
+  "futureOutcomesRead": false
+}

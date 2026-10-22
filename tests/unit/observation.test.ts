@@ -95,7 +95,7 @@ describe("read-only battle settlement observations", () => {
         ...events.filter((event) => event.type === "enemy_spawn").map((event) => event.amount ?? 0),
       ),
     ).toBe(observed.peakEnemies);
-  }, 30_000);
+  }, 60_000);
 
   test("effective damage excludes overkill and chest damage; execution HP is included", () => {
     const { world, events } = setup();

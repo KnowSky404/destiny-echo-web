@@ -86,6 +86,36 @@ export async function renderGuide(): Promise<Record<string, string>> {
   const player = createPlayer();
   const sanctuary = CONFIG.sanctuary;
   const endless = CONFIG.endless;
+  // Endless derives its baseline from authored stage data, before campaign-only overrides.
+  const finale = BASE_STAGES[BASE_STAGES.length - 1];
+  if (!finale) throw new Error("Missing endless baseline stage");
+  const stageValues = {
+    ENDLESS_GROWTH: `min(${n(endless.healthGrowth)}^d, exp(200))`,
+    ENDLESS_HP: `${n(finale.health)} × G × P`,
+    ENDLESS_BOSS_GROWTH: `${n(finale.bossHp)} × G`,
+    ENDLESS_BOSS_HP_SCALE: n(BALANCE.payload.enemies.boss.hp / BASE_ENEMIES.boss.hp),
+    ENDLESS_BUDGET: `min(${n(endless.populationCap)}, ceil(${finale.enemyCount} × G))`,
+    ENDLESS_SUPPORT: `min(${n(endless.escortCap)}, ceil(${finale.supportCount} × G))`,
+    ENDLESS_SUPPORT_INTERVAL: n(finale.supportInterval),
+    ENDLESS_COMPRESSION: `1 + (ceil(${finale.enemyCount} × G)/N - 1) + (ceil(${finale.supportCount} × G)/S - 1)`,
+    ENDLESS_DAMAGE: `${n(endless.damageMultiplier)} × min(8, ${n(finale.damage)} × ${n(endless.damageGrowth)}^min(d,100))`,
+    ENDLESS_SPEED: n(finale.speed),
+    ENDLESS_BOSS_AT: n(finale.bossAt),
+    ENDLESS_DAMAGE_MULTIPLIER: n(endless.damageMultiplier),
+    ENDLESS_TIMING: `max(0.35, ${n(endless.attackTiming)} × ${n(endless.timingGrowth)}^(d-1))`,
+    ENDLESS_APPROACH_BASE: n(CONFIG.skills.approachInterval),
+    ENDLESS_APPROACH_FIRST: n(
+      CONFIG.skills.approachInterval * Math.max(0.35, endless.attackTiming),
+    ),
+    ENDLESS_APPROACH_MIN: n(CONFIG.skills.approachInterval * 0.35),
+    ENDLESS_POISON_DPS: n(endless.poisonDamagePerSecond),
+    ENDLESS_SLAM: `round(${n(endless.slamDamage * endless.damageMultiplier)} + ${n(endless.slamDamagePerStage * endless.damageMultiplier)} × (d - 1))`,
+    ENDLESS_SUMMON_COUNT: endless.summonCount,
+    ENDLESS_SUMMON_MULTIPLIER: n(endless.summonMultiplier),
+    ENDLESS_PENDING_SUMMONS: endless.summonCount * endless.bossThresholds.length,
+    ENDLESS_SUPPLIES: endless.supplies,
+    ENDLESS_TOTAL_REWARDS: endless.supplies + 1,
+  };
   const names = (kinds: readonly (keyof typeof ENEMIES)[]) =>
     kinds.map((kind) => ENEMIES[kind].name).join("、");
   const pages: Record<string, string> = {};
@@ -140,7 +170,7 @@ ${table(
 - 「遗世庇护」净化中毒、重伤与攻速降低，令敌方时序短暂停滞；首层持续 ${sanctuary.baseDuration + sanctuary.durationPerLayer} 秒。
 - 庇护期间敌方嘲讽失效；巫师只在选择毒素技能时施毒，死亡不施毒。
 - 中毒期间附带重伤，全部生命治疗与护盾获得量降低 ${percent(endless.woundRecoveryReduction)}。
-- 无尽第一关重击造成 ${endless.slamDamage * endless.damageMultiplier} 点直接生命损失，每过一关增加 ${endless.slamDamagePerStage * endless.damageMultiplier} 点。
+- 无尽第一关重击造成 ${Math.round(endless.slamDamage * endless.damageMultiplier)} 点直接生命损失，每过一关基础值增加 ${endless.slamDamagePerStage * endless.damageMultiplier} 点，结算时四舍五入。
 - 手机四车道、最多 ${MINION_CAPACITY} 只小怪与 1 个首领；1920×1080 桌面约六车道、36 只小怪与 1 个首领。出生、攻击点和预算按车道数调整。无尽初始开放防线前两排对应的下方两行攻击格；每完成一关，只在未开放格中随机永久增加两个，直到覆盖全部敌方区域，战机所在行不参与抽取或计数。
 - 无尽普通怪、护卫和强化召唤共用每关 ${percent(endless.attackRegionSpawnRatio)} 攻击区出生保底；其余出生每次都从上半屏侧翼车道的合法空位中随机选择。满员或保底所需攻击区没有空位时等待，不消耗成功出生名额。
 - 首领奖励为两项随机锻体与一张残响三选一，第四关也先领奖再通关。锻体不计入羁绊。
@@ -270,7 +300,7 @@ ${names(CAMPAIGN_KINDS)}按 1:1:1 均衡刷新，普通波次与护卫共享配�
 
 ${names(ENDLESS_KINDS)}按 1:1:1 均衡刷新，常规波次、护卫和技能召唤均使用同一配比。三种来源共用每关 ${percent(endless.attackRegionSpawnRatio)} 攻击区出生保底：累计成功出生 N 只时，至少向上取整 N × ${percent(endless.attackRegionSpawnRatio)} 只在已开放攻击区内随机出生，自然随机出生落入攻击区也计入。其余出生每次都从上半屏侧翼车道的所有合法空位中随机选择（手机四条，1080p 桌面约六条），并保持间距。出生位置取车道内的离散空位，不保证每个画布格都能出生；中央通道留给从顶部中央登场的首领。满员、没有合法位置，或保底所需攻击区没有空位时等待，不重叠出生，也不消耗成功出生计数、兵种配比或待入场召唤。
 
-- **嘲讽巨像：** 基础生命为游离残响的 ${ENEMIES.tank.hp / ENEMIES.wisp.hp} 倍。嘲讽是持续 ${CONFIG.skills.tauntDuration} 秒的主动技能，不是固有状态。推进中每 ${n(CONFIG.skills.approachInterval * endless.attackTiming)} 秒尝试一次，概率 ${percent(CONFIG.skills.tauntChance)}；进入攻击阶段后每次行动同概率选择嘲讽，否则近战攻击，同一行动不会两者一起释放。攻击区目标优先规则仍生效，庇护期间可自由锁定。
+- **嘲讽巨像：** 基础生命为游离残响的 ${ENEMIES.tank.hp / ENEMIES.wisp.hp} 倍。嘲讽是持续 ${CONFIG.skills.tauntDuration} 秒的主动技能，不是固有状态。进入攻击区前先随机等待，之后首关无尽每 ${n(CONFIG.skills.approachInterval * Math.max(0.35, endless.attackTiming))} 秒尝试一次；后续按本关攻击计时倍率缩短，最低 ${n(CONFIG.skills.approachInterval * 0.35)} 秒，概率 ${percent(CONFIG.skills.tauntChance)}；进入攻击阶段后每次行动同概率选择嘲讽，否则近战攻击，同一行动不会两者一起释放。攻击区目标优先规则仍生效，庇护期间可自由锁定。
 - **腐毒巫师：** 基础生命为游离残响的 ${ENEMIES.wizard.hp / ENEMIES.wisp.hp} 倍。每次行动有 ${percent(CONFIG.skills.poisonChance)} 概率释放毒素，否则远程射击，二选一；射击和死亡都不自动施毒。中毒持续 ${endless.poisonDuration} 秒，基础每秒 ${endless.poisonDamagePerSecond} 伤害，先扣护盾，重伤使治疗和护盾获得降低 ${percent(endless.woundRecoveryReduction)}；无护盾时总攻速降低 ${percent(endless.poisonAttackSlow)}。重复施加延长 3 秒，并随机使每秒伤害 +1 或攻速降低 +1 个百分点。
 
 ## 融合升星
@@ -318,6 +348,7 @@ ${table(
     "小怪生命倍率",
     "速度倍率",
     "普通伤害倍率",
+    "攻击计时倍率",
     "首领弹数",
     "首领常规间隔",
     "蓄力时间",
@@ -329,29 +360,30 @@ ${table(
     n(stage.health),
     stage.speed,
     stage.damage,
+    n(stage.attackTiming),
     stage.bossFan,
-    `${n(ENEMIES.boss.interval * stage.bossInterval)}s`,
+    `${n(ENEMIES.boss.interval * stage.bossInterval * stage.attackTiming)}s`,
     `${stage.chargeTime}s`,
     stage.interrupt,
     stage.specialDamage,
   ]),
 )}
 
-战役小怪生命与常规预算逐关增长 50%；小怪生命还乘波次倍率 \`1 + (波次 - 1) × 0.12\`。波次每 11 秒递增，上限 5。护卫同样使用生成时的波次倍率。首领半血以下常规间隔再乘 0.8，蓄力时间减少 0.3 秒，打断门槛乘 4/3 后取整，蓄力弹基础伤害增加 4，发射时还乘本关普通伤害倍率。
+战役小怪生命使用上表中各关独立校准的倍率；常规预算仍逐关增长 50%。小怪生命还乘波次倍率 \`1 + (波次 - 1) × 0.12\`，波次每 11 秒递增，上限 5，护卫同样使用生成时的波次倍率。攻击计时倍率作用于普通攻击间隔与首次准备时间；首领常规间隔已计入首领基础间隔、本关首领间隔倍率和攻击计时倍率，蓄力时间单独取表中值。首领半血以下常规间隔再乘 0.8，蓄力时间减少 0.3 秒，打断门槛乘 4/3 后取整，蓄力弹基础伤害增加 4，发射时还乘本关普通伤害倍率。
 
 ## 无尽成长
 
-令 d=1 表示第一关无尽，承接第四关：
+令 d=1 表示第一关无尽，成长项 G=\`${stageValues.ENDLESS_GROWTH}\`。无尽使用第四关基础模板和当前无尽设置，战役各关的独立校准不改写这个成长基数：
 
-- 普通怪生命倍率：\`3.375 × 2^d × P\`，再乘波次、星级及强化召唤倍率。
-- 首领生命取原成长与同关最强坦克生命的 1.25 倍两者较大值；最强坦克按第五波、强化召唤和三星融合计，避免数量浓缩后坦克比首领更耐打。
-- 常规怪物预算 N：\`min(360, ceil(135 × 2^d))\`，前两关为 270、360，以后不再增加。
-- 每批护卫 S：\`min(12, ceil(14 × 2^d))\`，每 2 秒尝试补充。
-- 数量浓缩 P：\`1 + (ceil(135 × 2^d)/N - 1) + (ceil(14 × 2^d)/S - 1)\`；两类超额数量都转为当前关小怪生命 ×P、普通伤害 ×√P；首领通过最强坦克下限同步成长，毒素不乘浓缩。
-- 普通伤害倍率：\`1.8 × min(8, 1.35 × 1.08^d)\`；小怪速度倍率固定 1.15。
-- 首领在本关第 48 秒出现，无时间限制；主题循环，数值持续增长。
-- 无尽普通攻击与重击的公共倍率为 1.8；攻击间隔与准备时间乘 \`max(0.35, 0.6 × 0.97^(d-1))\`，减速与半血攻速继续相乘。毒素独立使用 10 点/秒起步的规则。
-- 重击直接生命损失：\`${endless.slamDamage * endless.damageMultiplier} + ${endless.slamDamagePerStage * endless.damageMultiplier} × (d - 1)\`，首关为 ${endless.slamDamage * endless.damageMultiplier}，不乘关卡伤害或抵达防线倍率。
+- 普通怪生命倍率：\`${stageValues.ENDLESS_HP}\`，再乘波次、星级及强化召唤倍率。
+- 首领生命先取原成长 \`${stageValues.ENDLESS_BOSS_GROWTH}\` 与同关最强坦克生命的 1.25 倍两者较大值，四舍五入后乘首领基础生命调整倍率 ${stageValues.ENDLESS_BOSS_HP_SCALE}；最强坦克按第五波、强化召唤和三星融合计，避免数量浓缩后坦克比首领更耐打。
+- 常规怪物预算 N：\`${stageValues.ENDLESS_BUDGET}\`。
+- 每批护卫 S：\`${stageValues.ENDLESS_SUPPORT}\`，每 ${stageValues.ENDLESS_SUPPORT_INTERVAL} 秒尝试补充。
+- 数量浓缩 P：\`${stageValues.ENDLESS_COMPRESSION}\`；两类超额数量都转为当前关小怪生命 ×P、普通伤害 ×√P；首领通过最强坦克下限同步成长，毒素不乘浓缩。
+- 普通伤害倍率：\`${stageValues.ENDLESS_DAMAGE}\`；小怪速度倍率固定 ${stageValues.ENDLESS_SPEED}。
+- 首领在本关第 ${stageValues.ENDLESS_BOSS_AT} 秒出现，无时间限制；主题循环，数值持续增长。
+- 无尽普通攻击与重击的公共倍率为 ${stageValues.ENDLESS_DAMAGE_MULTIPLIER}；攻击间隔与准备时间乘 \`${stageValues.ENDLESS_TIMING}\`，减速与半血攻速继续相乘。毒素独立使用 ${stageValues.ENDLESS_POISON_DPS} 点/秒起步的规则。
+- 重击直接生命损失：\`${stageValues.ENDLESS_SLAM}\`，不乘关卡伤害或抵达防线倍率。
 
 ${table(
   ["无尽关数", "怪物预算", "首领生命", "护卫/批", "重击生命损失"],
@@ -362,7 +394,7 @@ ${table(
       stage.enemyCount,
       stage.bossHp,
       stage.supportCount,
-      (endless.slamDamage + endless.slamDamagePerStage * i) * endless.damageMultiplier,
+      Math.round((endless.slamDamage + endless.slamDamagePerStage * i) * endless.damageMultiplier),
     ];
   }),
 )}
@@ -371,7 +403,7 @@ ${table(
 
 手机为 450×800 逻辑战场、四条侧翼车道。桌面按可用宽高计算逻辑宽度（800～2400，高度800），1920×1080 约为1505×800、六车道；宽度变化会调整车道数、出生位置和下方攻击点，而非拉伸手机车道。中间保留136单位首领通道，每车道六排，排距84；手机最多24小怪与1首领，六车道桌面为36与1。常规预算、护卫批次及数量预算上限按车道数/4同比调整；上面的成长表以手机为基准。战役同时上限不超过实际容纳量。
 
-空间参数在打开页面时确定；本局中缩放窗口或改变 DPR 只做等比渲染，避免突然改变敌人和构筑。爆炸、溅射、雷暴、连锁距离与融合邻近距离按车道间距同比调整，保持桌面范围构筑的覆盖能力；初始伤害按车道数/4增加以匹配出怪预算，友方弹速按战场宽度比的平方根增加；怪物大小与行距不拉伸。出生不足时等待，死亡/融合后队列向前收拢。主动召唤最多18个待入场名额，首领死亡取消。
+空间参数在打开页面时确定；本局中缩放窗口或改变 DPR 只做等比渲染，避免突然改变敌人和构筑。爆炸、溅射、雷暴、连锁距离与融合邻近距离按车道间距同比调整，保持桌面范围构筑的覆盖能力；初始伤害按车道数/4增加以匹配出怪预算，友方弹速按战场宽度比的平方根增加；怪物大小与行距不拉伸。出生不足时等待，死亡/融合后队列向前收拢。主动召唤最多 ${stageValues.ENDLESS_PENDING_SUMMONS} 个待入场名额，首领死亡取消。
 
 ### 每关扩展的攻击区域
 
@@ -394,7 +426,7 @@ ${table(
     ],
     [
       "重击",
-      `无视护盾和受击无敌，直接损失 ${endless.slamDamage * endless.damageMultiplier} + ${endless.slamDamagePerStage * endless.damageMultiplier} × (无尽关数 - 1) 生命，可以致死`,
+      `无视护盾和受击无敌，直接损失 round(${endless.slamDamage * endless.damageMultiplier} + ${endless.slamDamagePerStage * endless.damageMultiplier} × (无尽关数 - 1)) 生命，最终伤害四舍五入，可以致死`,
     ],
   ],
 )}
@@ -505,7 +537,7 @@ ${nav}
     .join("\n")}\n`;
   pages._Footer = "本资料随游戏规则同步维护；线上游戏版本以实际发布为准。\n";
   return Object.fromEntries(
-    Object.entries(await bilingualPages(pages, rulesHash)).map(([name, body]) => [
+    Object.entries(await bilingualPages(pages, rulesHash, stageValues)).map(([name, body]) => [
       name,
       `${banner}${body.trim()}\n`,
     ]),

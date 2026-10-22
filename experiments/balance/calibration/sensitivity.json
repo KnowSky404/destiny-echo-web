@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "mode": "campaign",
+  "strategies": [
+    {
+      "name": "random-auto",
+      "seed": 1
+    },
+    {
+      "name": "build-auto",
+      "seed": 1
+    },
+    {
+      "name": "build-active",
+      "seed": 1
+    },
+    {
+      "name": "random-auto",
+      "seed": 17
+    },
+    {
+      "name": "build-auto",
+      "seed": 17
+    },
+    {
+      "name": "build-active",
+      "seed": 17
+    },
+    {
+      "name": "random-auto",
+      "seed": 97
+    },
+    {
+      "name": "build-auto",
+      "seed": 97
+    },
+    {
+      "name": "build-active",
+      "seed": 97
+    }
+  ],
+  "layouts": [
+    {
+      "id": "narrow-desktop",
+      "width": 800
+    },
+    {
+      "id": "wide-desktop",
+      "width": 2400
+    }
+  ],
+  "maxSeconds": 650,
+  "maxSteps": 78000,
+  "maxRuns": 5000,
+  "validationSeeds": [],
+  "masterSeed": 20261025,
+  "seedCount": 16
+}

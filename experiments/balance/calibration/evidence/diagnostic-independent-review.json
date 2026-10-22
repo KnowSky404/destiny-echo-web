@@ -1,0 +1,140 @@
+{
+  "kind": "independent-known-V5-probe-peer",
+  "simulationsExecuted": 0,
+  "adoptionEligible": false,
+  "sourceCodeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "variants": [
+    {
+      "name": "E",
+      "profileHash": "7eb1021054a9436621bae7f18135973cc4168a0a474e2a34b55d4f09b450727c",
+      "campaignCounts": {
+        "campaign_victory": 64,
+        "death": 16,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 0
+      },
+      "oldWins": 61,
+      "preserved": 60,
+      "lost": 1,
+      "faster": 50,
+      "slower": 10,
+      "winnerMax": 500.86666666637547,
+      "winnerP95": 422.6762499997798,
+      "lateEntered": 67,
+      "lateAttacked": 45,
+      "lateInjured": 44,
+      "endlessCounts": {
+        "campaign_victory": 0,
+        "death": 6,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 6
+      },
+      "strata": {
+        "weak-high-sustain-survivor": {
+          "target2": 0,
+          "deathFirstLayer": 6,
+          "total": 6
+        },
+        "strong-zero-late-injury-survivor": {
+          "target2": 6,
+          "deathFirstLayer": 0,
+          "total": 6
+        }
+      }
+    },
+    {
+      "name": "F",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "campaignCounts": {
+        "campaign_victory": 67,
+        "death": 13,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 0
+      },
+      "oldWins": 61,
+      "preserved": 61,
+      "lost": 0,
+      "faster": 57,
+      "slower": 4,
+      "winnerMax": 470.0499999997368,
+      "winnerP95": 429.36666666644044,
+      "lateEntered": 67,
+      "lateAttacked": 45,
+      "lateInjured": 41,
+      "endlessCounts": {
+        "campaign_victory": 0,
+        "death": 6,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 6
+      },
+      "strata": {
+        "weak-high-sustain-survivor": {
+          "target2": 0,
+          "deathFirstLayer": 6,
+          "total": 6
+        },
+        "strong-zero-late-injury-survivor": {
+          "target2": 6,
+          "deathFirstLayer": 0,
+          "total": 6
+        }
+      }
+    },
+    {
+      "name": "G",
+      "profileHash": "0958068fdb4e586e6512fddef1e361fde2117d733596e598649097ff2a76ce83",
+      "campaignCounts": {
+        "campaign_victory": 67,
+        "death": 13,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 0
+      },
+      "oldWins": 61,
+      "preserved": 61,
+      "lost": 0,
+      "faster": 58,
+      "slower": 3,
+      "winnerMax": 447.01666666642444,
+      "winnerP95": 391.6058333331415,
+      "lateEntered": 67,
+      "lateAttacked": 38,
+      "lateInjured": 35,
+      "endlessCounts": {
+        "campaign_victory": 0,
+        "death": 5,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0,
+        "endless_target_reached": 7
+      },
+      "strata": {
+        "weak-high-sustain-survivor": {
+          "target2": 1,
+          "deathFirstLayer": 5,
+          "total": 6
+        },
+        "strong-zero-late-injury-survivor": {
+          "target2": 6,
+          "deathFirstLayer": 0,
+          "total": 6
+        }
+      }
+    }
+  ],
+  "prefixAnnexCounts": {
+    "fullSummaryFalse": 10,
+    "fullEventFalse": 24
+  },
+  "futureHoldoutRead": false,
+  "recommendation": "F is supported for formal evaluation only: keeps all61 existing winners, meets prospective475s max, and preserves more sampled late pressure than G. All276 are deliberately selected known diagnostics, not independent adoption evidence; 4 common-winner slowdowns including+19.8583s and weak6/6 first-endless deaths remain limitations. No correctness blocker found."
+}

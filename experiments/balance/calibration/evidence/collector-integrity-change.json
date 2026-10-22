@@ -1,0 +1,58 @@
+{
+  "kind": "collector-actual-budget-integrity-change",
+  "recordedAt": "2026-10-22T20:57:33.185332+00:00",
+  "before": {
+    "path": "scripts/calibration-evidence.ts",
+    "sha256": "84f058f8b1d79b46d16fc1c6e4dd9c1ecf7e62f3e4803e75f16d312e52820332",
+    "snapshot": "artifacts/balance/calibration-collector-before-actual-budget-84f058f8b1d7.ts",
+    "bytes": 23020
+  },
+  "authorizedScope": [
+    "scripts/calibration-evidence.ts",
+    "tests/unit/calibration-evidence.test.ts",
+    "experiments/balance/calibration/rejected-v4-audit.json projection omitted wording only"
+  ],
+  "reason": "Reject actual elapsed-time or fixed-step overruns and inconsistent run clocks even when config metadata is relabeled; preserve existing numerical gates and raw simulation evidence.",
+  "simulationSourceChanges": false,
+  "status": "verified",
+  "after": {
+    "path": "scripts/calibration-evidence.ts",
+    "sha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+    "bytes": 23698
+  },
+  "verifiedAt": "2026-10-22T20:59:32.617451+00:00",
+  "verification": {
+    "unit": {
+      "log": "/tmp/destiny-calibration-collector-actual-budget-unit.log",
+      "passed": 22,
+      "failed": 0,
+      "assertions": 227
+    },
+    "typecheck": {
+      "log": "/tmp/destiny-calibration-collector-actual-budget-typecheck.log",
+      "exitCode": 0
+    },
+    "lint": {
+      "log": "/tmp/destiny-calibration-collector-actual-budget-lint.log",
+      "exitCode": 0
+    },
+    "forged655Diagnostic": {
+      "log": "/tmp/destiny-calibration-collector-actual-budget-forged655.log",
+      "accepted": false,
+      "simulationsExecuted": 0
+    },
+    "historicalActualBudgetAudit": {
+      "path": "/tmp/destiny-calibration-collector-actual-budget-historical-audit.json",
+      "cells": 42,
+      "records": 10800,
+      "violations": 0,
+      "simulationsExecuted": 0
+    }
+  },
+  "testSha256": "16301ea133d97e1fd33456463846047ad730e74c347e5fbe7b2466cac34e51d3",
+  "compactAuditSha256": "28988421f761485dd02704288e2c50223e10d36151466364b6ce014f561b9a91",
+  "compactAuditChange": "projection.omitted wording only: explicitly declares omitted wall-clock performance distributions (wallTimeMs); reverting this substring reproduces prior SHA95a4fc8dd57feabeb123647a96e9825a4f5db300e649414ab02a1d27ff2cf49a",
+  "frozenV4CodeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "frozenSourceFileMismatches": [],
+  "provenance": "artifacts/balance/calibration-collector-actual-budget-provenance-84f058f8b1d7.json"
+}

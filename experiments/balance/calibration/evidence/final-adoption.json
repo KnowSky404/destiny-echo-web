@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "root-final-calibration-design-adoption",
+  "recordedAt": "2026-10-22T22:38:53.181534+00:00",
+  "decision": "adopt-frozen-F-for-review-and-authorized-release",
+  "finalAdoption": true,
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "simulationFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "hardIntegrityPassed": true,
+  "allSoftObservationBandsSatisfied": false,
+  "formalRuns": {
+    "selection": 1200,
+    "validation": 3600,
+    "endless": 360,
+    "sensitivity": 288,
+    "total": 5448,
+    "baseline": 2400,
+    "candidate": 3048
+  },
+  "replays": {
+    "exact": 2,
+    "newStatisticalSamples": 0
+  },
+  "rationale": [
+    "Keep the existing accessible campaign, natural reward economy and optional endless progression. The opening permits build formation; stage two is the principal campaign build filter, later stages reward surviving builds, and natural endless restores substantial observed hostile HP/shield pressure.",
+    "F is the least durability reduction among the prospectively compared known-case candidates that met the 475-second diagnostic target while preserving all old winning controls. The diagnostic target and biased probes are not independent adoption samples.",
+    "The unchanged candidate then resolves all fresh independent campaign records within 650 seconds; longest successful independent campaign is 443.1917 seconds. All natural endless records resolve within their separately predeclared1200-second budget; longest successful two-layer attempt is528.2917 seconds. These are observed sample tails, not upper bounds on unseen builds.",
+    "Retain original player output, card effects, rewards, RNG, authored counts, physical caps and pool limits. Changing those mechanisms merely to force proxy percentages into soft bands would broaden this bounded numeric calibration and invalidate the completed evidence.",
+    "Accept the explicit soft deviations below for this campaign/build-payoff design. Hard integrity success alone is not a claim of universal game balance, identical layout difficulty or human satisfaction."
+  ],
+  "explicitTradeoffs": {
+    "validationCampaignWinsPer300": [66, 84, 220, 237, 217, 241],
+    "validationFirstClearsPer300": [119, 193, 255, 296, 253, 292],
+    "softBands": {
+      "builderFirstStage": [0.65, 0.95],
+      "builderCampaign": [0.25, 0.75]
+    },
+    "desktopBuilderSoftDeviations": "Automatic desktop79% and active desktop80.33% campaign completion exceed75%; openings98.67%/97.33% exceed95%. Active desktop Wilson95% is75.464%–84.436%, entirely above75%. Bands are preserved, not retrospectively widened.",
+    "pairedHarms": "Selection17 and independent validation71 baseline victories become candidate deaths; full paired seeds remain in audits alongside206/606 improvements. No aggregate independent CI is inferred across shared policy/layout seeds.",
+    "lateCampaign": "Selection357/357 and validation1065/1065 finale entrants clear; all six groups have zero median hostile HP-plus-shield injury in stages three/four. Validation has8 stage-three deaths. The separate endless campaign cohort has1 finale death, so later success is not universal.",
+    "layout": "Random opening layout gaps32pp selection/24.67pp validation exceed20pp investigation line. Sensitivity build-auto800vs2400 completion differs25pp. Lane output/population, score economy, reward histories and survivor selection confound causal interpretations. Equivalent difficulty across widths is not established.",
+    "sensitivity": "Each of18 cells has16 shared game seeds. Random strategy seed17 clears0/16 at800 and1/16 at2400; random-seed effects remain explicit. Builder policy-seed repetitions are deterministic consistency controls, not independent diversity evidence. No pooled binomial CI across repeats.",
+    "endless": "191/360 new characters complete two layers;210 clear campaign,192 clear layer one,191 clear layer two.191 zero-time next-layer entries are right-censored. No formal baseline endless comparison or indefinite-survival claim.",
+    "transition": "The first endless boss195039HP remains6.09496875 times the32000HP finale. Six deliberately selected weak diagnostic controls die in layer one; six selected strong controls clear two. A smooth transition is not established.",
+    "nonMonotonicity": "Against V4 selection all353 old wins remain plus4 rescues, but71 common victories slow down, maximum19.44 seconds. Lower HP does not imply every seeded trajectory becomes faster."
+  },
+  "boundaries": [
+    "Industry sources inform segmented measurement and supplementary simulation; they do not define universal PvE completion standards.",
+    "Proxy policy win rates do not estimate human win rates. Two endless layers do not certify the unbounded tail.",
+    "Fresh static browser checks validate configuration/help/responsiveness and PRE export, not natural late-stage browser completion. Earlier natural Chromium/Firefox checks retain their historical profile identity.",
+    "Final source push, exact-head Codex review, rebase merge, clean-main Wiki publication and PRE then PRO deployment remain separate required delivery gates. No remote deployment is asserted by this decision."
+  ],
+  "references": [
+    {
+      "path": "artifacts/balance/calibration-v5-candidate-freeze.json",
+      "sha256": "1a55118f6a47e27b1ad30ad8d6563e5a30ca58afea2b979086314d9487106f71"
+    },
+    {
+      "path": "artifacts/balance/calibration-v5-selection-decision.json",
+      "sha256": "f2c2fc367defc86084ee04513be0abe30a88aed974a7a8eb766a0c6e36fafd80"
+    },
+    {
+      "path": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "sha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5"
+    },
+    {
+      "path": "artifacts/balance/calibration-validation-v5-evidence.json",
+      "sha256": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665"
+    },
+    {
+      "path": "artifacts/balance/calibration-endless-v5-evidence.json",
+      "sha256": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349"
+    },
+    {
+      "path": "artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "sha256": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c"
+    },
+    {
+      "path": "artifacts/balance/calibration-v5-exact-replays.json",
+      "sha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-all-phases-independent-peer.json",
+      "sha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-local-verification.json",
+      "sha256": "4df114506e3f497988130ff646eea8600814c350d92d357fa59e02030a638313"
+    }
+  ]
+}

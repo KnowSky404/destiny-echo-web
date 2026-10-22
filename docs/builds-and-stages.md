@@ -67,11 +67,11 @@ With poison active and no shield, final attack speed is reduced by30% plus accum
 
 ## Stage lifecycle and boss health
 
-The four encounters retain their authored themes, base health growth, boss appearance times, gold-charge interruption and half-health patterns. Campaign base budgets are40/60/90/135; escort packs4/6/9/14 every2s. Values shown here are portrait baselines before lane scaling. Campaign species remain wisp/sentinel/hexer in equal successful-admission bags; endless uses wisp/tank/wizard. Boss entrance preserves current enemies, statuses and bullets, and uses the reserved corridor.
+The four encounters retain their authored themes, boss appearance times, gold-charge interruption and half-health patterns. The adopted profile in `src/data/balance/official.json` independently calibrates campaign minion HP, boss HP, damage, movement and attack timing; inspect the generated [stage tables](game-guide/Stages.md) for the resolved values. Campaign base budgets are 40/60/90/135; escort packs are 4/6/9/14 every 2 s. Values shown here are portrait baselines before lane scaling. Campaign species remain wisp/sentinel/hexer in equal successful-admission bags; endless uses wisp/tank/wizard. Boss entrance preserves current enemies, statuses and bullets, and uses the reserved corridor.
 
 **Boss death stops reinforcements and cancels queued summons, while all surviving minions and hostile shots stay active.** Only after the final minion dies does the stage clear: grant the clearance score, cancel hazards and stale locks, cleanse, then offer rewards. The player can die during cleanup. Fourth-stage reward precedes Victory; other stage reward claims restore up to35HP and retain build/shield/score before advancing. Ending/restart behavior remains one-use and run-local.
 
-For endless depth d≥1, use `g=min(2^d, exp(200))`, and let L=`laneCount/4`:
+Campaign-only rules do not replace the authored finale used as the endless growth baseline (HP 3.375, routine budget 135, escort batch 14, boss HP 11,000). The calibrated endless settings are separate from those campaign overrides. For endless depth d≥1, use `g=min(1.7^d, exp(200))`, and let L=`laneCount/4`:
 
 ```text
 planned ordinary = ceil(135 × g × L)
@@ -81,11 +81,11 @@ S = min(planned escorts, 12 × L)
 P = 1 + (planned ordinary / N − 1) + (planned escorts / S − 1)
 regular HP multiplier = 3.375 × g × P
 regular damage scale from concentration = sqrt(P)
-ordinary damage multiplier = 1.8 × min(8, 1.35 × 1.08^min(d,100))
-attack/preparation timing = max(0.35, 0.6 × 0.97^(d−1))
+ordinary damage multiplier = 1.5 × min(8, 1.35 × 1.06^min(d,100))
+attack/preparation timing = max(0.35, 0.8 × 0.98^(d−1))
 maximum enhanced 3-star tank HP = 500 × regular HP multiplier × 1.48 × 1.5 × 3.5²
 boss HP = round(max(11,000 × g, maximum enhanced 3-star tank HP × 1.25))
-slam direct HP loss = 180 + 9 × (d−1)
+slam direct HP loss = round(90 + 7.5 × (d−1))
 ```
 
 Wave health and enhanced spawning round individual minions at admission; the25% boss margin covers this rounding. This fixes the previous asymmetry where concentrated/fused tanks could outgrow boss health. Ordinary budgets, packs and capacity remain bounded; excess population becomes attributes. Numeric overflow protection is not a gameplay plateau.

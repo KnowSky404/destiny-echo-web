@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { CARD_BY_ID, drawCards, isFirstStageExcluded } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { stageAt } from "../../src/data/stages";
@@ -11,7 +12,8 @@ import { World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
 function arena(width: number = CONFIG.width) {
-  const world = new World(width);
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(width, defaultProfile());
   world.start(13);
   world.bossSpawned = true;
   world.player.cooldown = 1000;

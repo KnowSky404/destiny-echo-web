@@ -1,0 +1,22 @@
+{
+  "kind": "rejected-curated-evidence-archive-map",
+  "createdAt": "2026-10-22T20:42:23.906359+00:00",
+  "originalDirectory": "experiments/balance/calibration/evidence",
+  "archiveDirectory": "experiments/balance/calibration/rejected-v4-evidence",
+  "allOriginalBytesRetained": true,
+  "adoptionEligible": false,
+  "files": {
+    "selection-audit.md": "7587f0739cdc1c0e15daacb907a23455d5c3ac6606e77d75cfa25e501dcb76a5",
+    "selection.json": "d520be856d355701e7fded521007907d6dd4fd3e36e1155e321ceb5d3caca37b",
+    "selection-decision.json": "f8599ed845c264e90d8ad0da31e9d6ab3bb6999288c3cba6336a84024e6de5e0",
+    "local-verification.json": "a5a719bce4519673f69da5ddd6440f4f32cf2a9306ca333cd274d367c1ed52c9",
+    "documentation-review-annex.json": "c53614105db27e95d69747d330f981e1d24ecda4b8538a6a811c0162eadaccea",
+    "probe-normalization-map.json": "df76208fe0745fee3cbc05dc6fad671b9adac4bd3b9f285fec95ed16c0805862",
+    "candidate-freeze.json": "62f446d57b4ad5205f58f42051606043317e5a9c5e7b8c4d67a2702631f6cf6a",
+    "documentation-review.json": "8762210d71b67c64cb5c21ef2f51cfc48f227388b59a0ee4aead75c445be6a10",
+    "selection-audit.json": "4d98175e065811278bf868d452de018cc639519b766dce2863ac0b83c8ab79a8",
+    "local-static-browser.json": "3a8430be948fa1e4dc2530c14e93e01624e8c5f4076e35f72b378fdd8404b3cc",
+    "README.md": "8ed5b8ced02aad5e520adf15ba0b67ebbe7d69d31c08b6484a47177e357867d5"
+  },
+  "note": "V4 selection and local QA passed, independent validation failed. Original curation source inventory paths refer to the former directory; this map preserves their new locations."
+}

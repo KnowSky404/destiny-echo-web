@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { applyCard } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { CONFIG } from "../../src/game/config";
@@ -9,7 +10,8 @@ import { World } from "../../src/game/world";
 import { enemy, tick } from "./helpers";
 
 function arena(): World {
-  const world = new World();
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(CONFIG.width, defaultProfile());
   world.start(7);
   // Isolate mechanics from the wave schedule, without changing combat rules.
   world.bossSpawned = true;

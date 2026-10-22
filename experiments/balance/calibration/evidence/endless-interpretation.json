@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "kind": "finite-natural-endless-interpretation-annex",
+  "round": "v5",
+  "adoptionEligible": false,
+  "finalAdoption": false,
+  "createdAt": "2026-10-22T22:32:50.041508+00:00",
+  "source": {
+    "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-endless-v5-audit.json",
+    "sha256": "962dbc9de386181d32ccd8116b343262c1a5c84e64f11d7524ab8a9bbe851db9"
+  },
+  "codeFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "planned": 360,
+  "completed": 360,
+  "counts": {
+    "campaign_victory": 0,
+    "death": 169,
+    "endless_target_reached": 191,
+    "budget_exhausted": 0,
+    "error": 0,
+    "cancelled": 0
+  },
+  "campaignSurvivors": 210,
+  "firstLoopClear": 192,
+  "secondLoopClear": 191,
+  "maxRunSeconds": 528.2916666663506,
+  "warnings": [
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    }
+  ],
+  "cells": [
+    {
+      "id": "endless-random-auto-portrait",
+      "strategy": "random-auto",
+      "width": 450,
+      "planned": 60,
+      "twoLoopSuccess": 14,
+      "twoLoopSuccessRate": 0.23333333333333334,
+      "twoLoopSuccessCI95": [0.1443956173664283, 0.35436270377601964],
+      "campaignCleared": 17,
+      "firstEndlessEntered": 17,
+      "firstEndlessCleared": 14,
+      "secondEndlessEntered": 14,
+      "secondEndlessCleared": 14,
+      "thirdEndlessEnteredAtZeroTime": 14,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 14,
+      "firstEndlessHpMedian": 488.91152783673334,
+      "firstEndlessHpPlusShieldMedian": 586.8609540656798,
+      "secondEndlessHpMedian": 1087.8215638409877,
+      "secondEndlessHpPlusShieldMedian": 1758.4995952340223,
+      "successSeconds": {
+        "n": 14,
+        "total": 5105.616666664324,
+        "mean": 364.6869047617374,
+        "p50": 358.31249999983845,
+        "p90": 395.77333333313777,
+        "p95": 415.9795833331193,
+        "max": 437.93333333309937,
+        "zeroCount": 0,
+        "positiveCount": 14
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 9184.741666664178,
+        "mean": 153.07902777773631,
+        "p50": 76.05833333333993,
+        "p90": 369.76999999982803,
+        "p95": 376.69958333315503,
+        "max": 437.93333333309937,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    },
+    {
+      "id": "endless-random-auto-desktop",
+      "strategy": "random-auto",
+      "width": 1600,
+      "planned": 60,
+      "twoLoopSuccess": 14,
+      "twoLoopSuccessRate": 0.23333333333333334,
+      "twoLoopSuccessCI95": [0.1443956173664283, 0.35436270377601964],
+      "campaignCleared": 17,
+      "firstEndlessEntered": 17,
+      "firstEndlessCleared": 15,
+      "secondEndlessEntered": 15,
+      "secondEndlessCleared": 14,
+      "thirdEndlessEnteredAtZeroTime": 14,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 14,
+      "firstEndlessHpMedian": 608.4109465732349,
+      "firstEndlessHpPlusShieldMedian": 608.4109465732349,
+      "secondEndlessHpMedian": 1400.962044606326,
+      "secondEndlessHpPlusShieldMedian": 1508.4936110428391,
+      "successSeconds": {
+        "n": 14,
+        "total": 4831.241666664573,
+        "mean": 345.08869047604094,
+        "p50": 344.487499999851,
+        "p90": 364.99416666649904,
+        "p95": 375.5099999998228,
+        "max": 390.6333333331424,
+        "zeroCount": 0,
+        "positiveCount": 14
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 9417.32499999804,
+        "mean": 156.955416666634,
+        "p50": 95.05416666668839,
+        "p90": 347.6741666665148,
+        "p95": 359.853749999837,
+        "max": 411.54999999979003,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    },
+    {
+      "id": "endless-build-auto-portrait",
+      "strategy": "build-auto",
+      "width": 450,
+      "planned": 60,
+      "twoLoopSuccess": 40,
+      "twoLoopSuccessRate": 0.6666666666666666,
+      "twoLoopSuccessCI95": [0.5405686645211968, 0.7727073847647731],
+      "campaignCleared": 44,
+      "firstEndlessEntered": 44,
+      "firstEndlessCleared": 40,
+      "secondEndlessEntered": 40,
+      "secondEndlessCleared": 40,
+      "thirdEndlessEnteredAtZeroTime": 40,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 40,
+      "firstEndlessHpMedian": 165.49853176287502,
+      "firstEndlessHpPlusShieldMedian": 286.4866062119558,
+      "secondEndlessHpMedian": 221.1149163931938,
+      "secondEndlessHpPlusShieldMedian": 899.1683300518903,
+      "successSeconds": {
+        "n": 40,
+        "total": 14172.908333327017,
+        "mean": 354.32270833317546,
+        "p50": 341.53333333318704,
+        "p90": 397.8224999998025,
+        "p95": 414.86208333312027,
+        "max": 491.73333333305044,
+        "zeroCount": 0,
+        "positiveCount": 40
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 16824.20833332685,
+        "mean": 280.40347222211415,
+        "p50": 326.88333333320037,
+        "p90": 395.23999999980487,
+        "p95": 406.70833333312777,
+        "max": 491.73333333305044,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    },
+    {
+      "id": "endless-build-auto-desktop",
+      "strategy": "build-auto",
+      "width": 1600,
+      "planned": 60,
+      "twoLoopSuccess": 42,
+      "twoLoopSuccessRate": 0.7,
+      "twoLoopSuccessCI95": [0.5749129205308552, 0.8010183386123089],
+      "campaignCleared": 46,
+      "firstEndlessEntered": 46,
+      "firstEndlessCleared": 42,
+      "secondEndlessEntered": 42,
+      "secondEndlessCleared": 42,
+      "thirdEndlessEnteredAtZeroTime": 42,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 42,
+      "firstEndlessHpMedian": 186.26763224961798,
+      "firstEndlessHpPlusShieldMedian": 438.59079289378576,
+      "secondEndlessHpMedian": 196,
+      "secondEndlessHpPlusShieldMedian": 1082.9716373755955,
+      "successSeconds": {
+        "n": 42,
+        "total": 14755.024999993486,
+        "mean": 351.31011904746396,
+        "p50": 344.9374999998506,
+        "p90": 390.1883333331428,
+        "p95": 407.4379166664604,
+        "max": 511.79166666636553,
+        "zeroCount": 0,
+        "positiveCount": 42
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 17441.974999993305,
+        "mean": 290.69958333322177,
+        "p50": 332.399999999862,
+        "p90": 374.0033333331575,
+        "p95": 397.92041666646907,
+        "max": 511.79166666636553,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    },
+    {
+      "id": "endless-build-active-portrait",
+      "strategy": "build-active",
+      "width": 450,
+      "planned": 60,
+      "twoLoopSuccess": 40,
+      "twoLoopSuccessRate": 0.6666666666666666,
+      "twoLoopSuccessCI95": [0.5405686645211968, 0.7727073847647731],
+      "campaignCleared": 42,
+      "firstEndlessEntered": 42,
+      "firstEndlessCleared": 40,
+      "secondEndlessEntered": 40,
+      "secondEndlessCleared": 40,
+      "thirdEndlessEnteredAtZeroTime": 40,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 40,
+      "firstEndlessHpMedian": 141.53006439576717,
+      "firstEndlessHpPlusShieldMedian": 303.3792772505844,
+      "secondEndlessHpMedian": 245,
+      "secondEndlessHpPlusShieldMedian": 992.165539081866,
+      "successSeconds": {
+        "n": 40,
+        "total": 14272.891666660262,
+        "mean": 356.82229166650654,
+        "p50": 343.6791666665184,
+        "p90": 384.85166666648104,
+        "p95": 512.8229166663647,
+        "max": 528.2916666663506,
+        "zeroCount": 0,
+        "positiveCount": 40
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 16860.691666660186,
+        "mean": 281.01152777766976,
+        "p50": 324.76249999986896,
+        "p90": 380.08249999981865,
+        "p95": 433.12416666643685,
+        "max": 528.2916666663506,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    },
+    {
+      "id": "endless-build-active-desktop",
+      "strategy": "build-active",
+      "width": 1600,
+      "planned": 60,
+      "twoLoopSuccess": 41,
+      "twoLoopSuccessRate": 0.6833333333333333,
+      "twoLoopSuccessCI95": [0.5576623297382323, 0.7869413244763347],
+      "campaignCleared": 44,
+      "firstEndlessEntered": 44,
+      "firstEndlessCleared": 41,
+      "secondEndlessEntered": 41,
+      "secondEndlessCleared": 41,
+      "thirdEndlessEnteredAtZeroTime": 41,
+      "thirdEndlessObserved": 0,
+      "thirdEndlessRightCensored": 41,
+      "firstEndlessHpMedian": 180,
+      "firstEndlessHpPlusShieldMedian": 544.9903408412738,
+      "secondEndlessHpMedian": 196,
+      "secondEndlessHpPlusShieldMedian": 1224.805786467486,
+      "successSeconds": {
+        "n": 41,
+        "total": 14473.408333326905,
+        "mean": 353.0099593494367,
+        "p50": 343.19166666651887,
+        "p90": 398.4083333331353,
+        "p95": 430.89999999977243,
+        "max": 493.16666666638247,
+        "zeroCount": 0,
+        "positiveCount": 41
+      },
+      "allRunSeconds": {
+        "n": 60,
+        "total": 17102.999999993637,
+        "mean": 285.04999999989394,
+        "p50": 330.58749999986367,
+        "p90": 386.88249999981247,
+        "p95": 404.497916666463,
+        "max": 493.16666666638247,
+        "zeroCount": 0,
+        "positiveCount": 60
+      }
+    }
+  ],
+  "interpretation": [
+    "All360 start new characters and pass through natural campaign rewards/economy; no synthetic carried builds.",
+    "191 target successes and169 normal deaths, no budget/error/cancel. Of210 campaign survivors,192 complete the first endless stage and191 complete the second.",
+    "Each cell60 trials reports its own Wilson interval. Shared environment seeds across strategies/layouts prevent treating aggregate counts as independent pooled human trials.",
+    "Campaign late-stage hostileHP+shield medians are0 in all6cells; first/second endless medians are positive in all6cells. Repeated actual HP loss may exceed maxHP because natural healing restores HP; healing is not subtracted from pressure.",
+    "The first endless Boss jump is not claimed smoother; known development F probes measured195039 HP versus32000 campaign Boss, ratio6.09496875. These different diagnostic sources are not added to the formal360.",
+    "Success stops immediately after2 completed endless stages, leaving191 zero-second next-stage entries: observed0 and right-censored191. These entries are not deaths or failed clears and cannot support indefinite survival claims.",
+    "Conditional campaign-survivor and loop-survivor fractions are descriptive survivor subsets; do not substitute them for whole-start success rates.",
+    "All seconds are player-side combat time; no human decision or wall-clock, physical-device or comfort claims.",
+    "This phase strictly passed; final adoption awaits sensitivity and independent/root full-evidence review."
+  ]
+}

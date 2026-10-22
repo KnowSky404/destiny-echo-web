@@ -50,7 +50,7 @@ Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PART
 
 ## Balance experiments
 
-The developer-only [Balance Simulator V1](docs/balance-simulator.md) runs the real fixed-step World in Bun. PRE profile exports are direct inputs; experiments never apply balance changes or deploy.
+The developer-only [Balance Simulator V1](docs/balance-simulator.md) runs the real fixed-step World in Bun. PRE profile exports are direct inputs; experiments never apply balance changes or deploy. Adopted stage values are maintained in the official profile; see the [calibration method and evidence](docs/balance-calibration-2026-10-22.md) and [resolved stage tables](docs/game-guide/Stages.md).
 
 ```sh
 bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke

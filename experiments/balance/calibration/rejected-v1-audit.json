@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "kind": "rejected-selection-audit",
+  "adoptionEligible": false,
+  "createdAt": "2026-10-22T17:26:16.552Z",
+  "purpose": "Preserve the rejected V1 selection and diagnostic separately from strict adoption evidence.",
+  "strictPhaseCollector": {
+    "passed": false,
+    "error": "Unresolved or invalid run",
+    "reason": "The predeclared zero-budget-exhaustion adoption gate failed; CLI complete is not adoption approval.",
+    "validationContext": "The original live V1 phase collector rejected the budget-exhausted run. Per-cell review below uses the historical V1 code identity and frozen rejected-v1 profile; it is not current-release adoption evidence."
+  },
+  "failedGate": {
+    "name": "zero-unresolved-runs",
+    "cell": "selection-build-auto-desktop",
+    "runId": "run-169",
+    "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+    "seed": 553415033,
+    "strategy": {
+      "name": "build-auto"
+    },
+    "width": 1600,
+    "termination": "budget_exhausted",
+    "reason": "Maximum fixed steps reached",
+    "maxSeconds": 650,
+    "maxSteps": 78000,
+    "observedPlayerSeconds": 649.9999999995732,
+    "stageIndex": 3,
+    "validMetrics": true,
+    "classification": "unresolved, not a death or a victory"
+  },
+  "protocol": {
+    "path": "experiments/balance/calibration/selection.json",
+    "sha256": "d69d45d69389acdbc74603bc2d786d174db48ea3c6449b79f55e0e6ae8a950a6",
+    "masterSeed": 20261022,
+    "cellCount": 6,
+    "seedsPerGroup": 100,
+    "profilesPerCell": 2
+  },
+  "profiles": [
+    {
+      "pathAtAudit": "experiments/balance/calibration/baseline.json",
+      "id": "default",
+      "hash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "fileSha256": "9b9cafc229476bbc202522995629315fc187979f1b15b11d5fadf879faae832c"
+    },
+    {
+      "pathAtAudit": "experiments/balance/calibration/rejected-v1.json",
+      "id": "stage-calibration-20261022",
+      "hash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+      "fileSha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+    }
+  ],
+  "code": {
+    "fingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+    "bunVersion": "1.4.3",
+    "fixedStep": 0.008333333333333333,
+    "commitAtExperiment": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+    "dirtyAtExperiment": true,
+    "identityBasis": "historical rejected-V1 manifest snapshots",
+    "matchesCurrentReleaseCode": false,
+    "currentReleaseFingerprintAtAudit": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+    "currentSourceDifferences": ["src/data/balance/official.json"]
+  },
+  "total": {
+    "planned": 1200,
+    "completed": 1200,
+    "terminationCounts": {
+      "campaign_victory": 516,
+      "death": 683,
+      "endless_target_reached": 0,
+      "budget_exhausted": 1,
+      "error": 0,
+      "cancelled": 0
+    },
+    "note": "Aggregated counts are bookkeeping only and are not a human or cross-strategy win rate."
+  },
+  "cells": [
+    {
+      "id": "selection-random-auto-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "816139f2eb0a327bb9065fb35df598f97c578d7b06628021046a23aa969dbb69",
+      "runsSha256": "87b1d4e7646cf475abc52d8f29fba7c506d3b7e3c6ba2fdc843050491aa8064e",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T16:51:11.255Z",
+      "finishedAt": "2026-10-22T16:53:51.526Z",
+      "terminationCounts": {
+        "campaign_victory": 28,
+        "death": 172,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 1,
+            "death": 99,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 27,
+            "death": 73,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true,
+        "context": "historical-code-and-profile-only"
+      }
+    },
+    {
+      "id": "selection-random-auto-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "f4cd4f3e7d123f399170fddba0232d81a6a7fd7954b7bf5962a5dd9bf4841f40",
+      "runsSha256": "ba14953aab7a64ec9fd42de0b2e824da94d0b24b7d86c794c08cf73f7e4c6c51",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T16:40:04.249Z",
+      "finishedAt": "2026-10-22T16:46:33.467Z",
+      "terminationCounts": {
+        "campaign_victory": 24,
+        "death": 176,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 5,
+            "death": 95,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 19,
+            "death": 81,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true,
+        "context": "historical-code-and-profile-only"
+      }
+    },
+    {
+      "id": "selection-build-auto-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "54c640fb973b6f49307b1a25a5a4e89ebbdc0e38840948c2e11e1ae497d50453",
+      "runsSha256": "f0d8fcf79ecde734945a6b9a7c4d762803209a70355d7b1da2dab13b0e98e090",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T16:51:25.225Z",
+      "finishedAt": "2026-10-22T16:58:12.023Z",
+      "terminationCounts": {
+        "campaign_victory": 116,
+        "death": 84,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 41,
+            "death": 59,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 75,
+            "death": 25,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true,
+        "context": "historical-code-and-profile-only"
+      }
+    },
+    {
+      "id": "selection-build-auto-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "331b51e61ad30534ce642173441f35a9d1fe10d07acada1d928a5c08791f7ffa",
+      "runsSha256": "c797f60608142289e505ab83137e84fef998a7079076cbfc25e2a4f017c58f80",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T16:54:17.082Z",
+      "finishedAt": "2026-10-22T17:03:22.394Z",
+      "terminationCounts": {
+        "campaign_victory": 113,
+        "death": 86,
+        "endless_target_reached": 0,
+        "budget_exhausted": 1,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 37,
+            "death": 63,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 76,
+            "death": 23,
+            "endless_target_reached": 0,
+            "budget_exhausted": 1,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": false,
+        "error": "Unresolved or invalid run",
+        "context": "historical-code-and-profile-only"
+      }
+    },
+    {
+      "id": "selection-build-active-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "d7d462335d3140e5cac407ad2d3bc5ff3381ec90a39414024e1321fccdbfe46d",
+      "runsSha256": "45d1ef52861709361fad8ea1273121cfd52da99d40921b50e0638fed884ad24d",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T17:00:56.420Z",
+      "finishedAt": "2026-10-22T17:11:15.434Z",
+      "terminationCounts": {
+        "campaign_victory": 121,
+        "death": 79,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 45,
+            "death": 55,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 76,
+            "death": 24,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true,
+        "context": "historical-code-and-profile-only"
+      }
+    },
+    {
+      "id": "selection-build-active-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/selection-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "1b6d41f363d0b988f344c36eca5cfa5692b90fba96511d0484b18352649d391f",
+      "runsSha256": "8f487194ac2dbdb635d18053ba7bb10179010ca95b7b18a84c51404120bc719d",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584.json",
+          "sha256": "20827da3519edce674ae1f780723b52e5d3663440aba3eb3ad6e54297840a18c"
+        }
+      ],
+      "codeFingerprint": "a45164e19902b61ed2a9788cdfd86661cc0cf5fd839958269b56f9fb1a4a3a13",
+      "startedAt": "2026-10-22T17:03:56.436Z",
+      "finishedAt": "2026-10-22T17:14:45.649Z",
+      "terminationCounts": {
+        "campaign_victory": 114,
+        "death": 86,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 39,
+            "death": 61,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 75,
+            "death": 25,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true,
+        "context": "historical-code-and-profile-only"
+      }
+    }
+  ],
+  "diagnostic": {
+    "kind": "expanded-budget-diagnostic-not-adoption",
+    "directory": "artifacts/balance/diagnostic-553415033-2000",
+    "filesSha256": {
+      "manifest.json": "759e134c497d398d5dd31072c50a93045b9cd537a2ade0c8059de80b5a274a93",
+      "result.json": "6bb0501a5805918194bc1ab0e2531c03eb81ec697e2851050cb417dc49826702",
+      "boss-hp-timeline.json": "a80a9d3563b8d46903e5493498c8486c85d6cd9eca4524223f6f8a4f81477993",
+      "profile.json": "e76a6f3f62ca6bf57526393d375ea0b588df625648850d8e4ae982ac2be685f6",
+      "script.ts": "ea96c87bb87093278e63fbb997578a667820ea461713104e6ceb94b022bc16f4"
+    },
+    "profileHash": "39800526ef8f463f29fec02f017d8c8697f54dd48193442c5fd8139d83c5d584",
+    "config": {
+      "seed": 553415033,
+      "width": 1600,
+      "strategy": {
+        "name": "build-auto"
+      },
+      "mode": "campaign",
+      "maxSteps": 240000,
+      "maxSeconds": 2000,
+      "endlessTarget": 2,
+      "trace": false,
+      "sampleIntervalSeconds": 1,
+      "traceCapacity": 1000,
+      "deathWindowSeconds": 8,
+      "eventCapacity": 400
+    },
+    "terminal": "campaign_victory",
+    "playerSeconds": 703.6999999995244,
+    "originalBudgetSeconds": 650,
+    "exceedsOriginalBudgetBySeconds": 53.69999999952438,
+    "finalHp": 340,
+    "finalMaxHp": 340,
+    "stageFourSeconds": 336.0083333330278,
+    "stageFourBossSeconds": 275.0499999997499,
+    "prefixChecks": {
+      "firstThreeStages": true,
+      "rewardPrefix": true,
+      "eventPrefix": true
+    },
+    "interpretation": "Finite slow victory with continuously decreasing boss HP; no evidence of a soft lock. This diagnostic does not resolve or replace the original adoption run."
+  },
+  "decision": {
+    "status": "reject-v1-and-retain-evidence",
+    "holdoutInspected": false,
+    "holdoutStartedAtAudit": false,
+    "nextCandidate": "Only lower stage-four boss HP from 125000 to 80000, retain the 650-second protocol, freeze again and repeat the complete selection matrix.",
+    "prohibitedShortcuts": [
+      "drop the unresolved run",
+      "count it as a death",
+      "replace it with the expanded-budget victory",
+      "relax the strict collector"
+    ]
+  },
+  "pathNote": "directoryAtAudit records the historical location. Resolve each cell beneath archiveRoot using its id to verify the same recorded bytes. The original calibration-cells directory now contains V2 runs and must not be used to verify this rejected-V1 audit.",
+  "archiveRoot": "artifacts/balance/calibration-selection-v1-rejected/cells"
+}

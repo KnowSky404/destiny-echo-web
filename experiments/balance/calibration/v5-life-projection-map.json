@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "explicit-diagnostic-curation-projection-map",
+  "createdAt": "2026-10-22T21:03:19.409650+00:00",
+  "adoptionEligible": false,
+  "projectionContract": "Explicit semantic projection of the complete immutable diagnostic summaries. Pressure retains all entered/cleared denominators, zero counts, totals, P50/P95/max and conditional sample counts; mean/P90 and duplicated nested counts omitted. All80control keys/configs/outcomes/reasons/sources, all240variant paired outcomes/durations/harms/slowdowns plus individual late-pressure measures, all36naturalendless outcomes/carry/Boss observations remain. Full RunResult payloads and largeplans remain ignored/archive. No byte-equality claim to source; retain source SHA and this projection SHA separately.",
+  "source": {
+    "path": "artifacts/balance/exploratory-v5-life-only/compact-summary.json",
+    "sha256": "5f61ea314ebf3181cb03829c11c63e39aa028a20658f65e88b2db6b2f82770f0"
+  },
+  "projection": {
+    "path": "artifacts/balance/exploratory-v5-life-only/curation-summary.json",
+    "sha256": "38e9e3ffbc86a41def6f85b29596f6773820fe86678b2785c47b95287319af17",
+    "bytes": 1034369
+  },
+  "originalFullSummaryBytesPreserved": true,
+  "numericalRoundingPerformed": false,
+  "sourceDigestReceiptsUnchanged": true,
+  "all80ControlCasesRetained": true,
+  "all240ComparisonsRetained": true,
+  "all36EndlessCasesRetained": true
+}

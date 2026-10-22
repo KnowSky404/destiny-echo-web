@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "mode": "endless",
+  "strategies": [
+    {
+      "name": "random-auto"
+    },
+    {
+      "name": "build-auto"
+    },
+    {
+      "name": "build-active"
+    }
+  ],
+  "layouts": [
+    {
+      "id": "portrait",
+      "width": 450
+    },
+    {
+      "id": "desktop",
+      "width": 1600
+    }
+  ],
+  "maxSeconds": 1200,
+  "maxSteps": 144000,
+  "maxRuns": 5000,
+  "validationSeeds": [],
+  "masterSeed": 20261024,
+  "seedCount": 60,
+  "endlessTarget": 2
+}

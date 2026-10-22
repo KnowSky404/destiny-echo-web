@@ -1,0 +1,1179 @@
+{
+  "schemaVersion": 1,
+  "kind": "natural-endless-boundary-prefix-explanation-annex",
+  "createdAt": "2026-10-22T20:58:55.092906+00:00",
+  "adoptionEligible": false,
+  "originalFlagsAndRawBytesUnchanged": true,
+  "scope": "36complete knowncase naturalendless diagnostics. Full-list campaignEvents/campaignStageSummaries equality is deliberately retained false where native continuation appends previous-stage recovery/stage_ready evidence. This annex checks proper pre-continuation prefix separately.",
+  "nativeMechanism": {
+    "path": "src/game/world.ts",
+    "sourceSha256": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+    "members": ["continueEndless", "advanceStage"],
+    "behavior": "continueEndless callsadvanceStage. It heals up to35HP, records healing against previousstage, emits stage_ready forpreviousstage atsameelapsedtime, then entersnextstage. The observer updates previousstage postReward HP and healing totals."
+  },
+  "totalCompared": 36,
+  "allCampaignEventsAreExactPrefix": true,
+  "allSummaryDeltasExplainedByNativeRecovery": true,
+  "allAdditionalEventsNativeBoundaryOnly": true,
+  "allCampaignRewardsExact": true,
+  "originalFullSummaryEqualityFalseCount": 10,
+  "originalFullEventEqualityFalseCount": 24,
+  "records": [
+    {
+      "variant": "E",
+      "caseKey": "random-auto:450:202085937",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 483.50000000000676,
+          "endless": 513.5000000000068
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 180,
+          "endless": 210
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 307.39166666655143,
+          "stageSeconds": 73.77500000000478,
+          "hp": 210,
+          "maxHp": 210,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "random-auto:450:1955916989",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 29.99999999999997,
+          "endless": 59.99999999999997
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 130,
+          "endless": 160
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 221.60833333329612,
+          "stageSeconds": 51.34999999999773,
+          "hp": 160,
+          "maxHp": 160,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "random-auto:1600:2473197847",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 2111.5423849001627,
+          "endless": 2119.500000000163
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 7.95761509999997
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 182.04238490000003,
+          "endless": 190
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 7.95761509999997,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 424.92499999977787,
+          "stageSeconds": 143.5916666667004,
+          "hp": 190,
+          "maxHp": 190,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "random-auto:1600:57767583",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 223.88333333329405,
+          "stageSeconds": 51.224999999997735,
+          "hp": 180,
+          "maxHp": 180,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-auto:450:951537416",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 1119.000000000056,
+          "endless": 1149.000000000056
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 220,
+          "endless": 250
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 311.56666666654763,
+          "stageSeconds": 83.07500000001218,
+          "hp": 250,
+          "maxHp": 250,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-auto:450:970851070",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 206.70833333330967,
+          "stageSeconds": 49.799999999997816,
+          "hp": 190,
+          "maxHp": 190,
+          "shield": 60
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-auto:1600:1748464740",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 354.0083333331757,
+          "stageSeconds": 109.85833333336683,
+          "hp": 220,
+          "maxHp": 220,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-auto:1600:1350213509",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 210.38333333330633,
+          "stageSeconds": 51.61666666666438,
+          "hp": 190,
+          "maxHp": 190,
+          "shield": 60
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-active:450:2370263761",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 521,
+        "endlessDroppedEvents": 567
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-active:450:2817180644",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 136,
+        "endlessDroppedEvents": 474
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-active:1600:2965378588",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 684,
+        "endlessDroppedEvents": 718
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "E",
+      "caseKey": "build-active:1600:549862174",
+      "campaignRunsSha256": "d3e8cf3ccf8bf2ac139c535c477fd76f914b7d99c21898ecc624d45356404845",
+      "endlessRunsSha256": "1499ff1c887eab809b9178a9ffa2677f27c2dbcb9119a939f6fb34ae4f332206",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 134,
+        "endlessDroppedEvents": 491
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "random-auto:450:202085937",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 294.39166666656325,
+          "stageSeconds": 68.91666666666758,
+          "hp": 160,
+          "maxHp": 160,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "random-auto:450:1955916989",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 29.999999999999947,
+          "endless": 59.99999999999994
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 130,
+          "endless": 160
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 220.97499999996336,
+          "stageSeconds": 50.92499999999775,
+          "hp": 160,
+          "maxHp": 160,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "random-auto:1600:2473197847",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 2089.500000000253,
+          "endless": 2119.500000000253
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 190,
+          "endless": 220
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 415.4249999997865,
+          "stageSeconds": 150.82500000002716,
+          "hp": 220,
+          "maxHp": 220,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "random-auto:1600:57767583",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 220.62499999996368,
+          "stageSeconds": 51.316666666664396,
+          "hp": 180,
+          "maxHp": 180,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-auto:450:951537416",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 291.18333333323284,
+          "stageSeconds": 80.1166666666765,
+          "hp": 240,
+          "maxHp": 240,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-auto:450:970851070",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 206.4583333333099,
+          "stageSeconds": 49.4916666666645,
+          "hp": 190,
+          "maxHp": 190,
+          "shield": 60
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-auto:1600:1748464740",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 309.49999999988285,
+          "stageSeconds": 73.30833333333774,
+          "hp": 250,
+          "maxHp": 250,
+          "shield": 42.60831359626762
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-auto:1600:1350213509",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 209.26666666664067,
+          "stageSeconds": 51.09166666666441,
+          "hp": 190,
+          "maxHp": 190,
+          "shield": 60
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-active:450:2370263761",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 417,
+        "endlessDroppedEvents": 465
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-active:450:2817180644",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 135,
+        "endlessDroppedEvents": 463
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-active:1600:2965378588",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 572,
+        "endlessDroppedEvents": 613
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 2359.5000000002415,
+          "endless": 2389.5000000002415
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 210,
+          "endless": 240
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "F",
+      "caseKey": "build-active:1600:549862174",
+      "campaignRunsSha256": "19d0a449d7f065885d1185761e8b6ba504d5ecffb28b13ab78759a6de5bc1e56",
+      "endlessRunsSha256": "fe4f24b675e5f435e5a0d045d68d1d430b9ea811454d9b49e2cd354cc45137d1",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 133,
+        "endlessDroppedEvents": 488
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "random-auto:450:202085937",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 205.39396999999965,
+          "endless": 208.5000000000001
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 3.106030000000459
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 156.89396999999954,
+          "endless": 160
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 3.106030000000459,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 305.45833333321985,
+          "stageSeconds": 67.71666666666663,
+          "hp": 160,
+          "maxHp": 160,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "random-auto:450:1955916989",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 218.433333333299,
+          "stageSeconds": 49.299999999997844,
+          "hp": 130,
+          "maxHp": 130,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "random-auto:1600:2473197847",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 380.4499999998183,
+          "stageSeconds": 125.39166666671252,
+          "hp": 220,
+          "maxHp": 220,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "random-auto:1600:57767583",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 218.27499999996581,
+          "stageSeconds": 49.858333333331146,
+          "hp": 180,
+          "maxHp": 180,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-auto:450:951537416",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 1
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 266.52499999992193,
+          "stageSeconds": 66.45833333333229,
+          "hp": 240,
+          "maxHp": 240,
+          "shield": 6.852750175630288
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-auto:450:970851070",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 0,
+          "endless": 30
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 130,
+          "endless": 160
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 209.2083333333074,
+          "stageSeconds": 49.69999999999782,
+          "hp": 160,
+          "maxHp": 160,
+          "shield": 26
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-auto:1600:1748464740",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": false,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [
+        {
+          "path": "[3].metrics.healing",
+          "campaign": 1368.0000000000027,
+          "endless": 1398.0000000000027
+        },
+        {
+          "path": "[3].metrics.healingBySource.stage_recovery",
+          "campaign": null,
+          "endless": 30
+        },
+        {
+          "path": "[3].postReward.hp",
+          "campaign": 250,
+          "endless": 280
+        }
+      ],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 30,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 332.59999999986184,
+          "stageSeconds": 97.1333333333567,
+          "hp": 280,
+          "maxHp": 280,
+          "shield": 0
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-auto:1600:1350213509",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": false,
+        "campaignDroppedEvents": 0,
+        "endlessDroppedEvents": 0
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [
+        {
+          "type": "stage_ready",
+          "stageIndex": 3,
+          "playerSeconds": 207.86666666664195,
+          "stageSeconds": 51.024999999997746,
+          "hp": 130,
+          "maxHp": 130,
+          "shield": 52
+        }
+      ],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-active:450:2370263761",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 392,
+        "endlessDroppedEvents": 436
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-active:450:2817180644",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 136,
+        "endlessDroppedEvents": 480
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-active:1600:2965378588",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 518,
+        "endlessDroppedEvents": 568
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    },
+    {
+      "variant": "G",
+      "caseKey": "build-active:1600:549862174",
+      "campaignRunsSha256": "d16b5f7dd6cafe3c0a5a7f191bb7c5f2d6281d0b00bbb5e9faaca88dc97f7c31",
+      "endlessRunsSha256": "980c12ccd7715ec89442e4f4d4fd45dc5249a623ea4a50577c5df39982861441",
+      "originalFlags": {
+        "firstThreeStageSummaries": true,
+        "campaignStageSummaries": true,
+        "campaignRewards": true,
+        "campaignEvents": true,
+        "campaignDroppedEvents": 138,
+        "endlessDroppedEvents": 489
+      },
+      "stageSummaryDifferences": [],
+      "onlyNativeRecoverySummaryDelta": true,
+      "stageRecoveryDelta": 0,
+      "actualCampaignEventsAreExactPrefix": true,
+      "additionalPreviousStageEvents": [],
+      "additionalEventsAreNativeBoundaryOnly": true,
+      "campaignRewardRecordsExact": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-22T19:35:19.389521+00:00",
+  "original": "artifacts/balance/exploratory-v4-joint/summary.json",
+  "originalSha256": "d1c45ca709775253be43209114b0a3cecc3f73cb083517e7de458c9c13fcfced",
+  "normalized": "experiments/balance/calibration/v4-joint-probes.json",
+  "normalizedSha256": "fbf319779ba3c5b82f2d6edafd24983a58ce1e3d79705b3862c30b797e94fc36",
+  "parsedValuesIdentical": true,
+  "reason": "Biome formatting of committed JSON; pre-selection freeze refers to preserved original raw bytes."
+}

@@ -10,27 +10,27 @@ Each encounter has its own clock and boss, with no time limit. Sanctuary freezes
 
 The first two tables cover campaign encounters; the last table gives the first four endless layers. Values use the four-lane mobile baseline.
 
-Campaign minion HP and routine budgets grow 50% per stage. Wave HP adds ×(1 + (wave−1) ×0.12). Waves advance every 11s up to wave 5, including escorts at spawn time. Below half HP, campaign bosses multiply ordinary interval by 0.8, shorten charge by 0.3s, round interruption threshold ×4/3, and add 4 base charged-shot damage before the stage damage multiplier.
+Campaign minion HP uses the independently calibrated multiplier shown for each encounter; routine budgets retain 50% growth per stage. Wave HP adds ×(1 + (wave−1) ×0.12). Waves advance every 11s up to wave 5, including escorts at spawn time. Attack timing multiplies ordinary intervals and initial preparation. The boss interval shown already includes the boss base interval, stage boss interval multiplier and attack timing multiplier; charge duration uses its separate table value. Below half HP, campaign bosses multiply ordinary interval by 0.8, shorten charge by 0.3s, round interruption threshold ×4/3, and add 4 base charged-shot damage before the stage damage multiplier.
 
 ## Endless scaling
 
-Let d=1 mean the first endless stage after the finale:
+Let d=1 mean the first endless stage after the finale, with growth G = `{{ENDLESS_GROWTH}}`. Endless uses the original finale template and current endless settings; individual campaign calibrations do not replace this baseline:
 
-- Minion HP multiplier: 3.375 × 2^d × P, then wave, stars and enhanced-summon multipliers.
-- Boss HP is the greater of original growth and 1.25× the strongest same-stage tank HP, using wave 5, enhanced summon and three-star fusion.
-- Routine budget N = min(360, ceil(135 × 2^d)): 270, then 360 thereafter.
-- Escort batch S = min(12, ceil(14 × 2^d)), attempted every 2s.
-- Compression P = 1 + (ceil(135 ×2^d)/N −1) + (ceil(14 ×2^d)/S −1). Excess counts become minion HP ×P and ordinary damage ×√P; poison ignores it.
-- Ordinary damage multiplier: 1.8 × min(8, 1.35 ×1.08^d). Minion speed stays ×1.15.
-- Boss appears at 48s; themes repeat while stats grow, without a timeout.
-- Ordinary attacks/preparation multiply timing by max(0.35, 0.6 ×0.97^(d−1)); slow and below-half boss timing still apply.
-- Slam directly removes 180 + 9 × (d−1) player HP, ignoring shield/invulnerability and unrelated stage/arrival damage multipliers.
+- Minion HP multiplier: `{{ENDLESS_HP}}`, then wave, stars and enhanced-summon multipliers.
+- Boss HP takes the greater of original growth `{{ENDLESS_BOSS_GROWTH}}` and 1.25× the strongest same-stage tank HP, rounds it, then multiplies by the boss base-HP adjustment {{ENDLESS_BOSS_HP_SCALE}}. The tank reference uses wave 5, enhanced summon and three-star fusion.
+- Routine budget N = `{{ENDLESS_BUDGET}}`.
+- Escort batch S = `{{ENDLESS_SUPPORT}}`, attempted every {{ENDLESS_SUPPORT_INTERVAL}}s.
+- Compression P = `{{ENDLESS_COMPRESSION}}`. Excess counts become minion HP ×P and ordinary damage ×√P; poison ignores it.
+- Ordinary damage multiplier: `{{ENDLESS_DAMAGE}}`. Minion speed stays ×{{ENDLESS_SPEED}}.
+- Boss appears at {{ENDLESS_BOSS_AT}}s; themes repeat while stats grow, without a timeout.
+- Ordinary attacks and slam share damage multiplier {{ENDLESS_DAMAGE_MULTIPLIER}}. Ordinary attacks/preparation multiply timing by `{{ENDLESS_TIMING}}`; slow and below-half boss timing still apply. Poison starts independently at {{ENDLESS_POISON_DPS}} damage per second.
+- Slam directly removes `{{ENDLESS_SLAM}}` player HP, ignoring shield/invulnerability and unrelated stage/arrival damage multipliers.
 
 ## Arena, capacity and attack cells
 
 Mobile uses a 450×800 world with four side lanes, six rows per lane: 24 minions plus one boss. Desktop selects width 800–2400 at height 800; 1920×1080 gives roughly 1505×800 and six lanes, 36 minions plus a boss. Center corridor 136 units, row spacing 84. Routine budgets, escort batches and numeric caps scale by lane count / 4. Actual encounter admission never exceeds physical capacity.
 
-Geometry is fixed at page entry. Resize/DPR changes rescale rendering without changing the run. Area effects and fusion scale with lane spacing; initial damage scales with lane population and friendly shot speed with √(world-width ratio). Bodies/vertical spacing do not stretch. When no vacancy exists, spawns wait; death/fusion allows forward compaction. Skill summons queue at most 18 slots and cancel on boss death.
+Geometry is fixed at page entry. Resize/DPR changes rescale rendering without changing the run. Area effects and fusion scale with lane spacing; initial damage scales with lane population and friendly shot speed with √(world-width ratio). Bodies/vertical spacing do not stretch. When no vacancy exists, spawns wait; death/fusion allows forward compaction. Skill summons queue at most {{ENDLESS_PENDING_SUMMONS}} slots and cancel on boss death.
 
 The enemy area contains lane count ×7 cells, excluding the player row. Initially the bottom two enemy rows are open. Each endless clearance uniformly adds two distinct inactive cells, preserving them for the run; open all remaining cells if fewer than two, and stop at full coverage. Pale red borders show every open cell; HUD shows open/total. Melee can prepare and deal damage inside open cells before final arrival; arrival permission also remains. Ranged/boss policies persist. Pause, rewards and resize do not reroll cells; restart restores initial coverage.
 
@@ -41,11 +41,11 @@ First reaching 70%, 40% and 10% HP independently rolls one of three equally like
 | Skill | Effect |
 | --- | --- |
 | Damage ward | 90% reduction against all damage for 3s; repeating refreshes it |
-| Enhanced summon | Six extra balanced minions, HP/damage ×1.5, preserving existing escorts; wait for vacancies, at most 18 pending slots |
-| Slam | Directly remove 180 +9×(d−1) HP; can kill through shield and hit invulnerability |
+| Enhanced summon | {{ENDLESS_SUMMON_COUNT}} extra balanced minions, HP/damage ×{{ENDLESS_SUMMON_MULTIPLIER}}, preserving existing escorts; wait for vacancies, at most {{ENDLESS_PENDING_SUMMONS}} pending slots |
+| Slam | Directly remove {{ENDLESS_SLAM}} HP; can kill through shield and hit invulnerability |
 
 A nonlethal hit crossing several thresholds resolves each in order; a dead boss casts nothing. Slow/stun cannot stop these skills; Sanctuary defers them and a kill during it cancels pending casts. Ordinary shots emitted after arrival deal double damage; existing shots retain their captured damage.
 
 ## Endless rewards
 
-Three direct choose-one-of-three supplies are scheduled randomly between 3s and five seconds before the boss. After full cleanup, one mixed boss reward brings the total to four choices per stage. Every 5,000 cumulative points separately grants automatic training. Early clearance settles missing supplies before the boss reward, recalculating eligibility each time. Endless has no reward chests. Pause/selection does not spend supply time.
+{{ENDLESS_SUPPLIES}} direct choose-one-of-three supplies are scheduled randomly between 3s and five seconds before the boss. After full cleanup, one mixed boss reward brings the total to {{ENDLESS_TOTAL_REWARDS}} choices per stage. Every 5,000 cumulative points separately grants automatic training. Early clearance settles missing supplies before the boss reward, recalculating eligibility each time. Endless has no reward chests. Pause/selection does not spend supply time.

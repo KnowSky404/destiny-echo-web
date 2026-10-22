@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "kind": "exact-cli-replay-audit",
+  "createdAt": "2026-10-22T22:36:11.265649+00:00",
+  "codeFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "adoptionRuns": 0,
+  "countsAsNewAdoptionSamples": false,
+  "note": "Sequential exact replays of two complete selection cases after all formal simulation children ended. No new seed, replacement or augmented adoption denominator.",
+  "cases": [
+    {
+      "casePath": "artifacts/balance/calibration-v5-replays/official-random-death.json",
+      "caseSha256": "d6dbc30e3e66a219880488ea2685e1aca9fbe3087714816999bcad04e16cc752",
+      "expectedResultHash": "86fa8bbbb4ac3ab101969f990dedd4f3a55566e6c082e95fd059aa7e0d378b8c",
+      "expectedTermination": "death",
+      "command": [
+        "bun",
+        "scripts/balance-simulator.ts",
+        "replay",
+        "--case",
+        "artifacts/balance/calibration-v5-replays/official-random-death.json"
+      ],
+      "startedAt": "2026-10-22T22:36:08.410651+00:00",
+      "finishedAt": "2026-10-22T22:36:08.917917+00:00",
+      "exitCode": 0,
+      "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-random-death.log",
+      "logSha256": "e09dff997d7165e6561324761b0c84bf0ae79515f5da948e2bbd8da3cc0c87e7"
+    },
+    {
+      "casePath": "artifacts/balance/calibration-v5-replays/official-build-victory.json",
+      "caseSha256": "9f6a859a0f29c6d601c2286d55604503de9e1daa1a8cea42415751238f88ac6d",
+      "expectedResultHash": "9642e8b843e653fcc2c3584c9317b191a8469accced1d1dc53067dc39220d650",
+      "expectedTermination": "campaign_victory",
+      "command": [
+        "bun",
+        "scripts/balance-simulator.ts",
+        "replay",
+        "--case",
+        "artifacts/balance/calibration-v5-replays/official-build-victory.json"
+      ],
+      "startedAt": "2026-10-22T22:36:08.919388+00:00",
+      "finishedAt": "2026-10-22T22:36:11.265546+00:00",
+      "exitCode": 0,
+      "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-build-victory.log",
+      "logSha256": "55f6bac1e61d578239198e698ff7e1c0a51cbf820dd744f357d31e2ef0ee20ed"
+    }
+  ]
+}

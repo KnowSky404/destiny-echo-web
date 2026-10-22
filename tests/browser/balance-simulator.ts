@@ -61,6 +61,15 @@ test("PRE experiment export, validated case import and manual preparation preser
   await expect(page.locator("#debug-dialog")).toHaveAttribute("aria-busy", "false");
   await page.getByLabel("方案名称", { exact: true }).fill("正在编辑的草稿");
   await page.getByLabel("方案名称", { exact: true }).press("Tab");
+  // Automatic draft saves complete asynchronously under the cross-tab write lock.
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const stored = localStorage.getItem("echoes:pre:balance:v1");
+        return stored ? JSON.parse(stored).draft.name : null;
+      }),
+    )
+    .toBe("正在编辑的草稿");
   let saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"));
   await page.getByRole("tab", { name: "实验/复核", exact: true }).click();
   await expect(page.locator(".debug-profile-state")).toContainText("草稿：正在编辑的草稿");
