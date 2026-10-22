@@ -1,6 +1,7 @@
 import { arenaLayout } from "../game/arena";
 import { CONFIG } from "../game/config";
 import type { AttackPolicy } from "../game/types";
+import { DEFAULT_ENDLESS, type EndlessNumbers } from "./balance/model";
 import { ENEMIES } from "./enemies";
 
 export interface Stage {
@@ -129,7 +130,12 @@ export const STAGES: readonly Stage[] = [
 ];
 
 // Physical capacity follows arena geometry; bosses share the health pressure.
-export function stageAt(index: number, width: number = CONFIG.width): Stage {
+export function stageAt(
+  index: number,
+  width: number = CONFIG.width,
+  tuning: EndlessNumbers = DEFAULT_ENDLESS,
+  tankHp = ENEMIES.tank.hp,
+): Stage {
   if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
   const arena = arenaLayout(width);
   const population = arena.laneCount / 4;
@@ -149,16 +155,16 @@ export function stageAt(index: number, width: number = CONFIG.width): Stage {
   if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
   // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
-  const growth = Math.min(2 ** depth, Math.exp(200));
+  const growth = Math.min(tuning.healthGrowth ** depth, Math.exp(200));
   const plannedCount = Math.ceil(finale.enemyCount * growth * population);
-  const enemyCount = Math.min(plannedCount, CONFIG.endless.populationCap * population);
+  const enemyCount = Math.min(plannedCount, tuning.populationCap * population);
   const plannedSupport = Math.ceil(finale.supportCount * growth * population);
-  const supportCount = Math.min(plannedSupport, CONFIG.endless.escortCap * population);
+  const supportCount = Math.min(plannedSupport, tuning.escortCap * population);
   const populationScale = 1 + (plannedCount / enemyCount - 1) + (plannedSupport / supportCount - 1);
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
-    subtitle: `最多 ${arena.minionCapacity} 只小怪与 1 个首领；清完护卫才过关。每关 3 次补给，通关后随机扩展两个攻击区域。`,
+    subtitle: `最多 ${arena.minionCapacity} 只小怪与 1 个首领；清完护卫才过关。每关 ${tuning.supplies} 次补给，通关后随机扩展两个攻击区域。`,
     attackPolicy: { ...finale.attackPolicy },
     bossFan: finale.bossFan,
     bossInterval: finale.bossInterval,
@@ -170,20 +176,21 @@ export function stageAt(index: number, width: number = CONFIG.width): Stage {
     enemyCount,
     maxEnemies: arena.encounterCapacity,
     damage:
-      Math.min(8, finale.damage * 1.08 ** Math.min(depth, 100)) * CONFIG.endless.damageMultiplier,
-    attackTiming: Math.max(0.35, CONFIG.endless.attackTiming * 0.97 ** (depth - 1)),
+      Math.min(8, finale.damage * tuning.damageGrowth ** Math.min(depth, 100)) *
+      tuning.damageMultiplier,
+    attackTiming: Math.max(0.35, tuning.attackTiming * tuning.timingGrowth ** (depth - 1)),
     speed: finale.speed,
     spawnInterval: (finale.bossAt - 0.8) / enemyCount,
     bossAt: finale.bossAt,
     bossHp: Math.round(
       Math.max(
         finale.bossHp * growth,
-        ENEMIES.tank.hp *
+        tankHp *
           finale.health *
           growth *
           populationScale *
           1.48 *
-          CONFIG.endless.summonMultiplier *
+          tuning.summonMultiplier *
           CONFIG.fusion.health ** (CONFIG.fusion.maxStars - 1) *
           1.25,
       ),

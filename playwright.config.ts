@@ -61,8 +61,64 @@ export default defineConfig({
         },
       },
     },
+    {
+      name: "pre-chromium",
+      testMatch: "balance-debugger.spec.ts",
+      use: {
+        baseURL: "http://127.0.0.1:4188",
+        browserName: "chromium",
+        launchOptions: {
+          args: [
+            "--enable-unsafe-swiftshader",
+            "--use-angle=swiftshader",
+            "--disable-dev-shm-usage",
+          ],
+        },
+      },
+    },
+    {
+      name: "pre-touch",
+      testMatch: "balance-debugger.spec.ts",
+      use: {
+        ...devices["Pixel 7"],
+        baseURL: "http://127.0.0.1:4188",
+        browserName: "chromium",
+        launchOptions: {
+          args: [
+            "--enable-unsafe-swiftshader",
+            "--use-angle=swiftshader",
+            "--disable-dev-shm-usage",
+          ],
+        },
+      },
+    },
+    {
+      name: "pre-firefox",
+      testMatch: "balance-debugger.spec.ts",
+      use: {
+        baseURL: "http://127.0.0.1:4188",
+        browserName: "firefox",
+        launchOptions: {
+          firefoxUserPrefs: {
+            "webgl.force-enabled": true,
+            "webgl.disable-fail-if-major-performance-caveat": true,
+          },
+        },
+      },
+    },
+    {
+      name: "pre-webkit",
+      testMatch: "balance-debugger.spec.ts",
+      use: { baseURL: "http://127.0.0.1:4188", browserName: "webkit" },
+    },
   ],
   webServer: [
+    {
+      command: "bun run preview --outDir dist-pre --port 4188",
+      url: "http://127.0.0.1:4188",
+      reuseExistingServer: !process.env.CI,
+      timeout: 30_000,
+    },
     {
       command: "bun run dev --mode test --port 5187",
       url: "http://127.0.0.1:5187",

@@ -46,7 +46,12 @@ export function advanceEnemy(enemy: Enemy, delta: number, wave: number): boolean
 }
 
 // No external timers: revoking permission resets the preparation and pending special.
-export function advanceAttackStage(enemy: Enemy, delta: number, timing = 1): boolean {
+export function advanceAttackStage(
+  enemy: Enemy,
+  delta: number,
+  timing = 1,
+  preparation = ENEMIES[enemy.kind].preparation,
+): boolean {
   if (!attackPermitted(enemy)) {
     enemy.stage = "Approaching";
     enemy.preparation = 0;
@@ -57,7 +62,7 @@ export function advanceAttackStage(enemy: Enemy, delta: number, timing = 1): boo
   }
   if (enemy.stage === "Approaching") {
     enemy.stage = "Preparing";
-    enemy.preparation = ENEMIES[enemy.kind].preparation * timing;
+    enemy.preparation = preparation * timing;
     return false;
   }
   if (enemy.stage === "Preparing") {

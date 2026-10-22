@@ -1,6 +1,13 @@
+import type { BalanceProfile, KindWeights, PlayerSetup } from "../data/balance/model";
+import {
+  kindWeightsAt,
+  officialProfile,
+  resolvedStage,
+  rewardPolicyAt,
+} from "../data/balance/profile";
 import { applyCard, drawCards } from "../data/cards";
-import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../data/enemies";
-import { STAGES, stageAt } from "../data/stages";
+import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES, type EnemyDefinition } from "../data/enemies";
+import { STAGES, type stageAt } from "../data/stages";
 import { SYNERGIES, TIER_NAMES } from "../data/synergies";
 import {
   applyTraining,
@@ -11,7 +18,7 @@ import {
 import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
 import { Pool } from "./pool";
-import { type Random, seededRandom, shuffled } from "./random";
+import { type SeededRandom, seededRandom, shuffled, weightedChoice } from "./random";
 import { RunState } from "./state";
 import { combatStats, overhealStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
@@ -51,11 +58,15 @@ import type {
 
 type DamageSource = "shot" | "blast" | "counter" | "arc";
 
-export function createPlayer(position: Vec2 = CONFIG.player, population = 1): Player {
+export function createPlayer(
+  position: Vec2 = CONFIG.player,
+  population = 1,
+  setup: PlayerSetup = officialProfile().payload.player,
+): Player {
   return {
     ...position,
-    hp: 100,
-    shield: 0,
+    hp: setup.hp,
+    shield: setup.shield,
     invulnerable: 0,
     cooldown: 0,
     poisonTime: 0,
@@ -63,45 +74,7 @@ export function createPlayer(position: Vec2 = CONFIG.player, population = 1): Pl
     woundTime: 0,
     poisonDamageBonus: 0,
     poisonSlowBonus: 0,
-    stats: {
-      damage: 12 * population,
-      interval: 0.34,
-      projectiles: 1,
-      piercing: 0,
-      maxHp: 100,
-      execution: 0,
-      fuse: 0,
-      bloodpact: 0,
-      thorns: 0,
-      focus: 0,
-      harvest: 0,
-      power: 0,
-      crush: 0,
-      lifesteal: 0,
-      regeneration: 0,
-      recovery: 0,
-      critChance: 0,
-      critDamage: 1.5,
-      expose: 0,
-      chain: 0,
-      splash: 0,
-      storm: 0,
-      slow: 0,
-      frostbite: 0,
-      frostPulse: 0,
-      stun: 0,
-      control: 0,
-      controlPulse: 0,
-      overheal: 0,
-      shieldCapacity: 0,
-      shieldLeech: 0,
-      giantSlayer: 0,
-      giantPower: 0,
-      giantHunt: 0,
-      maxHealthDamage: 0,
-      currentHealthDamage: 0,
-      erosionPulse: 0,
-    },
+    stats: { ...setup.stats, damage: setup.stats.damage * population },
   };
 }
 
@@ -130,9 +103,17 @@ export class World {
   readonly arena;
   readonly attackRegions: AttackRegion[];
 
-  constructor(width: number = CONFIG.width) {
+  protected balance: BalanceProfile;
+  private readonly definitions = new Map<EnemyKind, EnemyDefinition>();
+
+  constructor(width: number = CONFIG.width, profile: BalanceProfile = officialProfile()) {
+    this.balance = structuredClone(profile);
     this.arena = arenaLayout(width);
-    this.player = createPlayer(this.arena.player, this.arena.laneCount / 4);
+    this.player = createPlayer(
+      this.arena.player,
+      this.arena.laneCount / 4,
+      this.balance.payload.player,
+    );
     this.attackRegions = [...this.arena.baseAttackRegions];
   }
   readonly state = new RunState();
@@ -265,13 +246,13 @@ export class World {
     wizard: 0,
     boss: 0,
   };
-  private trainingRandom: Random = seededRandom(4);
-  private random: Random = seededRandom(0);
-  private combatRandom: Random = seededRandom(1);
-  private bossRandom: Random = seededRandom(2);
-  private enemyRandom: Random = seededRandom(3);
-  private regionRandom: Random = seededRandom(5);
-  private configuredStage?: { index: number; value: ReturnType<typeof stageAt> };
+  protected trainingRandom: SeededRandom = seededRandom(4);
+  protected random: SeededRandom = seededRandom(0);
+  protected combatRandom: SeededRandom = seededRandom(1);
+  protected bossRandom: SeededRandom = seededRandom(2);
+  protected enemyRandom: SeededRandom = seededRandom(3);
+  protected regionRandom: SeededRandom = seededRandom(5);
+  protected configuredStage?: { index: number; value: ReturnType<typeof stageAt> };
   private nextId = 1;
   private rewardSerial = 0;
   private accumulator = 0;
@@ -287,7 +268,7 @@ export class World {
   private supportSpawned = 0;
   private minionOrder: EnemyKind[] = [];
   private endlessRewardTimes: number[] = [];
-  private pendingStageReward = false;
+  protected pendingStageReward = false;
   private volleys = 0;
   private readonly blastQueue: Array<{ x: number; y: number; radius: number; damage: number }> = [];
 
@@ -301,18 +282,67 @@ export class World {
     if (this.configuredStage?.index !== this.stageIndex)
       this.configuredStage = {
         index: this.stageIndex,
-        value: stageAt(this.stageIndex, this.arena.width),
+        value: this.resolveStage(this.stageIndex),
       };
     return this.configuredStage.value;
   }
+  get profile(): BalanceProfile {
+    return structuredClone(this.balance);
+  }
+  get endlessRules() {
+    return this.balance.payload.endless;
+  }
+
+  resolveStage(index: number) {
+    return resolvedStage(this.balance, index, this.arena.width);
+  }
+
+  enemyDefinition(enemy: Enemy): EnemyDefinition {
+    return enemy.definition ?? this.enemyData(enemy.kind);
+  }
+
+  private enemyData(kind: EnemyKind): EnemyDefinition {
+    let data = this.definitions.get(kind);
+    if (!data) {
+      data = { ...ENEMIES[kind], ...this.balance.payload.enemies[kind] };
+      this.definitions.set(kind, data);
+    }
+    return data;
+  }
+
+  protected replaceBalance(profile: BalanceProfile): void {
+    this.balance = structuredClone(profile);
+    this.definitions.clear();
+    this.configuredStage = undefined;
+  }
+
+  enemyStage(enemy: Enemy) {
+    return enemy.encounter ?? this.stage;
+  }
+
+  protected rewardPolicy(source: Reward["source"]) {
+    return rewardPolicyAt(this.balance, this.stageIndex, source);
+  }
+
+  protected acquired(_id: string): void {}
+
+  protected minionWeights(): KindWeights | null {
+    return kindWeightsAt(this.balance, this.stageIndex);
+  }
+
+  protected invalidateReward(): number {
+    return ++this.rewardSerial;
+  }
+
   get endless() {
     return this.stageIndex >= STAGES.length;
   }
   get bossSlamDamage() {
     return Math.round(
-      (CONFIG.endless.slamDamage +
-        Math.max(0, this.stageIndex - STAGES.length) * CONFIG.endless.slamDamagePerStage) *
-        CONFIG.endless.damageMultiplier,
+      (this.balance.payload.endless.slamDamage +
+        Math.max(0, this.stageIndex - STAGES.length) *
+          this.balance.payload.endless.slamDamagePerStage) *
+        this.balance.payload.endless.damageMultiplier,
     );
   }
   get boss(): Enemy | undefined {
@@ -360,7 +390,7 @@ export class World {
     this.refreshTarget();
   }
 
-  private refreshTarget(): void {
+  protected refreshTarget(): void {
     const targets = this.targets;
     if (!targets.some((target) => target.id === this.manualTargetId)) this.manualTargetId = null;
     this.targetId =
@@ -394,7 +424,7 @@ export class World {
     return true;
   }
 
-  private reset(seed: number): void {
+  protected reset(seed: number): void {
     this.seed = seed;
     this.random = seededRandom(seed);
     this.trainingRandom = seededRandom(seed ^ 0x7a11);
@@ -403,7 +433,11 @@ export class World {
     this.enemyRandom = seededRandom(seed ^ 0xe11e);
     this.regionRandom = seededRandom(seed ^ 0x2a0e);
     this.attackRegions.splice(0, this.attackRegions.length, ...this.arena.baseAttackRegions);
-    this.player = createPlayer(this.arena.player, this.arena.laneCount / 4);
+    this.player = createPlayer(
+      this.arena.player,
+      this.arena.laneCount / 4,
+      this.balance.payload.player,
+    );
     this.stacks.clear();
     this.trainingStacks.clear();
     this.fusions = 0;
@@ -447,7 +481,7 @@ export class World {
     this.resetStage();
   }
 
-  private resetStage(): void {
+  protected resetStage(): void {
     this.stageElapsed = 0;
     this.sanctuaryRemaining = 0;
     this.bossSpawned = false;
@@ -485,7 +519,7 @@ export class World {
     this.blasts.clear();
   }
 
-  private clearCombat(): void {
+  protected clearCombat(): void {
     for (const pool of [this.enemies, this.shots, this.hostileShots, this.chests]) pool.clear();
     this.targetId = null;
     this.manualTargetId = null;
@@ -534,6 +568,23 @@ export class World {
         : !applyCard(id, this.player, this.stacks)
     )
       return false;
+    this.acquired(id);
+    return this.finishReward(stageReward, before);
+  }
+
+  skipUnavailableReward(token: number): boolean {
+    if (
+      !["RewardSelection", "StageClear"].includes(this.phase) ||
+      !this.reward ||
+      this.reward.token !== token ||
+      this.reward.choices.length !== 0 ||
+      (this.reward.source === "stage") !== (this.phase === "StageClear")
+    )
+      return false;
+    return this.finishReward(this.reward.source === "stage", synergyProgress(this.stacks));
+  }
+
+  private finishReward(stageReward: boolean, before: ReturnType<typeof synergyProgress>): boolean {
     // Remove the capability before resuming: stale clicks cannot claim this reward again.
     this.reward = null;
     if (stageReward && this.stageIndex === STAGES.length - 1) {
@@ -545,7 +596,7 @@ export class World {
     this.state.transition("Playing");
     this.accumulator = 0;
     if (this.pendingStageReward) {
-      if (this.stageSupplies < CONFIG.endless.supplies) this.offerEndlessSupply();
+      if (this.stageSupplies < this.balance.payload.endless.supplies) this.offerEndlessSupply();
       else this.offerStageReward();
       return true;
     }
@@ -564,28 +615,42 @@ export class World {
   private prepareEndlessSupplies(): void {
     if (this.endlessRewardTimes.length > 0) return;
     // Sample simulation times once per stage. Pauses never consume the schedule.
-    this.endlessRewardTimes = Array.from(
-      { length: CONFIG.endless.supplies },
-      () => CONFIG.chestFirstAt + this.random() * (this.stage.bossAt - 5 - CONFIG.chestFirstAt),
-    ).sort((a, b) => a - b);
+    this.endlessRewardTimes = Array.from({ length: this.balance.payload.endless.supplies }, () => {
+      const end = Math.max(0, this.stage.bossAt - 5);
+      const start = Math.min(CONFIG.chestFirstAt, end);
+      return start + this.random() * (end - start);
+    }).sort((a, b) => a - b);
   }
 
-  private offerEndlessSupply(): void {
-    if (this.stageSupplies >= CONFIG.endless.supplies) return;
+  protected offerEndlessSupply(): void {
+    if (this.stageSupplies >= this.balance.payload.endless.supplies) return;
     this.stageSupplies++;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawCards(this.player, this.stacks, this.random, "supply", this.stageIndex),
+      choices: drawCards(
+        this.player,
+        this.stacks,
+        this.random,
+        "supply",
+        this.stageIndex,
+        this.rewardPolicy("supply"),
+      ),
       source: "supply",
     };
     this.state.transition("RewardSelection");
   }
 
-  private offerStageReward(): void {
+  protected offerStageReward(): void {
     this.pendingStageReward = false;
     this.reward = {
       token: ++this.rewardSerial,
-      choices: drawBossRewards(this.player, this.stacks, this.random, this.stageIndex),
+      choices: drawBossRewards(
+        this.player,
+        this.stacks,
+        this.random,
+        this.stageIndex,
+        this.rewardPolicy("stage"),
+      ),
       source: "stage",
     };
     this.state.transition("StageClear");
@@ -901,7 +966,16 @@ export class World {
 
   private spawnMinion(x: number, enhanced = false): Enemy | undefined {
     const minions = this.enemies.items.filter((item) => item.active && item.kind !== "boss").length;
-    if (minions >= (this.endless ? this.arena.minionCapacity : this.stage.maxEnemies - 1)) return;
+    if (minions >= Math.min(this.arena.minionCapacity, this.stage.maxEnemies - 1)) return;
+    const weights = this.minionWeights();
+    if (weights) {
+      const kind = weightedChoice(
+        Object.keys(weights) as Exclude<EnemyKind, "boss">[],
+        (item) => weights[item],
+        this.random,
+      );
+      return kind ? this.spawnEnemy(kind, x, enhanced) : undefined;
+    }
     if (this.minionOrder.length === 0) {
       this.minionOrder = [...(this.endless ? ENDLESS_KINDS : CAMPAIGN_KINDS)];
       for (let index = this.minionOrder.length - 1; index > 0; index--) {
@@ -921,9 +995,9 @@ export class World {
     return enemy;
   }
 
-  private spawnEnemy(kind: EnemyKind, x: number, enhanced = false): Enemy | undefined {
+  protected spawnEnemy(kind: EnemyKind, x: number, enhanced = false): Enemy | undefined {
     if (this.enemies.items.filter((item) => item.active).length >= this.stage.maxEnemies) return;
-    const data = ENEMIES[kind];
+    const data = this.enemyData(kind);
     const occupied = new Set(
       this.enemies.items
         .filter((item) => item.active && item.kind !== "boss")
@@ -953,13 +1027,13 @@ export class World {
     if (!enemy) return;
     const hp =
       kind === "boss"
-        ? this.stage.bossHp
+        ? (this.stage.bossHp * data.hp) / ENEMIES.boss.hp
         : Math.round(
             data.hp *
               this.stage.health *
               this.stage.populationScale *
               (1 + (this.wave - 1) * 0.12) *
-              (enhanced ? CONFIG.endless.summonMultiplier : 1),
+              (enhanced ? this.balance.payload.endless.summonMultiplier : 1),
           );
     const ranged = kind !== "boss" && data.attackStyle === "ranged";
     const spawnX = kind === "boss" ? this.arena.player.x : (position?.x ?? slotX(slot));
@@ -967,6 +1041,8 @@ export class World {
     Object.assign(enemy, {
       id: this.nextId++,
       kind,
+      definition: data,
+      encounter: structuredClone(this.stage),
       x: spawnX,
       y: spawnY,
       spawnX,
@@ -1016,7 +1092,7 @@ export class World {
         kind === "boss"
           ? 1
           : Math.sqrt(this.stage.populationScale) *
-            (enhanced ? CONFIG.endless.summonMultiplier : 1),
+            (enhanced ? this.balance.payload.endless.summonMultiplier : 1),
       fusionTime: 0,
       fusionPeers: "",
       tauntRemaining: 0,
@@ -1042,11 +1118,20 @@ export class World {
       if (enemy.kind === "tank" && !attackPermitted(enemy)) {
         enemy.skillCooldown -= effectiveDelta;
         if (enemy.skillCooldown <= 1e-9) {
-          enemy.skillCooldown = CONFIG.skills.approachInterval * this.stage.attackTiming;
+          enemy.skillCooldown =
+            CONFIG.skills.approachInterval * this.enemyStage(enemy).attackTiming;
           if (this.enemyRandom() < CONFIG.skills.tauntChance) this.castTaunt(enemy);
         }
       }
-      if (!advanceAttackStage(enemy, effectiveDelta, this.stage.attackTiming)) continue;
+      if (
+        !advanceAttackStage(
+          enemy,
+          effectiveDelta,
+          this.enemyStage(enemy).attackTiming,
+          this.enemyDefinition(enemy).preparation,
+        )
+      )
+        continue;
       const enraged = enemy.kind === "boss" && enemy.hp < enemy.maxHp / 2;
       if (enemy.kind === "boss" && !this.endless) {
         if (enemy.telegraph > 0) {
@@ -1054,7 +1139,13 @@ export class World {
           if (enemy.telegraph <= 1e-9) {
             // Consume the charge even when subtraction leaves a tiny positive residue.
             enemy.telegraph = 0;
-            this.aimedVolley(enemy, 1, this.stage.specialDamage + (enraged ? 4 : 0), 240, 10);
+            this.aimedVolley(
+              enemy,
+              1,
+              this.enemyStage(enemy).specialDamage + (enraged ? 4 : 0),
+              240,
+              10,
+            );
             this.bossSpecials++;
             enemy.patternCooldown = enraged ? 3.6 : 4.5;
             enemy.shotCooldown = 1.2;
@@ -1063,28 +1154,30 @@ export class World {
         }
         enemy.patternCooldown -= effectiveDelta;
         if (enemy.patternCooldown <= 0) {
-          enemy.telegraph = this.stage.chargeTime - (enraged ? 0.3 : 0);
+          enemy.telegraph = this.enemyStage(enemy).chargeTime - (enraged ? 0.3 : 0);
           enemy.interruptDamage = 0;
-          enemy.interruptRequired = Math.round(this.stage.interrupt * (enraged ? 4 / 3 : 1));
+          enemy.interruptRequired = Math.round(
+            this.enemyStage(enemy).interrupt * (enraged ? 4 / 3 : 1),
+          );
           this.notice = `首领蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`;
           this.noticeUntil = this.elapsed + enemy.telegraph;
           continue;
         }
       }
       if (
-        ENEMIES[enemy.kind].attackStyle === "melee" &&
+        this.enemyDefinition(enemy).attackStyle === "melee" &&
         !enemy.arrived &&
         enemy.attackPolicy.type !== "zones"
       )
         continue;
       enemy.shotCooldown -= effectiveDelta;
       if (enemy.shotCooldown > 1e-9) continue;
-      const data = ENEMIES[enemy.kind];
+      const data = this.enemyDefinition(enemy);
       enemy.shotCooldown +=
         data.interval *
         (enraged ? 0.8 : 1) *
-        (enemy.kind === "boss" ? this.stage.bossInterval : 1) *
-        this.stage.attackTiming;
+        (enemy.kind === "boss" ? this.enemyStage(enemy).bossInterval : 1) *
+        this.enemyStage(enemy).attackTiming;
       if (enemy.kind === "tank" && this.enemyRandom() < CONFIG.skills.tauntChance) {
         this.castTaunt(enemy);
         continue;
@@ -1101,12 +1194,12 @@ export class World {
         this.enemyAttacks++;
         this.regularAttacks++;
         this.showBlast({ x: enemy.x, y: enemy.defenseY }, 36, 0xe57d98);
-        this.hurt(data.damage * this.stage.damage * enemy.damageScale);
+        this.hurt(data.damage * this.enemyStage(enemy).damage * enemy.damageScale);
         continue;
       }
       this.aimedVolley(
         enemy,
-        enemy.kind === "boss" ? this.stage.bossFan : data.fan,
+        enemy.kind === "boss" ? this.enemyStage(enemy).bossFan : data.fan,
         data.damage,
         data.shotSpeed,
       );
@@ -1138,7 +1231,7 @@ export class World {
         Math.cos(direction) * speed,
         Math.sin(direction) * speed,
         damage *
-          this.stage.damage *
+          this.enemyStage(enemy).damage *
           enemy.damageScale *
           (enemy.kind === "boss" && this.endless && enemy.arrived ? 2 : 1),
         radius,
@@ -1163,7 +1256,7 @@ export class World {
         this.notice = "首领 · 减伤 90%，持续 3 秒";
       } else if (skill === "summon") {
         // Bounded scalar queue survives saturation without deleting living units.
-        this.pendingSummons += CONFIG.endless.summonCount;
+        this.pendingSummons += this.balance.payload.endless.summonCount;
         this.drainSummons();
         this.notice = `首领 · 召唤 6 只强化援军，生命与伤害 ×1.5${this.pendingSummons > 0 ? " · 等待空位" : ""}`;
       } else {
@@ -1444,9 +1537,15 @@ export class World {
     const earned = Math.floor(this.score / CONFIG.scoreTrainingInterval);
     const names: string[] = [];
     while (this.scoreTrainings < earned) {
-      const eligible = eligibleTrainings(this.player, this.stacks, this.stageIndex);
-      const item = eligible[Math.floor(this.trainingRandom() * eligible.length)];
+      const policy = this.rewardPolicy("stage");
+      const eligible = eligibleTrainings(this.player, this.stacks, this.stageIndex, policy);
+      const item = weightedChoice(
+        eligible,
+        (entry) => policy.trainingWeights[entry.id] ?? 1,
+        this.trainingRandom,
+      );
       if (!item || !applyTraining(item.id, this.player, this.trainingStacks)) break;
+      this.acquired(item.id);
       this.scoreTrainings++;
       this.lastScoreTraining = item.id;
       names.push(item.name);
@@ -1460,7 +1559,7 @@ export class World {
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
     this.kills++;
-    this.addScore(ENEMIES[enemy.kind].score * 3 ** (enemy.stars - 1));
+    this.addScore(this.enemyDefinition(enemy).score * 3 ** (enemy.stars - 1));
     if (source === "blast") this.chainKills++;
     this.heal(this.player.stats.harvest * 2);
     if (
@@ -1493,7 +1592,7 @@ export class World {
     }
   }
 
-  private completeStageIfReady(): void {
+  protected completeStageIfReady(): void {
     if (
       this.phase !== "Playing" ||
       !this.bossDefeated ||
@@ -1505,7 +1604,7 @@ export class World {
     this.clearCombat();
     cleansePlayer(this.player);
     this.sanctuaryRemaining = 0;
-    if (this.endless && this.stageSupplies < CONFIG.endless.supplies) {
+    if (this.endless && this.stageSupplies < this.balance.payload.endless.supplies) {
       this.pendingStageReward = true;
       this.offerEndlessSupply();
     } else this.offerStageReward();
@@ -1641,7 +1740,14 @@ export class World {
           this.openedChests++;
           this.reward = {
             token: ++this.rewardSerial,
-            choices: drawCards(this.player, this.stacks, this.random, "chest", this.stageIndex),
+            choices: drawCards(
+              this.player,
+              this.stacks,
+              this.random,
+              "chest",
+              this.stageIndex,
+              this.rewardPolicy("chest"),
+            ),
             source: "chest",
           };
           this.burst(chest.x, chest.y, 0xdec28a, 20);

@@ -1,7 +1,8 @@
 import { CONFIG } from "../game/config";
-import { type Random, shuffled } from "../game/random";
+import { type Random, weightedShuffle } from "../game/random";
 import { grantShield, healingMultiplier, healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
+import type { RewardPolicy } from "./balance/model";
 
 export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
 
@@ -776,12 +777,21 @@ export function drawCards(
   random: Random,
   source: Reward["source"] = "chest",
   stageIndex = 0,
+  policy?: RewardPolicy,
 ): string[] {
   const eligible = eligibleCards(player, stacks).filter(
-    (card) => stageIndex > 0 || !isFirstStageExcluded(card),
+    (card) =>
+      (stageIndex > 0 || policy?.firstStageRestriction === false || !isFirstStageExcluded(card)) &&
+      (policy?.cardWeights[card.id] ?? 1) > 0,
   );
-  const pool = shuffled(
+  const weight = (card: Card) => policy?.cardWeights[card.id] ?? 1;
+  if (policy?.mode === "weighted")
+    return weightedShuffle(eligible, weight, random)
+      .slice(0, 3)
+      .map((card) => card.id);
+  const pool = weightedShuffle(
     eligible.filter((card) => card.rarity !== "epic"),
+    weight,
     random,
   );
   const counts = new Map<SynergyId, number>();
@@ -821,13 +831,18 @@ export function drawCards(
   }
   const collected = [...stacks.values()].reduce((sum, count) => sum + count, 0);
   const epics = eligible.filter((card) => card.rarity === "epic");
-  if (epics.length > 0 && (source === "stage" || collected >= 3) && random() < 0.25) {
-    const promoted = shuffled(epics, random);
+  if (
+    epics.length > 0 &&
+    (source === "stage" || collected >= 3) &&
+    random() < (policy?.epicChance ?? 0.25)
+  ) {
+    const promoted = weightedShuffle(epics, weight, random);
     const epic = promoted.find((card) => card.synergy === focused) ?? promoted[0];
     if (epic) {
       // Preserve a foundation option even when the epic itself is defensive.
       const replacement = choices.findIndex((card) => !foundations.has(card.id));
-      choices[replacement >= 0 ? replacement : choices.length - 1] = epic;
+      if (choices.length === 0) choices.push(epic);
+      else choices[replacement >= 0 ? replacement : choices.length - 1] = epic;
     }
   }
   return choices.map((card) => card.id);

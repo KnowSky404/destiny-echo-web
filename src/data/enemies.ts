@@ -3,23 +3,22 @@ import type { AttackPolicy, EnemyKind } from "../game/types";
 export const CAMPAIGN_KINDS = ["wisp", "sentinel", "hexer"] as const;
 export const ENDLESS_KINDS = ["wisp", "tank", "wizard"] as const;
 
-export const ENEMIES: Record<
-  EnemyKind,
-  {
-    name: string;
-    hp: number;
-    radius: number;
-    speed: number;
-    interval: number;
-    damage: number;
-    score: number;
-    preparation: number;
-    attackPolicy: AttackPolicy;
-    fan: number;
-    shotSpeed: number;
-    attackStyle: "melee" | "ranged";
-  }
-> = {
+export interface EnemyDefinition {
+  name: string;
+  hp: number;
+  radius: number;
+  speed: number;
+  interval: number;
+  damage: number;
+  score: number;
+  preparation: number;
+  attackPolicy: AttackPolicy;
+  fan: number;
+  shotSpeed: number;
+  attackStyle: "melee" | "ranged";
+}
+
+export const ENEMIES: Record<EnemyKind, EnemyDefinition> = {
   wisp: {
     name: "游离残响",
     hp: 50,

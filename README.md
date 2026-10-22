@@ -175,6 +175,14 @@ docs/wiki-publishing.md  文档同步及 Wiki 发布流程
 
 长期规范见 [AGENTS.md](AGENTS.md)，战斗规则与一次性奖励契约见 [架构说明](docs/architecture.md)，流派与连续闯关见 [玩法规格](docs/builds-and-stages.md)。
 
+## PRE 数值实验室
+
+独立 PRE 环境提供「PRE · 数值调试」入口，支持当前玩家与卡组编辑、敌人和出怪规则、重开本关、恢复入关快照、战役与无尽跳关，以及多版本数值方案。修改和保存仅在当前浏览器的 PRE 站点生效；其他浏览器与 PRO 不受影响。默认开发与 PRO 构建不包含调试器。
+
+方案可以导入、导出 JSON，保存玩家初始属性、敌人参数、关卡区间、无尽成长和分来源卡池权重。导出后通过 `bun run balance:validate <文件>` 校验，再由维护者在独立 worktree 运行 `bun run balance:apply <文件>` 纳入正式配置，核对说明、验证并另行发布。导出和本地启用都不会发布生产。
+
+`bun run dev:pre` 显式打开本地 PRE 模式；`bun run build:pre` 生成 `dist-pre`，普通构建生成 `dist`。刷新仅恢复个人方案，不恢复战斗。完整操作、概率含义、临时修改寿命和应用流程见 [数值实验室说明](docs/balance-debugger.md)。
+
 ## 游戏说明与 Wiki 维护
 
 每次修改卡牌、怪物或战斗规则，都要核对 `scripts/game-guide.ts` 的机制文案、更新游戏内帮助和规格，并运行：
@@ -282,3 +290,5 @@ Phaser 按 MIT 许可分发，构建携带 [第三方声明](public/THIRD_PARTY_
 | 窄屏构筑 | 属性改为单列，长数值可换行；新增卡牌预览、原生点按和面板无横向溢出均已验证 |
 
 Browser 插件不可用，使用匹配版本的 Playwright 与软件 WebGL；页面身份、非空内容、无错误遮罩、控制台、截图及交互状态均检查。截图和 trace 保留在系统临时目录。额外引擎验证、最新提交审阅、Wiki 与 PRE/PRO 的最终结果在 PR 交付记录中分别核验；不将模拟器或本地结果当作真机、长局性能或线上部署验收。
+
+本次 PRE 数值实验室（2026-10-22）通过 234 项 Bun 单元测试，以及真实 PRE 构建在 Chromium、320px 原生触控、Firefox、WebKit 上的 20 个浏览器场景。覆盖玩家／卡组与敌人编辑、两种重开、跳关、关卡范围和实际单卡奖励、版本保存、刷新恢复、配置往返、独立浏览器隔离、无效导入、键盘焦点及 PRO／默认开发无调试入口。文档、类型、lint、两种构建与 PRE dry-run 分别校验；Browser 插件不可用，使用 Playwright，Firefox／WebKit 使用 Xvfb 软件 WebGL。该记录不代表真机、长时间平衡或生产发布验收。

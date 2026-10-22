@@ -93,3 +93,7 @@ Each endless stage has three supplies sampled once between3s and43s, plus the mi
 Bun tests cover geometry, capacities, separate seeded region expansion to full coverage, real early melee in regions, boss cleanup and failure, all rarity outcomes, first-stage allowlist, strongest-tank/boss comparisons, escalating poison, every recovery path, max/current-HP damage and non-recursion, global counters, all12 family thresholds, one-use rewards, fixed-frame-rate invariance and natural campaign/endless outcomes. Browser checks cover desktop/mobile presentation, logical input coordinates, added attack cells, cleanup, card previews, status labels, pause and reward selection.
 
 Natural seeded simulations demonstrate possible builds and failures; they are not human win rates. Browser software rendering is not physical-device or long-session performance acceptance. Wiki, PRE and PRO must be verified separately.
+
+## PRE 数值方案
+
+上述为仓库正式配置的规则。PRE 个人方案可以覆盖初始角色、敌人数值、关卡范围、无尽成长和卡池权重；只有应用 JSON 到正式配置并验证、发布之后才会影响玩家。临时战斗修改不会自动进入方案。默认方案保留现有随机序列与抽卡行为；配置卡池全部耗尽时允许明确选择无奖励继续。操作与格式见 [PRE 数值实验室](balance-debugger.md)。

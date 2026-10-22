@@ -17,7 +17,7 @@
     "build:workers": "bun run build && node node_modules/wrangler/bin/wrangler.js build --experimental-new-config --experimental-cf-build-output",
     "deploy:check": "bun run build:workers && cf deploy --prebuilt --dry-run",
     "deploy": "bun run build:workers && cf deploy --prebuilt",
-    "build:workers:pre": "bun run build && node node_modules/wrangler/bin/wrangler.js build --experimental-new-config --experimental-cf-build-output --env pre",
+    "build:workers:pre": "bun run build:pre && node node_modules/wrangler/bin/wrangler.js build --experimental-new-config --experimental-cf-build-output --env pre",
     "deploy:pre": "bun run build:workers:pre && cf deploy --prebuilt --mode pre",
     "deploy:check:pre": "bun run build:workers:pre && cf deploy --prebuilt --mode pre --dry-run",
     "deploy:pro": "bun run deploy",
@@ -25,7 +25,11 @@
     "typecheck": "bunx --bun tsc --noEmit",
     "lint": "bunx --bun biome check .",
     "format": "bunx --bun biome check --write .",
-    "test:browser": "bunx --bun playwright test"
+    "test:browser": "bunx --bun playwright test",
+    "dev:pre": "bunx --bun vite --mode pre",
+    "build:pre": "bun run docs:check && bun run typecheck && bunx --bun vite build --mode pre",
+    "balance:validate": "bun scripts/balance.ts validate",
+    "balance:apply": "bun scripts/balance.ts apply"
   },
   "dependencies": {
     "phaser": "4.2.1"

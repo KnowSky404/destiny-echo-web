@@ -1,3 +1,6 @@
+import type { EnemyDefinition } from "../data/enemies";
+import type { Stage } from "../data/stages";
+
 export type Phase =
   | "Menu"
   | "Playing"
@@ -95,6 +98,8 @@ export interface Player extends Vec2 {
 }
 
 export interface Enemy extends Vec2 {
+  definition?: EnemyDefinition;
+  encounter?: Stage;
   id: number;
   active: boolean;
   kind: EnemyKind;

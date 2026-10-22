@@ -1,6 +1,6 @@
 import { CARD_BY_ID, RARITY_NAMES } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
-import { STAGES, stageAt } from "../data/stages";
+import { STAGES } from "../data/stages";
 import { SYNERGIES, SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
 import { REWARD_BY_ID, TRAINING_BY_ID } from "../data/training";
 import { CONFIG } from "../game/config";
@@ -95,7 +95,7 @@ export class GameUI {
     });
     element("#close-help").addEventListener("click", () => this.help.close());
     window.addEventListener("keydown", (event) => {
-      if (this.help.open || this.build.open || this.fatal) return;
+      if (document.querySelector("dialog[open]") || this.fatal) return;
       if ((event.key === "Escape" || event.key.toLowerCase() === "p") && !event.repeat) {
         event.preventDefault();
         this.togglePause();
@@ -178,7 +178,7 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制${world.sanctuaryRemaining > 0 ? " · 敌方时序已冻结" : ""}${world.endless ? ` · 攻击区 ${world.attackRegions.length}/${world.arena.attackRegions.length} · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制${world.sanctuaryRemaining > 0 ? " · 敌方时序已冻结" : ""}${world.endless ? ` · 攻击区 ${world.attackRegions.length}/${world.arena.attackRegions.length} · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/${world.endlessRules.supplies}` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
@@ -343,11 +343,15 @@ export class GameUI {
           return `<button type="button" class="reward-card ${card.rarity} ${unlock ? "synergy-upgrade" : ""}" data-card="${id}" data-token="${reward.token}"><span class="card-icon">${icon(card.symbol)}</span><span class="card-content"><span class="card-topline"><strong>${card.name}</strong><small>${RARITY_NAMES[card.rarity]}</small></span><span class="card-change">${card.preview(world.player)}</span><span class="card-synergy" style="color:${synergy?.color}">${synergyPreview(world.stacks, id)}</span><span class="card-description">${card.description}${unlock ? `<br>${unlock}` : ""}</span></span></button>`;
         })
         .join("");
+      const emptyChoice =
+        reward.choices.length === 0
+          ? `<p>当前配置下没有可用奖励。</p><button type="button" class="button button-primary" data-action="skip-empty" data-token="${reward.token}">无可用奖励 · 继续</button>`
+          : "";
       const stageClear = phase === "StageClear";
-      const next = stageAt(world.stageIndex + 1, world.arena.width);
+      const next = world.resolveStage(world.stageIndex + 1);
       const supply = reward.source === "supply";
       const finale = stageClear && world.stageIndex === STAGES.length - 1;
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? "本关固定三次随机补给 · 首领另有锻体与残响三选一" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / ${world.endlessRules.supplies}` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? `本关固定 ${world.endlessRules.supplies} 次随机补给 · 首领另有锻体与残响三选一` : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}${emptyChoice}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;
@@ -370,7 +374,9 @@ export class GameUI {
       button.addEventListener("click", () => {
         if (button.dataset.card) {
           this.world.chooseCard(button.dataset.card, Number(button.dataset.token));
-        } else if (button.dataset.action === "start") this.world.start();
+        } else if (button.dataset.action === "skip-empty")
+          this.world.skipUnavailableReward(Number(button.dataset.token));
+        else if (button.dataset.action === "start") this.world.start();
         else if (button.dataset.action === "endless") this.world.continueEndless();
         else if (button.dataset.action === "resume") this.world.resume();
         else if (button.dataset.action === "menu") this.world.toMenu();
@@ -379,7 +385,7 @@ export class GameUI {
   }
 
   private focusOverlay(): void {
-    if (!this.help.open && !this.build.open)
+    if (!document.querySelector("dialog[open]"))
       this.overlay.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
   }
 

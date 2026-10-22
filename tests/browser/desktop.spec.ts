@@ -419,6 +419,7 @@ test("production static build loads without diagnostics or missing assets", asyn
   await expect(page.getByRole("button", { name: "开始共鸣", exact: true })).toBeEnabled();
   await expect(page.locator("canvas")).toBeVisible();
   expect(await page.evaluate(() => window.__ECHOES__)).toBeUndefined();
+  await expect(page.locator("#debug-trigger")).toHaveCount(0);
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
   await expect(help).toContainText("51 张残响");
