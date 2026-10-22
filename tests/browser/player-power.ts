@@ -43,13 +43,14 @@ export async function woundsFlow(page: Page, name: string, touch = false) {
     world.player.shield = 100;
     world.player.stats.regeneration = 10;
     world.player.poisonTime = 3;
+    world.player.woundTime = 3;
     world.player.cooldown = 1000;
     enemy({ kind: "boss", x: 225, y: 100, speed: 0, shotCooldown: 1000, preparation: 1000 });
   `,
   );
   const before = await snapshot(page);
-  await expect(page.locator("#status-effects")).toContainText("重伤：治疗 -90%");
-  await expect(page.locator("#boss-health")).toContainText("重击 126");
+  await expect(page.locator("#status-effects")).toContainText("治疗 / 护盾获得 -90%");
+  await expect(page.locator("#boss-health")).toContainText("重击 189");
   await page.clock.runFor(1000);
   const after = await snapshot(page);
   // Native rAF cadence can cover one fewer fixed step than the requested wall time.
@@ -75,6 +76,7 @@ export async function sanctuaryFlow(page: Page, name: string) {
     for (let frame = 0; frame < 959; frame++) world.update(1 / 120);
     world.player.hp = 60;
     world.player.poisonTime = 3;
+    world.player.woundTime = 3;
     world.player.poisonSlowTime = 3;
     world.player.cooldown = 0;
     enemy({ kind: "boss", x: 225, y: 500, hp: 10000, maxHp: 10000,
@@ -118,7 +120,9 @@ export async function epicRewardFlow(page: Page, name: string, touch = false) {
   await bootFixture(
     page,
     `
-    enemy({ kind: "boss", x: 225, y: 500, hp: 1, speed: 0 });
+    world.stageIndex = 0;
+    world.reward = { token: 100, source: "stage", choices: ["training-damage", "training-health", "heavenly-barrage"] };
+    world.state.transition("StageClear");
   `,
   );
   await page.clock.runFor(800);

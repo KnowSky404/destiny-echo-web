@@ -1,11 +1,12 @@
 import { CARD_BY_ID, RARITY_NAMES } from "../data/cards";
 import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
-import { SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
+import { SYNERGIES, SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
 import { REWARD_BY_ID, TRAINING_BY_ID } from "../data/training";
 import { CONFIG } from "../game/config";
 import { combatStats, overhealStats } from "../game/stats";
 import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../game/synergies";
+import { poisonSlow } from "../game/systems/damage";
 import { attackPermitted } from "../game/systems/enemy";
 import { isEnemy } from "../game/systems/targeting";
 import type { Phase } from "../game/types";
@@ -160,9 +161,10 @@ export class GameUI {
         ? `遗世庇护 ${world.sanctuaryRemaining.toFixed(1)}s · 已净化 · 敌方时序冻结`
         : "",
       player.poisonTime > 0
-        ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 ${(6 * player.poisonPotency).toFixed(1)} 伤害 · 重伤：治疗 -90%`
+        ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 ${CONFIG.endless.poisonDamagePerSecond + player.poisonDamageBonus} 伤害`
         : "",
-      player.poisonSlowTime > 0 ? `攻速 -30% ${player.poisonSlowTime.toFixed(1)}s` : "",
+      player.woundTime > 0 ? `重伤 ${player.woundTime.toFixed(1)}s · 治疗 / 护盾获得 -90%` : "",
+      poisonSlow(player) > 0 ? `总攻速 -${Math.round(poisonSlow(player) * 100)}%` : "",
     ]
       .filter(Boolean)
       .join(" · ");
@@ -176,12 +178,14 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制${world.sanctuaryRemaining > 0 ? " · 敌方时序已冻结" : ""}${world.endless ? ` · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制${world.sanctuaryRemaining > 0 ? " · 敌方时序已冻结" : ""}${world.endless ? ` · 攻击区 ${world.attackRegions.length}/${world.arena.attackRegions.length} · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
         : world.bossSpawned
-          ? "首领战 · 集中火力"
+          ? world.bossDefeated
+            ? "清剿残敌 · 全灭后过关"
+            : "首领战 · 集中火力"
           : `第 ${world.wave} 波 · 残响涌动`;
     this.scoreValue.textContent = `${world.score.toLocaleString("zh-CN")} 分`;
     this.scoreProgress.textContent = `分数锻体已发 ${world.scoreTrainings} 张 · 下一张 ${(world.scoreTrainings + 1) * CONFIG.scoreTrainingInterval} 分${world.lastScoreTraining ? ` · 最近获得：${TRAINING_BY_ID.get(world.lastScoreTraining)?.name}` : ""}`;
@@ -243,6 +247,12 @@ export class GameUI {
           `${Math.round(Math.min(0.7, player.stats.slow + (synergyTier(world.stacks, "frost") >= 3 ? 0.1 : 0)) * 100)}%`,
         ],
         ["control", "命中眩晕", `${player.stats.stun.toFixed(2)}s`],
+        ["focus", "巨人杀手", `${Number((player.stats.giantSlayer * 100).toFixed(2))}% 最大生命`],
+        [
+          "storm",
+          "百分比侵蚀",
+          `${Number((player.stats.maxHealthDamage * 100).toFixed(2))}% 最大 / ${Number((player.stats.currentHealthDamage * 100).toFixed(2))}% 当前`,
+        ],
       ];
       this.stats.innerHTML = rows
         .map(
@@ -310,7 +320,7 @@ export class GameUI {
     );
     if (phase === "Playing") return;
     let title = "开启这一轮命运";
-    let description = "10 大流派 · 3 / 6 / 9 层质变 · 四关后无尽挑战";
+    let description = `${SYNERGIES.length} 大流派 · 3 / 6 / 9 层质变 · 四关后无尽挑战`;
     let buttons =
       '<button type="button" class="button button-primary" data-action="start">开始共鸣</button>';
     let extra = '<p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p>';
@@ -334,7 +344,7 @@ export class GameUI {
         })
         .join("");
       const stageClear = phase === "StageClear";
-      const next = stageAt(world.stageIndex + 1);
+      const next = stageAt(world.stageIndex + 1, world.arena.width);
       const supply = reward.source === "supply";
       const finale = stageClear && world.stageIndex === STAGES.length - 1;
       this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? "本关固定三次随机补给 · 首领另有锻体与残响三选一" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;

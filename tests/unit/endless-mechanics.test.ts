@@ -206,45 +206,40 @@ describe("single poison effect and conditional attack slow", () => {
     expect(world.player.poisonTime).toBe(0);
   });
 
-  test("poison drains shields first and only HP damage adds a three-second 30% attack slow", () => {
+  test("poison drains shields first and slows total attack speed only while unshielded", () => {
     const world = arena();
-    world.player.shield = 9;
+    world.player.shield = 15;
     world.player.invulnerable = 10;
     applyPoison(world.player);
     tick(world, 1);
-    expect(world.player.shield).toBeCloseTo(3, 6);
+    expect(world.player.shield).toBeCloseTo(5, 6);
     expect(world.player.hp).toBe(1000);
     expect(world.player.poisonSlowTime).toBe(0);
     tick(world, 1);
     expect(world.player.shield).toBe(0);
-    expect(world.player.hp).toBeCloseTo(997, 6);
-    expect(world.player.poisonSlowTime).toBe(3);
+    expect(world.player.hp).toBeCloseTo(995, 6);
+    expect(world.player.poisonSlowTime).toBeCloseTo(1);
     expect(combatStats(world.player, world.stacks).interval).toBeCloseTo(0.34 / 0.7, 6);
     tick(world, 1.01);
-    expect(world.player.hp).toBeCloseTo(991, 6);
+    expect(world.player.hp).toBeCloseTo(985, 6);
     expect(world.player.poisonTime).toBe(0);
-    expect(world.player.poisonSlowTime).toBeGreaterThan(2.9);
+    expect(world.player.poisonSlowTime).toBe(0);
     tick(world, 3);
     expect(world.player.poisonSlowTime).toBe(0);
     expect(combatStats(world.player, world.stacks).interval).toBe(0.34);
   });
 
-  test("simultaneous and repeated poison refresh duration without stacking tick damage", () => {
+  test("simultaneous and repeated poison add duration and one randomly selected stat", () => {
     const world = arena();
-    const first = enemy(world, { kind: "wizard", y: 200, stage: "Attacking", speed: 0 });
-    const second = enemy(world, { kind: "wizard", y: 200, stage: "Attacking", speed: 0 });
-    world.update(CONFIG.fixedStep);
-    first.active = false;
-    second.active = false;
-    applyPoison(world.player);
-    applyPoison(world.player);
+    applyPoison(world.player, () => 0);
+    applyPoison(world.player, () => 0);
     const before = world.player.shield;
     tick(world, 1);
-    expect(before - world.player.shield).toBeCloseTo(7.2, 5);
-    applyPoison(world.player);
-    expect(world.player.poisonTime).toBe(3);
+    expect(before - world.player.shield).toBeCloseTo(11, 5);
+    applyPoison(world.player, () => 0);
+    expect(world.player.poisonTime).toBeCloseTo(8);
     tick(world, 1);
-    expect(before - world.player.shield).toBeCloseTo(14.4, 5);
+    expect(before - world.player.shield).toBeCloseTo(23, 5);
   });
 
   test("poison can end the run, and pause, rewards, endings and restart freeze or clear it", () => {
@@ -389,14 +384,14 @@ describe("endless boss health thresholds and independent skills", () => {
     expect(before - target.hp).toBeCloseTo(100, 6);
   });
 
-  test("slam removes exactly 120 HP through shields and invulnerability and can be lethal", () => {
+  test("slam removes exactly 180 HP through shields and invulnerability and can be lethal", () => {
     const world = arena(11);
     const target = boss(world);
     world.player.invulnerable = 10;
     const shield = world.player.shield;
     hit(world, target, 300);
     expect(target.lastSkill).toBe("slam");
-    expect(world.player.hp).toBe(880);
+    expect(world.player.hp).toBe(820);
     expect(world.player.shield).toBe(shield);
     world.player.hp = 80;
     hit(world, target, 300);

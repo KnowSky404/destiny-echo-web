@@ -83,9 +83,9 @@ export class BattleScene extends Phaser.Scene {
     g.fillStyle(COLORS.gold, 0.035);
     g.fillRect(
       18,
-      CONFIG.defense.y - CONFIG.defense.rowGap - 25,
+      CONFIG.defense.y - CONFIG.crowd.cellHeight - 25,
       this.world.arena.width - 36,
-      CONFIG.defense.rowGap + 50,
+      CONFIG.crowd.cellHeight + 50,
     );
     g.lineStyle(1.5, COLORS.gold, 0.5);
     g.lineBetween(18, CONFIG.defense.y + 25, this.world.arena.width - 18, CONFIG.defense.y + 25);
@@ -93,12 +93,9 @@ export class BattleScene extends Phaser.Scene {
     g.strokeCircle(this.world.arena.player.x, this.world.arena.player.y, 44);
     g.strokeCircle(this.world.arena.player.x, this.world.arena.player.y, 52);
     g.fillStyle(0x7185a4, 0.5);
-    for (let lane = 0; lane < CONFIG.defense.lanes; lane++) {
-      const x =
-        this.world.arena.player.x +
-        (lane - (CONFIG.defense.lanes - 1) / 2) * this.world.arena.laneGap;
-      g.strokeEllipse(x, CONFIG.defense.y, 42, 14);
-      g.strokeEllipse(x, CONFIG.defense.y - CONFIG.defense.rowGap, 42, 14);
+    for (const x of this.world.arena.crowdLanes) {
+      for (let row = 0; row < this.world.arena.rows; row++)
+        g.strokeEllipse(x, CONFIG.defense.y - row * CONFIG.crowd.cellHeight, 42, 14);
     }
     // Hundreds of static star / circle primitives become two cached GPU textures.
     g.generateTexture("background", this.world.arena.width, CONFIG.height);
@@ -141,6 +138,15 @@ export class BattleScene extends Phaser.Scene {
     }
     this.renderPools();
     this.overlay.clear();
+    if (this.world.endless) {
+      for (const region of this.world.attackRegions) {
+        if (region.y >= 600) continue;
+        this.overlay.fillStyle(0xe57d98, 0.065);
+        this.overlay.fillRect(region.x, region.y, region.width, region.height);
+        this.overlay.lineStyle(1, 0xe57d98, 0.3);
+        this.overlay.strokeRect(region.x + 1, region.y + 1, region.width - 2, region.height - 2);
+      }
+    }
     for (const blast of this.world.blasts.items) {
       if (!blast.active) continue;
       const progress = 1 - blast.life / blast.maxLife;

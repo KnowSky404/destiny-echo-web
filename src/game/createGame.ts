@@ -6,6 +6,7 @@ import type { World } from "./world";
 export function createGame(parent: HTMLElement, world: World, ready: () => void): Phaser.Game {
   document.body.classList.toggle("desktop-arena", world.arena.width > CONFIG.width);
   document.body.style.setProperty("--arena-aspect", `${world.arena.width} / ${world.arena.height}`);
+  document.body.style.setProperty("--arena-ratio", String(world.arena.width / world.arena.height));
   return new Phaser.Game({
     type: Phaser.WEBGL,
     parent,

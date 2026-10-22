@@ -16,7 +16,7 @@ export async function boot(page: Page) {
   await expect(page.locator("vite-error-overlay")).toHaveCount(0);
   // Boot naturally, then stop wall-clock drift while slow software renderers
   // execute driver commands. Only explicit runFor calls advance combat.
-  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
 }
 
 export async function start(page: Page) {
@@ -137,7 +137,7 @@ export async function bootFixture(page: Page, setup: string, width = 450) {
   await page.clock.install();
   await page.goto("/");
   await expect(page.locator("#overlay button").first()).toBeEnabled();
-  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
   const phase = (await snapshot(page)).phase;
   expect(["Paused", "RewardSelection", "StageClear"]).toContain(phase);
   if (phase === "Paused") await page.getByRole("button", { name: "继续共鸣", exact: true }).click();

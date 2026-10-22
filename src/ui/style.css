@@ -990,7 +990,7 @@ kbd {
   justify-content: center;
 }
 .desktop-arena .arena-column {
-  width: min(100%, calc((100svh - 74px) * 2));
+  width: min(100%, calc((100svh - 74px) * var(--arena-ratio)));
   padding: 0;
   overflow: hidden;
 }
@@ -1348,6 +1348,14 @@ kbd {
   }
   .build-panel > .ornament {
     margin-top: 8px;
+  }
+  .build-dialog .stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .build-dialog .stats dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    text-align: right;
   }
   .stats {
     display: grid;

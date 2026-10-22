@@ -16,7 +16,9 @@ export type SynergyId =
   | "precision"
   | "storm"
   | "frost"
-  | "dominion";
+  | "dominion"
+  | "giantslayer"
+  | "erosion";
 export type SynergyTier = 0 | 3 | 6 | 9;
 export type EnemyKind = "wisp" | "sentinel" | "hexer" | "tank" | "wizard" | "boss";
 export type BossSkill = "guard" | "summon" | "slam";
@@ -25,7 +27,14 @@ export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
 export type AttackPolicy =
   | { type: "defense" }
   | { type: "region"; y: number }
-  | { type: "anywhere" };
+  | { type: "anywhere" }
+  | { type: "zones"; regions: readonly AttackRegion[] };
+
+export interface AttackRegion extends Vec2 {
+  id: number;
+  width: number;
+  height: number;
+}
 
 export interface Vec2 {
   x: number;
@@ -64,6 +73,12 @@ export interface Stats {
   overheal: number;
   shieldCapacity: number;
   shieldLeech: number;
+  giantSlayer: number;
+  giantPower: number;
+  giantHunt: number;
+  maxHealthDamage: number;
+  currentHealthDamage: number;
+  erosionPulse: number;
 }
 
 export interface Player extends Vec2 {
@@ -73,7 +88,9 @@ export interface Player extends Vec2 {
   cooldown: number;
   poisonTime: number;
   poisonSlowTime: number;
-  poisonPotency: number;
+  woundTime: number;
+  poisonDamageBonus: number;
+  poisonSlowBonus: number;
   stats: Stats;
 }
 

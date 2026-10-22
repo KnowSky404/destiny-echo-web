@@ -105,7 +105,7 @@ describe("ranged enemies and mixed boss encounters", () => {
     }
   });
 
-  test("boss death clears living escorts immediately and stops every combat schedule", () => {
+  test("boss death preserves escorts; their final defeat freezes combat schedules", () => {
     for (const index of [0, 3, 4]) {
       const world = passive(index);
       world.stageElapsed = world.stage.bossAt;
@@ -116,6 +116,11 @@ describe("ranged enemies and mixed boss encounters", () => {
       if (!boss) throw new Error("No boss");
       hit(world, boss, boss.maxHp + 1);
       advance(world, 0.1);
+      expect(world.phase).toBe("Playing");
+      expect(world.bossDefeated).toBe(true);
+      const escorts = world.enemies.items.filter((item) => item.active);
+      expect(escorts.length).toBeGreaterThan(0);
+      for (const escort of escorts) hit(world, escort, escort.hp + 1);
       expect(world.phase).toBe("StageClear");
       expect(world.snapshot().enemies).toEqual([]);
       expect(world.snapshot().hostileShots).toEqual([]);
@@ -161,7 +166,10 @@ describe("bounded endless population and growing attributes", () => {
     for (let depth = 1; depth <= 40; depth++) {
       const stage = stageAt(3 + depth);
       expect(stage.health / previous.health).toBeCloseTo(2, 9);
-      expect(stage.bossHp / previous.bossHp).toBeCloseTo(2, 3);
+      expect(stage.bossHp).toBeGreaterThanOrEqual(previous.bossHp * 2 - 1);
+      const strongestTank =
+        ENEMIES.tank.hp * stage.health * stage.populationScale * 1.48 * 1.5 * 3.5 ** 2;
+      expect(stage.bossHp).toBeGreaterThan(strongestTank);
       expect(stage.enemyCount).toBeGreaterThanOrEqual(previous.enemyCount);
       expect(stage.enemyCount).toBe(Math.min(360, Math.ceil(finale.enemyCount * stage.growth)));
       expect(stage.supportCount).toBe(12);
@@ -170,7 +178,7 @@ describe("bounded endless population and growing attributes", () => {
       expect(stage.supportInterval).toBe(2);
       expect(stage.spawnInterval).toBeLessThanOrEqual(previous.spawnInterval);
       expect(stage.spawnInterval).toBeGreaterThan(0);
-      expect(stage.damage).toBeLessThanOrEqual(4.8);
+      expect(stage.damage).toBeLessThanOrEqual(14.4);
       expect(stage.attackPolicy).toEqual(finale.attackPolicy);
       expect(stage.bossFan).toBe(finale.bossFan);
       expect(stage.bossInterval).toBe(finale.bossInterval);

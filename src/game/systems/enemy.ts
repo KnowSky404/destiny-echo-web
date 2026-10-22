@@ -8,6 +8,17 @@ export function attackPermitted(enemy: Enemy): boolean {
       return enemy.arrived;
     case "region":
       return enemy.y >= enemy.attackPolicy.y;
+    case "zones":
+      return (
+        enemy.arrived ||
+        enemy.attackPolicy.regions.some(
+          (region) =>
+            enemy.x >= region.x &&
+            enemy.x < region.x + region.width &&
+            enemy.y >= region.y &&
+            enemy.y < region.y + region.height,
+        )
+      );
     case "anywhere":
       return enemy.y >= 0;
   }

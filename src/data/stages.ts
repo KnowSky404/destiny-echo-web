@@ -1,6 +1,7 @@
+import { arenaLayout } from "../game/arena";
 import { CONFIG } from "../game/config";
-import { ENCOUNTER_CAPACITY } from "../game/systems/crowd";
 import type { AttackPolicy } from "../game/types";
+import { ENEMIES } from "./enemies";
 
 export interface Stage {
   name: string;
@@ -127,27 +128,37 @@ export const STAGES: readonly Stage[] = [
   }),
 ];
 
-// Population and packs plateau; excess budget strengthens minions, never the boss.
-export function stageAt(index: number): Stage {
+// Physical capacity follows arena geometry; bosses share the health pressure.
+export function stageAt(index: number, width: number = CONFIG.width): Stage {
   if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
+  const arena = arenaLayout(width);
+  const population = arena.laneCount / 4;
   const authored = STAGES[index];
-  if (authored) return authored;
+  if (authored) {
+    const enemyCount = Math.ceil(authored.enemyCount * population);
+    return {
+      ...authored,
+      enemyCount,
+      maxEnemies: Math.min(arena.encounterCapacity, Math.ceil(authored.maxEnemies * population)),
+      spawnInterval: (authored.bossAt - 0.8) / enemyCount,
+      supportCount: Math.ceil(authored.supportCount * population),
+    };
+  }
   const theme = STAGES[index % STAGES.length];
   const finale = STAGES[STAGES.length - 1];
   if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
   // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
   const growth = Math.min(2 ** depth, Math.exp(200));
-  const plannedCount = Math.ceil(finale.enemyCount * growth);
-  const enemyCount = Math.min(plannedCount, CONFIG.endless.populationCap);
-  const plannedSupport = Math.ceil(finale.supportCount * growth);
-  const supportCount = Math.min(plannedSupport, CONFIG.endless.escortCap);
+  const plannedCount = Math.ceil(finale.enemyCount * growth * population);
+  const enemyCount = Math.min(plannedCount, CONFIG.endless.populationCap * population);
+  const plannedSupport = Math.ceil(finale.supportCount * growth * population);
+  const supportCount = Math.min(plannedSupport, CONFIG.endless.escortCap * population);
   const populationScale = 1 + (plannedCount / enemyCount - 1) + (plannedSupport / supportCount - 1);
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
-    subtitle:
-      "最多 24 只小怪与 1 个首领；超额数量转为小怪属性。同类同星三合一，升星回满血。每关 3 次补给，首领奖励为两项锻体与一张残响三选一。",
+    subtitle: `最多 ${arena.minionCapacity} 只小怪与 1 个首领；清完护卫才过关。每关 3 次补给，通关后随机扩展两个攻击区域。`,
     attackPolicy: { ...finale.attackPolicy },
     bossFan: finale.bossFan,
     bossInterval: finale.bossInterval,
@@ -157,14 +168,26 @@ export function stageAt(index: number): Stage {
     growth,
     populationScale,
     enemyCount,
-    maxEnemies: ENCOUNTER_CAPACITY,
+    maxEnemies: arena.encounterCapacity,
     damage:
-      Math.min(4, finale.damage * 1.04 ** Math.min(depth, 100)) * CONFIG.endless.damageMultiplier,
-    attackTiming: CONFIG.endless.attackTiming,
+      Math.min(8, finale.damage * 1.08 ** Math.min(depth, 100)) * CONFIG.endless.damageMultiplier,
+    attackTiming: Math.max(0.35, CONFIG.endless.attackTiming * 0.97 ** (depth - 1)),
     speed: finale.speed,
     spawnInterval: (finale.bossAt - 0.8) / enemyCount,
     bossAt: finale.bossAt,
-    bossHp: Math.round(finale.bossHp * growth),
+    bossHp: Math.round(
+      Math.max(
+        finale.bossHp * growth,
+        ENEMIES.tank.hp *
+          finale.health *
+          growth *
+          populationScale *
+          1.48 *
+          CONFIG.endless.summonMultiplier *
+          CONFIG.fusion.health ** (CONFIG.fusion.maxStars - 1) *
+          1.25,
+      ),
+    ),
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
     supportInterval: finale.supportInterval,
     supportCount,
