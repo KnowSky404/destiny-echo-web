@@ -2,15 +2,33 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { officialProfile, resolvedStage } from "../src/data/balance/profile";
 import { CARDS, isFirstStageExcluded, RARITY_NAMES } from "../src/data/cards";
-import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../src/data/enemies";
-import { STAGES, stageAt } from "../src/data/stages";
+import { ENEMIES as BASE_ENEMIES, CAMPAIGN_KINDS, ENDLESS_KINDS } from "../src/data/enemies";
+import { STAGES as BASE_STAGES } from "../src/data/stages";
 import { SYNERGIES } from "../src/data/synergies";
 import { TRAININGS } from "../src/data/training";
-import { CONFIG } from "../src/game/config";
+import { CONFIG as BASE_CONFIG } from "../src/game/config";
 import { MINION_CAPACITY } from "../src/game/systems/crowd";
 import type { AttackPolicy } from "../src/game/types";
 import { createPlayer } from "../src/game/world";
+
+const BALANCE = officialProfile();
+const ENEMIES = Object.fromEntries(
+  Object.entries(BASE_ENEMIES).map(([kind, enemy]) => [
+    kind,
+    { ...enemy, ...BALANCE.payload.enemies[kind as keyof typeof BASE_ENEMIES] },
+  ]),
+) as typeof BASE_ENEMIES;
+const stageAt = (index: number) => {
+  const stage = resolvedStage(BALANCE, index);
+  return {
+    ...stage,
+    bossHp: (stage.bossHp * BALANCE.payload.enemies.boss.hp) / BASE_ENEMIES.boss.hp,
+  };
+};
+const STAGES = BASE_STAGES.map((_, index) => stageAt(index));
+const CONFIG = { ...BASE_CONFIG, endless: { ...BASE_CONFIG.endless, ...BALANCE.payload.endless } };
 
 export const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const GUIDE_DIR = join(ROOT, "docs/game-guide");
@@ -34,6 +52,10 @@ export async function renderGuide(): Promise<Record<string, string>> {
   // A rule edit must regenerate the guide even if its prose needs manual review.
   const ruleFiles = [
     "src/data/cards.ts",
+    "src/data/balance/model.ts",
+    "src/data/balance/profile.ts",
+    "src/data/balance/official.json",
+    "src/game/debug/DebugWorld.ts",
     "src/data/training.ts",
     "src/game/systems/crowd.ts",
     "src/data/enemies.ts",
@@ -462,6 +484,16 @@ ${nav}
 手动暂停、进入后台或窗口失去焦点会暂停战斗，返回后需要手动继续。暂停、选牌与结算时全部战斗和状态时间停止。累计存续时间包括遗世庇护，本关时间不包括；暂停与选牌两种时钟都不增加。
 
 首领死亡停止召援，保留小怪继续战斗；清完全部小怪才清除弹幕并进入奖励选择。第四关选完奖励进入胜利，不能被剩余弹幕补杀。玩家生命归零进入失败，必须击败首领并清完残敌才过关，没有超时失败。「再次共鸣」恢复初始生命/火力，清除所有卡牌、羁绊、敌人、弹幕、毒、重伤、控制、目标、奖励、计时和分数，从第一关开始。没有账号、跨局进度或自动存档。
+
+## PRE 数值试验与正式配置
+
+数值调试器只包含在独立 PRE 构建中。方案、草稿和版本保存在当前浏览器的 PRE 站点，刷新后保留；战斗本身没有跨刷新存档。其他浏览器与 PRO 不会读取这些个人方案。
+
+临时玩家与卡组调整持续本局；临时出怪规则只作用于本关后续生成，现有单位可以单独调整。可保留当前构筑重开、恢复入关快照，或跳至战役及无尽关卡。调试跳关不代表自然通关。
+
+方案支持玩家初始属性、敌人基础参数、关卡区间、无尽成长及分来源的卡池权重。默认保持本说明中的正式规则；引导模式保留流派扶持、基础输出保底和史诗晋升，纯权重模式直接抽取合格卡牌。权重 0 排除卡牌，资格与叠加上限继续生效。候选不足时显示实际数量，全部耗尽时明确提示并允许无奖励继续。
+
+导出的 JSON 只包含配置。正式采用时需要校验并应用到仓库配置，核对人工规则说明、重新生成文档、验证、提交并另行发布；导出、保存版本和启用个人试验都不会修改生产环境。
 `;
 
   pages._Sidebar = `## 命运残响\n\n${nav

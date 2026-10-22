@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import { ENEMIES } from "../../data/enemies";
 import { CONFIG } from "../config";
 import { InputController } from "../input";
 import { seededRandom } from "../random";
@@ -221,7 +220,11 @@ export class BattleScene extends Phaser.Scene {
               2 *
               (1 -
                 enemy.preparation /
-                  (ENEMIES[enemy.kind].preparation * this.world.stage.attackTiming)),
+                  Math.max(
+                    1e-9,
+                    this.world.enemyDefinition(enemy).preparation *
+                      this.world.enemyStage(enemy).attackTiming,
+                  )),
         );
         this.overlay.strokePath();
       }

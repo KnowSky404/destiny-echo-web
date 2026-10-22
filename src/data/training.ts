@@ -1,7 +1,8 @@
 import { CONFIG } from "../game/config";
-import { type Random, shuffled } from "../game/random";
+import { type Random, shuffled, weightedChoice, weightedShuffle } from "../game/random";
 import { combatStats } from "../game/stats";
 import type { Player, Stats, Training } from "../game/types";
+import type { RewardPolicy } from "./balance/model";
 import { CARDS, drawCards } from "./cards";
 
 function training(
@@ -72,15 +73,18 @@ export function eligibleTrainings(
   player: Player,
   stacks: ReadonlyMap<string, number>,
   stageIndex: number,
+  policy?: RewardPolicy,
 ): Training[] {
   // Shield is ignored so conditional leech does not hide a useful permanent upgrade.
   const effective = combatStats({ ...player, shield: 0, poisonSlowTime: 0 }, stacks);
   return TRAININGS.filter(
     (item) =>
       item.eligible(player) &&
+      (policy?.trainingWeights[item.id] ?? 1) > 0 &&
       (item.id !== "training-critical" || effective.critChance < 0.85 - 1e-9) &&
       (item.id !== "training-leech" ||
-        (stageIndex > 0 && effective.lifesteal < 0.5 * CONFIG.lifestealMultiplier - 1e-9)) &&
+        ((stageIndex > 0 || policy?.firstStageRestriction === false) &&
+          effective.lifesteal < 0.5 * CONFIG.lifestealMultiplier - 1e-9)) &&
       (item.id !== "training-haste" || effective.interval > 0.08 + 1e-9),
   );
 }
@@ -90,13 +94,22 @@ export function drawBossRewards(
   stacks: ReadonlyMap<string, number>,
   random: Random,
   stageIndex: number,
+  policy?: RewardPolicy,
 ): string[] {
-  const trainingChoices = shuffled(eligibleTrainings(player, stacks, stageIndex), random).slice(
-    0,
-    2,
-  );
-  const augments = drawCards(player, stacks, random, "stage", stageIndex);
-  const card = shuffled(augments, random)[0];
+  const trainingChoices = weightedShuffle(
+    eligibleTrainings(player, stacks, stageIndex, policy),
+    (item) => policy?.trainingWeights[item.id] ?? 1,
+    random,
+  ).slice(0, 2);
+  const augments = drawCards(player, stacks, random, "stage", stageIndex, policy);
+  const weight = (id: string) => policy?.cardWeights[id] ?? 1;
+  const uniform = augments.every((id) => weight(id) === weight(augments[0] ?? ""));
+  const card =
+    policy?.mode === "weighted"
+      ? augments[0]
+      : uniform
+        ? shuffled(augments, random)[0]
+        : weightedChoice(augments, weight, random);
   return [...trainingChoices.map((item) => item.id), ...(card ? [card] : [])];
 }
 

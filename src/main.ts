@@ -3,8 +3,14 @@ import { World } from "./game/world";
 import { element, GameUI } from "./ui/GameUI";
 import "./ui/style.css";
 
-const world = new World(arenaWidthForViewport(window.innerWidth, window.innerHeight));
+const width = arenaWidthForViewport(window.innerWidth, window.innerHeight);
+const preSession =
+  import.meta.env.MODE === "pre"
+    ? (await import("./ui/debug/entry")).createPreSession(width)
+    : undefined;
+const world = preSession?.world ?? new World(width);
 const ui = new GameUI(world);
+preSession?.attach();
 
 function supportsWebGL(): boolean {
   try {
@@ -43,9 +49,13 @@ if (!supportsWebGL()) {
       import.meta.hot.dispose(() => {
         game.destroy(true);
         ui.destroy();
+        preSession?.destroy();
       });
-    // Read-only diagnostics exist only in the browser test server, never in production.
-    if (import.meta.env.MODE === "test" && import.meta.env.DEV) {
+    // Read-only snapshots are available in PRE and the test server, never in PRO.
+    if (
+      import.meta.env.MODE === "pre" ||
+      (import.meta.env.MODE === "test" && import.meta.env.DEV)
+    ) {
       window.__ECHOES__ = () => world.snapshot();
     }
   } catch (error) {

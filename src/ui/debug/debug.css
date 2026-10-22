@@ -1,0 +1,195 @@
+.debug-dialog {
+  --debug-border: rgb(179 204 232 / 20%);
+  box-sizing: border-box;
+  width: min(940px, calc(100vw - 32px));
+  max-width: none;
+  height: min(92svh, 1000px);
+  max-height: 96svh;
+  margin: auto 16px auto auto;
+  padding: 24px;
+  overflow: auto;
+  border: 1px solid var(--debug-border);
+  border-radius: 18px;
+  color: #e3ebf6;
+  background: #101925;
+  box-shadow: 0 24px 90px #0009;
+  font:
+    14px / 1.6 system-ui,
+    sans-serif;
+}
+.debug-dialog::backdrop {
+  background: rgb(3 8 18 / 60%);
+}
+.debug-header {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.debug-header h2 {
+  margin: 0;
+  font-size: 23px;
+  color: #e6c68b;
+}
+.debug-boundary {
+  color: #e6c68b;
+}
+.debug-metrics {
+  color: #acbdd2;
+  font-size: 12px;
+}
+.debug-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 16px 0;
+}
+.debug-tabs [aria-selected="true"] {
+  color: #101925;
+  background: #e6c68b;
+}
+.debug-tabs .button {
+  padding: 10px 6px;
+  min-width: 0;
+}
+.debug-status {
+  min-height: 24px;
+  color: #a5d4bc;
+  overflow-wrap: anywhere;
+}
+.debug-status.debug-error {
+  color: #ffafae;
+}
+.debug-body p {
+  color: #acbdd2;
+}
+.debug-section {
+  border-top: 1px solid var(--debug-border);
+  margin: 14px 0;
+}
+.debug-section summary {
+  padding: 14px 0;
+  cursor: pointer;
+  color: #dae6f5;
+  font-weight: 600;
+}
+.debug-section-body {
+  padding: 0 0 12px;
+}
+.debug-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 14px 0;
+}
+.debug-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 132px);
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  min-width: 0;
+}
+.debug-field span {
+  overflow-wrap: anywhere;
+}
+.debug-dialog input,
+.debug-dialog select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #52647c;
+  border-radius: 6px;
+  background: #0a111c;
+  color: #f2f6fc;
+  font: inherit;
+}
+.debug-dialog input:disabled {
+  opacity: 0.45;
+}
+.debug-dialog input:focus-visible,
+.debug-dialog select:focus-visible {
+  outline: 2px solid #e6c68b;
+  outline-offset: 2px;
+}
+.debug-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 8px 0;
+  color: #b6c7dd;
+}
+.debug-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: #e6c68b;
+  flex-shrink: 0;
+}
+.debug-override {
+  padding: 8px 12px;
+  border: 1px solid var(--debug-border);
+  border-radius: 8px;
+}
+.debug-override .debug-check {
+  font-size: 12px;
+}
+.debug-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+}
+.debug-actions .button {
+  min-height: 40px;
+  white-space: normal;
+}
+.debug-import {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.debug-import input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.debug-version {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--debug-border);
+}
+#debug-trigger {
+  color: #e6c68b;
+  border-color: #b99b5d80;
+}
+@media (max-width: 640px) {
+  .debug-dialog {
+    width: 100%;
+    height: 100svh;
+    max-height: 100svh;
+    margin: 0;
+    border-radius: 0;
+    padding: max(16px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+      max(20px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  .debug-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .debug-header {
+    align-items: flex-start;
+  }
+  .debug-header h2 {
+    font-size: 19px;
+  }
+  .debug-tabs .button {
+    font-size: 12px;
+    padding: 10px 3px;
+  }
+  .debug-dialog .button {
+    font-size: 12px;
+  }
+  #debug-trigger {
+    font-size: 11px;
+  }
+}
