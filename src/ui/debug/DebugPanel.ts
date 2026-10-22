@@ -123,6 +123,7 @@ export class DebugPanel {
   private rewardScope = -1;
   private selectedEnemy = "kind:wisp";
   private seed: number;
+  private pendingWrites = 0;
   private readonly tabs: HTMLButtonElement[] = [];
 
   constructor(
@@ -206,8 +207,29 @@ export class DebugPanel {
   private command(command: DebugCommand): void {
     this.attempt(() => this.world.execute(command));
   }
+  private async write(action: () => string | undefined, redraw = true): Promise<void> {
+    if (redraw) {
+      this.pendingWrites++;
+      this.body.inert = true;
+      for (const tab of this.tabs) tab.disabled = true;
+      this.dialog.setAttribute("aria-busy", "true");
+      this.message("正在应用本地修改…");
+    }
+    try {
+      await this.store.withWriteLock(() => this.attempt(action, redraw));
+    } catch (error) {
+      this.message(error instanceof Error ? error.message : String(error), true);
+    } finally {
+      if (redraw) {
+        const busy = --this.pendingWrites > 0;
+        this.body.inert = busy;
+        for (const tab of this.tabs) tab.disabled = busy;
+        this.dialog.setAttribute("aria-busy", String(busy));
+      }
+    }
+  }
   private saveDraft(): void {
-    this.attempt(() => {
+    this.write(() => {
       parseProfile(this.store.state.draft);
       this.store.persist();
       return this.store.warning || "草稿已保存在当前浏览器；正在运行的版本保持固定";
@@ -529,21 +551,21 @@ export class DebugPanel {
       button(
         "保存为新版本",
         () =>
-          this.attempt(() => {
+          this.write(() => {
             const version = this.store.saveVersion();
             return this.store.warning || `已保存 ${version.name} v${version.revision}`;
           }),
         true,
       ),
-      button("导出草稿 JSON", () => this.exportProfile(draft)),
+      button("导出草稿 JSON", () => this.exportProfile(draft, true)),
       button("复制为新方案", () =>
-        this.attempt(() => {
+        this.write(() => {
           this.store.copy(draft);
           return this.store.warning || "已复制为新方案草稿";
         }),
       ),
       button("恢复正式配置为草稿", () =>
-        this.attempt(() => {
+        this.write(() => {
           this.store.state.draft = officialProfile();
           this.store.persist();
           return "已恢复正式配置草稿；当前测试保持不变";
@@ -563,7 +585,7 @@ export class DebugPanel {
       }
       try {
         const text = await selected.text();
-        this.attempt(() => {
+        this.write(() => {
           this.store.import(text);
           return this.store.warning || "已导入为新草稿；保存版本后可启用";
         });
@@ -589,7 +611,7 @@ export class DebugPanel {
         button(
           "启用此版本测试",
           () =>
-            this.attempt(() => {
+            this.write(() => {
               const result = this.world.execute({
                 type: "profile",
                 profile: version,
@@ -601,7 +623,7 @@ export class DebugPanel {
           true,
         ),
         button("载入为草稿", () =>
-          this.attempt(() => {
+          this.write(() => {
             this.store.state.draft = structuredClone(version);
             this.store.persist();
             return "已载入草稿，当前测试版本保持不变";
@@ -609,7 +631,7 @@ export class DebugPanel {
         ),
         button("导出此版本", () => this.exportProfile(version)),
         button("删除本地版本", () =>
-          this.attempt(() => {
+          this.write(() => {
             this.store.remove(version.id, version.revision);
             return "已删除本地副本；当前战斗与导出的文件保持不变";
           }),
@@ -822,9 +844,13 @@ export class DebugPanel {
         );
     }
   }
-  private exportProfile(profile: BalanceProfile): void {
+  private exportProfile(profile: BalanceProfile, draft = false): void {
     this.attempt(() => {
       const parsed = parseProfile(profile);
+      if (draft) {
+        parsed.id = crypto.randomUUID();
+        parsed.revision = 1;
+      }
       const url = URL.createObjectURL(
         new Blob([`${JSON.stringify(parsed, null, 2)}\n`], { type: "application/json" }),
       );
