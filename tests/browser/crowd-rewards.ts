@@ -81,10 +81,47 @@ export async function crowdFusionFlow(page: Page, name: string, touch = false) {
   await expect(page.locator("#stage-route")).toContainText(
     `${before.arena.encounterCapacity}/${before.arena.encounterCapacity}`,
   );
-  const shield = await page.locator("#shield-value").boundingBox();
-  const timer = await page.locator("#timer").boundingBox();
-  if (!shield || !timer) throw new Error("Missing HUD bounds");
-  expect(shield.x + shield.width).toBeLessThanOrEqual(timer.x + 1);
+  const resourceLayout = await page.locator(".hud").evaluate((hud) => {
+    const bounds = hud.getBoundingClientRect();
+    const timer = hud.querySelector("#timer")?.getBoundingClientRect();
+    if (!timer) throw new Error("Missing timer bounds");
+    return ["#health-value", "#shield-value"].map((selector) => {
+      const resource = hud.querySelector(selector);
+      if (!resource) throw new Error(`Missing resource: ${selector}`);
+      const range = document.createRange();
+      range.selectNodeContents(resource);
+      const text = [...range.getClientRects()];
+      const box = resource.getBoundingClientRect();
+      return {
+        selector,
+        visible: text.length > 0 && text.every((rect) => rect.width > 0 && rect.height > 0),
+        unclipped: text.every(
+          (rect) =>
+            rect.left >= box.left - 1 &&
+            rect.right <= box.right + 1 &&
+            rect.top >= box.top - 1 &&
+            rect.bottom <= box.bottom + 1,
+        ),
+        insideHud:
+          box.left >= bounds.left - 1 &&
+          box.right <= bounds.right + 1 &&
+          box.top >= bounds.top - 1 &&
+          box.bottom <= bounds.bottom + 1,
+        clearOfTimer:
+          Math.min(box.right, timer.right) - Math.max(box.left, timer.left) <= 1 ||
+          Math.min(box.bottom, timer.bottom) - Math.max(box.top, timer.top) <= 1,
+      };
+    });
+  });
+  for (const resource of resourceLayout) {
+    expect(resource, `${resource.selector} must remain readable and clear of the timer`).toEqual({
+      selector: resource.selector,
+      visible: true,
+      unclipped: true,
+      insideHud: true,
+      clearOfTimer: true,
+    });
+  }
   await page.locator("canvas").scrollIntoViewIfNeeded();
   await page.screenshot({ path: join(tmpdir(), `destiny-${name}-crowd-capacity.png`) });
   await page.clock.runFor(3200);
