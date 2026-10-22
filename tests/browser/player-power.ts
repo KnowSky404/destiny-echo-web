@@ -49,7 +49,7 @@ export async function woundsFlow(page: Page, name: string, touch = false) {
   );
   const before = await snapshot(page);
   await expect(page.locator("#status-effects")).toContainText("重伤：治疗 -90%");
-  await expect(page.locator("#boss-health")).toContainText("重击 105");
+  await expect(page.locator("#boss-health")).toContainText("重击 126");
   await page.clock.runFor(1000);
   const after = await snapshot(page);
   // Native rAF cadence can cover one fewer fixed step than the requested wall time.
@@ -99,7 +99,7 @@ export async function sanctuaryFlow(page: Page, name: string) {
   expect(after.player.hp).toBe(60);
   await expect(page.locator("#status-effects")).toContainText("遗世庇护");
   await expect(page.locator("#status-effects")).toContainText("已净化");
-  await expect(page.locator("#stage-route")).toContainText("倒计时已冻结");
+  await expect(page.locator("#stage-route")).toContainText("敌方时序已冻结");
   await expect(page.locator("#status-effects")).not.toContainText("中毒");
   await page.screenshot({ path: join(tmpdir(), `destiny-${name}-sanctuary.png`) });
   await page.getByRole("button", { name: "暂停游戏", exact: true }).click();

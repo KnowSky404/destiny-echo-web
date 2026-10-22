@@ -2,7 +2,13 @@ import { applyCard, drawCards } from "../data/cards";
 import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
 import { SYNERGIES, TIER_NAMES } from "../data/synergies";
-import { applyTraining, drawBossRewards, TRAINING_BY_ID } from "../data/training";
+import {
+  applyTraining,
+  drawBossRewards,
+  eligibleTrainings,
+  TRAINING_BY_ID,
+} from "../data/training";
+import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
 import { Pool } from "./pool";
 import { type Random, seededRandom } from "./random";
@@ -43,9 +49,9 @@ import type {
 
 type DamageSource = "shot" | "blast" | "counter" | "arc";
 
-export function createPlayer(): Player {
+export function createPlayer(position: Vec2 = CONFIG.player): Player {
   return {
-    ...CONFIG.player,
+    ...position,
     hp: 100,
     shield: 0,
     invulnerable: 0,
@@ -111,6 +117,12 @@ function createProjectile(): Projectile {
 }
 
 export class World {
+  readonly arena;
+
+  constructor(width: number = CONFIG.width) {
+    this.arena = arenaLayout(width);
+    this.player = createPlayer(this.arena.player);
+  }
   readonly state = new RunState();
   readonly enemies = new Pool<Enemy>(CONFIG.limits.enemies, () => ({
     id: 0,
@@ -201,9 +213,11 @@ export class World {
   clearedStages = 0;
   kills = 0;
   score = 0;
+  scoreTrainings = 0;
+  lastScoreTraining: string | null = null;
   openedChests = 0;
   bossSpawned = false;
-  endingReason: "health" | "timeout" = "health";
+  endingReason = "health" as const;
   lastHitAt = -10;
   notice = "";
   noticeUntil = 0;
@@ -238,6 +252,7 @@ export class World {
     wizard: 0,
     boss: 0,
   };
+  private trainingRandom: Random = seededRandom(4);
   private random: Random = seededRandom(0);
   private combatRandom: Random = seededRandom(1);
   private bossRandom: Random = seededRandom(2);
@@ -273,9 +288,10 @@ export class World {
     return this.stageIndex >= STAGES.length;
   }
   get bossSlamDamage() {
-    return (
-      CONFIG.endless.slamDamage +
-      Math.max(0, this.stageIndex - STAGES.length) * CONFIG.endless.slamDamagePerStage
+    return Math.round(
+      (CONFIG.endless.slamDamage +
+        Math.max(0, this.stageIndex - STAGES.length) * CONFIG.endless.slamDamagePerStage) *
+        CONFIG.endless.damageMultiplier,
     );
   }
   get boss(): Enemy | undefined {
@@ -360,10 +376,11 @@ export class World {
   private reset(seed: number): void {
     this.seed = seed;
     this.random = seededRandom(seed);
+    this.trainingRandom = seededRandom(seed ^ 0x7a11);
     this.combatRandom = seededRandom(seed ^ 0x5a17);
     this.bossRandom = seededRandom(seed ^ 0xb055);
     this.enemyRandom = seededRandom(seed ^ 0xe11e);
-    this.player = createPlayer();
+    this.player = createPlayer(this.arena.player);
     this.stacks.clear();
     this.trainingStacks.clear();
     this.fusions = 0;
@@ -376,9 +393,10 @@ export class World {
     this.clearedStages = 0;
     this.kills = 0;
     this.score = 0;
+    this.scoreTrainings = 0;
+    this.lastScoreTraining = null;
     this.openedChests = 0;
     this.bossSpawned = false;
-    this.endingReason = "health";
     this.lastHitAt = -10;
     this.notice = "";
     this.noticeUntil = 0;
@@ -573,7 +591,7 @@ export class World {
     cleansePlayer(this.player);
     if (dominion >= 6) this.hostileShots.clear();
     this.controlProcs++;
-    this.showBlast({ x: 225, y: 350 }, 500, 0xc7b7e8);
+    this.showBlast({ x: this.arena.player.x, y: 350 }, 500, 0xc7b7e8);
     this.notice = "遗世庇护 · 状态已净化，时序暂歇，敌方嘲讽失效";
     this.noticeUntil = this.elapsed + this.sanctuaryRemaining;
   }
@@ -599,7 +617,7 @@ export class World {
       this.prepareEndlessSupplies();
     }
     // Position is a simulation invariant, independent of all browser input.
-    Object.assign(this.player, CONFIG.player);
+    Object.assign(this.player, this.arena.player);
     if (!frozen) this.spawn(delta);
     for (const enemy of this.enemies.items) {
       if (!frozen && enemy.active && !enemy.formation) {
@@ -608,8 +626,12 @@ export class World {
       }
     }
     if (!frozen && this.endless) {
-      this.arrivals += advanceFormation(this.enemies.items, delta, this.wave, (enemy, time) =>
-        this.enemyDelta(enemy, time),
+      this.arrivals += advanceFormation(
+        this.enemies.items,
+        delta,
+        this.wave,
+        (enemy, time) => this.enemyDelta(enemy, time),
+        this.arena.crowdLanes,
       );
       advanceFusion(this.enemies.items, delta, (enemy) => {
         this.fusions++;
@@ -656,10 +678,7 @@ export class World {
       blast.life -= delta;
       if (blast.life <= 0) blast.active = false;
     }
-    if (!frozen && this.stageElapsed >= this.stage.deadline) {
-      this.endingReason = "timeout";
-      this.state.transition("GameOver");
-    } else if (
+    if (
       this.endless &&
       !frozen &&
       this.stageElapsed >= (this.endlessRewardTimes[this.stageSupplies] ?? Infinity)
@@ -766,7 +785,7 @@ export class World {
   private spawn(delta: number): void {
     const stage = this.stage;
     if (!this.bossSpawned && this.stageElapsed >= stage.bossAt) {
-      this.bossSpawned = Boolean(this.spawnEnemy("boss", CONFIG.width / 2));
+      this.bossSpawned = Boolean(this.spawnEnemy("boss", this.arena.width / 2));
       if (!this.bossSpawned) return;
       this.reinforceBoss();
       this.supportCooldown = stage.supportInterval;
@@ -778,7 +797,7 @@ export class World {
     if (!this.bossSpawned) {
       this.spawnCooldown -= delta;
       if (this.spawnCooldown <= 0 && this.stageSpawned < stage.enemyCount) {
-        if (this.spawnMinion(42 + this.random() * 366)) this.stageSpawned++;
+        if (this.spawnMinion(42 + this.random() * (this.arena.width - 84))) this.stageSpawned++;
         // One admission per fixed step bounds catch-up work at extreme endless depths.
         this.spawnCooldown += stage.spawnInterval;
       }
@@ -792,7 +811,10 @@ export class World {
         if (chest) {
           Object.assign(chest, {
             id: this.nextId++,
-            x: this.nextChestAt === CONFIG.chestFirstAt ? 110 : 70 + this.random() * 310,
+            x:
+              this.nextChestAt === CONFIG.chestFirstAt
+                ? this.arena.width / 2 - 115
+                : 70 + this.random() * (this.arena.width - 140),
             y: 240,
             hp: 36,
             maxHp: 36,
@@ -816,7 +838,7 @@ export class World {
 
   private drainSummons(): void {
     for (let count = this.pendingSummons; count > 0; count--) {
-      if (!this.spawnMinion(CONFIG.player.x, true)) break;
+      if (!this.spawnMinion(this.arena.player.x, true)) break;
       this.pendingSummons--;
     }
   }
@@ -829,7 +851,8 @@ export class World {
     const count = Math.min(this.stage.supportCount, available);
     for (let index = 0; index < count; index++) {
       const position = this.supportSpawned % 4;
-      if (!this.spawnMinion([380, 70, 130, 320][position] ?? 225, enhanced)) break;
+      if (!this.spawnMinion(this.arena.crowdLanes[position] ?? this.arena.player.x, enhanced))
+        break;
       // Failed admissions do not consume the balanced species cycle.
       this.supportSpawned++;
     }
@@ -868,8 +891,8 @@ export class World {
       (_, index) => index,
     );
     const slotX = (slot: number) =>
-      CONFIG.player.x +
-      ((slot % CONFIG.defense.lanes) - (CONFIG.defense.lanes - 1) / 2) * CONFIG.defense.laneGap;
+      this.arena.player.x +
+      ((slot % CONFIG.defense.lanes) - (CONFIG.defense.lanes - 1) / 2) * this.arena.laneGap;
     const slot =
       kind === "boss"
         ? Math.floor(CONFIG.defense.lanes / 2)
@@ -883,7 +906,9 @@ export class World {
             )[0];
     if (slot === undefined) return;
     const position =
-      this.endless && kind !== "boss" ? crowdSpawn(this.enemies.items, this.random) : undefined;
+      this.endless && kind !== "boss"
+        ? crowdSpawn(this.enemies.items, this.random, this.arena.crowdLanes)
+        : undefined;
     if (this.endless && kind !== "boss" && !position) return;
     const enemy = this.enemies.acquire();
     if (!enemy) return;
@@ -952,7 +977,7 @@ export class World {
       fusionTime: 0,
       fusionPeers: "",
       tauntRemaining: 0,
-      skillCooldown: 1.5 + this.enemyRandom() * 2.5,
+      skillCooldown: (1.5 + this.enemyRandom() * 2.5) * this.stage.attackTiming,
       lastAction: null,
       formation: this.endless && kind !== "boss",
     });
@@ -974,11 +999,11 @@ export class World {
       if (enemy.kind === "tank" && !attackPermitted(enemy)) {
         enemy.skillCooldown -= effectiveDelta;
         if (enemy.skillCooldown <= 1e-9) {
-          enemy.skillCooldown = CONFIG.skills.approachInterval;
+          enemy.skillCooldown = CONFIG.skills.approachInterval * this.stage.attackTiming;
           if (this.enemyRandom() < CONFIG.skills.tauntChance) this.castTaunt(enemy);
         }
       }
-      if (!advanceAttackStage(enemy, effectiveDelta)) continue;
+      if (!advanceAttackStage(enemy, effectiveDelta, this.stage.attackTiming)) continue;
       const enraged = enemy.kind === "boss" && enemy.hp < enemy.maxHp / 2;
       if (enemy.kind === "boss" && !this.endless) {
         if (enemy.telegraph > 0) {
@@ -1008,7 +1033,10 @@ export class World {
       if (enemy.shotCooldown > 1e-9) continue;
       const data = ENEMIES[enemy.kind];
       enemy.shotCooldown +=
-        data.interval * (enraged ? 0.8 : 1) * (enemy.kind === "boss" ? this.stage.bossInterval : 1);
+        data.interval *
+        (enraged ? 0.8 : 1) *
+        (enemy.kind === "boss" ? this.stage.bossInterval : 1) *
+        this.stage.attackTiming;
       if (enemy.kind === "tank" && this.enemyRandom() < CONFIG.skills.tauntChance) {
         this.castTaunt(enemy);
         continue;
@@ -1016,7 +1044,7 @@ export class World {
       if (enemy.kind === "wizard" && this.enemyRandom() < CONFIG.skills.poisonChance) {
         this.poisonCasts++;
         enemy.lastAction = "poison";
-        applyPoison(this.player, enemy.damageScale);
+        applyPoison(this.player, enemy.damageScale * CONFIG.endless.damageMultiplier);
         this.showBlast(enemy, enemy.radius + 10, 0xb6e7a4);
         continue;
       }
@@ -1138,7 +1166,12 @@ export class World {
       shot.previousY = shot.y;
       shot.x += shot.vx * delta;
       shot.y += shot.vy * delta;
-      if (shot.y < -60 || shot.y > CONFIG.height + 60 || shot.x < -60 || shot.x > CONFIG.width + 60)
+      if (
+        shot.y < -60 ||
+        shot.y > CONFIG.height + 60 ||
+        shot.x < -60 ||
+        shot.x > this.arena.width + 60
+      )
         shot.active = false;
     }
   }
@@ -1329,10 +1362,28 @@ export class World {
     }
   }
 
+  private addScore(points: number): void {
+    this.score += points;
+    const earned = Math.floor(this.score / CONFIG.scoreTrainingInterval);
+    const names: string[] = [];
+    while (this.scoreTrainings < earned) {
+      const eligible = eligibleTrainings(this.player, this.stacks, this.stageIndex);
+      const item = eligible[Math.floor(this.trainingRandom() * eligible.length)];
+      if (!item || !applyTraining(item.id, this.player, this.trainingStacks)) break;
+      this.scoreTrainings++;
+      this.lastScoreTraining = item.id;
+      names.push(item.name);
+    }
+    if (names.length > 0) {
+      this.notice = `分数锻体 · 已自动获得 ${names.join("、")}`;
+      this.noticeUntil = this.elapsed + 4;
+    }
+  }
+
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
     this.kills++;
-    this.score += ENEMIES[enemy.kind].score * 3 ** (enemy.stars - 1);
+    this.addScore(ENEMIES[enemy.kind].score * 3 ** (enemy.stars - 1));
     if (source === "blast") this.chainKills++;
     this.heal(this.player.stats.harvest * 2);
     if (
@@ -1348,7 +1399,7 @@ export class World {
     );
     if (enemy.kind === "boss") {
       this.clearedStages++;
-      this.score += Math.ceil(this.player.hp) * 10;
+      this.addScore(Math.ceil(this.player.hp) * 10);
       this.clearCombat();
       cleansePlayer(this.player);
       this.sanctuaryRemaining = 0;
@@ -1466,7 +1517,7 @@ export class World {
       this.frostCooldown -= delta;
       if (this.frostCooldown <= 1e-9) {
         this.frostCooldown = 6;
-        this.showBlast({ x: 225, y: 350 }, 500, 0x9ce2ef);
+        this.showBlast({ x: this.arena.player.x, y: 350 }, 500, 0x9ce2ef);
         for (const enemy of this.enemies.items)
           this.slowEnemy(enemy, 0.2 + stats.frostPulse * 0.05, frost >= 3 ? 3 : 2);
       }
@@ -1570,6 +1621,7 @@ export class World {
   snapshot() {
     return {
       phase: this.phase,
+      arena: structuredClone(this.arena),
       elapsed: this.elapsed,
       stageIndex: this.stageIndex,
       stageElapsed: this.stageElapsed,
@@ -1592,6 +1644,9 @@ export class World {
       combat: combatStats(this.player, this.stacks),
       kills: this.kills,
       score: this.score,
+      scoreTrainings: this.scoreTrainings,
+      lastScoreTraining: this.lastScoreTraining,
+      nextScoreTraining: (this.scoreTrainings + 1) * CONFIG.scoreTrainingInterval,
       openedChests: this.openedChests,
       stacks: Object.fromEntries(this.stacks),
       trainingStacks: Object.fromEntries(this.trainingStacks),

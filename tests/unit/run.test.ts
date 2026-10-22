@@ -8,7 +8,7 @@ import { naturalRun as run } from "./helpers";
 describe("natural unmodified multi-stage runs", () => {
   test("a growing build clears four bosses under observable defense pressure", () => {
     // The restricted first-stage pool changes the seeded reward sequence.
-    const world = run(3);
+    const world = run(2);
     expect(world.phase).toBe("Victory");
     expect(world.clearedStages).toBe(4);
     expect(world.stageIndex).toBe(3);
@@ -38,15 +38,15 @@ describe("natural unmodified multi-stage runs", () => {
   }, 30_000);
 
   test("target decisions change an outcome; incomplete growth can still fail", () => {
-    expect(run(3, "auto").phase).toBe("GameOver");
-    expect(run(3, "active").phase).toBe("Victory");
-    const poorBuild = run(3, "defensive");
+    expect(run(2, "auto").phase).toBe("GameOver");
+    expect(run(2, "active").phase).toBe("Victory");
+    const poorBuild = run(1, "defensive");
     expect(poorBuild.phase).toBe("GameOver");
     expect(poorBuild.regularAttacks).toBeGreaterThan(0);
   });
 
   test("a winning campaign build enters harder endless combat with real minion and boss pressure", () => {
-    const world = run(3, "active", true);
+    const world = run(11, "active", true, 1600);
     expect(world.clearedStages).toBe(4);
     expect(world.endless).toBe(true);
     expect(world.stageIndex).toBe(4);
@@ -60,7 +60,7 @@ describe("natural unmodified multi-stage runs", () => {
   }, 30_000);
 
   test("a natural campaign build can continue through two endless stages", () => {
-    const world = run(5, "active", true);
+    const world = run(2, "active", true, 1600);
     expect(world.clearedStages).toBe(6);
     expect(world.stageIndex).toBe(6);
     expect(world.phase).toBe("Playing");

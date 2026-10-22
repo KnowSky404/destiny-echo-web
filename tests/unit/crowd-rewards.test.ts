@@ -3,17 +3,18 @@ import { applyCard, CARD_BY_ID, drawCards } from "../../src/data/cards";
 import { ENDLESS_KINDS, ENEMIES } from "../../src/data/enemies";
 import { stageAt } from "../../src/data/stages";
 import { drawBossRewards, TRAINING_BY_ID, TRAININGS } from "../../src/data/training";
+import { DESKTOP_WIDTH } from "../../src/game/arena";
 import { CONFIG } from "../../src/game/config";
 import { seededRandom } from "../../src/game/random";
 import { combatStats, overhealStats } from "../../src/game/stats";
 import { synergyCount } from "../../src/game/synergies";
-import { CROWD_LANES, ENCOUNTER_CAPACITY, MINION_CAPACITY } from "../../src/game/systems/crowd";
+import { ENCOUNTER_CAPACITY, MINION_CAPACITY } from "../../src/game/systems/crowd";
 import { applyPoison } from "../../src/game/systems/damage";
 import { World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
-function arena(seed = 4): World {
-  const world = new World();
+function arena(seed = 4, width: number = CONFIG.width): World {
+  const world = new World(width);
   world.start(seed);
   world.stageIndex = 4;
   world.bossSpawned = true;
@@ -24,7 +25,7 @@ function arena(seed = 4): World {
 }
 
 function formation(world: World): void {
-  for (const [lane, x] of CROWD_LANES.entries()) {
+  for (const [lane, x] of world.arena.crowdLanes.entries()) {
     for (let row = 0; row < 6; row++) {
       const y = CONFIG.defense.y - row * CONFIG.crowd.cellHeight;
       enemy(world, {
@@ -43,30 +44,34 @@ function formation(world: World): void {
 }
 
 describe("readable capacity and non-destructive summons", () => {
-  test("geometry admits 24 minions and a separate boss corridor at every fixed step", () => {
-    expect(MINION_CAPACITY).toBe(24);
-    expect(ENCOUNTER_CAPACITY).toBe(25);
-    for (const seed of [1, 4, 19]) {
-      const world = arena(seed);
-      world.bossSpawned = false;
-      for (let frame = 0; frame < 120 * 65; frame++) {
-        world.update(CONFIG.fixedStep);
-        const living = world.enemies.items.filter((item) => item.active);
-        expect(living.length).toBeLessThanOrEqual(ENCOUNTER_CAPACITY);
-        for (const [index, a] of living.entries())
-          for (const b of living.slice(index + 1)) {
-            // Bounding boxes include rings, bars and stars, not just collision bodies.
-            const horizontal = a.kind === "boss" || b.kind === "boss" ? 94 : 68;
-            const vertical = a.kind === "boss" || b.kind === "boss" ? 106 : 80;
-            expect(
-              Math.abs(a.x - b.x) >= horizontal - 1e-6 || Math.abs(a.y - b.y) >= vertical - 1e-6,
-            ).toBe(true);
-          }
+  test.each([CONFIG.width, DESKTOP_WIDTH])(
+    "geometry admits 24 minions and a separate boss corridor at every fixed step: %s",
+    (width) => {
+      expect(MINION_CAPACITY).toBe(24);
+      expect(ENCOUNTER_CAPACITY).toBe(25);
+      for (const seed of [1, 4, 19]) {
+        const world = arena(seed, width);
+        world.bossSpawned = false;
+        for (let frame = 0; frame < 120 * 65; frame++) {
+          world.update(CONFIG.fixedStep);
+          const living = world.enemies.items.filter((item) => item.active);
+          expect(living.length).toBeLessThanOrEqual(ENCOUNTER_CAPACITY);
+          for (const [index, a] of living.entries())
+            for (const b of living.slice(index + 1)) {
+              // Bounding boxes include rings, bars and stars, not just collision bodies.
+              const horizontal = a.kind === "boss" || b.kind === "boss" ? 94 : 68;
+              const vertical = a.kind === "boss" || b.kind === "boss" ? 106 : 80;
+              expect(
+                Math.abs(a.x - b.x) >= horizontal - 1e-6 || Math.abs(a.y - b.y) >= vertical - 1e-6,
+              ).toBe(true);
+            }
+        }
+        expect(world.boss).toBeDefined();
+        expect(world.fusions).toBeGreaterThan(0);
       }
-      expect(world.boss).toBeDefined();
-      expect(world.fusions).toBeGreaterThan(0);
-    }
-  }, 20000);
+    },
+    20000,
+  );
 
   test("boss entrance preserves ordinary IDs, damage, debuffs and flying hostile shots", () => {
     const world = arena();
@@ -315,13 +320,13 @@ describe("low-value shield engine", () => {
     expect(synergyCount(world.stacks, "blood")).toBe(2);
     const target = enemy(world, { y: 300, speed: 0, hp: 10000, maxHp: 10000 });
     hit(world, target, 100);
-    expect(world.player.shield).toBeCloseTo(0.4, 6);
+    expect(world.player.shield).toBeCloseTo(0.34, 6);
     world.player.hp = 50;
     hit(world, target, 100);
-    expect(world.player.hp).toBe(54);
-    expect(world.player.shield).toBeCloseTo(0.4, 6);
+    expect(world.player.hp).toBeCloseTo(53.4, 6);
+    expect(world.player.shield).toBeCloseTo(0.34, 6);
     world.player.hp = 100;
-    hit(world, target, 5000);
+    hit(world, target, 7000);
     expect(world.player.shield).toBe(20);
     applyCard("reservoir", world.player, world.stacks);
     expect(overhealStats(world.player, world.stacks).capacity).toBeCloseTo(30, 6);
@@ -335,13 +340,13 @@ describe("low-value shield engine", () => {
     world.player.shield = 0;
     for (const id of ["reservoir", "shield-leech", "leech"])
       applyCard(id, world.player, world.stacks);
-    expect(combatStats(world.player, world.stacks).lifesteal).toBeCloseTo(0.04);
+    expect(combatStats(world.player, world.stacks).lifesteal).toBeCloseTo(0.034);
     world.player.shield = 1;
-    expect(combatStats(world.player, world.stacks).lifesteal).toBeCloseTo(0.06);
+    expect(combatStats(world.player, world.stacks).lifesteal).toBeCloseTo(0.051);
     applyPoison(world.player);
     const target = enemy(world, { y: 300, speed: 0, hp: 10000, maxHp: 10000 });
     hit(world, target, 100);
-    expect(world.player.shield).toBeCloseTo(1 - 6 / 120 + 6 * 0.1 * 0.05, 6);
+    expect(world.player.shield).toBeCloseTo(1 - 6 / 120 + 5.1 * 0.1 * 0.05, 6);
   });
 });
 

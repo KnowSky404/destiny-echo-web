@@ -83,7 +83,7 @@ describe("balanced species and upper-half spawning", () => {
     }
     expect(minions.some((item) => item.spawnY < 100)).toBe(true);
     expect(new Set(minions.map((item) => item.spawnY)).size).toBeGreaterThan(1);
-    expect(new Set(minions.map((item) => item.spawnX)).size).toBe(4);
+    expect(new Set(minions.map((item) => item.spawnX)).size).toBe(4 + world.scoreTrainings);
     world.stageElapsed = world.stage.bossAt;
     tick(world, 0.1);
     expect(world.boss?.spawnY).toBe(-55);
@@ -240,11 +240,11 @@ describe("single poison effect and conditional attack slow", () => {
     applyPoison(world.player);
     const before = world.player.shield;
     tick(world, 1);
-    expect(before - world.player.shield).toBeCloseTo(6, 5);
+    expect(before - world.player.shield).toBeCloseTo(7.2, 5);
     applyPoison(world.player);
     expect(world.player.poisonTime).toBe(3);
     tick(world, 1);
-    expect(before - world.player.shield).toBeCloseTo(12, 5);
+    expect(before - world.player.shield).toBeCloseTo(14.4, 5);
   });
 
   test("poison can end the run, and pause, rewards, endings and restart freeze or clear it", () => {
@@ -389,14 +389,14 @@ describe("endless boss health thresholds and independent skills", () => {
     expect(before - target.hp).toBeCloseTo(100, 6);
   });
 
-  test("slam removes exactly 100 HP through shields and invulnerability and can be lethal", () => {
+  test("slam removes exactly 120 HP through shields and invulnerability and can be lethal", () => {
     const world = arena(11);
     const target = boss(world);
     world.player.invulnerable = 10;
     const shield = world.player.shield;
     hit(world, target, 300);
     expect(target.lastSkill).toBe("slam");
-    expect(world.player.hp).toBe(900);
+    expect(world.player.hp).toBe(880);
     expect(world.player.shield).toBe(shield);
     world.player.hp = 80;
     hit(world, target, 300);
@@ -443,7 +443,7 @@ describe("three random supplies plus one mixed boss reward", () => {
       expect(world.stageIndex).toBe(5);
       expect(
         [...world.stacks.values(), ...world.trainingStacks.values()].reduce((a, b) => a + b, 0),
-      ).toBe(4);
+      ).toBe(4 + world.scoreTrainings);
       expect(world.stageSupplies).toBe(0);
       expect(world.player.poisonTime + world.player.poisonSlowTime).toBe(0);
     }
@@ -454,6 +454,7 @@ describe("three random supplies plus one mixed boss reward", () => {
     const world = arena();
     world.stageSupplies = 0;
     for (const stage of [4, 5]) {
+      const trainingBefore = world.scoreTrainings;
       const countBefore = [...world.stacks.values(), ...world.trainingStacks.values()].reduce(
         (a, b) => a + b,
         0,
@@ -475,7 +476,7 @@ describe("three random supplies plus one mixed boss reward", () => {
       expect(world.stageIndex).toBe(stage + 1);
       expect(
         [...world.stacks.values(), ...world.trainingStacks.values()].reduce((a, b) => a + b, 0),
-      ).toBe(countBefore + 4);
+      ).toBe(countBefore + 4 + world.scoreTrainings - trainingBefore);
       expect(world.enemies.items.every((item) => !item.active)).toBe(true);
     }
   });

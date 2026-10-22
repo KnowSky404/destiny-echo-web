@@ -132,7 +132,7 @@ describe("large transformations and combined deterministic combat", () => {
     world.player.hp = 100;
     const victim = target(world, { hp: 10000, maxHp: 10000 });
     hit(world, victim, 100);
-    expect(world.player.shield).toBeCloseTo(34.06, 5);
+    expect(world.player.shield).toBeCloseTo(28.96, 5);
     for (let index = 0; index < 5; index++) hit(world, victim, 100);
     expect(world.player.shield).toBe(80);
   });

@@ -14,8 +14,12 @@ export const CROWD_LANES = Array.from({ length: columns }, (_, lane) => lane)
 export const MINION_CAPACITY = CROWD_LANES.length * rows;
 export const ENCOUNTER_CAPACITY = MINION_CAPACITY + 1;
 
-export function crowdSpawn(enemies: readonly Enemy[], random: Random): Vec2 | undefined {
-  for (const x of shuffled([...CROWD_LANES], random)) {
+export function crowdSpawn(
+  enemies: readonly Enemy[],
+  random: Random,
+  lanes: readonly number[] = CROWD_LANES,
+): Vec2 | undefined {
+  for (const x of shuffled([...lanes], random)) {
     const lane = enemies.filter(
       (enemy) => enemy.active && enemy.kind !== "boss" && enemy.defenseX === x,
     );
@@ -34,9 +38,10 @@ export function advanceFormation(
   delta: number,
   wave: number,
   enemyDelta: (enemy: Enemy, delta: number) => number,
+  lanes: readonly number[] = CROWD_LANES,
 ): number {
   let arrivals = 0;
-  for (const x of CROWD_LANES) {
+  for (const x of lanes) {
     const lane = enemies
       .filter((enemy) => enemy.active && enemy.formation && enemy.defenseX === x)
       .sort((a, b) => b.y - a.y || a.id - b.id);
@@ -45,7 +50,7 @@ export function advanceFormation(
       const destination = CONFIG.defense.y - row * CONFIG.crowd.cellHeight;
       if (enemy.defenseY !== destination) enemy.arrived = false;
       enemy.defenseY = destination;
-      enemy.slot = row * CROWD_LANES.length + CROWD_LANES.indexOf(x);
+      enemy.slot = row * lanes.length + lanes.indexOf(x);
       const arrived = advanceEnemy(enemy, enemyDelta(enemy, delta), wave);
       enemy.x = x;
       enemy.y = Math.min(enemy.y, ahead - CONFIG.crowd.cellHeight);

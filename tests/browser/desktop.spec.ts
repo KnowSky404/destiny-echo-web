@@ -58,6 +58,122 @@ test.afterEach(({ page }) => {
   expect(runtimeErrors.get(page) ?? []).toEqual([]);
 });
 
+test("desktop Firefox fills the wide screen and keeps target coordinates correct after resizing", async ({
+  page,
+}, info) => {
+  await boot(page);
+  // Keep this coordinate check outside a seed-dependent chest reward overlay.
+  await page.clock.setSystemTime(new Date(2));
+  await start(page);
+  await page.clock.runFor(4500);
+  const state = await snapshot(page);
+  expect(state.arena.width).toBe(1600);
+  expect(state.player.x).toBe(800);
+  const viewport = page.viewportSize();
+  const box = await page.locator("canvas").boundingBox();
+  if (!box || !viewport) throw new Error("Missing viewport");
+  expect((box.width * box.height) / (viewport.width * viewport.height)).toBeGreaterThan(0.8);
+  expect(box.width / box.height).toBeCloseTo(2, 2);
+  expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(
+    true,
+  );
+  await expect(page.locator("#build-dialog")).not.toBeVisible();
+  await expect(page.locator("#help-dialog")).not.toBeVisible();
+  const target = state.enemies.find((item) => item.x > 800);
+  if (!target) throw new Error("No target on the right side of the wide arena");
+  await clickTarget(page, target.x, target.y);
+  expect((await snapshot(page)).manualTargetId).toBe(target.id);
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-wide-1920.png`) });
+  await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+  await page.clock.runFor(100);
+  await resizeAndFit(page, 1366, 768);
+  await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
+  const current = (await snapshot(page)).enemies.find((item) => item.id === target.id);
+  if (!current) throw new Error("Target disappeared while paused");
+  await clickTarget(page, current.x, current.y);
+  expect((await snapshot(page)).manualTargetId).toBe(target.id);
+  expect((await snapshot(page)).player.x).toBe(800);
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-wide-1366.png`) });
+});
+
+test("top build and help dialogs pause battle, scroll independently and return keyboard focus", async ({
+  page,
+}, info) => {
+  await boot(page);
+  await start(page);
+  await page.getByRole("button", { name: "本局构筑", exact: true }).click();
+  await page.clock.runFor(150);
+  const build = page.getByRole("dialog", { name: "本局构筑", exact: true });
+  await expect(build).toBeVisible();
+  const title = await build.locator("h2").boundingBox();
+  const close = await build.locator("#close-build").boundingBox();
+  if (!title || !close) throw new Error("Missing dialog header");
+  expect(title.height).toBeLessThan(48);
+  expect(close.width).toBeLessThan(220);
+  await expect(build.locator("#stats")).toContainText("普攻吸血");
+  await expect(build.locator("#synergies details")).toHaveCount(10);
+  await expect(build).toContainText("下一张 5000 分");
+  const before = await snapshot(page);
+  await page.clock.runFor(600);
+  expect(await snapshot(page)).toEqual(before);
+  await build.locator("summary").first().click();
+  await expect(build.locator("details").first()).toHaveAttribute("open", "");
+  await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-build-dialog.png`) });
+  await page.keyboard.press("Escape");
+  await expect(build).not.toBeVisible();
+  await expect(page.locator("#build-trigger")).toBeFocused();
+  expect((await snapshot(page)).phase).toBe("Paused");
+  let reachedResume = false;
+  for (let i = 0; i < 5; i++) {
+    await page.keyboard.press("Tab");
+    reachedResume ||= await page
+      .locator('#overlay [data-action="resume"]')
+      .evaluate((button) => button === document.activeElement);
+  }
+  expect(reachedResume).toBe(true);
+  await page.getByRole("button", { name: "玩法说明", exact: true }).click();
+  const help = page.locator("#help-dialog");
+  await expect(help).toBeVisible();
+  await expect(help).toContainText("玩家生命归零才失败");
+  await expect(help).toContainText("累计每 5,000 分");
+  await page.getByRole("button", { name: "明白了", exact: true }).click();
+  await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
+  await page.clock.runFor(200);
+  expect((await snapshot(page)).phase).toBe("Playing");
+  await expect(page.locator("#overlay")).not.toBeVisible();
+});
+
+test("score training is awarded automatically in the wide battlefield without opening choices", async ({
+  page,
+}, info) => {
+  await bootFixture(
+    page,
+    `
+    world.score = 4900;
+    world.player.stats.damage = 100;
+    world.player.cooldown = 0;
+    enemy({ x: 800, y: 600, defenseX: 800, defenseY: 600, hp: 1, speed: 0 });
+  `,
+    1600,
+  );
+  await page.clock.runFor(500);
+  const state = await snapshot(page);
+  expect(state.score).toBe(5000);
+  expect(state.scoreTrainings).toBe(1);
+  expect(state.phase).toBe("Playing");
+  expect(state.reward).toBeNull();
+  expect(state.trainingStacks["training-leech"]).toBeUndefined();
+  await expect(page.locator("#score-value")).toHaveText("5,000 分");
+  await expect(page.locator("#arena-notice")).toContainText("分数锻体");
+  await page.getByRole("button", { name: "本局构筑", exact: true }).click();
+  await page.clock.runFor(100);
+  await expect(page.locator("#build-dialog")).toContainText("分数锻体已发 1 张 · 下一张 10000 分");
+  await expect(page.locator(".collected-card.training")).toHaveCount(1);
+  await page.screenshot({
+    path: join(tmpdir(), `destiny-${info.project.name}-score-training.png`),
+  });
+});
+
 test("pause intent remains paused when window blur happens immediately before the click", async ({
   page,
 }) => {
@@ -126,7 +242,7 @@ test("loads real WebGL, old movement inputs keep the ship fixed and pause blocks
   await page.keyboard.up("w");
   expect((await snapshot(page)).player.y).toBe(736);
   await dragTo(page, 100, 720);
-  await expectPlayerAt(page, 225, 736);
+  await expectPlayerAt(page, initial.player.x, 736);
   await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
   await page.clock.runFor(100);
   const paused = await snapshot(page);
@@ -139,7 +255,7 @@ test("loads real WebGL, old movement inputs keep the ship fixed and pause blocks
   await page.keyboard.press("p");
   await page.clock.runFor(100);
   await dragTo(page, 310, 740);
-  await expectPlayerAt(page, 225, 736);
+  await expectPlayerAt(page, initial.player.x, 736);
   await page.evaluate(() => window.dispatchEvent(new Event("blur")));
   await page.clock.runFor(100);
   expect((await snapshot(page)).phase).toBe("Paused");
@@ -189,12 +305,12 @@ for (const strategy of ["offense", "defensive"] as const) {
     browserName,
   }, info) => {
     test.skip(
-      browserName !== "chromium",
-      "Full natural runs execute once; every engine verifies combat, input, rewards and endings.",
+      browserName !== "chromium" && browserName !== "firefox",
+      "Natural desktop runs execute in Chromium and Firefox.",
     );
-    test.setTimeout(300_000);
+    test.setTimeout(browserName === "firefox" ? 600_000 : 300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(3));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 2 : 1));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
@@ -244,7 +360,12 @@ for (const strategy of ["offense", "defensive"] as const) {
           (sum, count) => sum + count,
           0,
         ),
-      ).toBe(Object.values(frozen.stacks).reduce((sum, count) => sum + count, 0) + 1);
+      ).toBe(
+        [...Object.values(frozen.stacks), ...Object.values(frozen.trainingStacks)].reduce(
+          (sum, count) => sum + count,
+          0,
+        ) + 1,
+      );
       await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
       await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
       await page.clock.runFor(100);
@@ -304,7 +425,7 @@ test("production static build loads without diagnostics or missing assets", asyn
   await expect(help).toContainText("遗世庇护");
   await expect(help).toContainText("首层 0.75 秒");
   await expect(help).toContainText("治疗 -90%");
-  await expect(help).toContainText("此后每关 +5");
+  await expect(help).toContainText("此后每关 +6");
   await expect(help).toContainText("首关宝箱和首领奖励排除");
   await expect(
     help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),
@@ -377,7 +498,7 @@ test("mouse selects lateral targets, empty click cancels and keyboard targeting 
   expect(after.enemies.some((enemy) => enemy.id === chosen.id)).toBe(false);
   expect(after.manualTargetId).toBeNull();
   expect(after.targetId).not.toBeNull();
-  await expectPlayerAt(page, 225, 736);
+  await expectPlayerAt(page, after.player.x, 736);
   await page.keyboard.press("p");
   await page.clock.runFor(100);
   expect((await snapshot(page)).phase).toBe("Paused");
@@ -480,6 +601,8 @@ test("six-layer synergy preview accepts a repeat upgrade and triggers a real exp
   expect(state.metrics.chainKills).toBe(2);
   expect(state.metrics.explosionCount).toBe(3);
   await expect(page.locator('[data-synergy="blast"]')).toContainText("6/9 · 中质变");
+  await page.getByRole("button", { name: "本局构筑", exact: true }).click();
+  await page.clock.runFor(100);
   await page.locator('[data-synergy="blast"] summary').click();
   await expect(page.locator('[data-synergy="blast"] .synergy-details')).toBeVisible();
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-synergy-chain.png`) });
@@ -546,6 +669,8 @@ for (const layers of [3, 9]) {
     const state = await snapshot(page);
     expect(state.stacks.overload).toBe(layers);
     expect(state.synergies.find((item) => item.id === "blast")?.tier).toBe(layers);
+    await page.getByRole("button", { name: "本局构筑", exact: true }).click();
+    await page.clock.runFor(100);
     await expect(page.locator('[data-synergy="blast"]')).toContainText(
       `${layers}/9 · ${layers === 3 ? "小" : "大"}质变`,
     );

@@ -120,7 +120,7 @@ describe("ten families and cumulative 3/6/9 breakpoints", () => {
   test("offers preserve two build choices and one useful offense option without duplicates", () => {
     const world = arena(["ward"]);
     for (let seed = 0; seed < 40; seed++) {
-      const choices = drawCards(world.player, world.stacks, seededRandom(seed));
+      const choices = drawCards(world.player, world.stacks, seededRandom(seed), "chest", 1);
       expect(new Set(choices).size).toBe(3);
       const cards = choices.map((id) => CARDS.find((card) => card.id === id));
       expect(cards.filter((card) => card?.synergy === "bastion")).toHaveLength(2);
@@ -277,14 +277,14 @@ describe("critical hits, real lifesteal and overheal", () => {
     world.player.hp = 40;
     const target = stationary(world, { hp: 2 });
     hit(world, target, 100);
-    expect(world.player.hp).toBeCloseTo(40.08, 6);
-    expect(world.healingDone).toBeCloseTo(0.08, 6);
+    expect(world.player.hp).toBeCloseTo(40.068, 6);
+    expect(world.healingDone).toBeCloseTo(0.068, 6);
     const chest = world.chests.acquire();
     if (!chest) throw new Error("No chest");
     Object.assign(chest, { id: 9999, x: 225, y: 400, hp: 36, maxHp: 36, age: 0 });
     world.player.cooldown = 0;
     tick(world, 1);
-    expect(world.player.hp).toBeCloseTo(40.08, 6);
+    expect(world.player.hp).toBeCloseTo(40.068, 6);
   });
 
   test("six-layer overheal becomes a capped shield; excess card shields are preserved", () => {
@@ -294,7 +294,7 @@ describe("critical hits, real lifesteal and overheal", () => {
     const target = stationary(world, { hp: 10000, maxHp: 10000 });
     hit(world, target, 100);
     expect(world.player.hp).toBe(100);
-    expect(world.player.shield).toBeCloseTo(14, 6);
+    expect(world.player.shield).toBeCloseTo(11.825, 6);
     for (let index = 0; index < 10; index++) hit(world, target, 100);
     expect(world.player.shield).toBeCloseTo(40, 6);
     world.player.shield = 100;

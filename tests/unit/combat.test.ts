@@ -401,12 +401,12 @@ describe("boss counterplay, execution and endings", () => {
     },
   );
 
-  test("timeout ends the run and terminal state freezes coordinates and attacks", () => {
+  test("health exhaustion ends the run and terminal state freezes coordinates and attacks", () => {
     const world = arena();
-    world.stageElapsed = world.stage.deadline - 0.01;
+    world.player.hp = 0;
     tick(world, 0.02);
     expect(world.phase).toBe("GameOver");
-    expect(world.endingReason).toBe("timeout");
+    expect(world.endingReason).toBe("health");
     const before = world.snapshot();
     tick(world, 1);
     expect(world.snapshot()).toEqual(before);

@@ -3,6 +3,7 @@ import { ENEMIES } from "../data/enemies";
 import { STAGES, stageAt } from "../data/stages";
 import { SYNERGY_BY_ID, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
 import { REWARD_BY_ID, TRAINING_BY_ID } from "../data/training";
+import { CONFIG } from "../game/config";
 import { combatStats, overhealStats } from "../game/stats";
 import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../game/synergies";
 import { attackPermitted } from "../game/systems/enemy";
@@ -46,6 +47,9 @@ export class GameUI {
   private readonly synergies = element("#synergies");
   private readonly stageLabel = element("#stage-label");
   private readonly stageRoute = element("#stage-route");
+  private readonly build = element<HTMLDialogElement>("#build-dialog");
+  private readonly scoreValue = element("#score-value");
+  private readonly scoreProgress = element("#score-progress");
   private readonly help = element<HTMLDialogElement>("#help-dialog");
   private lastPhase: Phase | undefined;
   private lastReward = 0;
@@ -70,12 +74,27 @@ export class GameUI {
         this.help.showModal();
       });
     });
-    element("#close-help").addEventListener("click", () => this.help.close());
-    this.help.addEventListener("close", () => {
-      this.overlay.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+    element("#build-trigger").addEventListener("click", () => {
+      if (world.phase === "Playing") world.pause();
+      this.build.showModal();
     });
+    element("#close-build").addEventListener("click", () => this.build.close());
+    const fullscreen = element<HTMLButtonElement>("#fullscreen-button");
+    fullscreen.hidden = !document.fullscreenEnabled;
+    fullscreen.addEventListener("click", async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await document.documentElement.requestFullscreen();
+      } catch {
+        fullscreen.textContent = "请按 F11 全屏";
+      }
+    });
+    document.addEventListener("fullscreenchange", () => {
+      fullscreen.textContent = document.fullscreenElement ? "退出全屏" : "全屏";
+    });
+    element("#close-help").addEventListener("click", () => this.help.close());
     window.addEventListener("keydown", (event) => {
-      if (this.help.open || this.fatal) return;
+      if (this.help.open || this.build.open || this.fatal) return;
       if ((event.key === "Escape" || event.key.toLowerCase() === "p") && !event.repeat) {
         event.preventDefault();
         this.togglePause();
@@ -138,7 +157,7 @@ export class GameUI {
     this.shieldValue.textContent = player.shield > 0 ? `+${Math.ceil(player.shield)} 护盾` : "";
     this.statusEffects.textContent = [
       world.sanctuaryRemaining > 0
-        ? `遗世庇护 ${world.sanctuaryRemaining.toFixed(1)}s · 已净化 · 倒计时冻结`
+        ? `遗世庇护 ${world.sanctuaryRemaining.toFixed(1)}s · 已净化 · 敌方时序冻结`
         : "",
       player.poisonTime > 0
         ? `中毒 ${player.poisonTime.toFixed(1)}s · 每秒 ${(6 * player.poisonPotency).toFixed(1)} 伤害 · 重伤：治疗 -90%`
@@ -157,13 +176,15 @@ export class GameUI {
       `累计 ${formatTime(world.elapsed)}，本关 ${formatTime(world.stageElapsed)}`,
     );
     this.stageLabel.textContent = `${world.endless ? "无尽" : `第 ${world.stageIndex + 1} / ${STAGES.length} 关`} · ${world.stage.name}`;
-    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} / ${formatTime(world.stage.deadline)}${world.sanctuaryRemaining > 0 ? " · 倒计时已冻结" : ""}${world.endless ? ` · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
+    this.stageRoute.textContent = `${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制${world.sanctuaryRemaining > 0 ? " · 敌方时序已冻结" : ""}${world.endless ? ` · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/3` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? "等待共鸣"
         : world.bossSpawned
           ? "首领战 · 集中火力"
           : `第 ${world.wave} 波 · 残响涌动`;
+    this.scoreValue.textContent = `${world.score.toLocaleString("zh-CN")} 分`;
+    this.scoreProgress.textContent = `分数锻体已发 ${world.scoreTrainings} 张 · 下一张 ${(world.scoreTrainings + 1) * CONFIG.scoreTrainingInterval} 分${world.lastScoreTraining ? ` · 最近获得：${TRAINING_BY_ID.get(world.lastScoreTraining)?.name}` : ""}`;
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
@@ -210,7 +231,7 @@ export class GameUI {
           "暴击率 / 倍率",
           `${Math.round(effective.critChance * 100)}% / ${effective.critDamage.toFixed(2)}×`,
         ],
-        ["bloodpact", "普攻吸血", `${Math.round(effective.lifesteal * 100)}%`],
+        ["bloodpact", "普攻吸血", `${Number((effective.lifesteal * 100).toFixed(2))}%`],
         [
           "ward",
           "过量转盾 / 储量",
@@ -262,7 +283,7 @@ export class GameUI {
         this.collection.innerHTML =
           '<div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>击破宝箱，<br/>收集你的第一张卡牌。</p></div>';
       if (world.trainingStacks.size > 0) {
-        this.collection.innerHTML += `<p class="build-caption">首领锻体 · 不计入羁绊</p>${[
+        this.collection.innerHTML += `<p class="build-caption">本局锻体 · 首领或分数获得 · 不计入羁绊</p>${[
           ...world.trainingStacks,
         ]
           .map(([id, count]) => {
@@ -316,7 +337,7 @@ export class GameUI {
       const next = stageAt(world.stageIndex + 1);
       const supply = reward.source === "supply";
       const finale = stageClear && world.stageIndex === STAGES.length - 1;
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? "本关固定三次随机补给 · 首领另有锻体与残响三选一" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${stageClear ? `第 ${world.stageIndex + 1} 关突破` : supply ? `无尽随机补给 ${world.stageSupplies} / 3` : "选择一道残响"}</h2><p>${stageClear ? `${finale ? "选择奖励后完成战役" : `下一站：${next.name} · 保留构筑，恢复 35 生命`} · 两项锻体与一张残响三选一` : supply ? "本关固定三次随机补给 · 首领另有锻体与残响三选一" : "同流派 3 / 6 / 9 层质变 · 重复升级计入"}</p>${stageClear && !finale ? `<p class="next-stage-rule">${next.subtitle}</p>` : ""}<div class="reward-choices">${choices}</div><p class="modal-hint">${stageClear ? (finale ? "选择一项，完成战役" : "选择一项，进入下一关") : "选择一张，立即强化"} · 战斗已暂停</p></section>`;
       this.bindActions();
       this.focusOverlay();
       return;
@@ -325,13 +346,11 @@ export class GameUI {
       description =
         phase === "Victory"
           ? `四关已突破。构筑仍在，继续无尽，让这套牌尽兴。`
-          : world.endingReason === "timeout"
-            ? "仪式已失控。下一次，更早击碎圣杯。"
-            : "这不是终点，只是另一轮命运的起点。";
+          : "生命已耗尽。这不是终点，只是另一轮命运的起点。";
       extra = `<p class="run-progress">已突破 ${world.clearedStages} 关 · ${world.stage.name}</p><dl class="result-stats"><div><dt>存续时间</dt><dd>${formatTime(world.elapsed)}</dd></div><div><dt>击破敌人</dt><dd>${world.kills}</dd></div><div><dt>收集残响</dt><dd>${[...world.stacks.values()].reduce((sum, count) => sum + count, 0)}</dd></div><div><dt>本局得分</dt><dd>${world.score}</dd></div></dl>`;
       buttons = `${phase === "Victory" ? '<button type="button" class="button button-primary" data-action="endless">继续无尽 · 保留构筑</button>' : ""}<button type="button" class="button ${phase === "Victory" ? "button-quiet" : "button-primary"}" data-action="start">再次共鸣</button><button type="button" class="button button-quiet" data-action="menu">返回开始界面</button>`;
     }
-    this.overlay.innerHTML = `<section class="modal ${phase === "Victory" ? "victory-modal" : ""}" role="dialog" aria-modal="true" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${title}</h2><p>${description}</p>${phase === "Victory" || phase === "GameOver" ? extra : ""}<div class="modal-actions">${buttons}</div>${phase === "Victory" || phase === "GameOver" ? "" : extra}</section>`;
+    this.overlay.innerHTML = `<section class="modal ${phase === "Victory" ? "victory-modal" : ""}" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${title}</h2><p>${description}</p>${phase === "Victory" || phase === "GameOver" ? extra : ""}<div class="modal-actions">${buttons}</div>${phase === "Victory" || phase === "GameOver" ? "" : extra}</section>`;
     this.bindActions();
     this.focusOverlay();
   }
@@ -350,26 +369,24 @@ export class GameUI {
   }
 
   private focusOverlay(): void {
-    this.overlay.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+    if (!this.help.open && !this.build.open)
+      this.overlay.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
   }
 
   private trapFocus(event: KeyboardEvent): void {
-    const buttons = [...this.overlay.querySelectorAll<HTMLButtonElement>("button:not([disabled])")];
-    const first = buttons[0];
-    const last = buttons.at(-1);
-    if (
-      event.shiftKey &&
-      (document.activeElement === first || !this.overlay.contains(document.activeElement))
-    ) {
-      event.preventDefault();
-      last?.focus({ preventScroll: true });
-    } else if (
-      !event.shiftKey &&
-      (document.activeElement === last || !this.overlay.contains(document.activeElement))
-    ) {
-      event.preventDefault();
-      first?.focus({ preventScroll: true });
-    }
+    const buttons = [
+      ...document.querySelectorAll<HTMLButtonElement>(
+        ".header-actions button:not([disabled]):not([hidden])",
+      ),
+      ...this.overlay.querySelectorAll<HTMLButtonElement>("button:not([disabled])"),
+    ];
+    if (buttons.length === 0) return;
+    const index = buttons.indexOf(document.activeElement as HTMLButtonElement);
+    const next = event.shiftKey
+      ? (index <= 0 ? buttons.length : index) - 1
+      : (index + 1) % buttons.length;
+    event.preventDefault();
+    buttons[next]?.focus({ preventScroll: true });
   }
 
   destroy(): void {

@@ -225,7 +225,7 @@ describe("cards and one-time rewards", () => {
     for (let i = 0; i < 20; i++)
       for (const card of CARDS.filter((card) => card.maxStacks !== null))
         applyCard(card.id, player, stacks);
-    const cards = drawCards(player, stacks, seededRandom(8));
+    const cards = drawCards(player, stacks, seededRandom(8), "chest", 1);
     expect(cards.length).toBe(3);
     expect(new Set(cards).size).toBe(3);
     expect(cards.every((id) => CARDS.find((card) => card.id === id)?.maxStacks === null)).toBe(

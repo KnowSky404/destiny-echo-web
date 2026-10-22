@@ -14,8 +14,9 @@ export async function trainingRewardFlow(page: Page, name: string, touch = false
     page,
     `
     world.stageIndex = 3; world.clearedStages = 3;
-    enemy({ kind: "boss", hp: 1 });
+    enemy({ kind: "boss", x: world.arena.player.x, defenseX: world.arena.player.x, hp: 1 });
   `,
+    touch ? 450 : 1600,
   );
   await page.clock.runFor(1000);
   await expect(page).toHaveTitle("命运残响 · Echoes of Destiny");
@@ -65,14 +66,15 @@ export async function crowdFusionFlow(page: Page, name: string, touch = false) {
     `
     world.stageIndex = 4; world.stageSupplies = 3;
     world.player.cooldown = 1000; world.player.shield = 1000000;
-    for (const [lane, x] of [55,123,327,395].entries()) for (let row=0; row<6; row++) {
+    for (const [lane, x] of world.arena.crowdLanes.entries()) for (let row=0; row<6; row++) {
       const y = 620 - row*84;
       const kind = lane < 2 && row < 2 ? "wisp" : ["wisp","tank","wizard"][(lane+row)%3];
       enemy({ kind, x, y, defenseX:x, defenseY:y, slot:row*4+lane,
         formation:true, age:4, speed:0, stage:"Attacking", shotCooldown:100 });
     }
-    enemy({ kind:"boss", x:225, y:300, speed:0, stage:"Attacking", shotCooldown:100, skillsUsed:3 });
+    enemy({ kind:"boss", x:world.arena.player.x, defenseX:world.arena.player.x, y:300, speed:0, stage:"Attacking", shotCooldown:100, skillsUsed:3 });
   `,
+    touch ? 450 : 1600,
   );
   const before = await snapshot(page);
   expect(before.enemies).toHaveLength(25);

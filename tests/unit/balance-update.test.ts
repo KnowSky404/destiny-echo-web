@@ -95,8 +95,8 @@ describe("poison's grievous wounds reduce every health recovery source by 90 per
       hit(world, target, 10);
       tick(world, 1 - CONFIG.fixedStep);
       const multiplier = poisoned ? 0.1 : 1;
-      expect(world.player.hp - 20).toBeCloseTo((1 + 2 + 10) * 1.5 * multiplier, 6);
-      expect(world.healingDone).toBeCloseTo((1 + 2 + 10) * 1.5 * multiplier, 6);
+      expect(world.player.hp - 20).toBeCloseTo((0.85 + 2 + 10) * 1.5 * multiplier, 6);
+      expect(world.healingDone).toBeCloseTo((0.85 + 2 + 10) * 1.5 * multiplier, 6);
       expect(world.player.poisonSlowTime).toBe(0);
     },
   );
@@ -152,9 +152,9 @@ describe("endless slam grows once per completed endless stage", () => {
       const target = enemy(world, { kind: "boss", y: 200, hp: 1000, maxHp: 1000, speed: 0 });
       hit(world, target, 300);
       expect(target.lastSkill).toBe("slam");
-      expect(world.player.hp).toBe(1000 - (100 + 5 * offset));
+      expect(world.player.hp).toBe(1000 - (120 + 6 * offset));
       expect(world.player.shield).toBe(500);
-      expect(world.notice).toContain(String(100 + 5 * offset));
+      expect(world.notice).toContain(String(120 + 6 * offset));
     },
   );
 });

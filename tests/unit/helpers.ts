@@ -87,8 +87,13 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
   return entity;
 }
 
-export function naturalRun(seed: number, policy: RunPolicy = "active", endless = false): World {
-  const world = new World();
+export function naturalRun(
+  seed: number,
+  policy: RunPolicy = "active",
+  endless = false,
+  width: number = CONFIG.width,
+): World {
+  const world = new World(width);
   world.start(seed);
   for (let frame = 0; frame < 120 * 650; frame++) {
     if (endless && world.phase === "Victory") world.continueEndless();

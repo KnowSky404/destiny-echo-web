@@ -17,38 +17,18 @@
         <div><h1>命运残响</h1><p>Echoes of Destiny</p></div>
       </div>
       <div class="header-rule" aria-hidden="true"><span>✧</span></div>
-      <button class="button button-quiet help-trigger" type="button">玩法说明</button>
+      <nav class="header-actions" aria-label="游戏工具"><button class="button button-quiet" id="build-trigger" type="button" aria-haspopup="dialog" aria-controls="build-dialog">本局构筑</button><button class="button button-quiet help-trigger" type="button" aria-haspopup="dialog" aria-controls="help-dialog">玩法说明</button><button class="button button-quiet" id="fullscreen-button" type="button">全屏</button></nav>
     </header>
 
     <main class="game-layout">
-      <section class="introduction" aria-labelledby="theme-title">
-        <h2 id="theme-title">圣杯失控中</h2>
-        <p class="theme-english">Grail Gone Rogue</p>
-        <div class="ornament" aria-hidden="true">✧</div>
-        <h3 class="intro-tagline">收集残响，改写终局。</h3>
-        <p class="intro-copy">失控的圣杯在无数世界间流淌，<br />残响化为星屑，坠入此地。<br />守住最后一道防线，击破宝箱，<br />收集力量，构筑属于你的命运。</p>
-        <div class="controls-guide">
-          <h3 class="small-heading">操作方式</h3>
-          <p class="target-guide">点击敌人 / 宝箱，指定优先目标<br />点击空白，恢复智能索敌</p>
-          <p>战机固定 · 自动攻击，无需连点</p>
-          <p>聚焦战场后 <kbd>T</kbd> 切换 · <kbd>C</kbd> 自动</p>
-          <p><kbd>Esc</kbd> / <kbd>P</kbd> 暂停与继续</p>
-        </div>
-        <h3 class="small-heading">核心玩法</h3>
-        <ol class="gameplay-steps">
-          <li><span>01</span><div><h4>自动攻击</h4><p>智能追踪横向目标，优先处理防线威胁。</p></div></li>
-          <li><span>02</span><div><h4>击破宝箱</h4><p>点击金色宝箱优先击破，获取随机残响。</p></div></li>
-          <li><span>03</span><div><h4>构筑命运</h4><p>累计 3 / 6 / 9 层，让十大流派逐级质变。</p></div></li>
-        </ol>
-      </section>
-
       <section class="arena-column" aria-label="游戏主界面">
         <div class="hud">
           <div class="health-block"><div class="health-label"><span class="heart" aria-hidden="true">♥</span><span>生命</span><output id="health-value">100 / 100</output><output id="shield-value"></output></div><meter class="sr-only" id="health-meter" min="0" max="100" value="100" aria-label="玩家生命"></meter><div class="health-track" aria-hidden="true"><span id="health-fill"></span></div></div>
+          <output id="score-value" class="score-value" aria-label="本局得分">0 分</output>
           <output class="timer" id="timer" aria-label="战斗用时">00:00</output>
           <button type="button" class="pause-button" id="pause-button" aria-label="暂停游戏" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></button>
         </div>
-        <div class="stage-status"><strong id="stage-label">第 1 / 4 关 · 圣杯前庭</strong><span id="stage-route">构筑贯穿整局</span></div>
+        <div class="stage-status"><strong id="stage-label">第 1 / 4 关 · 圣杯前庭</strong></div>
         <output id="status-effects" class="status-effects" aria-live="polite" hidden></output>
         <div class="arena-frame">
           <div id="game-canvas"></div>
@@ -61,21 +41,21 @@
         <noscript><p class="noscript-message">这款游戏需要 JavaScript，请在浏览器设置中启用。</p></noscript>
       </section>
 
-      <aside class="build-panel" aria-labelledby="build-title">
-        <h2 id="build-title">本局构筑</h2>
+
+    </main>
+      <dialog class="help-dialog build-dialog" id="build-dialog" aria-labelledby="build-title"><div class="dialog-header"><h2 id="build-title">本局构筑</h2><button class="button button-quiet" id="close-build" type="button">返回战场</button></div><p class="build-caption">查看时战斗暂停，关闭后可继续共鸣。</p><p id="stage-route"></p><p id="score-progress"></p><div class="build-panel">
         <div class="ornament" aria-hidden="true">✧</div>
         <dl class="stats" id="stats"></dl>
         <section class="synergies" id="synergies" aria-label="流派联动进度"></section>
         <div class="collected-cards" id="collected-cards"><div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>击破宝箱，<br />收集你的第一张卡牌。</p></div></div>
-      </aside>
-    </main>
-    <footer class="page-footer">原创几何美术<span>✧</span><a href="https://github.com/KnowSky404/destiny-echo-web" target="_blank" rel="noopener noreferrer">源代码 · AGPL-3.0-or-later</a></footer>
+</div></dialog>
     <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
       <h2 id="help-title">在残响中，改写命运。</h2>
       <p>你是最后的共鸣者。固定阵地，提前消灭威胁，击败失控的圣杯。</p>
-      <dl><dt>固定阵地与点选</dt><dd>战机始终居中，WASD、方向键和拖动不会移动。点击敌人或宝箱设为优先目标；点击空白取消。聚焦战场后用 T 切换目标、C 恢复自动，不影响 Tab 焦点。</dd><dt>自动攻击与防线</dt><dd>蓝色友方弹幕会追踪目标。蓝环敌人正在推进；近战怪抵达防线后攻击；青色蚀光术士会在场内停驻并主动远程射击，熔炉中的敌人会提前准备。金环蓄力结束后进入红环攻击阶段。提前击杀可阻止释放，已发射的粉色弹幕仍会造成伤害。护盾优先承伤。</dd><dt>宝箱与构筑</dt><dd>击破金色宝箱后战斗完全冻结，从三张不同强化中选一张。多弹可分配不同目标，穿透可继续追踪其他目标，防线裁决仅对红环攻击阶段敌人增伤。43 张构筑残响卡分属 10 个流派，包含 10 张高于稀有的史诗卡，每局每张限取一次；累计获得三张残响后补给有 25% 概率出现史诗候选，过关奖励保底一个尚未收集的史诗候选。卡牌覆盖攻击、攻速、吸血、暴击、献祭、范围、减速、护盾与控制。同流派累计 3 / 6 / 9 层触发小、中、大质变，重复升级也计入；选牌会优先延续投入最多的流派。首关宝箱和首领奖励排除永冬结界、王权禁锢及其史诗共 8 张控制卡，第二关起开放。</dd><dt>遗世庇护</dt><dd>静默王权每 8 秒展开遗世庇护，净化中毒、重伤与攻速降低，令敌方时序暂歇；持续基础 0.5 秒加每层 0.25 秒，首层 0.75 秒；王权羁绊还能延长持续，首领不减免。敌方行动、弹幕、刷怪、首领技能和关卡倒计时冻结，玩家继续攻击与治疗；敌方嘲讽失效，巫师只在选择毒素技能时施毒。六层王权将间隔缩短到 6 秒并清除敌方弹幕。暂停和选牌保留剩余时长，过关和重开清除。累计存续时间包含遗世庇护，本关倒计时冻结。</dd><dt>护盾联动</dt><dd>余血屏障将每层 10% 的战斗过量治疗转为护盾，基础储量上限为最大生命 20%；血铸容器再提高转化与储量，有盾时赤盾汲取额外吸血。重伤先降低治疗，再计算转盾；直接护盾不会被储量上限削减。</dd><dt>首领奖励与锻体</dt><dd>每个 Boss 击败后，固定两项随机锻体与一张构筑残响三选一；有可用史诗时残响位优先史诗。8 项锻体只调整本局数值，不计入羁绊，宝箱和定时补给不会出现。前三关领奖后保留构筑、回复最多 35 生命进入下一关；第四关先领奖再通关，可继续无尽。</dd><dt>终局与无尽</dt><dd>四关依次为圣杯前庭、棱镜回廊、焚星熔炉和终愿核心。战役常规出怪量与生命逐关 +50%，三兵种均衡刷新。Boss 登场和召唤都保留原有小怪及弹幕；每 2 秒尝试补充护卫，Boss 死亡才清场。前四关金色蓄力可打断。无尽最多 24 只小怪与 1 个 Boss，侧翼间距推进、中央留给 Boss；普通出怪预算最高 360，每批护卫最高 12，超额数量转为小怪生命与伤害。无尽生命逐关翻倍，游离残响、嘲讽巨像、腐毒巫师均衡刷新。同类同星三只出生满 4 秒后，彼此距离不超过 150 并连续相邻 3 秒会融合，最高 3 星：最大生命取三者最高值 ×3.5 并回满，伤害 ×2.5；紫环为融合进度，星标显示等级，吸收不算击杀。</dd><dt>敌人主动技能</dt><dd>坦克生命为游离残响 10 倍，嘲讽是持续 2.5 秒的技能；推进中每 4 秒尝试，40% 概率释放，进入攻击阶段后每次选择嘲讽或攻击。没有有效嘲讽时不强制锁定坦克。攻击区优先规则仍有效，庇护期间解除限制。巫师生命为 5 倍，每次 40% 概率释放毒素，否则远程射击，二选一；普通射击和死亡不施毒。毒持续 3 秒，基础每秒 6 伤害，受浓缩和星级增强；先扣护盾，治疗 -90%，实际扣生命时额外降低 30% 攻速 3 秒。重复毒刷新时长、保留较强倍率，不相加。</dd><dt>无尽首领</dt><dd>首领可在场内任意位置攻击，抵达防线普通伤害翻倍；剩余生命首次到 70%、40%、10% 时等概率释放减伤、召唤或重击，允许重复。减伤 90% 持续 3 秒；召唤 6 只生命和伤害 ×1.5 的强化援军，无位置时等待；重击无视护盾和无敌，首关扣 100 生命，此后每关 +5。每关随机发放 3 次残响补给，Boss 另有一次三选一奖励。生命耗尽或本关超时失败。</dd><dt>暂停</dt><dd>Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
+      <dl><dt>固定阵地与点选</dt><dd>战机始终居中，WASD、方向键和拖动不会移动。点击敌人或宝箱设为优先目标；点击空白取消。聚焦战场后用 T 切换目标、C 恢复自动，不影响 Tab 焦点。</dd><dt>自动攻击与防线</dt><dd>蓝色友方弹幕会追踪目标。蓝环敌人正在推进；近战怪抵达防线后攻击；青色蚀光术士会在场内停驻并主动远程射击，熔炉中的敌人会提前准备。金环蓄力结束后进入红环攻击阶段。提前击杀可阻止释放，已发射的粉色弹幕仍会造成伤害。护盾优先承伤。</dd><dt>宝箱与构筑</dt><dd>击破金色宝箱后战斗完全冻结，从三张不同强化中选一张。多弹可分配不同目标，穿透可继续追踪其他目标，防线裁决仅对红环攻击阶段敌人增伤。43 张构筑残响卡分属 10 个流派，包含 10 张高于稀有的史诗卡，每局每张限取一次；累计获得三张残响后补给有 25% 概率出现史诗候选，过关奖励保底一个尚未收集的史诗候选。卡牌覆盖攻击、攻速、吸血、暴击、献祭、范围、减速、护盾与控制。同流派累计 3 / 6 / 9 层触发小、中、大质变，重复升级也计入；选牌会优先延续投入最多的流派。首关宝箱和首领奖励排除永冬结界、王权禁锢、猩红渴望与不落壁垒四类卡（含史诗），首领和分数锻体排除吸血，第二关起开放。</dd><dt>遗世庇护</dt><dd>静默王权每 8 秒展开遗世庇护，净化中毒、重伤与攻速降低，令敌方时序暂歇；持续基础 0.5 秒加每层 0.25 秒，首层 0.75 秒；王权羁绊还能延长持续，首领不减免。敌方行动、弹幕、刷怪、首领技能和本关计时冻结，玩家继续攻击与治疗；敌方嘲讽失效，巫师只在选择毒素技能时施毒。六层王权将间隔缩短到 6 秒并清除敌方弹幕。暂停和选牌保留剩余时长，过关和重开清除。累计存续时间包含遗世庇护，本关计时冻结。</dd><dt>吸血与护盾联动</dt><dd>普攻吸血的卡牌、锻体、羁绊与有盾加成，先按基础比例相加并限制为 50%，再统一乘 0.85，实效上限 42.5%。例如渴血刻印每层实效 3.4%，吸血锻体每张实效 1.7%。余血屏障将每层 10% 的战斗过量治疗转为护盾，基础储量上限为最大生命 20%；血铸容器再提高转化与储量，有盾时赤盾汲取额外吸血。重伤先降低治疗，再计算转盾；直接护盾不会被储量上限削减。</dd><dt>首领奖励与锻体</dt><dd>每个 Boss 击败后，固定两项随机锻体与一张构筑残响三选一；有可用史诗时残响位优先史诗。8 项锻体只调整本局数值，不计入羁绊，宝箱和定时补给不会出现。累计每 5,000 分会自动随机获得一张锻体并立即生效，可重复，不打开选牌、不扣分。前三关领奖后保留构筑、回复最多 35 生命进入下一关；第四关先领奖再通关，可继续无尽。</dd><dt>终局与无尽</dt><dd>四关依次为圣杯前庭、棱镜回廊、焚星熔炉和终愿核心。战役常规出怪量与生命逐关 +50%，三兵种均衡刷新。Boss 登场和召唤都保留原有小怪及弹幕；每 2 秒尝试补充护卫，Boss 死亡才清场。前四关金色蓄力可打断。无尽最多 24 只小怪与 1 个 Boss，侧翼间距推进、中央留给 Boss；普通出怪预算最高 360，每批护卫最高 12，超额数量转为小怪生命与伤害。无尽生命逐关翻倍，游离残响、嘲讽巨像、腐毒巫师均衡刷新。同类同星三只出生满 4 秒后，彼此距离不超过 150 并连续相邻 3 秒会融合，最高 3 星：最大生命取三者最高值 ×3.5 并回满，伤害 ×2.5；紫环为融合进度，星标显示等级，吸收不算击杀。</dd><dt>敌人主动技能</dt><dd>坦克生命为游离残响 10 倍，嘲讽是持续 2.5 秒的技能；推进中每 3.2 秒尝试，40% 概率释放，进入攻击阶段后每次选择嘲讽或攻击。没有有效嘲讽时不强制锁定坦克。攻击区优先规则仍有效，庇护期间解除限制。巫师生命为 5 倍，每次 40% 概率释放毒素，否则远程射击，二选一；普通射击和死亡不施毒。毒持续 3 秒，基础每秒 6 伤害，受浓缩和星级增强；先扣护盾，治疗 -90%，实际扣生命时额外降低 30% 攻速 3 秒。重复毒刷新时长、保留较强倍率，不相加。</dd><dt>无尽首领</dt><dd>首领可在场内任意位置攻击，抵达防线普通伤害翻倍；剩余生命首次到 70%、40%、10% 时等概率释放减伤、召唤或重击，允许重复。减伤 90% 持续 3 秒；召唤 6 只生命和伤害 ×1.5 的强化援军，无位置时等待；重击无视护盾和无敌，首关扣 120 生命，此后每关 +6。每关随机发放 3 次残响补给，Boss 另有一次三选一奖励。无尽怪物伤害（含毒素与重击）提高 20%，攻击间隔与准备时间缩短 20%。所有关卡无时间限制，玩家生命归零才失败，Boss 生命归零过关。</dd><dt>桌面界面与暂停</dt><dd>桌面使用横向大屏战场；顶部「本局构筑」收纳属性、卡组、羁绊和分数锻体进度，玩法说明点击查看。打开面板暂停，关闭后手动继续。全屏按钮或 F11 扩大视野。Esc / P 或右上角暂停按钮。切换到后台会暂停；返回后手动继续。选牌时不可跳过奖励。</dd></dl>
       <p><a href="https://github.com/KnowSky404/destiny-echo-web/wiki" target="_blank" rel="noopener noreferrer">完整游戏 Wiki：卡牌、怪物、羁绊与机制</a></p>
-      <button class="button button-primary" id="close-help" type="button">明白了</button>
+          <footer class="page-footer">原创几何美术<span>✧</span><a href="https://github.com/KnowSky404/destiny-echo-web" target="_blank" rel="noopener noreferrer">源代码 · AGPL-3.0-or-later</a></footer>
+<button class="button button-primary" id="close-help" type="button">明白了</button>
     </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>
