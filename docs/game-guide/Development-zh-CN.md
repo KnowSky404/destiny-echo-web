@@ -69,6 +69,18 @@ bun run docs:generate
 
 字段校验、单调版本号、导入、覆盖与临时修改详见[完整实验室契约](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-debugger.md)。应用方案只是源码变更，不会自动发布。
 
+### Balance Simulator V1
+
+维护者可在 Bun 中无渲染运行正式 World，以固定种子比较自然选牌与目标策略、逻辑布局和数值方案。CLI 提供 JSON/CSV/Markdown 报告、基线配对比较、有预算上限的单因素扫描及确定性单局复现：
+
+```sh
+bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke
+```
+
+PRE 导出的已保存方案 JSON 可直接作为 CLI 输入；实验候选沿用现有方案导入流程。实验入口校验摘要或 case，显示诊断并按对应方案、种子及逻辑宽度从开局准备人工试玩，不覆盖原草稿或已保存版本。人工重开不是自动回放；同策略的确定性复现使用 CLI。
+
+工具不修改正式规则或 `official.json`，也不自动执行 `balance:apply`、推送或部署。预算耗尽、死亡和无尽观察目标达成是不同结果；策略统计不等于真人通关率。完整命令、指标口径、配置与限制见[Balance Simulator 使用说明](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-simulator.md)。
+
 ## 贡献、双语说明与 Wiki
 
 从最新 origin/main 新建 worktree/分支，保留其他任务。遵循 [AGENTS.md](https://github.com/KnowSky404/destiny-echo-web/blob/main/AGENTS.md)：必要验证、原子 Conventional Commit、推送、PR、最新 head 的 Codex 审阅、rebase 合并、核对内容、清理本任务的干净 worktree 与分支。不强推，不绕过检查。

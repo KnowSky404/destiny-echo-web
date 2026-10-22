@@ -73,6 +73,18 @@ bun run docs:generate
 
 See the [complete debugger contract](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-debugger.md) for numeric validation, revision monotonicity, import and overrides. Applying a profile edits source; it does not deploy or publish anything.
 
+### Balance Simulator V1
+
+Maintainers can run the production World without rendering in Bun, using fixed seeds to compare natural reward/target strategies, logical layouts and balance profiles. The CLI provides JSON/CSV/Markdown reports, paired baseline comparisons, budgeted one-factor sweeps and deterministic single-run replay:
+
+```sh
+bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke
+```
+
+Saved-profile JSON exported by PRE works directly as CLI input; experimental candidates use the existing profile import flow. The experiment entry validates a summary or case, displays diagnostics and prepares a fresh manual run with its profile, seed and logical width, preserving existing drafts and saved versions. A manual restart is not automatic playback; use the CLI for deterministic reproduction with the same strategy.
+
+The tool changes neither production rules nor `official.json`, and never runs `balance:apply`, pushes or deploys automatically. Budget exhaustion, death and reaching an endless observation target are distinct outcomes; strategy statistics are not human completion rates. See the [Balance Simulator guide](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-simulator.md) for complete commands, metric definitions, configuration and limitations.
+
 ## Contributing and bilingual documentation
 
 Start a new worktree/branch from current `origin/main`; preserve other tasks. Follow [AGENTS.md](https://github.com/KnowSky404/destiny-echo-web/blob/main/AGENTS.md): verify, atomic Conventional Commit, push, PR, exact-current-head Codex review, rebase merge, confirm content and clean only this task's worktree/branches. Do not force push or bypass checks.

@@ -6,6 +6,14 @@
 
 [首页](Home-zh-CN.md) · [卡牌](Cards-zh-CN.md) · [流派](Builds-zh-CN.md) · [敌人](Enemies-zh-CN.md) · [关卡](Stages-zh-CN.md) · [机制](Mechanics-zh-CN.md) · [开发与发布](Development-zh-CN.md) · [版本日志](Changelog-zh-CN.md) · [配图](Gallery-zh-CN.md) · [品牌](Brand-zh-CN.md) · [验证历史](Validation-zh-CN.md)
 
+## 未发布 — Balance Simulator V1
+
+- 新增直接运行正式 World 的 Bun 固定种子自然对局 CLI，支持策略与逻辑布局分组、JSON/CSV/Markdown 报告、配对比较、有界单因素扫描和确定性单局复现。
+- PRE 增加已保存方案导出、实验摘要/case 校验及同方案同种子人工复核准备；人工重开不是策略自动回放，既有草稿和保存版本继续隔离。
+- 正式游戏规则与 `src/data/balance/official.json` 未改；候选只保存为独立实验方案，工具不会自动应用、推送或部署数值。
+- [使用说明](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-simulator.md)与[本地验收及基线报告](https://github.com/KnowSky404/destiny-echo-web/blob/main/experiments/balance/baseline-report.md)保留原先仅限本地的验收范围。后续推送、PR 审阅合并、Wiki 同步与 PRE→PRO 发布属于新增授权下的独立交付，不改写原始实验事实。
+- 源码：功能提交 `080fab5`，PR/合并提交待核验；发布检查另行记录。Wiki：待发布；PRE：待部署核验；PRO：待同一版本 PRE 验证通过后部署核验。
+
 ## 未发布 — 文档与品牌
 
 - README 与 Wiki 默认英文，增加完整简体中文对应页面和语言跳转。
