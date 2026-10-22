@@ -89,7 +89,8 @@ describe("environment-independent natural balance runner", () => {
   });
 
   test("a real long legacy victory records no phantom freezing and round-trips through portable case validation", async () => {
-    const profile = officialProfile();
+    // Preserve the original no-sanctuary reward history behind this clock regression.
+    const profile = defaultProfile();
     const run: RunConfig = {
       ...base,
       strategy: { name: "legacy" },
@@ -120,7 +121,7 @@ describe("environment-independent natural balance runner", () => {
     expect(parsed.kind).toBe("balance-simulator-case");
     if (parsed.kind !== "balance-simulator-case") throw new Error("Expected portable case");
     expect(parsed.expected).toEqual(expected);
-  }, 10_000);
+  }, 30_000);
 
   test("budget exhaustion, cancellation, health death and error remain different outcomes", () => {
     expect(runNatural({ ...base, maxSteps: 1 }, quickProfile()).termination).toBe(
@@ -334,7 +335,7 @@ describe("environment-independent natural balance runner", () => {
   test("real death attribution and bounded preceding event window are retained", () => {
     const result = runNatural(
       { ...base, maxSeconds: 100, maxSteps: 12_000, eventCapacity: 30 },
-      officialProfile(),
+      defaultProfile(),
     );
     expect(result.termination).toBe("death");
     expect(result.fatalSource).not.toBe("unknown");

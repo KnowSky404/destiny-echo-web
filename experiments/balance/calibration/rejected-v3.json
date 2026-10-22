@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "baseline": "balance-v1",
+  "id": "stage-calibration-20261022",
+  "name": "Stage calibration 2026-10-22",
+  "revision": 1,
+  "payload": {
+    "player": {
+      "hp": 100,
+      "shield": 0,
+      "stats": {
+        "damage": 12,
+        "interval": 0.34,
+        "projectiles": 1,
+        "piercing": 0,
+        "maxHp": 100,
+        "execution": 0,
+        "fuse": 0,
+        "bloodpact": 0,
+        "thorns": 0,
+        "focus": 0,
+        "harvest": 0,
+        "power": 0,
+        "crush": 0,
+        "lifesteal": 0,
+        "regeneration": 0,
+        "recovery": 0,
+        "critChance": 0,
+        "critDamage": 1.5,
+        "expose": 0,
+        "chain": 0,
+        "splash": 0,
+        "storm": 0,
+        "slow": 0,
+        "frostbite": 0,
+        "frostPulse": 0,
+        "stun": 0,
+        "control": 0,
+        "controlPulse": 0,
+        "overheal": 0,
+        "shieldCapacity": 0,
+        "shieldLeech": 0,
+        "giantSlayer": 0,
+        "giantPower": 0,
+        "giantHunt": 0,
+        "maxHealthDamage": 0,
+        "currentHealthDamage": 0,
+        "erosionPulse": 0
+      }
+    },
+    "enemies": {
+      "wisp": {
+        "hp": 50,
+        "radius": 16,
+        "speed": 112,
+        "interval": 3.2,
+        "damage": 6,
+        "score": 100,
+        "preparation": 1.4,
+        "fan": 1,
+        "shotSpeed": 155
+      },
+      "sentinel": {
+        "hp": 108,
+        "radius": 21,
+        "speed": 86,
+        "interval": 3.8,
+        "damage": 9,
+        "score": 180,
+        "preparation": 1.8,
+        "fan": 3,
+        "shotSpeed": 140
+      },
+      "hexer": {
+        "hp": 66,
+        "radius": 18,
+        "speed": 96,
+        "interval": 2.8,
+        "damage": 7,
+        "score": 160,
+        "preparation": 1.2,
+        "fan": 1,
+        "shotSpeed": 190
+      },
+      "tank": {
+        "hp": 500,
+        "radius": 23,
+        "speed": 72,
+        "interval": 4,
+        "damage": 9,
+        "score": 250,
+        "preparation": 1.8,
+        "fan": 1,
+        "shotSpeed": 140
+      },
+      "wizard": {
+        "hp": 250,
+        "radius": 19,
+        "speed": 92,
+        "interval": 3.4,
+        "damage": 7,
+        "score": 220,
+        "preparation": 1.2,
+        "fan": 1,
+        "shotSpeed": 190
+      },
+      "boss": {
+        "hp": 2000,
+        "radius": 48,
+        "speed": 112,
+        "interval": 2.7,
+        "damage": 10,
+        "score": 3000,
+        "preparation": 2,
+        "fan": 3,
+        "shotSpeed": 170
+      }
+    },
+    "endless": {
+      "healthGrowth": 1.7,
+      "damageGrowth": 1.06,
+      "timingGrowth": 0.98,
+      "damageMultiplier": 1.5,
+      "attackTiming": 0.8,
+      "populationCap": 360,
+      "escortCap": 12,
+      "summonCount": 6,
+      "supplies": 3,
+      "summonMultiplier": 1.5,
+      "slamDamage": 60,
+      "slamDamagePerStage": 5
+    },
+    "rewards": {
+      "chest": {
+        "mode": "guided",
+        "firstStageRestriction": true,
+        "epicChance": 0.25,
+        "cardWeights": {},
+        "trainingWeights": {}
+      },
+      "supply": {
+        "mode": "guided",
+        "firstStageRestriction": true,
+        "epicChance": 0.25,
+        "cardWeights": {},
+        "trainingWeights": {}
+      },
+      "stage": {
+        "mode": "guided",
+        "firstStageRestriction": true,
+        "epicChance": 0.25,
+        "cardWeights": {},
+        "trainingWeights": {}
+      }
+    },
+    "stageRules": [
+      {
+        "from": 1,
+        "to": 1,
+        "stage": {
+          "health": 0.6,
+          "damage": 0.55,
+          "attackTiming": 1.2
+        },
+        "kindWeights": null,
+        "rewards": {}
+      },
+      {
+        "from": 2,
+        "to": 2,
+        "stage": {
+          "health": 3,
+          "bossHp": 8600,
+          "interrupt": 260,
+          "speed": 1.1,
+          "attackTiming": 1
+        },
+        "kindWeights": null,
+        "rewards": {}
+      },
+      {
+        "from": 3,
+        "to": 3,
+        "stage": {
+          "health": 10.8,
+          "bossHp": 36000,
+          "interrupt": 650,
+          "damage": 1.3,
+          "speed": 1.5,
+          "attackTiming": 0.85
+        },
+        "kindWeights": null,
+        "rewards": {}
+      },
+      {
+        "from": 4,
+        "to": 4,
+        "stage": {
+          "health": 21.6,
+          "bossHp": 80000,
+          "interrupt": 1800,
+          "damage": 1.5,
+          "speed": 1.65,
+          "attackTiming": 0.75
+        },
+        "kindWeights": null,
+        "rewards": {}
+      }
+    ]
+  }
+}

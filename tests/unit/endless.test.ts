@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../../src/data/enemies";
 import { stageAt } from "../../src/data/stages";
 import { CONFIG } from "../../src/game/config";
@@ -6,7 +7,8 @@ import { World } from "../../src/game/world";
 import { enemy, hit } from "./helpers";
 
 function passive(index = 0) {
-  const world = new World();
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(CONFIG.width, defaultProfile());
   world.start(8);
   world.stageIndex = index;
   world.player.cooldown = 1000;

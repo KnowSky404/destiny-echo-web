@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-candidate-verification",
+  "recordedAt": "2026-10-22T21:07:57.066316+00:00",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "simulationFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "verification": {
+    "unit": {
+      "passed": 378,
+      "failed": 0,
+      "assertions": 8663155,
+      "files": 26,
+      "seconds": 58.9
+    },
+    "typecheck": "passed",
+    "lint": {
+      "passed": true,
+      "files": 150
+    },
+    "docsGenerateAndCheck": "passed after manual stage/endless prose review; rules d09d3d1fd1fe97df5043abe377785d324fc9fd49279bbfcc68846b8591d7b4b7"
+  },
+  "fixtureCorrection": "Only historical no-Sanctuary legacy regression anchors original baseline reward history; all25 assertions preserved and targeted/full rerun pass. Actual official default-v-explicit and other natural official paths remain intact. Initial failure preserves legitimate3 Sanctuary activations under F and is not a simulation error.",
+  "logs": {
+    "unit": {
+      "path": "/tmp/destiny-calibration-v5-unit-final-rerun.log",
+      "sha256": "75d006d6a07c35512217e2310a2549bddc34e94de8a2e5ac1f0a93bace1d9e32",
+      "exitCode": 0
+    },
+    "initialUnit": {
+      "path": "/tmp/destiny-calibration-v5-unit-final.log",
+      "sha256": "635628f6688c5518f2c9d6ff7b055325b044c9eae13666f9986a6b033c334adf",
+      "exitCode": 1
+    },
+    "legacyFixture": {
+      "path": "/tmp/destiny-calibration-v5-legacy-no-freeze-fixture.log",
+      "sha256": "110e91683ff109cbcae7d1bf53097f9d07eb30cc21c403904967de2e7c3b84a2",
+      "exitCode": 0
+    },
+    "typecheck": {
+      "path": "/tmp/destiny-calibration-v5-typecheck-final.log",
+      "sha256": "343fb16f28b5c96a9931c014b52d65ef09aa0337731348de7e8a1c9c8a4fa399",
+      "exitCode": 0
+    },
+    "lint": {
+      "path": "/tmp/destiny-calibration-v5-lint-final.log",
+      "sha256": "bc8c6d51d4b9df7ed4356ab7a5f4bf4eade4068b5e985f117eafc55f4ab8c2fb",
+      "exitCode": 0
+    }
+  },
+  "sourceFilesStillFrozen": true,
+  "adoptionStatus": "Local verification only; complete numerical phases, review, merge, Wiki, PRE and PRO are separate gates."
+}

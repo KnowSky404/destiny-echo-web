@@ -1,0 +1,1902 @@
+{
+  "schemaVersion": 1,
+  "kind": "known-tail-external-profile-exploration",
+  "adoptionEligible": false,
+  "createdAt": "2026-10-22T18:34:26.115630+00:00",
+  "sourceCodeFingerprintAtExploration": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+  "baseProfileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+  "baseV2Rejected": true,
+  "counts": {
+    "planned": 68,
+    "completed": 68,
+    "knownCases": 17,
+    "profiles": 4,
+    "campaignVictory": 66,
+    "death": 0,
+    "budgetExhausted": 2,
+    "prefixChecksPassed": 68
+  },
+  "caseSelection": "17 known slow representatives selected by predeclared top2 final-stage and top1 post-Boss per6 strategy-layout groups plus both known timeout cases; intentionally biased diagnostics, not an estimated win rate.",
+  "masterSeedsUsed": [20261022, 20261023],
+  "newHoldoutMaster20261026Touched": false,
+  "budgets": {
+    "maxSeconds": 650,
+    "maxSteps": 78000
+  },
+  "parameterScope": {
+    "path": "payload.stageRules.3.stage.health",
+    "base": 32.4,
+    "values": [29.16, 27, 24.3, 21.6],
+    "bossHpUnchanged": 80000
+  },
+  "sourceCellsArchiveRoot": "artifacts/balance/calibration-v2-rejected/cells",
+  "cases": [
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 450,
+      "seed": 2670192350,
+      "reasons": ["top-2-stage-four-clear", "top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-random-auto-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-random-auto-portrait/runs.jsonl",
+        "runsSha256": "76cb04f49bdc3cb3ec1f67824d5c378b2ae10af862d022cfd50e0f5d139153e6",
+        "runId": "run-106",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 538.4499999996747,
+      "stageFourSeconds": 255.00833333310146,
+      "bossSeconds": 134.07499999987806,
+      "postBossSeconds": 72.92499999993373,
+      "enemyAttacks": 2214,
+      "hostileHpLoss": 3588,
+      "shieldAbsorbed": 0,
+      "key": "random-auto/450/2670192350"
+    },
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 450,
+      "seed": 972804826,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-random-auto-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-random-auto-portrait/runs.jsonl",
+        "runsSha256": "76cb04f49bdc3cb3ec1f67824d5c378b2ae10af862d022cfd50e0f5d139153e6",
+        "runId": "run-192",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 575.6749999996408,
+      "stageFourSeconds": 244.70833333311083,
+      "bossSeconds": 169.54166666651253,
+      "postBossSeconds": 27.158333333308633,
+      "enemyAttacks": 2135,
+      "hostileHpLoss": 3141.362689413292,
+      "shieldAbsorbed": 253.13731058671075,
+      "key": "random-auto/450/972804826"
+    },
+    {
+      "phase": "selection",
+      "strategy": "random-auto",
+      "width": 1600,
+      "seed": 3280259359,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "selection-random-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/selection-random-auto-desktop/runs.jsonl",
+        "runsSha256": "75a1054f588be7efd71434115006e91e876b70f7768d084a5f6c9dbf0ff028e7",
+        "runId": "run-179",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/selection-random-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 473.3083333330672,
+      "stageFourSeconds": 178.74999999983743,
+      "bossSeconds": 122.9916666665548,
+      "postBossSeconds": 7.749999999992951,
+      "enemyAttacks": 2007,
+      "hostileHpLoss": 2399.7825233167164,
+      "shieldAbsorbed": 234.21747668328453,
+      "key": "random-auto/1600/3280259359"
+    },
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 1600,
+      "seed": 2161393534,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-random-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-random-auto-desktop/runs.jsonl",
+        "runsSha256": "311728c44c679d962d0f85d26da58b3c4c07482f4718a345396241d006ca1855",
+        "runId": "run-109",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 476.9583333330639,
+      "stageFourSeconds": 176.45833333317285,
+      "bossSeconds": 114.04999999989627,
+      "postBossSeconds": 14.399999999986903,
+      "enemyAttacks": 1910,
+      "hostileHpLoss": 2652,
+      "shieldAbsorbed": 0,
+      "key": "random-auto/1600/2161393534"
+    },
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 1600,
+      "seed": 1658099672,
+      "reasons": ["top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-random-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-random-auto-desktop/runs.jsonl",
+        "runsSha256": "311728c44c679d962d0f85d26da58b3c4c07482f4718a345396241d006ca1855",
+        "runId": "run-108",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-random-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 373.9083333331576,
+      "stageFourSeconds": 143.57499999986942,
+      "bossSeconds": 74.54166666659887,
+      "postBossSeconds": 21.024999999980878,
+      "enemyAttacks": 1819,
+      "hostileHpLoss": 1983,
+      "shieldAbsorbed": 0,
+      "key": "random-auto/1600/1658099672"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 450,
+      "seed": 3865076574,
+      "reasons": ["top-2-stage-four-clear", "top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-build-auto-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+        "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1",
+        "runId": "run-117",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 464.7666666664083,
+      "stageFourSeconds": 216.4666666664698,
+      "bossSeconds": 118.39166666655899,
+      "postBossSeconds": 50.06666666662113,
+      "enemyAttacks": 1789,
+      "hostileHpLoss": 2920.5,
+      "shieldAbsorbed": 0,
+      "key": "build-auto/450/3865076574"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 450,
+      "seed": 659117829,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-build-auto-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+        "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1",
+        "runId": "run-197",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 462.13333333307736,
+      "stageFourSeconds": 201.08333333315045,
+      "bossSeconds": 125.99166666655208,
+      "postBossSeconds": 27.0833333333087,
+      "enemyAttacks": 1529,
+      "hostileHpLoss": 2710.5,
+      "shieldAbsorbed": 0,
+      "key": "build-auto/450/659117829"
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-auto",
+      "width": 1600,
+      "seed": 553415033,
+      "reasons": ["top-2-stage-four-clear", "V1-selection-budget-failure-and-V2-long-tail"],
+      "source": {
+        "cell": "selection-build-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/selection-build-auto-desktop/runs.jsonl",
+        "runsSha256": "9f049209c2074c8a3ccfe21b0eef68545e28f9d8ce734601f353236a5c447b68",
+        "runId": "run-169",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/selection-build-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 620.1999999996003,
+      "stageFourSeconds": 252.50833333310374,
+      "bossSeconds": 191.50833333315921,
+      "postBossSeconds": 12.99166666665485,
+      "enemyAttacks": 3191,
+      "hostileHpLoss": 3681,
+      "shieldAbsorbed": 0,
+      "key": "build-auto/1600/553415033"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 1600,
+      "seed": 4069419063,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-build-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-build-auto-desktop/runs.jsonl",
+        "runsSha256": "05fa4735d08d3c53181b4291cdd0baee999e4c82bcc60bb80df9cdb235d3b358",
+        "runId": "run-103",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 464.78333333307495,
+      "stageFourSeconds": 198.24166666648637,
+      "bossSeconds": 106.99166666656936,
+      "postBossSeconds": 37.241666666632796,
+      "enemyAttacks": 2265,
+      "hostileHpLoss": 2545.5,
+      "shieldAbsorbed": 0,
+      "key": "build-auto/1600/4069419063"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 1600,
+      "seed": 1319850541,
+      "reasons": ["top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-build-auto-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-build-auto-desktop/runs.jsonl",
+        "runsSha256": "05fa4735d08d3c53181b4291cdd0baee999e4c82bcc60bb80df9cdb235d3b358",
+        "runId": "run-153",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 426.7166666664429,
+      "stageFourSeconds": 148.15833333319858,
+      "bossSeconds": 38.324999999965144,
+      "postBossSeconds": 61.82499999994377,
+      "enemyAttacks": 1659,
+      "hostileHpLoss": 1968,
+      "shieldAbsorbed": 0,
+      "key": "build-auto/1600/1319850541"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 450,
+      "seed": 1079423143,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-build-active-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-build-active-portrait/runs.jsonl",
+        "runsSha256": "935c0741a24d36d13de4901ef96045853d3a1c1af13da1a40496410c355d01ef",
+        "runId": "run-193",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 434.82499999976886,
+      "stageFourSeconds": 190.1916666664937,
+      "bossSeconds": 104.29999999990514,
+      "postBossSeconds": 37.88333333329888,
+      "enemyAttacks": 1594,
+      "hostileHpLoss": 2556,
+      "shieldAbsorbed": 0,
+      "key": "build-active/450/1079423143"
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-active",
+      "width": 450,
+      "seed": 3054558489,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "selection-build-active-portrait",
+        "path": "artifacts/balance/calibration-cells/selection-build-active-portrait/runs.jsonl",
+        "runsSha256": "5cb630b92fbbfa5b3f63cfeaba397e8cc573b95cd58b13936cccae2a1f21c26b",
+        "runId": "run-175",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/selection-build-active-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 454.5499999997509,
+      "stageFourSeconds": 183.78333333316618,
+      "bossSeconds": 107.81666666656861,
+      "postBossSeconds": 27.958333333307905,
+      "enemyAttacks": 1573,
+      "hostileHpLoss": 2446.5,
+      "shieldAbsorbed": 0,
+      "key": "build-active/450/3054558489"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 450,
+      "seed": 261666330,
+      "reasons": ["top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-build-active-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-build-active-portrait/runs.jsonl",
+        "runsSha256": "935c0741a24d36d13de4901ef96045853d3a1c1af13da1a40496410c355d01ef",
+        "runId": "run-127",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-portrait/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 428.18333333310824,
+      "stageFourSeconds": 165.17499999984977,
+      "bossSeconds": 42.29999999996153,
+      "postBossSeconds": 74.86666666659858,
+      "enemyAttacks": 1060,
+      "hostileHpLoss": 1891.5,
+      "shieldAbsorbed": 24,
+      "key": "build-active/450/261666330"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 1600,
+      "seed": 3903680035,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "validation-build-active-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-build-active-desktop/runs.jsonl",
+        "runsSha256": "fbfb74eca11755d8fac5badde198af42582f8e928d45975339258b35030c5efc",
+        "runId": "run-150",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 404.72499999979624,
+      "stageFourSeconds": 143.99999999986903,
+      "bossSeconds": 79.15833333326134,
+      "postBossSeconds": 12.333333333322116,
+      "enemyAttacks": 1289,
+      "hostileHpLoss": 1293.363872300492,
+      "shieldAbsorbed": 581.6361276995077,
+      "key": "build-active/1600/3903680035"
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-active",
+      "width": 1600,
+      "seed": 2288945874,
+      "reasons": ["top-2-stage-four-clear"],
+      "source": {
+        "cell": "selection-build-active-desktop",
+        "path": "artifacts/balance/calibration-cells/selection-build-active-desktop/runs.jsonl",
+        "runsSha256": "8fc14e9a6f436bcdad40bd4a93af412176e4ed664bce43e9026f8ed9e19d7b1c",
+        "runId": "run-200",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/selection-build-active-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 400.3999999998002,
+      "stageFourSeconds": 138.85833333320704,
+      "bossSeconds": 68.94999999993729,
+      "postBossSeconds": 17.399999999984175,
+      "enemyAttacks": 1332,
+      "hostileHpLoss": 1819.5,
+      "shieldAbsorbed": 0,
+      "key": "build-active/1600/2288945874"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 1600,
+      "seed": 2934813323,
+      "reasons": ["top-1-post-boss-clear"],
+      "source": {
+        "cell": "validation-build-active-desktop",
+        "path": "artifacts/balance/calibration-cells/validation-build-active-desktop/runs.jsonl",
+        "runsSha256": "fbfb74eca11755d8fac5badde198af42582f8e928d45975339258b35030c5efc",
+        "runId": "run-119",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-active-desktop/runs.jsonl"
+      },
+      "termination": "campaign_victory",
+      "playerSeconds": 335.9916666665254,
+      "stageFourSeconds": 115.4166666665617,
+      "bossSeconds": 32.67499999997028,
+      "postBossSeconds": 26.933333333308838,
+      "enemyAttacks": 1132,
+      "hostileHpLoss": 1353,
+      "shieldAbsorbed": 0,
+      "key": "build-active/1600/2934813323"
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 450,
+      "seed": 10880895,
+      "reasons": ["V2-independent-validation-budget-failure"],
+      "source": {
+        "cell": "validation-build-auto-portrait",
+        "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+        "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1",
+        "runId": "run-176",
+        "archivedPath": "artifacts/balance/calibration-v2-rejected/cells/validation-build-auto-portrait/runs.jsonl"
+      },
+      "termination": "budget_exhausted",
+      "playerSeconds": 649.9999999995732,
+      "stageFourSeconds": 320.98333333304146,
+      "bossSeconds": 203.19166666648192,
+      "postBossSeconds": 69.78333333326987,
+      "enemyAttacks": 2658,
+      "hostileHpLoss": 3599,
+      "shieldAbsorbed": 1060,
+      "key": "build-auto/450/10880895"
+    }
+  ],
+  "profiles": [
+    {
+      "health": 29.16,
+      "profileHash": "234be729e93b00a13a53939d0a127828bb1c750135df3249a02d6389c6521a51",
+      "directory": "artifacts/balance/exploratory-v3-minion-health/health-29.16",
+      "provenance": {
+        "manifestSha256": "8ceb23b8cb90504d31f21e797baf3138e1b6418f7a9a1f9d1423c09de0d3ea46",
+        "profileSha256": "6f079cb7cdc3a833cc1d374137025deb0e920fe7f54b85c43154d5107c12ed57",
+        "runsSha256": "208f64012a91b42b9af0d8e121bbdba91b031585a03a1eef2af1df1bd5e19fc2",
+        "scriptSha256": "11c249d4978dc8d6c0132716651d69c5ec0ca00d8d069b751c16d11595b3da12"
+      },
+      "counts": {
+        "planned": 17,
+        "completed": 17,
+        "victory": 16,
+        "death": 0,
+        "budget": 1
+      },
+      "winnerSeconds": {
+        "n": 16,
+        "p50": 453.05416666641895,
+        "p95": 581.660416666302,
+        "max": 616.6916666662702
+      },
+      "timeVsResolvedControls": {
+        "paired": 16,
+        "faster": 11,
+        "slower": 5,
+        "medianDeltaSeconds": -4.80833333332896,
+        "largestSpeedupSeconds": 87.13333333325409,
+        "largestSlowdownSeconds": 17.658333333317273
+      },
+      "stageFourPressure": {
+        "enemyAttacks": 29555,
+        "hostileHpLoss": 40475.618672222765,
+        "shieldAbsorbed": 2349.381327777239,
+        "attackedRuns": 17
+      },
+      "results": [
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 529.8249999996825,
+          "budgetHeadroomSeconds": 120.17500000031748,
+          "stageFourSeconds": 246.3833333331093,
+          "stageFourCleared": true,
+          "bossSeconds": 127.29999999988422,
+          "postBossSeconds": 71.07499999993541,
+          "enemyAttacks": 2118,
+          "hostileHpLoss": 3376.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -8.624999999992156,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/2670192350"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 569.9833333329793,
+          "budgetHeadroomSeconds": 80.01666666702067,
+          "stageFourSeconds": 239.01666666644934,
+          "stageFourCleared": true,
+          "bossSeconds": 164.14166666651744,
+          "postBossSeconds": 26.86666666664223,
+          "enemyAttacks": 2128,
+          "hostileHpLoss": 3218.020143259581,
+          "shieldAbsorbed": 237.97985674042175,
+          "deltaSecondsFromResolvedControl": -5.69166666666149,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/972804826"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 469.38333333307077,
+          "budgetHeadroomSeconds": 180.61666666692923,
+          "stageFourSeconds": 174.824999999841,
+          "stageFourCleared": true,
+          "bossSeconds": 120.99166666655663,
+          "postBossSeconds": 5.824999999994702,
+          "enemyAttacks": 1915,
+          "hostileHpLoss": 2312.147399067633,
+          "shieldAbsorbed": 242.35260093236818,
+          "deltaSecondsFromResolvedControl": -3.9249999999964302,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/3280259359"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 474.5083333330661,
+          "budgetHeadroomSeconds": 175.4916666669339,
+          "stageFourSeconds": 174.00833333317507,
+          "stageFourCleared": true,
+          "bossSeconds": 113.99166666656299,
+          "postBossSeconds": 12.008333333322412,
+          "enemyAttacks": 1795,
+          "hostileHpLoss": 2368.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -2.4499999999977717,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/2161393534"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 376.77499999982166,
+          "budgetHeadroomSeconds": 273.22500000017834,
+          "stageFourSeconds": 146.44166666653348,
+          "stageFourCleared": true,
+          "bossSeconds": 73.98333333326605,
+          "postBossSeconds": 24.449999999977763,
+          "enemyAttacks": 1789,
+          "hostileHpLoss": 2079,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 2.8666666666640594,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/1658099672"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 455.4166666664168,
+          "budgetHeadroomSeconds": 194.5833333335832,
+          "stageFourSeconds": 207.1166666664783,
+          "stageFourCleared": true,
+          "bossSeconds": 110.1749999998998,
+          "postBossSeconds": 48.93333333328883,
+          "enemyAttacks": 1703,
+          "hostileHpLoss": 2842.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -9.349999999991496,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/3865076574"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 453.62499999975176,
+          "budgetHeadroomSeconds": 196.37500000024824,
+          "stageFourSeconds": 192.57499999982485,
+          "stageFourCleared": true,
+          "bossSeconds": 119.99166666655753,
+          "postBossSeconds": 24.57499999997765,
+          "enemyAttacks": 1473,
+          "hostileHpLoss": 2575.5,
+          "shieldAbsorbed": 27,
+          "deltaSecondsFromResolvedControl": -8.508333333325595,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/659117829"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 616.6916666662702,
+          "budgetHeadroomSeconds": 33.30833333372982,
+          "stageFourSeconds": 248.9999999997736,
+          "stageFourCleared": true,
+          "bossSeconds": 186.38333333316388,
+          "postBossSeconds": 14.608333333320047,
+          "enemyAttacks": 3105,
+          "hostileHpLoss": 3799.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -3.5083333333301425,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/553415033"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 465.0333333330747,
+          "budgetHeadroomSeconds": 184.96666666692528,
+          "stageFourSeconds": 198.49166666648614,
+          "stageFourCleared": true,
+          "bossSeconds": 108.12499999990166,
+          "postBossSeconds": 36.358333333300266,
+          "enemyAttacks": 2201,
+          "hostileHpLoss": 2599.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 0.24999999999977263,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/4069419063"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 420.5749999997818,
+          "budgetHeadroomSeconds": 229.42500000021818,
+          "stageFourSeconds": 142.0166666665375,
+          "stageFourCleared": true,
+          "bossSeconds": 39.34999999996421,
+          "postBossSeconds": 54.65833333328362,
+          "enemyAttacks": 1561,
+          "hostileHpLoss": 1849.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -6.141666666661081,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/1319850541"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 452.48333333308614,
+          "budgetHeadroomSeconds": 197.51666666691386,
+          "stageFourSeconds": 207.84999999981096,
+          "stageFourCleared": true,
+          "bossSeconds": 110.11666666656652,
+          "postBossSeconds": 49.724999999954775,
+          "enemyAttacks": 1728,
+          "hostileHpLoss": 2664,
+          "shieldAbsorbed": 144,
+          "deltaSecondsFromResolvedControl": 17.658333333317273,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/1079423143"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 367.41666666649684,
+          "budgetHeadroomSeconds": 282.58333333350316,
+          "stageFourSeconds": 96.6499999999121,
+          "stageFourCleared": true,
+          "bossSeconds": 29.116666666640185,
+          "postBossSeconds": 19.524999999982242,
+          "enemyAttacks": 722,
+          "hostileHpLoss": 1221,
+          "shieldAbsorbed": 60,
+          "deltaSecondsFromResolvedControl": -87.13333333325409,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/3054558489"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 419.7333333331159,
+          "budgetHeadroomSeconds": 230.26666666688408,
+          "stageFourSeconds": 156.72499999985746,
+          "stageFourCleared": true,
+          "bossSeconds": 42.95833333329426,
+          "postBossSeconds": 65.75833333327353,
+          "enemyAttacks": 1007,
+          "hostileHpLoss": 1801.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -8.449999999992315,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/261666330"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 398.32499999980206,
+          "budgetHeadroomSeconds": 251.67500000019794,
+          "stageFourSeconds": 137.59999999987485,
+          "stageFourCleared": true,
+          "bossSeconds": 73.49999999993315,
+          "postBossSeconds": 11.591666666656124,
+          "enemyAttacks": 1180,
+          "hostileHpLoss": 1139.4511298955508,
+          "shieldAbsorbed": 578.0488701044494,
+          "deltaSecondsFromResolvedControl": -6.399999999994179,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/3903680035"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 405.5583333331288,
+          "budgetHeadroomSeconds": 244.44166666687119,
+          "stageFourSeconds": 144.01666666653568,
+          "stageFourCleared": true,
+          "bossSeconds": 72.01666666660117,
+          "postBossSeconds": 19.49166666664894,
+          "enemyAttacks": 1382,
+          "hostileHpLoss": 1849.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 5.158333333328642,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2288945874"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 337.4749999998574,
+          "budgetHeadroomSeconds": 312.5250000001426,
+          "stageFourSeconds": 116.89999999989368,
+          "stageFourCleared": true,
+          "bossSeconds": 31.44166666663807,
+          "postBossSeconds": 29.649999999973033,
+          "enemyAttacks": 1114,
+          "hostileHpLoss": 1368,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 1.4833333333319842,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2934813323"
+        },
+        {
+          "termination": "budget_exhausted",
+          "playerSeconds": 649.9999999995732,
+          "budgetHeadroomSeconds": null,
+          "stageFourSeconds": 320.98333333304146,
+          "stageFourCleared": false,
+          "bossSeconds": 200.916666666484,
+          "postBossSeconds": 72.0583333332678,
+          "enemyAttacks": 2634,
+          "hostileHpLoss": 3411.5,
+          "shieldAbsorbed": 1060,
+          "deltaSecondsFromResolvedControl": null,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/10880895"
+        }
+      ]
+    },
+    {
+      "health": 27,
+      "profileHash": "3b2afb809b9dae42c294806a1cc33cc7248959df31c9c311ca265d717d773b67",
+      "directory": "artifacts/balance/exploratory-v3-minion-health/health-27",
+      "provenance": {
+        "manifestSha256": "7846e8e15ad400f8424eead830166a8ab788b491121320a0cc2d1d501adf881a",
+        "profileSha256": "279300b7d794dd5d26db7248c083ef1a95eb703148a9036d3aac600ce9464fda",
+        "runsSha256": "30e88d164ec205098e6f6f29e5e8428a41d6c3da557fed6451e61bf0f472330c",
+        "scriptSha256": "11c249d4978dc8d6c0132716651d69c5ec0ca00d8d069b751c16d11595b3da12"
+      },
+      "counts": {
+        "planned": 17,
+        "completed": 17,
+        "victory": 16,
+        "death": 0,
+        "budget": 1
+      },
+      "winnerSeconds": {
+        "n": 16,
+        "p50": 449.6708333330887,
+        "p95": 579.529166666304,
+        "max": 614.4416666662722
+      },
+      "timeVsResolvedControls": {
+        "paired": 16,
+        "faster": 13,
+        "slower": 3,
+        "medianDeltaSeconds": -9.420833333324765,
+        "largestSpeedupSeconds": 59.283333333279415,
+        "largestSlowdownSeconds": 9.466666666658057
+      },
+      "stageFourPressure": {
+        "enemyAttacks": 28431,
+        "hostileHpLoss": 39114.78030141782,
+        "shieldAbsorbed": 2528.21969858218,
+        "attackedRuns": 17
+      },
+      "results": [
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 520.1499999996913,
+          "budgetHeadroomSeconds": 129.85000000030868,
+          "stageFourSeconds": 236.7083333331181,
+          "stageFourCleared": true,
+          "bossSeconds": 128.4249999998832,
+          "postBossSeconds": 60.27499999994524,
+          "enemyAttacks": 2032,
+          "hostileHpLoss": 3309,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -18.299999999983356,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/2670192350"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 567.8916666663146,
+          "budgetHeadroomSeconds": 82.10833333368544,
+          "stageFourSeconds": 236.92499999978457,
+          "stageFourCleared": true,
+          "bossSeconds": 164.63333333318366,
+          "postBossSeconds": 24.283333333311248,
+          "enemyAttacks": 2088,
+          "hostileHpLoss": 3089.4711919369124,
+          "shieldAbsorbed": 243.52880806308596,
+          "deltaSecondsFromResolvedControl": -7.783333333326254,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/972804826"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 468.5583333330715,
+          "budgetHeadroomSeconds": 181.44166666692848,
+          "stageFourSeconds": 173.99999999984175,
+          "stageFourCleared": true,
+          "bossSeconds": 118.30833333322573,
+          "postBossSeconds": 7.683333333326345,
+          "enemyAttacks": 1869,
+          "hostileHpLoss": 2173.182108023047,
+          "shieldAbsorbed": 261.3178919769525,
+          "deltaSecondsFromResolvedControl": -4.74999999999568,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/3280259359"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 473.6416666664002,
+          "budgetHeadroomSeconds": 176.35833333359977,
+          "stageFourSeconds": 173.1416666665092,
+          "stageFourCleared": true,
+          "bossSeconds": 113.23333333323035,
+          "postBossSeconds": 11.899999999989177,
+          "enemyAttacks": 1807,
+          "hostileHpLoss": 2407.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -3.31666666666365,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/2161393534"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 329.14166666653165,
+          "budgetHeadroomSeconds": 320.85833333346835,
+          "stageFourSeconds": 98.80833333324347,
+          "stageFourCleared": true,
+          "bossSeconds": 33.358333333302994,
+          "postBossSeconds": 17.441666666650804,
+          "enemyAttacks": 1148,
+          "hostileHpLoss": 1305,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -44.76666666662595,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/1658099672"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 450.8916666664209,
+          "budgetHeadroomSeconds": 199.10833333357908,
+          "stageFourSeconds": 202.5916666664824,
+          "stageFourCleared": true,
+          "bossSeconds": 113.29166666656363,
+          "postBossSeconds": 41.29166666662911,
+          "enemyAttacks": 1718,
+          "hostileHpLoss": 2707.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -13.87499999998738,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/3865076574"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 448.44999999975647,
+          "budgetHeadroomSeconds": 201.55000000024353,
+          "stageFourSeconds": 187.39999999982956,
+          "stageFourCleared": true,
+          "bossSeconds": 116.84999999989373,
+          "postBossSeconds": 22.541666666646165,
+          "enemyAttacks": 1435,
+          "hostileHpLoss": 2583,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -13.683333333320888,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/659117829"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 614.4416666662722,
+          "budgetHeadroomSeconds": 35.558333333727774,
+          "stageFourSeconds": 246.74999999977564,
+          "stageFourCleared": true,
+          "bossSeconds": 185.24999999983157,
+          "postBossSeconds": 13.491666666654396,
+          "enemyAttacks": 3027,
+          "hostileHpLoss": 3639,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -5.758333333328096,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/553415033"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 458.40833333308075,
+          "budgetHeadroomSeconds": 191.59166666691925,
+          "stageFourSeconds": 191.86666666649216,
+          "stageFourCleared": true,
+          "bossSeconds": 105.85833333323706,
+          "postBossSeconds": 31.999999999970896,
+          "enemyAttacks": 2140,
+          "hostileHpLoss": 2587.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -6.374999999994202,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/4069419063"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 414.0666666664544,
+          "budgetHeadroomSeconds": 235.9333333335456,
+          "stageFourSeconds": 135.5083333332101,
+          "stageFourCleared": true,
+          "bossSeconds": 37.98333333329879,
+          "postBossSeconds": 49.51666666662163,
+          "enemyAttacks": 1503,
+          "hostileHpLoss": 1777.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -12.649999999988495,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/1319850541"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 441.3416666664296,
+          "budgetHeadroomSeconds": 208.6583333335704,
+          "stageFourSeconds": 196.70833333315443,
+          "stageFourCleared": true,
+          "bossSeconds": 110.7916666665659,
+          "postBossSeconds": 37.908333333298856,
+          "enemyAttacks": 1677,
+          "hostileHpLoss": 2572.5,
+          "shieldAbsorbed": 123,
+          "deltaSecondsFromResolvedControl": 6.51666666666074,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/1079423143"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 464.016666666409,
+          "budgetHeadroomSeconds": 185.98333333359102,
+          "stageFourSeconds": 193.24999999982424,
+          "stageFourCleared": true,
+          "bossSeconds": 122.73333333322171,
+          "postBossSeconds": 22.508333333312862,
+          "enemyAttacks": 1693,
+          "hostileHpLoss": 2697,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 9.466666666658057,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/3054558489"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 368.8999999998288,
+          "budgetHeadroomSeconds": 281.1000000001712,
+          "stageFourSeconds": 105.89166666657036,
+          "stageFourCleared": true,
+          "bossSeconds": 17.924999999983697,
+          "postBossSeconds": 39.95833333329699,
+          "enemyAttacks": 673,
+          "hostileHpLoss": 1153.5,
+          "shieldAbsorbed": 24,
+          "deltaSecondsFromResolvedControl": -59.283333333279415,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/261666330"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 371.3499999998266,
+          "budgetHeadroomSeconds": 278.6500000001734,
+          "stageFourSeconds": 110.62499999989939,
+          "stageFourCleared": true,
+          "bossSeconds": 52.591666666618835,
+          "postBossSeconds": 5.524999999994975,
+          "enemyAttacks": 646,
+          "hostileHpLoss": 515.6270014578586,
+          "shieldAbsorbed": 816.3729985421415,
+          "deltaSecondsFromResolvedControl": -33.374999999969646,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/3903680035"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 389.3416666664769,
+          "budgetHeadroomSeconds": 260.6583333335231,
+          "stageFourSeconds": 127.79999999988377,
+          "stageFourCleared": true,
+          "bossSeconds": 61.499999999944066,
+          "postBossSeconds": 13.791666666654123,
+          "enemyAttacks": 1170,
+          "hostileHpLoss": 1623,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -11.058333333323276,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2288945874"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 342.2583333331864,
+          "budgetHeadroomSeconds": 307.7416666668136,
+          "stageFourSeconds": 121.68333333322266,
+          "stageFourCleared": true,
+          "bossSeconds": 36.691666666633296,
+          "postBossSeconds": 29.18333333330679,
+          "enemyAttacks": 1151,
+          "hostileHpLoss": 1524,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 6.266666666660967,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2934813323"
+        },
+        {
+          "termination": "budget_exhausted",
+          "playerSeconds": 649.9999999995732,
+          "budgetHeadroomSeconds": null,
+          "stageFourSeconds": 320.98333333304146,
+          "stageFourCleared": false,
+          "bossSeconds": 205.79166666647956,
+          "postBossSeconds": 67.18333333327223,
+          "enemyAttacks": 2654,
+          "hostileHpLoss": 3450.5,
+          "shieldAbsorbed": 1060,
+          "deltaSecondsFromResolvedControl": null,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/10880895"
+        }
+      ]
+    },
+    {
+      "health": 24.3,
+      "profileHash": "c64d0631d7d394eddaf7c710198dcfb6baa54836b12d159a6db393715a50e8e7",
+      "directory": "artifacts/balance/exploratory-v3-minion-health/health-24.3",
+      "provenance": {
+        "manifestSha256": "e8e375bead2b135b5987105c8ff1a7e8017002730e55e43710b4004f94f39d2f",
+        "profileSha256": "064f9ac3920df9ff52871de8775489c280a347fcf530d2c67e129f1231a1dbf2",
+        "runsSha256": "5518cddd34dc9f4571a63a3cc2fc335e15f7a378df5eaa2a39ef637f3fbbb58f",
+        "scriptSha256": "11c249d4978dc8d6c0132716651d69c5ec0ca00d8d069b751c16d11595b3da12"
+      },
+      "counts": {
+        "planned": 17,
+        "completed": 17,
+        "victory": 17,
+        "death": 0,
+        "budget": 0
+      },
+      "winnerSeconds": {
+        "n": 17,
+        "p50": 449.02499999975595,
+        "p95": 616.3083333329372,
+        "max": 642.141666666247
+      },
+      "timeVsResolvedControls": {
+        "paired": 16,
+        "faster": 14,
+        "slower": 2,
+        "medianDeltaSeconds": -14.262499999987028,
+        "largestSpeedupSeconds": 72.27499999993427,
+        "largestSlowdownSeconds": 19.024999999982697
+      },
+      "stageFourPressure": {
+        "enemyAttacks": 27544,
+        "hostileHpLoss": 38375.89410673339,
+        "shieldAbsorbed": 2319.1058932666083,
+        "attackedRuns": 17
+      },
+      "results": [
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 513.6749999996972,
+          "budgetHeadroomSeconds": 136.3250000003028,
+          "stageFourSeconds": 230.233333333124,
+          "stageFourCleared": true,
+          "bossSeconds": 127.19166666655099,
+          "postBossSeconds": 55.03333333328334,
+          "enemyAttacks": 2002,
+          "hostileHpLoss": 3219,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -24.774999999977467,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/2670192350"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 557.3749999996575,
+          "budgetHeadroomSeconds": 92.62500000034254,
+          "stageFourSeconds": 226.40833333312747,
+          "stageFourCleared": true,
+          "bossSeconds": 155.14166666652562,
+          "postBossSeconds": 23.25833333331218,
+          "enemyAttacks": 2005,
+          "hostileHpLoss": 2786.995075692402,
+          "shieldAbsorbed": 240.00492430759797,
+          "deltaSecondsFromResolvedControl": -18.299999999983356,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/972804826"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 458.69999999974715,
+          "budgetHeadroomSeconds": 191.30000000025285,
+          "stageFourSeconds": 164.14166666651738,
+          "stageFourCleared": true,
+          "bossSeconds": 110.45833333323287,
+          "postBossSeconds": 5.674999999994839,
+          "enemyAttacks": 1597,
+          "hostileHpLoss": 2074.229183589639,
+          "shieldAbsorbed": 265.77081641036176,
+          "deltaSecondsFromResolvedControl": -14.608333333320047,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/3280259359"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 465.49999999974096,
+          "budgetHeadroomSeconds": 184.50000000025904,
+          "stageFourSeconds": 164.99999999984993,
+          "stageFourCleared": true,
+          "bossSeconds": 108.19999999990159,
+          "postBossSeconds": 8.79166666665867,
+          "enemyAttacks": 1715,
+          "hostileHpLoss": 2284.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -11.458333333322912,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/2161393534"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 340.04166666652173,
+          "budgetHeadroomSeconds": 309.95833333347827,
+          "stageFourSeconds": 109.70833333323355,
+          "stageFourCleared": true,
+          "bossSeconds": 45.25833333329217,
+          "postBossSeconds": 16.441666666651713,
+          "enemyAttacks": 1306,
+          "hostileHpLoss": 1426.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -33.866666666635865,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/1658099672"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 438.41666666643226,
+          "budgetHeadroomSeconds": 211.58333333356774,
+          "stageFourSeconds": 190.11666666649376,
+          "stageFourCleared": true,
+          "bossSeconds": 108.75833333323442,
+          "postBossSeconds": 33.34999999996967,
+          "enemyAttacks": 1610,
+          "hostileHpLoss": 2710.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -26.349999999976035,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/3865076574"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 449.02499999975595,
+          "budgetHeadroomSeconds": 200.97500000024405,
+          "stageFourSeconds": 187.97499999982904,
+          "stageFourCleared": true,
+          "bossSeconds": 116.15833333322769,
+          "postBossSeconds": 23.80833333331168,
+          "enemyAttacks": 1424,
+          "hostileHpLoss": 2737.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -13.108333333321411,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/659117829"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 609.8499999996097,
+          "budgetHeadroomSeconds": 40.150000000390264,
+          "stageFourSeconds": 242.15833333311315,
+          "stageFourCleared": true,
+          "bossSeconds": 182.07499999983446,
+          "postBossSeconds": 12.074999999989018,
+          "enemyAttacks": 2940,
+          "hostileHpLoss": 3652.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -10.349999999990587,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/553415033"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 453.16666666641885,
+          "budgetHeadroomSeconds": 196.83333333358115,
+          "stageFourSeconds": 186.62499999983027,
+          "stageFourCleared": true,
+          "bossSeconds": 106.14166666657013,
+          "postBossSeconds": 26.47499999997592,
+          "enemyAttacks": 2078,
+          "hostileHpLoss": 2419.5,
+          "shieldAbsorbed": 24,
+          "deltaSecondsFromResolvedControl": -11.616666666656101,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/4069419063"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 405.86666666646187,
+          "budgetHeadroomSeconds": 244.13333333353813,
+          "stageFourSeconds": 127.30833333321755,
+          "stageFourCleared": true,
+          "bossSeconds": 36.27499999996701,
+          "postBossSeconds": 43.02499999996087,
+          "enemyAttacks": 1417,
+          "hostileHpLoss": 1695,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -20.849999999981037,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/1319850541"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 420.90833333311485,
+          "budgetHeadroomSeconds": 229.09166666688515,
+          "stageFourSeconds": 176.27499999983968,
+          "stageFourCleared": true,
+          "bossSeconds": 108.32499999990148,
+          "postBossSeconds": 19.94166666664853,
+          "enemyAttacks": 1499,
+          "hostileHpLoss": 2371.5,
+          "shieldAbsorbed": 24,
+          "deltaSecondsFromResolvedControl": -13.91666666665401,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/1079423143"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 473.5749999997336,
+          "budgetHeadroomSeconds": 176.42500000026638,
+          "stageFourSeconds": 202.80833333314888,
+          "stageFourCleared": true,
+          "bossSeconds": 131.97499999987997,
+          "postBossSeconds": 22.82499999997924,
+          "enemyAttacks": 1756,
+          "hostileHpLoss": 3082.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": 19.024999999982697,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/3054558489"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 410.6333333331242,
+          "budgetHeadroomSeconds": 239.3666666668758,
+          "stageFourSeconds": 147.62499999986574,
+          "stageFourCleared": true,
+          "bossSeconds": 41.974999999961824,
+          "postBossSeconds": 57.64166666661424,
+          "enemyAttacks": 964,
+          "hostileHpLoss": 1278.8540262328697,
+          "shieldAbsorbed": 438.64597376712993,
+          "deltaSecondsFromResolvedControl": -17.54999999998404,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/261666330"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 332.449999999862,
+          "budgetHeadroomSeconds": 317.550000000138,
+          "stageFourSeconds": 71.72499999993477,
+          "stageFourCleared": true,
+          "bossSeconds": 12.299999999988813,
+          "postBossSeconds": 4.41666666666265,
+          "enemyAttacks": 93,
+          "hostileHpLoss": 34.21647475718822,
+          "shieldAbsorbed": 291.2835252428117,
+          "deltaSecondsFromResolvedControl": -72.27499999993427,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/3903680035"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 399.9916666664672,
+          "budgetHeadroomSeconds": 250.0083333335328,
+          "stageFourSeconds": 138.44999999987408,
+          "stageFourCleared": true,
+          "bossSeconds": 70.68333333326905,
+          "postBossSeconds": 15.258333333319456,
+          "enemyAttacks": 1330,
+          "hostileHpLoss": 1846.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -0.40833333333296196,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2288945874"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 343.63333333318513,
+          "budgetHeadroomSeconds": 306.36666666681487,
+          "stageFourSeconds": 123.05833333322141,
+          "stageFourCleared": true,
+          "bossSeconds": 47.16666666662377,
+          "postBossSeconds": 20.083333333315068,
+          "enemyAttacks": 1215,
+          "hostileHpLoss": 1442.5993464612927,
+          "shieldAbsorbed": 6.400653538707279,
+          "deltaSecondsFromResolvedControl": 7.641666666659717,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2934813323"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 642.141666666247,
+          "budgetHeadroomSeconds": 7.858333333752967,
+          "stageFourSeconds": 313.12499999971527,
+          "stageFourCleared": true,
+          "bossSeconds": 202.5416666664825,
+          "postBossSeconds": 62.57499999994309,
+          "enemyAttacks": 2593,
+          "hostileHpLoss": 3313.5,
+          "shieldAbsorbed": 1029,
+          "deltaSecondsFromResolvedControl": null,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/10880895"
+        }
+      ]
+    },
+    {
+      "health": 21.6,
+      "profileHash": "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9",
+      "directory": "artifacts/balance/exploratory-v3-minion-health/health-21.6",
+      "provenance": {
+        "manifestSha256": "4244aff50c97ee96b082586f186893523a5e3cc95c0fc3c683f7ebb99478a825",
+        "profileSha256": "d1f632ee159fa35da870bb22c51a016e96b0a07f9c6b08e10114faba9f2d924c",
+        "runsSha256": "929737c49947b7ee407e254cb81f3f5838de0b1820d919576f0095e393851781",
+        "scriptSha256": "11c249d4978dc8d6c0132716651d69c5ec0ca00d8d069b751c16d11595b3da12"
+      },
+      "counts": {
+        "planned": 17,
+        "completed": 17,
+        "victory": 17,
+        "death": 0,
+        "budget": 0
+      },
+      "winnerSeconds": {
+        "n": 17,
+        "p50": 436.7166666664338,
+        "p95": 607.0616666662789,
+        "max": 630.7083333329241
+      },
+      "timeVsResolvedControls": {
+        "paired": 16,
+        "faster": 16,
+        "slower": 0,
+        "medianDeltaSeconds": -22.85416666664588,
+        "largestSpeedupSeconds": 83.68333333325722,
+        "largestSlowdownSeconds": 0
+      },
+      "stageFourPressure": {
+        "enemyAttacks": 25322,
+        "hostileHpLoss": 35131.710644343635,
+        "shieldAbsorbed": 2110.28935565636,
+        "attackedRuns": 17
+      },
+      "results": [
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 506.74999999970345,
+          "budgetHeadroomSeconds": 143.25000000029655,
+          "stageFourSeconds": 223.30833333313024,
+          "stageFourCleared": true,
+          "bossSeconds": 126.12499999988529,
+          "postBossSeconds": 49.174999999955276,
+          "enemyAttacks": 1959,
+          "hostileHpLoss": 3076.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -31.699999999971226,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/2670192350"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 564.0249999996514,
+          "budgetHeadroomSeconds": 85.97500000034859,
+          "stageFourSeconds": 233.05833333312142,
+          "stageFourCleared": true,
+          "bossSeconds": 163.24166666651826,
+          "postBossSeconds": 21.8083333333135,
+          "enemyAttacks": 2052,
+          "hostileHpLoss": 3118.6331310788596,
+          "shieldAbsorbed": 233.8668689211409,
+          "deltaSecondsFromResolvedControl": -11.649999999989404,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/450/972804826"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 454.61666666641753,
+          "budgetHeadroomSeconds": 195.38333333358247,
+          "stageFourSeconds": 160.05833333318776,
+          "stageFourCleared": true,
+          "bossSeconds": 107.84166666656859,
+          "postBossSeconds": 4.208333333329506,
+          "enemyAttacks": 1430,
+          "hostileHpLoss": 1931.0977504210534,
+          "shieldAbsorbed": 278.4022495789457,
+          "deltaSecondsFromResolvedControl": -18.691666666649667,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/3280259359"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 454.90833333308393,
+          "budgetHeadroomSeconds": 195.09166666691607,
+          "stageFourSeconds": 154.4083333331929,
+          "stageFourCleared": true,
+          "bossSeconds": 99.7249999999093,
+          "postBossSeconds": 6.674999999993929,
+          "enemyAttacks": 1558,
+          "hostileHpLoss": 2143.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -22.049999999979946,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/2161393534"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 337.51666666652403,
+          "budgetHeadroomSeconds": 312.48333333347597,
+          "stageFourSeconds": 107.18333333323585,
+          "stageFourCleared": true,
+          "bossSeconds": 44.14166666662652,
+          "postBossSeconds": 15.03333333331966,
+          "enemyAttacks": 1268,
+          "hostileHpLoss": 1387.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -36.39166666663357,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "random-auto/1600/1658099672"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 436.7166666664338,
+          "budgetHeadroomSeconds": 213.2833333335662,
+          "stageFourSeconds": 188.4166666664953,
+          "stageFourCleared": true,
+          "bossSeconds": 109.89166666656672,
+          "postBossSeconds": 30.516666666638912,
+          "enemyAttacks": 1632,
+          "hostileHpLoss": 2565,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -28.04999999997449,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/3865076574"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 440.558333333097,
+          "budgetHeadroomSeconds": 209.44166666690302,
+          "stageFourSeconds": 179.50833333317007,
+          "stageFourCleared": true,
+          "bossSeconds": 112.53333333323098,
+          "postBossSeconds": 18.966666666649417,
+          "enemyAttacks": 1347,
+          "hostileHpLoss": 2569.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -21.574999999980378,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/659117829"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 601.1499999996176,
+          "budgetHeadroomSeconds": 48.85000000038235,
+          "stageFourSeconds": 233.45833333312106,
+          "stageFourCleared": true,
+          "bossSeconds": 175.52499999984042,
+          "postBossSeconds": 9.924999999990973,
+          "enemyAttacks": 2789,
+          "hostileHpLoss": 3387,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -19.049999999982674,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/553415033"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 449.4583333330889,
+          "budgetHeadroomSeconds": 200.5416666669111,
+          "stageFourSeconds": 182.9166666665003,
+          "stageFourCleared": true,
+          "bossSeconds": 105.57499999990398,
+          "postBossSeconds": 23.333333333312112,
+          "enemyAttacks": 2035,
+          "hostileHpLoss": 2440.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -15.324999999986062,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/4069419063"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 399.38333333313443,
+          "budgetHeadroomSeconds": 250.61666666686557,
+          "stageFourSeconds": 120.82499999989011,
+          "stageFourCleared": true,
+          "bossSeconds": 32.85833333330345,
+          "postBossSeconds": 39.95833333329699,
+          "enemyAttacks": 1360,
+          "hostileHpLoss": 1618.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -27.333333333308474,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/1600/1319850541"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 407.28333333312725,
+          "budgetHeadroomSeconds": 242.71666666687275,
+          "stageFourSeconds": 162.64999999985207,
+          "stageFourCleared": true,
+          "bossSeconds": 99.76666666657593,
+          "postBossSeconds": 14.874999999986471,
+          "enemyAttacks": 1374,
+          "hostileHpLoss": 2223,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -27.541666666641618,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/1079423143"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 370.8666666664937,
+          "budgetHeadroomSeconds": 279.1333333335063,
+          "stageFourSeconds": 100.09999999990896,
+          "stageFourCleared": true,
+          "bossSeconds": 35.966666666633955,
+          "postBossSeconds": 16.124999999985334,
+          "enemyAttacks": 776,
+          "hostileHpLoss": 1314,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -83.68333333325722,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/3054558489"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 404.5249999997964,
+          "budgetHeadroomSeconds": 245.47500000020358,
+          "stageFourSeconds": 141.51666666653796,
+          "stageFourCleared": true,
+          "bossSeconds": 42.29999999996153,
+          "postBossSeconds": 51.20833333328676,
+          "enemyAttacks": 939,
+          "hostileHpLoss": 1696.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -23.658333333311816,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/450/261666330"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 328.7999999998653,
+          "budgetHeadroomSeconds": 321.2000000001347,
+          "stageFourSeconds": 68.07499999993809,
+          "stageFourCleared": true,
+          "bossSeconds": 9.549999999991314,
+          "postBossSeconds": 3.5166666666634683,
+          "enemyAttacks": 47,
+          "hostileHpLoss": 2.2947551136448396,
+          "shieldAbsorbed": 213.70524488635516,
+          "deltaSecondsFromResolvedControl": -75.92499999993095,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/3903680035"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 391.6083333331415,
+          "budgetHeadroomSeconds": 258.3916666668585,
+          "stageFourSeconds": 130.06666666654837,
+          "stageFourCleared": true,
+          "bossSeconds": 62.74999999994293,
+          "postBossSeconds": 13.558333333321002,
+          "enemyAttacks": 1123,
+          "hostileHpLoss": 1606.5,
+          "shieldAbsorbed": 0,
+          "deltaSecondsFromResolvedControl": -8.79166666665867,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2288945874"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 333.31666666652785,
+          "budgetHeadroomSeconds": 316.68333333347215,
+          "stageFourSeconds": 112.74166666656413,
+          "stageFourCleared": true,
+          "bossSeconds": 36.066666666633864,
+          "postBossSeconds": 20.86666666664769,
+          "enemyAttacks": 1090,
+          "hostileHpLoss": 965.6850077300818,
+          "shieldAbsorbed": 384.31499226991815,
+          "deltaSecondsFromResolvedControl": -2.674999999997567,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-active/1600/2934813323"
+        },
+        {
+          "termination": "campaign_victory",
+          "playerSeconds": 630.7083333329241,
+          "budgetHeadroomSeconds": 19.2916666670759,
+          "stageFourSeconds": 301.69166666639234,
+          "stageFourCleared": true,
+          "bossSeconds": 201.2416666664837,
+          "postBossSeconds": 52.44166666661897,
+          "enemyAttacks": 2543,
+          "hostileHpLoss": 3086,
+          "shieldAbsorbed": 1000,
+          "deltaSecondsFromResolvedControl": null,
+          "prefix": {
+            "firstThreeStages": true,
+            "preStageFourRewards": true,
+            "preStageFourEvents": true
+          },
+          "caseKey": "build-auto/450/10880895"
+        }
+      ]
+    }
+  ],
+  "recommendation": {
+    "preferredExternalHealth": 21.6,
+    "reason": "29.16 and27 retain known unresolved case;24.3 leaves7.86s margin;21.6 resolves all17 known cases with19.29s minimum margin while retaining all17 actual hostile-pressure runs and broader tail improvements. This supports a bounded candidate choice only, not adoption or guaranteed new-seed headroom.",
+    "parameterScope": "Only final-stage ordinary-enemy health multiplier32.4 to21.6; final Boss remains80000. Preserve first3stages and650-second strict gates. Natural reward/target history changes make completion times nonmonotone; retain slower cases."
+  },
+  "frozenV3AfterExploration": {
+    "profileHash": "3fe277c2223ce6fc7b8140adef861db7566f7d98fe102416a159116f39c003d9",
+    "sourceCodeFingerprint": "65b68566b7e5802757049e137f954defe7ea4ebb27f1f6a7acfce473f3061915",
+    "adoptionEligibleFromTheseProbes": false,
+    "requiredEvidence": "Complete new formal selection, newly reserved independent validation master20261026, endless and sensitivity under consistent current source and profile identities."
+  },
+  "provenance": {
+    "fullExplorationSummarySha256": "9dd50fcf327b88ff6277c75fd243e0074758d843c072ec2789a46ef2d238b4f5",
+    "resultDirectories": [
+      "artifacts/balance/exploratory-v3-minion-health/health-29.16",
+      "artifacts/balance/exploratory-v3-minion-health/health-27",
+      "artifacts/balance/exploratory-v3-minion-health/health-24.3",
+      "artifacts/balance/exploratory-v3-minion-health/health-21.6"
+    ],
+    "profileManifestAndRunsHashes": "Per-profile provenance records retain immutable original bytes and source identity.",
+    "pathNote": "Original canonical source paths are historical. archivedPath points to unchanged V2 files; all68 exploratory results retain original configs, profiles and full observations in ignored artifacts."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "prospective-expanded-validation-reservation",
+  "createdAt": "2026-10-22T19:13:05.770379+00:00",
+  "candidate": "not selected",
+  "reason": "Two independent 100-seed validation phases exposed rare unresolved high-sustain, low-output tails. Preserve both rejections, jointly review late-stage pacing and pressure, and strengthen the next independent validation rather than changing budgets.",
+  "masterSeed": 20261027,
+  "seedCount": 300,
+  "strategyNames": ["random-auto", "build-auto", "build-active"],
+  "widths": [450, 1600],
+  "profiles": ["original baseline", "future frozen candidate"],
+  "plannedRuns": 3600,
+  "maxSeconds": 650,
+  "maxSteps": 78000,
+  "outcomesInspected": false,
+  "hardGate": "Zero unresolved/budget-exhausted, invalid, runtime-error, cancelled or missing records; complete identical-source matrix.",
+  "priorInspectedValidationMasters": [20261023, 20261026],
+  "otherUnseenMastersRetained": {
+    "endless": 20261024,
+    "sensitivity": 20261025
+  },
+  "exploratoryPacingTargetBeforeCandidateChoice": {
+    "knownLongTailCampaignMaxSeconds": 550,
+    "budgetMarginSeconds": 100,
+    "interpretation": "A diagnostic design target; not an adoption substitute and not a promise for unseen games. Retain common-win slowdowns, deaths, build history and actual hostile pressure; a damage-only early death is not evidence of faster successful pacing."
+  }
+}

@@ -50,7 +50,7 @@ bun run build
 
 ## 自动化数值实验
 
-开发专用 [Balance Simulator V1](docs/balance-simulator.md) 在 Bun 中运行真实固定步长 World，直接读取 PRE 导出的方案，提供批量实验、配对比较、单因素扫描、确定性复现及 PRE 人工复核准备；不会自动应用数值或部署。
+开发专用 [Balance Simulator V1](docs/balance-simulator.md) 在 Bun 中运行真实固定步长 World，直接读取 PRE 导出的方案，提供批量实验、配对比较、单因素扫描、确定性复现及 PRE 人工复核准备；不会自动应用数值或部署。 正式关卡数值统一保存在 official 方案中，参见[本次数值校准方法与证据](docs/balance-calibration-2026-10-22.md)及[实际关卡参数表](docs/game-guide/Stages-zh-CN.md)。
 
 ```sh
 bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke

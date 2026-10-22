@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { MINION_KINDS } from "../../src/data/balance/model";
-import { defaultProfile } from "../../src/data/balance/profile";
+import { defaultProfile, officialProfile } from "../../src/data/balance/profile";
 import { CARDS } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { boot, firstReward, snapshot, start } from "./helpers";
@@ -105,6 +105,9 @@ test("saved versions survive refresh and JSON export/import without affecting a 
   const text = await readFile(file, "utf8");
   const profile = JSON.parse(text);
   expect(profile.payload.player.stats.damage).toBe(42);
+  const official = officialProfile();
+  expect(profile.payload.stageRules).toEqual(official.payload.stageRules);
+  expect(profile.revision).toBe(official.id === "default" ? 1 : official.revision + 1);
   expect(profile).not.toHaveProperty("player");
   expect(profile).not.toHaveProperty("snapshot");
   await page.reload();
@@ -113,21 +116,29 @@ test("saved versions survive refresh and JSON export/import without affecting a 
     .poll(async () => (await snapshot(page)).player.stats.damage)
     .toBeGreaterThanOrEqual(42);
   await open(page, "方案版本");
-  await expect(page.getByText("本机试验 A v1 · 下次打开时沿用", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText(`本机试验 A v${profile.revision} · 下次打开时沿用`, { exact: true }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
-  const second = page.locator(".debug-version").filter({ hasText: "本机试验 A v2" });
+  const second = page
+    .locator(".debug-version")
+    .filter({ hasText: `本机试验 A v${profile.revision + 1}` });
   await second.getByRole("button", { name: "删除本地版本", exact: true }).click();
   await page.reload();
   await expect(page.locator("canvas")).toBeVisible();
   await open(page, "方案版本");
   await page
     .locator(".debug-version")
-    .filter({ hasText: "本机试验 A v1" })
+    .filter({ hasText: `本机试验 A v${profile.revision}` })
     .getByRole("button", { name: "载入为草稿", exact: true })
     .click();
   await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
-  await expect(page.getByText("本机试验 A v3", { exact: true })).toBeVisible();
-  await expect(page.getByText("本机试验 A v2", { exact: true })).toHaveCount(0);
+  await expect(
+    page.getByText(`本机试验 A v${profile.revision + 2}`, { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText(`本机试验 A v${profile.revision + 1}`, { exact: true })).toHaveCount(
+    0,
+  );
   const context = await browser.newContext();
   try {
     const other = await context.newPage();

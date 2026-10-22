@@ -108,12 +108,14 @@ export async function bootFixture(page: Page, setup: string, width = 450) {
       contentType: "text/javascript",
       body: `
       import { World } from "/src/game/world.ts";
+      import { defaultProfile } from "/src/data/balance/profile.ts";
       import { ENEMIES } from "/src/data/enemies.ts";
       import { applyCard } from "/src/data/cards.ts";
       import { GameUI } from "/src/ui/GameUI.ts";
       import { createGame } from "/src/game/createGame.ts";
       import "/src/ui/style.css";
-      const world = new World(${width});
+      // Fixed mechanic fixtures keep their explicitly documented baseline numbers.
+      const world = new World(${width}, defaultProfile());
       world.start(3);
       world.bossSpawned = true;
       let fixtureId = 1000000;

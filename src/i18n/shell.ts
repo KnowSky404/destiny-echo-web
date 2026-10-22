@@ -1,4 +1,15 @@
+import { officialProfile } from "../data/balance/profile";
+import { STAGES } from "../data/stages";
+import { CONFIG } from "../game/config";
 import { getLocale, onLocaleChange, setLocale, t } from "./locale";
+
+const endless = officialProfile().payload.endless;
+const finale = STAGES[STAGES.length - 1];
+if (!finale) throw new Error("Missing endless baseline stage");
+const n = (value: number) => Number(value.toFixed(4));
+const thresholds = CONFIG.endless.bossThresholds.map((value) => `${n(value * 100)}%`).join(" / ");
+const firstSlam = Math.round(endless.slamDamage * endless.damageMultiplier);
+const slamGrowth = n(endless.slamDamagePerStage * endless.damageMultiplier);
 
 // These entries own the document shell and help text. Live battle content belongs to GameUI.
 const strings: Record<string, readonly [string, string]> = {
@@ -98,8 +109,8 @@ const strings: Record<string, readonly [string, string]> = {
   ],
   scalingTitle: ["无尽强度", "Endless difficulty"],
   scalingHelp: [
-    "普通伤害为 1.8×min(8,1.35×1.08^关数)，准备与间隔从 0.6 倍逐关再缩短 3%，最低 0.35 倍。首领生命至少高于同关最强三星强化坦克 25%。首领血量 70% / 40% / 10% 随机释放减伤、召唤或重击，重击首关直接扣 180 生命，之后每关 +9。每关三次补给加一次过关奖励。玩家生命归零才失败，没有超时失败。",
-    "Ordinary damage scales by 1.8 × min(8, 1.35 × 1.08^layer). Preparation and attack intervals start at 0.6× and shrink another 3% per layer, down to 0.35×. Boss HP is at least 25% above the strongest enhanced three-star tank in that layer. At 70% / 40% / 10% HP, bosses randomly use damage reduction, summons or slam. Slam directly removes 180 HP in layer one, then 9 more per layer. Each layer gives three supplies and one boss reward. Only zero player HP causes defeat; there is no timeout.",
+    `普通伤害倍率为 ${n(endless.damageMultiplier)}×min(8,${n(finale.damage)}×${n(endless.damageGrowth)}^min(关数,100))，小怪数量浓缩另乘 √P（P 为浓缩倍率）。准备与间隔从 ${n(Math.max(0.35, endless.attackTiming))} 倍开始，每过一关再乘 ${n(endless.timingGrowth)}，最低 0.35 倍。首领生命至少高于同关最强三星强化坦克 25%。首领血量 ${thresholds} 随机释放减伤、召唤或重击，重击首关直接扣 ${firstSlam} 生命，之后每关 +${slamGrowth}，最终伤害四舍五入。每关 ${endless.supplies} 次补给加一次过关奖励。玩家生命归零才失败，没有超时失败。`,
+    `Ordinary damage scales by ${n(endless.damageMultiplier)} × min(8, ${n(finale.damage)} × ${n(endless.damageGrowth)}^min(layer,100)). Minion population compression adds a separate ×√P, where P is the compression factor. Preparation and attack intervals start at ${n(Math.max(0.35, endless.attackTiming))}×, then multiply by ${n(endless.timingGrowth)} each layer, down to 0.35×. Boss HP is at least 25% above the strongest enhanced three-star tank in that layer. At ${thresholds} HP, bosses randomly use damage reduction, summons or slam. Slam directly removes ${firstSlam} HP in layer one, then ${slamGrowth} more per layer. Round final damage to the nearest integer. Each layer gives ${endless.supplies} supplies and one boss reward. Only zero player HP causes defeat; there is no timeout.`,
   ],
   pauseTitle: ["暂停与重开", "Pause and restart"],
   pauseHelp: [

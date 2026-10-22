@@ -1,0 +1,3423 @@
+{
+  "schemaVersion": 1,
+  "kind": "strategy-layout-sensitivity-interpretation-annex",
+  "round": "v5",
+  "createdAt": "2026-10-22T22:40:00.878912+00:00",
+  "adoptionEligible": false,
+  "finalAdoption": false,
+  "source": {
+    "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-sensitivity-v5-audit.json",
+    "sha256": "621cdf3c63feabf1cbf7351c4d6994cc144f1047cdd27c7466ec13d6397490ee"
+  },
+  "codeFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "planned": 288,
+  "completed": 288,
+  "counts": {
+    "campaign_victory": 159,
+    "death": 129,
+    "endless_target_reached": 0,
+    "budget_exhausted": 0,
+    "error": 0,
+    "cancelled": 0
+  },
+  "warnings": [
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/random-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    }
+  ],
+  "warningCounts": {
+    "small_sample": 18,
+    "stage_drop": 10,
+    "build_concentration": 6,
+    "target_gain": 3,
+    "layout_gap": 4
+  },
+  "sourceCode": [
+    {
+      "path": "src/balance-sim/strategies.ts",
+      "sha256": "47836ab4a076344005895ca7ba2e1a7ecf0b98f05d40d15030b306b9f377a65d"
+    },
+    {
+      "path": "src/data/cards.ts",
+      "sha256": "5cbb12fbb4807b83af21f76a4430d9e8ac05e25304af4c48aa84a185b6fa422d"
+    },
+    {
+      "path": "src/data/balance/official.json",
+      "sha256": "daf1a1cc65a4d5c9f0ded6b3d3e9f326a58f8d79f5c9f1046c2b79a983dbf482"
+    }
+  ],
+  "rawSources": [
+    {
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-1-narrow-desktop/runs.jsonl",
+      "sha256": "4b71ae934add878695c19cceda86980d54623768c5260944883602cc013a4941"
+    },
+    {
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-1-wide-desktop/runs.jsonl",
+      "sha256": "9188b59c8958ec2351d550a17df4c8d1bc21ce7b8c3ee8076f08f71035addae2"
+    },
+    {
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-1-narrow-desktop/runs.jsonl",
+      "sha256": "a40d76d27dc1c0e237ee66100ce91bbc7e30428b7a212c8ee647947b635373b7"
+    },
+    {
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-1-wide-desktop/runs.jsonl",
+      "sha256": "05e6caef3e0e36c6528060812b70709fd87bd804efa3e1a465b461e40a6d8407"
+    },
+    {
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-1-narrow-desktop/runs.jsonl",
+      "sha256": "6bb7e7224ceae42a8d4073c91dc86e5c0edd6dce7cd2aa174cf29a725b746401"
+    },
+    {
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-1-wide-desktop/runs.jsonl",
+      "sha256": "ca03d58bc516827211e00151cf61eaf2ec160f8fd73144c1f3f317a9c409c623"
+    },
+    {
+      "cell": "sensitivity-random-auto-17-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-17-narrow-desktop/runs.jsonl",
+      "sha256": "111c90a6552ddf69f6ce3b643be7e114a62e01cf1d2f3c843c4dcc417203a01d"
+    },
+    {
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-17-wide-desktop/runs.jsonl",
+      "sha256": "5a388f7287685ca91d8f469aeecdcf58499b0ac4873dbf4f3e2e8dd5a8b1ca11"
+    },
+    {
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-17-narrow-desktop/runs.jsonl",
+      "sha256": "0af568d645c9d8dd4625531e7aec0366dca9a478935e9f3db738e7ff9f30dbfd"
+    },
+    {
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-17-wide-desktop/runs.jsonl",
+      "sha256": "e6383482df57e090a32907d489dfaa4d1dcfa7deae099991cc992d77be842a76"
+    },
+    {
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-17-narrow-desktop/runs.jsonl",
+      "sha256": "9388d0a10ed56c9a38c8024803e4139482d4e88fadb289f7c1a77336a48aad0e"
+    },
+    {
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-17-wide-desktop/runs.jsonl",
+      "sha256": "604065d0749d2ed19e4483f7cca7e5ae9f466fb2062fd5224c50e0ebf77d84d2"
+    },
+    {
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-97-narrow-desktop/runs.jsonl",
+      "sha256": "421e4dd8afb86fb1ad687da3760bde7d2f12645c13562d2fa9db7e26647bac58"
+    },
+    {
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-97-wide-desktop/runs.jsonl",
+      "sha256": "b5b05f94931cfc315c5475a5d4347c0d5378cc2a456678afe1a5b5ccbdf35b34"
+    },
+    {
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-97-narrow-desktop/runs.jsonl",
+      "sha256": "acfac51d2ab65f903519a99d813affcc4e9a212d112ade75fe9a35ba44af1404"
+    },
+    {
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-97-wide-desktop/runs.jsonl",
+      "sha256": "418736f2c2745b289cc29a64dca115f3dad467179765105c65a020695ad2ffff"
+    },
+    {
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-97-narrow-desktop/runs.jsonl",
+      "sha256": "43ca9ffb3c88f569458670a7fd6c6745091fff0bd262f2556dd19770b181bf6b"
+    },
+    {
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-97-wide-desktop/runs.jsonl",
+      "sha256": "051798075937caabed6d423dd652325547cbe722c4b1f7305781d58f63f41ae4"
+    }
+  ],
+  "randomPolicyCounterexamples": [
+    {
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "strategySeed": 1,
+      "width": 800,
+      "planned": 16,
+      "firstStageCleared": 13,
+      "wins": 10,
+      "winRateCI95": [0.38641040545502714, 0.8151876744113636],
+      "firstChoiceIndexCounts": {
+        "1": 16
+      },
+      "firstCardCounts": {
+        "force": 2,
+        "momentum": 3,
+        "piercing": 4,
+        "splash": 1,
+        "multishot": 1,
+        "haste": 3,
+        "stormcall": 1,
+        "chain": 1
+      },
+      "firstCardFoundationCount": 16,
+      "fatalSources": {
+        "projectile:hexer": 4,
+        "none-success": 10,
+        "projectile:boss": 1,
+        "melee:sentinel": 1
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["splash", "force", "lethal"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 133.40833333337633,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 296.7333333332278,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "momentum", "stormcall"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 138.4083333333718,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "expose"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 248.65833333327151,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "chain"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 77.64166666667452,
+          "deathStage": 0,
+          "fatalSource": "projectile:boss"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["momentum", "multishot", "lethal"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 225.9749999999588,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["momentum", "haste", "expose"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 219.99999999996425,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["multishot", "stormcall", "crush"],
+            "choice": "stormcall",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 78.21666666667498,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "lethal"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 260.7833333332605,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 307.5499999998846,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["haste", "piercing", "lethal"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 239.21666666661343,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["multishot", "piercing", "expose"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 220.6666666666303,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["piercing", "haste", "crush"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 202.29999999998034,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["chain", "haste", "expose"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 227.02499999995786,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "chain", "expose"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 83.15000000001224,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "force", "expose"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 164.06666666668178,
+          "deathStage": 2,
+          "fatalSource": "projectile:hexer"
+        }
+      ]
+    },
+    {
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "strategySeed": 1,
+      "width": 2400,
+      "planned": 16,
+      "firstStageCleared": 12,
+      "wins": 4,
+      "winRateCI95": [0.10182067491213048, 0.49498316535508774],
+      "firstChoiceIndexCounts": {
+        "1": 16
+      },
+      "firstCardCounts": {
+        "multishot": 2,
+        "splash": 3,
+        "piercing": 2,
+        "momentum": 6,
+        "chain": 2,
+        "force": 1
+      },
+      "firstCardFoundationCount": 16,
+      "fatalSources": {
+        "none-success": 4,
+        "melee:sentinel": 6,
+        "projectile:hexer": 5,
+        "melee:wisp": 1
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["haste", "multishot", "keen"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 209.36666666664058,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.5666666666666567,
+            "stageSeconds": 3.5666666666666567,
+            "source": "chest",
+            "choices": ["chain", "splash", "lethal"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 94.61666666668803,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["chain", "piercing", "keen"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 212.0916666666381,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["force", "splash", "expose"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 100.00000000002565,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6499999999999897,
+            "stageSeconds": 3.6499999999999897,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 69.95833333333508,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "chain", "crush"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 95.96666666668911,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["piercing", "chain", "splash"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 93.62500000002058,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "momentum", "force"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 97.66666666669046,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["splash", "piercing", "keen"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 215.18333333330196,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "keen"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 100.42500000002599,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "force"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 106.04166666669713,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["force", "multishot", "lethal"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 204.30833333331185,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["haste", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 50.57499999999777,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 62.28333333333044,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["force", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 69.025000000001,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["momentum", "force", "expose"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 98.0083333333574,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        }
+      ]
+    },
+    {
+      "cell": "sensitivity-random-auto-17-narrow-desktop",
+      "strategySeed": 17,
+      "width": 800,
+      "planned": 16,
+      "firstStageCleared": 0,
+      "wins": 0,
+      "winRateCI95": [0, 0.1936076805344365],
+      "firstChoiceIndexCounts": {
+        "2": 16
+      },
+      "firstCardCounts": {
+        "lethal": 4,
+        "keen": 2,
+        "stormcall": 1,
+        "expose": 6,
+        "chain": 1,
+        "crush": 2
+      },
+      "firstCardFoundationCount": 2,
+      "fatalSources": {
+        "projectile:hexer": 5,
+        "melee:sentinel": 6,
+        "projectile:boss": 2,
+        "melee:wisp": 3
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["splash", "force", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 55.18333333333084,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 58.02499999999735,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "momentum", "stormcall"],
+            "choice": "stormcall",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 82.75000000001192,
+          "deathStage": 0,
+          "fatalSource": "projectile:boss"
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 57.55833333333071,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "chain"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 83.56666666667924,
+          "deathStage": 0,
+          "fatalSource": "projectile:boss"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["momentum", "multishot", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 53.149999999997625,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["momentum", "haste", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 57.89166666666402,
+          "deathStage": 0,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["multishot", "stormcall", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 63.04999999999706,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 52.383333333331,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 57.81666666666403,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["haste", "piercing", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 54.866666666664194,
+          "deathStage": 0,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["multishot", "piercing", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 56.45833333333077,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["piercing", "haste", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 54.924999999997524,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["chain", "haste", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 57.27499999999739,
+          "deathStage": 0,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "chain", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 58.84166666666397,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "force", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 55.858333333330805,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        }
+      ]
+    },
+    {
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "strategySeed": 17,
+      "width": 2400,
+      "planned": 16,
+      "firstStageCleared": 2,
+      "wins": 1,
+      "winRateCI95": [0.01111934476464252, 0.28328737570298945],
+      "firstChoiceIndexCounts": {
+        "2": 16
+      },
+      "firstCardCounts": {
+        "keen": 5,
+        "lethal": 2,
+        "expose": 2,
+        "crush": 4,
+        "splash": 1,
+        "force": 2
+      },
+      "firstCardFoundationCount": 3,
+      "fatalSources": {
+        "melee:sentinel": 6,
+        "melee:wisp": 2,
+        "projectile:hexer": 7,
+        "none-success": 1
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["haste", "multishot", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 46.883333333331315,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.5666666666666567,
+            "stageSeconds": 3.5666666666666567,
+            "source": "chest",
+            "choices": ["chain", "splash", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 47.208333333331296,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["chain", "piercing", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 46.89999999999798,
+          "deathStage": 0,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["force", "splash", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 44.666666666664774,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6499999999999897,
+            "stageSeconds": 3.6499999999999897,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 48.84166666666454,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "chain", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 49.43333333333117,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["piercing", "chain", "splash"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 59.21666666666395,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "momentum", "force"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 90.92500000001843,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["splash", "piercing", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 46.84166666666465,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 42.858333333331544,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "force"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 354.6916666665084,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["force", "multishot", "lethal"],
+            "choice": "lethal",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 46.591666666664665,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["haste", "momentum", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 46.63333333333133,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "keen"],
+            "choice": "keen",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 48.52499999999789,
+          "deathStage": 0,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["force", "momentum", "crush"],
+            "choice": "crush",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 52.87499999999764,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["momentum", "force", "expose"],
+            "choice": "expose",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 41.57499999999828,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        }
+      ]
+    },
+    {
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "strategySeed": 97,
+      "width": 800,
+      "planned": 16,
+      "firstStageCleared": 14,
+      "wins": 9,
+      "winRateCI95": [0.331785563988119, 0.7690134759450765],
+      "firstChoiceIndexCounts": {
+        "1": 16
+      },
+      "firstCardCounts": {
+        "force": 2,
+        "momentum": 3,
+        "piercing": 4,
+        "splash": 1,
+        "multishot": 1,
+        "haste": 3,
+        "stormcall": 1,
+        "chain": 1
+      },
+      "firstCardFoundationCount": 16,
+      "fatalSources": {
+        "none-success": 9,
+        "melee:sentinel": 2,
+        "projectile:hexer": 3,
+        "melee:wisp": 2
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["splash", "force", "lethal"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 252.87499999993435,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 102.0750000000273,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "momentum", "stormcall"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 119.81666666670809,
+          "deathStage": 1,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "expose"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 218.87499999996527,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "chain"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 65.39999999999812,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["momentum", "multishot", "lethal"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 228.9166666666228,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["momentum", "haste", "expose"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 232.84999999995256,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["multishot", "stormcall", "crush"],
+            "choice": "stormcall",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 105.05833333336301,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["stormcall", "piercing", "lethal"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 240.52499999994558,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 129.37500000004667,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8583333333333223,
+            "stageSeconds": 3.8583333333333223,
+            "source": "chest",
+            "choices": ["haste", "piercing", "lethal"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 239.90833333327947,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["multishot", "piercing", "expose"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 235.04166666661723,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.8416666666666557,
+            "stageSeconds": 3.8416666666666557,
+            "source": "chest",
+            "choices": ["piercing", "haste", "crush"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 220.00833333329757,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["chain", "haste", "expose"],
+            "choice": "haste",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 239.7833333332796,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.533333333333348,
+            "stageSeconds": 4.533333333333348,
+            "source": "chest",
+            "choices": ["stormcall", "chain", "expose"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 81.46666666667757,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 4.183333333333331,
+            "stageSeconds": 4.183333333333331,
+            "source": "chest",
+            "choices": ["splash", "force", "expose"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 222.29166666662883,
+          "deathStage": 3,
+          "fatalSource": "projectile:hexer"
+        }
+      ]
+    },
+    {
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "strategySeed": 97,
+      "width": 2400,
+      "planned": 16,
+      "firstStageCleared": 11,
+      "wins": 6,
+      "winRateCI95": [0.18481232558863633, 0.6135895945449727],
+      "firstChoiceIndexCounts": {
+        "1": 16
+      },
+      "firstCardCounts": {
+        "multishot": 2,
+        "splash": 3,
+        "piercing": 2,
+        "momentum": 6,
+        "chain": 2,
+        "force": 1
+      },
+      "firstCardFoundationCount": 16,
+      "fatalSources": {
+        "none-success": 6,
+        "melee:sentinel": 5,
+        "melee:wisp": 4,
+        "projectile:hexer": 1
+      },
+      "allResults": [
+        {
+          "gameSeed": 607119744,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["haste", "multishot", "keen"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 228.79999999995624,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 1454727384,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.5666666666666567,
+            "stageSeconds": 3.5666666666666567,
+            "source": "chest",
+            "choices": ["chain", "splash", "lethal"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 281.6249999999082,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 2948864263,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["chain", "piercing", "keen"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 217.08333333330023,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 4268814354,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["force", "splash", "expose"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 65.39999999999812,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 3029335574,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6499999999999897,
+            "stageSeconds": 3.6499999999999897,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 57.15833333333073,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 413905725,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "chain", "crush"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 271.8499999999171,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3382822261,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["piercing", "chain", "splash"],
+            "choice": "chain",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 89.67500000001743,
+          "deathStage": 1,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1417278027,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["piercing", "momentum", "force"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 67.95833333333348,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 2710466377,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["splash", "piercing", "keen"],
+            "choice": "piercing",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 214.47499999996927,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 3443267738,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["stormcall", "splash", "keen"],
+            "choice": "splash",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 85.12500000001381,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1303322966,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["stormcall", "momentum", "force"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 89.52500000001731,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 2139918472,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9499999999999886,
+            "stageSeconds": 3.9499999999999886,
+            "source": "chest",
+            "choices": ["force", "multishot", "lethal"],
+            "choice": "multishot",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "campaign_victory",
+          "playerSeconds": 214.63333333330246,
+          "deathStage": null,
+          "fatalSource": null
+        },
+        {
+          "gameSeed": 418665533,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["haste", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 50.57499999999777,
+          "deathStage": 0,
+          "fatalSource": "melee:sentinel"
+        },
+        {
+          "gameSeed": 1708330970,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.9666666666666552,
+            "stageSeconds": 3.9666666666666552,
+            "source": "chest",
+            "choices": ["multishot", "momentum", "keen"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 62.28333333333044,
+          "deathStage": 0,
+          "fatalSource": "projectile:hexer"
+        },
+        {
+          "gameSeed": 1199661316,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.633333333333323,
+            "stageSeconds": 3.633333333333323,
+            "source": "chest",
+            "choices": ["force", "momentum", "crush"],
+            "choice": "momentum",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 89.64166666668407,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        },
+        {
+          "gameSeed": 1684417817,
+          "firstChoice": {
+            "order": 1,
+            "stageIndex": 0,
+            "playerSeconds": 3.6166666666666565,
+            "stageSeconds": 3.6166666666666565,
+            "source": "chest",
+            "choices": ["momentum", "force", "expose"],
+            "choice": "force",
+            "kind": "card",
+            "automatic": false,
+            "hp": 100,
+            "hpRatio": 1,
+            "shield": 0,
+            "scores": {}
+          },
+          "termination": "death",
+          "playerSeconds": 90.60833333335151,
+          "deathStage": 1,
+          "fatalSource": "melee:wisp"
+        }
+      ]
+    }
+  ],
+  "layoutPairsWithoutBuilderRepeatInflation": [
+    {
+      "strategy": "random-auto",
+      "strategySeed": 1,
+      "matchedGameSeeds": 16,
+      "narrowWins": 10,
+      "wideWins": 4,
+      "narrowWinWideDeathSeeds": [
+        1454727384, 4268814354, 413905725, 3382822261, 3443267738, 1303322966, 418665533, 1708330970
+      ],
+      "narrowDeathWideWinSeeds": [607119744, 2948864263],
+      "pairs": [
+        {
+          "gameSeed": 607119744,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 133.40833333337633,
+          "wideSeconds": 209.36666666664058,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 1454727384,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 296.7333333332278,
+          "wideSeconds": 94.61666666668803,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2948864263,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 138.4083333333718,
+          "wideSeconds": 212.0916666666381,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 4268814354,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 248.65833333327151,
+          "wideSeconds": 100.00000000002565,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3029335574,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 77.64166666667452,
+          "wideSeconds": 69.95833333333508,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 413905725,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 225.9749999999588,
+          "wideSeconds": 95.96666666668911,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3382822261,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 219.99999999996425,
+          "wideSeconds": 93.62500000002058,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1417278027,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 78.21666666667498,
+          "wideSeconds": 97.66666666669046,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2710466377,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 260.7833333332605,
+          "wideSeconds": 215.18333333330196,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3443267738,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 307.5499999998846,
+          "wideSeconds": 100.42500000002599,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1303322966,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 239.21666666661343,
+          "wideSeconds": 106.04166666669713,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2139918472,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 220.6666666666303,
+          "wideSeconds": 204.30833333331185,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 418665533,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 202.29999999998034,
+          "wideSeconds": 50.57499999999777,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1708330970,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 227.02499999995786,
+          "wideSeconds": 62.28333333333044,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1199661316,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 83.15000000001224,
+          "wideSeconds": 69.025000000001,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1684417817,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 164.06666666668178,
+          "wideSeconds": 98.0083333333574,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "strategySeed": 17,
+      "matchedGameSeeds": 16,
+      "narrowWins": 0,
+      "wideWins": 1,
+      "narrowWinWideDeathSeeds": [],
+      "narrowDeathWideWinSeeds": [1303322966],
+      "pairs": [
+        {
+          "gameSeed": 607119744,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 55.18333333333084,
+          "wideSeconds": 46.883333333331315,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1454727384,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 58.02499999999735,
+          "wideSeconds": 47.208333333331296,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2948864263,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 82.75000000001192,
+          "wideSeconds": 46.89999999999798,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 4268814354,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 57.55833333333071,
+          "wideSeconds": 44.666666666664774,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3029335574,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 83.56666666667924,
+          "wideSeconds": 48.84166666666454,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 413905725,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 53.149999999997625,
+          "wideSeconds": 49.43333333333117,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3382822261,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 57.89166666666402,
+          "wideSeconds": 59.21666666666395,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1417278027,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 63.04999999999706,
+          "wideSeconds": 90.92500000001843,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2710466377,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 52.383333333331,
+          "wideSeconds": 46.84166666666465,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3443267738,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 57.81666666666403,
+          "wideSeconds": 42.858333333331544,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1303322966,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 54.866666666664194,
+          "wideSeconds": 354.6916666665084,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 2139918472,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 56.45833333333077,
+          "wideSeconds": 46.591666666664665,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 418665533,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 54.924999999997524,
+          "wideSeconds": 46.63333333333133,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1708330970,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 57.27499999999739,
+          "wideSeconds": 48.52499999999789,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1199661316,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 58.84166666666397,
+          "wideSeconds": 52.87499999999764,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1684417817,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 55.858333333330805,
+          "wideSeconds": 41.57499999999828,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "strategySeed": 97,
+      "matchedGameSeeds": 16,
+      "narrowWins": 9,
+      "wideWins": 6,
+      "narrowWinWideDeathSeeds": [4268814354, 3382822261, 1303322966, 418665533, 1708330970],
+      "narrowDeathWideWinSeeds": [1454727384, 2948864263],
+      "pairs": [
+        {
+          "gameSeed": 607119744,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 252.87499999993435,
+          "wideSeconds": 228.79999999995624,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1454727384,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 102.0750000000273,
+          "wideSeconds": 281.6249999999082,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 2948864263,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 119.81666666670809,
+          "wideSeconds": 217.08333333330023,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 4268814354,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 218.87499999996527,
+          "wideSeconds": 65.39999999999812,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3029335574,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 65.39999999999812,
+          "wideSeconds": 57.15833333333073,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 413905725,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 228.9166666666228,
+          "wideSeconds": 271.8499999999171,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3382822261,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 232.84999999995256,
+          "wideSeconds": 89.67500000001743,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1417278027,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 105.05833333336301,
+          "wideSeconds": 67.95833333333348,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2710466377,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 240.52499999994558,
+          "wideSeconds": 214.47499999996927,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3443267738,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 129.37500000004667,
+          "wideSeconds": 85.12500000001381,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1303322966,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 239.90833333327947,
+          "wideSeconds": 89.52500000001731,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2139918472,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 235.04166666661723,
+          "wideSeconds": 214.63333333330246,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 418665533,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 220.00833333329757,
+          "wideSeconds": 50.57499999999777,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1708330970,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 239.7833333332796,
+          "wideSeconds": 62.28333333333044,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1199661316,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 81.46666666667757,
+          "wideSeconds": 89.64166666668407,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1684417817,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 222.29166666662883,
+          "wideSeconds": 90.60833333335151,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "strategySeed": 1,
+      "matchedGameSeeds": 16,
+      "narrowWins": 12,
+      "wideWins": 8,
+      "narrowWinWideDeathSeeds": [4268814354, 413905725, 1417278027, 1303322966, 1684417817],
+      "narrowDeathWideWinSeeds": [3029335574],
+      "pairs": [
+        {
+          "gameSeed": 607119744,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 235.49999999995015,
+          "wideSeconds": 211.116666666639,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1454727384,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 101.09166666669319,
+          "wideSeconds": 93.9416666666875,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2948864263,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 256.7833333332641,
+          "wideSeconds": 267.49999999992104,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 4268814354,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 209.6916666666403,
+          "wideSeconds": 90.71666666668493,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3029335574,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 105.45833333336333,
+          "wideSeconds": 225.56666666662585,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 413905725,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 204.4833333333117,
+          "wideSeconds": 117.1083333333726,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3382822261,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 223.59166666662765,
+          "wideSeconds": 268.9666666665864,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1417278027,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 208.13333333330837,
+          "wideSeconds": 94.00000000002088,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2710466377,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 245.0916666666081,
+          "wideSeconds": 201.9916666666473,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3443267738,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 98.85000000002474,
+          "wideSeconds": 108.35833333336564,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1303322966,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 209.70833333330694,
+          "wideSeconds": 91.14166666668527,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2139918472,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 219.54166666663133,
+          "wideSeconds": 211.2833333333055,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 418665533,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 213.87499999996982,
+          "wideSeconds": 207.2666666666425,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1708330970,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 312.5499999998801,
+          "wideSeconds": 210.49999999997289,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1199661316,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 102.85833333336126,
+          "wideSeconds": 99.70000000002541,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1684417817,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 220.4749999999638,
+          "wideSeconds": 96.2166666666893,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "strategySeed": 1,
+      "matchedGameSeeds": 16,
+      "narrowWins": 13,
+      "wideWins": 10,
+      "narrowWinWideDeathSeeds": [413905725, 1417278027, 3443267738, 1303322966, 1684417817],
+      "narrowDeathWideWinSeeds": [2948864263, 3029335574],
+      "pairs": [
+        {
+          "gameSeed": 607119744,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 253.81666666660016,
+          "wideSeconds": 206.54999999997648,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1454727384,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 259.6499999999282,
+          "wideSeconds": 273.59166666658217,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2948864263,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 130.31666666671248,
+          "wideSeconds": 293.8333333332304,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 4268814354,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 209.99999999997334,
+          "wideSeconds": 423.46666666644586,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3029335574,
+          "narrowTermination": "death",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 147.46666666669688,
+          "wideSeconds": 226.40833333329175,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": true
+        },
+        {
+          "gameSeed": 413905725,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 204.4833333333117,
+          "wideSeconds": 101.2000000000266,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3382822261,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 223.59166666662765,
+          "wideSeconds": 281.50833333324164,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1417278027,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 208.13333333330837,
+          "wideSeconds": 98.05833333335744,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2710466377,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 245.17499999994135,
+          "wideSeconds": 203.058333333313,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 3443267738,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 241.44999999994474,
+          "wideSeconds": 140.02500000003698,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1303322966,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 209.90833333330676,
+          "wideSeconds": 94.59166666668801,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 2139918472,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 219.54166666663133,
+          "wideSeconds": 210.0499999999733,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 418665533,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 213.87499999996982,
+          "wideSeconds": 206.89166666664283,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1708330970,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "campaign_victory",
+          "narrowSeconds": 339.6083333331888,
+          "wideSeconds": 210.0499999999733,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1199661316,
+          "narrowTermination": "death",
+          "wideTermination": "death",
+          "narrowSeconds": 105.13333333336307,
+          "wideSeconds": 102.2416666666941,
+          "narrowWinWideDeath": false,
+          "narrowDeathWideWin": false
+        },
+        {
+          "gameSeed": 1684417817,
+          "narrowTermination": "campaign_victory",
+          "wideTermination": "death",
+          "narrowSeconds": 219.916666666631,
+          "wideSeconds": 94.0250000000209,
+          "narrowWinWideDeath": true,
+          "narrowDeathWideWin": false
+        }
+      ]
+    }
+  ],
+  "builderRepeatedControlGroups": 64,
+  "builderRepeatedControlGroupsFullyIdentical": true,
+  "policySeedRepetitionsAreIndependentEnvironments": false,
+  "interpretation": [
+    "Each cell has16 game seeds; do not pool policy-seed repeats into48 independent environments or new builder diversity. All64 builder3-tuples exactly match after ignoring only the two strategy.seed metadata fields.",
+    "Random-auto creates rewardRandom from strategy.seed without consuming World RNG. Reusing one fixed policy seed across16 game seeds reuses the reward-choice index stream. This is policy sensitivity, not independent random decisions per environment.",
+    "For all16 game seeds in both layouts, policy1 and97 select first-offer slot1 (zero-based); policy17 selects slot2. Guided drawCards reserves initial first2 slots for foundation upgrades (or later invested family); third slot is an alternative.",
+    "Policy17 narrow has0/16 first clears and wins (Wilson0–19.36%); wide2/16 first clears and1/16 win. Its narrow first picks are14 non-foundation and2 foundation cards. Observations are consistent with shared slot stream plus ordered offers and weak starts; no isolated counterfactual proves the first card caused death, no software defect proven.",
+    "Builder800→2400 win rates are75→50% for auto and81.25→62.5% for active, with first clear100% in both layouts. Auto25pp layout gap exceeds the investigation reference; allpaired layout outcomes preserved. Small16seed samples and deterministic3repeat controls do not strengthen precision.",
+    "Random800→2400 rates vary62.5→25%,0→6.25%,56.25→37.5% across policy1/17/97. Single policy success rates cannot be generalized to humans or arbitrary reward behavior.",
+    "All41 original warnings retained, including18small_sample/10stage_drop/6build_concentration/3target_gain/4layout_gap. Repeated deterministic builder warnings are not independent confirmations.",
+    "All288 resolve as159 campaign victories and129 normal deaths; no budget/error/cancel. Allwinner tails and zero-inclusive actualHP+shield distributions remain in stable audit.",
+    "No new simulations, tuning, policy changes, thresholds or replacement seeds; this annex interprets the unchanged completed matrix. Final adoption remains root full-evidence judgment."
+  ]
+}

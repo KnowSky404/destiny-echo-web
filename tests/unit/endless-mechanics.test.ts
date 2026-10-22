@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES } from "../../src/data/enemies";
 import { CONFIG } from "../../src/game/config";
 import { combatStats } from "../../src/game/stats";
@@ -8,7 +9,8 @@ import { createPlayer, World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
 function arena(seed = 30): World {
-  const world = new World();
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(CONFIG.width, defaultProfile());
   world.start(seed);
   world.stageIndex = 4;
   world.bossSpawned = true;

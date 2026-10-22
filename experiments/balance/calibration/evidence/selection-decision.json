@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "kind": "root-selection-decision-before-independent-validation",
+  "recordedAt": "2026-10-22T21:26:58.871091+00:00",
+  "candidate": "V5 F",
+  "decision": "advance-unchanged-to-independent-validation-and-remaining-fixed-phases",
+  "finalAdoption": false,
+  "identity": {
+    "code": {
+      "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+      "dirty": true,
+      "fingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+      "bunVersion": "1.4.3",
+      "fixedStep": 0.008333333333333333,
+      "files": {
+        "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+        "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+        "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+        "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+        "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+        "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+        "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+        "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+        "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+        "src/balance-sim/runner.ts": "e736664c0419627ee744678bb97f37ef4ee8192e55dd33a30defe7c2e8f2b26a",
+        "src/balance-sim/strategies.ts": "47836ab4a076344005895ca7ba2e1a7ecf0b98f05d40d15030b306b9f377a65d",
+        "src/balance-sim/types.ts": "7c687b47fa9b3b94e6b033c9ff97af048e27f6892c0528c6f4fc957729a8bd1f",
+        "src/data/balance/model.ts": "bd97c21a0811a9ba73836a22849899c67fa2e0e616ec98a6717411b7b4f87e2d",
+        "src/data/balance/official.json": "daf1a1cc65a4d5c9f0ded6b3d3e9f326a58f8d79f5c9f1046c2b79a983dbf482",
+        "src/data/balance/profile.ts": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d",
+        "src/data/cards.ts": "5cbb12fbb4807b83af21f76a4430d9e8ac05e25304af4c48aa84a185b6fa422d",
+        "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+        "src/data/stages.ts": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9",
+        "src/data/synergies.ts": "8ec86760b8e5e9cc95629063da9834b046a55ccbfb88f88f75eddec3b523e13f",
+        "src/data/training.ts": "62be0e187d6858ca70969b48a0be38cbc58c7a579d62574f16d009a9fe13d7fd",
+        "src/game/arena.ts": "0d10ea8917098361ed8ccfa1a86b67b390685d13680209e3bef7c61ed7ff274b",
+        "src/game/config.ts": "09a3af4af2452a61a0b365cd9492a9fe3bc0eecba4978933d0be7023d3d9e208",
+        "src/game/createGame.ts": "8cb8a71d7aaaaef385a51ef40cea6bfca1adc3a98d0aacf6bce0222f92811139",
+        "src/game/debug/DebugWorld.ts": "7e7899083cd109f4657da0740cbb13a779e637725e5671150285e9068ebbaf70",
+        "src/game/input.ts": "dfa617792cf39f967bbfdbbce45f49c28813192273155aeb102815172784d9bc",
+        "src/game/observation.ts": "609f18ba6eb0876952e67aa1cbe4ad3d552b53b830c2a70d5755b8a0719138a6",
+        "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+        "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+        "src/game/scenes/BattleScene.ts": "50e931afbf4c6c0f3737db9ba2b5607150276f4ca93dcd43935bbcf6322211da",
+        "src/game/scenes/textures.ts": "6c795ab6b01d56ee3e9b84a35ae0c88aa4ce965e1a24d6778bf6f6e6eadccb6c",
+        "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+        "src/game/stats.ts": "e4c9ccb1b7218751d8544a3b21771a8d476b76d0425ce807ebc1e0977f9063ba",
+        "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+        "src/game/systems/crowd.ts": "35bcf98a6e2c00b92b1d88a9c05980893f47d7b8aaac7fe102f0809596405935",
+        "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+        "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+        "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+        "src/game/systems/targeting.ts": "4f407647168600ec382d89e6f84df3ebdb563cd401af69a48863a256f56f972b",
+        "src/game/types.ts": "3e33f13caaed9fc9978f66b836af255c10df718afd79841db89cebbfb05343d7",
+        "src/game/world.ts": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+        "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+      }
+    },
+    "profile": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102"
+  },
+  "selectionCounts": {
+    "campaign_victory": 525,
+    "death": 675,
+    "endless_target_reached": 0,
+    "budget_exhausted": 0,
+    "error": 0,
+    "cancelled": 0
+  },
+  "candidateCampaignWinsByGroup": [28, 20, 77, 79, 77, 76],
+  "candidateFirstStageClearsByGroup": [35, 67, 86, 99, 89, 95],
+  "rootJudgment": "All hard selection checks and independent raw/stable-audit reviews pass. Preserve F unchanged for unseen validation. The intended accessible opening and second-stage build filter produce later build payoff; typical late pressure is low and is not described as uniform challenge. Measured sample pacing improves while preserving every V4 win. Remaining fixed phases must be fully resolved before final design adoption.",
+  "retainedDeviations": [
+    "Four build-policy campaign point estimates77/79/77/76 exceed25\u201375% observation band; auto-desktop first99 exceeds65\u201395%. Confidence intervals containing a boundary do not satisfy the point-estimate observation.",
+    "All357 second-stage survivors clear both later stages; all six stage-three/four hostile-HP-plus-shield medians are zero.",
+    "Random first-clear layout gap32pp and stage-two conditional gap-50.149pp remain investigated observations with survivor/economy confounding.",
+    "All12 warnings,206 baseline improvements and17 paired harms remain separate with complete seeds.",
+    "All353 V4 wins remain wins,4 prior losses rescued;71 common wins slow down(max19.441666666648985s), all exact records retained.",
+    "Longest observed selection victory366.30s gives sample-only margin; no unseen-seed or infinite-endless guarantee.",
+    "Known natural-endless diagnostic weak6/6 first-layer deaths and static195039/32000 BossHP jump remain separate, biased development evidence."
+  ],
+  "remainingRequiredPhases": {
+    "validation": 3600,
+    "endless": 360,
+    "sensitivity": 288
+  },
+  "validation": {
+    "masterSeed": 20261028,
+    "seedsPerGroup": 300,
+    "unseenAtDecision": true,
+    "maxSeconds": 650,
+    "maxSteps": 78000
+  },
+  "sources": [
+    {
+      "path": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "sha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5"
+    },
+    {
+      "path": "artifacts/balance/calibration-selection-v5-audit.json",
+      "sha256": "4ccda4aff5f7066ef859f45339e261c9ccc1d160ba2e93647b05bf20c08e5757"
+    },
+    {
+      "path": "artifacts/balance/calibration-selection-v5-audit.md",
+      "sha256": "898456b7f115cc88884b369936c1ac24846ab84663f9b293bf2402c39545e5b7"
+    },
+    {
+      "path": "/tmp/destiny-calibration-selection-v5-independent-raw-peer.json",
+      "sha256": "0d587e8128587351914b4200f8f96dfa4ebad7c390d457fb2aa95dcd94d9069f"
+    },
+    {
+      "path": "/tmp/destiny-calibration-selection-v5-stable-audit-independent-peer.json",
+      "sha256": "7efb13df23f68ec6bedf6c2e4b4af2de4e112aa41cc73f4d97772f3f6b8726fb"
+    },
+    {
+      "path": "artifacts/balance/calibration-v5-candidate-freeze.json",
+      "sha256": "1a55118f6a47e27b1ad30ad8d6563e5a30ca58afea2b979086314d9487106f71"
+    },
+    {
+      "path": "experiments/balance/calibration/fresh-validation-v5-reservation.json",
+      "sha256": "c358f19b44c371b89124a1b41eee184a69269d38fe6f48c772acc527218df69e"
+    },
+    {
+      "path": "experiments/balance/calibration/validation.json",
+      "sha256": "7e2d4a276141506d37daadcb933466f7aff0d1b5fb4f9097f765193d2e0789ce"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-local-verification.json",
+      "sha256": "4df114506e3f497988130ff646eea8600814c350d92d357fa59e02030a638313"
+    }
+  ]
+}

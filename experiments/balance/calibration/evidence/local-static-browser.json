@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-v5-F-static-browser-qa",
+  "recordedAt": "2026-10-22T21:06:10.984Z",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "sourceFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "sourceCommit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+  "sourceDirty": true,
+  "builds": [
+    {
+      "environment": "pro",
+      "exitCode": 0,
+      "log": "/tmp/destiny-calibration-v5-final-build-pro.log"
+    },
+    {
+      "environment": "pre",
+      "exitCode": 0,
+      "log": "/tmp/destiny-calibration-v5-final-build-pre.log"
+    }
+  ],
+  "browser": {
+    "engine": "Chromium",
+    "playwright": "1.64.1",
+    "rendering": "Native browser under Xvfb with SwiftShader",
+    "workers": 1,
+    "exitCode": 0,
+    "passed": 4,
+    "failed": 0,
+    "durationSeconds": 57.5,
+    "cases": [
+      {
+        "environment": "pro",
+        "device": "desktop",
+        "url": "http://127.0.0.1:4214/",
+        "officialId": "stage-calibration-20261022",
+        "officialRevision": 1,
+        "selectedVariant": "F",
+        "expectedStages": [
+          {
+            "stageNumber": 3,
+            "health": 4.5,
+            "bossHp": 16000
+          },
+          {
+            "stageNumber": 4,
+            "health": 9,
+            "bossHp": 32000
+          }
+        ],
+        "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+        "sourceFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+        "errors": [],
+        "warnings": []
+      },
+      {
+        "environment": "pro",
+        "device": "mobile",
+        "url": "http://127.0.0.1:4214/",
+        "officialId": "stage-calibration-20261022",
+        "officialRevision": 1,
+        "selectedVariant": "F",
+        "expectedStages": [
+          {
+            "stageNumber": 3,
+            "health": 4.5,
+            "bossHp": 16000
+          },
+          {
+            "stageNumber": 4,
+            "health": 9,
+            "bossHp": 32000
+          }
+        ],
+        "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+        "sourceFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+        "errors": [],
+        "warnings": []
+      },
+      {
+        "environment": "pre",
+        "device": "desktop",
+        "url": "http://127.0.0.1:4215/",
+        "officialId": "stage-calibration-20261022",
+        "officialRevision": 1,
+        "selectedVariant": "F",
+        "expectedStages": [
+          {
+            "stageNumber": 3,
+            "health": 4.5,
+            "bossHp": 16000
+          },
+          {
+            "stageNumber": 4,
+            "health": 9,
+            "bossHp": 32000
+          }
+        ],
+        "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+        "sourceFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+        "errors": [],
+        "warnings": []
+      },
+      {
+        "environment": "pre",
+        "device": "mobile",
+        "url": "http://127.0.0.1:4215/",
+        "officialId": "stage-calibration-20261022",
+        "officialRevision": 1,
+        "selectedVariant": "F",
+        "expectedStages": [
+          {
+            "stageNumber": 3,
+            "health": 4.5,
+            "bossHp": 16000
+          },
+          {
+            "stageNumber": 4,
+            "health": 9,
+            "bossHp": 32000
+          }
+        ],
+        "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+        "sourceFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+        "errors": [],
+        "warnings": []
+      }
+    ]
+  },
+  "assertions": [
+    "Bilingual90HP/+7.5 slam, final rounding and separate sqrt(P) minion compression",
+    "No help horizontal overflow at desktop or320px",
+    "No page/console/network errors or warnings",
+    "PRO has no debug trigger or snapshot API",
+    "PRE real downloaded draft UUIDv4, complete metadata/payload equality and normalized full profile hash",
+    "PRE paused stage3 inheritedhealth4.5/Boss16000 and stage4 inheritedhealth9/Boss32000 disabled controls"
+  ],
+  "visualInspection": {
+    "inspectedOriginalImages": [
+      "/tmp/destiny-calibration-v5-final-help-desktop-pro-help-zh.png",
+      "/tmp/destiny-calibration-v5-final-help-mobile-pro-help-en.png",
+      "/tmp/destiny-calibration-v5-final-help-pre-desktop-stage3-boss16000.png",
+      "/tmp/destiny-calibration-v5-final-help-pre-desktop-stage4-boss32000.png",
+      "/tmp/destiny-calibration-v5-final-help-pre-mobile-stage3-boss16000.png",
+      "/tmp/destiny-calibration-v5-final-help-pre-mobile-stage4-boss32000.png"
+    ],
+    "totalSavedOriginalImages": 12,
+    "result": "Help and stage3/4 controls readable on desktop/mobile, no overlap or horizontal clipping. Dialogs intentionally scrolled vertically; health fields are asserted separately when above screenshot viewport."
+  },
+  "postQA": {
+    "profileAndSourceUnchanged": true,
+    "builtFilesSHAAndSizeUnchanged": 27
+  },
+  "boundaries": [
+    "Local PRO/PRE builds; no Cloudflare deployment",
+    "Manual paused stage jumps verify live configuration, not natural stage3/4 success",
+    "No fresh full browser-suite, physical-device or long-session claim",
+    "No cloud/auth operation or new simulation batch",
+    "Final adoption still requires all formal numerical phases and reviewed delivery"
+  ],
+  "files": [
+    {
+      "path": "/tmp/destiny-calibration-v5-final-identity.json",
+      "size": 4476,
+      "sha256": "d57f9e4cc400549c91dc73bbab1dd8600921bf811f08e586d694dbf7538225f5"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-static-artifacts.json",
+      "size": 5497,
+      "sha256": "76b89180f82a8c19b6e6a08333679dafe47157beb5aea0f2c30d3f6e28f631a3"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-smoke.log",
+      "size": 3863,
+      "sha256": "d6008796efc2e0c84a40f297fefb5839539b73a019dfa4082a932a19fa89db4c"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-build-pro.log",
+      "size": 1099,
+      "sha256": "3fbe8f5449b3463b0e06d9482a45a7027a6a1d5cec849afda06ca3c2049ce43e"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-build-pre.log",
+      "size": 1343,
+      "sha256": "fafd9b3bf79a5826f5706c3f8c94a64d824fda8d447e40ce2e33c811be085a28"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-smoke/playwright.config.ts",
+      "size": 1162,
+      "sha256": "1822311b4f4fa37e148e39aca10ab4b695d4b98825017f3d93aaae0613ca7670"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-smoke/destiny-calibration-v5-final-help-smoke.spec.ts",
+      "size": 9322,
+      "sha256": "881d16f94420e329c44214a53b228bbe86035cefb10280c7a698ebde7d2a2033"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-desktop-official-draft.json",
+      "size": 4514,
+      "sha256": "7eddd133b2dc0b8e2a71c6873fb9de8127f300271f26326986c59ddeabc5a661"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-mobile-official-draft.json",
+      "size": 4514,
+      "sha256": "922a17e1a219bd0c35e3d0402582b0dcb03a8e0eafe908ef780047812492ec97"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-desktop-pre-help-en.png",
+      "size": 196483,
+      "sha256": "0c1b5afe5e2eec946f51acf0500088ec4508c7b70aa252904e702f3b327076b9"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-desktop-pre-help-zh.png",
+      "size": 258250,
+      "sha256": "4e66f14e3cf16d8e6b6a11d92a709c3f91a04aa0532f24586fe7e6b2edd37a05"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-desktop-pro-help-en.png",
+      "size": 194847,
+      "sha256": "0e1664ed050b0730d3e0138e2ab6e4a74e805a81276f0063552629eb9240bfeb"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-desktop-pro-help-zh.png",
+      "size": 256652,
+      "sha256": "89e7838cff27619f0e9d410f6f230c19da3bd0a1ff684617d073b183f7c0ef63"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-mobile-pre-help-en.png",
+      "size": 52269,
+      "sha256": "6801696b30533de1c5ee56fbe5fe1fb2a458b208ede0d65e2d9e5295edbe508d"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-mobile-pre-help-zh.png",
+      "size": 74766,
+      "sha256": "a758e0c1411ad44000378c3d23444112fabd4d3b65ac0481e0abf9508bbb98ac"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-mobile-pro-help-en.png",
+      "size": 51155,
+      "sha256": "b8949303509dfa54b4eced8a41d7f6eabb8edd2c511a82200660fe1e35c3b1fa"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-mobile-pro-help-zh.png",
+      "size": 73913,
+      "sha256": "3f3b7f853da60995938d08a04123a986d3d3fac684aa88ce7dd172d15d334f29"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-desktop-stage3-boss16000.png",
+      "size": 138907,
+      "sha256": "47b4fee3bc8eadd2eabb35e50eabd715e1bccf2d5401dbaf49b277f5288746b1"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-desktop-stage4-boss32000.png",
+      "size": 140108,
+      "sha256": "1a9be4c22c28f83dd6ade10d280a0d0175ccbb91f2a44ed233e3b55c78d01d99"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-mobile-stage3-boss16000.png",
+      "size": 31152,
+      "sha256": "d26cab3345d8879b9a262ee5427e0430733270b6b0f510683c0bd11bfbfdcd8d"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-final-help-pre-mobile-stage4-boss32000.png",
+      "size": 31099,
+      "sha256": "cef42727510c3dd0e2c70f7f315ea7019c41abb2ac6eddc69881c26fd797016c"
+    }
+  ]
+}

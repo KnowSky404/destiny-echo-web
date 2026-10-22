@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-A-read-only-documentation-semantic-review",
+  "recordedAt": "2026-10-22T19:56:16.881580+00:00",
+  "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+  "sourceFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "materialNumericalOrTranslationFindings": [],
+  "independentNumericCheck": {
+    "script": "/tmp/destiny-calibration-v4-review-doc-values.ts",
+    "campaignTables": 2,
+    "campaignStages": 4,
+    "endlessLayers": [1, 2, 4, 8, 16, 32],
+    "result": "All report fields match resolvedStage/profile and World slam getter, allowing displayed scientific-notation rounding. Baseline first endless boss 267701 and current 195039 independently confirmed."
+  },
+  "confirmedSemantics": [
+    "Campaign minion HP 0.6/3/8.1/16.2 is independently calibrated; routine count growth remains 50%.",
+    "Campaign boss HP 2000/8600/28000/56000 and actual ordinary interval 3.24/2.7/1.836/1.62 include attack timing. Charge duration is separate.",
+    "Endless grows from original authored finale (3.375 HP, 11000 boss HP), not calibrated campaign stage four.",
+    "Endless uses health growth1.7, damage1.5*min(8,1.35*1.06^min(d,100)), separate minion compression sqrt(P), timing max(.35,.8*.98^(d-1)).",
+    "Slam rounds total 90+7.5*(d-1), not the increment; first four values90/98/105/113.",
+    "English and Chinese stage tables include attack timing; English tank approach formula now uses3.2s first layer and1.4s floor.",
+    "Historical V1/V2/V3 values and tests are labeled separately; V4 QA is four deduplicated local static combinations, not natural stage-four or deployment proof.",
+    "Protocol now requires5448 final records:1200 selection+3600 validation+360 endless+288 sensitivity, not the earlier3048 matrix."
+  ],
+  "reportBoundaryCheck": {
+    "sourceAudit": "/tmp/destiny-calibration-selection-v4-audit.md",
+    "judgment": "/tmp/destiny-calibration-selection-v4-judgment.json",
+    "finalAdoption": false,
+    "holdoutOutcomesRead": false,
+    "requiredLimitsRetainedInCurrentReport": [
+      "All353 finale entrants clear; every group finale hostileHP+shield median0.",
+      "Actual finale injury8/27,9/20,18/75,34/79,22/77,24/75; partial survivor pressure does not establish typical finale difficulty.",
+      "12 design warnings and soft deviations99% opening,79%/77% campaign remain.",
+      "203 baseline-paired improvements and18 harms; V3 comparison4 rescued/1 lost;239 faster/110 slower and54.84s maximum slowdown.",
+      "Selection is not independent validation; prior rejected holdouts stay development history."
+    ]
+  },
+  "optionalClarityOnly": [
+    {
+      "path": "docs/wiki-content/Enemies.md",
+      "item": "The new English approach-taunt formula uses d without defining it on that page. Add where d is the endless layer, starting at1 if desired. Existing first-layer wording makes the numeric intent clear."
+    }
+  ],
+  "releaseBoundary": "Final validation/endless/sensitivity and reviewed delivery statuses remain pending; no auth retries, live calls, simulator runs or repo edits performed.",
+  "staleFormulaScan": {
+    "paths": [
+      "src/i18n/shell.ts",
+      "index.html",
+      "scripts/game-guide.ts",
+      "docs/game-guide/Stages.md",
+      "docs/game-guide/Stages-zh-CN.md",
+      "docs/builds-and-stages.md"
+    ],
+    "patterns": [
+      "1\\.8\\s*[×*]\\s*min\\(8",
+      "0\\.6\\s*[×*]\\s*0\\.97",
+      "2\\^d",
+      "180\\s*\\+\\s*9\\s*[×*]",
+      "97\\.5",
+      "112\\.5"
+    ],
+    "hits": []
+  },
+  "files": [
+    {
+      "path": "src/data/balance/official.json",
+      "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+    },
+    {
+      "path": "src/data/stages.ts",
+      "sha256": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9"
+    },
+    {
+      "path": "src/data/balance/profile.ts",
+      "sha256": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d"
+    },
+    {
+      "path": "src/game/world.ts",
+      "sha256": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702"
+    },
+    {
+      "path": "src/i18n/shell.ts",
+      "sha256": "be544ce6e0ac5bd4095b3346d1eb379de2055eaa204b43b2c5f4209d0024c1e5"
+    },
+    {
+      "path": "index.html",
+      "sha256": "a74d126a6e4ff3ab1cfbbe06784e618240a1fb5b8449e955e18894081546f224"
+    },
+    {
+      "path": "scripts/game-guide.ts",
+      "sha256": "aa7d6cbff7d37d9017b7d66b8f5ad4dcc69cba3a8a09798da2e756f1d1ef9db2"
+    },
+    {
+      "path": "scripts/guide-pages.ts",
+      "sha256": "9613c2ad991566db1752b4b1aa7f528a0cb133d7f666416a43d7fe2c04b0b751"
+    },
+    {
+      "path": "docs/wiki-content/Stages.md",
+      "sha256": "2a6b9665bbd556fe54074d4e67157a444e25801c87d5ee839b9b779b86452248"
+    },
+    {
+      "path": "docs/wiki-content/Enemies.md",
+      "sha256": "fb579044f1c87605341e5b21b058f4886afaea44f80338a5f4a75c55802bd715"
+    },
+    {
+      "path": "docs/wiki-content/Changelog.md",
+      "sha256": "e31a427fba0247346ea926979810974620a24c93a8862f62ccfa343a6d364fb1"
+    },
+    {
+      "path": "docs/wiki-content/Changelog-zh-CN.md",
+      "sha256": "72ff17a350024ecd1e70a1a5cfae29d32a8bb4e440a43527b91fe2661eaf02e0"
+    },
+    {
+      "path": "docs/game-guide/Stages.md",
+      "sha256": "ca576611de066dc1a31cfd519b7ae487f2d62e8524e43c38b7226fea57f044a2"
+    },
+    {
+      "path": "docs/game-guide/Stages-zh-CN.md",
+      "sha256": "dc0633e73b3e962af4a96891beee62d32cb8d0f7fcbbb75a62d4b66a5c501d4d"
+    },
+    {
+      "path": "docs/game-guide/Enemies.md",
+      "sha256": "b77158ce3096af7ed62b65ac4c3266e7c1e84a9983f91ea95fd466d433f5a449"
+    },
+    {
+      "path": "docs/game-guide/Enemies-zh-CN.md",
+      "sha256": "3cf5388a7f0860845240e91e620d98af09d24c5ef7706cb1416bd27d02666879"
+    },
+    {
+      "path": "README.md",
+      "sha256": "778aa9c859b8152f1e3ba4d13452b92cc57ef4459bd6136fe4a0643c0f7661af"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "ea7f832becf530ef73067fc3ad773ba40a3c10ff8e32b417535caa9ad970ba3e"
+    },
+    {
+      "path": "docs/builds-and-stages.md",
+      "sha256": "a79c6de111f81275da9fc8646e692175d0de47985c1d3ae888f853e38c4058d1"
+    },
+    {
+      "path": "docs/balance-calibration-2026-10-22.md",
+      "sha256": "4966e4934ed7bb970e254dd46eab17c7fc508e2a717f5f540e2c509746e84c48"
+    },
+    {
+      "path": "experiments/balance/calibration/README.md",
+      "sha256": "918e97cafe23a53a15f884c3407601c18bba0888aa4610f545352d31b5e79a08"
+    }
+  ]
+}

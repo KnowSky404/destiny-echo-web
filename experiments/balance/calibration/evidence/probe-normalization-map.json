@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "diagnostic-normalization-map",
+  "recordedAt": "2026-10-22T21:04:41.386310+00:00",
+  "note": "Original curation is an explicit projection of full diagnostics; formatting of the tracked copies preserves all its parsed values. Original full plans, raw records, source digests, summaries and projection map remain unchanged.",
+  "files": [
+    {
+      "source": "artifacts/balance/exploratory-v5-life-only/curation-summary.json",
+      "sourceSha256": "38e9e3ffbc86a41def6f85b29596f6773820fe86678b2785c47b95287319af17",
+      "normalized": "experiments/balance/calibration/v5-life-probes.json",
+      "normalizedSha256": "21a18c7c76cccf9c28090e20ac34945868b04bae7098d135179707883e67917f",
+      "parsedJsonIdentical": true
+    },
+    {
+      "source": "artifacts/balance/exploratory-v5-life-only/curation-projection-map.json",
+      "sourceSha256": "c97b7ae5ce0fbb14f3300a2a489bb60928772c4bd4faf8fabe76e66ace3d3195",
+      "normalized": "experiments/balance/calibration/v5-life-projection-map.json",
+      "normalizedSha256": "c97b7ae5ce0fbb14f3300a2a489bb60928772c4bd4faf8fabe76e66ace3d3195",
+      "parsedJsonIdentical": true
+    },
+    {
+      "source": "artifacts/balance/exploratory-v5-life-only/endless-prefix-annex.json",
+      "sourceSha256": "b3a44b73ae7c90c6b177da7c55d2f176fe74764934b75aecf8f9c08e6b0e0028",
+      "normalized": "experiments/balance/calibration/v5-endless-prefix-annex.json",
+      "normalizedSha256": "7aa907ea05e15072a1c41cdea0013f089d0033bb7602d8f5f5d33443ca138521",
+      "parsedJsonIdentical": true
+    },
+    {
+      "source": "artifacts/balance/exploratory-v5-life-only/compact-summary.md",
+      "sourceSha256": "d11f134dabcfb6ba2d90514b05c6ecade9a3b7cee1e4e6eddf4e440fd077edb4",
+      "normalized": "experiments/balance/calibration/v5-life-probes.md",
+      "normalizedSha256": "d11f134dabcfb6ba2d90514b05c6ecade9a3b7cee1e4e6eddf4e440fd077edb4",
+      "parsedJsonIdentical": false
+    }
+  ]
+}

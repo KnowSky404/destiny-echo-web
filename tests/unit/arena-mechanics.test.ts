@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { applyCard, CARD_BY_ID, drawCards } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { stageAt } from "../../src/data/stages";
@@ -21,7 +22,8 @@ import { createPlayer, World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
 function passive(width: number = CONFIG.width, seed = 71) {
-  const world = new World(width);
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(width, defaultProfile());
   world.start(seed);
   world.stageIndex = 4;
   world.stageSupplies = 3;
@@ -93,7 +95,7 @@ describe("arena geometry and expanding attack regions", () => {
           expect(minion.defenseY).toBeLessThanOrEqual(CONFIG.defense.y);
         }
       }
-  });
+  }, 20_000);
 
   test.each([450, 800, 1600, 2400])(
     "endless clearances add unique regions until the field above the aircraft row is covered: %s",

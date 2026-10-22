@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { applyCard, CARD_BY_ID, drawCards, isControlCard } from "../../src/data/cards";
 import { STAGES } from "../../src/data/stages";
 import { TRAINING_BY_ID } from "../../src/data/training";
@@ -9,7 +10,8 @@ import { createPlayer, World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
 function arena(): World {
-  const world = new World();
+  // Keep fixed mechanic expectations independent of the calibrated release profile.
+  const world = new World(CONFIG.width, defaultProfile());
   world.start(11);
   world.stageIndex = STAGES.length;
   world.stageSupplies = CONFIG.endless.supplies;

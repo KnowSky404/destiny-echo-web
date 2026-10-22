@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "mode": "campaign",
+  "strategies": [
+    {
+      "name": "random-auto"
+    },
+    {
+      "name": "build-auto"
+    },
+    {
+      "name": "build-active"
+    }
+  ],
+  "layouts": [
+    {
+      "id": "portrait",
+      "width": 450
+    },
+    {
+      "id": "desktop",
+      "width": 1600
+    }
+  ],
+  "maxSeconds": 650,
+  "maxSteps": 78000,
+  "maxRuns": 5000,
+  "validationSeeds": [],
+  "masterSeed": 20261027,
+  "seedCount": 300
+}

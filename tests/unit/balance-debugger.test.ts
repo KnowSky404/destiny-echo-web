@@ -7,6 +7,7 @@ import {
   defaultProfile,
   defaultRewardPolicy,
   kindWeightsAt,
+  officialProfile,
   parseProfile,
   resolvedStage,
   rewardPolicyAt,
@@ -577,14 +578,20 @@ describe("browser-local version lifecycle", () => {
     const store = new ProfileStore(storage);
     store.state.draft.payload.player.stats.damage = 42;
     const version = store.saveVersion();
+    const official = officialProfile();
+    expect(version.revision).toBe(official.id === "default" ? 1 : official.revision + 1);
+    if (official.id !== "default") expect(version.id).toBe(official.id);
     store.select(version);
     store.state.draft.payload.player.stats.damage = 80;
     expect(store.active?.payload.player.stats.damage).toBe(42);
     const reload = new ProfileStore(storage);
     expect(reload.active?.payload.player.stats.damage).toBe(42);
-    expect(new ProfileStore(memoryStorage()).state.draft.payload.player.stats.damage).toBe(12);
+    expect(new ProfileStore(memoryStorage()).state.draft).toEqual(officialProfile());
     store.saveVersion();
-    expect(store.state.versions.map((item) => item.revision)).toEqual([1, 2]);
+    expect(store.state.versions.map((item) => item.revision)).toEqual([
+      version.revision,
+      version.revision + 1,
+    ]);
   });
   test("export/import preserves numeric payload, invalid imports do not overwrite the draft", () => {
     const store = new ProfileStore(memoryStorage());
@@ -608,14 +615,15 @@ describe("browser-local version lifecycle", () => {
     store.state.draft.payload.player.stats.damage = 70;
     const third = store.saveVersion();
     expect(third.id).toBe(first.id);
-    expect(third.revision).toBe(3);
+    expect(second.revision).toBe(first.revision + 1);
+    expect(third.revision).toBe(second.revision + 1);
     expect(third.payload).not.toEqual(second.payload);
     store.remove(first.id, first.revision);
     store.remove(third.id, third.revision);
     store.state.draft = structuredClone(first);
     store.persist();
     store = new ProfileStore(storage);
-    expect(store.saveVersion().revision).toBe(4);
+    expect(store.saveVersion().revision).toBe(third.revision + 1);
     store.copy(first);
     expect(store.saveVersion().revision).toBe(1);
     store.import(JSON.stringify(second));
@@ -649,7 +657,7 @@ describe("browser-local version lifecycle", () => {
     expect(storage.getItem(STORAGE_KEY)).toBe(persisted);
     const reloaded = new ProfileStore(storage);
     expect(reloaded.state.versions).toEqual([saved]);
-    expect(reloaded.saveVersion().revision).toBe(2);
+    expect(reloaded.saveVersion().revision).toBe(saved.revision + 1);
   });
   test("failed shared persistence never creates an exportable saved revision", () => {
     const storage = memoryStorage();

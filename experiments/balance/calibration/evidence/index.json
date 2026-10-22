@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "kind": "complete-calibration-evidence-index",
+  "recordedAt": "2026-10-22T22:45:01.762Z",
+  "integrityPassed": true,
+  "candidateHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "simulationFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "counts": {
+    "total": 5448,
+    "baseline": 2400,
+    "candidate": 3048
+  },
+  "phases": [
+    {
+      "phase": "selection",
+      "planned": 1200,
+      "completed": 1200,
+      "source": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "sourceSha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5",
+      "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+    },
+    {
+      "phase": "validation",
+      "planned": 3600,
+      "completed": 3600,
+      "source": "artifacts/balance/calibration-validation-v5-evidence.json",
+      "sourceSha256": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665",
+      "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+    },
+    {
+      "phase": "endless",
+      "planned": 360,
+      "completed": 360,
+      "source": "artifacts/balance/calibration-endless-v5-evidence.json",
+      "sourceSha256": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349",
+      "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+    },
+    {
+      "phase": "sensitivity",
+      "planned": 288,
+      "completed": 288,
+      "source": "artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "sourceSha256": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c",
+      "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+    }
+  ],
+  "files": [
+    {
+      "file": "final-adoption.json",
+      "originalSource": "artifacts/balance/calibration-v5-final-adoption.json",
+      "originalSha256": "8b98044b83245d9d0ae62bd277ab994b40819bb9ae775f537b894c38564e7c8b",
+      "committedSha256": "fb834bba8a6c42e853848d0466289d0f565fe6c04b8680bcf589bc9dcbe60363",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "all-phases-independent-review.json",
+      "originalSource": "artifacts/balance/calibration-v5-independent-peer-overview.json",
+      "originalSha256": "b7eb4437d0c96e19fcba86694fe965ac2c8c07612fa3fd46830ed2de5d780e0a",
+      "committedSha256": "bd24f590b3f7c57cce8081d02b2cb8f9882f7125db4be0cd3aba0de3921f0b67",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "independent-peer-selection.json",
+      "originalSource": "artifacts/balance/calibration-v5-independent-peer-selection.json",
+      "originalSha256": "5cb7295126f7797f1b4f3f7d4b7f4f6ecbdb07c72c319bb8bb3443ce4150ef24",
+      "committedSha256": "7b199e88685ed8d398769654930373585fd402bd401d801c5e2217c0d7843378",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "independent-peer-validation.json",
+      "originalSource": "artifacts/balance/calibration-v5-independent-peer-validation.json",
+      "originalSha256": "ac3db39e73f95ee56cab903ebd194b3284c0923cab90a75bbbeb9f6a151b19bf",
+      "committedSha256": "5c6440e2b274133158b5104d89fbd3b4da6fb1fc07d22e781f918652cdad2c4f",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "independent-peer-endless.json",
+      "originalSource": "artifacts/balance/calibration-v5-independent-peer-endless.json",
+      "originalSha256": "040b5b740abc16fa16dc7e4d9360b9b57386e85c1fe678de18405e2593f64960",
+      "committedSha256": "d896ac212541dfbe61e240c5021b04a4ae860f53eb83e29ca5c6b77c549c2ba0",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "independent-peer-sensitivity.json",
+      "originalSource": "artifacts/balance/calibration-v5-independent-peer-sensitivity.json",
+      "originalSha256": "342a1a025ec2522b00c2ec27f2388e0e36813d73e55d04427fba9de0c665cfb9",
+      "committedSha256": "547ed96c6b8cd15fdba68789145d78aff04240059e05b0c4976036cd8c78e2f5",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "sensitivity.json",
+      "originalSource": "artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "originalSha256": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c",
+      "committedSha256": "00b07ac4321c1741f253210f2900c38092fd5a5b170fcca9fae6c8dc5cbda8ee",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "sensitivity-audit.json",
+      "originalSource": "artifacts/balance/calibration-sensitivity-v5-audit.json",
+      "originalSha256": "621cdf3c63feabf1cbf7351c4d6994cc144f1047cdd27c7466ec13d6397490ee",
+      "committedSha256": "71ce52fb4196fe885168e0cae8b19ca214290f8473b3b0c4daf6cb6876330250",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "sensitivity-audit.md",
+      "originalSource": "artifacts/balance/calibration-sensitivity-v5-audit.md",
+      "originalSha256": "0ba43810fb847bb509041120e6035a76863aa07c4bb5f4f679e294698c30ae94",
+      "committedSha256": "0ba43810fb847bb509041120e6035a76863aa07c4bb5f4f679e294698c30ae94",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "exact-replays.json",
+      "originalSource": "artifacts/balance/calibration-v5-exact-replays.json",
+      "originalSha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1",
+      "committedSha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "endless-interpretation.json",
+      "originalSource": "artifacts/balance/calibration-endless-v5-interpretation.json",
+      "originalSha256": "dc7a7b1f28a19062adc3128e5294253743a547548dcbffb121f615871b8640e9",
+      "committedSha256": "f405e5f6586a57e4fbf946824ae714669b3c0acb029302e685e5a000ae91a376",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "endless-interpretation.md",
+      "originalSource": "artifacts/balance/calibration-endless-v5-interpretation.md",
+      "originalSha256": "9676851bb7bcf819fff7e47d13e0875a6b8e44e815ff16e33884a4282dcc5b9d",
+      "committedSha256": "9676851bb7bcf819fff7e47d13e0875a6b8e44e815ff16e33884a4282dcc5b9d",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "local-static-browser.json",
+      "originalSource": "/tmp/destiny-calibration-v5-static-browser-evidence.json",
+      "originalSha256": "9fc2024188a82a0741ede453d7c654d36eb68807d611c9feeb5e6d95b78d1d17",
+      "committedSha256": "9fc2024188a82a0741ede453d7c654d36eb68807d611c9feeb5e6d95b78d1d17",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "local-verification.json",
+      "originalSource": "/tmp/destiny-calibration-v5-local-verification.json",
+      "originalSha256": "4df114506e3f497988130ff646eea8600814c350d92d357fa59e02030a638313",
+      "committedSha256": "4df114506e3f497988130ff646eea8600814c350d92d357fa59e02030a638313",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "documentation-review.json",
+      "originalSource": "/tmp/destiny-calibration-v5-final-semantic-review.json",
+      "originalSha256": "3f8d896fc5ca8e969ed387f070f1012fe572e9fd3e287d99d5f9e25cb85de8ce",
+      "committedSha256": "b8a143ff15c921733aa682f064411994e2a52a3fb6d0ebdb5f1b06eb7bb458c2",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "collector-integrity-review.json",
+      "originalSource": "/tmp/destiny-calibration-v5-collector-fix-review.json",
+      "originalSha256": "c5c32a1b6dd174a30006a990ae6add01d003d025bf617377fd191d38fe676a1c",
+      "committedSha256": "c5c32a1b6dd174a30006a990ae6add01d003d025bf617377fd191d38fe676a1c",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "collector-integrity-change.json",
+      "originalSource": "/tmp/destiny-calibration-collector-actual-budget-report.json",
+      "originalSha256": "437f1c3820a3bf682aba75b938c4859ca105180b8148a5b6831406ccf27f5ed8",
+      "committedSha256": "437f1c3820a3bf682aba75b938c4859ca105180b8148a5b6831406ccf27f5ed8",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "collector-historical-budget-audit.json",
+      "originalSource": "/tmp/destiny-calibration-collector-actual-budget-historical-audit.json",
+      "originalSha256": "b0b736dbf3c51194512ac090372fca4f16c5127e09f15d84afc7827110219df1",
+      "committedSha256": "1c07594529236afacb91164fe76872720f984f3144d9137ce55da6216b5d1acc",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "diagnostic-independent-review.json",
+      "originalSource": "/tmp/destiny-calibration-v5-independent-peer.json",
+      "originalSha256": "f798e0091b561a9f58cd41c529ed5b2eb846afe8f957245568e485515fadb6f9",
+      "committedSha256": "f798e0091b561a9f58cd41c529ed5b2eb846afe8f957245568e485515fadb6f9",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "probe-normalization-map.json",
+      "originalSource": "artifacts/balance/calibration-v5-probe-normalization-map.json",
+      "originalSha256": "7fdc77308348c3a85162a05cbb7a660862115dc968ab7e392f6addf4d4196795",
+      "committedSha256": "7fdc77308348c3a85162a05cbb7a660862115dc968ab7e392f6addf4d4196795",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "endless.json",
+      "originalSource": "artifacts/balance/calibration-endless-v5-evidence.json",
+      "originalSha256": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349",
+      "committedSha256": "f6a301d7a4a3de27754df00f5473dc3cd39fdd0b0c13829150c8578ca2d8cd2a",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "endless-audit.json",
+      "originalSource": "artifacts/balance/calibration-endless-v5-audit.json",
+      "originalSha256": "962dbc9de386181d32ccd8116b343262c1a5c84e64f11d7524ab8a9bbe851db9",
+      "committedSha256": "3614d631d832942d0f0ab0c3e442aa0e4ea876e5d323c17e1d0f043ec4eb098f",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "endless-audit.md",
+      "originalSource": "artifacts/balance/calibration-endless-v5-audit.md",
+      "originalSha256": "0975192d8d8ff0015a5d933a066756d9812579382d0ad8f2813a24586f69f01f",
+      "committedSha256": "0975192d8d8ff0015a5d933a066756d9812579382d0ad8f2813a24586f69f01f",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "final-documentation-review.json",
+      "originalSource": "/tmp/destiny-calibration-v5-final-formal-semantic-review-annex.json",
+      "originalSha256": "6c3eff2a9e98cc9bb72b4f4bef8158e2280659ebd0a6975d0957a9a872fcb227",
+      "committedSha256": "6c3eff2a9e98cc9bb72b4f4bef8158e2280659ebd0a6975d0957a9a872fcb227",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "final-documentation-review.md",
+      "originalSource": "/tmp/destiny-calibration-v5-final-formal-semantic-review-annex.md",
+      "originalSha256": "d7066b5c85728e2684122c5e022ea5f4ddb76029b5956b4f6adcc31940152533",
+      "committedSha256": "d7066b5c85728e2684122c5e022ea5f4ddb76029b5956b4f6adcc31940152533",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "independent-peer-lossless-split.json",
+      "originalSource": "/tmp/destiny-calibration-v5-independent-peer-lossless-split-proof-20261022T224323Z.json",
+      "originalSha256": "1e007bd3ca06715e10a247c64267d54892c282b1fc1b280a7008eb50d0442803",
+      "committedSha256": "1e007bd3ca06715e10a247c64267d54892c282b1fc1b280a7008eb50d0442803",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection.json",
+      "originalSource": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "originalSha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5",
+      "committedSha256": "372c7e38ff733c0345408262d141ac70ef1ea4016d0403749485648e51f3ecf9",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection-audit.json",
+      "originalSource": "artifacts/balance/calibration-selection-v5-audit.json",
+      "originalSha256": "4ccda4aff5f7066ef859f45339e261c9ccc1d160ba2e93647b05bf20c08e5757",
+      "committedSha256": "3d9f43cef962dbf18a63882d154b2e48225dc58203e52c00cd95d7d9c5e7525e",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection-audit.md",
+      "originalSource": "artifacts/balance/calibration-selection-v5-audit.md",
+      "originalSha256": "898456b7f115cc88884b369936c1ac24846ab84663f9b293bf2402c39545e5b7",
+      "committedSha256": "898456b7f115cc88884b369936c1ac24846ab84663f9b293bf2402c39545e5b7",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "candidate-freeze.json",
+      "originalSource": "artifacts/balance/calibration-v5-candidate-freeze.json",
+      "originalSha256": "1a55118f6a47e27b1ad30ad8d6563e5a30ca58afea2b979086314d9487106f71",
+      "committedSha256": "1a55118f6a47e27b1ad30ad8d6563e5a30ca58afea2b979086314d9487106f71",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection-decision.json",
+      "originalSource": "artifacts/balance/calibration-v5-selection-decision.json",
+      "originalSha256": "f2c2fc367defc86084ee04513be0abe30a88aed974a7a8eb766a0c6e36fafd80",
+      "committedSha256": "ca2a35309ee206036af339b341d9cbeca04d2f7cc91733a47ab2a552c519d937",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection-raw-independent-review.json",
+      "originalSource": "/tmp/destiny-calibration-selection-v5-independent-raw-peer.json",
+      "originalSha256": "0d587e8128587351914b4200f8f96dfa4ebad7c390d457fb2aa95dcd94d9069f",
+      "committedSha256": "0ef5c5b1c92b3b330c3d7e748bc7fc37a5ea2a48da18945e46e4c9a669193564",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "selection-independent-review.json",
+      "originalSource": "/tmp/destiny-calibration-selection-v5-stable-audit-independent-peer.json",
+      "originalSha256": "7efb13df23f68ec6bedf6c2e4b4af2de4e112aa41cc73f4d97772f3f6b8726fb",
+      "committedSha256": "7efb13df23f68ec6bedf6c2e4b4af2de4e112aa41cc73f4d97772f3f6b8726fb",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "sensitivity-interpretation.json",
+      "originalSource": "artifacts/balance/calibration-sensitivity-v5-interpretation.json",
+      "originalSha256": "ca773fbb573eb9081dc3d70c652d2b02f8dbec3f57a185958be9568edccca943",
+      "committedSha256": "934841a126e4ea8935ada150fcd744db22bc0cca590b392c444c3a98a790fdc4",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "sensitivity-interpretation.md",
+      "originalSource": "artifacts/balance/calibration-sensitivity-v5-interpretation.md",
+      "originalSha256": "9ee7ebaa69c33527de3969fe656f4bfcc6a18d46000fc9f4de26b53b6c3f2cd0",
+      "committedSha256": "9ee7ebaa69c33527de3969fe656f4bfcc6a18d46000fc9f4de26b53b6c3f2cd0",
+      "semanticJsonEquality": false
+    },
+    {
+      "file": "validation.json",
+      "originalSource": "artifacts/balance/calibration-validation-v5-evidence.json",
+      "originalSha256": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665",
+      "committedSha256": "0805557de2a6934def06c5862d407f6516b9c8b9a488cd6caed15bd7e3bf1475",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "validation-audit.json",
+      "originalSource": "artifacts/balance/calibration-validation-v5-audit.json",
+      "originalSha256": "6dfebc4b745baf2b87eb3cb20b8ad435b0b56eb07ef420d6d2995b78e9d98892",
+      "committedSha256": "6d82607785ed194d9305f258b5b58776250d5964f1dcb7e866afeb73fe81f08f",
+      "semanticJsonEquality": true
+    },
+    {
+      "file": "validation-audit.md",
+      "originalSource": "artifacts/balance/calibration-validation-v5-audit.md",
+      "originalSha256": "af5fb11dbebccd6043467fab8a47626f281cdeab7c3b45b4867ee47da70e332e",
+      "committedSha256": "af5fb11dbebccd6043467fab8a47626f281cdeab7c3b45b4867ee47da70e332e",
+      "semanticJsonEquality": false
+    }
+  ],
+  "note": "Recollected full matrix from exact canonical raw cells with the current strict collector. JSON normalization preserves parsed values. Phase embedded digests identify all original raw manifests, complete records and profile snapshots. Numerical runs retain their pre-commit Git metadata; content hashes establish source equivalence to the reviewed merge. Final design adoption is recorded separately."
+}

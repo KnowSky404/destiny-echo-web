@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "lossless-independent-peer-phase-split-proof",
+  "createdAt": "2026-10-22T22:43:23.819Z",
+  "pass": true,
+  "original": {
+    "path": "/tmp/destiny-calibration-v5-all-phases-independent-peer.json",
+    "sha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7",
+    "bytes": 1586589
+  },
+  "overview": {
+    "source": "artifacts/balance/calibration-v5-independent-peer-overview.json",
+    "sourceSha256": "b7eb4437d0c96e19fcba86694fe965ac2c8c07612fa3fd46830ed2de5d780e0a",
+    "normalized": "experiments/balance/calibration/evidence/all-phases-independent-review.json",
+    "normalizedSha256": "bd24f590b3f7c57cce8081d02b2cb8f9882f7125db4be0cd3aba0de3921f0b67",
+    "normalizedBytes": 117792
+  },
+  "parts": [
+    {
+      "phase": "selection",
+      "path": "experiments/balance/calibration/evidence/independent-peer-selection.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-selection.json",
+      "sourceSha256": "5cb7295126f7797f1b4f3f7d4b7f4f6ecbdb07c72c319bb8bb3443ce4150ef24",
+      "sha256": "7b199e88685ed8d398769654930373585fd402bd401d801c5e2217c0d7843378",
+      "bytes": 287708
+    },
+    {
+      "phase": "validation",
+      "path": "experiments/balance/calibration/evidence/independent-peer-validation.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-validation.json",
+      "sourceSha256": "ac3db39e73f95ee56cab903ebd194b3284c0923cab90a75bbbeb9f6a151b19bf",
+      "sha256": "5c6440e2b274133158b5104d89fbd3b4da6fb1fc07d22e781f918652cdad2c4f",
+      "bytes": 322712
+    },
+    {
+      "phase": "endless",
+      "path": "experiments/balance/calibration/evidence/independent-peer-endless.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-endless.json",
+      "sourceSha256": "040b5b740abc16fa16dc7e4d9360b9b57386e85c1fe678de18405e2593f64960",
+      "sha256": "d896ac212541dfbe61e240c5021b04a4ae860f53eb83e29ca5c6b77c549c2ba0",
+      "bytes": 218052
+    },
+    {
+      "phase": "sensitivity",
+      "path": "experiments/balance/calibration/evidence/independent-peer-sensitivity.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-sensitivity.json",
+      "sourceSha256": "342a1a025ec2522b00c2ec27f2388e0e36813d73e55d04427fba9de0c665cfb9",
+      "sha256": "547ed96c6b8cd15fdba68789145d78aff04240059e05b0c4976036cd8c78e2f5",
+      "bytes": 440160
+    }
+  ],
+  "reconstruction": {
+    "stableStringifyExactEqual": true,
+    "canonicalSha256": "9a2b5070fad49e898f10aaca5446b9717de8a548e892ea53db201eac1a80045f",
+    "originalCanonicalSha256": "9a2b5070fad49e898f10aaca5446b9717de8a548e892ea53db201eac1a80045f",
+    "rule": "Read each phases[i].path (or equivalent phases[i].source), validate its SHA256, replace that reference with the entire parsed phase object in originalPhaseOrder, then remove only this losslessSplit field. All other overview fields remain exactly as in the original. stableStringify of the reconstructed object must equal the original complete peer."
+  },
+  "retained": {
+    "records": 5448,
+    "candidate": 3048,
+    "baseline": 2400,
+    "cells": 36,
+    "ciChecks": 255,
+    "warnings": 73,
+    "pairedHarms": 88,
+    "exactReplayReceipts": 2,
+    "phases": [
+      {
+        "phase": "selection",
+        "completed": 1200,
+        "cells": 6
+      },
+      {
+        "phase": "validation",
+        "completed": 3600,
+        "cells": 6
+      },
+      {
+        "phase": "endless",
+        "completed": 360,
+        "cells": 6
+      },
+      {
+        "phase": "sensitivity",
+        "completed": 288,
+        "cells": 18
+      }
+    ]
+  },
+  "mapping": {
+    "path": "artifacts/balance/calibration-v5-curation-sources-adoption.json",
+    "beforeSha256": "1399236cdc30b7fcf9566deee313ec1e384c6cf4ba94b9907fc2bded06aa99f6",
+    "afterSha256": "e6f2a84548e80b0665358f6baed2dd5ab12d7553d435d23602e6f5a82ec242ac",
+    "finalAdoptionEntryExactlyUnchanged": true,
+    "originalFinalAdoptionEntry": {
+      "source": "artifacts/balance/calibration-v5-final-adoption.json",
+      "sourceSha256": "8b98044b83245d9d0ae62bd277ab994b40819bb9ae775f537b894c38564e7c8b",
+      "normalized": "experiments/balance/calibration/evidence/final-adoption.json"
+    }
+  },
+  "adoptionDecisionUnchanged": {
+    "path": "artifacts/balance/calibration-v5-final-adoption.json",
+    "sha256": "8b98044b83245d9d0ae62bd277ab994b40819bb9ae775f537b894c38564e7c8b"
+  },
+  "fiveCopiesAllUnder1MiB": true,
+  "formatMessages": [
+    "Formatted 4 files in 66ms. Fixed 4 files.",
+    "Formatted 1 file in 11ms. Fixed 1 file."
+  ],
+  "biomeCheck": {
+    "exitCode": 0,
+    "stdout": "Checked 5 files in 72ms. No fixes applied."
+  },
+  "simulationsExecuted": 0,
+  "testsExecuted": 0,
+  "remoteOperations": 0,
+  "trackedScope": [
+    "experiments/balance/calibration/evidence/all-phases-independent-review.json",
+    "experiments/balance/calibration/evidence/independent-peer-selection.json",
+    "experiments/balance/calibration/evidence/independent-peer-validation.json",
+    "experiments/balance/calibration/evidence/independent-peer-endless.json",
+    "experiments/balance/calibration/evidence/independent-peer-sensitivity.json"
+  ]
+}

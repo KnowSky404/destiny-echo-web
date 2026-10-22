@@ -1,0 +1,31 @@
+{
+  "kind": "local-verification",
+  "createdAt": "2026-10-22T19:37:16.507874+00:00",
+  "codeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+  "fingerprintedFileMismatches": [],
+  "unit": {
+    "exitCode": 0,
+    "tests": 375,
+    "passed": 375,
+    "failed": 0,
+    "assertions": 8663146,
+    "files": 26,
+    "seconds": 141.7
+  },
+  "typecheck": {
+    "exitCode": 0
+  },
+  "lint": {
+    "initialExitCode": 1,
+    "initialIssue": "Only new curated v4-joint-probes.json formatting",
+    "finalExitCode": 0,
+    "files": 129
+  },
+  "trackedEditsByVerifier": [
+    "experiments/balance/calibration/v4-joint-probes.json (format-only, semantic JSON equality checked, original bytes and mapping retained by root)"
+  ],
+  "testsEdited": false,
+  "frozenFilesEdited": false,
+  "logPrefix": "/tmp/destiny-calibration-v4-verification-20261022T193310Z"
+}

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-A-final-semantic-review-annex",
+  "recordedAt": "2026-10-22T20:03:58.238Z",
+  "parentReview": {
+    "path": "/tmp/destiny-calibration-v4-doc-semantic-review.json",
+    "sha256": "4a5363fa01d33470d59a2cc042d4d1ba0148f129d74d2c3ad9702a7f54b52b69",
+    "preserved": true
+  },
+  "change": "Define d locally in the English Taunting Colossus approach formula as the endless layer, starting at 1. Manual and generated pages both contain the clarification; numeric formula and nominal timings remain unchanged.",
+  "englishFiles": [
+    {
+      "path": "docs/wiki-content/Enemies.md",
+      "sha256": "fb579044f1c87605341e5b21b058f4886afaea44f80338a5f4a75c55802bd715",
+      "size": 4164
+    },
+    {
+      "path": "docs/game-guide/Enemies.md",
+      "sha256": "b77158ce3096af7ed62b65ac4c3266e7c1e84a9983f91ea95fd466d433f5a449",
+      "size": 5354
+    }
+  ],
+  "snapshotTiming": "The prior review SHA inventory was captured after root's quick d-definition edit, although its optional-clarity narrative referred to the earlier reading. Both English page SHA values therefore already match that inventory. This annex resolves the stale optional narrative without rewriting it.",
+  "changedFiles": [
+    {
+      "path": "docs/balance-calibration-2026-10-22.md",
+      "sha256": "3a06853e17bc2749390c82a2ee4d04c278d28104e70ed7bac10f3a67bbfc7864",
+      "size": 20140,
+      "previousSha256": "4966e4934ed7bb970e254dd46eab17c7fc508e2a717f5f540e2c509746e84c48"
+    }
+  ],
+  "expectedAdditionalChange": "Root subsequently narrowed retained natural-browser evidence to first-stage success/failure, reward carry-over and entry into stage two. This is accurate and remains distinct from deterministic simulation proof of full first-two-stage prefixes.",
+  "additionalReviewedFile": {
+    "path": "experiments/balance/calibration/evidence/README.md",
+    "sha256": "8ed5b8ced02aad5e520adf15ba0b67ebbe7d69d31c08b6484a47177e357867d5",
+    "size": 1738
+  },
+  "unchangedSnapshotCount": 20,
+  "unchangedFiles": [
+    {
+      "path": "src/data/balance/official.json",
+      "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+      "size": 4507
+    },
+    {
+      "path": "src/data/stages.ts",
+      "sha256": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9",
+      "size": 6102
+    },
+    {
+      "path": "src/data/balance/profile.ts",
+      "sha256": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d",
+      "size": 10717
+    },
+    {
+      "path": "src/game/world.ts",
+      "sha256": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+      "size": 76369
+    },
+    {
+      "path": "src/i18n/shell.ts",
+      "sha256": "be544ce6e0ac5bd4095b3346d1eb379de2055eaa204b43b2c5f4209d0024c1e5",
+      "size": 18719
+    },
+    {
+      "path": "index.html",
+      "sha256": "a74d126a6e4ff3ab1cfbbe06784e618240a1fb5b8449e955e18894081546f224",
+      "size": 12942
+    },
+    {
+      "path": "scripts/game-guide.ts",
+      "sha256": "aa7d6cbff7d37d9017b7d66b8f5ad4dcc69cba3a8a09798da2e756f1d1ef9db2",
+      "size": 42501
+    },
+    {
+      "path": "scripts/guide-pages.ts",
+      "sha256": "9613c2ad991566db1752b4b1aa7f528a0cb133d7f666416a43d7fe2c04b0b751",
+      "size": 11777
+    },
+    {
+      "path": "docs/wiki-content/Stages.md",
+      "sha256": "2a6b9665bbd556fe54074d4e67157a444e25801c87d5ee839b9b779b86452248",
+      "size": 5629
+    },
+    {
+      "path": "docs/wiki-content/Enemies.md",
+      "sha256": "fb579044f1c87605341e5b21b058f4886afaea44f80338a5f4a75c55802bd715",
+      "size": 4164
+    },
+    {
+      "path": "docs/wiki-content/Changelog.md",
+      "sha256": "e31a427fba0247346ea926979810974620a24c93a8862f62ccfa343a6d364fb1",
+      "size": 6076
+    },
+    {
+      "path": "docs/wiki-content/Changelog-zh-CN.md",
+      "sha256": "72ff17a350024ecd1e70a1a5cfae29d32a8bb4e440a43527b91fe2661eaf02e0",
+      "size": 5290
+    },
+    {
+      "path": "docs/game-guide/Stages.md",
+      "sha256": "ca576611de066dc1a31cfd519b7ae487f2d62e8524e43c38b7226fea57f044a2",
+      "size": 7077
+    },
+    {
+      "path": "docs/game-guide/Stages-zh-CN.md",
+      "sha256": "dc0633e73b3e962af4a96891beee62d32cb8d0f7fcbbb75a62d4b66a5c501d4d",
+      "size": 7501
+    },
+    {
+      "path": "docs/game-guide/Enemies.md",
+      "sha256": "b77158ce3096af7ed62b65ac4c3266e7c1e84a9983f91ea95fd466d433f5a449",
+      "size": 5354
+    },
+    {
+      "path": "docs/game-guide/Enemies-zh-CN.md",
+      "sha256": "3cf5388a7f0860845240e91e620d98af09d24c5ef7706cb1416bd27d02666879",
+      "size": 5955
+    },
+    {
+      "path": "README.md",
+      "sha256": "778aa9c859b8152f1e3ba4d13452b92cc57ef4459bd6136fe4a0643c0f7661af",
+      "size": 3784
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "ea7f832becf530ef73067fc3ad773ba40a3c10ff8e32b417535caa9ad970ba3e",
+      "size": 3660
+    },
+    {
+      "path": "docs/builds-and-stages.md",
+      "sha256": "a79c6de111f81275da9fc8646e692175d0de47985c1d3ae888f853e38c4058d1",
+      "size": 14937
+    },
+    {
+      "path": "experiments/balance/calibration/README.md",
+      "sha256": "918e97cafe23a53a15f884c3407601c18bba0888aa4610f545352d31b5e79a08",
+      "size": 6762
+    }
+  ],
+  "sourceFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+  "runtimeProfileUnchanged": true,
+  "buildArtifactInventory": {
+    "path": "/tmp/destiny-calibration-v4-static-artifacts.json",
+    "sha256": "294930258e314849e37f56e4f6a717d02d9e90e2d4e667ad442c093f32275c99",
+    "unchangedAssetCount": 27,
+    "includesProAndPre": true
+  },
+  "guideTestLog": {
+    "path": "/tmp/destiny-calibration-v4-guide-clarification-tests.log",
+    "sha256": "97f1321f88f58065496ca1f108d0e452cd56b3eca4cd7551aaaf0b9b30e97cbf",
+    "passed": 3,
+    "failed": 0,
+    "assertions": 671,
+    "observedExistingLogOnly": true
+  },
+  "result": "Optional clarity point resolved. No new material semantic finding.",
+  "scope": "Read-only review and tmp-only annex; no regeneration, new tests, build, browser launches, remote calls, or repo edits performed by this review."
+}

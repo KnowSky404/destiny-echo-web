@@ -1,0 +1,1829 @@
+{
+  "schemaVersion": 1,
+  "kind": "calibration-cell-evidence",
+  "phase": "selection",
+  "simulatorVersion": "1",
+  "collectorSha256": "0227e80e0ba9f636368989fbe8dc58cb86552c19277fc85bdaa47aeb79250e21",
+  "canonical": {
+    "path": "experiments/balance/calibration/selection.json",
+    "sha256": "d69d45d69389acdbc74603bc2d786d174db48ea3c6449b79f55e0e6ae8a950a6"
+  },
+  "code": {
+    "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+    "dirty": true,
+    "fingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+    "bunVersion": "1.4.3",
+    "fixedStep": 0.008333333333333333,
+    "files": {
+      "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+      "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+      "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+      "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+      "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+      "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+      "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+      "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+      "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+      "src/balance-sim/runner.ts": "e736664c0419627ee744678bb97f37ef4ee8192e55dd33a30defe7c2e8f2b26a",
+      "src/balance-sim/strategies.ts": "47836ab4a076344005895ca7ba2e1a7ecf0b98f05d40d15030b306b9f377a65d",
+      "src/balance-sim/types.ts": "7c687b47fa9b3b94e6b033c9ff97af048e27f6892c0528c6f4fc957729a8bd1f",
+      "src/data/balance/model.ts": "bd97c21a0811a9ba73836a22849899c67fa2e0e616ec98a6717411b7b4f87e2d",
+      "src/data/balance/official.json": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+      "src/data/balance/profile.ts": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d",
+      "src/data/cards.ts": "5cbb12fbb4807b83af21f76a4430d9e8ac05e25304af4c48aa84a185b6fa422d",
+      "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+      "src/data/stages.ts": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9",
+      "src/data/synergies.ts": "8ec86760b8e5e9cc95629063da9834b046a55ccbfb88f88f75eddec3b523e13f",
+      "src/data/training.ts": "62be0e187d6858ca70969b48a0be38cbc58c7a579d62574f16d009a9fe13d7fd",
+      "src/game/arena.ts": "0d10ea8917098361ed8ccfa1a86b67b390685d13680209e3bef7c61ed7ff274b",
+      "src/game/config.ts": "09a3af4af2452a61a0b365cd9492a9fe3bc0eecba4978933d0be7023d3d9e208",
+      "src/game/createGame.ts": "8cb8a71d7aaaaef385a51ef40cea6bfca1adc3a98d0aacf6bce0222f92811139",
+      "src/game/debug/DebugWorld.ts": "7e7899083cd109f4657da0740cbb13a779e637725e5671150285e9068ebbaf70",
+      "src/game/input.ts": "dfa617792cf39f967bbfdbbce45f49c28813192273155aeb102815172784d9bc",
+      "src/game/observation.ts": "609f18ba6eb0876952e67aa1cbe4ad3d552b53b830c2a70d5755b8a0719138a6",
+      "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+      "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+      "src/game/scenes/BattleScene.ts": "50e931afbf4c6c0f3737db9ba2b5607150276f4ca93dcd43935bbcf6322211da",
+      "src/game/scenes/textures.ts": "6c795ab6b01d56ee3e9b84a35ae0c88aa4ce965e1a24d6778bf6f6e6eadccb6c",
+      "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+      "src/game/stats.ts": "e4c9ccb1b7218751d8544a3b21771a8d476b76d0425ce807ebc1e0977f9063ba",
+      "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+      "src/game/systems/crowd.ts": "35bcf98a6e2c00b92b1d88a9c05980893f47d7b8aaac7fe102f0809596405935",
+      "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+      "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+      "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+      "src/game/systems/targeting.ts": "4f407647168600ec382d89e6f84df3ebdb563cd401af69a48863a256f56f972b",
+      "src/game/types.ts": "3e33f13caaed9fc9978f66b836af255c10df718afd79841db89cebbfb05343d7",
+      "src/game/world.ts": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+      "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+    }
+  },
+  "profiles": [
+    {
+      "path": "experiments/balance/calibration/baseline.json",
+      "hash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "fileSha256": "9b9cafc229476bbc202522995629315fc187979f1b15b11d5fadf879faae832c"
+    },
+    {
+      "path": "src/data/balance/official.json",
+      "hash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+      "fileSha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+    }
+  ],
+  "planned": 1200,
+  "completed": 1200,
+  "cells": [
+    {
+      "id": "selection-random-auto-portrait",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "random-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "random",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 1,
+            "counts": {
+              "campaign_victory": 1,
+              "death": 99,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.01,
+            "winRateCI95": [0.0017674320641406505, 0.054486196178705315],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 27.304166666665758,
+              "p50": 29.195833333332317,
+              "p90": 32.910833333332114
+            },
+            "finalHpWinners": {
+              "n": 1,
+              "p10": 180,
+              "p50": 180,
+              "p90": 180
+            },
+            "combatTotals": {
+              "enemyDamage": 237155.67400000198,
+              "chestDamage": 6511.2,
+              "hpLoss": 9967.243750000003,
+              "shieldAbsorbed": 0,
+              "healing": 147.24375000001777,
+              "shieldGained": 0,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 0
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 1,
+              "conditionalClearRate": 0.01,
+              "clearRateCI95": [0.0017674320641406505, 0.054486196178705315],
+              "attackedRuns": 100,
+              "enemyAttacks": 2828,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 9967.243750000003,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 1,
+              "observedEntries": 1,
+              "rightCensoredAtTarget": 0,
+              "cleared": 1,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.20654931437723745, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 2,
+              "entered": 1,
+              "observedEntries": 1,
+              "rightCensoredAtTarget": 0,
+              "cleared": 1,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.20654931437723745, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 3,
+              "entered": 1,
+              "observedEntries": 1,
+              "rightCensoredAtTarget": 0,
+              "cleared": 1,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.20654931437723745, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "random-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "random",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 27,
+            "counts": {
+              "campaign_victory": 27,
+              "death": 73,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.27,
+            "winRateCI95": [0.1926958414957634, 0.36432116767944994],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 56.56499999999743,
+              "p50": 77.10833333334077,
+              "p90": 234.54583333328438
+            },
+            "finalHpWinners": {
+              "n": 27,
+              "p10": 118,
+              "p50": 160,
+              "p90": 228.00000000000006
+            },
+            "combatTotals": {
+              "enemyDamage": 14123603.332376113,
+              "chestDamage": 38474.7,
+              "hpLoss": 11550.057084564933,
+              "shieldAbsorbed": 347.0994779349995,
+              "healing": 6157.295522065106,
+              "shieldGained": 818.6528091850078,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 86.94999999994138
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 35,
+              "conditionalClearRate": 0.35,
+              "clearRateCI95": [0.26364248243097527, 0.44745556703112027],
+              "attackedRuns": 99,
+              "enemyAttacks": 3720,
+              "hostileHpDamagedRuns": 99,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7922.31874999999,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 35,
+              "observedEntries": 35,
+              "rightCensoredAtTarget": 0,
+              "cleared": 28,
+              "conditionalClearRate": 0.8,
+              "clearRateCI95": [0.6410838693433439, 0.8995755352620137],
+              "attackedRuns": 18,
+              "enemyAttacks": 263,
+              "hostileHpDamagedRuns": 17,
+              "shieldDamagedRuns": 2,
+              "hostileHpLoss": 1063.6309374999432,
+              "bloodpactHpLoss": 21,
+              "shieldAbsorbed": 11.525312499999995
+            },
+            {
+              "stageIndex": 2,
+              "entered": 28,
+              "observedEntries": 28,
+              "rightCensoredAtTarget": 0,
+              "cleared": 27,
+              "conditionalClearRate": 0.9642857142857143,
+              "clearRateCI95": [0.8228780225664668, 0.9936674801509623],
+              "attackedRuns": 16,
+              "enemyAttacks": 190,
+              "hostileHpDamagedRuns": 10,
+              "shieldDamagedRuns": 7,
+              "hostileHpLoss": 792.9520845650006,
+              "bloodpactHpLoss": 120,
+              "shieldAbsorbed": 236.2294779349995
+            },
+            {
+              "stageIndex": 3,
+              "entered": 27,
+              "observedEntries": 27,
+              "rightCensoredAtTarget": 0,
+              "cleared": 27,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.8754449702581328, 0.9999999999999998],
+              "attackedRuns": 8,
+              "enemyAttacks": 683,
+              "hostileHpDamagedRuns": 5,
+              "shieldDamagedRuns": 4,
+              "hostileHpLoss": 1381.1553125,
+              "bloodpactHpLoss": 249,
+              "shieldAbsorbed": 99.34468750000008
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-random-auto-portrait",
+        "manifestSha256": "e0179beaf6a8fadf48425cc3e1c1d237abb94758d9ae1ce9ecbd617b562a5640",
+        "runsSha256": "813069eada63167d2d51f7e43138b834fb06be9747c9f822d24a1ed4e8fd9a62",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:36:32.979Z"
+      }
+    },
+    {
+      "id": "selection-random-auto-desktop",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "random-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "random",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 5,
+            "counts": {
+              "campaign_victory": 5,
+              "death": 95,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.05,
+            "winRateCI95": [0.02154367915436796, 0.11175046923191913],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 26.410833333332477,
+              "p50": 28.208333333332373,
+              "p90": 36.23749999999871
+            },
+            "finalHpWinners": {
+              "n": 5,
+              "p10": 112,
+              "p50": 160,
+              "p90": 234
+            },
+            "combatTotals": {
+              "enemyDamage": 1074721.0550000002,
+              "chestDamage": 9966.06,
+              "hpLoss": 10203.431249999998,
+              "shieldAbsorbed": 99,
+              "healing": 1053.4312500000397,
+              "shieldGained": 327,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 0
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 5,
+              "conditionalClearRate": 0.05,
+              "clearRateCI95": [0.02154367915436796, 0.11175046923191913],
+              "attackedRuns": 100,
+              "enemyAttacks": 3329,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 9966.031249999998,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 5,
+              "observedEntries": 5,
+              "rightCensoredAtTarget": 0,
+              "cleared": 5,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.5655175352168251, 1],
+              "attackedRuns": 3,
+              "enemyAttacks": 25,
+              "hostileHpDamagedRuns": 3,
+              "shieldDamagedRuns": 1,
+              "hostileHpLoss": 156.4,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 24
+            },
+            {
+              "stageIndex": 2,
+              "entered": 5,
+              "observedEntries": 5,
+              "rightCensoredAtTarget": 0,
+              "cleared": 5,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.5655175352168251, 1],
+              "attackedRuns": 3,
+              "enemyAttacks": 8,
+              "hostileHpDamagedRuns": 1,
+              "shieldDamagedRuns": 1,
+              "hostileHpLoss": 24,
+              "bloodpactHpLoss": 27,
+              "shieldAbsorbed": 48
+            },
+            {
+              "stageIndex": 3,
+              "entered": 5,
+              "observedEntries": 5,
+              "rightCensoredAtTarget": 0,
+              "cleared": 5,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.5655175352168251, 1],
+              "attackedRuns": 2,
+              "enemyAttacks": 5,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 1,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 30,
+              "shieldAbsorbed": 27
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "random-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "random",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 20,
+            "counts": {
+              "campaign_victory": 20,
+              "death": 80,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.2,
+            "winRateCI95": [0.1333669333310325, 0.2888291655931589],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 63.76499999999702,
+              "p50": 96.89166666668984,
+              "p90": 232.68749999995273
+            },
+            "finalHpWinners": {
+              "n": 20,
+              "p10": 127,
+              "p50": 190,
+              "p90": 283.00000000000006
+            },
+            "combatTotals": {
+              "enemyDamage": 16137197.282587906,
+              "chestDamage": 38822.28,
+              "hpLoss": 18524.21256889985,
+              "shieldAbsorbed": 196.5531250000001,
+              "healing": 12504.212568900502,
+              "shieldGained": 738.0531250000005,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 15.749999999991218
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 67,
+              "conditionalClearRate": 0.67,
+              "clearRateCI95": [0.5730534379509052, 0.7543687726587197],
+              "attackedRuns": 97,
+              "enemyAttacks": 5031,
+              "hostileHpDamagedRuns": 97,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7186.281249999993,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 67,
+              "observedEntries": 67,
+              "rightCensoredAtTarget": 0,
+              "cleared": 20,
+              "conditionalClearRate": 0.29850746268656714,
+              "clearRateCI95": [0.20231511276602715, 0.41655213743643765],
+              "attackedRuns": 59,
+              "enemyAttacks": 1728,
+              "hostileHpDamagedRuns": 59,
+              "shieldDamagedRuns": 2,
+              "hostileHpLoss": 5437.731318899854,
+              "bloodpactHpLoss": 36,
+              "shieldAbsorbed": 27.45312500000011
+            },
+            {
+              "stageIndex": 2,
+              "entered": 20,
+              "observedEntries": 20,
+              "rightCensoredAtTarget": 0,
+              "cleared": 20,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.8388748419471806, 1],
+              "attackedRuns": 12,
+              "enemyAttacks": 1330,
+              "hostileHpDamagedRuns": 9,
+              "shieldDamagedRuns": 2,
+              "hostileHpLoss": 3534.700000000001,
+              "bloodpactHpLoss": 126,
+              "shieldAbsorbed": 22.099999999999994
+            },
+            {
+              "stageIndex": 3,
+              "entered": 20,
+              "observedEntries": 20,
+              "rightCensoredAtTarget": 0,
+              "cleared": 20,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.8388748419471806, 1],
+              "attackedRuns": 12,
+              "enemyAttacks": 1476,
+              "hostileHpDamagedRuns": 8,
+              "shieldDamagedRuns": 2,
+              "hostileHpLoss": 2065.5,
+              "bloodpactHpLoss": 138,
+              "shieldAbsorbed": 147
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-random-auto-desktop",
+        "manifestSha256": "6d353698baf333362d2e8d3755c97443599ae1a516498f36c8520eb5e95f2880",
+        "runsSha256": "43905391bb862f516370a161d9f1ee2a0be5555def8cd179a58d4d2ecd066aaf",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:36:24.766Z"
+      }
+    },
+    {
+      "id": "selection-build-auto-portrait",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "build-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 41,
+            "counts": {
+              "campaign_victory": 41,
+              "death": 59,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.41,
+            "winRateCI95": [0.3186731302113651, 0.5079856994658921],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 28.507499999999023,
+              "p50": 35.52499999999863,
+              "p90": 216.5808333333007
+            },
+            "finalHpWinners": {
+              "n": 41,
+              "p10": 120,
+              "p50": 180,
+              "p90": 230
+            },
+            "combatTotals": {
+              "enemyDamage": 4481521.234240006,
+              "chestDamage": 40470.84,
+              "hpLoss": 8420,
+              "shieldAbsorbed": 0,
+              "healing": 5945.00000000021,
+              "shieldGained": 2425,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 162.9749999999046
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 41,
+              "conditionalClearRate": 0.41,
+              "clearRateCI95": [0.3186731302113651, 0.5079856994658921],
+              "attackedRuns": 100,
+              "enemyAttacks": 1771,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7652,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 41,
+              "observedEntries": 41,
+              "rightCensoredAtTarget": 0,
+              "cleared": 41,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9143324298155681, 0.9999999999999999],
+              "attackedRuns": 2,
+              "enemyAttacks": 22,
+              "hostileHpDamagedRuns": 2,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 59.400000000000006,
+              "bloodpactHpLoss": 84,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 2,
+              "entered": 41,
+              "observedEntries": 41,
+              "rightCensoredAtTarget": 0,
+              "cleared": 41,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9143324298155681, 0.9999999999999999],
+              "attackedRuns": 1,
+              "enemyAttacks": 17,
+              "hostileHpDamagedRuns": 1,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 51.60000000000002,
+              "bloodpactHpLoss": 237,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 3,
+              "entered": 41,
+              "observedEntries": 41,
+              "rightCensoredAtTarget": 0,
+              "cleared": 41,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9143324298155681, 0.9999999999999999],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 336,
+              "shieldAbsorbed": 0
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "build-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 75,
+            "counts": {
+              "campaign_victory": 75,
+              "death": 25,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.75,
+            "winRateCI95": [0.656955364519384, 0.8245478863771232],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 72.70333333333727,
+              "p50": 215.27083333330188,
+              "p90": 239.62083333327976
+            },
+            "finalHpWinners": {
+              "n": 75,
+              "p10": 130,
+              "p50": 190,
+              "p90": 240
+            },
+            "combatTotals": {
+              "enemyDamage": 34562662.33773842,
+              "chestDamage": 73140,
+              "hpLoss": 19127.386364402366,
+              "shieldAbsorbed": 1147.4636355976,
+              "healing": 23392.986364402866,
+              "shieldGained": 5807.356837779343,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 448.3833333330326
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 86,
+              "conditionalClearRate": 0.86,
+              "clearRateCI95": [0.7786281178903616, 0.9147365634006086],
+              "attackedRuns": 80,
+              "enemyAttacks": 1221,
+              "hostileHpDamagedRuns": 74,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 2517.368749999991,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 86,
+              "observedEntries": 86,
+              "rightCensoredAtTarget": 0,
+              "cleared": 77,
+              "conditionalClearRate": 0.8953488372093024,
+              "clearRateCI95": [0.8129297644077995, 0.943959102854637],
+              "attackedRuns": 29,
+              "enemyAttacks": 792,
+              "hostileHpDamagedRuns": 23,
+              "shieldDamagedRuns": 8,
+              "hostileHpLoss": 1923.1437499999797,
+              "bloodpactHpLoss": 129,
+              "shieldAbsorbed": 201.39999999999998
+            },
+            {
+              "stageIndex": 2,
+              "entered": 77,
+              "observedEntries": 77,
+              "rightCensoredAtTarget": 0,
+              "cleared": 75,
+              "conditionalClearRate": 0.974025974025974,
+              "clearRateCI95": [0.9101541722024686, 0.9928478401921068],
+              "attackedRuns": 24,
+              "enemyAttacks": 2047,
+              "hostileHpDamagedRuns": 11,
+              "shieldDamagedRuns": 13,
+              "hostileHpLoss": 5178.37386440239,
+              "bloodpactHpLoss": 318,
+              "shieldAbsorbed": 566.5636355975998
+            },
+            {
+              "stageIndex": 3,
+              "entered": 75,
+              "observedEntries": 75,
+              "rightCensoredAtTarget": 0,
+              "cleared": 75,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9512761575171942, 1],
+              "attackedRuns": 21,
+              "enemyAttacks": 4992,
+              "hostileHpDamagedRuns": 7,
+              "shieldDamagedRuns": 12,
+              "hostileHpLoss": 8350.5,
+              "bloodpactHpLoss": 711,
+              "shieldAbsorbed": 379.5
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-auto-portrait",
+        "manifestSha256": "ceb4207f6554e7e2e39b2c9ea98ce31582ff922330745d04f3aaacd25fa0b67a",
+        "runsSha256": "8cd799bd992eef1b1be93c0664a4ed59f68b71affee8e0574072629ec874b3cf",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:42:14.610Z"
+      }
+    },
+    {
+      "id": "selection-build-auto-desktop",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "build-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 37,
+            "counts": {
+              "campaign_victory": 37,
+              "death": 63,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.37,
+            "winRateCI95": [0.28182360534324524, 0.4677947041905709],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 28.05583333333238,
+              "p50": 31.64166666666551,
+              "p90": 216.48999999996744
+            },
+            "finalHpWinners": {
+              "n": 37,
+              "p10": 156,
+              "p50": 220,
+              "p90": 280
+            },
+            "combatTotals": {
+              "enemyDamage": 5599354.535999992,
+              "chestDamage": 37216.2,
+              "hpLoss": 8047.443750000004,
+              "shieldAbsorbed": 0,
+              "healing": 5937.443750000173,
+              "shieldGained": 2659.302616514999,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 218.70833333319212
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 37,
+              "conditionalClearRate": 0.37,
+              "clearRateCI95": [0.28182360534324524, 0.4677947041905709],
+              "attackedRuns": 100,
+              "enemyAttacks": 2166,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7609.443750000004,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 37,
+              "observedEntries": 37,
+              "rightCensoredAtTarget": 0,
+              "cleared": 37,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9059421741627975, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 30,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 2,
+              "entered": 37,
+              "observedEntries": 37,
+              "rightCensoredAtTarget": 0,
+              "cleared": 37,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9059421741627975, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 114,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 3,
+              "entered": 37,
+              "observedEntries": 37,
+              "rightCensoredAtTarget": 0,
+              "cleared": 37,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9059421741627975, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 294,
+              "shieldAbsorbed": 0
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "build-auto",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "auto",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 79,
+            "counts": {
+              "campaign_victory": 79,
+              "death": 21,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.79,
+            "winRateCI95": [0.7002003116591013, 0.858343459380847],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 105.10916666669638,
+              "p50": 218.43749999996567,
+              "p90": 275.9558333332467
+            },
+            "finalHpWinners": {
+              "n": 79,
+              "p10": 130,
+              "p50": 210,
+              "p90": 310
+            },
+            "combatTotals": {
+              "enemyDamage": 53943532.49055066,
+              "chestDamage": 75403.8,
+              "hpLoss": 26569.919908918677,
+              "shieldAbsorbed": 2830.304718581213,
+              "healing": 33531.21990891958,
+              "shieldGained": 7611.357617884161,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 607.2833333329244
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 99,
+              "conditionalClearRate": 0.99,
+              "clearRateCI95": [0.9455138038212946, 0.9982325679358593],
+              "attackedRuns": 46,
+              "enemyAttacks": 1155,
+              "hostileHpDamagedRuns": 44,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 1787.5812499999988,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 99,
+              "observedEntries": 99,
+              "rightCensoredAtTarget": 0,
+              "cleared": 79,
+              "conditionalClearRate": 0.797979797979798,
+              "clearRateCI95": [0.7084558888292174, 0.8652427019586431],
+              "attackedRuns": 46,
+              "enemyAttacks": 2210,
+              "hostileHpDamagedRuns": 46,
+              "shieldDamagedRuns": 10,
+              "hostileHpLoss": 5739.875505246351,
+              "bloodpactHpLoss": 126,
+              "shieldAbsorbed": 328.0678722535554
+            },
+            {
+              "stageIndex": 2,
+              "entered": 79,
+              "observedEntries": 79,
+              "rightCensoredAtTarget": 0,
+              "cleared": 79,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9536287883460772, 1],
+              "attackedRuns": 43,
+              "enemyAttacks": 3696,
+              "hostileHpDamagedRuns": 23,
+              "shieldDamagedRuns": 21,
+              "hostileHpLoss": 7560.097013407439,
+              "bloodpactHpLoss": 576,
+              "shieldAbsorbed": 1194.1029865925632
+            },
+            {
+              "stageIndex": 3,
+              "entered": 79,
+              "observedEntries": 79,
+              "rightCensoredAtTarget": 0,
+              "cleared": 79,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9536287883460772, 1],
+              "attackedRuns": 39,
+              "enemyAttacks": 7260,
+              "hostileHpDamagedRuns": 16,
+              "shieldDamagedRuns": 23,
+              "hostileHpLoss": 9781.366140264905,
+              "bloodpactHpLoss": 999,
+              "shieldAbsorbed": 1308.1338597350946
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-auto-desktop",
+        "manifestSha256": "032ce2d01994a55c90717ad5e460f18ae222e035a86c4d435bc9eda8e9086c56",
+        "runsSha256": "cd166d5279250540d8d6cc6d052590455febfbfcb7d79d1068745f97408ae941",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:43:12.711Z"
+      }
+    },
+    {
+      "id": "selection-build-active-portrait",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "build-active",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "active",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 45,
+            "counts": {
+              "campaign_victory": 45,
+              "death": 55,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.45,
+            "winRateCI95": [0.3561453797951198, 0.5475539700255787],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 28.766666666665675,
+              "p50": 36.741666666665225,
+              "p90": 216.5558333333007
+            },
+            "finalHpWinners": {
+              "n": 45,
+              "p10": 130,
+              "p50": 190,
+              "p90": 236
+            },
+            "combatTotals": {
+              "enemyDamage": 4934656.321600002,
+              "chestDamage": 44636,
+              "hpLoss": 8166.706250000002,
+              "shieldAbsorbed": 16.1,
+              "healing": 6736.706250000181,
+              "shieldGained": 3109.3287499999997,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 158.28333333324147
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 45,
+              "conditionalClearRate": 0.45,
+              "clearRateCI95": [0.3561453797951198, 0.5475539700255787],
+              "attackedRuns": 100,
+              "enemyAttacks": 1856,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7466.906250000003,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 45,
+              "observedEntries": 45,
+              "rightCensoredAtTarget": 0,
+              "cleared": 45,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9213484012671117, 1],
+              "attackedRuns": 3,
+              "enemyAttacks": 9,
+              "hostileHpDamagedRuns": 2,
+              "shieldDamagedRuns": 1,
+              "hostileHpLoss": 30.80000000000001,
+              "bloodpactHpLoss": 75,
+              "shieldAbsorbed": 7.700000000000003
+            },
+            {
+              "stageIndex": 2,
+              "entered": 45,
+              "observedEntries": 45,
+              "rightCensoredAtTarget": 0,
+              "cleared": 45,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9213484012671117, 1],
+              "attackedRuns": 1,
+              "enemyAttacks": 1,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 1,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 225,
+              "shieldAbsorbed": 8.399999999999999
+            },
+            {
+              "stageIndex": 3,
+              "entered": 45,
+              "observedEntries": 45,
+              "rightCensoredAtTarget": 0,
+              "cleared": 45,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9213484012671117, 1],
+              "attackedRuns": 0,
+              "enemyAttacks": 0,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 369,
+              "shieldAbsorbed": 0
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "build-active",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "active",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "portrait",
+          "width": 450,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 77,
+            "counts": {
+              "campaign_victory": 77,
+              "death": 23,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.77,
+            "winRateCI95": [0.6784561697712622, 0.8415673411969654],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 81.92166666667794,
+              "p50": 216.12499999996777,
+              "p90": 251.4183333332691
+            },
+            "finalHpWinners": {
+              "n": 77,
+              "p10": 130,
+              "p50": 190,
+              "p90": 244.00000000000006
+            },
+            "combatTotals": {
+              "enemyDamage": 35675916.77491222,
+              "chestDamage": 74822.4,
+              "hpLoss": 20846.51159668322,
+              "shieldAbsorbed": 3399.519653316754,
+              "healing": 25595.599082440473,
+              "shieldGained": 7975.553362936066,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 437.2999999997088
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 89,
+              "conditionalClearRate": 0.89,
+              "clearRateCI95": [0.8136870349691969, 0.9374580364293543],
+              "attackedRuns": 80,
+              "enemyAttacks": 1058,
+              "hostileHpDamagedRuns": 75,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 2385.881249999987,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 89,
+              "observedEntries": 89,
+              "rightCensoredAtTarget": 0,
+              "cleared": 77,
+              "conditionalClearRate": 0.8651685393258427,
+              "clearRateCI95": [0.7789609654865195, 0.921157287992622],
+              "attackedRuns": 32,
+              "enemyAttacks": 942,
+              "hostileHpDamagedRuns": 27,
+              "shieldDamagedRuns": 10,
+              "hostileHpLoss": 2576.1024999999945,
+              "bloodpactHpLoss": 279,
+              "shieldAbsorbed": 210.3474999999999
+            },
+            {
+              "stageIndex": 2,
+              "entered": 77,
+              "observedEntries": 77,
+              "rightCensoredAtTarget": 0,
+              "cleared": 77,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9524815747175658, 0.9999999999999999],
+              "attackedRuns": 26,
+              "enemyAttacks": 2278,
+              "hostileHpDamagedRuns": 14,
+              "shieldDamagedRuns": 12,
+              "hostileHpLoss": 5795.841046718131,
+              "bloodpactHpLoss": 597,
+              "shieldAbsorbed": 767.8589532818706
+            },
+            {
+              "stageIndex": 3,
+              "entered": 77,
+              "observedEntries": 77,
+              "rightCensoredAtTarget": 0,
+              "cleared": 77,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9524815747175658, 0.9999999999999999],
+              "attackedRuns": 23,
+              "enemyAttacks": 5486,
+              "hostileHpDamagedRuns": 9,
+              "shieldDamagedRuns": 15,
+              "hostileHpLoss": 8225.686799965117,
+              "bloodpactHpLoss": 987,
+              "shieldAbsorbed": 2421.313200034884
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-active-portrait",
+        "manifestSha256": "27a39645760ba5e97192ae43418ebd7fe1761e1792cf6da5c733df3bfb9134ee",
+        "runsSha256": "c09a5224cf53919e3e7da746528d967b61e6a52b297fe449473fa5d1a54d744f",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:49:09.386Z"
+      }
+    },
+    {
+      "id": "selection-build-active-desktop",
+      "phase": "selection",
+      "planned": 200,
+      "completed": 200,
+      "groups": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "profile": "当前正式数值",
+          "strategy": {
+            "name": "build-active",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "active",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 39,
+            "counts": {
+              "campaign_victory": 39,
+              "death": 61,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.39,
+            "winRateCI95": [0.3001687400639441, 0.4879698295415926],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 27.521666666665745,
+              "p50": 31.637499999998845,
+              "p90": 216.4891666666341
+            },
+            "finalHpWinners": {
+              "n": 39,
+              "p10": 158,
+              "p50": 210,
+              "p90": 280
+            },
+            "combatTotals": {
+              "enemyDamage": 5931452.244800007,
+              "chestDamage": 39830.96,
+              "hpLoss": 8256.068750000015,
+              "shieldAbsorbed": 0,
+              "healing": 6516.068750000214,
+              "shieldGained": 2969,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 218.2999999998553
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 39,
+              "conditionalClearRate": 0.39,
+              "clearRateCI95": [0.3001687400639441, 0.4879698295415926],
+              "attackedRuns": 100,
+              "enemyAttacks": 2280,
+              "hostileHpDamagedRuns": 100,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7611.168750000015,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 39,
+              "observedEntries": 39,
+              "rightCensoredAtTarget": 0,
+              "cleared": 39,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9103331462924287, 1],
+              "attackedRuns": 1,
+              "enemyAttacks": 4,
+              "hostileHpDamagedRuns": 1,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 7.700000000000003,
+              "bloodpactHpLoss": 48,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 2,
+              "entered": 39,
+              "observedEntries": 39,
+              "rightCensoredAtTarget": 0,
+              "cleared": 39,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9103331462924287, 1],
+              "attackedRuns": 1,
+              "enemyAttacks": 3,
+              "hostileHpDamagedRuns": 1,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 25.200000000000017,
+              "bloodpactHpLoss": 186,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 3,
+              "entered": 39,
+              "observedEntries": 39,
+              "rightCensoredAtTarget": 0,
+              "cleared": 39,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9103331462924287, 1],
+              "attackedRuns": 1,
+              "enemyAttacks": 3,
+              "hostileHpDamagedRuns": 0,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 0,
+              "bloodpactHpLoss": 378,
+              "shieldAbsorbed": 0
+            }
+          ]
+        },
+        {
+          "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+          "profile": "Stage calibration 2026-10-22",
+          "strategy": {
+            "name": "build-active",
+            "version": "1",
+            "seed": 1398035009,
+            "reward": {
+              "kind": "build",
+              "tieBreak": "first",
+              "preferences": {},
+              "weights": {
+                "output": 28,
+                "survival": 18,
+                "investment": 1.5,
+                "threshold": 8,
+                "preference": 10,
+                "rarity": 1,
+                "fallback": 2
+              }
+            },
+            "target": {
+              "kind": "active",
+              "intervalSeconds": 0.5,
+              "chestSafeHealthRatio": 0.5
+            }
+          },
+          "layoutId": "desktop",
+          "width": 1600,
+          "rawCohort": "selection",
+          "summary": {
+            "planned": 100,
+            "completed": 100,
+            "wins": 75,
+            "counts": {
+              "campaign_victory": 75,
+              "death": 25,
+              "endless_target_reached": 0,
+              "budget_exhausted": 0,
+              "error": 0,
+              "cancelled": 0
+            },
+            "winRate": 0.75,
+            "winRateCI95": [0.656955364519384, 0.8245478863771232],
+            "playerSeconds": {
+              "n": 100,
+              "p10": 109.49416666669987,
+              "p50": 216.41666666663417,
+              "p90": 273.6499999999155
+            },
+            "finalHpWinners": {
+              "n": 75,
+              "p10": 142,
+              "p50": 210,
+              "p90": 280
+            },
+            "combatTotals": {
+              "enemyDamage": 51997654.37944836,
+              "chestDamage": 74598,
+              "hpLoss": 15703.55235897444,
+              "shieldAbsorbed": 6219.431501025469,
+              "healing": 21971.852358975237,
+              "shieldGained": 11455.77682210454,
+              "poisonSeconds": 0,
+              "woundSeconds": 0,
+              "slowSeconds": 0,
+              "sanctuarySeconds": 594.316666666268
+            }
+          },
+          "stages": [
+            {
+              "stageIndex": 0,
+              "entered": 100,
+              "observedEntries": 100,
+              "rightCensoredAtTarget": 0,
+              "cleared": 95,
+              "conditionalClearRate": 0.95,
+              "clearRateCI95": [0.8882495307680808, 0.9784563208456319],
+              "attackedRuns": 44,
+              "enemyAttacks": 1272,
+              "hostileHpDamagedRuns": 44,
+              "shieldDamagedRuns": 0,
+              "hostileHpLoss": 2152.049999999986,
+              "bloodpactHpLoss": 0,
+              "shieldAbsorbed": 0
+            },
+            {
+              "stageIndex": 1,
+              "entered": 95,
+              "observedEntries": 95,
+              "rightCensoredAtTarget": 0,
+              "cleared": 76,
+              "conditionalClearRate": 0.8,
+              "clearRateCI95": [0.7086265584527134, 0.8680545294236028],
+              "attackedRuns": 43,
+              "enemyAttacks": 1187,
+              "hostileHpDamagedRuns": 40,
+              "shieldDamagedRuns": 9,
+              "hostileHpLoss": 3471.0741720087276,
+              "bloodpactHpLoss": 126,
+              "shieldAbsorbed": 477.46593799119916
+            },
+            {
+              "stageIndex": 2,
+              "entered": 76,
+              "observedEntries": 76,
+              "rightCensoredAtTarget": 0,
+              "cleared": 75,
+              "conditionalClearRate": 0.9868421052631579,
+              "clearRateCI95": [0.9291632524821559, 0.997673519954421],
+              "attackedRuns": 33,
+              "enemyAttacks": 2359,
+              "hostileHpDamagedRuns": 16,
+              "shieldDamagedRuns": 16,
+              "hostileHpLoss": 4656.615568023713,
+              "bloodpactHpLoss": 522,
+              "shieldAbsorbed": 1616.7781819762813
+            },
+            {
+              "stageIndex": 3,
+              "entered": 75,
+              "observedEntries": 75,
+              "rightCensoredAtTarget": 0,
+              "cleared": 75,
+              "conditionalClearRate": 1,
+              "clearRateCI95": [0.9512761575171942, 1],
+              "attackedRuns": 31,
+              "enemyAttacks": 4447,
+              "hostileHpDamagedRuns": 8,
+              "shieldDamagedRuns": 19,
+              "hostileHpLoss": 3836.8126189420123,
+              "bloodpactHpLoss": 939,
+              "shieldAbsorbed": 4125.187381057987
+            }
+          ]
+        }
+      ],
+      "provenance": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-active-desktop",
+        "manifestSha256": "65d7cc44c7705363efab18ac21c92629be8a21ae1b80cbd3a9c463b0582b6e37",
+        "runsSha256": "78d056004a17d393bb16e8aed6cc89110cf537825e624bdd7f97b71cef7dbf9d",
+        "profileFileHashes": {
+          "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3"
+        },
+        "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+        "dirty": true,
+        "finishedAt": "2026-10-22T19:49:16.333Z"
+      }
+    }
+  ]
+}

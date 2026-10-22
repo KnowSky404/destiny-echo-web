@@ -1,0 +1,26 @@
+{
+  "kind": "prospective-validation-reservation",
+  "createdAt": "2026-10-22T20:39:04.204297+00:00",
+  "candidate": "not selected",
+  "reason": "V4 failed expanded independent validation in one high-sustain post-boss cleanup case; preserve all3600 original records and rejection, investigate a wider late-stage HP range before fresh independent testing.",
+  "masterSeed": 20261028,
+  "seedCount": 300,
+  "strategyNames": ["random-auto", "build-auto", "build-active"],
+  "widths": [450, 1600],
+  "profiles": ["original baseline", "future frozen candidate"],
+  "plannedRuns": 3600,
+  "maxSeconds": 650,
+  "maxSteps": 78000,
+  "outcomesInspected": false,
+  "hardGate": "Zero unresolved/budget-exhausted, invalid, runtime-error, cancelled or missing records; complete identical-source matrix.",
+  "priorInspectedValidationMasters": [20261023, 20261026, 20261027],
+  "otherUnseenMastersRetained": {
+    "endless": 20261024,
+    "sensitivity": 20261025
+  },
+  "exploratoryPacingTargetBeforeCandidateChoice": {
+    "knownLongTailCampaignMaxSeconds": 475,
+    "budgetMarginSeconds": 175,
+    "interpretation": "Diagnostic target only, excluded from adoption. Retain successful and failed controls, pressure including zero values, all common-win slowdowns and original-win deaths. No damage-only early death is a pacing success."
+  }
+}

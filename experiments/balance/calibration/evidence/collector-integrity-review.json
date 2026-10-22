@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-read-only-collector-budget-fix-review",
+  "recordedAt": "2026-10-22T21:03:37.747223+00:00",
+  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "testSha256": "16301ea133d97e1fd33456463846047ad730e74c347e5fbe7b2466cac34e51d3",
+  "result": "pass",
+  "checks": [
+    "Actual steps are finite safe nonnegative integers and no greater than canonical maxSteps.",
+    "Actual elapsed time cannot exceed canonical maxSeconds by more than1e-7.",
+    "Actual elapsed time must equal steps*validated fixedStep within1e-7.",
+    "parseReviewCase rejects result.fixedStep differing from CONFIG; manifest/current code identity also fixes fixedStep, preventing rescaling bypass.",
+    "Checks execute before termination/summary acceptance and preserve rejection of budget_exhausted.",
+    "Regressions separately isolate step limit, seconds limit, fractional steps, clock mismatch and accepted sub-tolerance roundoff.",
+    "Existing endless success/censoring and additive stage totals checks remain."
+  ],
+  "pureReproduction": {
+    "script": "/tmp/destiny-calibration-review-collector-budget-gap.ts",
+    "originalAcceptedBeforeFix": true,
+    "acceptedAfterFix": false,
+    "reason": "Actual fixed steps exceed cell budget",
+    "simulationsExecuted": 0
+  },
+  "verificationReviewed": {
+    "unitPassed": 22,
+    "unitFailed": 0,
+    "assertions": 227,
+    "typecheckAndLintReportedExitCode": 0,
+    "historicalClockAudit": {
+      "cells": 42,
+      "records": 10800,
+      "violations": 0,
+      "maxDiscrepancySeconds": 4.267803888069466e-10,
+      "scope": "Read-only clock/budget audit of rejected historical formal runs; does not make rejected outcomes adoption evidence."
+    }
+  },
+  "provenance": [
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/scripts/calibration-evidence.ts",
+      "sha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/tests/unit/calibration-evidence.test.ts",
+      "sha256": "16301ea133d97e1fd33456463846047ad730e74c347e5fbe7b2466cac34e51d3"
+    },
+    {
+      "path": "/tmp/destiny-calibration-collector-actual-budget-report.json",
+      "sha256": "437f1c3820a3bf682aba75b938c4859ca105180b8148a5b6831406ccf27f5ed8"
+    },
+    {
+      "path": "/tmp/destiny-calibration-collector-actual-budget-historical-audit.json",
+      "sha256": "b0b736dbf3c51194512ac090372fca4f16c5127e09f15d84afc7827110219df1"
+    },
+    {
+      "path": "/tmp/destiny-calibration-collector-actual-budget-unit.log",
+      "sha256": "1f3523ead4b7aab38e6a170b1902cafd5fc01dd451d62e44c1a415064e6d2df2"
+    }
+  ],
+  "priorCollectorSnapshot": {
+    "path": "scripts/calibration-evidence.ts",
+    "sha256": "84f058f8b1d79b46d16fc1c6e4dd9c1ecf7e62f3e4803e75f16d312e52820332",
+    "snapshot": "artifacts/balance/calibration-collector-before-actual-budget-84f058f8b1d7.ts",
+    "bytes": 23020
+  },
+  "remainingMaterialFindings": [],
+  "newSimulationOrTestProcessesLaunchedByReviewer": 0
+}

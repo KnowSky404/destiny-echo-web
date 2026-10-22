@@ -2,8 +2,10 @@ import { describe, expect, test } from "bun:test";
 import { checkGuide, renderGuide, wikiMarkdown } from "../../scripts/game-guide";
 import { CARDS } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
+import { STAGES } from "../../src/data/stages";
 import { SYNERGIES } from "../../src/data/synergies";
 import { TRAININGS } from "../../src/data/training";
+import { World } from "../../src/game/world";
 
 describe("player guide and wiki synchronization", () => {
   test("checked-in pages match the current rules and every card, enemy and synergy is documented", async () => {
@@ -18,6 +20,15 @@ describe("player guide and wiki synchronization", () => {
       expect(pages["Enemies-zh-CN"]).toContain(enemy.name);
     for (const family of SYNERGIES)
       for (const tier of family.tiers) expect(pages["Builds-zh-CN"]).toContain(tier);
+    const endlessTable = pages["Stages-zh-CN"]?.split("| 无尽关数 |")[1] ?? "";
+    const rows = [...endlessTable.matchAll(/^\| (\d+) \|.*? \| ([\d.]+) \|$/gm)];
+    expect(rows).toHaveLength(4);
+    const world = new World();
+    for (const row of rows) {
+      world.stageIndex = STAGES.length + Number(row[1]) - 1;
+      expect(Number(row[2])).toBe(world.bossSlamDamage);
+      expect(pages.Stages).toContain(row[0]);
+    }
   });
 
   test("every English page has its Chinese counterpart, resolved content and explanatory images", async () => {

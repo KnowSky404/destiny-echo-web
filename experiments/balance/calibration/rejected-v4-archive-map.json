@@ -1,0 +1,838 @@
+{
+  "schemaVersion": 1,
+  "kind": "historical-rejected-candidate-archive-map",
+  "candidate": "V4",
+  "adoptionEligible": false,
+  "createdAt": "2026-10-22T20:56:58.974362+00:00",
+  "archiveRoot": "artifacts/balance/calibration-v4-rejected/cells",
+  "verifiedCells": 12,
+  "verifiedFiles": 121,
+  "sourceCodeFingerprint": "e9ea344b845486f981b87090824a1e400c99b0ac13790d44d1f2686d62d384d2",
+  "profileHash": "5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b",
+  "historicalCollectorSha256": "0227e80e0ba9f636368989fbe8dc58cb86552c19277fc85bdaa47aeb79250e21",
+  "pathNote": "All original source paths remain historical. This separate map identifies unchanged bytes after archival; original audits, decisions and configs were not rewritten. V4 validation failed and has no accepted phase report.",
+  "cells": [
+    {
+      "id": "selection-build-active-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-active-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/cases/campaign_victory.json",
+          "sha256": "755d58df575ed0ae4466af59df3ded8014971c023486e6fa137b5796ef38c709",
+          "bytes": 138217
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/cases/death.json",
+          "sha256": "c701f8a12bac118155d5b10ffc71740467a23677258e497d710619d30db66171",
+          "bytes": 55539
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/comparison.json",
+          "sha256": "b4baddcb26c442ef858af2f51a2ce665f4a5be63316a66909cf3efdd77b68ed0",
+          "bytes": 9224
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/manifest.json",
+          "sha256": "65d7cc44c7705363efab18ac21c92629be8a21ae1b80cbd3a9c463b0582b6e37",
+          "bytes": 19904
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/report.md",
+          "sha256": "050ecbf69affa0aad86647f0bd8ed72e0442bbb3eff40e71b843ea333815383c",
+          "bytes": 13346
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/runs.jsonl",
+          "sha256": "78d056004a17d393bb16e8aed6cc89110cf537825e624bdd7f97b71cef7dbf9d",
+          "bytes": 14248878
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/stages.csv",
+          "sha256": "ec091f04b3296a946d85fd868a53f760f9d2e450cd99adf7de2e9b614e394bc5",
+          "bytes": 146989
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-desktop/summary.json",
+          "sha256": "8701081a6b3f4c786937442e889ddcf346a473daf81a3e63c4ff54cfaaab276d",
+          "bytes": 174857
+        }
+      ]
+    },
+    {
+      "id": "selection-build-active-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-active-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/cases/campaign_victory.json",
+          "sha256": "e8760394dd61e8af86324881c2f1119902eb304f37071f201cd88ff83dcc6b3e",
+          "bytes": 136636
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/cases/death.json",
+          "sha256": "712412dc7cd5d97c54eaefc4aa62595df4d473d259e6402097d5136d387a1071",
+          "bytes": 56584
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/comparison.json",
+          "sha256": "f3ccfbceb8334312c34e0360d788d664b25c3ba8fa0f804abe8203101a8aeee9",
+          "bytes": 10283
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/manifest.json",
+          "sha256": "27a39645760ba5e97192ae43418ebd7fe1761e1792cf6da5c733df3bfb9134ee",
+          "bytes": 19906
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/report.md",
+          "sha256": "75de64a83ef0dbb566e49103e764753724966b4e9b2982319c2319aa2c3335be",
+          "bytes": 14389
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/runs.jsonl",
+          "sha256": "c09a5224cf53919e3e7da746528d967b61e6a52b297fe449473fa5d1a54d744f",
+          "bytes": 13799884
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/stages.csv",
+          "sha256": "e3797707d802d3e2a5593432d4b007660e7a5fba53b0a39b3ac4b485acc42d9f",
+          "bytes": 149796
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-active-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-active-portrait/summary.json",
+          "sha256": "3dd82b3dafd438eb4e2a0173205ecbf4e6573e1e14420e324139195ad485d57d",
+          "bytes": 176851
+        }
+      ]
+    },
+    {
+      "id": "selection-build-auto-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/cases/campaign_victory.json",
+          "sha256": "5cf1e404cda12292f6c884f8e729f1fc3de641ffe7f2e7000df7a61a6d1281e6",
+          "bytes": 82813
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/cases/death.json",
+          "sha256": "a5c966c8a27a1fb4a84a9004cdf254fc158b94168a44ad78a60bf1790862e4bd",
+          "bytes": 38162
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/comparison.json",
+          "sha256": "e2c374e4a8761e2a070533a15ace9b1ab2854982e556a631278442895211a484",
+          "bytes": 9785
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/manifest.json",
+          "sha256": "032ce2d01994a55c90717ad5e460f18ae222e035a86c4d435bc9eda8e9086c56",
+          "bytes": 19898
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/report.md",
+          "sha256": "2e06c304fd5eb5134c6d0bb29d68a548a4fa997019f52ea082f75ca0ea283cfc",
+          "bytes": 13881
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/runs.jsonl",
+          "sha256": "cd166d5279250540d8d6cc6d052590455febfbfcb7d79d1068745f97408ae941",
+          "bytes": 8380611
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/stages.csv",
+          "sha256": "85623d2a862c5749479f55ef0ae3c5dca09f88c1a574865c85349fd513360d71",
+          "bytes": 148083
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-desktop/summary.json",
+          "sha256": "3c9617216189c3b56f1099790996c38390685555b15bd7245758e3a613d81b8c",
+          "bytes": 170777
+        }
+      ]
+    },
+    {
+      "id": "selection-build-auto-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-build-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/cases/campaign_victory.json",
+          "sha256": "fb727ea291ef2aeace99b63bd8a3b5142328814750bd365c8c5b20f952fa4ecd",
+          "bytes": 78170
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/cases/death.json",
+          "sha256": "d88c51009c32c2c86168e1de72a4823b47be20a2beb6d6190b3b7b0507161f1f",
+          "bytes": 41434
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/comparison.json",
+          "sha256": "1890a97bb4a6eac7c47cf01162fdec8da745dd6ecca7505fd65f5c461df36d0d",
+          "bytes": 10556
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/manifest.json",
+          "sha256": "ceb4207f6554e7e2e39b2c9ea98ce31582ff922330745d04f3aaacd25fa0b67a",
+          "bytes": 19900
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/report.md",
+          "sha256": "c19471216f7215259d0876a2f1bb72175fa916d5d29d9f3a03500e1bfd686e2c",
+          "bytes": 14633
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/runs.jsonl",
+          "sha256": "8cd799bd992eef1b1be93c0664a4ed59f68b71affee8e0574072629ec874b3cf",
+          "bytes": 7793736
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/stages.csv",
+          "sha256": "0001b0a988d8b04053deaf2de9f9f7336cea6506f1ab4eb30f5a4921abe7f30b",
+          "bytes": 143589
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-build-auto-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-build-auto-portrait/summary.json",
+          "sha256": "0e2457406d596c2df6c6cf088ec43389316945b3594342137c7efb61481ed65b",
+          "bytes": 170716
+        }
+      ]
+    },
+    {
+      "id": "selection-random-auto-desktop",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-random-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/cases/campaign_victory.json",
+          "sha256": "26d7ad0821bf205a98487df10f6c2cde393dbdc0bdf499a6a534bbf4099bf9f4",
+          "bytes": 80637
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/cases/death.json",
+          "sha256": "527e12e15a4ec440ab53eda979f6a7766a9e2a74514265fb2ba1012bdba7782c",
+          "bytes": 38052
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/comparison.json",
+          "sha256": "3007110eda21c2189d6d161ebc2d01f6630404ec1f9a039cb69cf3fd8a8ebdc0",
+          "bytes": 6618
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/manifest.json",
+          "sha256": "6d353698baf333362d2e8d3755c97443599ae1a516498f36c8520eb5e95f2880",
+          "bytes": 19901
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/report.md",
+          "sha256": "b29863c6121980d19736bffbc17470ba5aef37de69000fa137571f2e646d353a",
+          "bytes": 10661
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/runs.jsonl",
+          "sha256": "43905391bb862f516370a161d9f1ee2a0be5555def8cd179a58d4d2ecd066aaf",
+          "bytes": 8128125
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/stages.csv",
+          "sha256": "8d62e1a304672d651b8fdbccb9544c8dfcd7ea13e7bb16bea966a687cfec9b68",
+          "bytes": 92245
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-desktop/summary.json",
+          "sha256": "e737fed85bb80358e58b4f3107d136763455d3d11c57e4ec3d8c53d7161cea34",
+          "bytes": 85803
+        }
+      ]
+    },
+    {
+      "id": "selection-random-auto-portrait",
+      "phase": "selection",
+      "originalDirectory": "artifacts/balance/calibration-cells/selection-random-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/cases/campaign_victory.json",
+          "sha256": "5b24d4861d12090e95daa6aae3582c48807e53cfae3d088cec0823c4aeb4ec6e",
+          "bytes": 75097
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/cases/death.json",
+          "sha256": "c1f6538c928bf6936ad58975c5a0611562d02d478c467ea0de3c11719be0b0cf",
+          "bytes": 34763
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/comparison.json",
+          "sha256": "ebbcd6f3ed0fb45650c6dfea828ff7347f55505c24ae64c9b309c13a538c94e4",
+          "bytes": 7843
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/manifest.json",
+          "sha256": "e0179beaf6a8fadf48425cc3e1c1d237abb94758d9ae1ce9ecbd617b562a5640",
+          "bytes": 19903
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/report.md",
+          "sha256": "aa58852efb7d5b06265d263284c4096c4a7d6f86ed71fea3f68807fff2236700",
+          "bytes": 11875
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/runs.jsonl",
+          "sha256": "813069eada63167d2d51f7e43138b834fb06be9747c9f822d24a1ed4e8fd9a62",
+          "bytes": 6057571
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/stages.csv",
+          "sha256": "cbf63663bd306aaf5a1c4ecc94386925a9466e0260fd94d431bf21447ae7de73",
+          "bytes": 80503
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/selection-random-auto-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/selection-random-auto-portrait/summary.json",
+          "sha256": "ed7616ed9b452d3d95181864c92ce66c50c1ff67375dd35ead6868f0324b4bb6",
+          "bytes": 74453
+        }
+      ]
+    },
+    {
+      "id": "validation-build-active-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-active-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/cases/campaign_victory.json",
+          "sha256": "71eedec8f5c74e6e496840d0292fb3e194112700b873f130a6eb6e75b70a2472",
+          "bytes": 138252
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/cases/death.json",
+          "sha256": "d49b5d62cf08598056bb52df5b288daf939b19ed2040db96f527f95c5c6fcb45",
+          "bytes": 58848
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/comparison.json",
+          "sha256": "74756ebef9cc11b294c30df29a9ce99e93166606a9ccc72d96ca0123c6eb0618",
+          "bytes": 18390
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/manifest.json",
+          "sha256": "37f6e36fdd1290799a9c34d7d933e4a5a12465b8e4d807afa9fa6f3a1d1dd2b3",
+          "bytes": 23448
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/report.md",
+          "sha256": "b322a7c9bac20d636523fafed21b7af2799e94a3c282e233790af2e4832ba5e5",
+          "bytes": 22363
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/runs.jsonl",
+          "sha256": "095945931148a792a273b1f1ef9dc9d1f01b0f7a75b427ab927b2296c23b0ca9",
+          "bytes": 42472100
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/stages.csv",
+          "sha256": "7fdfc31a66f0d3cc359e5c456be138550c53677c31a79168af8f1d6dda3f00de",
+          "bytes": 445532
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-desktop/summary.json",
+          "sha256": "a203198e66c07a9c593c358dad858ae7836fdeec850d54bb9847199c17e0af28",
+          "bytes": 430672
+        }
+      ]
+    },
+    {
+      "id": "validation-build-active-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-active-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/cases/campaign_victory.json",
+          "sha256": "0798f88bbe2234584ab7ba444bc3061d633160cd2f9f9fd76d724980073019fe",
+          "bytes": 136611
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/cases/death.json",
+          "sha256": "12d1623143a543712912dc585b8f7955dd4bd74a8d247568a4f47d14a30ddd67",
+          "bytes": 57009
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/comparison.json",
+          "sha256": "a963d67b914be680d5b9b294e2b8e6663f17f86c6d5a8f489418884c6816c146",
+          "bytes": 23141
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/manifest.json",
+          "sha256": "1e6448a045d89ff444ec82c898a10a7f1964c3e63e3e36669fca84b84ed3435c",
+          "bytes": 23450
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/report.md",
+          "sha256": "aa4ebc375a3050c493041ecfe8a624859448905c2914d242e7352b5314773fc4",
+          "bytes": 27273
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/runs.jsonl",
+          "sha256": "8730105d0b234d6512c0515d8f884d457dcad6dc29e3caff6852f40bc9ca53a4",
+          "bytes": 40323344
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/stages.csv",
+          "sha256": "b81bc49fccd39a3f8849e9c529a585380735d6b7db6a649dbeaac41aa9a54e49",
+          "bytes": 441271
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-active-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-active-portrait/summary.json",
+          "sha256": "41b128428022040166d44dc927297a832f7760ca4251e9cbc72ca3fd302d6da9",
+          "bytes": 425726
+        }
+      ]
+    },
+    {
+      "id": "validation-build-auto-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/cases/campaign_victory.json",
+          "sha256": "b52b1d4461fef03cf05b902e0dde10a22f6984d2eb7d7fd011f78f66fafbfaca",
+          "bytes": 82076
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/cases/death.json",
+          "sha256": "8a29e8246a282eefb8efc648abb6a04724cd1ec512ec6a9ff8a61680517da759",
+          "bytes": 43992
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/comparison.json",
+          "sha256": "3c3ea7e20fdf306ac2ea055089050659003c8b16632916f0a01d913614cf270a",
+          "bytes": 19793
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/manifest.json",
+          "sha256": "00000ec304bf87b6452c669f1f96e7b639b115abd4b506ed17c3ec2b0d59ae52",
+          "bytes": 23442
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/report.md",
+          "sha256": "bccde7368bacfa7fe1b90e2f155d0c68233b664f0ebcf900426b452e86d7d54c",
+          "bytes": 23911
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/runs.jsonl",
+          "sha256": "5963baa3711ce46a717e13bfe86e6b3d92210fe8971a4e54b6801774315c4697",
+          "bytes": 25514358
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/stages.csv",
+          "sha256": "cb190f8ca191395450c36d4cf57c93a3eaffbd443229e37ebee834be40dfd6c2",
+          "bytes": 433478
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-desktop/summary.json",
+          "sha256": "53b9bb2a364ea8ffe64e9a330fa5e508958a9466ffbe1cec7a2b0282ef392299",
+          "bytes": 421758
+        }
+      ]
+    },
+    {
+      "id": "validation-build-auto-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-build-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/cases/campaign_victory.json",
+          "sha256": "907858eef9f38fe7836a27bee508da7e1623bc67af0146baad2c021359513c1d",
+          "bytes": 81870
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/cases/death.json",
+          "sha256": "9a3f0fc25dce2ee8eade25af35d44d57452b1fa49b27f7fcb80cfd8da4c0be9f",
+          "bytes": 34558
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/comparison.json",
+          "sha256": "546bbf99956f1f0cebb7fdc04c30986146a347efd888014acc680eada8347e97",
+          "bytes": 23564
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/manifest.json",
+          "sha256": "8b737f020020b9ae9c06927f4cc2a8111b940644ba6b40a14f37a75801b5271d",
+          "bytes": 23444
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/report.md",
+          "sha256": "28c20a931eb6bd8a308d24050eaa35a5e0ffbfe104487cafd4e7b4ce6c56047c",
+          "bytes": 27665
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/runs.jsonl",
+          "sha256": "aa327958d9d73a8f3fd76c47ce9c9763a3cc9bf14bba7d333b0fab9c3c90e7be",
+          "bytes": 23068673
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/stages.csv",
+          "sha256": "db1caa8179e2122fe87a102f2ad5a94c61fa5939a0101b436f06d1ed47d0e090",
+          "bytes": 438495
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-build-auto-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-build-auto-portrait/summary.json",
+          "sha256": "1bfbb99ba32acca1081d4a829a1a174989ad21f2043a657d91f258259ae31de9",
+          "bytes": 415148
+        }
+      ]
+    },
+    {
+      "id": "validation-random-auto-desktop",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-random-auto-desktop",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/cases/budget_exhausted.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/cases/budget_exhausted.json",
+          "sha256": "e911da6f4d9bb885e9d0e22c3d033866e5ec967102dbbfd9709395caa0e7662b",
+          "bytes": 79244
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/cases/campaign_victory.json",
+          "sha256": "ae7e132956b5d0ab76150fc3f79e2d68f18c7fdbbb6a289ae0f6c6f605734b3e",
+          "bytes": 81407
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/cases/death.json",
+          "sha256": "4afa6b0aa8f8de04fb7be0115fcbcd12b27c27997af459dbc1bd10025d9352eb",
+          "bytes": 38200
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/comparison.json",
+          "sha256": "2953ef5b6ede515d41f57b0aac179f61418816214391fef7d532b218ca307c74",
+          "bytes": 13857
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/manifest.json",
+          "sha256": "a2e477eede6e50e1fc10c8d6d47b2f3c61becfdddf38c79c60c87e9cf7d67518",
+          "bytes": 23445
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/report.md",
+          "sha256": "1fa663cf83b7dcc40ea4229054829f12d2ee335d962e22301e25ed7a1e2dbdfa",
+          "bytes": 17909
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/runs.jsonl",
+          "sha256": "10971082512459868332aa76c013e1b99f08305ecaca566322af0ffeddc7ad5e",
+          "bytes": 22463726
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/stages.csv",
+          "sha256": "e6cfd9f835df415998882f76bc25659ca18889d8871055333a04b55c07f07460",
+          "bytes": 265155
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-desktop/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-desktop/summary.json",
+          "sha256": "e5e59dcf5747b438e2fd0631bc1642d06cf35988208bf47d621380f4a8271052",
+          "bytes": 158803
+        }
+      ]
+    },
+    {
+      "id": "validation-random-auto-portrait",
+      "phase": "validation",
+      "originalDirectory": "artifacts/balance/calibration-cells/validation-random-auto-portrait",
+      "archivedDirectory": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait",
+      "files": [
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/cases/campaign_victory.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/cases/campaign_victory.json",
+          "sha256": "a085d1002b4b1161138aef0e1feef7f8e8c2f4beb60df4ce5343f61d016d4331",
+          "bytes": 77599
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/cases/death.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/cases/death.json",
+          "sha256": "fb4839166999cceda287e71c248b1b2a2772387ae2e6e6da88a2db04cf1d596f",
+          "bytes": 34449
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/comparison.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/comparison.json",
+          "sha256": "fad108938b2fdc8d52deade80c8a6197f03e46d4b7a743f3be73cec2f74ad3d5",
+          "bytes": 13229
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/manifest.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/manifest.json",
+          "sha256": "60b1c88bed9f73def556556f28fe2a9323654110b00577b6994c12fa34a51547",
+          "bytes": 23447
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/profiles/5f96d2fc909db4dea1636d24a8d3324c8ba2fce58e61f5dbd0dcacc2c9fd5c8b.json",
+          "sha256": "90188111408aaf559d9d6073441208030751bbcc957b311e68de7406850bcbf3",
+          "bytes": 4507
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28",
+          "bytes": 3404
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/report.md",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/report.md",
+          "sha256": "55ba009a74e9b529a0ad5ab8beaf4427ec3a56430a6e7b150aa130aaac375bf2",
+          "bytes": 17267
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/runs.jsonl",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/runs.jsonl",
+          "sha256": "4aff544d89e47b6f9ea0910cd8d5fa6e40570a22051138b8029bc17b8ae1d453",
+          "bytes": 16823953
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/stages.csv",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/stages.csv",
+          "sha256": "b612adbfd942d9a7be8f51c0e497ac90630af8494d8210d63228227565ef9b68",
+          "bytes": 239578
+        },
+        {
+          "originalPath": "artifacts/balance/calibration-cells/validation-random-auto-portrait/summary.json",
+          "archivedPath": "artifacts/balance/calibration-v4-rejected/cells/validation-random-auto-portrait/summary.json",
+          "sha256": "08b37456db6d909a4b5e94a684cc68c9c48b0d5cb173f39b4aaf37cc234769ef",
+          "bytes": 138427
+        }
+      ]
+    }
+  ]
+}

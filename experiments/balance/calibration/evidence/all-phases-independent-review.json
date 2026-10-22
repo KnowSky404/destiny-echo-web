@@ -1,0 +1,3701 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-final-all-phase-calibration-peer",
+  "createdAt": "2026-10-22T22:37:12.819Z",
+  "adoptionEligible": false,
+  "simulationsExecuted": 0,
+  "counts": {
+    "records": 5448,
+    "candidate": 3048,
+    "baseline": 2400,
+    "cells": 36
+  },
+  "identity": {
+    "fingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+    "candidateHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+    "baselineHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+    "collectorHash": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+  },
+  "phases": [
+    {
+      "phase": "selection",
+      "path": "experiments/balance/calibration/evidence/independent-peer-selection.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-selection.json",
+      "sourceSha256": "5cb7295126f7797f1b4f3f7d4b7f4f6ecbdb07c72c319bb8bb3443ce4150ef24",
+      "sha256": "7b199e88685ed8d398769654930373585fd402bd401d801c5e2217c0d7843378",
+      "bytes": 287708
+    },
+    {
+      "phase": "validation",
+      "path": "experiments/balance/calibration/evidence/independent-peer-validation.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-validation.json",
+      "sourceSha256": "ac3db39e73f95ee56cab903ebd194b3284c0923cab90a75bbbeb9f6a151b19bf",
+      "sha256": "5c6440e2b274133158b5104d89fbd3b4da6fb1fc07d22e781f918652cdad2c4f",
+      "bytes": 322712
+    },
+    {
+      "phase": "endless",
+      "path": "experiments/balance/calibration/evidence/independent-peer-endless.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-endless.json",
+      "sourceSha256": "040b5b740abc16fa16dc7e4d9360b9b57386e85c1fe678de18405e2593f64960",
+      "sha256": "d896ac212541dfbe61e240c5021b04a4ae860f53eb83e29ca5c6b77c549c2ba0",
+      "bytes": 218052
+    },
+    {
+      "phase": "sensitivity",
+      "path": "experiments/balance/calibration/evidence/independent-peer-sensitivity.json",
+      "source": "artifacts/balance/calibration-v5-independent-peer-sensitivity.json",
+      "sourceSha256": "342a1a025ec2522b00c2ec27f2388e0e36813d73e55d04427fba9de0c665cfb9",
+      "sha256": "547ed96c6b8cd15fdba68789145d78aff04240059e05b0c4976036cd8c78e2f5",
+      "bytes": 440160
+    }
+  ],
+  "ciChecks": [
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 1,
+      "n": 100,
+      "CI95": [0.0017674320641406505, 0.054486196178705315]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 1,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.0017674320641406505, 0.054486196178705315]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 1,
+      "n": 1,
+      "entered": 1,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20654931437723745, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 1,
+      "n": 1,
+      "entered": 1,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20654931437723745, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 1,
+      "n": 1,
+      "entered": 1,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20654931437723745, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 28,
+      "n": 100,
+      "CI95": [0.20139685211186212, 0.3748802870992116]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 35,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.26364248243097527, 0.44745556703112027]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 28,
+      "n": 35,
+      "entered": 35,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6410838693433439, 0.8995755352620137]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 28,
+      "n": 28,
+      "entered": 28,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8793566952341543, 0.9999999999999998]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 28,
+      "n": 28,
+      "entered": 28,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8793566952341543, 0.9999999999999998]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 5,
+      "n": 100,
+      "CI95": [0.02154367915436796, 0.11175046923191913]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 5,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.02154367915436796, 0.11175046923191913]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 5,
+      "n": 5,
+      "entered": 5,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5655175352168251, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 5,
+      "n": 5,
+      "entered": 5,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5655175352168251, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 5,
+      "n": 5,
+      "entered": 5,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5655175352168251, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 20,
+      "n": 100,
+      "CI95": [0.1333669333310325, 0.2888291655931589]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 67,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5730534379509052, 0.7543687726587197]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 20,
+      "n": 67,
+      "entered": 67,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20231511276602715, 0.41655213743643765]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 20,
+      "n": 20,
+      "entered": 20,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8388748419471806, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 20,
+      "n": 20,
+      "entered": 20,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8388748419471806, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 41,
+      "n": 100,
+      "CI95": [0.3186731302113651, 0.5079856994658921]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 41,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.3186731302113651, 0.5079856994658921]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 41,
+      "n": 41,
+      "entered": 41,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9143324298155681, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 41,
+      "n": 41,
+      "entered": 41,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9143324298155681, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 41,
+      "n": 41,
+      "entered": 41,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9143324298155681, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 77,
+      "n": 100,
+      "CI95": [0.6784561697712622, 0.8415673411969654]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 86,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7786281178903616, 0.9147365634006086]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 77,
+      "n": 86,
+      "entered": 86,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8129297644077995, 0.943959102854637]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 77,
+      "n": 77,
+      "entered": 77,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9524815747175658, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 77,
+      "n": 77,
+      "entered": 77,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9524815747175658, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 37,
+      "n": 100,
+      "CI95": [0.28182360534324524, 0.4677947041905709]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 37,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.28182360534324524, 0.4677947041905709]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 37,
+      "n": 37,
+      "entered": 37,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9059421741627975, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 37,
+      "n": 37,
+      "entered": 37,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9059421741627975, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 37,
+      "n": 37,
+      "entered": 37,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9059421741627975, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 79,
+      "n": 100,
+      "CI95": [0.7002003116591013, 0.858343459380847]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 99,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9455138038212946, 0.9982325679358593]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 79,
+      "n": 99,
+      "entered": 99,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7084558888292174, 0.8652427019586431]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 79,
+      "n": 79,
+      "entered": 79,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9536287883460772, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 79,
+      "n": 79,
+      "entered": 79,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9536287883460772, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 45,
+      "n": 100,
+      "CI95": [0.3561453797951198, 0.5475539700255787]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 45,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.3561453797951198, 0.5475539700255787]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 45,
+      "n": 45,
+      "entered": 45,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9213484012671117, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 45,
+      "n": 45,
+      "entered": 45,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9213484012671117, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 45,
+      "n": 45,
+      "entered": 45,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9213484012671117, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 77,
+      "n": 100,
+      "CI95": [0.6784561697712622, 0.8415673411969654]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 89,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8136870349691969, 0.9374580364293543]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 77,
+      "n": 89,
+      "entered": 89,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7789609654865195, 0.921157287992622]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 77,
+      "n": 77,
+      "entered": 77,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9524815747175658, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 77,
+      "n": 77,
+      "entered": 77,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9524815747175658, 0.9999999999999999]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 39,
+      "n": 100,
+      "CI95": [0.3001687400639441, 0.4879698295415926]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 39,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.3001687400639441, 0.4879698295415926]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 39,
+      "n": 39,
+      "entered": 39,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9103331462924287, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 39,
+      "n": 39,
+      "entered": 39,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9103331462924287, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 39,
+      "n": 39,
+      "entered": 39,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9103331462924287, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 76,
+      "n": 100,
+      "CI95": [0.6676766365018553, 0.8330867444305122]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 95,
+      "n": 100,
+      "entered": 100,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8882495307680808, 0.9784563208456319]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 76,
+      "n": 95,
+      "entered": 95,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7086265584527134, 0.8680545294236028]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 76,
+      "n": 76,
+      "entered": 76,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9518864149348628, 1]
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 76,
+      "n": 76,
+      "entered": 76,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9518864149348628, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 11,
+      "n": 300,
+      "CI95": [0.02059530516285303, 0.06445384817189295]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 11,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.02059530516285303, 0.06445384817189295]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 11,
+      "n": 11,
+      "entered": 11,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7411670330319684, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 11,
+      "n": 11,
+      "entered": 11,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7411670330319684, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 11,
+      "n": 11,
+      "entered": 11,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7411670330319684, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 66,
+      "n": 300,
+      "CI95": [0.1768274459698328, 0.27025261791591293]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 119,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.34295083194304077, 0.452995382110032]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 66,
+      "n": 119,
+      "entered": 119,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.4650073200605258, 0.6408201434424556]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 66,
+      "n": 66,
+      "entered": 66,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9449974429864586, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 66,
+      "n": 66,
+      "entered": 66,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9449974429864586, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 6,
+      "n": 300,
+      "CI95": [0.009197631557703617, 0.042939620817860576]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 6,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.009197631557703617, 0.042939620817860576]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 6,
+      "n": 6,
+      "entered": 6,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6096657120978346, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 6,
+      "n": 6,
+      "entered": 6,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6096657120978346, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 6,
+      "n": 6,
+      "entered": 6,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6096657120978346, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 84,
+      "n": 300,
+      "CI95": [0.23221902212795326, 0.33334388521084696]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 193,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5876297656515226, 0.6954125825974409]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 85,
+      "n": 193,
+      "entered": 193,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.3722164231732934, 0.5109382733129227]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 84,
+      "n": 85,
+      "entered": 85,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9363282911750611, 0.997920212865336]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 84,
+      "n": 84,
+      "entered": 84,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.95626827158534, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 114,
+      "n": 300,
+      "CI95": [0.3269187519503734, 0.4361155611435176]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 114,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.3269187519503734, 0.4361155611435176]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 114,
+      "n": 114,
+      "entered": 114,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9674014658411585, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 114,
+      "n": 114,
+      "entered": 114,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9674014658411585, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 114,
+      "n": 114,
+      "entered": 114,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9674014658411585, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 220,
+      "n": 300,
+      "CI95": [0.680572605868549, 0.7801940075599961]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 255,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.805182388854671, 0.8859675312881468]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 226,
+      "n": 255,
+      "entered": 255,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8414430353547098, 0.9196406059504751]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 220,
+      "n": 226,
+      "entered": 226,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9432996407791717, 0.9877769417400312]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 220,
+      "n": 220,
+      "entered": 220,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9828384838048642, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 137,
+      "n": 300,
+      "CI95": [0.40120290256178365, 0.5132261549443436]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 137,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.40120290256178365, 0.5132261549443436]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 137,
+      "n": 137,
+      "entered": 137,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9727249429758839, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 137,
+      "n": 137,
+      "entered": 137,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9727249429758839, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 137,
+      "n": 137,
+      "entered": 137,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9727249429758839, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 237,
+      "n": 300,
+      "CI95": [0.7403888774230657, 0.8322781992666975]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 296,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9662244697474675, 0.9948030382606411]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 237,
+      "n": 296,
+      "entered": 296,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7514418081028962, 0.8422052502461777]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 237,
+      "n": 237,
+      "entered": 237,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9840498440779082, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 237,
+      "n": 237,
+      "entered": 237,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9840498440779082, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 119,
+      "n": 300,
+      "CI95": [0.34295083194304077, 0.452995382110032]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 119,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.34295083194304077, 0.452995382110032]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 119,
+      "n": 119,
+      "entered": 119,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9687283197580606, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 119,
+      "n": 119,
+      "entered": 119,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9687283197580606, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 119,
+      "n": 119,
+      "entered": 119,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9687283197580606, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 217,
+      "n": 300,
+      "CI95": [0.6701300560341223, 0.7708894168189138]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 253,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7978919765479306, 0.8800931832112144]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 218,
+      "n": 253,
+      "entered": 253,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8136820323802799, 0.8988197609059657]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 217,
+      "n": 218,
+      "entered": 218,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9744785227973658, 0.9991897948753212]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 217,
+      "n": 217,
+      "entered": 217,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9826053548042667, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "run-target",
+      "success": 143,
+      "n": 300,
+      "CI95": [0.42080166187431245, 0.533121676782833]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage1",
+      "success": 143,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.42080166187431245, 0.533121676782833]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage2",
+      "success": 143,
+      "n": 143,
+      "entered": 143,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9738394125777184, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage3",
+      "success": 143,
+      "n": 143,
+      "entered": 143,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9738394125777184, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "outcome": "stage4",
+      "success": 143,
+      "n": 143,
+      "entered": 143,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9738394125777184, 0.9999999999999999]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 241,
+      "n": 300,
+      "CI95": [0.7546412316550143, 0.8443553658020945]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 292,
+      "n": 300,
+      "entered": 300,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9482710570494102, 0.9864269301913529]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 241,
+      "n": 292,
+      "entered": 292,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7776479135804957, 0.8645879676154411]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 241,
+      "n": 241,
+      "entered": 241,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9843104234095119, 1]
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 241,
+      "n": 241,
+      "entered": 241,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9843104234095119, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 14,
+      "n": 60,
+      "CI95": [0.1443956173664283, 0.35436270377601964]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 24,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.2856949053488255, 0.5263394650795924]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 17,
+      "n": 24,
+      "entered": 24,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5083230633550337, 0.8508535180303913]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 17,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8156818649911483, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 17,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8156818649911483, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 14,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5897054143116588, 0.9380887336237901]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 14,
+      "n": 14,
+      "entered": 14,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7846891972623643, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 14,
+      "rightCensoredAtTarget": 14,
+      "CI95": null
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 14,
+      "n": 60,
+      "CI95": [0.1443956173664283, 0.35436270377601964]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 36,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.4736605349204075, 0.7143050946511744]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 17,
+      "n": 36,
+      "entered": 36,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.31986041515179053, 0.629940619770124]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 17,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8156818649911483, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 17,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8156818649911483, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 15,
+      "n": 17,
+      "entered": 17,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6566364940511412, 0.9671202262362074]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 14,
+      "n": 15,
+      "entered": 15,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7018347012621998, 0.9881331045067315]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-random-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 14,
+      "rightCensoredAtTarget": 14,
+      "CI95": null
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 40,
+      "n": 60,
+      "CI95": [0.5405686645211968, 0.7727073847647731]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 52,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7583484032350039, 0.9308589051941303]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 44,
+      "n": 52,
+      "entered": 52,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7247591482358985, 0.9199231498321968]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 44,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9197043962415192, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 44,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9197043962415192, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 40,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7884076083340138, 0.9640778067726837]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 40,
+      "n": 40,
+      "entered": 40,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9123783988027135, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 40,
+      "rightCensoredAtTarget": 40,
+      "CI95": null
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 42,
+      "n": 60,
+      "CI95": [0.5749129205308552, 0.8010183386123089]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 57,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8629948352365147, 0.9828504978356043]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 46,
+      "n": 57,
+      "entered": 57,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6865930975223603, 0.8886725301994945]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 46,
+      "n": 46,
+      "entered": 46,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9229264369144198, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 46,
+      "n": 46,
+      "entered": 46,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9229264369144198, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 42,
+      "n": 46,
+      "entered": 46,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7967533592588116, 0.9656641321052741]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 42,
+      "n": 42,
+      "entered": 42,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.916201209134296, 0.9999999999999999]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-auto-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 42,
+      "rightCensoredAtTarget": 42,
+      "CI95": null
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 40,
+      "n": 60,
+      "CI95": [0.5405686645211968, 0.7727073847647731]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 54,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7985053527602123, 0.9533571655261158]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 43,
+      "n": 54,
+      "entered": 54,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6709769331166456, 0.8822594591257861]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 43,
+      "n": 43,
+      "entered": 43,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9179901967742088, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 42,
+      "n": 43,
+      "entered": 43,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8794100655939282, 0.9958829127256662]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 40,
+      "n": 42,
+      "entered": 42,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8421014760304114, 0.9868424750910944]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 40,
+      "n": 40,
+      "entered": 40,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9123783988027135, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-portrait",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 40,
+      "rightCensoredAtTarget": 40,
+      "CI95": null
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 41,
+      "n": 60,
+      "CI95": [0.5576623297382323, 0.7869413244763347]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 57,
+      "n": 60,
+      "entered": 60,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8629948352365147, 0.9828504978356043]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 44,
+      "n": 57,
+      "entered": 57,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6479398895432649, 0.8615810950103779]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 44,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9197043962415192, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 44,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9197043962415192, 1]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage5",
+      "success": 41,
+      "n": 44,
+      "entered": 44,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8177495562977846, 0.9765406040926183]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage6",
+      "success": 41,
+      "n": 41,
+      "entered": 41,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.9143324298155681, 0.9999999999999999]
+    },
+    {
+      "phase": "endless",
+      "cell": "endless-build-active-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage7",
+      "success": 0,
+      "n": 0,
+      "entered": 41,
+      "rightCensoredAtTarget": 41,
+      "CI95": null
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 10,
+      "n": 16,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 13,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 11,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5776536898051745, 0.9567418216419186]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 10,
+      "n": 11,
+      "entered": 11,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6226415635484043, 0.9837678271141151]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 4,
+      "n": 16,
+      "CI95": [0.10182067491213048, 0.49498316535508774]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 12,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 4,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.13812009109121315, 0.6093779111272004]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 4,
+      "n": 4,
+      "entered": 4,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5101091635454027, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 4,
+      "n": 4,
+      "entered": 4,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5101091635454027, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 12,
+      "n": 16,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 12,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 8,
+      "n": 16,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 8,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 13,
+      "n": 16,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 13,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 10,
+      "n": 16,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 10,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-1-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 0,
+      "n": 16,
+      "CI95": [0, 0.1936076805344365]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 0,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0, 0.1936076805344365]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 1,
+      "n": 16,
+      "CI95": [0.01111934476464252, 0.28328737570298945]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 2,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.03497748774324047, 0.36022827265758695]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 1,
+      "n": 2,
+      "entered": 2,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.09453120573423074, 0.9054687942657693]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 1,
+      "n": 1,
+      "entered": 1,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20654931437723745, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 1,
+      "n": 1,
+      "entered": 1,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.20654931437723745, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 12,
+      "n": 16,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 12,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 8,
+      "n": 16,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 8,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 13,
+      "n": 16,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 13,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 10,
+      "n": 16,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 10,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-17-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 9,
+      "n": 16,
+      "CI95": [0.331785563988119, 0.7690134759450765]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 14,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.639771727342413, 0.9650225122567595]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 10,
+      "n": 14,
+      "entered": 14,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.4535091567010681, 0.8827862135542308]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 9,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5958499732047615, 0.9821237869049271]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 6,
+      "n": 16,
+      "CI95": [0.18481232558863633, 0.6135895945449727]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 11,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.44404355834740666, 0.8583535614521796]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 6,
+      "n": 11,
+      "entered": 11,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.280091537409322, 0.7872872837754024]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 6,
+      "n": 6,
+      "entered": 6,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6096657120978346, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-random-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 6,
+      "n": 6,
+      "entered": 6,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6096657120978346, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 12,
+      "n": 16,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 12,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5050168346449122, 0.8981793250878696]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 12,
+      "n": 12,
+      "entered": 12,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7575059933447592, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 8,
+      "n": 16,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 8,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.27999563610326017, 0.7200043638967398]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-auto-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 8,
+      "n": 8,
+      "entered": 8,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.6755924351161198, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 13,
+      "n": 16,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 13,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.5699111903802586, 0.9340840092857187]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-narrow-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 13,
+      "n": 13,
+      "entered": 13,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7719046276458016, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "run-target",
+      "success": 10,
+      "n": 16,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage1",
+      "success": 16,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.8063923194655637, 1]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage2",
+      "success": 10,
+      "n": 16,
+      "entered": 16,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.38641040545502714, 0.8151876744113636]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage3",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    },
+    {
+      "phase": "sensitivity",
+      "cell": "sensitivity-build-active-97-wide-desktop",
+      "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+      "outcome": "stage4",
+      "success": 10,
+      "n": 10,
+      "entered": 10,
+      "rightCensoredAtTarget": 0,
+      "CI95": [0.7224672001371107, 0.9999999999999999]
+    }
+  ],
+  "pairedHarms": [
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-portrait",
+      "seed": 1437975313
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "seed": 1587657984
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-random-auto-desktop",
+      "seed": 3584956826
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 3687043510
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 1437975313
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 3584956826
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 789001697
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 318288313
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-auto-portrait",
+      "seed": 1241171501
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 1566436483
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 3687043510
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 459791165
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 3584956826
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 789001697
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 318288313
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-portrait",
+      "seed": 1241171501
+    },
+    {
+      "phase": "selection",
+      "cell": "selection-build-active-desktop",
+      "seed": 2437618375
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "seed": 2390965113
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "seed": 2600990342
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "seed": 3988322273
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "seed": 4153252669
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-portrait",
+      "seed": 3213205241
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-random-auto-desktop",
+      "seed": 3957969482
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 3527845026
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1783533887
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1484893488
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 2506007042
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 2080574789
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 3497560414
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 263105660
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1026527530
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 3542322515
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 3135725842
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 3493646331
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 575826947
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 2451257654
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 4107711096
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 733035657
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1646865997
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1991822948
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1812241671
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 120679419
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 1044509051
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 727644161
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-portrait",
+      "seed": 905108396
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 3527845026
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 3721039344
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 749374078
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 2615891593
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 415737691
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 2194536803
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 3918132045
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 1474623995
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-auto-desktop",
+      "seed": 361504929
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3527845026
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 2546817579
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1783533887
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1484893488
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 127971355
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 263105660
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1026527530
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3705022093
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 166416691
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3542322515
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3135725842
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3493646331
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 575826947
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 2451257654
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 4107711096
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 733035657
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1646865997
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1991822948
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1812241671
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 120679419
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3787860889
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 3655941430
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 1044509051
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-portrait",
+      "seed": 905108396
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 3527845026
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 2546817579
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 3721039344
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 749374078
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 2615891593
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 1142924246
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 415737691
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 2194536803
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 3918132045
+    },
+    {
+      "phase": "validation",
+      "cell": "validation-build-active-desktop",
+      "seed": 1474623995
+    }
+  ],
+  "warnings": [
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "selection",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "selection",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "selection",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "selection",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "validation",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "validation",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/450",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "endless",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "endless",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/800",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "small_sample",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "小样本只用于诊断，不据此采用正式配置"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/build-active/2400",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "target_gain",
+      "message": "Stage calibration 2026-10-22/2400: 相同选牌规则的目标策略差异值得复核"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/random-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    },
+    {
+      "phase": "sensitivity",
+      "code": "layout_gap",
+      "message": "Stage calibration 2026-10-22/build-auto: 布局通关率差超过 provisional 参考"
+    }
+  ],
+  "replayReceipts": {
+    "status": "verified",
+    "checked": 2,
+    "path": "artifacts/balance/calibration-v5-exact-replays.json",
+    "sha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1",
+    "records": [
+      {
+        "phase": "selection",
+        "cell": "selection-random-auto-portrait",
+        "seed": 2401570752,
+        "strategy": {
+          "name": "random-auto"
+        },
+        "width": 450,
+        "termination": "death",
+        "casePath": "artifacts/balance/calibration-v5-replays/official-random-death.json",
+        "caseSha256": "d6dbc30e3e66a219880488ea2685e1aca9fbe3087714816999bcad04e16cc752",
+        "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-random-death.log",
+        "logSha256": "e09dff997d7165e6561324761b0c84bf0ae79515f5da948e2bbd8da3cc0c87e7",
+        "expectedHash": "86fa8bbbb4ac3ab101969f990dedd4f3a55566e6c082e95fd059aa7e0d378b8c"
+      },
+      {
+        "phase": "selection",
+        "cell": "selection-build-auto-portrait",
+        "seed": 2401570752,
+        "strategy": {
+          "name": "build-auto"
+        },
+        "width": 450,
+        "termination": "campaign_victory",
+        "casePath": "artifacts/balance/calibration-v5-replays/official-build-victory.json",
+        "caseSha256": "9f6a859a0f29c6d601c2286d55604503de9e1daa1a8cea42415751238f88ac6d",
+        "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-build-victory.log",
+        "logSha256": "55f6bac1e61d578239198e698ff7e1c0a51cbf820dd744f357d31e2ef0ee20ed",
+        "expectedHash": "9642e8b843e653fcc2c3584c9317b191a8469accced1d1dc53067dc39220d650"
+      }
+    ]
+  },
+  "boundaries": [
+    "Independent peer only. Root alone writes adoption/index decisions.",
+    "No pooled binomial interval across phases or shared policy/layout seed repetitions.",
+    "Wilson intervals apply to each fixed policy/layout group.",
+    "Finite endless success means campaign plus2 endless clears, never indefinite survival.",
+    "All pressure samples include zeros among observed entries. Target zero-time next-stage entry is right-censored separately.",
+    "No human win-rate, physical-device, real-wall-clock comfort or indefinite-survival inference."
+  ],
+  "allNumericalPhasesVerified": true,
+  "allRequiredEvidencePresent": true,
+  "rootAdoptionDecisionWritten": false,
+  "losslessSplit": {
+    "schemaVersion": 1,
+    "kind": "lossless-phase-object-split",
+    "original": {
+      "path": "/tmp/destiny-calibration-v5-all-phases-independent-peer.json",
+      "sha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7",
+      "bytes": 1586589
+    },
+    "originalPhaseOrder": ["selection", "validation", "endless", "sensitivity"],
+    "rule": "Read each phases[i].path (or equivalent phases[i].source), validate its SHA256, replace that reference with the entire parsed phase object in originalPhaseOrder, then remove only this losslessSplit field. All other overview fields remain exactly as in the original. stableStringify of the reconstructed object must equal the original complete peer.",
+    "canonicalReconstructedSha256": "9a2b5070fad49e898f10aaca5446b9717de8a548e892ea53db201eac1a80045f",
+    "noStatisticsOmitted": true
+  }
+}

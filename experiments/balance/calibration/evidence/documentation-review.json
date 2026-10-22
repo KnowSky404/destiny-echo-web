@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "kind": "V5-F-independent-semantic-and-implementation-review",
+  "recordedAt": "2026-10-22T21:08:19.781982+00:00",
+  "frozenProfile": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "frozenSimulationSource": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "readOnly": true,
+  "materialUnresolvedFindings": [],
+  "numericReview": {
+    "script": "/tmp/destiny-calibration-v5-review-doc-values.ts",
+    "reportCampaignTables": 2,
+    "reportEndlessLayers": [1, 2, 4, 8, 16, 32],
+    "bilingualGuideCampaignTables": 2,
+    "bilingualGuideEndlessLayers": [1, 2, 3, 4],
+    "result": "All fields independently matched resolvedStage/profile and World slam getter; scientific notation compared at displayed precision. No World update/start or simulation executed."
+  },
+  "semanticConclusions": [
+    "F stage3health4.5/Boss16000 and stage4health9/Boss32000 match runtime and generated bilingual tables.",
+    "Attack timing column and ordinary Boss intervals include timing; charge times remain separate.",
+    "Endless authored finale baseline stays3.375/11000; campaign overrides do not rewrite it. Growth1.7, damage1.5 and timing.8/.98 remain current; compression sqrt(P) is separate.",
+    "Slam rounds90+7.5*(d-1), giving90/98/105/113. Shell/index and both languages match.",
+    "F diagnosis keeps biased-known-case scope, non-monotonic pacing and 6.095x first-endless Boss jump; no claim of smooth endless transition or independent adoption.",
+    "Historical V3/V4 rates remain clearly historical; rejected V4 selection links its archived evidence, not new V5 evidence.",
+    "V4 extension now names exact comparable prefix fields and admits no original per-frame/entity trace; expanded-budget victory does not replace rejection.",
+    "Historical natural browser coverage is first-stage success/failure, reward carry and stage2 entry; late paused configuration is separate.",
+    "No damage/card/reward mechanics changed; implementation remains profile parameter changes plus documentation/localization."
+  ],
+  "collectorReview": {
+    "path": "/tmp/destiny-calibration-v5-collector-fix-review.json",
+    "result": "pass",
+    "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+    "meaningfulRegressions": "Actual over-step, over-time, fractional-step and clock mismatch rejection plus positive roundoff boundary; original excluded655.2s result can no longer be relabeled650s."
+  },
+  "unitFixtureBoundary": {
+    "initialLog": "/tmp/destiny-calibration-v5-unit-final.log",
+    "initialResult": {
+      "passed": 377,
+      "failed": 1,
+      "reason": "OfficialF seeded legacy route legitimately activates Sanctuary3 times, conflicting with historical zero-Sanctuary fixture assumption."
+    },
+    "boundedFix": "Only the no-phantom-freezing historical regression pins defaultProfile to retain its original zero-Sanctuary reward history; every existing25 assertion remains, including natural victory, >200s duration, zero phantom time and portable roundtrip. Default-v-official integration and other natural official paths remain unchanged.",
+    "targetedLog": "/tmp/destiny-calibration-v5-legacy-no-freeze-fixture.log",
+    "targetedPassed": 1,
+    "targetedAssertions": 25,
+    "rootFullRerunLog": "/tmp/destiny-calibration-v5-unit-final-rerun.log",
+    "observedRerunFooter": {
+      "passed": 378,
+      "failed": 0,
+      "assertions": 8663155,
+      "durationSeconds": 58.9
+    },
+    "processOwnership": "Root owns full-unit process/exit verification; this reviewer only read completed log footers."
+  },
+  "browserReview": {
+    "evidence": "/tmp/destiny-calibration-v5-static-browser-evidence.json",
+    "passed": 4,
+    "failed": 0,
+    "seconds": 57.5,
+    "actualScope": "One uninterrupted static PRO/PRE desktop/320px Chromium matrix; PRE complete draft export and both paused inheritedstage3/4 controls; no natural late-stage or deployment claim."
+  },
+  "remainingDeliveryBoundaries": [
+    "Final numerical selection/independentvalidation/endless/sensitivity are separate from this local implementation review.",
+    "No holdout outcomes were read by reviewer; no new simulation/test batch or auth/cloud call.",
+    "Final report needs the completed formal evidence and delivery states before adoption/publication."
+  ],
+  "currentFiles": [
+    {
+      "path": "src/data/balance/official.json",
+      "sha256": "daf1a1cc65a4d5c9f0ded6b3d3e9f326a58f8d79f5c9f1046c2b79a983dbf482",
+      "bytes": 4504
+    },
+    {
+      "path": "src/data/balance/profile.ts",
+      "sha256": "8f72453951168c594835c1d79860fa2f57148c6d12f0b090a6d7bb0ce8bb847d",
+      "bytes": 10717
+    },
+    {
+      "path": "src/data/stages.ts",
+      "sha256": "df09274c597077971ed4eb663a47bcba6d5d73de8632f88e27fd70282da7d9a9",
+      "bytes": 6102
+    },
+    {
+      "path": "src/game/world.ts",
+      "sha256": "f406edf4e5684c7cb3d97a33ab1487aaf8ea8794f9f1b64e38b59dc2a735c702",
+      "bytes": 76369
+    },
+    {
+      "path": "src/i18n/shell.ts",
+      "sha256": "be544ce6e0ac5bd4095b3346d1eb379de2055eaa204b43b2c5f4209d0024c1e5",
+      "bytes": 18719
+    },
+    {
+      "path": "index.html",
+      "sha256": "a74d126a6e4ff3ab1cfbbe06784e618240a1fb5b8449e955e18894081546f224",
+      "bytes": 12942
+    },
+    {
+      "path": "scripts/game-guide.ts",
+      "sha256": "aa7d6cbff7d37d9017b7d66b8f5ad4dcc69cba3a8a09798da2e756f1d1ef9db2",
+      "bytes": 42501
+    },
+    {
+      "path": "scripts/guide-pages.ts",
+      "sha256": "9613c2ad991566db1752b4b1aa7f528a0cb133d7f666416a43d7fe2c04b0b751",
+      "bytes": 11777
+    },
+    {
+      "path": "scripts/calibration-evidence.ts",
+      "sha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+      "bytes": 23698
+    },
+    {
+      "path": "docs/wiki-content/reviewed-rules.txt",
+      "sha256": "98e4a86ac17e900e8ef5acfb1acce45f172f273125458f30f321495b9f0c0e6a",
+      "bytes": 65
+    },
+    {
+      "path": "docs/wiki-content/Stages.md",
+      "sha256": "2a6b9665bbd556fe54074d4e67157a444e25801c87d5ee839b9b779b86452248",
+      "bytes": 5629
+    },
+    {
+      "path": "docs/wiki-content/Enemies.md",
+      "sha256": "fb579044f1c87605341e5b21b058f4886afaea44f80338a5f4a75c55802bd715",
+      "bytes": 4164
+    },
+    {
+      "path": "docs/wiki-content/Changelog.md",
+      "sha256": "e31a427fba0247346ea926979810974620a24c93a8862f62ccfa343a6d364fb1",
+      "bytes": 6076
+    },
+    {
+      "path": "docs/wiki-content/Changelog-zh-CN.md",
+      "sha256": "72ff17a350024ecd1e70a1a5cfae29d32a8bb4e440a43527b91fe2661eaf02e0",
+      "bytes": 5290
+    },
+    {
+      "path": "docs/game-guide/Stages.md",
+      "sha256": "cdb8081be9cafd55961f3ab8cb601d4b9188b9b5e8818629b446c67333087c53",
+      "bytes": 7074
+    },
+    {
+      "path": "docs/game-guide/Stages-zh-CN.md",
+      "sha256": "8a61cf473176796a642e1d5bee305aaed29a1c5779b8210d18742142f8a2b286",
+      "bytes": 7498
+    },
+    {
+      "path": "docs/game-guide/Enemies.md",
+      "sha256": "ed356b9bfed0a5bdfd69d2c29fb7fe137040325301cc75f208ebf3420e205107",
+      "bytes": 5354
+    },
+    {
+      "path": "docs/game-guide/Enemies-zh-CN.md",
+      "sha256": "41bb7891a7ad2c01ad8b431b0ddf36aaa7b3d23e11f5868f140eb43fd674ff43",
+      "bytes": 5955
+    },
+    {
+      "path": "README.md",
+      "sha256": "778aa9c859b8152f1e3ba4d13452b92cc57ef4459bd6136fe4a0643c0f7661af",
+      "bytes": 3784
+    },
+    {
+      "path": "README.zh-CN.md",
+      "sha256": "ea7f832becf530ef73067fc3ad773ba40a3c10ff8e32b417535caa9ad970ba3e",
+      "bytes": 3660
+    },
+    {
+      "path": "docs/builds-and-stages.md",
+      "sha256": "a79c6de111f81275da9fc8646e692175d0de47985c1d3ae888f853e38c4058d1",
+      "bytes": 14937
+    },
+    {
+      "path": "docs/balance-calibration-2026-10-22.md",
+      "sha256": "aef4941f25c710e71d146cc6360c771edb80b579dd467f369104b0a20cb44dec",
+      "bytes": 25219
+    },
+    {
+      "path": "experiments/balance/calibration/README.md",
+      "sha256": "f1c0cf9f5716ade863765232f90041724bd3ea61bf47ea8cfa944611b56dd500",
+      "bytes": 8395
+    },
+    {
+      "path": "experiments/balance/calibration/selection.json",
+      "sha256": "d69d45d69389acdbc74603bc2d786d174db48ea3c6449b79f55e0e6ae8a950a6",
+      "bytes": 455
+    },
+    {
+      "path": "experiments/balance/calibration/validation.json",
+      "sha256": "7e2d4a276141506d37daadcb933466f7aff0d1b5fb4f9097f765193d2e0789ce",
+      "bytes": 455
+    },
+    {
+      "path": "experiments/balance/calibration/endless.json",
+      "sha256": "a7a4dd0a0bf5d01ef4994592aed0e1c15665f3c3f77c3d7a817ecb17106f6e4a",
+      "bytes": 477
+    },
+    {
+      "path": "experiments/balance/calibration/sensitivity.json",
+      "sha256": "aff5bbe23e48f7d698bdbf0ff11edeeb480b8cda02b7e59a9cae462bf82608c1",
+      "bytes": 870
+    },
+    {
+      "path": "tests/unit/balance-simulator-runner.test.ts",
+      "sha256": "7305eb58d6b5f356e070c23df9fcd1ca5df47b2a380588b84eb8ccd76c831d6d",
+      "bytes": 18204
+    },
+    {
+      "path": "tests/unit/calibration-evidence.test.ts",
+      "sha256": "16301ea133d97e1fd33456463846047ad730e74c347e5fbe7b2466cac34e51d3",
+      "bytes": 19501
+    },
+    {
+      "path": "tests/unit/run.test.ts",
+      "sha256": "5beff4eb3a13602999aec9ac3dcf4d72e4b04a49c207566832adc476866f438a",
+      "bytes": 4269
+    },
+    {
+      "path": "tests/unit/game-guide.test.ts",
+      "sha256": "c24888758ca0f7306c56c4abe88ab7a17451a57d76314395f489ead7c928fbbb",
+      "bytes": 4072
+    },
+    {
+      "path": "tests/browser/helpers.ts",
+      "sha256": "cd62ea609cfe10d5235cd131425479d84715eaf171ce988baff291384188c815",
+      "bytes": 7039
+    },
+    {
+      "path": "tests/browser/desktop.spec.ts",
+      "sha256": "7b65b4f7b6639fdb8538b3ff340e596aba77d82e1a7c7ccc470a3c6baa8be0fa",
+      "bytes": 36519
+    },
+    {
+      "path": "tests/browser/balance-debugger.spec.ts",
+      "sha256": "e7c92f7b7887ee5181b154d27c91a090e67714fb8e02b60c5ca977ddedbd53f0",
+      "bytes": 17284
+    },
+    {
+      "path": "tests/browser/balance-simulator.ts",
+      "sha256": "db7eb4b603bdbd9865a9a00c530c94e5d3da96edf71bff2c77cc5a0a89c494fa",
+      "bytes": 12555
+    }
+  ],
+  "immutableEvidence": [
+    {
+      "path": "/tmp/destiny-calibration-v5-unit-final.log",
+      "sha256": "635628f6688c5518f2c9d6ff7b055325b044c9eae13666f9986a6b033c334adf",
+      "bytes": 52082
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-legacy-no-freeze-fixture.log",
+      "sha256": "110e91683ff109cbcae7d1bf53097f9d07eb30cc21c403904967de2e7c3b84a2",
+      "bytes": 333
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-unit-final-rerun.log",
+      "sha256": "75d006d6a07c35512217e2310a2549bddc34e94de8a2e5ac1f0a93bace1d9e32",
+      "bytes": 51310
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-doc-values-review.log",
+      "sha256": "3aaa67dbd7132fbf0e01073d92b156fb8075e9bb001378413ba3a4a3be8289d6",
+      "bytes": 1056
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-collector-fix-review.json",
+      "sha256": "c5c32a1b6dd174a30006a990ae6add01d003d025bf617377fd191d38fe676a1c",
+      "bytes": 3118
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-static-browser-evidence.json",
+      "sha256": "9fc2024188a82a0741ede453d7c654d36eb68807d611c9feeb5e6d95b78d1d17",
+      "bytes": 9683
+    }
+  ]
+}

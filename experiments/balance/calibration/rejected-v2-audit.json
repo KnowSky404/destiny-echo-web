@@ -1,0 +1,1673 @@
+{
+  "schemaVersion": 1,
+  "kind": "rejected-validation-audit",
+  "adoptionEligible": false,
+  "createdAt": "2026-10-22T18:19:03.889Z",
+  "purpose": "Retain failed independent validation evidence without representing it as strict adoption evidence.",
+  "strictPhaseCollector": {
+    "passed": false,
+    "error": "Unresolved or invalid run",
+    "outputNotCreated": "artifacts/balance/calibration-validation-v2-evidence.json",
+    "reason": "Predeclared zero-unresolved-run adoption gate failed. CLI complete is not adoption approval.",
+    "collectorPathAtAudit": "scripts/calibration-evidence.ts",
+    "collectorSha256AtAudit": "32b2d2b645cdbd50b177d427abc9dc092b4d4fafaafb2086bd6606141b1e15a7",
+    "protocolRoleAtAudit": "validation master20261023, recorded and tested before any later protocol revision"
+  },
+  "failedGate": {
+    "name": "zero-unresolved-runs",
+    "cell": "validation-build-auto-portrait",
+    "runId": "run-176",
+    "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+    "seed": 10880895,
+    "strategy": {
+      "name": "build-auto",
+      "version": "1",
+      "seed": 1398035009,
+      "reward": {
+        "kind": "build",
+        "tieBreak": "first",
+        "preferences": {},
+        "weights": {
+          "output": 28,
+          "survival": 18,
+          "investment": 1.5,
+          "threshold": 8,
+          "preference": 10,
+          "rarity": 1,
+          "fallback": 2
+        }
+      },
+      "target": {
+        "kind": "auto",
+        "intervalSeconds": 0.5,
+        "chestSafeHealthRatio": 0.5
+      }
+    },
+    "width": 450,
+    "termination": "budget_exhausted",
+    "reason": "Maximum fixed steps reached",
+    "maxSeconds": 650,
+    "maxSteps": 78000,
+    "observedPlayerSeconds": 649.9999999995732,
+    "steps": 78000,
+    "lastStageIndex": 3,
+    "clearedStages": 3,
+    "validMetrics": true,
+    "phase": "Playing",
+    "final": {
+      "hp": 150,
+      "maxHp": 150,
+      "shield": 0,
+      "cards": {
+        "force": 7,
+        "multishot": 1,
+        "momentum": 3,
+        "expose": 1,
+        "harvest": 1,
+        "ward": 2,
+        "icefield": 1,
+        "vitality": 1,
+        "titan-heart": 1
+      },
+      "trainings": {
+        "training-power": 4,
+        "training-critical-power": 1,
+        "training-leech": 2,
+        "training-health": 1,
+        "training-haste": 1,
+        "training-critical": 1,
+        "training-damage": 1
+      },
+      "synergies": {
+        "blast": 0,
+        "barrage": 1,
+        "bastion": 3,
+        "judgment": 1,
+        "might": 11,
+        "blood": 0,
+        "precision": 1,
+        "storm": 0,
+        "frost": 1,
+        "dominion": 0,
+        "giantslayer": 0,
+        "erosion": 0
+      }
+    },
+    "stageFourSeconds": 320.98333333304146,
+    "bossSpawnTime": {
+      "playerSeconds": 377.02499999982143,
+      "stageSeconds": 48.00833333333125
+    },
+    "bossDeathTime": {
+      "playerSeconds": 580.2166666663034,
+      "stageSeconds": 251.19999999993587
+    },
+    "secondsAfterBossDeath": 69.78333333326987,
+    "classification": "unresolved, not death or victory",
+    "stageFourMetrics": {
+      "enemyDamage": 221243.18671999936,
+      "chestDamage": 36,
+      "hpLoss": 3599,
+      "shieldAbsorbed": 1060,
+      "healing": 3599.0000000000045,
+      "shieldGained": 1060,
+      "damageBySource": {
+        "shot": 221243.18671999936
+      },
+      "hpLossBySource": {
+        "projectile:hexer": 724.5,
+        "melee:sentinel": 1381.5,
+        "melee:wisp": 911,
+        "projectile:boss": 582
+      },
+      "shieldAbsorbedBySource": {
+        "projectile:hexer": 315,
+        "melee:sentinel": 360,
+        "melee:wisp": 304,
+        "projectile:boss": 81
+      },
+      "healingBySource": {
+        "lifesteal": 3557.5517225728045,
+        "harvest": 41.44827742720011
+      },
+      "shieldBySource": {
+        "bastion": 1060
+      },
+      "mechanics": {
+        "enemy_attack": 2658,
+        "arrival": 52,
+        "boss_skill:charged_volley": 33
+      },
+      "poisonSeconds": 0,
+      "woundSeconds": 0,
+      "slowSeconds": 0,
+      "sanctuarySeconds": 0,
+      "effectiveDps": 689.2668987596466
+    }
+  },
+  "protocol": {
+    "path": "experiments/balance/calibration/validation.json",
+    "sha256": "29f8dfee88e65422905504561b6bc242d254a805db66437d80cd81e5ad4b5ba5",
+    "masterSeed": 20261023,
+    "cellCount": 6,
+    "seedsPerGroup": 100,
+    "profilesPerCell": 2
+  },
+  "profiles": [
+    {
+      "pathAtAudit": "experiments/balance/calibration/baseline.json",
+      "id": "default",
+      "hash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+      "fileSha256": "9b9cafc229476bbc202522995629315fc187979f1b15b11d5fadf879faae832c"
+    },
+    {
+      "pathAtAudit": "src/data/balance/official.json",
+      "id": "stage-calibration-20261022",
+      "hash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+      "fileSha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0",
+      "archivedPath": "experiments/balance/calibration/rejected-v2.json",
+      "archivedFileSha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+    }
+  ],
+  "code": {
+    "fingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+    "bunVersion": "1.4.3",
+    "fixedStep": 0.008333333333333333,
+    "commitAtAudit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+    "dirtyAtAudit": true
+  },
+  "total": {
+    "planned": 1200,
+    "completed": 1200,
+    "terminationCounts": {
+      "campaign_victory": 500,
+      "death": 699,
+      "endless_target_reached": 0,
+      "budget_exhausted": 1,
+      "error": 0,
+      "cancelled": 0
+    },
+    "note": "Aggregated counts are bookkeeping only and are not a human or cross-strategy win rate."
+  },
+  "cells": [
+    {
+      "id": "validation-random-auto-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-random-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "837a1c38a3be27d48d8f24f7161480381951c40ceadb37e9f2e35f1a08639d6d",
+      "runsSha256": "76cb04f49bdc3cb3ec1f67824d5c378b2ae10af862d022cfd50e0f5d139153e6",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-random-auto-portrait/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T17:52:40.835Z",
+      "finishedAt": "2026-10-22T17:57:23.202Z",
+      "terminationCounts": {
+        "campaign_victory": 26,
+        "death": 174,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 2,
+            "death": 98,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 24,
+            "death": 76,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true
+      }
+    },
+    {
+      "id": "validation-random-auto-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-random-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "3ac5a7846e87e9768b9cb504a1cd6854e2118a1b8acd41f2c3786f636afb822d",
+      "runsSha256": "311728c44c679d962d0f85d26da58b3c4c07482f4718a345396241d006ca1855",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-random-auto-desktop/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T17:52:40.831Z",
+      "finishedAt": "2026-10-22T17:58:04.348Z",
+      "terminationCounts": {
+        "campaign_victory": 27,
+        "death": 173,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 2,
+            "death": 98,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 25,
+            "death": 75,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true
+      }
+    },
+    {
+      "id": "validation-build-auto-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-build-auto-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "65971c02a1e60fd1e5b641116b78867b4360de8883b90c9ab2f021e80993502c",
+      "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T17:57:23.667Z",
+      "finishedAt": "2026-10-22T18:07:09.333Z",
+      "terminationCounts": {
+        "campaign_victory": 105,
+        "death": 94,
+        "endless_target_reached": 0,
+        "budget_exhausted": 1,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 35,
+            "death": 65,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 70,
+            "death": 29,
+            "endless_target_reached": 0,
+            "budget_exhausted": 1,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": false,
+        "error": "Unresolved or invalid run"
+      }
+    },
+    {
+      "id": "validation-build-auto-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-build-auto-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "01a06ecddb1b1ef360efc9c096b42ca8227c7f41ffde3ee6ac9c56951e10cced",
+      "runsSha256": "05fa4735d08d3c53181b4291cdd0baee999e4c82bcc60bb80df9cdb235d3b358",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-auto-desktop/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T17:58:04.709Z",
+      "finishedAt": "2026-10-22T18:10:08.110Z",
+      "terminationCounts": {
+        "campaign_victory": 117,
+        "death": 83,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 39,
+            "death": 61,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 78,
+            "death": 22,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true
+      }
+    },
+    {
+      "id": "validation-build-active-portrait",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-build-active-portrait",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "a2dc7d5397492112bab0af77cf9298bc6e516a94a9851d4d846603451da9795c",
+      "runsSha256": "935c0741a24d36d13de4901ef96045853d3a1c1af13da1a40496410c355d01ef",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-active-portrait/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T18:07:09.515Z",
+      "finishedAt": "2026-10-22T18:12:58.061Z",
+      "terminationCounts": {
+        "campaign_victory": 106,
+        "death": 94,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 40,
+            "death": 60,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 66,
+            "death": 34,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true
+      }
+    },
+    {
+      "id": "validation-build-active-desktop",
+      "directoryAtAudit": "artifacts/balance/calibration-cells/validation-build-active-desktop",
+      "status": "complete",
+      "planned": 200,
+      "completed": 200,
+      "actualRecords": 200,
+      "manifestSha256": "60fc52d98f8f6a85b536b27ec1dde5955a09aade637bd527b3f734209c849297",
+      "runsSha256": "fbfb74eca11755d8fac5badde198af42582f8e928d45975339258b35030c5efc",
+      "savedProfiles": [
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60.json",
+          "sha256": "70e8ad760182d3e3c4faa283a9042e9c84146f23ac3da054b9954ac6861a6a28"
+        },
+        {
+          "path": "artifacts/balance/calibration-cells/validation-build-active-desktop/profiles/50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be.json",
+          "sha256": "6373448f8adba9965c33411ea9a0491b56328e725cea3b3cc9fa54c9b737a8b0"
+        }
+      ],
+      "codeFingerprint": "55a271c0cfa937d94eb742c120a0a1bdee93bd9b1d08cd2faaf14aa4c0538956",
+      "startedAt": "2026-10-22T18:10:08.282Z",
+      "finishedAt": "2026-10-22T18:16:57.888Z",
+      "terminationCounts": {
+        "campaign_victory": 119,
+        "death": 81,
+        "endless_target_reached": 0,
+        "budget_exhausted": 0,
+        "error": 0,
+        "cancelled": 0
+      },
+      "byProfile": [
+        {
+          "profileHash": "d0963a22aca2ee7b4c8f9c2046bde5767a92ffc8a5dd8224d7e7e27d97486f60",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 41,
+            "death": 59,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        },
+        {
+          "profileHash": "50b947f68ba93ac32756eb0eb171cba90b9f03c52ad3e19228aaeb7b71f091be",
+          "planned": 100,
+          "completed": 100,
+          "terminationCounts": {
+            "campaign_victory": 78,
+            "death": 22,
+            "endless_target_reached": 0,
+            "budget_exhausted": 0,
+            "error": 0,
+            "cancelled": 0
+          }
+        }
+      ],
+      "strictCellValidation": {
+        "passed": true
+      }
+    }
+  ],
+  "selectionDecision": {
+    "path": "artifacts/balance/calibration-v2-selection-decision.json",
+    "sha256": "168d97bc3b261e99279e38fefffc7993cc5995947812d80045cd843c3a3ae14a",
+    "decidedAt": "2026-10-22T17:52:40.552022+00:00",
+    "candidateFrozenBeforeEveryValidationCell": true
+  },
+  "decision": {
+    "status": "reject-v2-adoption-under-frozen650-second-protocol",
+    "holdoutInspected": true,
+    "tunedAgainstValidation": false,
+    "nextSteps": "Do not start remaining adoption phases as though the candidate passed; preserve the failed holdout and ask root to decide how to handle the protocol boundary. Any later profile revision must remain distinct from this failed validation.",
+    "prohibitedShortcuts": [
+      "omit the failed seed",
+      "count unresolved as death or victory",
+      "replace it with expanded-budget diagnostics",
+      "relax the strict collector",
+      "repeatedly tune on these held-out seeds and call them independent validation"
+    ],
+    "recommendation": "Retain all failed validation evidence. A finite655.09-second diagnostic is not adoption proof. Any authorized continuation must distinguish diagnostic parameter work and newly predeclared independent seeds from this already-inspected holdout."
+  },
+  "diagnostic": {
+    "kind": "expanded-budget-diagnostic-not-adoption",
+    "directory": "artifacts/balance/diagnostic-validation-10880895-2000",
+    "filesSha256": {
+      "manifest.json": "7ef541498ebffbab4d8b7c63125bd7c1199d89f04e18122d68c6e7e2ce54e971",
+      "profile.json": "775bbb0ae0425929a2cbc871ba2944d4b0f75198e0001608d8ac5628bba07c45",
+      "result.json": "7ea80750fcd1b42b555279786fde12d7ac73c3a51ddfecb30cb65608619dd24c",
+      "entity-timeline.json": "7277602ac27f85368246e691e6a2015b85bd9498dcf4c74642dafdc0913350d8",
+      "script.ts": "bf16b5f31886b01520fb47f409efe64e98615d4c3ac4a59f4e60c85ee143ea8c"
+    },
+    "termination": "campaign_victory",
+    "playerSeconds": 655.0916666662353,
+    "exceedsOriginalBudgetBySeconds": 5.091666666235255,
+    "stageFourSeconds": 326.0749999997035,
+    "bossToClearSeconds": 74.8749999999319,
+    "prefixChecks": {
+      "firstThreeStages": true,
+      "rewardPrefix": true,
+      "eventPrefix": true
+    },
+    "interpretation": "Finite normal post-Boss enemy clear tail. All residual enemies are targetable and receiving projectiles; no evidence of inaccessible geometry, failed target lock or a soft lock in this case. Does not resolve or replace the650-second adoption run.",
+    "originalBudgetBoundary": {
+      "seconds": 649.9999999995732,
+      "stage": 4,
+      "stageSeconds": 320.98333333320574,
+      "phase": "Playing",
+      "bossDefeated": true,
+      "player": {
+        "x": 225,
+        "y": 736,
+        "hp": 150,
+        "maxHp": 150,
+        "shield": 0,
+        "cooldown": 0.01959999999999984
+      },
+      "target": {
+        "id": 2719,
+        "kind": "sentinel",
+        "hp": 1606.98064,
+        "maxHp": 3499,
+        "x": 397.25,
+        "y": 200,
+        "distanceToPlayer": 562.997391201771,
+        "targetable": true
+      },
+      "enemies": [
+        {
+          "id": 2719,
+          "kind": "sentinel",
+          "x": 397.25,
+          "y": 200,
+          "hp": 1606.98064,
+          "maxHp": 3499,
+          "stage": "Attacking",
+          "arrived": true,
+          "attackPolicy": {
+            "type": "defense"
+          },
+          "receivedHits": 11,
+          "primaryHits": 5,
+          "skillsUsed": 0,
+          "speed": 141.9,
+          "slow": 0,
+          "slowTime": 0,
+          "stunTime": 0,
+          "tauntRemaining": 0,
+          "attackCooldown": 1.9333333333331986,
+          "targetable": true,
+          "distanceToPlayer": 562.997391201771
+        },
+        {
+          "id": 2722,
+          "kind": "sentinel",
+          "x": 122.25,
+          "y": 200,
+          "hp": 3098.8326399999996,
+          "maxHp": 3499,
+          "stage": "Attacking",
+          "arrived": true,
+          "attackPolicy": {
+            "type": "defense"
+          },
+          "receivedHits": 3,
+          "primaryHits": 0,
+          "skillsUsed": 0,
+          "speed": 141.9,
+          "slow": 0,
+          "slowTime": 0,
+          "stunTime": 0,
+          "tauntRemaining": 0,
+          "attackCooldown": 2.2874999999998877,
+          "targetable": true,
+          "distanceToPlayer": 545.7596197044995
+        },
+        {
+          "id": 2726,
+          "kind": "wisp",
+          "x": 52.75,
+          "y": 200,
+          "hp": 1620,
+          "maxHp": 1620,
+          "stage": "Attacking",
+          "arrived": true,
+          "attackPolicy": {
+            "type": "defense"
+          },
+          "receivedHits": 0,
+          "primaryHits": 0,
+          "skillsUsed": 0,
+          "speed": 184.79999999999998,
+          "slow": 0,
+          "slowTime": 0,
+          "stunTime": 0,
+          "tauntRemaining": 0,
+          "attackCooldown": 0.15833333333331123,
+          "targetable": true,
+          "distanceToPlayer": 562.997391201771
+        }
+      ],
+      "pendingSummons": 0,
+      "combat": {
+        "damage": 175.51199999999994,
+        "interval": 0.3196,
+        "projectiles": 2,
+        "secondaryDamage": 0.6,
+        "critChance": 0.04,
+        "critDamage": 1.7,
+        "lifesteal": 0.034
+      }
+    }
+  },
+  "pathNote": "directoryAtAudit and saved source paths are historical. All12 V2 selection/validation cells were moved without byte changes to archiveRoot/<cell-id>/; historical protocol/config/source SHA values remain unchanged.",
+  "groupInterpretation": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "baselineWins": 2,
+      "candidateWins": 24,
+      "candidateResolved": 100,
+      "candidateWinRateCI95ResolvedOnly": [0.16691325556948772, 0.33232336349814473],
+      "candidateWinRateBoundsOverPlanned": [0.24, 0.24],
+      "candidateFirstClears": 38,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 100,
+        "unresolvedPairs": 0,
+        "onlyBaseline": 1,
+        "onlyCandidate": 23,
+        "deltaPercentagePoints": 22,
+        "deltaCI95PercentagePoints": [-5.162030314812391, 49.16203031481239],
+        "regressedSeeds": [972089122],
+        "unresolvedSeeds": []
+      },
+      "selectionComparison": {
+        "baselineWins": 1,
+        "candidateWins": 27,
+        "firstClears": 35,
+        "observedCandidateWinFractionDeltaPP": -3
+      },
+      "stageFourClearSeconds": {
+        "n": 24,
+        "p50": 68.81666666660408,
+        "p90": 178.2999999998378,
+        "p95": 236.19083333311846,
+        "p99": 252.63933333310362,
+        "max": 255.00833333310146
+      },
+      "stageFourPostBossSeconds": {
+        "n": 24,
+        "p50": 1.529166666665276,
+        "p90": 36.211666666633725,
+        "p95": 49.200833333288564,
+        "p99": 67.838166666605,
+        "max": 72.92499999993373
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 38,
+          "budgetCensored": 0,
+          "attackedRuns": 99,
+          "hostileHpLoss": 7985.862499999989,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 38,
+          "cleared": 27,
+          "budgetCensored": 0,
+          "attackedRuns": 29,
+          "hostileHpLoss": 2418.1407044379193,
+          "bloodpactHpLoss": 21,
+          "shieldAbsorbed": 138.12179556203637
+        },
+        {
+          "stageIndex": 2,
+          "entered": 27,
+          "cleared": 24,
+          "budgetCensored": 0,
+          "attackedRuns": 24,
+          "hostileHpLoss": 10907.530635706771,
+          "bloodpactHpLoss": 120,
+          "shieldAbsorbed": 61.90936429321617
+        },
+        {
+          "stageIndex": 3,
+          "entered": 24,
+          "cleared": 24,
+          "budgetCensored": 0,
+          "attackedRuns": 20,
+          "hostileHpLoss": 19882.493163419458,
+          "bloodpactHpLoss": 108,
+          "shieldAbsorbed": 693.0068365805447
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "baselineWins": 2,
+      "candidateWins": 25,
+      "candidateResolved": 100,
+      "candidateWinRateCI95ResolvedOnly": [0.17545211362287672, 0.34304463548061603],
+      "candidateWinRateBoundsOverPlanned": [0.25, 0.25],
+      "candidateFirstClears": 54,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 100,
+        "unresolvedPairs": 0,
+        "onlyBaseline": 0,
+        "onlyCandidate": 23,
+        "deltaPercentagePoints": 23,
+        "deltaCI95PercentagePoints": [-4.16203031481239, 50.16203031481239],
+        "regressedSeeds": [],
+        "unresolvedSeeds": []
+      },
+      "selectionComparison": {
+        "baselineWins": 5,
+        "candidateWins": 19,
+        "firstClears": 67,
+        "observedCandidateWinFractionDeltaPP": 6
+      },
+      "stageFourClearSeconds": {
+        "n": 25,
+        "p50": 55.91666666661581,
+        "p90": 111.6099999998985,
+        "p95": 137.6599999998747,
+        "p99": 168.56633333317995,
+        "max": 176.45833333317285
+      },
+      "stageFourPostBossSeconds": {
+        "n": 25,
+        "p50": 1.0416666666657193,
+        "p90": 12.86333333332164,
+        "p95": 15.693333333319055,
+        "p99": 19.82299999998196,
+        "max": 21.024999999980878
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 54,
+          "budgetCensored": 0,
+          "attackedRuns": 97,
+          "hostileHpLoss": 7135.343749999984,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 54,
+          "cleared": 28,
+          "budgetCensored": 0,
+          "attackedRuns": 40,
+          "hostileHpLoss": 3907.6124999999943,
+          "bloodpactHpLoss": 23.268750000000637,
+          "shieldAbsorbed": 46
+        },
+        {
+          "stageIndex": 2,
+          "entered": 28,
+          "cleared": 25,
+          "budgetCensored": 0,
+          "attackedRuns": 24,
+          "hostileHpLoss": 7580.42018727837,
+          "bloodpactHpLoss": 48,
+          "shieldAbsorbed": 173.8693750000005
+        },
+        {
+          "stageIndex": 3,
+          "entered": 25,
+          "cleared": 25,
+          "budgetCensored": 0,
+          "attackedRuns": 19,
+          "hostileHpLoss": 10776,
+          "bloodpactHpLoss": 60,
+          "shieldAbsorbed": 127.5
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "baselineWins": 35,
+      "candidateWins": 70,
+      "candidateResolved": 99,
+      "candidateWinRateCI95ResolvedOnly": [0.6110382270180278, 0.7876336750548921],
+      "candidateWinRateBoundsOverPlanned": [0.7, 0.71],
+      "candidateFirstClears": 83,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 99,
+        "unresolvedPairs": 1,
+        "onlyBaseline": 7,
+        "onlyCandidate": 42,
+        "deltaPercentagePoints": 35.35353535353536,
+        "deltaCI95PercentagePoints": [8.05466774793182, 62.65240295913889],
+        "regressedSeeds": [
+          165778829, 2328595821, 2469317305, 2220847675, 236858730, 2687858020, 1363476184
+        ],
+        "unresolvedSeeds": [10880895]
+      },
+      "selectionComparison": {
+        "baselineWins": 41,
+        "candidateWins": 75,
+        "firstClears": 86,
+        "observedCandidateWinFractionDeltaPP": -5
+      },
+      "stageFourClearSeconds": {
+        "n": 70,
+        "p50": 59.23333333327946,
+        "p90": 142.26583333320394,
+        "p95": 153.6949999998602,
+        "p99": 205.8521666664795,
+        "max": 216.4666666664698
+      },
+      "stageFourPostBossSeconds": {
+        "n": 70,
+        "p50": 1.2958333333321548,
+        "p90": 17.098333333317786,
+        "p95": 28.857083333307077,
+        "p99": 43.005666666627576,
+        "max": 50.06666666662113
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 83,
+          "budgetCensored": 0,
+          "attackedRuns": 82,
+          "hostileHpLoss": 2801.1625,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 83,
+          "cleared": 75,
+          "budgetCensored": 0,
+          "attackedRuns": 35,
+          "hostileHpLoss": 2907.9249999999593,
+          "bloodpactHpLoss": 153.70000000000277,
+          "shieldAbsorbed": 335
+        },
+        {
+          "stageIndex": 2,
+          "entered": 75,
+          "cleared": 71,
+          "budgetCensored": 0,
+          "attackedRuns": 34,
+          "hostileHpLoss": 14254.576650908964,
+          "bloodpactHpLoss": 597,
+          "shieldAbsorbed": 838.2658490910214
+        },
+        {
+          "stageIndex": 3,
+          "entered": 71,
+          "cleared": 70,
+          "budgetCensored": 1,
+          "attackedRuns": 38,
+          "hostileHpLoss": 23668.49945909231,
+          "bloodpactHpLoss": 789,
+          "shieldAbsorbed": 7039.500540907693
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "baselineWins": 39,
+      "candidateWins": 78,
+      "candidateResolved": 100,
+      "candidateWinRateCI95ResolvedOnly": [0.6892964648501421, 0.8499871761539459],
+      "candidateWinRateBoundsOverPlanned": [0.78, 0.78],
+      "candidateFirstClears": 96,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 100,
+        "unresolvedPairs": 0,
+        "onlyBaseline": 0,
+        "onlyCandidate": 39,
+        "deltaPercentagePoints": 39,
+        "deltaCI95PercentagePoints": [11.83796968518761, 66.1620303148124],
+        "regressedSeeds": [],
+        "unresolvedSeeds": []
+      },
+      "selectionComparison": {
+        "baselineWins": 37,
+        "candidateWins": 77,
+        "firstClears": 99,
+        "observedCandidateWinFractionDeltaPP": 1
+      },
+      "stageFourClearSeconds": {
+        "n": 78,
+        "p50": 58.14166666661379,
+        "p90": 111.79249999989833,
+        "p95": 129.88333333321503,
+        "p99": 197.24066666648733,
+        "max": 198.24166666648637
+      },
+      "stageFourPostBossSeconds": {
+        "n": 78,
+        "p50": 1.9708333333315409,
+        "p90": 18.060833333316907,
+        "p95": 21.505833333313735,
+        "p99": 43.62733333329375,
+        "max": 61.82499999994377
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 96,
+          "budgetCensored": 0,
+          "attackedRuns": 47,
+          "hostileHpLoss": 1616.2499999999918,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 96,
+          "cleared": 82,
+          "budgetCensored": 0,
+          "attackedRuns": 44,
+          "hostileHpLoss": 4320.897874999978,
+          "bloodpactHpLoss": 87,
+          "shieldAbsorbed": 200.48337500000002
+        },
+        {
+          "stageIndex": 2,
+          "entered": 82,
+          "cleared": 79,
+          "budgetCensored": 0,
+          "attackedRuns": 47,
+          "hostileHpLoss": 15504.086578391829,
+          "bloodpactHpLoss": 369.85,
+          "shieldAbsorbed": 1334.55529660815
+        },
+        {
+          "stageIndex": 3,
+          "entered": 79,
+          "cleared": 78,
+          "budgetCensored": 0,
+          "attackedRuns": 53,
+          "hostileHpLoss": 24628.28620590159,
+          "bloodpactHpLoss": 900,
+          "shieldAbsorbed": 5525.7012940984005
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "baselineWins": 40,
+      "candidateWins": 66,
+      "candidateResolved": 100,
+      "candidateWinRateCI95ResolvedOnly": [0.5627772885472462, 0.7453847920265184],
+      "candidateWinRateBoundsOverPlanned": [0.66, 0.66],
+      "candidateFirstClears": 84,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 100,
+        "unresolvedPairs": 0,
+        "onlyBaseline": 9,
+        "onlyCandidate": 35,
+        "deltaPercentagePoints": 26,
+        "deltaCI95PercentagePoints": [-1.16203031481239, 53.16203031481239],
+        "regressedSeeds": [
+          165778829, 3160948138, 2328595821, 2469317305, 2068539805, 2608962595, 236858730,
+          2687858020, 1363476184
+        ],
+        "unresolvedSeeds": []
+      },
+      "selectionComparison": {
+        "baselineWins": 45,
+        "candidateWins": 76,
+        "firstClears": 89,
+        "observedCandidateWinFractionDeltaPP": -10
+      },
+      "stageFourClearSeconds": {
+        "n": 66,
+        "p50": 59.049999999946294,
+        "p90": 117.72499999989293,
+        "p95": 142.98541666653662,
+        "p99": 173.930833333175,
+        "max": 190.1916666664937
+      },
+      "stageFourPostBossSeconds": {
+        "n": 66,
+        "p50": 1.154166666665617,
+        "p90": 21.124999999980787,
+        "p95": 34.86041666663496,
+        "p99": 61.03249999994437,
+        "max": 74.86666666659858
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 84,
+          "budgetCensored": 0,
+          "attackedRuns": 82,
+          "hostileHpLoss": 2950.5249999999905,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 84,
+          "cleared": 70,
+          "budgetCensored": 0,
+          "attackedRuns": 37,
+          "hostileHpLoss": 3696.7908140000236,
+          "bloodpactHpLoss": 123,
+          "shieldAbsorbed": 449.75249999999977
+        },
+        {
+          "stageIndex": 2,
+          "entered": 70,
+          "cleared": 66,
+          "budgetCensored": 0,
+          "attackedRuns": 29,
+          "hostileHpLoss": 11596.005000000021,
+          "bloodpactHpLoss": 516,
+          "shieldAbsorbed": 781.0999999999999
+        },
+        {
+          "stageIndex": 3,
+          "entered": 66,
+          "cleared": 66,
+          "budgetCensored": 0,
+          "attackedRuns": 34,
+          "hostileHpLoss": 17156.332241762095,
+          "bloodpactHpLoss": 690,
+          "shieldAbsorbed": 2903.1677582379048
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "baselineWins": 41,
+      "candidateWins": 78,
+      "candidateResolved": 100,
+      "candidateWinRateCI95ResolvedOnly": [0.6892964648501421, 0.8499871761539459],
+      "candidateWinRateBoundsOverPlanned": [0.78, 0.78],
+      "candidateFirstClears": 96,
+      "paired": {
+        "matched": 100,
+        "resolvedPairs": 100,
+        "unresolvedPairs": 0,
+        "onlyBaseline": 0,
+        "onlyCandidate": 37,
+        "deltaPercentagePoints": 37,
+        "deltaCI95PercentagePoints": [9.837969685187609, 64.16203031481238],
+        "regressedSeeds": [],
+        "unresolvedSeeds": []
+      },
+      "selectionComparison": {
+        "baselineWins": 39,
+        "candidateWins": 75,
+        "firstClears": 95,
+        "observedCandidateWinFractionDeltaPP": 3
+      },
+      "stageFourClearSeconds": {
+        "n": 78,
+        "p50": 58.77916666661321,
+        "p90": 86.00999999992177,
+        "p95": 102.1629166665737,
+        "p99": 135.95991666654305,
+        "max": 143.99999999986903
+      },
+      "stageFourPostBossSeconds": {
+        "n": 78,
+        "p50": 2.2916666666645824,
+        "p90": 6.707499999993895,
+        "p95": 12.693333333321767,
+        "p99": 26.124833333309578,
+        "max": 26.933333333308838
+      },
+      "stagesPressure": [
+        {
+          "stageIndex": 0,
+          "entered": 100,
+          "cleared": 96,
+          "budgetCensored": 0,
+          "attackedRuns": 44,
+          "hostileHpLoss": 1883.8249999999923,
+          "bloodpactHpLoss": 0,
+          "shieldAbsorbed": 0
+        },
+        {
+          "stageIndex": 1,
+          "entered": 96,
+          "cleared": 80,
+          "budgetCensored": 0,
+          "attackedRuns": 40,
+          "hostileHpLoss": 4150.269138873589,
+          "bloodpactHpLoss": 108,
+          "shieldAbsorbed": 232.2829311263612
+        },
+        {
+          "stageIndex": 2,
+          "entered": 80,
+          "cleared": 78,
+          "budgetCensored": 0,
+          "attackedRuns": 47,
+          "hostileHpLoss": 7311.362693487733,
+          "bloodpactHpLoss": 429,
+          "shieldAbsorbed": 2977.9904315122576
+        },
+        {
+          "stageIndex": 3,
+          "entered": 78,
+          "cleared": 78,
+          "budgetCensored": 0,
+          "attackedRuns": 53,
+          "hostileHpLoss": 9911.50116671326,
+          "bloodpactHpLoss": 765,
+          "shieldAbsorbed": 8209.99883328674
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/当前正式数值/build-active/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/450",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "stage_drop",
+      "group": "selection/Stage calibration 2026-10-22/random-auto/1600",
+      "message": "存在进入后的关卡清关断崖"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-auto/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    },
+    {
+      "code": "build_concentration",
+      "group": "selection/Stage calibration 2026-10-22/build-active/1600",
+      "message": "至少一种流派在多数终局构筑中达到3层；受策略与存活时间偏差影响"
+    }
+  ],
+  "layoutGaps": [
+    {
+      "strategy": "random-auto",
+      "observedCampaignWinFractionDeltaDesktopMinusPortraitPP": 1,
+      "firstClearDeltaDesktopMinusPortraitPP": 16,
+      "stageTwoConditionalDeltaDesktopMinusPortraitPP": -19.20077972709552
+    },
+    {
+      "strategy": "build-auto",
+      "observedCampaignWinFractionDeltaDesktopMinusPortraitPP": 8,
+      "firstClearDeltaDesktopMinusPortraitPP": 13,
+      "stageTwoConditionalDeltaDesktopMinusPortraitPP": -4.944779116465869
+    },
+    {
+      "strategy": "build-active",
+      "observedCampaignWinFractionDeltaDesktopMinusPortraitPP": 12,
+      "firstClearDeltaDesktopMinusPortraitPP": 12,
+      "stageTwoConditionalDeltaDesktopMinusPortraitPP": 0
+    }
+  ],
+  "finalStageTailSummary": [
+    {
+      "phase": "selection",
+      "strategy": "random-auto",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-random-auto-portrait",
+        "runsSha256": "2280eacc3285b6cc743e297e5701a015acc602a1293714379ae49dcea14b9e5d"
+      },
+      "planned": 100,
+      "cleared": 27,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 27,
+        "p50": 58.05833333328053,
+        "p90": 66.0799999999399,
+        "p95": 71.62999999993485,
+        "p99": 163.73016666651756,
+        "max": 195.28333333315572
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 27,
+        "p50": 0.8249999999992497,
+        "p90": 2.3499999999978636,
+        "p95": 4.163333333329545,
+        "p99": 29.4074999999732,
+        "max": 38.04166666663207
+      }
+    },
+    {
+      "phase": "selection",
+      "strategy": "random-auto",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-random-auto-desktop",
+        "runsSha256": "75a1054f588be7efd71434115006e91e876b70f7768d084a5f6c9dbf0ff028e7"
+      },
+      "planned": 100,
+      "cleared": 19,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 19,
+        "p50": 55.56666666661613,
+        "p90": 113.72999999989655,
+        "p95": 133.98999999987802,
+        "p99": 169.7979999998456,
+        "max": 178.74999999983743
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 19,
+        "p50": 1.9583333333315522,
+        "p90": 9.18666666665831,
+        "p95": 11.015833333323313,
+        "p99": 11.609833333322774,
+        "max": 11.75833333332264
+      }
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-auto",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-auto-portrait",
+        "runsSha256": "56471e26685c5ae47702441402d2bbfe46fc63a68f06c7a6a009e2add88b3f02"
+      },
+      "planned": 100,
+      "cleared": 75,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 75,
+        "p50": 57.15833333328135,
+        "p90": 78.61333333326185,
+        "p95": 115.52249999989476,
+        "p99": 186.17433333316407,
+        "max": 195.06666666648925
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 75,
+        "p50": 0.8333333333325754,
+        "p90": 5.528333333328328,
+        "p95": 20.565833333314618,
+        "p99": 40.74516666662961,
+        "max": 40.84999999996285
+      }
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-auto",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-auto-desktop",
+        "runsSha256": "9f049209c2074c8a3ccfe21b0eef68545e28f9d8ce734601f353236a5c447b68"
+      },
+      "planned": 100,
+      "cleared": 77,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 77,
+        "p50": 59.374999999946,
+        "p90": 93.6183333332482,
+        "p95": 114.21666666656283,
+        "p99": 197.40833333315342,
+        "max": 252.50833333310374
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 77,
+        "p50": 1.9916666666648553,
+        "p90": 10.411666666657203,
+        "p95": 15.43666666665265,
+        "p99": 28.784333333307114,
+        "max": 34.56666666663523
+      }
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-active",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-active-portrait",
+        "runsSha256": "5cb630b92fbbfa5b3f63cfeaba397e8cc573b95cd58b13936cccae2a1f21c26b"
+      },
+      "planned": 100,
+      "cleared": 76,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 76,
+        "p50": 57.23333333328128,
+        "p90": 79.57499999992763,
+        "p95": 97.89166666657763,
+        "p99": 179.42083333317015,
+        "max": 183.78333333316618
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 76,
+        "p50": 0.916666666665833,
+        "p90": 5.774999999994748,
+        "p95": 26.787499999975637,
+        "p99": 34.32708333330211,
+        "max": 41.85833333329526
+      }
+    },
+    {
+      "phase": "selection",
+      "strategy": "build-active",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/selection-build-active-desktop",
+        "runsSha256": "8fc14e9a6f436bcdad40bd4a93af412176e4ed664bce43e9026f8ed9e19d7b1c"
+      },
+      "planned": 100,
+      "cleared": 75,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 75,
+        "p50": 58.99999999994634,
+        "p90": 76.87166666659677,
+        "p95": 111.07749999989893,
+        "p99": 130.6689999998812,
+        "max": 138.85833333320704
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 75,
+        "p50": 1.8833333333316205,
+        "p90": 5.768333333328095,
+        "p95": 11.143333333323199,
+        "p99": 18.446499999983242,
+        "max": 21.424999999980514
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-random-auto-portrait",
+        "runsSha256": "76cb04f49bdc3cb3ec1f67824d5c378b2ae10af862d022cfd50e0f5d139153e6"
+      },
+      "planned": 100,
+      "cleared": 24,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 24,
+        "p50": 68.81666666660408,
+        "p90": 178.2999999998378,
+        "p95": 236.19083333311846,
+        "p99": 252.63933333310362,
+        "max": 255.00833333310146
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 24,
+        "p50": 1.529166666665276,
+        "p90": 36.211666666633725,
+        "p95": 49.200833333288564,
+        "p99": 67.838166666605,
+        "max": 72.92499999993373
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "random-auto",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-random-auto-desktop",
+        "runsSha256": "311728c44c679d962d0f85d26da58b3c4c07482f4718a345396241d006ca1855"
+      },
+      "planned": 100,
+      "cleared": 25,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 25,
+        "p50": 55.91666666661581,
+        "p90": 111.6099999998985,
+        "p95": 137.6599999998747,
+        "p99": 168.56633333317995,
+        "max": 176.45833333317285
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 25,
+        "p50": 1.0416666666657193,
+        "p90": 12.86333333332164,
+        "p95": 15.693333333319055,
+        "p99": 19.82299999998196,
+        "max": 21.024999999980878
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-build-auto-portrait",
+        "runsSha256": "be726db357a6a0aa47e071e94ad1b8153cd813b9e387cdca1a7b2e404ed3f2f1"
+      },
+      "planned": 100,
+      "cleared": 70,
+      "censored": [
+        {
+          "seed": 10880895,
+          "stageFourSecondsObserved": 320.98333333304146,
+          "postBossSecondsObserved": 69.78333333326987
+        }
+      ],
+      "stageFourClearSeconds": {
+        "n": 70,
+        "p50": 59.23333333327946,
+        "p90": 142.26583333320394,
+        "p95": 153.6949999998602,
+        "p99": 205.8521666664795,
+        "max": 216.4666666664698
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 70,
+        "p50": 1.2958333333321548,
+        "p90": 17.098333333317786,
+        "p95": 28.857083333307077,
+        "p99": 43.005666666627576,
+        "max": 50.06666666662113
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-auto",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-build-auto-desktop",
+        "runsSha256": "05fa4735d08d3c53181b4291cdd0baee999e4c82bcc60bb80df9cdb235d3b358"
+      },
+      "planned": 100,
+      "cleared": 78,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 78,
+        "p50": 58.14166666661379,
+        "p90": 111.79249999989833,
+        "p95": 129.88333333321503,
+        "p99": 197.24066666648733,
+        "max": 198.24166666648637
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 78,
+        "p50": 1.9708333333315409,
+        "p90": 18.060833333316907,
+        "p95": 21.505833333313735,
+        "p99": 43.62733333329375,
+        "max": 61.82499999994377
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 450,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-build-active-portrait",
+        "runsSha256": "935c0741a24d36d13de4901ef96045853d3a1c1af13da1a40496410c355d01ef"
+      },
+      "planned": 100,
+      "cleared": 66,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 66,
+        "p50": 59.049999999946294,
+        "p90": 117.72499999989293,
+        "p95": 142.98541666653662,
+        "p99": 173.930833333175,
+        "max": 190.1916666664937
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 66,
+        "p50": 1.154166666665617,
+        "p90": 21.124999999980787,
+        "p95": 34.86041666663496,
+        "p99": 61.03249999994437,
+        "max": 74.86666666659858
+      }
+    },
+    {
+      "phase": "validation",
+      "strategy": "build-active",
+      "width": 1600,
+      "source": {
+        "directory": "artifacts/balance/calibration-cells/validation-build-active-desktop",
+        "runsSha256": "fbfb74eca11755d8fac5badde198af42582f8e928d45975339258b35030c5efc"
+      },
+      "planned": 100,
+      "cleared": 78,
+      "censored": [],
+      "stageFourClearSeconds": {
+        "n": 78,
+        "p50": 58.77916666661321,
+        "p90": 86.00999999992177,
+        "p95": 102.1629166665737,
+        "p99": 135.95991666654305,
+        "max": 143.99999999986903
+      },
+      "stageFourPostBossClearSeconds": {
+        "n": 78,
+        "p50": 2.2916666666645824,
+        "p90": 6.707499999993895,
+        "p95": 12.693333333321767,
+        "p99": 26.124833333309578,
+        "max": 26.933333333308838
+      }
+    }
+  ],
+  "uncertaintyScope": "Wilson intervals use resolved runs only; the unresolved candidate group has99 resolved runs. winRateBounds and observed wins/100 retain its unknown outcome. Campaign stages also expose budget censoring explicitly. Fixed policy confidence intervals do not represent human mixtures or independent draws across strategy/layout groups sharing game seeds.",
+  "independentOriginalValidation": {
+    "masterSeed": 20261023,
+    "candidateFrozenBeforeEveryCell": true,
+    "profileTuningOccurredDuringRun": false,
+    "nowConsumedAsHeldOutEvidence": true,
+    "futureReuseIsDiagnosticOnly": true
+  },
+  "archiveRoot": "artifacts/balance/calibration-v2-rejected/cells",
+  "selectionEvidence": {
+    "pathAtAudit": "artifacts/balance/calibration-selection-v2-evidence.json",
+    "sha256": "861dc965355065c91c0fc201aa45da4449b04e0948974b59251356fa2f2388de",
+    "phase": "selection",
+    "strictPhasePassed": true,
+    "planned": 1200,
+    "completed": 1200,
+    "candidateAdoptionEligible": false,
+    "excludedFromFinalAdoption": true,
+    "reason": "V2 passed selection only and was subsequently rejected by its independent validation zero-unresolved gate. Selection phase evidence must not be presented as final candidate acceptance.",
+    "sourceCellsArchiveRoot": "artifacts/balance/calibration-v2-rejected/cells"
+  }
+}

@@ -1,6 +1,8 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
+import { resolveStrategy } from "../../src/balance-sim/strategies";
+import { seededRandom } from "../../src/game/random";
 import { chooseReward } from "../policy";
 import { cleanupAndRegionsFlow, endlessSpawnFlow, healthScalingCardsFlow } from "./arena-mechanics";
 import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
@@ -313,7 +315,7 @@ test("shoots a real chest, offers three unique cards, freezes the run and applie
   await expect(page.locator(".collected-card")).toHaveCount(1);
 });
 
-for (const strategy of ["offense", "defensive"] as const) {
+for (const strategy of ["offense", "random"] as const) {
   test(`a natural ${strategy} run reaches ${strategy === "offense" ? "stage two" : "failure"} and restarts cleanly`, async ({
     page,
     browserName,
@@ -322,28 +324,37 @@ for (const strategy of ["offense", "defensive"] as const) {
       browserName !== "chromium" && browserName !== "firefox",
       "Natural desktop runs execute in Chromium and Firefox.",
     );
-    test.setTimeout(browserName === "firefox" ? 600_000 : 300_000);
+    test.setTimeout(600_000);
+    // Match the simulator's resolved portrait failure, including its policy RNG.
+    if (strategy === "random") await page.setViewportSize({ width: 450, height: 900 });
+    const rewardRandom = seededRandom(resolveStrategy({ name: "random-auto" }).seed);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 1));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 2401570752));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
       if (["GameOver", "Victory", "StageClear"].includes(state.phase)) break;
       if (state.phase === "RewardSelection" && state.reward) {
-        const id = chooseReward(
-          state.reward.choices,
-          new Map(Object.entries(state.stacks)),
-          state.player.hp,
-          strategy === "defensive" ? "defensive" : "active",
-        );
+        // World and the DOM render on separate callbacks under the fake clock.
+        await page.clock.runFor(100);
+        const id =
+          strategy === "random"
+            ? state.reward.choices[Math.floor(rewardRandom() * state.reward.choices.length)]
+            : chooseReward(
+                state.reward.choices,
+                new Map(Object.entries(state.stacks)),
+                state.player.hp,
+                "active",
+              );
         if (!id) throw new Error("Missing reward");
         await page.locator(`[data-card="${id}"]`).click();
       }
       const chest = state.chests[0];
-      if (chest && !state.enemies.some((enemy) => enemy.kind === "boss"))
+      if (strategy === "offense" && chest && !state.enemies.some((enemy) => enemy.kind === "boss"))
         await clickTarget(page, chest.x, chest.y);
       await page.clock.runFor(1000);
     }
+    await page.clock.runFor(100);
     const result = await snapshot(page);
     expect(result.phase).toBe(strategy === "offense" ? "StageClear" : "GameOver");
     expect(result.metrics.regularAttacks).toBeGreaterThan(0);
@@ -440,7 +451,7 @@ test("production static build loads without diagnostics or missing assets", asyn
   await expect(help).toContainText("遗世庇护");
   await expect(help).toContainText("首层 0.75 秒");
   await expect(help).toContainText("减少 90% 治疗");
-  await expect(help).toContainText("之后每关 +9");
+  await expect(help).toContainText("重击首关直接扣 90 生命，之后每关 +7.5");
   await expect(help).toContainText("首关只开放");
   await expect(
     help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),

@@ -1,5 +1,9 @@
 # Changelog
 
+## Stage calibration — 2026-10-22
+
+The official profile now calibrates opening pressure, later minion/boss endurance and action timing, plus the separate endless ramp and direct-HP slam. Numeric tables and bilingual help follow the profile. Reproducible selection, independent validation and strategy/layout sensitivity are recorded in the repository calibration report; proxy results are not human win rates. Source/PR, Wiki, PRE and PRO delivery remain separately verified.
+
 ## Unreleased — game language support
 
 - **Game UI in English and Simplified Chinese:** switch menus, HUD, all 51 augments, 8 trainings, 12 synergy families, enemies, campaign/endless feedback, help and accessibility labels in place.

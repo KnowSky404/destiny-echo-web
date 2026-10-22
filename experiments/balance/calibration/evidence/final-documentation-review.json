@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "V5-F-final-formal-evidence-and-semantic-review-annex",
+  "recordedAt": "2026-10-22T22:44:23.391171+00:00",
+  "simulationsExecuted": 0,
+  "testsExecuted": 0,
+  "remoteCallsExecuted": 0,
+  "materialUnresolvedFindings": [],
+  "tableChecks": [
+    "selection-completion-and-CIs",
+    "selection-conditional-stage-denominators",
+    "selection-actual-action-denominators",
+    "validation-completion-and-CIs",
+    "validation-conditional-stage-denominators",
+    "validation-actual-action-denominators",
+    "endless-campaign-layer-and-target-denominators",
+    "all18-sensitivity-cells-and-CIs"
+  ],
+  "completed": {
+    "selection": 1200,
+    "validation": 3600,
+    "endless": 360,
+    "sensitivity": 288
+  },
+  "total": 5448,
+  "candidate": 3048,
+  "baseline": 2400,
+  "peerCIEntries": 255,
+  "numericWilsonIntervals": 249,
+  "zeroEntryNullCases": 6,
+  "retainedWarnings": 73,
+  "retainedPairedHarms": 88,
+  "replays": {
+    "exact": 2,
+    "newStatisticalSamples": 0
+  },
+  "adoption": {
+    "finalAdoption": true,
+    "hardIntegrityPassed": true,
+    "allSoftObservationBandsSatisfied": false
+  },
+  "frozenIdentity": {
+    "profile": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+    "source": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+    "collector": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+  },
+  "numericReview": {
+    "path": "/tmp/destiny-calibration-v5-final-matrix-doc-values.json",
+    "sha256": "3aaa67dbd7132fbf0e01073d92b156fb8075e9bb001378413ba3a4a3be8289d6",
+    "method": "Re-evaluated resolved stage/profile values and World slam getter, without World.start/update or any simulation."
+  },
+  "previousSemanticReview": {
+    "path": "/tmp/destiny-calibration-v5-final-semantic-review.json",
+    "sha256": "3f8d896fc5ca8e969ed387f070f1012fe572e9fd3e287d99d5f9e25cb85de8ce",
+    "unchangedEntries": 32,
+    "changedEntries": [
+      "docs/builds-and-stages.md",
+      "docs/balance-calibration-2026-10-22.md",
+      "experiments/balance/calibration/README.md"
+    ],
+    "boundary": "Expected changes among35 earlier reviewed files are final report, protocol README and adopted-profile wording in builds-and-stages.md; current values/formulas in that spec were manually rechecked. The remaining32 entries, including runtime, guide sources/generated guide, shell/index, tests and collector, are unchanged."
+  },
+  "sources": [
+    {
+      "path": "/tmp/destiny-calibration-v5-all-phases-independent-peer.json",
+      "sha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-v5-final-adoption.json",
+      "sha256": "8b98044b83245d9d0ae62bd277ab994b40819bb9ae775f537b894c38564e7c8b"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-v5-exact-replays.json",
+      "sha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-sensitivity-v5-interpretation.json",
+      "sha256": "ca773fbb573eb9081dc3d70c652d2b02f8dbec3f57a185958be9568edccca943"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-selection-v5-evidence.json",
+      "sha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-validation-v5-evidence.json",
+      "sha256": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-endless-v5-evidence.json",
+      "sha256": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349"
+    },
+    {
+      "path": "/root/Clouds/destiny-echo-web/.worktrees/stage-balance-calibration/artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "sha256": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c"
+    }
+  ],
+  "currentDocuments": [
+    {
+      "path": "docs/balance-calibration-2026-10-22.md",
+      "sha256": "edc2259795bdc7f7dcdf4213f833e0e97bc6d5b4b22590df5ba89cdec5d6cc58"
+    },
+    {
+      "path": "experiments/balance/calibration/README.md",
+      "sha256": "53aade492077b77b8b8fd9017d8edd135241ed38c54272ffe5e68cb366943269"
+    }
+  ],
+  "checkedLocalReportLinks": [
+    "experiments/balance/calibration/README.md",
+    "experiments/balance/calibration/evidence",
+    "experiments/balance/calibration/evidence/endless.json",
+    "experiments/balance/calibration/evidence/exact-replays.json",
+    "experiments/balance/calibration/evidence/final-adoption.json",
+    "experiments/balance/calibration/evidence/selection.json",
+    "experiments/balance/calibration/evidence/sensitivity-interpretation.json",
+    "experiments/balance/calibration/evidence/sensitivity.json",
+    "experiments/balance/calibration/evidence/validation.json",
+    "experiments/balance/calibration/rejected-v4-evidence",
+    "src/data/balance/official.json"
+  ],
+  "semanticBoundaries": [
+    "Predeclared intent remains distinct from final stage-two-filter/later-payoff design acceptance.",
+    "Hard record integrity passes; original soft bands are not widened or described as all satisfied.",
+    "Shared environment/policy seeds are not pooled; deterministic builder repetition adds no independent build diversity.",
+    "Random17 narrow0/16 and wide1/16 remain; first-slot association is not causal isolation, software-defect proof or human random-choice rate.",
+    "Late campaign zero medians and finale filtering,8 independent stage3 deaths,1 separate endless campaign finale death and all paired harms remain.",
+    "Endless191 target boundaries are right-censored, healing/sustain is explicit, no formal baseline endless group,6.095x jump and6 weak diagnostic deaths remain.",
+    "Historical V1–V4 numerical/browser/build evidence stays historical; dirty-worktree static QA is not clean merged-main release packaging.",
+    "Adoption decision, independent peer, exact replays and final delivery/index assembly are separate facts; no Wiki/cloud release is asserted."
+  ],
+  "remainingDelivery": [
+    "Root curation and final evidence index generation",
+    "Final local docs/lint checks and atomic source commit",
+    "Push, exact-head PR review and rebase merge",
+    "Clean-main source equivalence and Wiki publish",
+    "Restore existing Cloudflare authentication, fresh clean-main PRO/PRE build/dry-run, PRE verification then PRO"
+  ]
+}

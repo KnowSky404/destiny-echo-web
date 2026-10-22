@@ -46,6 +46,7 @@ const names: Record<string, string> = {
   小怪生命倍率: "Minion HP multiplier",
   速度倍率: "Speed multiplier",
   普通伤害倍率: "Ordinary damage multiplier",
+  攻击计时倍率: "Attack timing multiplier",
   首领弹数: "Boss fan",
   首领常规间隔: "Boss interval",
   蓄力时间: "Charge duration",
@@ -77,7 +78,11 @@ function entry<T>(catalog: Record<string, T>, id: string): T {
 const gallery = (file: string, caption: string) =>
   `![${caption}](../assets/screenshots/${file}.png)`;
 
-export async function bilingualPages(zh: Record<string, string>, rulesHash: string) {
+export async function bilingualPages(
+  zh: Record<string, string>,
+  rulesHash: string,
+  stageValues: Record<string, string | number>,
+) {
   // Fail closed when rules change: a maintainer must review the English prose/catalog.
   if ((await source("reviewed-rules.txt")).trim() !== rulesHash)
     throw new Error(
@@ -104,6 +109,9 @@ export async function bilingualPages(zh: Record<string, string>, rulesHash: stri
   );
   en.Enemies = (en.Enemies ?? "").replace("{{ENEMY_TABLES}}", numericTables(zh.Enemies ?? ""));
   en.Stages = (en.Stages ?? "").replace("{{STAGE_TABLES}}", numericTables(zh.Stages ?? "", 3));
+  for (const [key, value] of Object.entries(stageValues))
+    for (const name of ["Stages", "Enemies"])
+      en[name] = (en[name] ?? "").replaceAll(`{{${key}}}`, String(value));
   en.Cards = `# Cards and training\n\n${gallery("rewards-desktop-v1", "Earlier Chinese card offer; the game now supports either language")}
 
 ${CARDS.length} augments across ${SYNERGIES.length} families: ${CARDS.filter((card) => card.rarity !== "epic").length} common/rare and ${CARDS.filter((card) => card.rarity === "epic").length} epics. Epics are once per run. Every acquisition grants one family stack, even an epic with several effects. Caps are per card ID; composite epic effects do not consume ordinary card stacks. Previews use starting four-lane stats, before wounds; the game shows changes for the current build. Unlimited cards still obey combat caps.

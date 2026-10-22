@@ -1,0 +1,20 @@
+{
+  "kind": "prospective-validation-reservation",
+  "createdAt": "2026-10-22T18:24:13.165682+00:00",
+  "reason": "V2 independent validation master 20261023 is now inspected and failed one unresolved-run gate. It can inform diagnosis but cannot validate a subsequent candidate.",
+  "finalCandidate": "not selected",
+  "newValidationMasterSeed": 20261026,
+  "seedCount": 100,
+  "strategyNames": ["random-auto", "build-auto", "build-active"],
+  "widths": [450, 1600],
+  "comparisonProfiles": ["original baseline", "future frozen candidate"],
+  "plannedValidationRuns": 1200,
+  "maxSeconds": 650,
+  "maxSteps": 78000,
+  "hardGate": "All planned records present and internally valid; zero unresolved, exhausted-budget, runtime-error, cancelled or missing outcomes.",
+  "outcomesInspected": false,
+  "priorRejectedValidationMasterSeed": 20261023,
+  "originalSelectionMasterSeed": 20261022,
+  "endlessMasterSeedUnchangedAndUninspected": 20261024,
+  "sensitivityMasterSeedUnchangedAndUninspected": 20261025
+}
