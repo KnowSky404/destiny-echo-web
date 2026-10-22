@@ -17,6 +17,7 @@ import {
 } from "../data/training";
 import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
+import type { ObservationDetails, WorldObservationType, WorldObserver } from "./observation";
 import { Pool } from "./pool";
 import { type SeededRandom, seededRandom, shuffled, weightedChoice } from "./random";
 import { RunState } from "./state";
@@ -105,8 +106,15 @@ export class World {
 
   protected balance: BalanceProfile;
   private readonly definitions = new Map<EnemyKind, EnemyDefinition>();
+  private observer?: WorldObserver;
+  private hostileSources = new WeakMap<Projectile, string>();
 
-  constructor(width: number = CONFIG.width, profile: BalanceProfile = officialProfile()) {
+  constructor(
+    width: number = CONFIG.width,
+    profile: BalanceProfile = officialProfile(),
+    observer?: WorldObserver,
+  ) {
+    this.observer = observer;
     this.balance = structuredClone(profile);
     this.arena = arenaLayout(width);
     this.player = createPlayer(
@@ -115,6 +123,50 @@ export class World {
       this.balance.payload.player,
     );
     this.attackRegions = [...this.arena.baseAttackRegions];
+  }
+
+  setObserver(observer?: WorldObserver): void {
+    this.observer = observer;
+    // Projectiles already in flight at attachment have unknown provenance.
+    this.hostileSources = new WeakMap();
+  }
+
+  private observe(type: WorldObservationType, details: ObservationDetails = {}): void {
+    if (!this.observer) return;
+    this.observer(
+      Object.freeze({
+        type,
+        stageIndex: this.stageIndex,
+        elapsed: this.elapsed,
+        stageElapsed: this.stageElapsed,
+        hp: this.player.hp,
+        maxHp: this.player.stats.maxHp,
+        shield: this.player.shield,
+        ...details,
+        ...(details.choices ? { choices: Object.freeze([...details.choices]) } : {}),
+      }),
+    );
+  }
+
+  private observePlayerDamage(source: string, hp: number, shield: number): void {
+    if (!this.observer) return;
+    const hpLoss = hp - this.player.hp;
+    const shieldAbsorbed = shield - this.player.shield;
+    if (hpLoss <= 0 && shieldAbsorbed <= 0) return;
+    this.observe("player_damage", {
+      source,
+      hpLoss,
+      shieldAbsorbed,
+      amount: hpLoss + shieldAbsorbed,
+    });
+    if (hp > 0 && this.player.hp <= 0) this.observe("death", { source });
+  }
+
+  private observeResourceGain(source: string, hp: number, shield: number): void {
+    if (!this.observer) return;
+    if (this.player.hp > hp) this.observe("heal", { source, amount: this.player.hp - hp });
+    if (this.player.shield > shield)
+      this.observe("shield", { source, amount: this.player.shield - shield });
   }
   readonly state = new RunState();
   readonly enemies = new Pool<Enemy>(CONFIG.limits.enemies, () => ({
@@ -417,6 +469,7 @@ export class World {
     if (["Playing", "RewardSelection", "StageClear"].includes(this.phase)) return false;
     if (!this.state.transition("Playing")) return false;
     this.reset(seed);
+    if (this.observer) this.observe("stage_enter");
     return true;
   }
 
@@ -539,6 +592,8 @@ export class World {
   }
 
   private advanceStage(): void {
+    const previousIndex = this.stageIndex;
+    const previousElapsed = this.stageElapsed;
     if (this.endless) {
       const active = new Set(this.attackRegions.map((region) => region.id));
       const added = shuffled(
@@ -549,8 +604,20 @@ export class World {
     }
     this.stageIndex++;
     cleansePlayer(this.player);
+    const hp = this.player.hp;
     healPlayer(this.player, 35);
+    if (this.observer) {
+      if (this.player.hp > hp)
+        this.observe("heal", {
+          source: "stage_recovery",
+          amount: this.player.hp - hp,
+          stageIndex: previousIndex,
+          stageElapsed: previousElapsed,
+        });
+      this.observe("stage_ready", { stageIndex: previousIndex, stageElapsed: previousElapsed });
+    }
     this.resetStage();
+    if (this.observer) this.observe("stage_enter");
     this.notice = `${this.stage.name} · 构筑已保留，恢复 35 生命`;
     this.noticeUntil = this.elapsed + 3;
   }
@@ -571,6 +638,8 @@ export class World {
     )
       return false;
     const before = synergyProgress(this.stacks);
+    const hp = this.player.hp;
+    const shield = this.player.shield;
     const stageReward = this.reward.source === "stage";
     const training = TRAINING_BY_ID.has(id);
     if (
@@ -579,6 +648,16 @@ export class World {
         : !applyCard(id, this.player, this.stacks)
     )
       return false;
+    if (this.observer) {
+      this.observeResourceGain(`reward:${id}`, hp, shield);
+      this.observe("reward_choice", {
+        source: this.reward.source,
+        choices: this.reward.choices,
+        choice: id,
+        training,
+        automatic: false,
+      });
+    }
     this.acquired(id);
     return this.finishReward(stageReward, before);
   }
@@ -592,6 +671,8 @@ export class World {
       (this.reward.source === "stage") !== (this.phase === "StageClear")
     )
       return false;
+    if (this.observer)
+      this.observe("reward_skip", { source: this.reward.source, choices: this.reward.choices });
     return this.finishReward(this.reward.source === "stage", synergyProgress(this.stacks));
   }
 
@@ -599,6 +680,7 @@ export class World {
     // Remove the capability before resuming: stale clicks cannot claim this reward again.
     this.reward = null;
     if (stageReward && this.stageIndex === STAGES.length - 1) {
+      if (this.observer) this.observe("stage_ready");
       this.state.transition("Victory");
       this.accumulator = 0;
       return true;
@@ -649,6 +731,8 @@ export class World {
       source: "supply",
     };
     this.state.transition("RewardSelection");
+    if (this.observer)
+      this.observe("reward_offer", { source: this.reward.source, choices: this.reward.choices });
   }
 
   protected offerStageReward(): void {
@@ -665,6 +749,8 @@ export class World {
       source: "stage",
     };
     this.state.transition("StageClear");
+    if (this.observer)
+      this.observe("reward_offer", { source: this.reward.source, choices: this.reward.choices });
   }
 
   update(delta: number): void {
@@ -700,6 +786,8 @@ export class World {
     cleansePlayer(this.player);
     if (dominion >= 6) this.hostileShots.clear();
     this.controlProcs++;
+    if (this.observer)
+      this.observe("mechanic", { source: "sanctuary", amount: this.sanctuaryRemaining });
     this.showBlast({ x: this.arena.player.x, y: 350 }, 500, 0xc7b7e8);
     this.notice = "遗世庇护 · 状态已净化，时序暂歇，敌方嘲讽失效";
     this.noticeUntil = this.elapsed + this.sanctuaryRemaining;
@@ -711,7 +799,10 @@ export class World {
     this.elapsed += delta;
     this.stageElapsed += hostileDelta;
     this.player.invulnerable = Math.max(0, this.player.invulnerable - delta);
+    const poisonHp = this.player.hp;
+    const poisonShield = this.player.shield;
     this.damageTaken += advancePoison(this.player, hostileDelta);
+    if (this.observer) this.observePlayerDamage("poison", poisonHp, poisonShield);
     if (this.player.hp <= 0) {
       this.state.transition("GameOver");
       return;
@@ -730,23 +821,32 @@ export class World {
     if (!frozen) this.spawn(delta);
     for (const enemy of this.enemies.items) {
       if (!frozen && enemy.active && !enemy.formation) {
-        if (advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave)) this.arrivals++;
+        if (advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave)) {
+          this.arrivals++;
+          if (this.observer)
+            this.observe("mechanic", { source: "arrival", kind: enemy.kind, amount: 1 });
+        }
         if (this.endless && enemy.kind === "boss") enemy.x = enemy.defenseX;
       }
     }
     if (!frozen && this.endless) {
-      this.arrivals += advanceFormation(
+      const arrivals = advanceFormation(
         this.enemies.items,
         delta,
         this.wave,
         (enemy, time) => this.enemyDelta(enemy, time),
         this.arena.crowdLanes,
       );
+      this.arrivals += arrivals;
+      if (this.observer && arrivals > 0)
+        this.observe("mechanic", { source: "arrival", amount: arrivals });
       advanceFusion(
         this.enemies.items,
         delta,
         (enemy) => {
           this.fusions++;
+          if (this.observer)
+            this.observe("mechanic", { source: "fusion", kind: enemy.kind, amount: 1 });
           this.showBlast(enemy, enemy.radius + 16, 0xdec28a);
           this.notice = `${ENEMIES[enemy.kind].name} · 融合为 ${enemy.stars} 星，生命已回满`;
           this.noticeUntil = this.elapsed + 2;
@@ -1138,10 +1238,10 @@ export class World {
       this.attackRegionSpawns++;
     if (ranged) this.rangedSpawns++;
     else if (kind !== "boss") this.meleeSpawns++;
-    this.peakEnemies = Math.max(
-      this.peakEnemies,
-      this.enemies.items.filter((item) => item.active).length,
-    );
+    const activeEnemies = this.enemies.items.filter((item) => item.active).length;
+    this.peakEnemies = Math.max(this.peakEnemies, activeEnemies);
+    if (this.observer) this.observe("enemy_spawn", { kind, amount: activeEnemies });
+    if (this.observer && kind === "boss") this.observe("boss_spawn", { kind });
     return enemy;
   }
 
@@ -1182,6 +1282,12 @@ export class World {
               10,
             );
             this.bossSpecials++;
+            if (this.observer)
+              this.observe("mechanic", {
+                source: "boss_skill:charged_volley",
+                kind: enemy.kind,
+                amount: 1,
+              });
             enemy.patternCooldown = enraged ? 3.6 : 4.5;
             enemy.shotCooldown = 1.2;
           }
@@ -1221,6 +1327,8 @@ export class World {
         this.poisonCasts++;
         enemy.lastAction = "poison";
         applyPoison(this.player, this.enemyRandom);
+        if (this.observer)
+          this.observe("mechanic", { source: "poison", kind: enemy.kind, amount: 1 });
         this.showBlast(enemy, enemy.radius + 10, 0xb6e7a4);
         continue;
       }
@@ -1228,8 +1336,13 @@ export class World {
       if (data.attackStyle === "melee") {
         this.enemyAttacks++;
         this.regularAttacks++;
+        if (this.observer)
+          this.observe("mechanic", { source: "enemy_attack", kind: enemy.kind, amount: 1 });
         this.showBlast({ x: enemy.x, y: enemy.defenseY }, 36, 0xe57d98);
-        this.hurt(data.damage * this.enemyStage(enemy).damage * enemy.damageScale);
+        this.hurt(
+          data.damage * this.enemyStage(enemy).damage * enemy.damageScale,
+          `melee:${enemy.kind}`,
+        );
         continue;
       }
       this.aimedVolley(
@@ -1244,6 +1357,7 @@ export class World {
 
   private castTaunt(enemy: Enemy): void {
     this.tauntCasts++;
+    if (this.observer) this.observe("mechanic", { source: "taunt", kind: enemy.kind, amount: 1 });
     enemy.tauntRemaining = CONFIG.skills.tauntDuration;
     enemy.lastAction = "taunt";
     this.showBlast(enemy, enemy.radius + 10, 0xf1b464);
@@ -1259,7 +1373,7 @@ export class World {
     const angle = Math.atan2(this.player.y - enemy.y, this.player.x - enemy.x);
     for (let index = 0; index < count; index++) {
       const direction = angle + (index - (count - 1) / 2) * 0.18;
-      this.projectile(
+      const shot = this.projectile(
         this.hostileShots,
         enemy.x,
         enemy.y + 12,
@@ -1271,8 +1385,11 @@ export class World {
           (enemy.kind === "boss" && this.endless && enemy.arrived ? 2 : 1),
         radius,
       );
+      if (shot && this.observer) this.hostileSources.set(shot, `projectile:${enemy.kind}`);
     }
     this.enemyAttacks++;
+    if (this.observer)
+      this.observe("mechanic", { source: "enemy_attack", kind: enemy.kind, amount: 1 });
     if (enemy.kind !== "boss") this.regularAttacks++;
   }
 
@@ -1286,6 +1403,8 @@ export class World {
       const skill = skills[Math.floor(this.bossRandom() * skills.length)] ?? "guard";
       enemy.lastSkill = skill;
       this.bossSpecials++;
+      if (this.observer)
+        this.observe("mechanic", { source: `boss_skill:${skill}`, kind: enemy.kind, amount: 1 });
       if (skill === "guard") {
         enemy.damageReductionTime = CONFIG.endless.bossReductionDuration;
         this.notice = "首领 · 减伤 90%，持续 3 秒";
@@ -1295,9 +1414,11 @@ export class World {
         this.drainSummons();
         this.notice = `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · 等待空位" : ""}`;
       } else {
+        const hp = this.player.hp;
         const loss = Math.min(this.player.hp, this.bossSlamDamage);
         this.player.hp -= loss;
         this.damageTaken += loss;
+        if (this.observer) this.observePlayerDamage("boss_slam", hp, this.player.shield);
         this.lastHitAt = this.elapsed;
         this.burst(this.player.x, this.player.y, 0xe57d98, 18);
         this.notice = `首领 · 重击，直接损失 ${this.bossSlamDamage} 生命`;
@@ -1378,7 +1499,9 @@ export class World {
       if (this.phase === "Playing") this.onHitEffects(target, shot);
       this.resolveBlasts();
     } else {
+      const hp = target.hp;
       target.hp = Math.max(0, target.hp - shot.damage);
+      if (this.observer) this.observe("chest_damage", { source: "shot", amount: hp - target.hp });
     }
     shot.hitsLeft--;
     if (shot.hitsLeft <= 0) shot.active = false;
@@ -1447,8 +1570,10 @@ export class World {
       this.executions++;
     }
     this.damageDealt += previousHp - enemy.hp;
+    if (this.observer)
+      this.observe("enemy_damage", { source, kind: enemy.kind, amount: previousHp - enemy.hp });
     if (source === "shot")
-      this.heal(actualDamage * combatStats(this.player, this.stacks).lifesteal);
+      this.heal(actualDamage * combatStats(this.player, this.stacks).lifesteal, "lifesteal");
     if (enemy.hp <= 0) {
       this.defeatEnemy(enemy, source);
       return;
@@ -1462,6 +1587,8 @@ export class World {
         enemy.patternCooldown = enemy.hp < enemy.maxHp / 2 ? 3.2 : 4;
         enemy.shotCooldown = 1;
         this.bossInterrupts++;
+        if (this.observer)
+          this.observe("mechanic", { source: "boss_interrupt", kind: enemy.kind, amount: 1 });
         this.notice = "蓄力已打断 · 防线暂时安全";
         this.noticeUntil = this.elapsed + 1.5;
         this.burst(enemy.x, enemy.y, 0x8cc6f2, 18);
@@ -1469,18 +1596,35 @@ export class World {
     }
   }
 
-  private heal(amount: number): void {
+  private heal(amount: number, source = "unknown"): void {
     if (amount <= 0 || this.player.hp <= 0) return;
     const scaled = amount * (1 + this.player.stats.recovery) * healingMultiplier(this.player);
     const restored = Math.min(scaled, this.player.stats.maxHp - this.player.hp);
     this.player.hp += restored;
     this.healingDone += restored;
+    if (this.observer && restored > 0) this.observe("heal", { source, amount: restored });
     const overflow = overhealStats(this.player, this.stacks);
     const shield = Math.max(
       0,
       Math.min((scaled - restored) * overflow.conversion, overflow.capacity - this.player.shield),
     );
-    this.shieldRestored += grantShield(this.player, shield, overflow.capacity, true);
+    this.shieldRestored += this.restoreShield(
+      shield,
+      overflow.capacity,
+      true,
+      `overheal:${source}`,
+    );
+  }
+
+  private restoreShield(
+    amount: number,
+    capacity: number,
+    reduced: boolean,
+    source: string,
+  ): number {
+    const restored = grantShield(this.player, amount, capacity, reduced);
+    if (this.observer && restored > 0) this.observe("shield", { source, amount: restored });
+    return restored;
   }
 
   private slowEnemy(enemy: Enemy, strength: number, duration: number): void {
@@ -1589,6 +1733,13 @@ export class World {
       this.acquired(item.id);
       this.scoreTrainings++;
       this.lastScoreTraining = item.id;
+      if (this.observer)
+        this.observe("auto_training", {
+          source: "score",
+          choice: item.id,
+          training: true,
+          automatic: true,
+        });
       names.push(item.name);
     }
     if (names.length > 0) {
@@ -1599,15 +1750,17 @@ export class World {
 
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
+    if (this.observer && enemy.kind === "boss")
+      this.observe("boss_death", { source, kind: enemy.kind });
     this.kills++;
     this.addScore(this.enemyDefinition(enemy).score * 3 ** (enemy.stars - 1));
     if (source === "blast") this.chainKills++;
-    this.heal(this.player.stats.harvest * 2);
+    this.heal(this.player.stats.harvest * 2, "harvest");
     if (
       (enemy.stunTime > 0 || this.sanctuaryRemaining > 0) &&
       synergyTier(this.stacks, "dominion") >= 9
     )
-      this.shieldRestored += grantShield(this.player, 8, this.player.stats.maxHp);
+      this.shieldRestored += this.restoreShield(8, this.player.stats.maxHp, false, "dominion_kill");
     this.burst(
       enemy.x,
       enemy.y,
@@ -1641,6 +1794,8 @@ export class World {
     )
       return;
     this.clearedStages++;
+    // Observe before clear-score training, cleansing, rewards and stage recovery.
+    if (this.observer) this.observe("stage_clear");
     this.addScore(Math.ceil(this.player.hp) * 10);
     this.clearCombat();
     cleansePlayer(this.player);
@@ -1695,14 +1850,16 @@ export class World {
     const blood = synergyTier(this.stacks, "blood");
     const storm = synergyTier(this.stacks, "storm");
     const frost = synergyTier(this.stacks, "frost");
-    this.heal(stats.regeneration * delta * (blood >= 9 ? 2 : 1));
+    this.heal(stats.regeneration * delta * (blood >= 9 ? 2 : 1), "regeneration");
     if (stats.bloodpact > 0 || blast >= 6) {
       const interval = blast >= 9 ? 3 : blast >= 6 ? 4 : 5;
       this.bloodCooldown = Math.min(this.bloodCooldown, interval) - delta;
       const target = this.target;
       if (this.bloodCooldown <= 1e-9 && target && isEnemy(target)) {
         this.bloodCooldown = interval;
+        const hp = this.player.hp;
         this.player.hp -= Math.min(3, Math.max(0, this.player.hp - 1));
+        if (this.observer) this.observePlayerDamage("bloodpact", hp, this.player.shield);
         this.queueBlast(
           target,
           Math.max(1, stats.bloodpact) * 20 + stats.maxHp * (blast >= 9 ? 0.45 : 0.15),
@@ -1716,10 +1873,11 @@ export class World {
       this.shieldCooldown -= delta;
       if (this.shieldCooldown <= 1e-9) {
         this.shieldCooldown = 3;
-        this.shieldRestored += grantShield(
-          this.player,
+        this.shieldRestored += this.restoreShield(
           bastion >= 9 ? 20 : 10,
           stats.maxHp * (bastion >= 9 ? 1 : 0.6),
+          false,
+          "bastion",
         );
       }
     }
@@ -1793,6 +1951,11 @@ export class World {
           };
           this.burst(chest.x, chest.y, 0xdec28a, 20);
           this.state.transition("RewardSelection");
+          if (this.observer)
+            this.observe("reward_offer", {
+              source: this.reward.source,
+              choices: this.reward.choices,
+            });
           return;
         }
         if (!shot.active) break;
@@ -1820,16 +1983,19 @@ export class World {
       )
         continue;
       shot.active = false;
-      this.hurt(shot.damage);
+      this.hurt(shot.damage, this.hostileSources.get(shot) ?? "unknown");
       if (this.phase !== "Playing") return;
     }
   }
 
-  private hurt(damage: number): void {
+  private hurt(damage: number, source = "unknown"): void {
     if (this.player.invulnerable > 0 || this.player.hp <= 0 || damage <= 0) return;
     const before = this.player.hp + this.player.shield;
+    const hp = this.player.hp;
+    const shield = this.player.shield;
     damagePlayer(this.player, damage);
     this.damageTaken += before - this.player.hp - this.player.shield;
+    if (this.observer) this.observePlayerDamage(source, hp, shield);
     this.lastHitAt = this.elapsed;
     this.burst(this.player.x, this.player.y, 0xe57d98, 12);
     if (this.player.hp <= 0) {

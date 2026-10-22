@@ -12,3 +12,6 @@ playwright-report/
 .env.*
 *.local
 .DS_Store
+
+# Local batch experiments; only curated examples/reports belong in Git.
+artifacts/balance/

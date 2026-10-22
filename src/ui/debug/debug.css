@@ -40,7 +40,7 @@
 }
 .debug-tabs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 6px;
   margin: 16px 0;
 }
@@ -62,6 +62,20 @@
 }
 .debug-body p {
   color: #acbdd2;
+  overflow-wrap: anywhere;
+}
+.debug-profile-state span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.debug-review-json {
+  max-height: 360px;
+  overflow: auto;
+  padding: 12px;
+  background: #0a111c;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
 }
 .debug-section {
   border-top: 1px solid var(--debug-border);

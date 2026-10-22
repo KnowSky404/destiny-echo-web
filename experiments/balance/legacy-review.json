@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "seeds": [4],
+  "validationSeeds": [],
+  "strategies": [{ "name": "legacy" }],
+  "layouts": [{ "id": "portrait", "width": 450 }],
+  "trace": true,
+  "maxRuns": 1
+}

@@ -30,7 +30,11 @@
     "dev:pre": "bunx --bun vite --mode pre",
     "build:pre": "bun run docs:check && bun run typecheck && bunx --bun vite build --mode pre",
     "balance:validate": "bun scripts/balance.ts validate",
-    "balance:apply": "bun scripts/balance.ts apply"
+    "balance:apply": "bun scripts/balance.ts apply",
+    "balance:simulate": "bun scripts/balance-simulator.ts simulate",
+    "balance:compare": "bun scripts/balance-simulator.ts compare",
+    "balance:sweep": "bun scripts/balance-simulator.ts sweep",
+    "balance:replay": "bun scripts/balance-simulator.ts replay"
   },
   "dependencies": {
     "phaser": "4.2.1"

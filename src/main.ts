@@ -6,7 +6,7 @@ import "./ui/style.css";
 const width = arenaWidthForViewport(window.innerWidth, window.innerHeight);
 const preSession =
   import.meta.env.MODE === "pre"
-    ? (await import("./ui/debug/entry")).createPreSession(width)
+    ? await (await import("./ui/debug/entry")).createPreSession(width)
     : undefined;
 const world = preSession?.world ?? new World(width);
 const ui = new GameUI(world);

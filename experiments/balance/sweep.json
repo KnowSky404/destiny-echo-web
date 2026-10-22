@@ -1,0 +1,14 @@
+{
+  "profile": "official",
+  "experiment": {
+    "schemaVersion": 1,
+    "seeds": [1, 2, 3, 4],
+    "validationSeeds": [101, 102, 103, 104],
+    "maxRuns": 120
+  },
+  "sweep": {
+    "label": "初始基础伤害单因素",
+    "paths": ["player.stats.damage"],
+    "multipliers": [0.9, 1, 1.1]
+  }
+}

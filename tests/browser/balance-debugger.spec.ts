@@ -7,6 +7,7 @@ import { defaultProfile } from "../../src/data/balance/profile";
 import { CARDS } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { boot, firstReward, snapshot, start } from "./helpers";
+import "./balance-simulator";
 
 const errors = new WeakMap<Page, string[]>();
 test.beforeEach(({ page }) => {
