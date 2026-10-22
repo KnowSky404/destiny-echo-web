@@ -14,63 +14,63 @@
         <svg class="brand-sigil" viewBox="0 0 64 64" fill="none" aria-hidden="true">
           <circle cx="32" cy="32" r="20" /><path d="m32 2 6 24 24 6-24 6-6 24-6-24L2 32l24-6Z" /><path d="m32 14 4 14 14 4-14 4-4 14-4-14-14-4 14-4Z" />
         </svg>
-        <div><h1>命运残响</h1><p>Echoes of Destiny</p></div>
+        <div><h1 data-i18n="brandName">命运残响</h1><p data-i18n="brandSubtitle">Echoes of Destiny</p></div>
       </div>
       <div class="header-rule" aria-hidden="true"><span>✧</span></div>
-      <nav class="header-actions" aria-label="游戏工具"><button class="button button-quiet" id="build-trigger" type="button" aria-haspopup="dialog" aria-controls="build-dialog">本局构筑</button><button class="button button-quiet help-trigger" type="button" aria-haspopup="dialog" aria-controls="help-dialog">玩法说明</button><button class="button button-quiet" id="fullscreen-button" type="button">全屏</button></nav>
+      <nav class="header-actions" aria-label="游戏工具" data-i18n-aria="gameTools"><button class="button button-quiet" id="build-trigger" data-i18n="buildTrigger" type="button" aria-haspopup="dialog" aria-controls="build-dialog">本局构筑</button><button class="button button-quiet help-trigger" data-i18n="helpTrigger" type="button" aria-haspopup="dialog" aria-controls="help-dialog">玩法说明</button><button class="button button-quiet" id="language-button" type="button" lang="en" title="Switch to English" aria-label="Switch to English">English</button><button class="button button-quiet" id="fullscreen-button" type="button">全屏</button></nav>
     </header>
 
     <main class="game-layout">
-      <section class="arena-column" aria-label="游戏主界面">
+      <section class="arena-column" aria-label="游戏主界面" data-i18n-aria="gameScreen">
         <div class="hud">
-          <div class="health-block"><div class="health-label"><span class="heart" aria-hidden="true">♥</span><span>生命</span><output id="health-value">100 / 100</output><output id="shield-value"></output></div><meter class="sr-only" id="health-meter" min="0" max="100" value="100" aria-label="玩家生命"></meter><div class="health-track" aria-hidden="true"><span id="health-fill"></span></div></div>
-          <output id="score-value" class="score-value" aria-label="本局得分">0 分</output>
-          <output class="timer" id="timer" aria-label="战斗用时">00:00</output>
-          <button type="button" class="pause-button" id="pause-button" aria-label="暂停游戏" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></button>
+          <div class="health-block"><div class="health-label"><span class="heart" aria-hidden="true">♥</span><span data-i18n="health">生命</span><output id="health-value">100 / 100</output><output id="shield-value"></output></div><meter class="sr-only" id="health-meter" min="0" max="100" value="100" aria-label="玩家生命" data-i18n-aria="playerHealth"></meter><div class="health-track" aria-hidden="true"><span id="health-fill"></span></div></div>
+          <output id="score-value" class="score-value" aria-label="本局得分" data-i18n-aria="runScore" data-i18n-initial="scoreInitial">0 分</output>
+          <output class="timer" id="timer" aria-label="战斗用时" data-i18n-aria-initial="combatTime">00:00</output>
+          <button type="button" class="pause-button" id="pause-button" aria-label="暂停游戏" data-i18n-aria-initial="pauseGame" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></button>
         </div>
-        <div class="stage-status"><strong id="stage-label">第 1 / 4 关 · 圣杯前庭</strong></div>
+        <div class="stage-status"><strong id="stage-label" data-i18n-initial="stageInitial">第 1 / 4 关 · 圣杯前庭</strong></div>
         <output id="status-effects" class="status-effects" aria-live="polite" hidden></output>
         <div class="arena-frame">
           <div id="game-canvas"></div>
-          <div class="boss-health" id="boss-health" hidden><span>失控圣杯 · 空愿之器</span><div><span id="boss-fill"></span></div></div>
+          <div class="boss-health" id="boss-health" hidden><span data-i18n-initial="bossInitial">失控圣杯 · 空愿之器</span><div><span id="boss-fill"></span></div></div>
           <div class="arena-notice" id="arena-notice" aria-live="polite"></div>
-          <div class="overlay" id="overlay"><section class="modal"><div class="modal-emblem" aria-hidden="true">✧</div><h2>开启这一轮命运</h2><p>固定阵地 · 自动索敌 · 三选一构筑</p><button class="button button-primary" type="button" disabled>正在连接残响…</button><p class="modal-hint">点击目标优先攻击 · 点击空白恢复自动</p></section></div>
+          <div class="overlay" id="overlay"><section class="modal"><div class="modal-emblem" aria-hidden="true">✧</div><h2 data-i18n-initial="loadingTitle">开启这一轮命运</h2><p data-i18n-initial="loadingIntro">固定阵地 · 自动索敌 · 三选一构筑</p><button class="button button-primary" type="button" data-i18n-initial="loading" disabled>正在连接残响…</button><p class="modal-hint" data-i18n-initial="targetHint">点击目标优先攻击 · 点击空白恢复自动</p></section></div>
         </div>
-        <div class="battle-status"><span id="wave-label">等待共鸣</span><output id="kill-label">击破 0</output><span class="status-star" aria-hidden="true">✧</span></div>
-        <div class="target-status"><output id="target-label" aria-live="polite">自动索敌 · 等待目标</output><output id="threat-label">防线威胁 0</output></div>
-        <noscript><p class="noscript-message">这款游戏需要 JavaScript，请在浏览器设置中启用。</p></noscript>
+        <div class="battle-status"><span id="wave-label" data-i18n-initial="waveInitial">等待共鸣</span><output id="kill-label" data-i18n-initial="killsInitial">击破 0</output><span class="status-star" aria-hidden="true">✧</span></div>
+        <div class="target-status"><output id="target-label" aria-live="polite" data-i18n-initial="targetInitial">自动索敌 · 等待目标</output><output id="threat-label" data-i18n-initial="threatInitial">防线威胁 0</output></div>
+        <noscript><p class="noscript-message">这款游戏需要 JavaScript，请在浏览器设置中启用。<br />This game requires JavaScript. Please enable it in your browser settings.</p></noscript>
       </section>
 
 
     </main>
-      <dialog class="help-dialog build-dialog" id="build-dialog" aria-labelledby="build-title"><div class="dialog-header"><h2 id="build-title">本局构筑</h2><button class="button button-quiet" id="close-build" type="button">返回战场</button></div><p class="build-caption">查看时战斗暂停，关闭后可继续共鸣。</p><p id="stage-route"></p><p id="score-progress"></p><div class="build-panel">
+      <dialog class="help-dialog build-dialog" id="build-dialog" aria-labelledby="build-title"><div class="dialog-header"><h2 id="build-title" data-i18n="buildTitle">本局构筑</h2><button class="button button-quiet" id="close-build" data-i18n="closeBuild" type="button">返回战场</button></div><p class="build-caption" data-i18n="buildCaption">查看时战斗暂停，关闭后手动继续共鸣。</p><p id="stage-route"></p><p id="score-progress"></p><div class="build-panel">
         <div class="ornament" aria-hidden="true">✧</div>
         <dl class="stats" id="stats"></dl>
-        <section class="synergies" id="synergies" aria-label="流派联动进度"></section>
-        <div class="collected-cards" id="collected-cards"><div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>击破宝箱，<br />收集你的第一张卡牌。</p></div></div>
+        <section class="synergies" id="synergies" aria-label="流派联动进度" data-i18n-aria="synergyProgress"></section>
+        <div class="collected-cards" id="collected-cards"><div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p data-i18n-initial="emptyBuild">击破宝箱，收集你的第一张卡牌。</p></div></div>
 </div></dialog>
     <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
-      <h2 id="help-title">在残响中，改写命运。</h2>
-      <p>你是最后的共鸣者。固定阵地，提前消灭威胁，击败失控的圣杯。</p>
+      <h2 id="help-title" data-i18n="helpTitle" tabindex="-1" autofocus>在残响中，改写命运。</h2>
+      <p data-i18n="helpIntro">你是最后的共鸣者。固定阵地，提前消灭威胁，击败失控的圣杯。</p>
       <dl>
-        <dt>固定阵地与点选</dt><dd>战机固定居中，自动追踪攻击。点选敌人或宝箱设置优先目标，点空白或 C 恢复自动，T 切换目标。WASD、方向键与拖动不移动战机。</dd>
-        <dt>桌面与手机</dt><dd>手机为四条侧翼车道，1920×1080 桌面约六条；出生位置、下方攻击点、数量上限和预算按实际车道计算。桌面初始火力和弹速同步适配，范围效果按车道间距调整，怪物保持正常大小。页面打开时确定本局布局，窗口缩放只做等比显示。</dd>
-        <dt>宝箱与构筑</dt><dd>51 张残响、12 条流派，同流派累计 3 / 6 / 9 层触发质变，重复升级计层。12 张史诗每局各限取一次。首关只开放弹幕、泰坦、暴击与雷霆四类输出卡，第二关起开放全部流派。宝箱或补给取得三层后有 25% 概率出现史诗候选，过关候选也随机，不保底史诗。</dd>
-        <dt>巨人杀手与百分比侵蚀</dt><dd>巨人杀手按怪物最大生命和敌我体量增加伤害；侵蚀按最大生命、当前生命或全场周期脉冲结算。主弹最大生命系数合计最高 5%，当前生命系数最高 10%；副弹与连锁不重复触发。每组包含三张普通卡与一张史诗，并有独立的三档羁绊。</dd>
-        <dt>自爆与全屏反击</dt><dd>击杀爆炸每层造成 16 点加来源怪物最大生命 3%；献祭每层 20 点加目标最大生命 2%，并保留玩家生命加成。殉星六层可连锁。荆棘每次有效受击向全场每个敌人造成每层 18 点伤害，护盾承伤也触发；壁垒六层翻倍，并额外反震最大生命 25%，九层为 50%。毒伤和无敌期间不触发。</dd>
-        <dt>治疗、护盾与重伤</dt><dd>吸血只按普攻实际伤害计算，基础比例合计最高 50%，再乘 0.85。过量治疗可转护盾，有盾时赤盾汲取增加吸血。重伤固定减少 90% 治疗、生命恢复和护盾获得量，包括卡牌与定时补盾；重复只延长时间。过量治疗先减疗，转盾不重复折减，已有护盾和生命上限不被扣除。</dd>
-        <dt>敌人技能</dt><dd>坦克嘲讽持续 2.5 秒，40% 概率选择该技能，其余行动近战攻击；没有有效嘲讽时不强制锁定坦克。无尽先锁定能攻击的敌人，攻击区为空才受范围外嘲讽影响；遗世庇护期间解除限制。远程怪推进中即可开火，战役远近怪都停驻在各自分配的车道格。</dd>
-        <dt>中毒</dt><dd>巫师有 40% 概率选择毒素，否则远程射击。毒初始持续 3 秒、每秒 10 伤害，护盾先承伤并附带重伤。重复施加在剩余时间上加 3 秒，并随机使每秒伤害 +1 或总攻速降低 +1 个百分点。无护盾且中毒时总攻速降低 30% 起步，最高 90%；有盾立即免除攻速惩罚，中毒结束清除强化。普通射击与死亡不施毒。</dd>
-        <dt>遗世庇护</dt><dd>静默王权每 8 秒净化中毒、重伤与减速，敌方时序冻结，玩家继续攻击。持续 0.5 + 0.25×强化层数秒，首层 0.75 秒；王权羁绊延长，首领不减免。六层王权改为每 6 秒并清弹。暂停和选牌保留时长，过关与重开清除。</dd>
-        <dt>首领、清剿与奖励</dt><dd>首领死亡停止援军并取消待召唤队列，剩余小怪及弹幕继续战斗。必须清完小怪才结算，两项不同锻体与一张随机残响三选一；第三张可能是普通、稀有或史诗，不优先史诗。累计每 5,000 分自动获得一张随机锻体，不计羁绊。前三关领奖后最多回复 35 生命继续，第四关领奖后胜利，可保留构筑继续无尽。</dd>
-        <dt>无尽攻击区域</dt><dd>敌方区域分为车道数 × 7 格，战机所在行不参与抽取或格数统计。防线前两排对应的下方两行初始开放，每关无尽通关后只从未开放格中随机永久增加两个，排除固有与已开区域，直到覆盖全部敌方区域。淡红描边表示全部已开区域，近战怪进入即可蓄力和攻击。手机最多 24 只小怪加首领，六车道桌面为 36 加首领；预算随车道调整，超额数量转成属性。同类同星三合一可升至三星并回满生命。</dd>
-        <dt>无尽随机出生</dt><dd>普通怪、护卫和强化召唤共用每关 30% 攻击区出生保底，按成功出生累计向上取整，自然随机落入也计入。其余出生每次从上半屏侧翼车道的合法空位随机选择；首领从顶部中央登场。满员或保底所需攻击区无合法空位时等待，不消耗出生、兵种或召唤名额。</dd>
-        <dt>无尽强度</dt><dd>普通伤害为 1.8×min(8,1.35×1.08^关数)，准备与间隔从 0.6 倍逐关再缩短 3%，最低 0.35 倍。首领生命至少高于同关最强三星强化坦克 25%。首领血量 70% / 40% / 10% 随机释放减伤、召唤或重击，重击首关直接扣 180 生命，之后每关 +9。每关三次补给加一次过关奖励。玩家生命归零才失败，没有超时失败。</dd>
-        <dt>暂停与重开</dt><dd>顶部可打开构筑与玩法说明，查看时暂停，关闭后手动继续。Esc / P 或暂停按钮；后台和失焦会暂停。选牌不可跳过。死亡重开清除本局卡牌、锻体、攻击格、状态与分数；无账号或跨局存档。</dd>
+        <dt data-i18n="targetingTitle">固定阵地与点选</dt><dd data-i18n="targetingHelp">战机固定居中，自动追踪攻击。点选敌人或宝箱设置优先目标，点空白或 C 恢复自动，T 切换目标。WASD、方向键与拖动不移动战机。</dd>
+        <dt data-i18n="layoutTitle">桌面与手机</dt><dd data-i18n="layoutHelp">手机为四条侧翼车道，1920×1080 桌面约六条；出生位置、下方攻击点、数量上限和预算按实际车道计算。桌面初始火力和弹速同步适配，范围效果按车道间距调整，怪物保持正常大小。页面打开时确定本局布局，窗口缩放只做等比显示。</dd>
+        <dt data-i18n="augmentsTitle">宝箱与构筑</dt><dd data-i18n="augmentsHelp">51 张残响、12 条流派，同流派累计 3 / 6 / 9 层触发质变，重复升级计层。12 张史诗每局各限取一次。首关只开放弹幕、泰坦、暴击与雷霆四类输出卡，第二关起开放全部流派。宝箱或补给取得三层后有 25% 概率出现史诗候选，过关候选也随机，不保底史诗。</dd>
+        <dt data-i18n="percentDamageTitle">巨人杀手与百分比侵蚀</dt><dd data-i18n="percentDamageHelp">巨人杀手按怪物最大生命和敌我体量增加伤害；侵蚀按最大生命、当前生命或全场周期脉冲结算。主弹最大生命系数合计最高 5%，当前生命系数最高 10%；副弹与连锁不重复触发。每组包含三张普通卡与一张史诗，并有独立的三档羁绊。</dd>
+        <dt data-i18n="retaliationTitle">自爆与全屏反击</dt><dd data-i18n="retaliationHelp">击杀爆炸每层造成 16 点加来源怪物最大生命 3%；献祭每层 20 点加目标最大生命 2%，并保留玩家生命加成。殉星六层可连锁。荆棘每次有效受击向全场每个敌人造成每层 18 点伤害，护盾承伤也触发；壁垒六层翻倍，并额外反震最大生命 25%，九层为 50%。毒伤和无敌期间不触发。</dd>
+        <dt data-i18n="recoveryTitle">治疗、护盾与重伤</dt><dd data-i18n="recoveryHelp">吸血只按普攻实际伤害计算，基础比例合计最高 50%，再乘 0.85。过量治疗可转护盾，有盾时赤盾汲取增加吸血。重伤固定减少 90% 治疗、生命恢复和护盾获得量，包括卡牌与定时补盾；重复只延长时间。过量治疗先减疗，转盾不重复折减，已有护盾和生命上限不被扣除。</dd>
+        <dt data-i18n="enemySkillsTitle">敌人技能</dt><dd data-i18n="enemySkillsHelp">坦克嘲讽持续 2.5 秒，40% 概率选择该技能，其余行动近战攻击；没有有效嘲讽时不强制锁定坦克。无尽先锁定能攻击的敌人，攻击区为空才受范围外嘲讽影响；遗世庇护期间解除限制。远程怪推进中即可开火，战役远近怪都停驻在各自分配的车道格。</dd>
+        <dt data-i18n="poisonTitle">中毒</dt><dd data-i18n="poisonHelp">巫师有 40% 概率选择毒素，否则远程射击。毒初始持续 3 秒、每秒 10 伤害，护盾先承伤并附带重伤。重复施加在剩余时间上加 3 秒，并随机使每秒伤害 +1 或总攻速降低 +1 个百分点。无护盾且中毒时总攻速降低 30% 起步，最高 90%；有盾立即免除攻速惩罚，中毒结束清除强化。普通射击与死亡不施毒。</dd>
+        <dt data-i18n="sanctuaryTitle">遗世庇护</dt><dd data-i18n="sanctuaryHelp">静默王权每 8 秒净化中毒、重伤与减速，敌方时序冻结，玩家继续攻击。持续 0.5 + 0.25×强化层数秒，首层 0.75 秒；王权羁绊延长，首领不减免。六层王权改为每 6 秒并清弹。暂停和选牌保留时长，过关与重开清除。</dd>
+        <dt data-i18n="rewardsTitle">首领、清剿与奖励</dt><dd data-i18n="rewardsHelp">首领死亡停止援军并取消待召唤队列，剩余小怪及弹幕继续战斗。必须清完小怪才结算，两项不同锻体与一张随机残响三选一；第三张可能是普通、稀有或史诗，不优先史诗。累计每 5,000 分自动获得一张随机锻体，不计羁绊。前三关领奖后最多回复 35 生命继续，第四关领奖后胜利，可保留构筑继续无尽。</dd>
+        <dt data-i18n="attackRegionsTitle">无尽攻击区域</dt><dd data-i18n="attackRegionsHelp">敌方区域分为车道数 × 7 格，战机所在行不参与抽取或格数统计。防线前两排对应的下方两行初始开放，每关无尽通关后只从未开放格中随机永久增加两个，排除固有与已开区域，直到覆盖全部敌方区域。淡红描边表示全部已开区域，近战怪进入即可蓄力和攻击。手机最多 24 只小怪加首领，六车道桌面为 36 加首领；预算随车道调整，超额数量转成属性。同类同星三合一可升至三星并回满生命。</dd>
+        <dt data-i18n="spawningTitle">无尽随机出生</dt><dd data-i18n="spawningHelp">普通怪、护卫和强化召唤共用每关 30% 攻击区出生保底，按成功出生累计向上取整，自然随机落入也计入。其余出生每次从上半屏侧翼车道的合法空位随机选择；首领从顶部中央登场。满员或保底所需攻击区无合法空位时等待，不消耗出生、兵种或召唤名额。</dd>
+        <dt data-i18n="scalingTitle">无尽强度</dt><dd data-i18n="scalingHelp">普通伤害为 1.8×min(8,1.35×1.08^关数)，准备与间隔从 0.6 倍逐关再缩短 3%，最低 0.35 倍。首领生命至少高于同关最强三星强化坦克 25%。首领血量 70% / 40% / 10% 随机释放减伤、召唤或重击，重击首关直接扣 180 生命，之后每关 +9。每关三次补给加一次过关奖励。玩家生命归零才失败，没有超时失败。</dd>
+        <dt data-i18n="pauseTitle">暂停与重开</dt><dd data-i18n="pauseHelp">顶部可打开构筑与玩法说明，查看时暂停，关闭后手动继续。Esc / P 或暂停按钮；后台和失焦会暂停。选牌不可跳过。死亡重开清除本局卡牌、锻体、攻击格、状态与分数；无账号或跨局存档。</dd>
       </dl>
-      <p><a href="https://github.com/KnowSky404/destiny-echo-web/wiki" target="_blank" rel="noopener noreferrer">完整游戏 Wiki：卡牌、怪物、羁绊与机制</a></p>
-          <footer class="page-footer">原创几何美术<span>✧</span><a href="https://github.com/KnowSky404/destiny-echo-web" target="_blank" rel="noopener noreferrer">源代码 · AGPL-3.0-or-later</a></footer>
-<button class="button button-primary" id="close-help" type="button">明白了</button>
+      <p><a href="https://github.com/KnowSky404/destiny-echo-web/wiki" target="_blank" rel="noopener noreferrer" data-i18n="wikiLink">完整游戏 Wiki：卡牌、怪物、羁绊与机制</a></p>
+          <footer class="page-footer"><span data-i18n="originalArt">原创几何美术</span><span class="footer-separator">✧</span><a href="https://github.com/KnowSky404/destiny-echo-web" target="_blank" rel="noopener noreferrer" data-i18n="sourceCode">源代码 · AGPL-3.0-or-later</a></footer>
+<button class="button button-primary" id="close-help" data-i18n="closeHelp" type="button">明白了</button>
     </dialog>
     <script type="module" src="/src/main.ts"></script>
   </body>

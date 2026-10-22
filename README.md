@@ -19,7 +19,7 @@ A browser defense roguelike for desktop and touch screens. Hold a fixed position
 - Pick one reward at a time; combat pauses while you choose. Family bonuses activate at 3 / 6 / 9 stacks.
 - Defeat each boss and every remaining enemy to advance. Restarting clears the run.
 
-The game currently uses Chinese UI. **English game UI is planned**; this update provides bilingual documentation. WebGL is required. There are no accounts or saved combat runs.
+The game supports **English and Simplified Chinese**. Choose **English / 中文** in the header; the browser remembers your choice when local storage is available. Chinese is the default. Switching language keeps the current run and reward choices. WebGL is required. There are no accounts or saved combat runs.
 
 ## Development
 

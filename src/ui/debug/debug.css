@@ -22,14 +22,20 @@
 }
 .debug-header {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   align-items: center;
   justify-content: space-between;
 }
 .debug-header h2 {
+  flex: 1 1 140px;
   margin: 0;
   font-size: 23px;
   color: #e6c68b;
+}
+.debug-dialog .debug-header > select {
+  flex: 0 0 auto;
+  width: auto;
 }
 .debug-boundary {
   color: #e6c68b;
@@ -51,6 +57,7 @@
 .debug-tabs .button {
   padding: 10px 6px;
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 .debug-status {
   min-height: 24px;
@@ -196,9 +203,16 @@
   .debug-header h2 {
     font-size: 19px;
   }
+  .debug-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .debug-tabs .button {
     font-size: 12px;
     padding: 10px 3px;
+    overflow-wrap: normal;
+  }
+  .debug-tabs .button:last-child {
+    grid-column: 1 / -1;
   }
   .debug-dialog .button {
     font-size: 12px;

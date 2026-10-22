@@ -2,6 +2,7 @@ import { CONFIG } from "../game/config";
 import { type Random, weightedShuffle } from "../game/random";
 import { grantShield, healingMultiplier, healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
+import { t } from "../i18n/locale";
 import type { RewardPolicy } from "./balance/model";
 
 export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
@@ -15,6 +16,7 @@ interface StatCard {
   field: keyof Stats;
   amount: number;
   label: string;
+  labelEn: string;
   unit?: "percent" | "seconds" | "multiplier";
   maxStacks: number | null;
   offense: boolean;
@@ -34,7 +36,7 @@ function statCard(definition: StatCard): Card {
       player.stats[definition.field] += definition.amount;
     },
     preview: (player) =>
-      `${definition.label} ${format(player.stats[definition.field])} → ${format(player.stats[definition.field] + definition.amount)}`,
+      `${t(definition.label, definition.labelEn)} ${format(player.stats[definition.field])} → ${format(player.stats[definition.field] + definition.amount)}`,
   };
 }
 
@@ -48,6 +50,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "damage",
     amount: 5,
     label: "基础伤害",
+    labelEn: "Base damage",
     maxStacks: null,
     offense: true,
   }),
@@ -60,6 +63,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "power",
     amount: 0.12,
     label: "攻击加成",
+    labelEn: "Attack power",
     unit: "percent",
     maxStacks: 6,
     offense: true,
@@ -73,6 +77,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "crush",
     amount: 0.25,
     label: "重击增伤",
+    labelEn: "Heavy-strike bonus",
     unit: "percent",
     maxStacks: 3,
     offense: true,
@@ -86,6 +91,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "lifesteal",
     amount: 0.04,
     label: "普攻吸血",
+    labelEn: "Basic lifesteal",
     unit: "percent",
     maxStacks: 6,
     offense: false,
@@ -99,6 +105,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "regeneration",
     amount: 1.2,
     label: "每秒回复",
+    labelEn: "HP/s",
     maxStacks: null,
     offense: false,
   }),
@@ -111,6 +118,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "recovery",
     amount: 0.15,
     label: "战斗治疗加成",
+    labelEn: "Combat healing bonus",
     unit: "percent",
     maxStacks: 4,
     offense: false,
@@ -124,6 +132,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "critChance",
     amount: 0.08,
     label: "基础暴击率",
+    labelEn: "Base critical chance",
     unit: "percent",
     maxStacks: 6,
     offense: true,
@@ -137,6 +146,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "critDamage",
     amount: 0.25,
     label: "暴击倍率",
+    labelEn: "Critical multiplier",
     unit: "multiplier",
     maxStacks: 6,
     offense: true,
@@ -150,6 +160,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "expose",
     amount: 0.12,
     label: "半血增伤",
+    labelEn: "Below-half bonus",
     unit: "percent",
     maxStacks: 4,
     offense: true,
@@ -163,6 +174,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "chain",
     amount: 1,
     label: "闪电跳跃",
+    labelEn: "Lightning jumps",
     maxStacks: 4,
     offense: true,
   }),
@@ -175,6 +187,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "splash",
     amount: 1,
     label: "溅射层数",
+    labelEn: "Splash stacks",
     maxStacks: 4,
     offense: true,
   }),
@@ -187,6 +200,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "storm",
     amount: 1,
     label: "雷暴层数",
+    labelEn: "Storm stacks",
     maxStacks: 4,
     offense: true,
   }),
@@ -199,6 +213,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "slow",
     amount: 0.1,
     label: "命中减速",
+    labelEn: "On-hit slow",
     unit: "percent",
     maxStacks: 4,
     offense: false,
@@ -212,6 +227,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "frostbite",
     amount: 0.12,
     label: "减速增伤",
+    labelEn: "Slowed-target bonus",
     unit: "percent",
     maxStacks: 4,
     offense: true,
@@ -225,6 +241,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "frostPulse",
     amount: 1,
     label: "寒潮层数",
+    labelEn: "Winter stacks",
     maxStacks: 4,
     offense: false,
   }),
@@ -237,6 +254,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "stun",
     amount: 0.15,
     label: "命中眩晕",
+    labelEn: "On-hit stun",
     unit: "seconds",
     maxStacks: 4,
     offense: false,
@@ -250,6 +268,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "control",
     amount: 0.12,
     label: "控制增伤",
+    labelEn: "Control bonus",
     unit: "percent",
     maxStacks: 4,
     offense: true,
@@ -264,6 +283,7 @@ const EXTRA_CARDS: readonly Card[] = [
     field: "controlPulse",
     amount: 1,
     label: "遗世庇护强化层数",
+    labelEn: "Sanctuary enhancement stacks",
     maxStacks: 4,
     offense: false,
   }),
@@ -273,6 +293,7 @@ function epicCard(
   definition: Pick<Card, "id" | "name" | "description" | "synergy" | "symbol" | "offense"> & {
     bonuses: Partial<Stats>;
     change: string;
+    changeEn: string;
     restore?: { hp: number; shield: number };
   },
 ): Card {
@@ -292,8 +313,8 @@ function epicCard(
     },
     preview: (player) =>
       definition.restore && healingMultiplier(player) < 1
-        ? `${definition.change} · 重伤后治疗 ${Number((definition.restore.hp * healingMultiplier(player)).toFixed(2))} / 护盾 ${Number((definition.restore.shield * healingMultiplier(player)).toFixed(2))}`
-        : definition.change,
+        ? `${t(definition.change, definition.changeEn)} · ${t("重伤后治疗", "Healing after wounds")} ${Number((definition.restore.hp * healingMultiplier(player)).toFixed(2))} / ${t("护盾", "Shield")} ${Number((definition.restore.shield * healingMultiplier(player)).toFixed(2))}`
+        : t(definition.change, definition.changeEn),
   };
 }
 
@@ -307,6 +328,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "星核替你承担过载。强化击杀爆炸与自动献祭，并提高普攻伤害。每局限取一次。",
     bonuses: { damage: 8, fuse: 2, bloodpact: 1 },
     change: "基础伤害 +8 · 爆炸 +2 层 · 献祭 +1 层",
+    changeEn: "Base damage +8 · Explosion +2 stacks · Sacrifice +1 stack",
   }),
   epicCard({
     id: "heavenly-barrage",
@@ -317,6 +339,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "圣杯同时回应每一道祈祷。增加两枚弹幕并提高穿透；最终弹数最多六枚。每局限取一次。",
     bonuses: { projectiles: 2, piercing: 1 },
     change: "弹幕 +2 枚 · 额外穿透 +1",
+    changeEn: "Projectiles +2 · Extra penetration +1",
   }),
   epicCard({
     id: "aegis-core",
@@ -328,6 +351,7 @@ export const EPIC_CARDS: readonly Card[] = [
     bonuses: { maxHp: 60, thorns: 1 },
     restore: { hp: 80, shield: 60 },
     change: "生命上限 +60 · 治疗 80 · 护盾 +60 · 荆棘 +1",
+    changeEn: "Maximum HP +60 · Heal 80 · Shield +60 · Thorns +1",
   }),
   epicCard({
     id: "final-verdict",
@@ -338,6 +362,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "对首领和攻击阶段的敌人各增加 40% 伤害，每次击杀额外回复 4 生命。每局限取一次。",
     bonuses: { focus: 2, execution: 2, harvest: 2 },
     change: "首领增伤 +40% · 攻击阶段增伤 +40% · 击杀回复 +4",
+    changeEn: "Boss bonus +40% · Attacking-state damage bonus +40% · Kill healing +4",
   }),
   epicCard({
     id: "titan-heart",
@@ -348,6 +373,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "巨神将力量借给凡人。固定伤害与攻击倍率同时提升。每局限取一次。",
     bonuses: { damage: 18, power: 0.3 },
     change: "基础伤害 +18 · 攻击加成 +30 个百分点",
+    changeEn: "Base damage +18 · Attack power +30 percentage points",
   }),
   epicCard({
     id: "crimson-grail",
@@ -358,6 +384,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "以敌人的伤口修复防线。吸血、持续回复和治疗加成同时强化。每局限取一次。",
     bonuses: { lifesteal: 0.12, regeneration: 3, recovery: 0.25 },
     change: "实际吸血 +10.2% · 每秒回复 +3 · 治疗加成 +25%",
+    changeEn: "Effective lifesteal +10.2% · HP/s +3 · Healing bonus +25%",
   }),
   epicCard({
     id: "fate-eye",
@@ -368,6 +395,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "看见下一次暴击，也让它更加致命。每局限取一次。",
     bonuses: { critChance: 0.2, critDamage: 0.75 },
     change: "暴击率 +20 个百分点 · 暴击倍率 +0.75",
+    changeEn: "Critical chance +20 percentage points · Critical multiplier +0.75",
   }),
   epicCard({
     id: "tempest-core",
@@ -378,6 +406,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "连锁、溅射与周期雷暴同时强化，单体攻击也能清场。每局限取一次。",
     bonuses: { chain: 2, splash: 2, storm: 2 },
     change: "闪电跳跃 +2 · 溅射 +2 层 · 雷暴 +2 层",
+    changeEn: "Lightning jumps +2 · Splash +2 stacks · Storm +2 stacks",
   }),
   epicCard({
     id: "absolute-zero",
@@ -388,6 +417,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "同时强化命中减速、碎冰增伤与周期寒潮。首领仍抵抗普通减速。每局限取一次。",
     bonuses: { slow: 0.2, frostbite: 0.35, frostPulse: 2 },
     change: "命中减速 +20% · 减速增伤 +35% · 寒潮 +2 层",
+    changeEn: "On-hit slow +20% · Slowed-target bonus +35% · Winter +2 stacks",
   }),
   epicCard({
     id: "chronocrown",
@@ -399,6 +429,7 @@ export const EPIC_CARDS: readonly Card[] = [
       "单独获得即可展开 1 秒遗世庇护；已有庇护额外延长 0.5 秒，再受王权羁绊加成。每局限取一次。",
     bonuses: { controlPulse: 2, control: 0.35, stun: 0.3 },
     change: "遗世庇护 +2 层 · 控制增伤 +35% · 命中眩晕 +0.3s",
+    changeEn: "Sanctuary +2 stacks · Control bonus +35% · On-hit stun +0.3s",
   }),
   epicCard({
     id: "godfall",
@@ -409,6 +440,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "主弹额外 0.75% 最大生命伤害，体量系数 +8%，巨物增伤 +20%。每局限取一次。",
     bonuses: { giantSlayer: 0.0075, giantPower: 0.08, giantHunt: 0.2 },
     change: "主弹最大生命 +0.75% · 体量系数 +8% · 巨物增伤 +20%",
+    changeEn: "Primary maximum HP +0.75% · Size coefficient +8% · Giant bonus +20%",
   }),
   epicCard({
     id: "event-horizon",
@@ -419,6 +451,7 @@ export const EPIC_CARDS: readonly Card[] = [
     description: "主弹额外造成 0.6% 最大生命与 2% 当前生命伤害，全场脉冲额外 1%。每局限取一次。",
     bonuses: { maxHealthDamage: 0.006, currentHealthDamage: 0.02, erosionPulse: 0.01 },
     change: "主弹最大生命 +0.6% · 当前生命 +2% · 脉冲 +1%",
+    changeEn: "Primary maximum HP +0.6% · Current HP +2% · Pulse +1%",
   }),
 ];
 
@@ -437,7 +470,8 @@ export const CARDS: readonly Card[] = [
     apply: (player) => {
       player.stats.damage += 4;
     },
-    preview: (player) => `伤害 ${player.stats.damage} → ${player.stats.damage + 4}`,
+    preview: (player) =>
+      `${t("伤害", "Damage")} ${player.stats.damage} → ${player.stats.damage + 4}`,
   },
   {
     type: "augment",
@@ -454,7 +488,7 @@ export const CARDS: readonly Card[] = [
       player.stats.interval = Math.max(0.13, player.stats.interval * 0.88);
     },
     preview: (player) =>
-      `间隔 ${player.stats.interval.toFixed(2)}s → ${Math.max(0.13, player.stats.interval * 0.88).toFixed(2)}s`,
+      `${t("间隔", "Interval")} ${player.stats.interval.toFixed(2)}s → ${Math.max(0.13, player.stats.interval * 0.88).toFixed(2)}s`,
   },
   {
     type: "augment",
@@ -471,7 +505,7 @@ export const CARDS: readonly Card[] = [
       player.stats.projectiles = Math.min(6, player.stats.projectiles + 1);
     },
     preview: (player) =>
-      `弹幕 ${player.stats.projectiles} → ${Math.min(6, player.stats.projectiles + 1)} 枚`,
+      `${t("弹幕", "Projectiles")} ${player.stats.projectiles} → ${Math.min(6, player.stats.projectiles + 1)} ${t("枚", "shots")}`,
   },
   {
     type: "augment",
@@ -487,7 +521,8 @@ export const CARDS: readonly Card[] = [
     apply: (player) => {
       player.stats.piercing++;
     },
-    preview: (player) => `额外穿透 ${player.stats.piercing} → ${player.stats.piercing + 1} 个`,
+    preview: (player) =>
+      `${t("额外穿透", "Extra penetration")} ${player.stats.piercing} → ${player.stats.piercing + 1} ${t("个", "targets")}`,
   },
   {
     type: "augment",
@@ -505,7 +540,7 @@ export const CARDS: readonly Card[] = [
       healPlayer(player, 30);
     },
     preview: (player) =>
-      `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 ${Number((30 * healingMultiplier(player)).toFixed(2))}`,
+      `${t("生命上限", "Maximum HP")} ${player.stats.maxHp} → ${player.stats.maxHp + 20} · ${t("治疗", "Heal")} ${Number((30 * healingMultiplier(player)).toFixed(2))}`,
   },
   {
     type: "augment",
@@ -522,7 +557,7 @@ export const CARDS: readonly Card[] = [
       player.stats.execution++;
     },
     preview: (player) =>
-      `攻击阶段增伤 ${player.stats.execution * 20}% → ${(player.stats.execution + 1) * 20}%`,
+      `${t("攻击阶段增伤", "Attacking-state damage bonus")} ${player.stats.execution * 20}% → ${(player.stats.execution + 1) * 20}%`,
   },
   {
     type: "augment",
@@ -539,7 +574,7 @@ export const CARDS: readonly Card[] = [
       grantShield(player, 24);
     },
     preview: (player) =>
-      `护盾 ${Math.ceil(player.shield)} → ${Math.ceil(player.shield + 24 * healingMultiplier(player))}`,
+      `${t("护盾", "Shield")} ${Math.ceil(player.shield)} → ${Math.ceil(player.shield + 24 * healingMultiplier(player))}`,
   },
   {
     type: "augment",
@@ -557,7 +592,7 @@ export const CARDS: readonly Card[] = [
       player.stats.fuse++;
     },
     preview: (player) =>
-      `击杀爆炸 ${player.stats.fuse * 16} → ${(player.stats.fuse + 1) * 16} · 来源怪物最大生命 +3% / 层`,
+      `${t("击杀爆炸", "Kill explosion")} ${player.stats.fuse * 16} → ${(player.stats.fuse + 1) * 16} · ${t("来源怪物最大生命 +3% / 层", "Source maximum HP +3% / stack")}`,
   },
   {
     type: "augment",
@@ -575,7 +610,7 @@ export const CARDS: readonly Card[] = [
       player.stats.bloodpact++;
     },
     preview: (player) =>
-      `献祭基础伤害 ${player.stats.bloodpact * 20} → ${(player.stats.bloodpact + 1) * 20} · 玩家生命加成 + 目标最大生命 2% / 层`,
+      `${t("献祭基础伤害", "Sacrifice base damage")} ${player.stats.bloodpact * 20} → ${(player.stats.bloodpact + 1) * 20} · ${t("玩家生命加成 + 目标最大生命 2% / 层", "Player HP bonus + Target maximum HP 2% / stack")}`,
   },
   {
     type: "augment",
@@ -591,7 +626,8 @@ export const CARDS: readonly Card[] = [
     apply: (player) => {
       player.stats.thorns++;
     },
-    preview: (player) => `受击反击 ${player.stats.thorns * 18} → ${(player.stats.thorns + 1) * 18}`,
+    preview: (player) =>
+      `${t("受击反击", "Hit retaliation")} ${player.stats.thorns * 18} → ${(player.stats.thorns + 1) * 18}`,
   },
   {
     type: "augment",
@@ -608,7 +644,7 @@ export const CARDS: readonly Card[] = [
       player.stats.focus++;
     },
     preview: (player) =>
-      `首领增伤 +${player.stats.focus * 20}% → +${(player.stats.focus + 1) * 20}%`,
+      `${t("首领增伤", "Boss bonus")} +${player.stats.focus * 20}% → +${(player.stats.focus + 1) * 20}%`,
   },
   {
     type: "augment",
@@ -624,7 +660,8 @@ export const CARDS: readonly Card[] = [
     apply: (player) => {
       player.stats.harvest++;
     },
-    preview: (player) => `击杀回复 ${player.stats.harvest * 2} → ${(player.stats.harvest + 1) * 2}`,
+    preview: (player) =>
+      `${t("击杀回复", "Kill healing")} ${player.stats.harvest * 2} → ${(player.stats.harvest + 1) * 2}`,
   },
   ...EXTRA_CARDS,
   statCard({
@@ -637,6 +674,7 @@ export const CARDS: readonly Card[] = [
     field: "overheal",
     amount: 0.1,
     label: "过量转盾",
+    labelEn: "Overheal conversion",
     unit: "percent",
     maxStacks: 3,
     offense: false,
@@ -656,7 +694,11 @@ export const CARDS: readonly Card[] = [
       player.stats.overheal += 0.05;
       player.stats.shieldCapacity += 0.1;
     },
-    preview: () => "过量转盾 +5% · 转盾储量上限 +10% 最大生命",
+    preview: () =>
+      t(
+        "过量转盾 +5% · 转盾储量上限 +10% 最大生命",
+        "Overheal conversion +5% · Conversion capacity +10% Maximum HP",
+      ),
   },
   statCard({
     id: "shield-leech",
@@ -668,6 +710,7 @@ export const CARDS: readonly Card[] = [
     field: "shieldLeech",
     amount: 0.02,
     label: "有盾额外吸血",
+    labelEn: "Shielded bonus lifesteal",
     unit: "percent",
     maxStacks: 3,
     offense: false,
@@ -682,6 +725,7 @@ export const CARDS: readonly Card[] = [
     field: "giantSlayer",
     amount: 0.0025,
     label: "主弹最大生命伤害",
+    labelEn: "Primary maximum-HP damage",
     unit: "percent",
     maxStacks: 4,
   }),
@@ -695,6 +739,7 @@ export const CARDS: readonly Card[] = [
     field: "giantPower",
     amount: 0.04,
     label: "体量增伤系数",
+    labelEn: "Size damage coefficient",
     unit: "percent",
     maxStacks: 4,
   }),
@@ -708,6 +753,7 @@ export const CARDS: readonly Card[] = [
     field: "giantHunt",
     amount: 0.15,
     label: "巨物普攻增伤",
+    labelEn: "Giant basic damage bonus",
     unit: "percent",
     maxStacks: 4,
   }),
@@ -721,6 +767,7 @@ export const CARDS: readonly Card[] = [
     field: "maxHealthDamage",
     amount: 0.002,
     label: "主弹最大生命侵蚀",
+    labelEn: "Primary maximum-HP erosion",
     unit: "percent",
     maxStacks: 4,
   }),
@@ -734,6 +781,7 @@ export const CARDS: readonly Card[] = [
     field: "currentHealthDamage",
     amount: 0.01,
     label: "主弹当前生命伤害",
+    labelEn: "Primary current-HP damage",
     unit: "percent",
     maxStacks: 4,
   }),
@@ -747,6 +795,7 @@ export const CARDS: readonly Card[] = [
     field: "erosionPulse",
     amount: 0.005,
     label: "全场最大生命侵蚀",
+    labelEn: "Arena maximum-HP erosion",
     unit: "percent",
     maxStacks: 4,
   }),

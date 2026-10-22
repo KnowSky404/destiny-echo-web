@@ -10,16 +10,16 @@ A fixed-position defense roguelike: automatic fire, target selection, reward dra
 
 ## First run
 
-1. Choose **开始共鸣** (Start Resonance). Your ship fires automatically from the bottom of the arena.
+1. Choose **Begin resonance** (开始共鸣). Your ship fires automatically from the bottom of the arena.
 2. Click or tap an enemy or gold chest to focus it; click empty space to restore automatic targeting.
 3. Break a chest and pick one card. Combat and clocks stop while selecting.
 4. Collect 3 / 6 / 9 stacks in a family to unlock its synergy tiers. Duplicates count.
 5. Prioritize enemies able to attack. Damage a charging campaign boss to interrupt it.
-6. After the fourth reward, choose **继续无尽 · 保留构筑** (Continue Endless, Keep Build), or restart.
+6. After the fourth reward, choose **Continue endless · Keep build** (继续无尽 · 保留构筑), or restart.
 
-![Current Chinese start screen; desktop capture](../assets/screenshots/start-desktop-v1.png)
+![Earlier Chinese start screen; desktop capture](../assets/screenshots/start-desktop-v1.png)
 
-The documentation is bilingual; the game UI currently uses Chinese. Game language switching is [planned](Changelog.md). Screenshots show the actual current UI, with English captions here.
+The game and documentation support English and Simplified Chinese. Use **English / 中文** in the header to switch immediately, including help, cards, numerical previews and accessibility labels. Chinese is the default; local storage remembers your choice when available. A language change preserves the current run and reward options. The screenshots below retain the earlier Chinese version.
 
 ## Explore
 

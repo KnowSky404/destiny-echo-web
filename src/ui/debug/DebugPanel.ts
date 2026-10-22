@@ -26,16 +26,30 @@ import { ENEMIES } from "../../data/enemies";
 import { TRAININGS } from "../../data/training";
 import type { DebugCommand, DebugWorld } from "../../game/debug/DebugWorld";
 import type { EnemyKind, Stats } from "../../game/types";
+import {
+  bindDebugText,
+  type DebugTextSource,
+  debugAttribute,
+  debugPair,
+  debugSource,
+  metricsDebugText,
+  profileDebugText,
+  refreshDebugText,
+} from "../../i18n/debug";
+import { getLocale, onLocaleChange, setLocale } from "../../i18n/locale";
 import type { ProfileStore } from "./store";
 import "./debug.css";
 
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
-  text?: string,
+  text?: DebugTextSource,
   className?: string,
 ): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
-  if (text !== undefined) node.textContent = text;
+  if (text !== undefined) {
+    if (tag === "pre") node.textContent = typeof text === "string" ? text : debugSource(text);
+    else bindDebugText(node, text);
+  }
   if (className) node.className = className;
   return node;
 }
@@ -90,7 +104,7 @@ function select(
   const label = el("label", undefined, "debug-field");
   label.append(el("span", title));
   const input = el("select");
-  input.setAttribute("aria-label", title);
+  debugAttribute(input, "aria-label", title);
   for (const [id, name] of options) {
     const option = el("option", name);
     option.value = id;
@@ -131,6 +145,7 @@ export class DebugPanel {
   private pendingWrites = 0;
   private readonly tabs: HTMLButtonElement[] = [];
   private review: ReviewDocument | undefined;
+  private readonly unsubscribeLocale: () => void;
 
   constructor(
     private readonly world: DebugWorld,
@@ -142,8 +157,22 @@ export class DebugPanel {
     const header = el("div", undefined, "debug-header");
     const heading = el("h2", "PRE 数值实验室");
     heading.id = "debug-title";
+    const language = el("select");
+    debugAttribute(language, "aria-label", "语言");
+    for (const [value, title] of [
+      ["zh-CN", "简体中文"],
+      ["en", "English"],
+    ]) {
+      const option = el("option");
+      option.value = value ?? "";
+      option.textContent = title ?? "";
+      language.append(option);
+    }
+    language.value = getLocale();
+    language.addEventListener("change", () => setLocale(language.value === "en" ? "en" : "zh-CN"));
     header.append(
       heading,
+      language,
       button("返回战场", () => this.dialog.close()),
     );
     const boundary = el(
@@ -153,7 +182,7 @@ export class DebugPanel {
     );
     const nav = el("div", undefined, "debug-tabs");
     nav.setAttribute("role", "tablist");
-    nav.setAttribute("aria-label", "调试分类");
+    debugAttribute(nav, "aria-label", "调试分类");
     ["玩家与构筑", "敌人与出怪", "关卡控制", "方案版本", "实验/复核"].forEach((name, index) => {
       const item = button(name, () => {
         this.tab = index;
@@ -193,8 +222,14 @@ export class DebugPanel {
     this.trigger.setAttribute("aria-controls", "debug-dialog");
     document.querySelector(".header-actions")?.prepend(this.trigger);
     document.body.append(this.dialog);
+    this.unsubscribeLocale = onLocaleChange(() => {
+      language.value = getLocale();
+      refreshDebugText(this.dialog);
+      refreshDebugText(this.trigger);
+    });
   }
   destroy(): void {
+    this.unsubscribeLocale();
     this.dialog.remove();
     this.trigger.remove();
   }
@@ -205,11 +240,11 @@ export class DebugPanel {
     this.dialog.showModal();
     this.message("已按案例方案、种子和逻辑宽度准备人工复核；战斗保持暂停，未自动执行策略");
   }
-  private message(text: string, error = false): void {
-    this.status.textContent = text;
+  private message(text: DebugTextSource, error = false): void {
+    bindDebugText(this.status, text);
     this.status.classList.toggle("debug-error", error);
   }
-  private attempt(action: () => string | undefined, redraw = true): void {
+  private attempt(action: () => DebugTextSource | undefined, redraw = true): void {
     try {
       const message = action();
       if (redraw) this.render();
@@ -221,7 +256,7 @@ export class DebugPanel {
   private command(command: DebugCommand): void {
     this.attempt(() => this.world.execute(command));
   }
-  private async write(action: () => string | undefined, redraw = true): Promise<void> {
+  private async write(action: () => DebugTextSource | undefined, redraw = true): Promise<void> {
     if (redraw) {
       this.pendingWrites++;
       this.body.inert = true;
@@ -264,7 +299,22 @@ export class DebugPanel {
     this.body.replaceChildren();
     const snapshot = this.world.snapshot();
     const stageMetrics = this.world.debugInfo.stageMetrics;
-    this.metrics.textContent = `${this.world.profile.name} v${this.world.profile.revision} · 种子 ${snapshot.seed} · 第 ${snapshot.stageIndex + 1} 关 · 本关 ${snapshot.stageElapsed.toFixed(1)}s / 实战 ${stageMetrics.elapsed?.toFixed(1)}s · 本关伤害 ${stageMetrics.damageDealt?.toFixed(0)} / 承伤 ${stageMetrics.damageTaken?.toFixed(0)} / 治疗 ${stageMetrics.healingDone?.toFixed(0)} / 击杀 ${stageMetrics.kills} · 累计伤害 ${snapshot.metrics.damageDealt.toFixed(0)} / 承伤 ${snapshot.metrics.damageTaken.toFixed(0)} / 治疗 ${snapshot.metrics.healingDone.toFixed(0)} / 击杀 ${snapshot.kills}`;
+    bindDebugText(this.metrics, () =>
+      metricsDebugText(this.world.profile, {
+        seed: snapshot.seed,
+        stage: snapshot.stageIndex + 1,
+        stageTime: snapshot.stageElapsed,
+        activeTime: stageMetrics.elapsed,
+        stageDamage: stageMetrics.damageDealt,
+        stageTaken: stageMetrics.damageTaken,
+        stageHealing: stageMetrics.healingDone,
+        stageKills: stageMetrics.kills,
+        damage: snapshot.metrics.damageDealt,
+        taken: snapshot.metrics.damageTaken,
+        healing: snapshot.metrics.healingDone,
+        kills: snapshot.kills,
+      }),
+    );
     if (this.tab === 0) this.renderPlayer();
     if (this.tab === 1) this.renderEnemies();
     if (this.tab === 2) this.renderStages();
@@ -569,7 +619,7 @@ export class DebugPanel {
         () =>
           this.write(() => {
             const version = this.store.saveVersion();
-            return this.store.warning || `已保存 ${version.name} v${version.revision}`;
+            return this.store.warning || profileDebugText(version, { kind: "saved" });
           }),
         true,
       ),
@@ -619,9 +669,7 @@ export class DebugPanel {
       const selected =
         this.store.state.selected?.id === version.id &&
         this.store.state.selected.revision === version.revision;
-      row.append(
-        el("strong", `${version.name} v${version.revision}${selected ? " · 下次打开时沿用" : ""}`),
-      );
+      row.append(el("strong", profileDebugText(version, { kind: "version", selected })));
       const buttons = el("div", undefined, "debug-actions");
       buttons.append(
         button(
@@ -706,14 +754,17 @@ export class DebugPanel {
     const running = this.world.profile;
     const state = el("p", undefined, "debug-profile-state");
     state.append(
-      el("span", `草稿：${draft.name} v${draft.revision}（可编辑）`),
-      el(
-        "span",
-        `选中版本：${selected ? `${selected.name} v${selected.revision}` : "未选择（沿用正式配置）"}`,
+      el("span", () => profileDebugText(draft, { kind: "draft" })),
+      el("span", () =>
+        selected
+          ? profileDebugText(selected, { kind: "selected" })
+          : debugPair(
+              "选中版本：未选择（沿用正式配置）",
+              "Selected version: none (official profile)",
+            ),
       ),
-      el(
-        "span",
-        `正在运行：${running.name} v${running.revision} · 逻辑宽度 ${this.world.arena.width}`,
+      el("span", () =>
+        profileDebugText(running, { kind: "running", width: this.world.arena.width }),
       ),
     );
     parent.append(state);
@@ -774,10 +825,7 @@ export class DebugPanel {
         const text = await candidate.text();
         await this.write(() => {
           const version = this.store.importVersion(text);
-          return (
-            this.store.warning ||
-            `已导入候选 ${version.name} v${version.revision} 为独立版本；草稿、选中版本与当前战斗保持不变`
-          );
+          return this.store.warning || profileDebugText(version, { kind: "candidate" });
         });
       } catch (error) {
         this.message(error instanceof Error ? error.message : String(error), true);
@@ -817,10 +865,7 @@ export class DebugPanel {
     }
     const layout = this.world.arena;
     content.append(
-      el(
-        "p",
-        `方案：${review.profile.name} v${review.profile.revision} · 内容哈希 ${review.profileHash}`,
-      ),
+      el("p", profileDebugText(review.profile, { kind: "case", hash: review.profileHash })),
       el(
         "p",
         `种子：${review.run.seed} · 策略：${review.run.strategy.name} · 模式：${review.run.mode} · 逻辑宽度：${review.run.width}（不是 CSS 视口宽度）`,

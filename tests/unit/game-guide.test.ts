@@ -55,7 +55,9 @@ describe("player guide and wiki synchronization", () => {
       expect(pages[`${name}-zh-CN`]).toMatch(/(?:!\[[^\]]+\]\(|src=")\.\.\/assets\//);
     }
     expect(pages.Changelog).toContain("Game UI in English and Simplified Chinese");
-    expect(pages["Changelog-zh-CN"]).toContain("当前尚未实现");
+    expect(pages["Changelog-zh-CN"]).toContain("游戏英文支持");
+    expect(pages.Home).toContain("English / 中文");
+    expect(pages["Home-zh-CN"]).toContain("切换保留当前战斗");
   });
 
   test("all guide navigation resolves and wiki publishing removes file extensions from local links", async () => {
