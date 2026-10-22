@@ -47,7 +47,7 @@ The game and documentation support English and Simplified Chinese. Use **English
 | Tab / Enter / Space | Navigate and activate native controls |
 | WASD / arrows / dragging | Does not move the ship |
 
-Open **本局构筑** (Current Build) to inspect stats, cards and families. **玩法说明** (How to Play) opens help. Opening a panel pauses; close it and resume manually. Backgrounding or losing focus also pauses.
+Open **Build** (本局构筑) to inspect stats, cards and families. **Help** (玩法说明) opens help. Opening a panel pauses; close it and resume manually. Backgrounding or losing focus also pauses.
 
 ![Mobile start screen, captured at 1170 × 2532](../assets/screenshots/start-mobile-v1.png)
 
