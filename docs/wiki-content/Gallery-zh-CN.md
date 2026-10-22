@@ -1,0 +1,63 @@
+# 配图指南与截图记录
+
+2026-10-22 基于 `6ec7328` 的本地构建真实截图，文档分支没有修改游戏内容。截图保留当前中文界面。桌面 PNG 为 **3840×2160**，1920×1080 视口、deviceScaleFactor 2；手机为 **1170×2532**，390×844 视口、3 倍捕获。没有后期放大、伪造界面或 AI 玩法插画；游戏内部渲染分辨率仍与 DPR 独立。
+
+## 开始与操作
+
+![桌面开始界面](../assets/screenshots/start-desktop-v1.png)
+
+点击「开始共鸣」开始；顶部构筑和帮助会暂停战斗。
+
+## 战场与敌人
+
+![战役初期的固定战机、推进敌人与自动弹幕](../assets/screenshots/combat-desktop-v1.png)
+
+点击敌人或宝箱集中火力，点空白取消。环色与攻击许可见[机制说明](Mechanics-zh-CN.md)。
+
+## 奖励
+
+![自然击破首个宝箱后的三选一](../assets/screenshots/rewards-desktop-v1.png)
+
+通过正常游玩与目标选择获得，未修改伤害、生命或奖励。
+
+## 构筑
+
+![暂停中的属性、卡组与羁绊面板](../assets/screenshots/build-desktop-v1.png)
+
+展开流派查看卡牌与 3/6/9 层效果；关闭后手动继续。
+
+## 无尽演示
+
+![通过 PRE 真实跳关进入首层无尽，展示初始攻击格](../assets/screenshots/endless-pre-v1.png)
+
+**调试示意：**使用真实 PRE 跳关按钮，只展示攻击格和界面，不是自然通关或平衡构筑证明。
+
+## PRE 实验室
+
+![通过实际入口打开的 PRE 玩家/构筑编辑器](../assets/screenshots/balance-lab-v1.png)
+
+仅 PRE 存在，个人配置保存在当前浏览器，与战斗存档和 PRO 分离。
+
+## 触屏布局
+
+![390×844 视口、3 倍捕获的移动端开始界面](../assets/screenshots/start-mobile-v1.png)
+
+Chromium 触控模拟，不是实体手机拍摄或真机认证。
+
+## 复现与版本
+
+Browser 插件不可用，使用仓库 Playwright Chromium 和软件 WebGL。先构建并安装匹配浏览器，在不同终端启动 loopback 服务：
+
+```sh
+bun run build
+bun run build:pre
+bunx --bun playwright install chromium
+bun run preview --host 127.0.0.1 --port 4197 --strictPort
+bun run preview --outDir dist-pre --host 127.0.0.1 --port 4198 --strictPort
+# 另一终端：
+bun run docs:screenshots
+```
+
+脚本执行真实控件操作，核对标题、非空画布、无 Vite 错误遮罩、应用控制台/页面错误和失败资源。每条流程使用新上下文与固定时钟，不同源码版本的奖励仍可能不同。可通过 DOCS_PRO_URL / DOCS_PRE_URL 指定本地地址；使用临时浏览器安装时保持 PLAYWRIGHT_BROWSERS_PATH 一致。发布前逐张检查。
+
+版本化图片位于 `docs/assets/screenshots`；命令明确刷新 v1。若需保存新的视觉修订，先一起修改文件名和引用再捕获。原始项目截图按仓库许可提供，并保留第三方声明。Wiki 原样复制 PNG，不缩小；点击图片查看原始分辨率。Logo 原稿另见[品牌页](Brand-zh-CN.md)。

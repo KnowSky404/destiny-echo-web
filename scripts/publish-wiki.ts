@@ -1,4 +1,4 @@
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkGuide, ROOT, renderGuide, wikiMarkdown } from "./game-guide";
@@ -16,8 +16,14 @@ if ((await checkGuide()).length > 0)
   throw new Error("游戏说明与规则不同步，请先运行 bun run docs:generate 并核对文案。");
 
 const pages = await renderGuide();
+const assetRoot = join(ROOT, "docs/assets");
+const assets = (await readdir(assetRoot, { recursive: true, withFileTypes: true }))
+  .filter((entry) => entry.isFile())
+  .map((entry) => join(entry.parentPath, entry.name).slice(assetRoot.length + 1));
 if (Bun.argv.includes("--dry-run")) {
-  console.log(`待发布 ${Object.keys(pages).length} 个页面：${Object.keys(pages).join(", ")}。`);
+  console.log(
+    `待发布 ${Object.keys(pages).length} 个页面及 ${assets.length} 个素材：${Object.keys(pages).join(", ")}。`,
+  );
 } else {
   // Git uses the OS user's existing credential helper; never copy tokens into files.
   const directory = await mkdtemp(join(tmpdir(), "destiny-echo-wiki-"));
@@ -26,7 +32,15 @@ if (Bun.argv.includes("--dry-run")) {
   if (!branch) throw new Error("Wiki 默认分支不存在，请先在 GitHub 网页保存 Home 页面。");
   for (const [name, body] of Object.entries(pages))
     await writeFile(join(directory, `${name}.md`), wikiMarkdown(body));
-  const filenames = Object.keys(pages).map((name) => `${name}.md`);
+  for (const asset of assets) {
+    const destination = join(directory, "assets", asset);
+    await mkdir(join(destination, ".."), { recursive: true });
+    await cp(join(assetRoot, asset), destination);
+  }
+  const filenames = [
+    ...Object.keys(pages).map((name) => `${name}.md`),
+    ...assets.map((asset) => join("assets", asset)),
+  ];
   git(["add", "--", ...filenames], directory);
   if (git(["diff", "--cached", "--name-only"], directory)) {
     // Match the source worktree's configured author without changing global Git config.
@@ -40,7 +54,7 @@ if (Bun.argv.includes("--dry-run")) {
         `user.email=${email}`,
         "commit",
         "-m",
-        "docs(wiki): sync game reference",
+        "docs(wiki): sync bilingual guide and assets",
       ],
       directory,
     );

@@ -10,12 +10,52 @@ describe("player guide and wiki synchronization", () => {
     expect(await checkGuide()).toEqual([]);
     const pages = await renderGuide();
     for (const card of [...CARDS, ...TRAININGS]) {
-      expect(pages.Cards).toContain(card.name);
-      expect(pages.Cards).toContain(`\`${card.id}\``);
+      expect(pages["Cards-zh-CN"]).toContain(card.name);
+      expect(pages["Cards-zh-CN"]).toContain(`\`${card.id}\``);
     }
-    for (const enemy of Object.values(ENEMIES)) expect(pages.Enemies).toContain(enemy.name);
+    for (const card of [...CARDS, ...TRAININGS]) expect(pages.Cards).toContain(`\`${card.id}\``);
+    for (const enemy of Object.values(ENEMIES))
+      expect(pages["Enemies-zh-CN"]).toContain(enemy.name);
     for (const family of SYNERGIES)
-      for (const tier of family.tiers) expect(pages.Builds).toContain(tier);
+      for (const tier of family.tiers) expect(pages["Builds-zh-CN"]).toContain(tier);
+  });
+
+  test("every English page has its Chinese counterpart, resolved content and explanatory images", async () => {
+    const pages = await renderGuide();
+    for (const name of [
+      "Home",
+      "Cards",
+      "Builds",
+      "Enemies",
+      "Stages",
+      "Mechanics",
+      "Development",
+      "Changelog",
+      "Gallery",
+      "Brand",
+      "Validation",
+    ]) {
+      expect(pages[name]).toContain(`(${name}-zh-CN.md)`);
+      expect(pages[`${name}-zh-CN`]).toContain(`(${name}.md)`);
+      expect(pages[name]).not.toMatch(/\{\{[A-Z_]+\}\}/);
+      expect(pages[`${name}-zh-CN`]).not.toMatch(/\{\{[A-Z_]+\}\}/);
+    }
+    for (const name of [
+      "Home",
+      "Cards",
+      "Builds",
+      "Enemies",
+      "Stages",
+      "Mechanics",
+      "Development",
+      "Gallery",
+      "Brand",
+    ]) {
+      expect(pages[name]).toMatch(/(?:!\[[^\]]+\]\(|src=")\.\.\/assets\//);
+      expect(pages[`${name}-zh-CN`]).toMatch(/(?:!\[[^\]]+\]\(|src=")\.\.\/assets\//);
+    }
+    expect(pages.Changelog).toContain("Game UI in English and Simplified Chinese");
+    expect(pages["Changelog-zh-CN"]).toContain("当前尚未实现");
   });
 
   test("all guide navigation resolves and wiki publishing removes file extensions from local links", async () => {
@@ -27,6 +67,13 @@ describe("player guide and wiki synchronization", () => {
       expect(published).not.toMatch(/\]\([^:)]+\.md\)/);
       expect(published).not.toMatch(/\]\(https:\/\/[^)]+\/Home\.md\)/);
     }
+    expect(wikiMarkdown("[中文](Cards-zh-CN.md#test)")).toBe("[中文](Cards-zh-CN#test)");
+    expect(wikiMarkdown("![capture](../assets/screenshots/start-desktop-v1.png)")).toBe(
+      "![capture](https://raw.githubusercontent.com/wiki/KnowSky404/destiny-echo-web/assets/screenshots/start-desktop-v1.png)",
+    );
+    expect(wikiMarkdown('<img src="../assets/brand/echoes-mark-v2.svg" width="160">')).toContain(
+      'src="https://raw.githubusercontent.com/wiki/KnowSky404/destiny-echo-web/assets/brand/echoes-mark-v2.svg"',
+    );
     expect(wikiMarkdown("[external](https://example.com/Cards.md)")).toBe(
       "[external](https://example.com/Cards.md)",
     );
