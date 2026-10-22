@@ -1,5 +1,7 @@
 import { CARD_BY_ID, CARDS } from "../data/cards";
-import { SYNERGIES, SYNERGY_THRESHOLDS, TIER_NAMES } from "../data/synergies";
+import { SYNERGIES, SYNERGY_THRESHOLDS } from "../data/synergies";
+import { rewardName, synergyName, synergyTiers, tierName } from "../i18n/content";
+import { type Locale, t } from "../i18n/locale";
 import type { SynergyId, SynergyTier } from "./types";
 
 // Every acquired layer counts, including repeat upgrades. The combat tier caps at nine.
@@ -16,14 +18,16 @@ export function synergyTier(stacks: ReadonlyMap<string, number>, id: SynergyId):
   return count >= 9 ? 9 : count >= 6 ? 6 : count >= 3 ? 3 : 0;
 }
 
-export function synergyProgress(stacks: ReadonlyMap<string, number>) {
+export function synergyProgress(stacks: ReadonlyMap<string, number>, locale: Locale = "zh-CN") {
   return SYNERGIES.map((synergy) => ({
     ...synergy,
+    name: synergyName(synergy.id, locale),
+    tiers: synergyTiers(synergy.id, locale),
     count: synergyCount(stacks, synergy.id),
     tier: synergyTier(stacks, synergy.id),
     cards: CARDS.filter((card) => card.synergy === synergy.id).map((card) => ({
       id: card.id,
-      name: card.name,
+      name: rewardName(card.id, locale),
       owned: (stacks.get(card.id) ?? 0) > 0,
       stacks: stacks.get(card.id) ?? 0,
     })),
@@ -38,7 +42,7 @@ export function synergyUnlock(
   if (!card) return;
   const next = synergyCount(stacks, card.synergy) + 1;
   const index = (SYNERGY_THRESHOLDS as readonly number[]).indexOf(next);
-  return index < 0 ? undefined : SYNERGIES.find((item) => item.id === card.synergy)?.tiers[index];
+  return index < 0 ? undefined : synergyTiers(card.synergy)[index];
 }
 
 export function synergyPreview(stacks: ReadonlyMap<string, number>, cardId: string): string {
@@ -48,5 +52,5 @@ export function synergyPreview(stacks: ReadonlyMap<string, number>, cardId: stri
   const count = synergyCount(stacks, synergy.id);
   const next = count + 1;
   const threshold = SYNERGY_THRESHOLDS.find((value) => value >= next);
-  return `${synergy.name} ${count} → ${next}/${threshold ?? 9}${SYNERGY_THRESHOLDS.some((value) => value === next) ? ` · ${TIER_NAMES[next as 3 | 6 | 9]}` : count >= 9 ? " · 大质变已生效" : " · 重复升级计入"}`;
+  return `${synergyName(synergy.id)} ${count} → ${next}/${threshold ?? 9}${SYNERGY_THRESHOLDS.some((value) => value === next) ? ` · ${tierName(next as 3 | 6 | 9)}` : count >= 9 ? t(" · 大质变已生效", " · Final tier active") : t(" · 重复升级计入", " · Repeat upgrades count")}`;
 }

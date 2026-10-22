@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { onLocaleChange, t } from "../../i18n/locale";
 import { CONFIG } from "../config";
 import { InputController } from "../input";
 import { seededRandom } from "../random";
@@ -33,14 +34,23 @@ export class BattleScene extends Phaser.Scene {
     this.halo = this.add.graphics().setDepth(4);
     this.overlay = this.add.graphics().setDepth(6);
     this.inputController = new InputController(this.game.canvas, this.world);
-    this.game.canvas.setAttribute(
-      "aria-label",
-      "命运残响固定阵地：点击敌人或宝箱优先攻击，点击空白恢复自动。聚焦战场后 T 切换目标，C 恢复自动。",
-    );
+    const labelCanvas = () =>
+      this.game.canvas.setAttribute(
+        "aria-label",
+        t(
+          "命运残响固定阵地：点击敌人或宝箱优先攻击，点击空白恢复自动。聚焦战场后 T 切换目标，C 恢复自动。",
+          "Echoes of Destiny defense arena: select enemies or chests to focus fire; select empty space for auto targeting. Focus the arena, then press T to cycle targets or C for auto targeting.",
+        ),
+      );
+    labelCanvas();
+    const unsubscribe = onLocaleChange(labelCanvas);
     this.game.canvas.setAttribute("role", "img");
     this.game.canvas.tabIndex = 0;
     this.game.canvas.setAttribute("aria-keyshortcuts", "T C");
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.inputController?.destroy());
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.inputController?.destroy();
+      unsubscribe();
+    });
     this.ready();
   }
 
@@ -96,13 +106,17 @@ export class BattleScene extends Phaser.Scene {
     g.generateTexture("background", this.world.arena.width, CONFIG.height);
     g.destroy();
     this.add.image(0, 0, "background").setOrigin(0).setDepth(-2);
-    this.add
-      .text(22, CONFIG.defense.y + 36, "DEFENSE LINE  /  防线", {
+    const defenseLabel = this.add
+      .text(22, CONFIG.defense.y + 36, t("DEFENSE LINE  /  防线", "DEFENSE LINE"), {
         fontFamily: "sans-serif",
         fontSize: "9px",
         color: "#bea773",
       })
       .setOrigin(0, 0);
+    const unsubscribe = onLocaleChange(() =>
+      defenseLabel.setText(t("DEFENSE LINE  /  防线", "DEFENSE LINE")),
+    );
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, unsubscribe);
   }
 
   update(_time: number, delta: number): void {

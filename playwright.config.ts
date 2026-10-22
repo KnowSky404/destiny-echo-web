@@ -19,7 +19,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      testMatch: "desktop.spec.ts",
+      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
       use: {
         browserName: "chromium",
         launchOptions: {
@@ -33,7 +33,7 @@ export default defineConfig({
     },
     {
       name: "firefox",
-      testMatch: "desktop.spec.ts",
+      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
       use: {
         browserName: "firefox",
         viewport: { width: 1920, height: 1080 },
@@ -45,10 +45,14 @@ export default defineConfig({
         },
       },
     },
-    { name: "webkit", testMatch: "desktop.spec.ts", use: { browserName: "webkit" } },
+    {
+      name: "webkit",
+      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
+      use: { browserName: "webkit" },
+    },
     {
       name: "mobile-chromium",
-      testMatch: "mobile.spec.ts",
+      testMatch: ["mobile.spec.ts", "i18n.spec.ts"],
       use: {
         ...devices["Pixel 7"],
         browserName: "chromium",
@@ -63,7 +67,7 @@ export default defineConfig({
     },
     {
       name: "pre-chromium",
-      testMatch: "balance-debugger.spec.ts",
+      testMatch: ["balance-debugger.spec.ts", "i18n-pre.spec.ts"],
       use: {
         baseURL: "http://127.0.0.1:4188",
         browserName: "chromium",
@@ -78,7 +82,7 @@ export default defineConfig({
     },
     {
       name: "pre-touch",
-      testMatch: "balance-debugger.spec.ts",
+      testMatch: ["balance-debugger.spec.ts", "i18n-pre.spec.ts"],
       use: {
         ...devices["Pixel 7"],
         baseURL: "http://127.0.0.1:4188",
@@ -94,7 +98,7 @@ export default defineConfig({
     },
     {
       name: "pre-firefox",
-      testMatch: "balance-debugger.spec.ts",
+      testMatch: ["balance-debugger.spec.ts", "i18n-pre.spec.ts"],
       use: {
         baseURL: "http://127.0.0.1:4188",
         browserName: "firefox",
@@ -108,7 +112,7 @@ export default defineConfig({
     },
     {
       name: "pre-webkit",
-      testMatch: "balance-debugger.spec.ts",
+      testMatch: ["balance-debugger.spec.ts", "i18n-pre.spec.ts"],
       use: { baseURL: "http://127.0.0.1:4188", browserName: "webkit" },
     },
   ],

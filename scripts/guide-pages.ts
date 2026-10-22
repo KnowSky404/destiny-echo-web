@@ -104,7 +104,7 @@ export async function bilingualPages(zh: Record<string, string>, rulesHash: stri
   );
   en.Enemies = (en.Enemies ?? "").replace("{{ENEMY_TABLES}}", numericTables(zh.Enemies ?? ""));
   en.Stages = (en.Stages ?? "").replace("{{STAGE_TABLES}}", numericTables(zh.Stages ?? "", 3));
-  en.Cards = `# Cards and training\n\n${gallery("rewards-desktop-v1", "Natural first card offer; English names below map to the current Chinese UI")}
+  en.Cards = `# Cards and training\n\n${gallery("rewards-desktop-v1", "Earlier Chinese card offer; the game now supports either language")}
 
 ${CARDS.length} augments across ${SYNERGIES.length} families: ${CARDS.filter((card) => card.rarity !== "epic").length} common/rare and ${CARDS.filter((card) => card.rarity === "epic").length} epics. Epics are once per run. Every acquisition grants one family stack, even an epic with several effects. Caps are per card ID; composite epic effects do not consume ordinary card stacks. Previews use starting four-lane stats, before wounds; the game shows changes for the current build. Unlimited cards still obey combat caps.
 
@@ -176,7 +176,7 @@ Build enough damage, firing speed, projectiles or area coverage before relying o
       "{{LOGO_PROMPT}}",
       `\`\`\`text\n${prompt.trim()}\n\`\`\``,
     );
-  zh.Home = `# 命运残响 · 游戏说明\n\n*在残响中，改写命运。*\n\n<img src="../assets/brand/echoes-mark-v2.svg" width="160" alt="文档版 Logo">\n\n[在线游玩](https://destiny-echo-web.littlecontrol.workers.dev/) · [预览 PRE](https://destiny-echo-web-pre.littlecontrol.workers.dev/)\n\n${(zh.Home ?? "").replace(/^# .*\n/, "")}\n\n游戏界面目前为中文，游戏英文支持列入后续计划。本轮仅更新双语文档与文档 Logo。\n\n${gallery("start-desktop-v1", "当前中文开始界面，桌面高清截图")}\n\n${gallery("start-mobile-v1", "移动端开始界面，1170×2532")}\n`;
+  zh.Home = `# 命运残响 · 游戏说明\n\n*在残响中，改写命运。*\n\n<img src="../assets/brand/echoes-mark-v2.svg" width="160" alt="文档版 Logo">\n\n[在线游玩](https://destiny-echo-web.littlecontrol.workers.dev/) · [预览 PRE](https://destiny-echo-web-pre.littlecontrol.workers.dev/)\n\n${(zh.Home ?? "").replace(/^# .*\n/, "")}\n\n游戏支持简体中文和英文，顶部 English / 中文 即时切换，默认中文；本地存储可用时记住选择。切换保留当前战斗、构筑与奖励选项。本页下方截图为此前版本的中文界面。\n\n${gallery("start-desktop-v1", "此前版本中文开始界面，桌面高清截图")}\n\n${gallery("start-mobile-v1", "移动端开始界面，1170×2532")}\n`;
   const images: Record<string, readonly [string, string]> = {
     Cards: ["rewards-desktop-v1", "自然首个宝箱奖励，选牌期间暂停"],
     Builds: ["build-desktop-v1", "本局构筑面板：属性、卡组与羁绊"],

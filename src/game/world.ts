@@ -15,6 +15,8 @@ import {
   eligibleTrainings,
   TRAINING_BY_ID,
 } from "../data/training";
+import { bossName, enemyName, rewardName, stageName, synergyName, tierName } from "../i18n/content";
+import { t } from "../i18n/locale";
 import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
 import type { ObservationDetails, WorldObservationType, WorldObserver } from "./observation";
@@ -267,6 +269,16 @@ export class World {
   endingReason = "health" as const;
   lastHitAt = -10;
   notice = "";
+  private englishNotice = "";
+
+  get localizedNotice(): string {
+    return t(this.notice, this.englishNotice);
+  }
+
+  private announce(chinese: string, english: string): void {
+    this.notice = chinese;
+    this.englishNotice = english;
+  }
   noticeUntil = 0;
   seed = 0;
   targetId: number | null = null;
@@ -519,6 +531,7 @@ export class World {
     this.bossSpawned = false;
     this.lastHitAt = -10;
     this.notice = "";
+    this.englishNotice = "";
     this.noticeUntil = 0;
     // IDs remain monotonic across pool reuse and runs; locks never alias a recycled entity.
     this.targetId = null;
@@ -618,7 +631,10 @@ export class World {
     }
     this.resetStage();
     if (this.observer) this.observe("stage_enter");
-    this.notice = `${this.stage.name} · 构筑已保留，恢复 35 生命`;
+    this.announce(
+      `${this.stage.name} · 构筑已保留，恢复 35 生命`,
+      `${stageName(this.stageIndex, "en")} · Build retained; recover up to 35 HP`,
+    );
     this.noticeUntil = this.elapsed + 3;
   }
 
@@ -696,11 +712,13 @@ export class World {
     const activated = SYNERGIES.find(
       (synergy, index) => synergyTier(this.stacks, synergy.id) > (before[index]?.tier ?? 0),
     );
-    this.notice = activated
-      ? `${activated.name} · ${TIER_NAMES[synergyTier(this.stacks, activated.id)]}${stageReward ? " · 下一关已开启" : ""}`
-      : stageReward
-        ? this.notice
-        : "残响已融合 · 继续改写命运";
+    if (activated)
+      this.announce(
+        `${activated.name} · ${TIER_NAMES[synergyTier(this.stacks, activated.id)]}${stageReward ? " · 下一关已开启" : ""}`,
+        `${synergyName(activated.id, "en")} · ${tierName(synergyTier(this.stacks, activated.id), "en")}${stageReward ? " · Next stage unlocked" : ""}`,
+      );
+    else if (!stageReward)
+      this.announce("残响已融合 · 继续改写命运", "Echo fused · Keep rewriting fate");
     this.noticeUntil = this.elapsed + 3;
     return true;
   }
@@ -789,7 +807,10 @@ export class World {
     if (this.observer)
       this.observe("mechanic", { source: "sanctuary", amount: this.sanctuaryRemaining });
     this.showBlast({ x: this.arena.player.x, y: 350 }, 500, 0xc7b7e8);
-    this.notice = "遗世庇护 · 状态已净化，时序暂歇，敌方嘲讽失效";
+    this.announce(
+      "遗世庇护 · 状态已净化，时序暂歇，敌方嘲讽失效",
+      "Sanctuary · Debuffs cleansed, hostile time frozen, taunts disabled",
+    );
     this.noticeUntil = this.elapsed + this.sanctuaryRemaining;
   }
 
@@ -848,7 +869,10 @@ export class World {
           if (this.observer)
             this.observe("mechanic", { source: "fusion", kind: enemy.kind, amount: 1 });
           this.showBlast(enemy, enemy.radius + 16, 0xdec28a);
-          this.notice = `${ENEMIES[enemy.kind].name} · 融合为 ${enemy.stars} 星，生命已回满`;
+          this.announce(
+            `${ENEMIES[enemy.kind].name} · 融合为 ${enemy.stars} 星，生命已回满`,
+            `${enemyName(enemy.kind, "en")} · Fused to ${enemy.stars} stars; HP restored`,
+          );
           this.noticeUntil = this.elapsed + 2;
         },
         CONFIG.fusion.distance * this.arena.rangeScale,
@@ -1006,9 +1030,14 @@ export class World {
       if (!this.bossSpawned) return;
       this.reinforceBoss();
       this.supportCooldown = stage.supportInterval;
-      this.notice = this.endless
-        ? `${stage.bossName} · 全场攻击，抵达防线伤害翻倍；每损失 30% 生命随机施法`
-        : `${stage.bossName} · 远近护卫到场，金色蓄力可打断`;
+      this.announce(
+        this.endless
+          ? `${stage.bossName} · 全场攻击，抵达防线伤害翻倍；每损失 30% 生命随机施法`
+          : `${stage.bossName} · 远近护卫到场，金色蓄力可打断`,
+        this.endless
+          ? `${bossName(this.stageIndex, "en")} · Attacks everywhere; double damage at defense line; random skill per 30% HP lost`
+          : `${bossName(this.stageIndex, "en")} · Melee and ranged escorts arrive; interrupt the gold charge`,
+      );
       this.noticeUntil = this.elapsed + 3;
     }
     if (!this.bossSpawned) {
@@ -1039,7 +1068,10 @@ export class World {
             age: 0,
           });
           this.nextChestAt = this.stageElapsed + CONFIG.chestInterval;
-          this.notice = "宝箱显现 · 点击可优先击破，获取残响";
+          this.announce(
+            "宝箱显现 · 点击可优先击破，获取残响",
+            "Chest appeared · Select it to focus fire and claim an echo",
+          );
           this.noticeUntil = this.elapsed + 3;
         }
       }
@@ -1300,7 +1332,10 @@ export class World {
           enemy.interruptRequired = Math.round(
             this.enemyStage(enemy).interrupt * (enraged ? 4 / 3 : 1),
           );
-          this.notice = `首领蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`;
+          this.announce(
+            `首领蓄力 · 造成 ${enemy.interruptRequired} 伤害可打断`,
+            `Boss charging · Deal ${enemy.interruptRequired} damage to interrupt`,
+          );
           this.noticeUntil = this.elapsed + enemy.telegraph;
           continue;
         }
@@ -1407,12 +1442,15 @@ export class World {
         this.observe("mechanic", { source: `boss_skill:${skill}`, kind: enemy.kind, amount: 1 });
       if (skill === "guard") {
         enemy.damageReductionTime = CONFIG.endless.bossReductionDuration;
-        this.notice = "首领 · 减伤 90%，持续 3 秒";
+        this.announce("首领 · 减伤 90%，持续 3 秒", "Boss · 90% damage reduction for 3s");
       } else if (skill === "summon") {
         // Bounded scalar queue survives saturation without deleting living units.
         this.pendingSummons += this.balance.payload.endless.summonCount;
         this.drainSummons();
-        this.notice = `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · 等待空位" : ""}`;
+        this.announce(
+          `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · 等待空位" : ""}`,
+          `Boss · Summons ${this.balance.payload.endless.summonCount} enhanced escorts, HP and damage ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · Waiting for space" : ""}`,
+        );
       } else {
         const hp = this.player.hp;
         const loss = Math.min(this.player.hp, this.bossSlamDamage);
@@ -1421,7 +1459,10 @@ export class World {
         if (this.observer) this.observePlayerDamage("boss_slam", hp, this.player.shield);
         this.lastHitAt = this.elapsed;
         this.burst(this.player.x, this.player.y, 0xe57d98, 18);
-        this.notice = `首领 · 重击，直接损失 ${this.bossSlamDamage} 生命`;
+        this.announce(
+          `首领 · 重击，直接损失 ${this.bossSlamDamage} 生命`,
+          `Boss · Slam directly removes ${this.bossSlamDamage} HP`,
+        );
         if (this.player.hp <= 0) this.state.transition("GameOver");
       }
       this.noticeUntil = this.elapsed + 3;
@@ -1589,7 +1630,10 @@ export class World {
         this.bossInterrupts++;
         if (this.observer)
           this.observe("mechanic", { source: "boss_interrupt", kind: enemy.kind, amount: 1 });
-        this.notice = "蓄力已打断 · 防线暂时安全";
+        this.announce(
+          "蓄力已打断 · 防线暂时安全",
+          "Charge interrupted · Defense line secured for now",
+        );
         this.noticeUntil = this.elapsed + 1.5;
         this.burst(enemy.x, enemy.y, 0x8cc6f2, 18);
       }
@@ -1740,10 +1784,13 @@ export class World {
           training: true,
           automatic: true,
         });
-      names.push(item.name);
+      names.push(item.id);
     }
     if (names.length > 0) {
-      this.notice = `分数锻体 · 已自动获得 ${names.join("、")}`;
+      this.announce(
+        `分数锻体 · 已自动获得 ${names.map((id) => rewardName(id, "zh-CN")).join("、")}`,
+        `Score training · Automatically gained ${names.map((id) => rewardName(id, "en")).join(", ")}`,
+      );
       this.noticeUntil = this.elapsed + 4;
     }
   }
@@ -1770,7 +1817,10 @@ export class World {
     if (enemy.kind === "boss") {
       this.bossDefeated = true;
       this.pendingSummons = 0;
-      this.notice = "首领已击败 · 清除剩余敌人后领取过关奖励";
+      this.announce(
+        "首领已击败 · 清除剩余敌人后领取过关奖励",
+        "Boss defeated · Clear remaining enemies to claim the stage reward",
+      );
       this.noticeUntil = this.elapsed + 5;
       return;
     }

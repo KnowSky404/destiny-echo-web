@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased — game language support
+
+- **Game UI in English and Simplified Chinese:** switch menus, HUD, all 51 augments, 8 trainings, 12 synergy families, enemies, campaign/endless feedback, help and accessibility labels in place.
+- Header language choice defaults to Chinese, persists in browser local storage when available and falls back safely when storage is blocked. Switching preserves combat, the build and reward capabilities. Game and guide share the English catalog.
+- PRE balance tools also follow the selected language; profile IDs, user-entered names and exported schema stay compatible.
+- Source/Wiki delivery is tracked separately from PRE and PRO; this change does not authorize either deployment.
+
 ## Unreleased — Balance Simulator V1
 
 - Add a seeded Bun CLI that runs the production World directly, with strategy/logical-layout groups, JSON/CSV/Markdown reports, paired comparisons, bounded one-factor sweeps and deterministic single-run replay.
@@ -17,7 +24,6 @@
 
 ## Next
 
-- **Game UI in English and Simplified Chinese:** translate menus, HUD, cards, enemies, help and accessibility labels; define language selection and fallback, then verify both languages on desktop and touch. Planned, not implemented.
 - Discuss game artwork and in-game brand integration separately with the maintainer.
 
 ## Source history

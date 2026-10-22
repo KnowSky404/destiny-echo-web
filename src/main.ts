@@ -1,8 +1,11 @@
 import { arenaWidthForViewport } from "./game/arena";
 import { World } from "./game/world";
+import { t } from "./i18n/locale";
+import { initShell } from "./i18n/shell";
 import { element, GameUI } from "./ui/GameUI";
 import "./ui/style.css";
 
+const destroyShell = initShell();
 const width = arenaWidthForViewport(window.innerWidth, window.innerHeight);
 const preSession =
   import.meta.env.MODE === "pre"
@@ -11,6 +14,12 @@ const preSession =
 const world = preSession?.world ?? new World(width);
 const ui = new GameUI(world);
 preSession?.attach();
+if (import.meta.hot)
+  import.meta.hot.dispose(() => {
+    ui.destroy();
+    destroyShell();
+    preSession?.destroy();
+  });
 
 function supportsWebGL(): boolean {
   try {
@@ -26,8 +35,12 @@ function supportsWebGL(): boolean {
 
 if (!supportsWebGL()) {
   ui.fail(
-    "未能唤醒图形引擎",
-    "游戏需要 WebGL。请启用浏览器硬件加速，并尝试更新 Chrome、Safari 或 Firefox 后重新加载。",
+    () => t("未能唤醒图形引擎", "Graphics engine unavailable"),
+    () =>
+      t(
+        "游戏需要 WebGL。请启用浏览器硬件加速，并尝试更新 Chrome、Safari 或 Firefox 后重新加载。",
+        "This game requires WebGL. Enable hardware acceleration, update Chrome, Safari or Firefox, then reload.",
+      ),
   );
 } else {
   try {
@@ -39,8 +52,12 @@ if (!supportsWebGL()) {
         (event) => {
           event.preventDefault();
           ui.fail(
-            "图形连接已中断",
-            "战斗已经停止。请关闭占用图形资源的页面，然后重新加载开启新一局。",
+            () => t("图形连接已中断", "Graphics connection lost"),
+            () =>
+              t(
+                "战斗已经停止。请关闭占用图形资源的页面，然后重新加载开启新一局。",
+                "Combat has stopped. Close other pages using graphics resources, then reload to start a new run.",
+              ),
           );
         },
       );
@@ -48,8 +65,6 @@ if (!supportsWebGL()) {
     if (import.meta.hot)
       import.meta.hot.dispose(() => {
         game.destroy(true);
-        ui.destroy();
-        preSession?.destroy();
       });
     // Read-only snapshots are available in PRE and the test server, never in PRO.
     if (
@@ -60,7 +75,14 @@ if (!supportsWebGL()) {
     }
   } catch (error) {
     console.error("Game initialization failed", error);
-    ui.fail("残响连接失败", "图形引擎未能启动。请检查网络、启用硬件加速后重新加载。");
+    ui.fail(
+      () => t("残响连接失败", "Unable to connect to the echoes"),
+      () =>
+        t(
+          "图形引擎未能启动。请检查网络、启用硬件加速后重新加载。",
+          "The graphics engine could not start. Check your connection, enable hardware acceleration, then reload.",
+        ),
+    );
   }
 }
 

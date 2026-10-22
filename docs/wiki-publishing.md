@@ -2,7 +2,7 @@
 
 [English guide](game-guide/Home.md) · [简体中文](game-guide/Home-zh-CN.md) · [Native Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)
 
-`scripts/game-guide.ts` owns Chinese rule prose and runtime-derived reference data. `scripts/guide-pages.ts` assembles both languages; English catalog translations live in `scripts/guide-catalog.en.ts`, while maintained English prose and supplementary bilingual pages live in `docs/wiki-content/`. Generated output is checked into `docs/game-guide/`.
+`scripts/game-guide.ts` owns Chinese rule prose and runtime-derived reference data. `scripts/guide-pages.ts` assembles both languages; English catalog translations are shared with the game in `src/i18n/content.ts` (re-exported by `scripts/guide-catalog.en.ts`), while maintained English prose and supplementary bilingual pages live in `docs/wiki-content/`. Generated output is checked into `docs/game-guide/`.
 
 ## Change rules and documentation together
 
@@ -10,7 +10,7 @@
 2. If the rules digest changed, inspect the English translation before updating `docs/wiki-content/reviewed-rules.txt` to the digest reported by the generator. The marker prevents silently carrying old English prose into a new rules revision; changing it alone is not translation review.
 3. Run `bun run docs:generate`. Both languages, implementation and specifications belong in one atomic commit. Default page slugs are English; Chinese slugs end in `-zh-CN`.
 4. Run `bun run docs:check`, `bun run typecheck`, `bun run lint`, `bun test` and `bun run build`. Follow [Development](game-guide/Development.md) for browser checks when required.
-5. Update both changelog sources on each release. Record source and Wiki/PRE/PRO separately. Game language switching remains planned until implemented and verified.
+5. Update both changelog sources on each release. Record source and Wiki/PRE/PRO separately. Keep game language and language-persistence claims aligned with the implementation and browser verification.
 
 The generator derives card IDs, stack limits, rarity, starting previews, enemy numbers and stage tables from runtime data, with English numeric tables translated from those same tables. Narrative translations are human maintained. The digest covers rule sources, not merely generated prose. `docs:check` validates generated content and local documentation asset references; navigation and language symmetry are covered by Bun tests.
 

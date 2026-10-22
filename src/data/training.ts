@@ -2,12 +2,14 @@ import { CONFIG } from "../game/config";
 import { type Random, shuffled, weightedChoice, weightedShuffle } from "../game/random";
 import { combatStats } from "../game/stats";
 import type { Player, Stats, Training } from "../game/types";
+import { t } from "../i18n/locale";
 import type { RewardPolicy } from "./balance/model";
 import { CARDS, drawCards } from "./cards";
 
 function training(
   id: string,
   name: string,
+  nameEn: string,
   field: keyof Stats,
   amount: number,
   symbol: string,
@@ -27,27 +29,28 @@ function training(
       player.stats[field] = Math.min(cap, player.stats[field] + amount);
     },
     preview: (player) =>
-      `${name} ${format(player.stats[field])} → ${format(Math.min(cap, player.stats[field] + amount))}`,
+      `${t(name, nameEn)} ${format(player.stats[field])} → ${format(Math.min(cap, player.stats[field] + amount))}`,
   };
 }
 
 const percent = (value: number) => `${Math.round(value * 100)}%`;
 export const TRAININGS: readonly Training[] = [
-  training("damage", "基础伤害", "damage", 6, "damage"),
-  training("health", "生命上限", "maxHp", 30, "vitality"),
-  training("power", "攻击加成", "power", 0.1, "damage", percent),
-  training("critical", "暴击率", "critChance", 0.04, "critical", percent, 0.85),
-  training("critical-power", "暴击倍率", "critDamage", 0.2, "critical"),
+  training("damage", "基础伤害", "Base damage", "damage", 6, "damage"),
+  training("health", "生命上限", "Maximum HP", "maxHp", 30, "vitality"),
+  training("power", "攻击加成", "Attack power", "power", 0.1, "damage", percent),
+  training("critical", "暴击率", "Critical chance", "critChance", 0.04, "critical", percent, 0.85),
+  training("critical-power", "暴击倍率", "Critical multiplier", "critDamage", 0.2, "critical"),
   training(
     "leech",
     "普攻吸血",
+    "Basic lifesteal",
     "lifesteal",
     0.02,
     "bloodpact",
     (value) => `${Number((value * CONFIG.lifestealMultiplier * 100).toFixed(2))}%`,
     0.5,
   ),
-  training("renewal", "每秒回复", "regeneration", 0.75, "vitality"),
+  training("renewal", "每秒回复", "HP/s", "regeneration", 0.75, "vitality"),
   {
     type: "training",
     id: "training-haste",
@@ -61,7 +64,7 @@ export const TRAININGS: readonly Training[] = [
       player.stats.interval = Math.max(0.08, player.stats.interval * 0.94);
     },
     preview: (player) =>
-      `攻击间隔 ${player.stats.interval.toFixed(3)}s → ${Math.max(0.08, player.stats.interval * 0.94).toFixed(3)}s`,
+      `${t("攻击间隔", "Firing interval")} ${player.stats.interval.toFixed(3)}s → ${Math.max(0.08, player.stats.interval * 0.94).toFixed(3)}s`,
   },
 ];
 export const TRAINING_BY_ID = new Map(TRAININGS.map((item) => [item.id, item]));
