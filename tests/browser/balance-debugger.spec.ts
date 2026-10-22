@@ -93,6 +93,7 @@ test("saved versions survive refresh and JSON export/import without affecting a 
   await page.getByLabel("版本测试种子", { exact: true }).fill("123");
   await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
   await page.getByRole("button", { name: "启用此版本测试", exact: true }).click();
+  await expect(page.locator("#debug-dialog")).toHaveAttribute("aria-busy", "false");
   expect((await snapshot(page)).player.stats.damage).toBeGreaterThanOrEqual(42);
   expect((await snapshot(page)).seed).toBe(123);
   const downloadPromise = page.waitForEvent("download");
@@ -146,7 +147,10 @@ test("saved versions survive refresh and JSON export/import without affecting a 
     await expect(other.getByLabel("方案名称", { exact: true })).toHaveValue("本机试验 A");
     await other.getByRole("button", { name: "保存为新版本", exact: true }).click();
     await other.getByRole("button", { name: "启用此版本测试", exact: true }).click();
-    expect((await snapshot(other)).player.stats.damage).toBeGreaterThanOrEqual(42);
+    await expect(other.locator("#debug-dialog")).toHaveAttribute("aria-busy", "false");
+    await expect
+      .poll(async () => (await snapshot(other)).player.stats.damage)
+      .toBeGreaterThanOrEqual(42);
   } finally {
     await context.close();
   }
@@ -215,6 +219,7 @@ test("visual stage-range and card-pool editors control actual subsequent rewards
       .fill(card.id === "force" ? "5" : "0");
   await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
   await page.getByRole("button", { name: "启用此版本测试", exact: true }).click();
+  await expect(page.locator("#debug-dialog")).toHaveAttribute("aria-busy", "false");
   await page.locator("#debug-dialog").evaluate((dialog) => {
     dialog.scrollTop = 0;
   });
@@ -228,11 +233,84 @@ test("visual stage-range and card-pool editors control actual subsequent rewards
   await page.clock.runFor(100);
   await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
   await firstReward(page);
+  // The simulation may enter RewardSelection at the end of a frozen frame.
+  // Let the next UI frame render the actual cards before inspecting the DOM.
+  await page.clock.runFor(100);
   expect((await snapshot(page)).reward?.choices).toEqual(["force"]);
   expect((await snapshot(page)).enemies.every((enemy) => enemy.kind === "wisp")).toBe(true);
   await expect(page.locator(".reward-card")).toHaveCount(1);
   await page.locator(".reward-card").click();
   expect((await snapshot(page)).stacks.force).toBe(1);
+});
+
+test("same-origin tabs serialize writes, reject stale saves, and can export an unsaved draft safely", async ({
+  page,
+  context,
+}) => {
+  await boot(page);
+  await open(page, "方案版本");
+  await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
+  await expect(page.locator(".debug-version")).toHaveCount(1);
+  const peer = await context.newPage();
+  try {
+    await peer.goto("/");
+    await expect(peer.locator("#debug-trigger")).toBeVisible();
+    await open(peer, "方案版本");
+    await page.getByLabel("方案名称", { exact: true }).fill("标签页 A");
+    await peer.getByLabel("方案名称", { exact: true }).fill("标签页 B");
+    await Promise.all([
+      page.getByRole("button", { name: "保存为新版本", exact: true }).click(),
+      peer.getByRole("button", { name: "保存为新版本", exact: true }).click(),
+    ]);
+    await expect
+      .poll(async () =>
+        page.evaluate(
+          () => JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}").versions?.length,
+        ),
+      )
+      .toBe(2);
+    await expect
+      .poll(async () => {
+        const messages = await Promise.all([
+          page.locator(".debug-status").textContent(),
+          peer.locator(".debug-status").textContent(),
+        ]);
+        return messages.filter((message) => message?.includes("其他 PRE 标签页")).length;
+      })
+      .toBe(1);
+    const saved = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}"),
+    );
+    expect(saved.versions.map((version: { revision: number }) => version.revision)).toEqual([1, 2]);
+    const stale = (await page.locator(".debug-status").textContent())?.includes("其他 PRE 标签页")
+      ? page
+      : peer;
+    const downloadPromise = stale.waitForEvent("download");
+    await stale.getByRole("button", { name: "导出草稿 JSON", exact: true }).click();
+    const path = await (await downloadPromise).path();
+    if (!path) throw new Error("Missing exported draft");
+    const draft = JSON.parse(await readFile(path, "utf8"));
+    expect(draft.id).not.toBe(saved.versions[0].id);
+    expect(draft.revision).toBe(1);
+    expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(
+      JSON.stringify(saved),
+    );
+    await stale.reload();
+    await expect(stale.locator("#debug-trigger")).toBeVisible();
+    await open(stale, "方案版本");
+    await stale.getByRole("button", { name: "保存为新版本", exact: true }).click();
+    await expect
+      .poll(async () =>
+        stale.evaluate(() =>
+          JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}").versions.map(
+            (version: { revision: number }) => version.revision,
+          ),
+        ),
+      )
+      .toEqual([1, 2, 3]);
+  } finally {
+    await peer.close();
+  }
 });
 
 test("PRO artifact has no debugger, ignores profile-like storage, and ordinary development stays without an entry", async ({

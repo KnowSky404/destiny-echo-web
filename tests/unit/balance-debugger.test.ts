@@ -516,8 +516,14 @@ describe("configuration CLI", () => {
         new URL("../../scripts/balance.ts", import.meta.url),
         join(dir, "scripts/balance.ts"),
       );
+      await cp(
+        new URL("../../scripts/game-guide.ts", import.meta.url),
+        join(dir, "scripts/game-guide.ts"),
+      );
       const profile = defaultProfile();
       profile.payload.player.stats.damage = 44;
+      profile.payload.player.hp = 57;
+      profile.payload.player.stats.maxHp = 150;
       const file = join(dir, "export.json");
       await writeFile(file, JSON.stringify(profile));
       const validate = Bun.spawnSync([
@@ -541,6 +547,11 @@ describe("configuration CLI", () => {
           JSON.parse(await readFile(join(dir, "src/data/balance/official.json"), "utf8")),
         ),
       ).toEqual(profile);
+      const guide = Bun.spawnSync([process.execPath, join(dir, "scripts/game-guide.ts")]);
+      expect(guide.exitCode).toBe(0);
+      expect(await readFile(join(dir, "docs/game-guide/Mechanics.md"), "utf8")).toContain(
+        "初始生命 57，生命上限 150",
+      );
       await writeFile(file, '{"schemaVersion":99}');
       expect(
         Bun.spawnSync([process.execPath, join(dir, "scripts/balance.ts"), "apply", file]).exitCode,
@@ -619,6 +630,37 @@ describe("browser-local version lifecycle", () => {
     const broken = new ProfileStore(storage);
     expect(broken.warning).toContain("未能读取");
     expect(storage.getItem(STORAGE_KEY)).toBe(invalid);
+  });
+  test("stale tabs cannot reserve a revision or overwrite another tab's saved versions", () => {
+    const storage = memoryStorage();
+    const firstTab = new ProfileStore(storage);
+    const secondTab = new ProfileStore(storage);
+    const saved = firstTab.saveVersion();
+    const persisted = storage.getItem(STORAGE_KEY);
+    secondTab.state.draft.payload.player.stats.damage = 99;
+    expect(() => secondTab.saveVersion()).toThrow("其他 PRE 标签页");
+    expect(secondTab.state.versions).toHaveLength(0);
+    expect(() => secondTab.persist()).toThrow("其他 PRE 标签页");
+    expect(() => secondTab.remove(saved.id, saved.revision)).toThrow("其他 PRE 标签页");
+    expect(storage.getItem(STORAGE_KEY)).toBe(persisted);
+    const reloaded = new ProfileStore(storage);
+    expect(reloaded.state.versions).toEqual([saved]);
+    expect(reloaded.saveVersion().revision).toBe(2);
+  });
+  test("failed shared persistence never creates an exportable saved revision", () => {
+    const storage = memoryStorage();
+    const first = new ProfileStore(storage).saveVersion();
+    const full = new ProfileStore({
+      getItem: (key) => storage.getItem(key),
+      setItem: () => {
+        throw new Error("Quota exceeded");
+      },
+    });
+    full.state.draft.payload.player.stats.damage = 99;
+    expect(() => full.saveVersion()).toThrow("固定版本未保存");
+    expect(full.state.versions).toEqual([first]);
+    expect(full.state.draft.payload.player.stats.damage).toBe(99);
+    expect(new ProfileStore(storage).state.versions).toEqual([first]);
   });
   test("blocked/corrupt storage has a readable fallback and never silently rewrites the original", () => {
     const storage = memoryStorage();

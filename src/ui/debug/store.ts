@@ -11,12 +11,17 @@ export class ProfileStore {
   state: SavedProfiles = { draft: officialProfile(), versions: [], selected: null };
   warning = "";
   private revisionHighWater = new Map<string, number>();
+  private observedStorage: string | null = null;
 
-  constructor(private readonly storage: Pick<Storage, "getItem" | "setItem"> | undefined) {
+  constructor(
+    private readonly storage: Pick<Storage, "getItem" | "setItem"> | undefined,
+    private readonly locks?: Pick<LockManager, "request">,
+  ) {
     if (this.state.draft.id !== "default")
       this.revisionHighWater.set(this.state.draft.id, this.state.draft.revision);
     try {
       const raw = storage?.getItem(STORAGE_KEY);
+      this.observedStorage = raw ?? null;
       if (!raw) return;
       const parsed = JSON.parse(raw) as SavedProfiles & { revisions?: unknown };
       if (!Array.isArray(parsed.versions) || parsed.versions.length > 100)
@@ -61,38 +66,67 @@ export class ProfileStore {
         version.id === this.state.selected?.id && version.revision === this.state.selected.revision,
     );
   }
-  persist(): void {
+  private assertCurrent(): void {
+    if (this.storage && this.storage.getItem(STORAGE_KEY) !== this.observedStorage)
+      throw new Error(
+        "其他 PRE 标签页已更新方案；本页未覆盖保存内容。请先导出草稿，再刷新后继续保存",
+      );
+  }
+  async withWriteLock<T>(action: () => T): Promise<T> {
+    const write = () => {
+      this.assertCurrent();
+      return action();
+    };
+    return this.locks ? this.locks.request(`${STORAGE_KEY}:write`, write) : write();
+  }
+  persist(): boolean {
     if (!this.storage) {
       this.warning = "浏览器不允许本地存储；本页仍可测试和导出，刷新后不会保留";
-      return;
+      return false;
     }
+    this.assertCurrent();
     try {
-      this.storage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...this.state, revisions: Object.fromEntries(this.revisionHighWater) }),
-      );
+      const raw = JSON.stringify({
+        ...this.state,
+        revisions: Object.fromEntries(this.revisionHighWater),
+      });
+      this.storage.setItem(STORAGE_KEY, raw);
+      this.observedStorage = raw;
       this.warning = "";
+      return true;
     } catch {
       this.warning = "本地存储不可用或已满；本页仍可测试和导出，请先导出备份";
+      return false;
     }
   }
   saveVersion(): BalanceProfile {
+    this.assertCurrent();
     const profile = parseProfile(this.state.draft);
     if (this.state.versions.length >= 100)
       throw new Error("最多保存 100 个版本，请导出并删除旧版本后继续");
-    if (profile.id === "default") profile.id = crypto.randomUUID();
+    if (
+      profile.id === "default" ||
+      (!this.storage && !this.state.versions.some((item) => item.id === profile.id))
+    )
+      profile.id = crypto.randomUUID();
     profile.revision = validateNumber(
       1 + (this.revisionHighWater.get(profile.id) ?? 0),
       ["版本", 1, 1e6, true],
       "revision",
     );
+    const previousDraft = this.state.draft;
     this.state.versions.push(structuredClone(profile));
     this.state.draft = structuredClone(profile);
     this.revisionHighWater.set(profile.id, profile.revision);
-    this.persist();
+    if (!this.persist() && this.storage) {
+      this.state.versions.pop();
+      this.state.draft = previousDraft;
+      throw new Error(`${this.warning}；固定版本未保存，请导出草稿`);
+    }
     return profile;
   }
   select(profile: BalanceProfile): void {
+    this.assertCurrent();
     if (
       !this.state.versions.some(
         (item) => item.id === profile.id && item.revision === profile.revision,
@@ -103,6 +137,7 @@ export class ProfileStore {
     this.persist();
   }
   copy(profile: BalanceProfile): void {
+    this.assertCurrent();
     this.state.draft = {
       ...structuredClone(profile),
       id: crypto.randomUUID(),
@@ -112,12 +147,14 @@ export class ProfileStore {
     this.persist();
   }
   import(text: string): void {
+    this.assertCurrent();
     if (text.length > 2_000_000) throw new Error("配置文件不能超过 2 MB");
     const profile = parseProfile(JSON.parse(text));
     this.state.draft = { ...profile, id: crypto.randomUUID(), revision: 1 };
     this.persist();
   }
   remove(id: string, revision: number): void {
+    this.assertCurrent();
     this.state.versions = this.state.versions.filter(
       (item) => item.id !== id || item.revision !== revision,
     );
@@ -129,7 +166,12 @@ export class ProfileStore {
 
 export function browserStore(): ProfileStore {
   try {
-    return new ProfileStore(window.localStorage);
+    if (!navigator.locks) {
+      const store = new ProfileStore(undefined);
+      store.warning = "浏览器不支持安全的跨标签页保存；本页仍可测试和导出，刷新后不会保留";
+      return store;
+    }
+    return new ProfileStore(window.localStorage, navigator.locks);
   } catch {
     return new ProfileStore(undefined);
   }
