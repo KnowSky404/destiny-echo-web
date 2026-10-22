@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Balance Simulator V1
+
+- Add a seeded Bun CLI that runs the production World directly, with strategy/logical-layout groups, JSON/CSV/Markdown reports, paired comparisons, bounded one-factor sweeps and deterministic single-run replay.
+- Add PRE export of saved profiles, validated experiment summaries/cases and preparation for manual review with the same profile and seed. A manual restart is not automatic strategy playback; existing drafts and saved versions remain isolated.
+- Production rules and `src/data/balance/official.json` remain unchanged. Candidates are saved as separate experimental profiles; the tool never applies, pushes or deploys balance changes automatically.
+- The [simulator guide](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-simulator.md) and [local acceptance/baseline report](https://github.com/KnowSky404/destiny-echo-web/blob/main/experiments/balance/baseline-report.md) preserve the original local-only acceptance scope. Subsequent source push, PR review/merge, Wiki publication and PRE→PRO deployment are separate deliveries under the later authorization; they do not rewrite the original experimental evidence.
+- Source: feature commit `080fab5`; PR/merged commit pending verification. Release checks are tracked separately. Wiki: pending publication; PRE: pending deployment verification; PRO: pending verification of the same version in PRE, then deployment verification.
+
 ## Unreleased — documentation and identity
 
 - English-first README and Wiki, with matching Simplified Chinese pages and language switches.
