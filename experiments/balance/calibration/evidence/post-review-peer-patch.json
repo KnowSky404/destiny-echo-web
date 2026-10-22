@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "kind": "lossless-independent-peer-post-review-addendum",
+  "createdAt": "2026-10-22T22:54:36.167Z",
+  "simulationsExecuted": 0,
+  "adoptionDecisionChanged": false,
+  "before": {
+    "path": "/tmp/destiny-calibration-v5-all-phases-independent-peer.json",
+    "sha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7"
+  },
+  "after": {
+    "path": "/tmp/destiny-calibration-v5-post-review-peer.json",
+    "sha256": "83890397351973476195aecc56659542fc0d1a120bcd41e87bafc1d65d49be48"
+  },
+  "allowedDifferences": [
+    "/createdAt",
+    "/identity/collectorHash",
+    "/phases/0/evidencePath",
+    "/phases/0/evidenceSha256",
+    "/phases/1/evidencePath",
+    "/phases/1/evidenceSha256",
+    "/phases/2/evidencePath",
+    "/phases/2/evidenceSha256",
+    "/phases/3/evidencePath",
+    "/phases/3/evidenceSha256"
+  ],
+  "patch": [
+    {
+      "op": "replace",
+      "path": "/createdAt",
+      "oldValue": "2026-10-22T22:37:12.819Z",
+      "value": "2026-10-22T22:54:16.883Z"
+    },
+    {
+      "op": "replace",
+      "path": "/identity/collectorHash",
+      "oldValue": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+      "value": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/0/evidencePath",
+      "oldValue": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "value": "artifacts/balance/calibration-selection-v5-review-p2-evidence.json"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/0/evidenceSha256",
+      "oldValue": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5",
+      "value": "265c529ba17281b428b010421d1d7259b0ccb54cf12475fdf9292fe02d8871b2"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/1/evidencePath",
+      "oldValue": "artifacts/balance/calibration-validation-v5-evidence.json",
+      "value": "artifacts/balance/calibration-validation-v5-review-p2-evidence.json"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/1/evidenceSha256",
+      "oldValue": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665",
+      "value": "c0213df2991f8399059f53bf86a5d3cb06cec571aca8efc94990237cb45acf5c"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/2/evidencePath",
+      "oldValue": "artifacts/balance/calibration-endless-v5-evidence.json",
+      "value": "artifacts/balance/calibration-endless-v5-review-p2-evidence.json"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/2/evidenceSha256",
+      "oldValue": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349",
+      "value": "ca1122be37d4557a6c2f512274aea2f98c1321d8cda11504626bcc99b45e2f05"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/3/evidencePath",
+      "oldValue": "artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "value": "artifacts/balance/calibration-sensitivity-v5-review-p2-evidence.json"
+    },
+    {
+      "op": "replace",
+      "path": "/phases/3/evidenceSha256",
+      "oldValue": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c",
+      "value": "0682517ef54d9075af37a8c6deeb301a8a9b4352292a595698716d86bf100fca"
+    }
+  ],
+  "changedPaths": [
+    "/createdAt",
+    "/identity/collectorHash",
+    "/phases/0/evidencePath",
+    "/phases/0/evidenceSha256",
+    "/phases/1/evidencePath",
+    "/phases/1/evidenceSha256",
+    "/phases/2/evidencePath",
+    "/phases/2/evidenceSha256",
+    "/phases/3/evidencePath",
+    "/phases/3/evidenceSha256"
+  ],
+  "allOtherParsedValuesExact": true,
+  "exactByteReconstruction": true,
+  "reconstructedSha256": "83890397351973476195aecc56659542fc0d1a120bcd41e87bafc1d65d49be48",
+  "canonicalSerialization": "JSON.stringify(patchedOriginal,null,2)+newline",
+  "counts": {
+    "records": 5448,
+    "candidate": 3048,
+    "baseline": 2400,
+    "cells": 36
+  },
+  "ciChecks": 255,
+  "warningCount": 73,
+  "pairedHarmCount": 88,
+  "replayReceipts": {
+    "status": "verified",
+    "checked": 2,
+    "path": "artifacts/balance/calibration-v5-exact-replays.json",
+    "sha256": "7107e374002dc6d38e9b765e4f0af24012bf43b367e9b9dd43c1d8fac444f8b1",
+    "records": [
+      {
+        "phase": "selection",
+        "cell": "selection-random-auto-portrait",
+        "seed": 2401570752,
+        "strategy": {
+          "name": "random-auto"
+        },
+        "width": 450,
+        "termination": "death",
+        "casePath": "artifacts/balance/calibration-v5-replays/official-random-death.json",
+        "caseSha256": "d6dbc30e3e66a219880488ea2685e1aca9fbe3087714816999bcad04e16cc752",
+        "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-random-death.log",
+        "logSha256": "e09dff997d7165e6561324761b0c84bf0ae79515f5da948e2bbd8da3cc0c87e7",
+        "expectedHash": "86fa8bbbb4ac3ab101969f990dedd4f3a55566e6c082e95fd059aa7e0d378b8c"
+      },
+      {
+        "phase": "selection",
+        "cell": "selection-build-auto-portrait",
+        "seed": 2401570752,
+        "strategy": {
+          "name": "build-auto"
+        },
+        "width": 450,
+        "termination": "campaign_victory",
+        "casePath": "artifacts/balance/calibration-v5-replays/official-build-victory.json",
+        "caseSha256": "9f6a859a0f29c6d601c2286d55604503de9e1daa1a8cea42415751238f88ac6d",
+        "logPath": "/tmp/destiny-calibration-v5-exact-replay-official-build-victory.log",
+        "logSha256": "55f6bac1e61d578239198e698ff7e1c0a51cbf820dd744f357d31e2ef0ee20ed",
+        "expectedHash": "9642e8b843e653fcc2c3584c9317b191a8469accced1d1dc53067dc39220d650"
+      }
+    ]
+  },
+  "interpretation": "Original complete peer retained. Apply only these10 replacements to reconstruct the entire new full peer byte-for-byte; no numerical, pressure, raw/profile, warning, harm, CI or replay value changed."
+}

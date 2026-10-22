@@ -1,0 +1,56 @@
+{
+  "kind": "PR13-P2-enemy-action-counter-integrity-fix",
+  "createdAt": "2026-10-22T22:53:01.014050+00:00",
+  "reviewFinding": "https://github.com/KnowSky404/destiny-echo-web/pull/13#discussion_r4354347213",
+  "reviewedHead": "b278669d236755393b932485fb52f0af178b7b3c",
+  "collectorBefore": {
+    "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-before.ts",
+    "sha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2"
+  },
+  "collectorAfter": {
+    "path": "scripts/calibration-evidence.ts",
+    "sha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2"
+  },
+  "tests": {
+    "path": "tests/unit/calibration-evidence.test.ts",
+    "sha256": "18690f9abd6195076447cf8577ab4a364d134c4093777b7e8a9d757e9663fce0"
+  },
+  "runtimeContract": "Each native melee/ranged action increments World.enemyAttacks and emits mechanic enemy_attack amount1. Stage cumulative counter and metrics count must be exactly equal. Missing key means0; null remains invalid under existing numeric parsing.",
+  "regressions": [
+    "Real naturally resolved positive attack record passes.",
+    "Changing only stage.enemyAttacks to0 or original+1 rejects while complete run/stage metrics and their sum remain unchanged.",
+    "Native zero-time/no-attack evidence accepts missing key or explicit0 and rejects null."
+  ],
+  "verification": {
+    "targetedUnit": {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-unit-rerun.log",
+      "pass": 24,
+      "fail": 0,
+      "assertions": 242
+    },
+    "typecheck": {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-typecheck-rerun.log",
+      "exitCode": 0
+    },
+    "biome": {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-lint.log",
+      "exitCode": 0
+    },
+    "existingRawAudit": {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-existing-raw-audit.json",
+      "cells": 36,
+      "records": 5448,
+      "stages": 14133,
+      "absentZero": 6913,
+      "explicitZero": 0,
+      "positive": 7220,
+      "mismatches": 0,
+      "simulationsExecuted": 0
+    }
+  },
+  "frozenNumericalCodeFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "frozenNumericalSourceMismatches": [],
+  "scope": ["scripts/calibration-evidence.ts", "tests/unit/calibration-evidence.test.ts"],
+  "oldEvidenceAndLogsModified": false,
+  "committed": false
+}

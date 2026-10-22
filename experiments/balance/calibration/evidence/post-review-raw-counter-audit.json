@@ -1,0 +1,195 @@
+{
+  "kind": "native-enemy-attack-counter-existing-final-record-audit",
+  "createdAt": "2026-10-22T22:52:11.164452+00:00",
+  "simulationsExecuted": 0,
+  "cells": 36,
+  "records": 5448,
+  "stages": 14133,
+  "absentZero": 6913,
+  "explicitZero": 0,
+  "positive": 7220,
+  "mismatches": [],
+  "sourceFiles": [
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-random-auto-portrait/runs.jsonl",
+      "sha256": "376c401cbfa61813205eddf8f2303f7c5307341c119016f2e5c99d5bbbd2a231"
+    },
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-random-auto-desktop/runs.jsonl",
+      "sha256": "4cc97edb3024d6d2fdd8086de8b6a789d6b7a15950e2b09b355c10e22e8af73a"
+    },
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-build-auto-portrait/runs.jsonl",
+      "sha256": "5699aa21d91aecc89cc1c9b57784f1181afba6b880927c31cf9928b77548ea4c"
+    },
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-build-auto-desktop/runs.jsonl",
+      "sha256": "3d53040c54395fa15d98f94ff7b1e81a74f255ccf6c35b5cdfa4d040e071538e"
+    },
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-build-active-portrait/runs.jsonl",
+      "sha256": "f27d1cc0ae67029243880fb6fcb98d16e78119962629886297a96c9a634ed78b"
+    },
+    {
+      "phase": "selection",
+      "path": "artifacts/balance/calibration-cells/selection-build-active-desktop/runs.jsonl",
+      "sha256": "b7d995ae41ec29d42351723b0582eed5388cfbe5bb93614d0c00d47420b4b943"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-random-auto-portrait/runs.jsonl",
+      "sha256": "8aa9ac9703a5f859ee54e6dc4d346baf3eaa0e07c937e67f731f6cfcfa20c711"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-random-auto-desktop/runs.jsonl",
+      "sha256": "4a2aac89914e9b83c21943bf84144a98dd5a1ff27495ec7d0a6627a42c6d716c"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-build-auto-portrait/runs.jsonl",
+      "sha256": "0cdc7fbda51a8cebd452967b495bb7b46f5ecc8270ac9a1cc3efb956c7b2e749"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-build-auto-desktop/runs.jsonl",
+      "sha256": "8d27d5f91933c4cfe1ed790e9cd195194cfd272d0dcbb53f58426f4af593cb73"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-build-active-portrait/runs.jsonl",
+      "sha256": "760ca990418e27dad98d657c9c2132fba8dc09f44824ca96bcca178afa136782"
+    },
+    {
+      "phase": "validation",
+      "path": "artifacts/balance/calibration-cells/validation-build-active-desktop/runs.jsonl",
+      "sha256": "311ef97c88ac0be709fb24c45e9210888895401737a7760baddaa5e080ec9dc6"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-random-auto-portrait/runs.jsonl",
+      "sha256": "410b752507341db910aed3ea0d24c282f57d6b6ac124449d7d87e47a8caa3754"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-random-auto-desktop/runs.jsonl",
+      "sha256": "30b9618f29532d9b0f72cce4b2a6a63f22af7f9e4e83f4f4c14039eca9c97d53"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-build-auto-portrait/runs.jsonl",
+      "sha256": "1470380f87f1996bbc8d938f358a6b637617fe821c7d0ab580c1a901d3f25386"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-build-auto-desktop/runs.jsonl",
+      "sha256": "d5ed80cd74ba956e4d2d2f75b298f1c3a2b5ac868268408151c279260225a0cb"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-build-active-portrait/runs.jsonl",
+      "sha256": "407b930cb1cf0b76562e1102b30e88de74cc6e70cd214782aafc0b6c320e6a84"
+    },
+    {
+      "phase": "endless",
+      "path": "artifacts/balance/calibration-cells/endless-build-active-desktop/runs.jsonl",
+      "sha256": "ef9b3e4d560c4717ce3d9ba9358904a591542c65d92db2a4ee4b805236cb0be3"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-1-narrow-desktop/runs.jsonl",
+      "sha256": "4b71ae934add878695c19cceda86980d54623768c5260944883602cc013a4941"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-1-wide-desktop/runs.jsonl",
+      "sha256": "9188b59c8958ec2351d550a17df4c8d1bc21ce7b8c3ee8076f08f71035addae2"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-1-narrow-desktop/runs.jsonl",
+      "sha256": "a40d76d27dc1c0e237ee66100ce91bbc7e30428b7a212c8ee647947b635373b7"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-1-wide-desktop/runs.jsonl",
+      "sha256": "05e6caef3e0e36c6528060812b70709fd87bd804efa3e1a465b461e40a6d8407"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-1-narrow-desktop/runs.jsonl",
+      "sha256": "6bb7e7224ceae42a8d4073c91dc86e5c0edd6dce7cd2aa174cf29a725b746401"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-1-wide-desktop/runs.jsonl",
+      "sha256": "ca03d58bc516827211e00151cf61eaf2ec160f8fd73144c1f3f317a9c409c623"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-17-narrow-desktop/runs.jsonl",
+      "sha256": "111c90a6552ddf69f6ce3b643be7e114a62e01cf1d2f3c843c4dcc417203a01d"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-17-wide-desktop/runs.jsonl",
+      "sha256": "5a388f7287685ca91d8f469aeecdcf58499b0ac4873dbf4f3e2e8dd5a8b1ca11"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-17-narrow-desktop/runs.jsonl",
+      "sha256": "0af568d645c9d8dd4625531e7aec0366dca9a478935e9f3db738e7ff9f30dbfd"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-17-wide-desktop/runs.jsonl",
+      "sha256": "e6383482df57e090a32907d489dfaa4d1dcfa7deae099991cc992d77be842a76"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-17-narrow-desktop/runs.jsonl",
+      "sha256": "9388d0a10ed56c9a38c8024803e4139482d4e88fadb289f7c1a77336a48aad0e"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-17-wide-desktop/runs.jsonl",
+      "sha256": "604065d0749d2ed19e4483f7cca7e5ae9f466fb2062fd5224c50e0ebf77d84d2"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-97-narrow-desktop/runs.jsonl",
+      "sha256": "421e4dd8afb86fb1ad687da3760bde7d2f12645c13562d2fa9db7e26647bac58"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-random-auto-97-wide-desktop/runs.jsonl",
+      "sha256": "b5b05f94931cfc315c5475a5d4347c0d5378cc2a456678afe1a5b5ccbdf35b34"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-97-narrow-desktop/runs.jsonl",
+      "sha256": "acfac51d2ab65f903519a99d813affcc4e9a212d112ade75fe9a35ba44af1404"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-auto-97-wide-desktop/runs.jsonl",
+      "sha256": "418736f2c2745b289cc29a64dca115f3dad467179765105c65a020695ad2ffff"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-97-narrow-desktop/runs.jsonl",
+      "sha256": "43ca9ffb3c88f569458670a7fd6c6745091fff0bd262f2556dd19770b181bf6b"
+    },
+    {
+      "phase": "sensitivity",
+      "path": "artifacts/balance/calibration-cells/sensitivity-build-active-97-wide-desktop/runs.jsonl",
+      "sha256": "051798075937caabed6d423dd652325547cbe722c4b1f7305781d58f63f41ae4"
+    }
+  ],
+  "pass": true
+}
