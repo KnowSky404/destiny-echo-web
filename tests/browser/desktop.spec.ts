@@ -2,7 +2,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { chooseReward } from "../policy";
-import { cleanupAndRegionsFlow, healthScalingCardsFlow } from "./arena-mechanics";
+import { cleanupAndRegionsFlow, endlessSpawnFlow, healthScalingCardsFlow } from "./arena-mechanics";
 import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
 import {
   boot,
@@ -24,6 +24,11 @@ import {
 } from "./player-power";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
+test("endless waves keep random positions and guarantee attack-region admissions", async ({
+  page,
+}, info) => {
+  await endlessSpawnFlow(page, info.project.name);
+});
 test("sanctuary disables tank and attack-area taunts until time resumes", async ({
   page,
 }, info) => {

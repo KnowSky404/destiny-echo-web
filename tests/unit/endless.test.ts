@@ -120,7 +120,9 @@ describe("ranged enemies and mixed boss encounters", () => {
       expect(world.bossDefeated).toBe(true);
       const escorts = world.enemies.items.filter((item) => item.active);
       expect(escorts.length).toBeGreaterThan(0);
-      for (const escort of escorts) hit(world, escort, escort.hp + 1);
+      // Supply cards can kill other escorts through splash or chain damage.
+      // Never inject a fixture projectile into an inactive target after clearance.
+      for (const escort of escorts) if (escort.active) hit(world, escort, escort.hp + 1);
       expect(world.phase).toBe("StageClear");
       expect(world.snapshot().enemies).toEqual([]);
       expect(world.snapshot().hostileShots).toEqual([]);
@@ -147,10 +149,19 @@ describe("ranged enemies and mixed boss encounters", () => {
 
   test("endless successful admissions balance wisp, tank and wizard equally", () => {
     const world = passive(4);
-    advance(world, 23);
-    expect(world.stageSpawned).toBeGreaterThanOrEqual(24);
-    expect(world.enemies.items.filter((item) => item.active).length).toBeLessThanOrEqual(24);
-    expectBalanced(world);
+    for (let second = 0; second < 23; second++) {
+      advance(world, 1);
+      expectBalanced(world);
+    }
+    // A required attack-region spawn may wait before the whole arena is full.
+    // Verify several complete species bags, without assuming timed full capacity.
+    expect(world.stageSpawned).toBeGreaterThanOrEqual(ENDLESS_KINDS.length * 3);
+    expect(ENDLESS_KINDS.reduce((count, kind) => count + world.stageKindSpawns[kind], 0)).toBe(
+      world.stageSpawned,
+    );
+    expect(world.enemies.items.filter((item) => item.active).length).toBeLessThanOrEqual(
+      world.arena.minionCapacity,
+    );
     expect(world.stageKindSpawns.tank).toBeGreaterThan(0);
     expect(world.stageKindSpawns.wizard).toBeGreaterThan(0);
     expect(
