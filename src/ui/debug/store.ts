@@ -107,12 +107,17 @@ export class ProfileStore {
       return false;
     }
   }
-  saveVersion(): BalanceProfile {
+  private saveProfile(
+    source: BalanceProfile,
+    replaceDraft: boolean,
+    newIdentity = false,
+  ): BalanceProfile {
     this.assertCurrent();
-    const profile = parseProfile(this.state.draft);
+    const profile = parseProfile(source);
     if (this.state.versions.length >= 100)
       throw new Error("最多保存 100 个版本，请导出并删除旧版本后继续");
     if (
+      newIdentity ||
       profile.id === "default" ||
       (!this.storage && !this.state.versions.some((item) => item.id === profile.id))
     )
@@ -123,15 +128,25 @@ export class ProfileStore {
       "revision",
     );
     const previousDraft = this.state.draft;
+    const previousRevision = this.revisionHighWater.get(profile.id);
     this.state.versions.push(structuredClone(profile));
-    this.state.draft = structuredClone(profile);
+    if (replaceDraft) this.state.draft = structuredClone(profile);
     this.revisionHighWater.set(profile.id, profile.revision);
     if (!this.persist() && this.storage) {
       this.state.versions.pop();
       this.state.draft = previousDraft;
+      if (previousRevision === undefined) this.revisionHighWater.delete(profile.id);
+      else this.revisionHighWater.set(profile.id, previousRevision);
       throw new Error(`${this.warning}；固定版本未保存，请导出草稿`);
     }
     return profile;
+  }
+  saveVersion(): BalanceProfile {
+    return this.saveProfile(this.state.draft, true);
+  }
+  importVersion(text: string): BalanceProfile {
+    if (text.length > 2_000_000) throw new Error("配置文件不能超过 2 MB");
+    return this.saveProfile(parseProfile(JSON.parse(text)), false, true);
   }
   select(profile: BalanceProfile): void {
     this.assertCurrent();

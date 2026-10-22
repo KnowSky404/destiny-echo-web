@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "mode": "endless",
+  "seeds": [4],
+  "validationSeeds": [],
+  "strategies": [{ "name": "legacy" }],
+  "layouts": [{ "id": "desktop", "width": 1600 }],
+  "endlessTarget": 2,
+  "trace": true,
+  "maxRuns": 1
+}

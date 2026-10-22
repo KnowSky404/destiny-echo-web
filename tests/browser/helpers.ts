@@ -88,7 +88,13 @@ export async function clickTarget(page: Page, x: number, y: number, touch = fals
 export async function firstReward(page: Page) {
   for (let attempt = 0; attempt < 48; attempt++) {
     const state = await snapshot(page);
-    if (state.phase === "RewardSelection") return;
+    if (state.phase === "RewardSelection") {
+      // World can open the reward at the end of its frame, after the DOM tick.
+      // Let the independent UI RAF render it before freezing the clock again;
+      // the reward phase itself cannot advance combat.
+      await page.clock.runFor(100);
+      return;
+    }
     const chest = state.chests[0];
     if (chest && state.manualTargetId !== chest.id) await clickTarget(page, chest.x, chest.y);
     await page.clock.runFor(250);

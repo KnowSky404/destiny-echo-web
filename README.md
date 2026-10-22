@@ -47,3 +47,17 @@ See the **[Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)** for illu
 ## License
 
 Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PARTY_NOTICES.txt) cover Phaser and fonts. [Brand assets and prompts](docs/assets/brand/README.md) record the documentation logo versions and their provenance.
+
+## Balance experiments
+
+The developer-only [Balance Simulator V1](docs/balance-simulator.md) runs the real fixed-step World in Bun. PRE profile exports are direct inputs; experiments never apply balance changes or deploy.
+
+```sh
+bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke
+bun run balance:simulate --profile official --preset standard --out artifacts/balance/baseline
+bun run balance:compare --baseline official --candidate experiments/balance/example-candidate.json --preset smoke --out artifacts/balance/comparison
+bun run balance:sweep --experiment experiments/balance/sweep.json --out artifacts/balance/sweep
+bun run balance:replay --case artifacts/balance/smoke/cases/death.json
+```
+
+Use a new output directory for each run. Standard evaluates 100 seeds per strategy × layout (600 runs per profile); these are test-agent results, not human win rates. See the [recorded baseline experiment](experiments/balance/baseline-report.md) for actual evidence and limitations.

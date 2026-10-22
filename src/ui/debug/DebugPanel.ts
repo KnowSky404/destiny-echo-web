@@ -1,4 +1,9 @@
 import {
+  parseReviewDocument,
+  REVIEW_CASE_KEY,
+  type ReviewDocument,
+} from "../../balance-sim/review";
+import {
   type BalanceProfile,
   ENDLESS_FIELDS,
   ENEMY_FIELDS,
@@ -125,6 +130,7 @@ export class DebugPanel {
   private seed: number;
   private pendingWrites = 0;
   private readonly tabs: HTMLButtonElement[] = [];
+  private review: ReviewDocument | undefined;
 
   constructor(
     private readonly world: DebugWorld,
@@ -148,7 +154,7 @@ export class DebugPanel {
     const nav = el("div", undefined, "debug-tabs");
     nav.setAttribute("role", "tablist");
     nav.setAttribute("aria-label", "调试分类");
-    ["玩家与构筑", "敌人与出怪", "关卡控制", "方案版本"].forEach((name, index) => {
+    ["玩家与构筑", "敌人与出怪", "关卡控制", "方案版本", "实验/复核"].forEach((name, index) => {
       const item = button(name, () => {
         this.tab = index;
         this.render();
@@ -163,8 +169,9 @@ export class DebugPanel {
           event.key === "Home"
             ? 0
             : event.key === "End"
-              ? 3
-              : (this.tab + (event.key === "ArrowRight" ? 1 : 3)) % 4;
+              ? this.tabs.length - 1
+              : (this.tab + (event.key === "ArrowRight" ? 1 : this.tabs.length - 1)) %
+                this.tabs.length;
         this.render();
         this.tabs[this.tab]?.focus();
       });
@@ -190,6 +197,13 @@ export class DebugPanel {
   destroy(): void {
     this.dialog.remove();
     this.trigger.remove();
+  }
+  openReview(review: ReviewDocument): void {
+    this.review = review;
+    this.tab = 4;
+    this.render();
+    this.dialog.showModal();
+    this.message("已按案例方案、种子和逻辑宽度准备人工复核；战斗保持暂停，未自动执行策略");
   }
   private message(text: string, error = false): void {
     this.status.textContent = text;
@@ -255,6 +269,7 @@ export class DebugPanel {
     if (this.tab === 1) this.renderEnemies();
     if (this.tab === 2) this.renderStages();
     if (this.tab === 3) this.renderProfiles();
+    if (this.tab === 4) this.renderExperiments();
     for (const item of this.body.querySelectorAll("details")) {
       const state = disclosureState.get(item.querySelector("summary")?.textContent);
       if (state !== undefined) item.open = state;
@@ -531,6 +546,7 @@ export class DebugPanel {
       "草稿自动保存在当前浏览器。保存为版本后才能启用测试；启用会按指定种子重开整局。导出文件只包含数值方案，不包含临时修改或战斗进度。",
     );
     this.body.append(intro);
+    this.renderProfileIdentity(this.body);
     const name = el("label", undefined, "debug-field");
     name.append(el("span", "方案名称"));
     const input = el("input");
@@ -683,6 +699,165 @@ export class DebugPanel {
       });
     this.renderStageRules(draft);
     this.renderRewardPolicy(draft);
+  }
+  private renderProfileIdentity(parent: HTMLElement): void {
+    const { draft } = this.store.state;
+    const selected = this.store.active;
+    const running = this.world.profile;
+    const state = el("p", undefined, "debug-profile-state");
+    state.append(
+      el("span", `草稿：${draft.name} v${draft.revision}（可编辑）`),
+      el(
+        "span",
+        `选中版本：${selected ? `${selected.name} v${selected.revision}` : "未选择（沿用正式配置）"}`,
+      ),
+      el(
+        "span",
+        `正在运行：${running.name} v${running.revision} · 逻辑宽度 ${this.world.arena.width}`,
+      ),
+    );
+    parent.append(state);
+  }
+  private renderExperiments(): void {
+    this.body.append(
+      el(
+        "p",
+        "导出已保存且选中的方案交给 Bun CLI；导入实验文件只在本页查看，不覆盖草稿、固定版本或选中版本。",
+      ),
+    );
+    this.renderProfileIdentity(this.body);
+    const actions = el("div", undefined, "debug-actions");
+    const selected = this.store.active;
+    const exporter = button("导出选中方案用于实验", () => {
+      if (selected) this.exportProfile(selected);
+    });
+    exporter.disabled = !selected;
+    actions.append(exporter);
+    const importer = el("label", "载入实验摘要或 case JSON", "debug-import button button-quiet");
+    const file = el("input");
+    file.type = "file";
+    file.accept = ".json,application/json";
+    file.addEventListener("change", async () => {
+      const selectedFile = file.files?.[0];
+      if (!selectedFile) return;
+      if (selectedFile.size > 2_000_000) {
+        this.message("实验文件不能超过 2 MB", true);
+        return;
+      }
+      try {
+        const parsed = await parseReviewDocument(JSON.parse(await selectedFile.text()));
+        this.review = parsed;
+        this.render();
+        this.message("实验文件已校验；浏览器草稿、固定版本、选中版本和当前战斗未改变");
+      } catch (error) {
+        this.message(error instanceof Error ? error.message : String(error), true);
+      }
+    });
+    importer.append(file);
+    actions.append(importer);
+    const candidateImporter = el(
+      "label",
+      "导入候选为独立版本（保留草稿）",
+      "debug-import button button-quiet",
+    );
+    const candidateFile = el("input");
+    candidateFile.type = "file";
+    candidateFile.accept = ".json,application/json";
+    candidateFile.addEventListener("change", async () => {
+      const candidate = candidateFile.files?.[0];
+      if (!candidate) return;
+      if (candidate.size > 2_000_000) {
+        this.message("配置文件不能超过 2 MB", true);
+        return;
+      }
+      try {
+        const text = await candidate.text();
+        await this.write(() => {
+          const version = this.store.importVersion(text);
+          return (
+            this.store.warning ||
+            `已导入候选 ${version.name} v${version.revision} 为独立版本；草稿、选中版本与当前战斗保持不变`
+          );
+        });
+      } catch (error) {
+        this.message(error instanceof Error ? error.message : String(error), true);
+      }
+    });
+    candidateImporter.append(candidateFile);
+    actions.append(candidateImporter);
+    this.body.append(actions);
+    this.body.append(
+      el(
+        "p",
+        "候选 BalanceProfile JSON 可导入为独立固定版本，保留当前草稿及选中版本；之后在“方案版本”明确选择测试。原“导入配置 JSON”仍用于主动替换编辑草稿。实验功能不会自动应用正式配置或部署。",
+      ),
+    );
+    if (!this.review) {
+      this.body.append(
+        el("p", "尚未载入实验文件。CLI 精确复现使用 balance:replay；这里提供人工复核准备。"),
+      );
+      return;
+    }
+    const review = this.review;
+    const content = details(
+      this.body,
+      review.kind === "balance-simulator-case" ? "单局人工复核" : "实验摘要",
+      true,
+    );
+    if (review.kind === "balance-simulator-summary") {
+      content.append(
+        el(
+          "p",
+          `分组数：${review.groups.length}。统计衡量指定测试策略，不能视作真人通关率。摘要不含完整单局方案时，不能据此准备人工开局。`,
+        ),
+      );
+      const diagnostic = el("pre", JSON.stringify(review, null, 2), "debug-review-json");
+      content.append(diagnostic);
+      return;
+    }
+    const layout = this.world.arena;
+    content.append(
+      el(
+        "p",
+        `方案：${review.profile.name} v${review.profile.revision} · 内容哈希 ${review.profileHash}`,
+      ),
+      el(
+        "p",
+        `种子：${review.run.seed} · 策略：${review.run.strategy.name} · 模式：${review.run.mode} · 逻辑宽度：${review.run.width}（不是 CSS 视口宽度）`,
+      ),
+      el("p", `结果：${review.expected.termination} · ${review.expected.reason}`),
+      el(
+        "p",
+        review.expected.validMetrics
+          ? "结果数值有效；具体归因仍需结合分关及死亡窗口诊断。"
+          : "数值失效，状态不可用：结果中的 0 可能是传输占位值，不能用于解释生命、伤害或构筑。请查看 invalidValues，仍可按原方案与种子准备人工开局。",
+      ),
+      el(
+        "p",
+        `代码：${review.code.commit} · ${review.code.dirty ? "含未提交修改" : "干净工作区"} · 指纹 ${review.code.fingerprint}`,
+      ),
+      el(
+        "p",
+        "人工准备会重新载入页面，并使用案例的完整数值方案、种子和逻辑宽度从开局暂停。不会自动执行策略或动作轨迹；人工操作后的过程和结果可能不同。浏览器未核验本构建与案例代码指纹相同，精确复现须使用 CLI。",
+      ),
+      button(
+        "按案例准备人工开局（重新载入）",
+        () => {
+          this.attempt(() => {
+            window.sessionStorage.setItem(REVIEW_CASE_KEY, JSON.stringify(review));
+            window.location.reload();
+            return "正在重新载入以准备人工开局";
+          }, false);
+        },
+        true,
+      ),
+      el(
+        "p",
+        `当前场地：${layout.laneCount} 车道 · 容量 ${layout.encounterCapacity}。准备后按案例宽度重建场地。`,
+      ),
+    );
+    const diagnostic = details(content, "关键诊断（原始结果摘要）");
+    diagnostic.append(el("pre", JSON.stringify(review.expected, null, 2), "debug-review-json"));
   }
   private renderStageRules(draft: BalanceProfile): void {
     const section = details(this.body, "方案：关卡范围与覆盖");

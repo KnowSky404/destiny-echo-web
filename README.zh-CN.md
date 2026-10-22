@@ -47,3 +47,17 @@ bun run build
 ## 许可
 
 代码采用 [GNU AGPL v3.0 or later](LICENSE)。Phaser 和字体见[第三方声明](public/THIRD_PARTY_NOTICES.txt)。[品牌素材与提示词](docs/assets/brand/README.md)保留文档 Logo 的版本与来源。
+
+## 自动化数值实验
+
+开发专用 [Balance Simulator V1](docs/balance-simulator.md) 在 Bun 中运行真实固定步长 World，直接读取 PRE 导出的方案，提供批量实验、配对比较、单因素扫描、确定性复现及 PRE 人工复核准备；不会自动应用数值或部署。
+
+```sh
+bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke
+bun run balance:simulate --profile official --preset standard --out artifacts/balance/baseline
+bun run balance:compare --baseline official --candidate experiments/balance/example-candidate.json --preset smoke --out artifacts/balance/comparison
+bun run balance:sweep --experiment experiments/balance/sweep.json --out artifacts/balance/sweep
+bun run balance:replay --case artifacts/balance/smoke/cases/death.json
+```
+
+每次使用新输出目录。standard 每策略×布局100个种子，每方案600局；数据不等于真人通关率。实际证据见 [基线实验报告](experiments/balance/baseline-report.md)。
