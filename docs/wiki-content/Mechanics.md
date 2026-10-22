@@ -1,0 +1,67 @@
+# Mechanics
+
+![Early combat: fixed ship, enemies, defense line and automatic shots](../assets/screenshots/combat-desktop-v1.png)
+
+## Starting stats and attack permission
+
+{{PLAYER_STATS}}
+
+The ship stays at (arena width / 2, 736); the base defense line is y=620, with separate assigned positions. Blue rings indicate approach, gold preparation, red attack. Campaign melee must arrive before dealing melee damage. Endless melee can also attack inside an active grid cell. Ranged units use their own attack policy. Ordinary hits grant 0.7s invulnerability; shield takes damage first. Fired hostile shots survive their owner.
+
+## Target selection
+
+Automatic priority: bosses and Preparing/Attacking enemies → enemies approaching in the danger area → chests → other approaching enemies. Ties usually keep the current target. Manual selection must obey the same legal target restrictions.
+
+In endless mode, enemies already permitted to attack take priority, including preparation. If none qualify, living on-screen tanks with an active taunt restrict targets. Manual locks, secondaries and homing shots obey that restriction; splash, chains and penetration can still hurt others. The manual preference returns when legal. Sanctuary disables these restrictions so enemies and chests can be chosen freely. Dead/off-screen actors never keep taunt.
+
+## Damage and area effects
+
+- Effective attack = base damage × (1 + power) × Titan multiplier; heavy volley, secondary and critical multipliers follow. Stage/boss/low-HP/slow/control bonuses add together; Judgment's charging-boss multiplier is separate.
+- Secondaries start at 60% primary damage; Barrage raises this to 80% / 100%. Maximum six shots per volley, minimum 0.08s firing interval before poison penalties.
+- Random critical chance caps at 85%, base multiplier 1.5. Precision tier 9 guarantees every third volley, independently of that cap.
+- Each projectile remembers its victims. Penetration cannot hit one victim twice. Lightning selects distinct nearby targets at 30% triggering-shot damage, base jump distance 220.
+- Splash: 15% triggering-shot damage per stack, radius 85, +20 at Storm tier 3, excluding the original victim. Storm: every 6s, radius 150, effective attack × (1 + 0.5 × at least one storm stack); family tiers improve timing and damage.
+- Kill explosion: (16 + source maximum HP × 3%) × at least one fuse stack, radius 130. Blast tier 3 uses ×1.4 / radius 160; tier 9 uses ×2 / radius 190. Chains require tier 6; each death scores and heals once.
+- Sacrifice requires an enemy and spends at most 3 HP, keeping at least 1. It does not consume shield or trigger invulnerability/retaliation. Damage = (20 + target maximum HP × 2%) × at least one sacrifice stack + 15% player maximum HP, rising to 45% at Blast tier 9. Interval 5s, or 4s / 3s at tiers 6 / 9.
+- Thorns retaliate against all enemies for 18 × stacks on an effective ordinary hit, including shield absorption. Invulnerability, poison and sacrifice do not trigger it. Bastion tier 6 doubles thorns and adds 25% player maximum HP arena reflection; tier 9 raises reflection to 50%.
+- Giant Slayer and Erosion add primary direct-hit percentage damage. Combined maximum-HP coefficient caps at 5%, current-HP at 10%. These components ignore critical/volley multipliers but retain target-state bonuses and boss reduction. Secondaries, chains, splash and counters cannot recursively trigger them. A penetrating primary can trigger once per new victim.
+- Mountain Breaker uses log₂ of the enemy/player maximum-HP ratio; Godhunter applies at ≥5× player maximum HP. Entropy pulse uses each victim's maximum HP, every 4s / 3s / 2s with family tiers, capped at 5% per pulse.
+- Area effects, chains and retaliation cannot break chests or claim rewards. Spatial distances scale with lane spacing on desktop.
+
+## Recovery, shields and wounds
+
+Lifesteal uses actual enemy HP removed by basic attacks; overkill, execution's extra HP removal, chests, explosions, chains and counters grant none. Sum base contributions from cards, training, families and shield bonuses, cap at 50%, then multiply by 0.85: effective cap 42.5%. Base 4% becomes 3.4%; base 2% becomes 1.7%.
+
+Combat lifesteal, kill healing and regeneration receive the healing bonus. Instant card healing uses its listed amount. **Wounds reduce all healing, regeneration and shield gains by 90%, leaving 10%.** A 30 heal becomes 3; 24 shield becomes 2.4; maximum-HP increases are unaffected. Poison immediately applies wounds even if shield absorbs every poison tick. Reapplication extends remaining time by 3s, without increasing the 90% penalty.
+
+Overheal conversion uses already-reduced combat healing, without applying wounds a second time. Overflow adds 10% per stack; Vessel adds 5 points; Blood tiers 6 / 9 add 50% / 100%, total capped at 100%. Base storage is 20% maximum HP, Blood raises it to 40% / 80%, Vessel adds 10 points per stack, final cap 100%. Existing directly granted shield above this storage cap is kept. Shielded Siphon requires positive shield. Instant card and inter-stage healing do not convert. Direct, Bastion and Dominion shield gains all receive wounds. Stage transitions cleanse before healing up to 35 HP.
+
+## Poison and attack-speed penalties
+
+Wizard actions choose poison or a shot; shooting and death do not apply poison. Poison lasts 3s, starts at 10 HP/s, drains shield first, bypasses ordinary hit invulnerability and does not trigger per-frame counters. Each repeat adds 3s and independently chooses +1 HP/s or +1 percentage point of total attack-speed reduction. Escalation persists within that poison instance and clears on expiry/cleanse. Enemy scaling, stars, summons and stage multipliers do not scale poison.
+
+While poisoned without shield, total attack-speed reduction starts at 30%, capped at 90%. Final interval divides by 0.7 at 30%, 0.69 at 31%. Positive shield immediately suppresses the penalty; losing shield restores it while poison lasts. Sanctuary clears poison, wounds and escalation. HUD displays remaining time, current poison damage and penalties.
+
+## Sanctuary: cleansing and hostile-time freeze
+
+Silent Dominion triggers every 8s of hostile time, or 6s at Dominion tier 6, which can trigger it without the card. Duration = (0.5 + 0.25 × enhancement stacks) × Dominion duration multiplier: 1.3 at tiers 3 / 6, 1.6 at tier 9. Silent Dominion adds one enhancement stack; Chronocrown adds two, separately from family stacks. One Silent Dominion gives 0.75s, one Chronocrown gives 1s; four Silent Dominion plus Chronocrown at tier 9 gives 3.2s. Bosses receive full duration.
+
+Activation cleanses before that step's damage. Freeze enemy movement, preparation, attacks, charging, reduction timers, hostile projectile movement/lifetime/collision, spawns, escorts, chest movement, supplies, stage clock, fusion and enemy skills. Player fire, friendly shots, healing, build effects and cumulative survival time continue. Taunt is disabled. Boss HP-threshold skills wait until Sanctuary ends; killing the boss cancels them. Dominion tier 6 also clears hostile bullets; lower tiers only freeze them. Sanctuary does not recharge during itself. Pause/rewards preserve its remainder; stage/reset clears it.
+
+## Ordinary slow and stun
+
+Slow affects movement, preparation, attacks and campaign charge timers, capped at 70%; bosses receive half strength. Stun freezes these actions; boss stun/freeze lasts one quarter as long, with Dominion scaling still applied. Repeats keep the stronger intensity and longer remaining duration. These controls do not defer HP-threshold skills; Sanctuary does. Winter counts all basic-projectile hits; Dread Sigil counts every fourth primary hit on one enemy. Shatter/control bonuses recognize their corresponding states, including preparation, charge and Sanctuary where applicable.
+
+## Rewards and epics
+
+First campaign chest at 3s, then every 7s through 46s. Offers contain distinct eligible cards below stack cap. The first offer retains two foundation damage choices; later guided offers favor invested families while retaining basic offense. After three acquired cards, chest/supply offers roll 25% to promote a slot to an eligible epic. Stage candidates also have a 25% epic roll, without a guarantee. Epics are once per run. Stage one restricts augments to Barrage, Might, Precision and Storm, including epics; others unlock in stage two.
+
+Boss offers: two distinct trainings plus one augment, choose one. The augment samples the three drawn candidates uniformly, without epic priority. Trainings alter run stats, give no family stack and can also arrive automatically every 5,000 cumulative points, without spending points or pausing. Stage one excludes lifesteal training. Effective capped crit/lifesteal/haste options leave the pool. The fourth boss reward precedes victory. Every reward has a one-use token; pause or repeated clicks cannot duplicate it. Each endless stage has three supplies plus one boss reward.
+
+![Natural first reward; selecting a card freezes combat](../assets/screenshots/rewards-desktop-v1.png)
+
+## Pause, endings and restart
+
+Manual pause, backgrounding and blur stop combat; return requires manual resume. Pause, selection and endings freeze all combat/status time. Sanctuary counts toward cumulative survival but not stage time. Boss death stops future summons/escorts, leaving minions and bullets active. Only complete cleanup clears hazards and offers the reward; remaining enemies can still defeat you. No stage timeout exists. Zero player HP loses. Restart resets health, firepower, cards, training, synergies, actors, shots, statuses, targets, rewards, clocks, attack cells and score. There are no accounts or combat saves.
+
+PRE's browser-local profiles persist independently of combat. See [Development](Development.md) for the laboratory's workflow, storage, import and publication boundaries.

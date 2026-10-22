@@ -1,0 +1,101 @@
+# 开发与发布
+
+## 开发与检查
+
+使用 Bun 1.4.3 或更新稳定版，不设主版本上限。项目采用 TypeScript、Phaser 4、Vite 与 Biome，是静态前端，无需后端常驻服务。
+
+```sh
+bun install --frozen-lockfile
+bun run dev
+bun run dev:pre
+bun run docs:generate
+bun run docs:check
+bun run typecheck
+bun run lint
+bun test
+bun run build
+```
+
+本地服务器保持 loopback，VPS 远程访问使用 SSH 隧道，不修改防火墙或 DNS。PRO 输出 `dist/`，PRE 输出 `dist-pre/`；完整上传目录，包括字体、资源及许可，通过 HTTP(S) 提供，不能双击 HTML。相对 base 支持子目录。`bun run preview` 是本地预览，不代表 Cloudflare PRE。
+
+## 浏览器验证
+
+先构建，再安装与锁定版本匹配的浏览器：
+
+```sh
+bunx --bun playwright install chromium firefox webkit
+bun run test:browser
+```
+
+`test:browser` 会准备 PRE 构建。受限环境可在安装和执行时统一设置 `PLAYWRIGHT_BROWSERS_PATH=/tmp/destiny-browsers`。无头 Linux 上 Firefox/WebKit 可能需要 Xvfb 与软件 WebGL；运行前核对当前 Playwright 配置与项目。启动失败先按环境问题诊断。触控模拟不等于真机验收，长局、移动设备温度与性能仍需人工验证。历史记录见[验证历史](Validation-zh-CN.md)。
+
+## 实现边界
+
+| 位置 | 职责 |
+| --- | --- |
+| `src/game` | 固定步模拟、对象池、输入坐标、状态与规则 |
+| `src/data` | 数据化卡牌、敌人、关卡、羁绊与数值方案 |
+| `src/game/scenes` | Phaser 渲染，不拥有规则 |
+| `src/ui` | DOM 操作、帮助、奖励和构筑面板 |
+| `scripts/game-guide.ts` | 中文规则说明与双语页面组装 |
+| `scripts/guide-catalog.en.ts` / `docs/wiki-content` | 英文图鉴翻译与 Wiki 人工说明 |
+
+模拟使用秒与 1/120s 固定步，不依赖 CSS 像素、帧率或 DPR。进入页面时确定战场几何。保留触控、安全区、窄屏奖励、后台暂停和键盘焦点。浏览器模块不得导入 Bun/服务端 API。[架构源码说明](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/architecture.md)与[玩法规格](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/builds-and-stages.md)保留在仓库中。
+
+## PRE 数值实验室
+
+![真实 PRE 玩家编辑器，打开时暂停战斗](../assets/screenshots/balance-lab-v1.png)
+
+只在 PRE 打开「PRE · 数值调试」。临时玩家与构筑修改持续本局，临时出怪规则只影响本关后续生成；可单独编辑已有敌人。关卡控制支持保留构筑重开、恢复入关快照及跳关，调试跳关不代表自然通关。
+
+草稿与方案版本保存在当前浏览器 PRE origin 的 localStorage，其他浏览器、无痕上下文和 PRO 各自隔离；Web Locks 串行写入，旧标签页不能覆盖新保存。冲突时先导出再刷新。存储/锁不可用仍可在本页试验及导出草稿。正在运行的测试固定所选版本，刷新不保存战斗。
+
+配置为 schemaVersion 1 / baseline balance-v1，包含玩家初始值、敌人基础值、无尽参数、分来源卡池权重及最多 200 条关卡规则。from/to 包含边界，null 表示无限；全局→区间→单关依次覆盖，同优先级不能重叠。引导模式保留基础输出和流派扶持，纯权重模式直接按权重抽取，含史诗，0 为排除；资格和叠加上限仍有效。权重不是三选一最终概率。候选耗尽可一次性无奖励继续；无合格锻体时消耗分数门槛而不延期补发。
+
+导出只有配置，不包含临时战斗。维护者在新 worktree 中执行：
+
+```sh
+bun run balance:validate /path/to/echoes-balance.json
+bun run balance:apply /path/to/echoes-balance.json
+bun run docs:generate
+# 核对两种语言，执行全部检查，再按流程发布。
+```
+
+字段校验、单调版本号、导入、覆盖与临时修改详见[完整实验室契约](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/balance-debugger.md)。应用方案只是源码变更，不会自动发布。
+
+## 贡献、双语说明与 Wiki
+
+从最新 origin/main 新建 worktree/分支，保留其他任务。遵循 [AGENTS.md](https://github.com/KnowSky404/destiny-echo-web/blob/main/AGENTS.md)：必要验证、原子 Conventional Commit、推送、PR、最新 head 的 Codex 审阅、rebase 合并、核对内容、清理本任务的干净 worktree 与分支。不强推，不绕过检查。
+
+规则改动需同时核对 `scripts/game-guide.ts` 中文说明及英文模板/图鉴。`docs/wiki-content/reviewed-rules.txt` 记录英文人工核对的规则摘要；规则变化后先重新核对翻译再更新摘要，不能把更新摘要当成翻译完成。双语生成文件同次提交。`docs:check` 检查页面、翻译和素材同步。默认 Wiki 页面英文，中文页面加 `-zh-CN` 后缀，每页顶部互相跳转。
+
+后续每次发版更新两份[版本日志](Changelog-zh-CN.md)，填写日期、版本/tag 或提交、改动、必要迁移、验证和独立 PRE/PRO 状态。没有正式 Release 时不编造版本号，不把合并当成上线。
+
+合并后，从干净、已验证且与合并一致的 main 发布：
+
+```sh
+bun run wiki:publish --dry-run
+bun run wiki:publish
+```
+
+Wiki 是独立仓库。脚本同步生成页面及版本化图片，转换本地链接，保留非托管页面，无变化不创建空提交，普通推送并核对远端 SHA；沿用系统 Git/GitHub 凭据。并发推送被拒绝时核对后重跑，禁止强推。[发布脚本说明](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/wiki-publishing.md)。
+
+## 静态部署
+
+| 环境 | Worker | 在线地址 |
+| --- | --- | --- |
+| PRO | `destiny-echo-web` | [生产](https://destiny-echo-web.littlecontrol.workers.dev/) |
+| PRE | `destiny-echo-web-pre` | [预览](https://destiny-echo-web-pre.littlecontrol.workers.dev/) |
+
+确认发布范围、已有系统 CLI 身份/账户/权限和提交，再执行 dry-run。PRO 前先验证 PRE，同一版本发布。保持仓库脚本：锁定 Wrangler 打包，再由 cf 发布预构建包。
+
+```sh
+bunx --bun cf auth whoami
+bun run deploy:check:pre
+bun run deploy:pre
+# 仅在明确授权 PRO 且 PRE 验证后：
+bun run deploy:check
+bun run deploy:pro
+```
+
+不需要应用密钥或在线服务器。`_headers` 使首页重新验证、哈希资源长期缓存并附安全响应头；缺失资源应 404。发布后核对页面身份、资源、缓存和真实浏览器交互。源码、Wiki、本地验证、PRE、PRO 分别报告；本轮文档更新不部署游戏。

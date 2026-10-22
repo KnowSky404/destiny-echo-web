@@ -1,0 +1,26 @@
+# Validation history and limits
+
+Historical reports below were moved out of the README. They describe earlier tasks, not fresh evidence for this documentation update. Detailed records remain in [the archived README at 6ec7328](https://github.com/KnowSky404/destiny-echo-web/blob/6ec7328/README.md) and linked [source-history PRs](Changelog.md).
+
+| Work | Recorded local evidence | Boundary |
+| --- | --- | --- |
+| 2026-10-20 initial static release | 11 public files matched local SHA-256; caching/404; Chromium desktop and 320px start/pause/resume | Specific release only; no physical-device or long-session proof |
+| 2026-10-21 Sanctuary / wounds | 159 Bun tests; 28 desktop and 13 touch Chromium scenarios covered; 4 targeted Firefox and 4 WebKit | Targeted cross-engine scope; no full Firefox/WebKit claim |
+| 2026-10-21 crowd/fusion/shield/training | 174 Bun tests; 30 desktop and 15 touch Chromium covered, including targeted rechecks; 7 targeted cases in each Firefox/WebKit | Full Chromium run had one help-text failure, then passed its updated targeted recheck |
+| 2026-10-22 wide desktop | 183 Bun tests; 33 Firefox scenarios covered in groups plus targeted rechecks | Desktop Firefox at 1920×1080 / 1366×768 only |
+| 2026-10-22 lane/endless rebalance | 209 Bun tests; Chromium full run 47/52 initially, then all five failures included in 10 passing targeted rechecks | Coverage plus rechecks, not a new uninterrupted full-suite pass |
+| 2026-10-22 PRE laboratory | 242 Bun tests; 24 browser cases across Chromium desktop/touch, Firefox and WebKit | Editing/storage/import/PRO isolation; no physical-device or long-term balance claim |
+
+## What a passing check means
+
+Simulation tests include frame-rate invariance, actual offered-card campaigns/endless runs, failures and restarts, plus explicitly marked setup fixtures for particular late-game states. Fixed-policy outcomes are not human win rates. Browser captures demonstrate the rendered app and real input paths; stage jumps and fixtures do not prove natural progression. Browser plugin was unavailable in those runs, so repository Playwright with software WebGL was used. Test traces and temporary evidence were stored in `/tmp`; the documentation gallery separately preserves selected PNGs in the repository.
+
+## Known limits
+
+- Phaser 4 requires WebGL. Unavailable/lost contexts show a recovery state; no Canvas fallback exists.
+- No audio, accounts, backend API or combat persistence. Only PRE numeric drafts/versions persist locally.
+- Engine startup is roughly 1.37 MB minified / 357 KB gzip in the recorded build. Low-end devices and weak networks need further profiling; static hosting should compress assets.
+- Arena geometry is selected on entry; resizing does not replan combat. Real iOS Safari/Android, temperature, battery and long-session performance still require manual acceptance.
+- Local tests, public HTTP health, PRE, Wiki and PRO are independent evidence. None substitutes for authenticated acceptance or a verified environment version.
+
+For each future release, record its own checks and deployment result in [Changelog](Changelog.md), keeping this historical context separate.

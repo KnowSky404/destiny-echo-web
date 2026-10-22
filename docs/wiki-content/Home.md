@@ -1,0 +1,54 @@
+# Echoes of Destiny
+
+*Rewrite fate in the echoes.*
+
+<img src="../assets/brand/echoes-mark-v2.svg" width="160" alt="Echo Compass documentation logo">
+
+A fixed-position defense roguelike: automatic fire, target selection, reward drafting and synergy builds. Clear four encounters, then keep your build in endless mode.
+
+[Play online](https://destiny-echo-web.littlecontrol.workers.dev/) · [Preview / PRE](https://destiny-echo-web-pre.littlecontrol.workers.dev/)
+
+## First run
+
+1. Choose **开始共鸣** (Start Resonance). Your ship fires automatically from the bottom of the arena.
+2. Click or tap an enemy or gold chest to focus it; click empty space to restore automatic targeting.
+3. Break a chest and pick one card. Combat and clocks stop while selecting.
+4. Collect 3 / 6 / 9 stacks in a family to unlock its synergy tiers. Duplicates count.
+5. Prioritize enemies able to attack. Damage a charging campaign boss to interrupt it.
+6. After the fourth reward, choose **继续无尽 · 保留构筑** (Continue Endless, Keep Build), or restart.
+
+![Current Chinese start screen; desktop capture](../assets/screenshots/start-desktop-v1.png)
+
+The documentation is bilingual; the game UI currently uses Chinese. Game language switching is [planned](Changelog.md). Screenshots show the actual current UI, with English captions here.
+
+## Explore
+
+| Page | Contents |
+| --- | --- |
+| [Cards](Cards.md) | Every augment and training: effects, starting previews, rarity, limits and unlocks |
+| [Builds](Builds.md) | All 12 families and their 3 / 6 / 9 stack bonuses |
+| [Enemies](Enemies.md) | Numeric reference, attack permission, taunt, poison and fusion |
+| [Stages](Stages.md) | Campaign, endless scaling, attack grids, boss skills and rewards |
+| [Mechanics](Mechanics.md) | Targeting, damage, recovery, Sanctuary, pause and restart |
+| [Development](Development.md) | Setup, browser testing, architecture, deployment and Wiki maintenance |
+| [Gallery](Gallery.md) | High-resolution screenshots, captions and capture instructions |
+| [Brand](Brand.md) | Logo versions, exact generation prompt and editable source |
+| [Changelog](Changelog.md) | Future release template and commit-backed history |
+| [Validation history](Validation.md) | Historical evidence and known limits |
+
+## Controls
+
+| Input | Action |
+| --- | --- |
+| Mouse / touch on an enemy or chest | Set a legal priority target |
+| Empty arena / C | Clear manual target |
+| T with arena focused | Cycle legal targets |
+| Esc / P / pause button | Pause or resume; cannot skip a reward |
+| Tab / Enter / Space | Navigate and activate native controls |
+| WASD / arrows / dragging | Does not move the ship |
+
+Open **本局构筑** (Current Build) to inspect stats, cards and families. **玩法说明** (How to Play) opens help. Opening a panel pauses; close it and resume manually. Backgrounding or losing focus also pauses.
+
+![Mobile start screen, captured at 1170 × 2532](../assets/screenshots/start-mobile-v1.png)
+
+No combat save exists: death, restart or refreshing clears the run. WebGL is required. The guide describes repository rules; live environments may carry different revisions. See the changelog for the distinction between source changes and releases.

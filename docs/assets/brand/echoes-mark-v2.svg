@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="2048" viewBox="0 0 512 512" fill="none">
+  <title>Echoes of Destiny — Echo Compass, documentation edition</title>
+  <defs>
+    <linearGradient id="gold" x1="130" y1="65" x2="390" y2="465" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f8eaca"/><stop offset=".45" stop-color="#dec28a"/><stop offset="1" stop-color="#a47b3e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="100" fill="#080b14"/>
+  <circle cx="256" cy="256" r="164" stroke="url(#gold)" stroke-width="3"/>
+  <ellipse cx="256" cy="256" rx="192" ry="148" transform="rotate(-28 256 256)" stroke="#dec28a" stroke-opacity=".5" stroke-width="2"/>
+  <path d="m256 60 39 157 157 39-157 39-39 157-39-157L60 256l157-39Z" fill="url(#gold)"/>
+  <path d="m256 219 37 37-37 37-37-37Z" fill="#080b14"/>
+  <path d="m256 72 27 161 161 23-161 27-27 157-23-157-161-27 161-23Z" stroke="#fff2d5" stroke-opacity=".55"/>
+  <circle cx="94" cy="324" r="7" fill="#dec28a"/>
+  <circle cx="418" cy="188" r="7" fill="#dec28a"/>
+</svg>

@@ -70,7 +70,7 @@ Stage advance retains HP, shield, base stats, cards, training, score, kills, RNG
 
 ## Documentation and verification
 
-Runtime data and manual prose in `scripts/game-guide.ts` generate eight managed pages under `docs/game-guide`. A source hash makes stale documentation fail `docs:check` and build; regeneration cannot replace semantic review. Native Wiki publication converts links and preserves unmanaged pages. Wiki/PRE/PRO are separate operations.
+Runtime data and manual prose in `scripts/game-guide.ts` generate bilingual managed pages under `docs/game-guide`. A source hash makes stale documentation fail `docs:check` and build; regeneration cannot replace semantic review. English prose/catalog is reviewed against a pinned rule digest. Native Wiki publication converts links, copies versioned documentation assets and preserves unmanaged pages. Wiki/PRE/PRO are separate operations.
 
 Bun regressions cover all12 family thresholds,51 augments, eight trainings, geometry, capacity, region expansion to saturation, real early melee and targeting, cleanup/failure, all rarity outcomes, strongest tank/boss HP, poison/wounds recovery, percentage damage boundaries, iterative chains, global counters, frame-rate invariance and natural campaigns/endless outcomes. Fixed policies only use real offered cards and normal target/continue actions; they never patch gameplay to win. Outcomes are examples, not human win rates.
 

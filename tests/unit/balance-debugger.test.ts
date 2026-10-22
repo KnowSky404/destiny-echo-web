@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { KindWeights, PlayerValues, StageRule } from "../../src/data/balance/model";
@@ -511,15 +511,10 @@ describe("configuration CLI", () => {
     const dir = await mkdtemp(join(tmpdir(), "echoes-balance-cli-"));
     try {
       await cp(new URL("../../src/", import.meta.url), join(dir, "src"), { recursive: true });
-      await mkdir(join(dir, "scripts"));
-      await cp(
-        new URL("../../scripts/balance.ts", import.meta.url),
-        join(dir, "scripts/balance.ts"),
-      );
-      await cp(
-        new URL("../../scripts/game-guide.ts", import.meta.url),
-        join(dir, "scripts/game-guide.ts"),
-      );
+      await cp(new URL("../../scripts/", import.meta.url), join(dir, "scripts"), {
+        recursive: true,
+      });
+      await cp(new URL("../../docs/", import.meta.url), join(dir, "docs"), { recursive: true });
       const profile = defaultProfile();
       profile.payload.player.stats.damage = 44;
       profile.payload.player.hp = 57;
@@ -547,9 +542,18 @@ describe("configuration CLI", () => {
           JSON.parse(await readFile(join(dir, "src/data/balance/official.json"), "utf8")),
         ),
       ).toEqual(profile);
+      const unreviewed = Bun.spawnSync([process.execPath, join(dir, "scripts/game-guide.ts")]);
+      expect(unreviewed.exitCode).toBe(1);
+      const digest = unreviewed.stderr.toString().match(/current rules: ([a-f0-9]{64})/)?.[1];
+      expect(digest).toBeDefined();
+      // Model a maintainer's explicit translation review, in this isolated copy only.
+      await writeFile(join(dir, "docs/wiki-content/reviewed-rules.txt"), `${digest}\n`);
       const guide = Bun.spawnSync([process.execPath, join(dir, "scripts/game-guide.ts")]);
       expect(guide.exitCode).toBe(0);
       expect(await readFile(join(dir, "docs/game-guide/Mechanics.md"), "utf8")).toContain(
+        "Starting HP 57",
+      );
+      expect(await readFile(join(dir, "docs/game-guide/Mechanics-zh-CN.md"), "utf8")).toContain(
         "初始生命 57，生命上限 150",
       );
       await writeFile(file, '{"schemaVersion":99}');

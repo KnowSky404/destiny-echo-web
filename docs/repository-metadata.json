@@ -1,0 +1,17 @@
+{
+  "description": "Echoes of Destiny — a browser defense roguelike with automatic combat, card drafting, 12 synergy families, and endless encounters. Built with Phaser and TypeScript.",
+  "topics": [
+    "browser-game",
+    "roguelike",
+    "defense-game",
+    "auto-battler",
+    "deckbuilding",
+    "phaser",
+    "typescript",
+    "vite",
+    "bun",
+    "webgl",
+    "cloudflare-workers",
+    "open-source-game"
+  ]
+}

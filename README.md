@@ -1,297 +1,49 @@
-# 命运残响 · Echoes of Destiny
+<p align="center">
+  <img src="docs/assets/brand/echoes-mark-v2.svg" width="160" alt="Echoes of Destiny logo">
+</p>
+<h1 align="center">Echoes of Destiny</h1>
+<p align="center"><em>Rewrite fate in the echoes.</em></p>
+<p align="center">English · <a href="README.zh-CN.md">简体中文</a></p>
+<p align="center">
+  <a href="https://destiny-echo-web.littlecontrol.workers.dev/">Play online</a> ·
+  <a href="https://destiny-echo-web-pre.littlecontrol.workers.dev/">Preview (PRE)</a> ·
+  <a href="https://github.com/KnowSky404/destiny-echo-web/wiki">Wiki</a> ·
+  <a href="https://github.com/KnowSky404/destiny-echo-web/wiki/Changelog">Changelog</a>
+</p>
 
-**运行于桌面与移动浏览器的原创固定阵地防守 Roguelike。首发主题：圣杯失控中 / Grail Gone Rogue。**
+A browser defense roguelike for desktop and touch screens. Hold a fixed position, fire automatically, pick a target, and build a run from **51 augments, 12 synergy families, and 8 stat trainings**. Clear four encounters, then carry your build into endless mode.
 
-> 每一场命运的轮回，都可能出现意料之外的展开。
+## Core loop
 
-战机固定在战场底部，自动索敌，也可点选优先目标。在敌人抵达防线并完成蓄力前消灭威胁，击破金色宝箱，从三张卡牌中选择强化，集齐流派产生质变，再连续突破四个关卡。严肃的幻想氛围下，祷言可以分岔，圣杯可以续杯。每关保留构筑，通关后可继续无尽；死亡后重新开始。
+- Click or tap enemies and chests to focus fire. Your ship stays in place.
+- Pick one reward at a time; combat pauses while you choose. Family bonuses activate at 3 / 6 / 9 stacks.
+- Defeat each boss and every remaining enemy to advance. Restarting clears the run.
 
-完整玩法见 [游戏说明](docs/game-guide/Home.md)；在线查阅 [GitHub Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)，包含全部卡牌、怪物、羁绊、关卡与机制。
+The game currently uses Chinese UI. **English game UI is planned**; this update provides bilingual documentation. WebGL is required. There are no accounts or saved combat runs.
 
-**当前状态：四关连续挑战、流派联动与可选无尽已实现。** 使用原创程序化几何美术，无登录、数据库或后端 API。保留固定阵地与现有画风，现有 51 张构筑残响卡（含 12 张史诗）、12 个流派与 3 / 6 / 9 层羁绊；无尽增加主动远程怪与逐关成长，每关 Boss 都携带远近混合护卫。数值为可体验的基础参数，精细平衡后续调整。
+## Development
 
-## 技术选择
-
-2026-10-20 验证仓库锁定版本，在 Ubuntu 24.04.4 / Linux ARM64 上开发和验证：
-
-| 工具 | 实际版本 | 用途 |
-| --- | --- | --- |
-| Bun | **1.4.3** | 开发工具运行时、依赖管理、单元测试 |
-| TypeScript | 7.0.2 | strict 类型检查 |
-| Vite | 8.3.4 | 开发、构建、本地静态预览 |
-| Phaser | **4.2.1** | WebGL、场景、缩放、精灵渲染 |
-| Biome | 2.5.15 | 代码规范与格式化 |
-| Playwright Test | 1.64.1 | 浏览器交互与静态产物验证 |
-| Cloudflare CLI / Wrangler | 1.0.0-beta.17 / 4.151.0 | Workers 发布与静态资源打包 |
-| Node.js | 24.16.0 | Cloudflare 部署工具所需的运行时 |
-
-依赖由 `bun.lock` 锁定；游戏与前端构建工具使用稳定版，Cloudflare CLI 当前为固定版本的 beta。`engines.bun` 要求 `>=1.4.3`，不设置未来主版本上限；`packageManager` 记录本次验证版本。升级稳定 Bun 后需重新运行检查。Bun 只运行开发工具，浏览器代码不依赖 Bun 服务端 API。前端 JS CLI 使用 `bunx --bun`；Cloudflare 的配置加载器暂不支持 Bun，部署命令由工具自身的 Node.js 启动器运行，需要 Node.js `>=22.18.0`，不影响游戏构建与运行。
-
-| 方案 | 手机兼容与弹幕渲染 | 碰撞、维护与扩展 |
-| --- | --- | --- |
-| **A. Phaser 4 + TS + Vite（采用）** | WebGL 批处理、精灵、输入和缩放基础完整 | 引擎有游戏场景和物理基础；本项目将弹幕碰撞独立为可测试规则，扩展武器和首领成本适中 |
-| B. PixiJS + 自建逻辑 | 高效 WebGL / WebGPU 渲染与指针事件 | 渲染控制灵活，需补充游戏状态、波次与碰撞系统 |
-| C. 原生 Canvas 2D + TS | API 广泛可用，小规模足够；大量弹幕需要自行优化 | 依赖最少，场景、碰撞、输入缩放和资源管理都需维护，长期成本较高 |
-
-维护成本是本项目的工程判断，不是性能基准。采用原生 HTML/CSS 实现菜单、HUD、卡牌和结算，无 React/Vue 等 UI 框架。API 经 Context7 和安装包类型核对；参考 [Bun 1.4.3](https://bun.com/blog/bun-v1.4.3)、[Phaser 4 发布列表](https://phaser.io/download/phaser4)、[Phaser 文档](https://docs.phaser.io/)、[PixiJS 文档](https://pixijs.com/8.x/guides/getting-started/intro)。
-
-## 安装与运行
-
-安装 [Bun 稳定版](https://bun.com/docs/installation)，在仓库根目录执行：
+Requires **Bun 1.4.3 or newer** and a WebGL-capable browser.
 
 ```sh
-bun --version
 bun install --frozen-lockfile
 bun run dev
 ```
 
-开发服务默认监听 `127.0.0.1:5173`，预览监听 `127.0.0.1:4173`。在本机浏览器打开相应端口。VPS 开发通过已有受保护代理或 SSH 隧道访问，例如在自己的电脑执行：
+Keep local servers on loopback; use an SSH tunnel for remote access. Before committing:
 
 ```sh
-ssh -N -L 5173:127.0.0.1:5173 root@oc-de-fra-1.knowsky.uk
-```
-
-随后在本地浏览器访问映射后的 5173 端口。不要将 Vite 开发服务器直接暴露到公网。项目不会修改防火墙、代理、DNS 或生产配置。
-
-```sh
-bun run typecheck   # strict 类型检查，包括测试代码
-bun run lint        # Biome 检查
-bun run format      # 格式化及安全修复
-bun test            # Bun 核心逻辑测试
-bun run build       # 游戏说明同步检查 + 类型检查 + 生产构建
-bun run preview     # 本机预览 dist/
-```
-
-浏览器验证需要安装匹配版本的 Playwright 浏览器：
-
-```sh
-bunx --bun playwright install chromium firefox webkit
-bun run build
-bun run test:browser
-```
-
-`test:browser` 会先构建独立的 `dist-pre/`，因此上述流程在干净检出中也能启动所有测试服务器；`bun run build` 负责 `dist/` 的 PRO 产物。直接调用 Playwright CLI 时须自行先构建这两个目录。
-
-Linux 缺少图形库时按 Playwright 的依赖提示处理。无图形设备的环境可能无法启动 Firefox / WebKit 的 WebGL，可在支持 Mesa 的环境使用虚拟显示执行有界面测试；也可先运行 `bun run test:browser --project=chromium --project=mobile-chromium`。浏览器可通过 `PLAYWRIGHT_BROWSERS_PATH` 安装到可写缓存。测试服务器由 Playwright 启停，只监听回环地址；截图、失败 trace 和结果写入系统临时目录。
-
-本 VPS 的 Firefox / WebKit 使用以下方式访问软件 WebGL：
-
-```sh
-PLAYWRIGHT_BROWSERS_PATH=/tmp/destiny-echo-browsers LIBGL_ALWAYS_SOFTWARE=1 WEBKIT_DISABLE_DMABUF_RENDERER=1 xvfb-run -a bun run test:browser --project=firefox --project=webkit --headed
-```
-
-自定义缓存路径须与安装浏览器时一致；其他机器可使用默认浏览器缓存并省略该变量。
-
-## 基本玩法
-
-- **固定阵地：** 战机始终保持在逻辑坐标 `(225, 736)`，WASD、方向键和拖动均不移动。生命、护盾和受击后的短暂无敌仍然有效。
-- **自动索敌：** 蓝色弹幕追踪横向移动的敌人与宝箱。默认优先 Boss、准备／攻击阶段的敌人，其次是危险区域内的推进敌人、宝箱和其余敌人；同一优先级保持锁定，目标死亡或消失后自动重选。
-- **点选目标：** 鼠标或触屏点击敌人／宝箱可设为优先目标，金色标识表示手动锁定；点击空白取消。无尽中先处理已进入自身攻击范围的单位，攻击区清空后才由正在释放嘲讽技能的坦克接管；两类嘲讽均优先于范围外的手动目标，结束后恢复原目标。自动攻击不需要连点。聚焦战场后可用 `T` 切换目标、`C` 恢复自动，Tab 保留正常焦点行为。
-- **防线：** 近战怪抵达防线并准备后直接攻击；青色蚀光术士会在场内停驻并主动射击。熔炉敌人提前准备。金环代表准备、红环代表攻击，先击杀可阻止释放；已发射的粉色弹幕仍然危险。同时上限随车道和物理容量计算，手机首关 14 个、六车道桌面首关 21 个。
-- **奖励：** 击破非中央金色宝箱后，全部战斗与计时冻结，从三张不同且有效的卡牌中选一张。名称、强化预览与层数均可查看。
-- **暂停：** 右上角按钮或 Esc / P；进入后台或失去焦点会暂停，回来后手动继续，不能跳过奖励。
-- **史诗卡组：** 稀有之上共有 12 张史诗，每个流派一张，每局各限取一次。取得三张残响后，宝箱／无尽补给有 25% 概率提供一个史诗候选；过关候选同样随机，不保底史诗，宝箱和定时补给保留基础输出选项。史诗提供多项强化，但只计一个羁绊点。
-- **遗世庇护：** 静默王权每 8 秒净化中毒、重伤与攻速降低，冻结敌方行动、弹幕、刷怪、首领技能与本关计时，玩家攻击和治疗继续。持续 `0.5 + 0.25 × 强化层数` 秒，再乘王权羁绊倍率；一层为 0.75 秒，时序王冠单独为 1 秒，首领不减免。庇护期间敌方嘲讽失效，融合与技能计时冻结。六层王权将间隔缩短至 6 秒并清弹；暂停／选牌保留剩余时长，过关／重开清除。累计存续时间包含遗世庇护，本关计时冻结。
-- **流派联动：** 51 张构筑残响卡分属 12 条流派。同流派累计 **3 / 6 / 9 层触发小 / 中 / 大质变，重复升级也计入**。选牌显示下一档效果；右侧／下方可展开查看卡牌、层数与三档配方，多条流派可以同时生效。
-- **连续闯关：** 圣杯前庭 → 棱镜回廊 → 焚星熔炉 → 终愿核心。常规怪物生命、出怪预算和 Boss 每批援军按每关 **+50%** 复利增长；常规预算为 40 / 60 / 90 / 135 只，援军每批 4 / 6 / 9 / 14 只，数量向上取整。前三类怪物（游离残响／棱镜守卫／蚀光术士）按 1:1:1 均衡刷新，常规波次与援军共用配比。每关都有自己的首领、计时、敌人配置和机制。每关击败首领并清完残敌后，从两项锻体与一张随机残响中选一项，前三关领奖后保留全部构筑、护盾与得分，恢复最多 35 生命，再进入下一关。
-- **首领与无尽：** Boss 倒下后停止召援，小怪与已发射弹幕继续；必须清完全部小怪才领取奖励。无尽攻击格为车道数 × 7 行，初始开放防线前两排对应的下方两行，每次通关从未开放格中永久随机增加两个，排除固有两行与全部已开格，直到覆盖全部敌方区域；战机所在行不参与抽取或格数统计，全部已开区域均以淡红描边显示。手机四车道、24 小怪加首领，1080p 桌面约六车道、36 小怪加首领，预算和攻击点同步调整。无尽伤害与频率持续提高，Boss 生命至少比同关最强三星强化坦克高 25%。具体公式见游戏说明。
-- **无尽随机出生：** 普通怪、护卫和强化召唤共用每关 **30% 攻击区出生保底**，每累计成功出生 N 只，至少向上取整 N × 30% 只出生在已开攻击区；自然随机落入攻击区也计入。其余出生每次从上半屏侧翼车道的所有合法空位随机选择，保持间距；首领仍从顶部中央登场。满员或保底所需攻击区没有合法空位时等待，不消耗成功计数、兵种配比或召唤名额。出生点是车道内的离散空位，不保证每个画布格都能出生。
-- **无尽兵种与融合：** 普通小怪／嘲讽坦克／腐毒巫师按 **1:1:1** 成功刷新，坦克／巫师基础生命为普通小怪 **10 倍／5 倍**。同类同星三只出生满 4 秒后，彼此距离不超过按车道间距调整后的 150 基准单位 且连续相邻 3 秒会融合，最高三星：生命取三者最高上限 **×3.5 并回满**，伤害 **×2.5**。紫环提示融合，星标显示等级；体积不变，吸收不触发击杀效果。
-- **主动技能：** 坦克嘲讽持续 **2.5 秒**，推进中按本关攻击时序定期有 40% 概率释放；攻击阶段每次选择嘲讽或近战攻击。只有技能有效期才会强制锁定，攻击区优先规则仍保留。巫师每次 **40% 施毒，否则远程射击**，二选一；普通射击和死亡不会施毒。
-- **护盾联动：** 余血屏障以每层 **10%** 的低比例将战斗过量治疗转盾，基础储量最多最大生命 **20%**；血铸容器提高转化与储量，赤盾汲取在有盾时增加吸血。可与吸血、持续回复和猩红羁绊联动，直接获得的多余护盾会保留。
-- **分数锻体：** 累计每 **5,000 分**自动随机发放并立即生效一张锻体，可重复，不弹出抽取、不扣分；一次跨多个门槛逐张补齐。与首领奖励独立计数，第一关排除吸血，暴击／吸血／攻速达到实效上限时退出候选。
-- **平衡调整：** 无尽普通伤害与重击使用 1.8 公共倍率，普通伤害逐关 +8%，攻击与准备时间从 0.6 倍逐关再缩短 3%，最低 0.35 倍。毒素单独计算。吸血基础比例合计 50% 封顶，再乘 0.85，实效上限 42.5%。
-- **首领锻体：** 每个 Boss 奖励固定 **两项随机锻体与一张残响，三选一**；8 项锻体只调整本局基础数值，不计入羁绊，宝箱和定时补给不会出现。第四关领奖后才进入通关界面，锻体可带入无尽。
-- **中毒与重伤：** 3 秒、每秒 10 伤害，先扣护盾。重复延长 3 秒，并随机 +1 每秒伤害或 +1 个百分点总攻速降低；无护盾时攻速降低 30% 起步，最高 90%，有盾立即免除。重伤固定减少 90% 全部治疗、生命恢复与护盾获得，只延长时间；净化清除所有毒素强化。
-- **无尽首领技能：** 场内任意位置都可攻击，抵达防线后普通攻击伤害 **×2**。剩余生命到 **70%／40%／10%** 时各独立随机释放一个技能，允许连续三次相同技能：减伤 **90% 持续 3 秒**；召唤随机排序的三类强化援军（生命／伤害 **×1.5**）；重击无视护盾和无敌，第一关无尽直接扣 **180 生命**，此后每过一关 **+9**（180 / 189 / 198 / …）。每次召唤额外 6 只强化兵，保留原护卫；无空位时排队补入，最多 18 个待入场名额，Boss 死亡取消。Boss 登场同样保留原小怪与弹幕。非致命一击跨越多个阈值会依次结算，Boss 死亡后停止施法。
-- **无尽发卡：** 每关在开场 3 秒至 Boss 出现前 5 秒之间随机安排 **3 次直接补给**，每次三选一；击杀 Boss 并清完小怪后额外选 **1 项**残响或锻体，通关一关共获得 **4 次选择奖励**，另有分数自动锻体。选牌冻结全部战斗；提前清关也会先补齐未领补给，再领取首领奖励，不会重复或漏发。无尽不再生成奖励宝箱。所有关卡取消超时，玩家生命归零才失败，Boss 与残敌全部击败才过关，暂停与选牌不计时。
-- **重开：** 结算后「再次共鸣」回到第一关，恢复初始生命与火力，清除卡牌、联动、目标、奖励和得分。没有跨局存档。
-
-| 流派 | 方向 |
-| --- | --- |
-| 殉星自爆 | 献祭、击杀爆炸、连锁、生命加成 |
-| 祷言弹幕 | 攻速、多重弹幕、穿透、重复齐射 |
-| 不落壁垒 | 生命、护盾恢复、荆棘、全场反击 |
-| 终焉裁决 | 首领增伤、蓄力打断、斩杀、击杀回复 |
-| 泰坦重击 | 攻击力、攻击倍率、周期重击 |
-| 猩红渴望 | 普攻吸血、持续治疗、过量治疗转盾 |
-| 命定暴击 | 暴击率、暴伤、半血增伤、周期必暴 |
-| 雷霆共振 | 连锁闪电、溅射、周期范围雷暴 |
-| 永冬结界 | 移动与攻击减速、碎冰增伤、冻结 |
-| 巨人杀手 | 随目标最大生命与敌我体量增长的普攻伤害 |
-| 百分比侵蚀 | 最大生命、当前生命和全场周期百分比伤害 |
-| 王权禁锢 | 眩晕、控制增伤、净化遗世庇护、清弹 |
-
-宝箱与定时补给选牌尽量提供两张延续投入最多流派的候选，并保留基础输出强化；首轮提供两张基础输出候选。前四关首个宝箱在 3 秒出现，后续间隔 7 秒；无尽改为每关三次随机直接补给。卡牌达到上限后退出候选，奖励仍只能领取一次。**首关残响只开放祷言弹幕、泰坦重击、命定暴击与雷霆共振四类输出卡，含对应史诗；不提供自爆、吸血、护盾与控制。首关锻体排除吸血，第二关开放完整卡池。** 完整单卡、羁绊、无尽公式与验证边界见 [流派与关卡规格](docs/builds-and-stages.md)。
-
-| 关卡 | 遭遇特点 | 首领 | 首领出现（无时限） |
-| --- | --- | --- | --- |
-| 圣杯前庭 | 原有混合防线，启动构筑 | 失控圣杯 · 空愿之器 | 52s |
-| 棱镜回廊 | 三类均衡混编，首领召援 | 折光主教 · 千面棱镜 | 48s |
-| 焚星熔炉 | 快速敌人在 y=450 提前准备攻击 | 焚星之心 · 永燃余烬 | 46s |
-| 终愿核心 | 混编压力与持续援军 | 终愿之器 · 命运归零 | 48s |
-
-首领沿用原创几何轮廓，以配色、数值、弹幕、蓄力与援军区分。场景与 HUD 随关卡更新，不宣称新增四套角色美术。
-
-## 已实现与路线图
-
-- [x] 游戏页面、原创几何场景、HUD、暂停、胜负结算与重开。
-- [x] 固定阵地、稳定自动索敌、鼠标／触屏优先目标、前四关三类怪均衡混编、无尽嘲讽坦克与腐毒巫师、防线攻防阶段与熔炉提前准备。
-- [x] 前四关可打断蓄力、半血强化 Boss；无尽阈值随机技能、全场攻击与防线翻倍，真实毒伤与弹幕伤害。
-- [x] 可攻击宝箱、三选一奖励、51 种残响强化和 8 项首领锻体（含每局各限取一次的史诗）、十二条 3 / 6 / 9 层流派、联动预览与局内构筑展示。
-- [x] 四个连续关卡、独立首领参数与援军、关间补给、保留构筑的无尽挑战。
-- [x] Menu / Playing / Paused / RewardSelection / StageClear / Victory / GameOver 状态和后台暂停。
-- [x] 固定时间步进、扫掠碰撞、无敌时间、有界对象复用。
-- [x] 手机竖屏布局、画布缩放、触屏点选、高 DPR 开销限制、安全区域与窄屏卡牌。
-- [ ] 更多武器、原创角色、更多流派、异常事件和难度选项。
-- [ ] 经验升级、跨局进度、排行榜或存档（本次不包含）。
-- [ ] 原创音乐/音效、正式角色美术、更多首领与剧情。
-- [x] Cloudflare Workers Static Assets 静态站点发布。
-- [ ] 真机长时间性能与操控调优。
-
-继续遵循浏览器优先、跨设备、玩法优先、模块化、数据驱动与原创资源六项原则。只将已有实现标记为完成；浏览器模拟不等于真机验收。
-
-## 核心目录
-
-```text
-src/
-  main.ts                 浏览器入口、WebGL 检测与错误恢复
-  data/                   卡牌与流派定义、敌人和关卡参数
-  game/
-    config.ts             逻辑尺寸、固定阵地、防线与对象预算
-    world.ts              实体、自动攻击、波次、奖励与完整对局
-    state.ts              可验证的状态转换
-    input.ts              触屏／鼠标点选、缩放坐标和键盘切换目标
-    pool.ts / random.ts   有界对象复用、局内随机种子
-    systems/              索敌、防线阶段、攻击许可、碰撞与伤害
-    scenes/               Phaser 场景、程序化纹理
-  ui/                     DOM HUD、卡牌、结算与样式
-public/                   favicon、字体与第三方许可
-tests/unit/              Bun 逻辑测试
-tests/browser/           Playwright 桌面、触屏和静态产物验证
-docs/architecture.md     状态、奖励、性能与浏览器契约
-docs/builds-and-stages.md 流派数值、连续关卡与无尽规格
-docs/game-guide/         自动生成的完整玩家说明与 Wiki 页面
-scripts/game-guide.ts    玩家说明的数值与机制文案来源
-docs/wiki-publishing.md  文档同步及 Wiki 发布流程
-```
-
-长期规范见 [AGENTS.md](AGENTS.md)，战斗规则与一次性奖励契约见 [架构说明](docs/architecture.md)，流派与连续闯关见 [玩法规格](docs/builds-and-stages.md)。
-
-## PRE 数值实验室
-
-独立 PRE 环境提供「PRE · 数值调试」入口，支持当前玩家与卡组编辑、敌人和出怪规则、重开本关、恢复入关快照、战役与无尽跳关，以及多版本数值方案。修改和保存仅在当前浏览器的 PRE 站点生效；其他浏览器与 PRO 不受影响。默认开发与 PRO 构建不包含调试器。
-
-方案可以导入、导出 JSON，保存玩家初始属性、敌人参数、关卡区间、无尽成长和分来源卡池权重。导出后通过 `bun run balance:validate <文件>` 校验，再由维护者在独立 worktree 运行 `bun run balance:apply <文件>` 纳入正式配置，核对说明、验证并另行发布。导出和本地启用都不会发布生产。
-
-`bun run dev:pre` 显式打开本地 PRE 模式；`bun run build:pre` 生成 `dist-pre`，普通构建生成 `dist`。刷新仅恢复个人方案，不恢复战斗。完整操作、概率含义、临时修改寿命和应用流程见 [数值实验室说明](docs/balance-debugger.md)。
-
-## 游戏说明与 Wiki 维护
-
-每次修改卡牌、怪物或战斗规则，都要核对 `scripts/game-guide.ts` 的机制文案、更新游戏内帮助和规格，并运行：
-
-```sh
-bun run docs:generate
 bun run docs:check
+bun run typecheck
+bun run lint
+bun test
+bun run build
 ```
 
-`bun run build` 会检查生成文档及规则摘要，防止修改玩法后遗漏说明。获得 Wiki 发布授权后运行 `bun run wiki:publish`，将同一份文档发布为原生 Wiki 页面，保留其他自建页面。详情见 [维护流程](docs/wiki-publishing.md)。
+`bun run build` produces `dist/`; `bun run build:pre` produces `dist-pre/`. PRE has a browser-local balance laboratory. Preview and production are separate releases.
 
-## 验证与已知限制
-
-自动验证覆盖固定位置、30/60/144 Hz 一致性、索敌、弹幕／穿透、防线与区域攻击、首领蓄力、51 张构筑残响卡、十二种流派的实际战斗效果、暴击／吸血／控制、远近混编与复利难度、有限连锁、补给令牌、独立关卡时钟、无尽延续与重开。`tests/unit/run.test.ts` 只使用正常目标选择、真实候选卡牌和继续按钮，验证四关完整自然战役与新无尽中的承伤／失败，不修改生命、输出、时钟、关卡或敌人；自然构筑连续通过两轮无尽与显式奖励夹具均有覆盖。
-
-此前验证使用 Bun 1.4.3。浏览器插件不可用，使用仓库 Playwright 在真实 WebGL 下验证桌面和 320px 原生触控；四关自然完整对局与新无尽中的失败由模拟测试覆盖，浏览器自然对局验证首关突破与失败，终局／连锁使用明确标记的夹具。截图、trace 和结果写入系统临时目录。Firefox／WebKit 使用 Xvfb 与软件 WebGL，Chromium 使用无头软件 WebGL。只读诊断不进入生产构建。
-
-此前 2026-10-21 遗世庇护、重伤与游戏说明版本的验证记录（本轮改动的结果另列于后）：
-
-| 检查 | 结果 |
-| --- | --- |
-| `bun run docs:check` / `bun run typecheck` / `bun run lint` / `bun run build` | 通过 |
-| `bun test` | 159 项通过，含治疗／过量治疗重伤、所有首关奖励排除控制卡、庇护解除嘲讽、重击逐关 +5、文档同步与旧有战斗回归 |
-| Chromium 桌面 | 28 个场景通过，含自然首关突破／失败／重开，以及新规则与生产帮助入口；包含定向复查 |
-| Chromium 触屏 | 13 个场景通过，含 320px 原生点按、重伤／重击显示、庇护暂停和四张无尽奖励；包含定向复查 |
-| Firefox | 4 个定向场景通过：庇护解除嘲讽、重伤／重击、净化与双时钟、生产帮助与 Wiki 链接 |
-| WebKit | 同上 4 个定向场景通过，使用 Xvfb 软件 WebGL |
-| 原生 GitHub Wiki | 8 个远端文件与生成内容一致，6 个正文页面 HTTP 200，内容和内部导航已核对 |
-
-Chromium 先执行完整 41 项套件，修正两处测试预期后，定向复查的 8 项全部通过：治疗量按实际模拟时间核对，以适应原生帧计时；残血首领奖励夹具标记阈值技能已消耗，避免新的 100 点重击在奖励测试前致死。游戏规则未为这些夹具改变。Firefox／WebKit 的 8 项定向检查全部通过。Chromium 有窗口模式在本沙箱遇到 Crashpad 数据库目录限制，最终采用无头模式验证；不计为游戏运行失败。本轮完成本地验证和 Wiki 发布，未执行 PRE / PRO 部署。
-
-2026-10-21 本轮无尽容量、融合、主动技能、护盾联动与锻体奖励的本地验证：
-
-| 检查 | 结果 |
-| --- | --- |
-| 文档同步 / 类型 / lint / 构建 / Git 空白检查 | 通过 |
-| Bun 单元测试 | 174 项通过，含三种子逐步间距、满场召唤保留旧怪、融合回血、技能互斥、转盾储量及锻体一次性领取 |
-| Chromium 桌面 | 30 个场景覆盖通过，包含生产帮助入口的定向复查 |
-| Chromium 320px 触屏 | 15 个场景通过，包含满员阵型、融合星标、锻体原生点按及长护盾值与计时器间距 |
-| Firefox / WebKit | 各 7 项定向检查通过：庇护、重伤、史诗、生产帮助、毒素反馈、锻体与满员融合；使用 Xvfb 软件 WebGL |
-
-Chromium 完整 45 项回归有 44 项通过；帮助页面的两处旧文案断言按当前说明更新后，该场景单独复查通过。Firefox / WebKit 共 14 项定向检查通过，不代表两个引擎的完整套件。自然模拟覆盖 20 个种子的通关与失败，并覆盖普通构筑连续通过两轮无尽；没有修改生命、输出、时钟或关卡。满员和升星画面另有明确夹具。截图、日志和 trace 保留在系统临时目录，Browser 插件不可用时使用 Playwright。本轮未执行 PRE / PRO 部署；Wiki 按合并后的发布流程独立核验。
-
-此前浏览器检查覆盖页面身份、非空 WebGL、错误遮罩、应用控制台、截图和真实输入。Chromium 的桌面／触屏场景均已覆盖并通过；Firefox / WebKit 本次只执行上述定向检查，不称为完整套件通过。自然长局在软件渲染环境中执行，单用例预算为 300 秒，这不改变模拟时限。固定策略、多种子模拟和夹具不代表真实玩家胜率，也不宣称已完成流派平衡。成型构筑可能在首轮蓄力前击杀 Boss，金色蓄力与护卫攻击另有独立验证。伤害、承伤、治疗、暴击、控制次数与实际出怪量保留在只读诊断中。线上内容以实际发布产物及公网检查为准，本地验证本身不代表生产已部署。
-
-- Phaser 4 依赖 WebGL；不可用时显示恢复提示，不提供 Canvas 降级。图形上下文丢失会停止战斗。
-- 桌面入口按可用宽高计算 800～2400×800 横向逻辑战场，1920×1080 约六车道；等比填充可用空间；顶部可打开本局构筑、属性、卡组、羁绊和玩法说明，并提供全屏按钮。查看面板暂停，关闭后手动继续。尺寸在进入页面时选定，窗口缩放不重排本局规则；窄屏入口保留原竖屏逻辑。真实 iOS Safari / Android、温度、电量与长时间性能仍需人工验收。
-- 无音频、账户、后端 API 或持久化；刷新会丢失当前局。
-- 首次加载包含 Phaser 引擎，约 1.37 MB minified / 357 KB gzip。弱网和低端机仍需后续优化；静态托管应启用 gzip/Brotli。
-- 难度和随机卡牌需要更多玩家调优，未宣称达到商业发行质量或真机全浏览器认证。
-
-此前桌面布局版本（2026-10-22）的 Firefox 33 个场景分组覆盖通过，旧面板路径更新及坐标用例固定种子后已定向复查。183 项 Bun 单元测试全部通过，含 450/1600 两种逻辑尺寸、三种子的逐步满场间距验证、分数锻体和自然四关／连续无尽。验收范围为桌面 Firefox：1920×1080 与 1366×768 横向战场、坐标缩放、顶部原生构筑／帮助弹窗、暂停和键盘焦点、横排奖励及分数自动锻体。浏览器插件不可用，使用 Playwright Firefox、Xvfb 与软件 WebGL；自然首关成功／失败与重开采用 600 秒测试预算，软件渲染只改变测试耗时。其他浏览器和真机不在本次验收范围。PRE 与 Wiki 按独立发布结果核验，PRO 不在本轮发布范围。
-
-## 构建与基础部署
-
-`bun run build` 产出 **`dist/`**。将其完整内容上传到任意静态 HTTPS 托管、CDN 或 VPS 静态文件目录，包括 `assets/`、`fonts/` 和许可文件；无需 Bun 常驻服务。`base: "./"` 支持根路径或子目录部署，必须通过 HTTP(S) 提供文件，不能直接双击 HTML。
-
-`bun run preview` 用于本地验证，不作为公网生产服务器。
-
-### Cloudflare Workers
-
-在线地址：[destiny-echo-web.littlecontrol.workers.dev](https://destiny-echo-web.littlecontrol.workers.dev/)。
-
-PRE 地址：[destiny-echo-web-pre.littlecontrol.workers.dev](https://destiny-echo-web-pre.littlecontrol.workers.dev/)。PRE 和 PRO 均为公开静态网站，使用独立 Worker，发布前先验证 PRE。
-
-使用 Workers Static Assets 托管完整静态产物，无 Worker 服务端入口、绑定或应用密钥。`cloudflare.config.ts` 固定目标账户，默认 PRO 为 `destiny-echo-web`，`--mode pre` 选择独立 PRE `destiny-echo-web-pre`；`wrangler.config.ts` 只声明 `dist/` 的打包路径，发布入口统一使用 `cf`。发布其他账户前应修改配置并核对目标。
-
-```sh
-bun install --frozen-lockfile
-bunx cf auth whoami              # 优先复用当前系统登录
-bunx cf auth login --no-browser   # 仅在缺少有效登录时进行设备授权
-bun run deploy:check             # 构建并检查发布包，不上传
-bun run deploy:check:pre         # 检查独立 PRE 包，不上传
-bun run deploy:pre               # 发布 PRE
-bun run deploy:pro               # 发布 PRO（等同 bun run deploy）
-```
-
-`build:workers` 先执行现有的类型检查与 Vite 构建，再调用锁定版本的 Wrangler 本地打包器生成 `.cloudflare/output/v0/`；`cf` 以 `--prebuilt` 发布该产物。PRE 的 Wrangler 打包传入 `--env pre`（映射为配置 mode），cf 部署传入 `--mode pre`；PRO 保留默认模式；构建产物记录目标和模式，不能用 PRO 命令直接发布 PRE 包。直接运行 `cf build` 会检测到普通 Vite 并跳过此打包步骤，因此使用仓库脚本。这保留了纯 Vite 的开发／预览方式，不需要引入 Cloudflare Vite 插件。该输出目录与本地认证辅助文件不提交 Git。只有发布工具使用 Node.js，不需要在线运行 Bun 或 Node.js 服务。配置语法与运行时要求见 [Cloudflare 配置文档](https://developers.cloudflare.com/cf/projects/cloudflare-config/)，预构建发布流程见 [cf 部署文档](https://developers.cloudflare.com/cf/projects/#deploy-a-prebuilt-build)。
-
-`public/_headers` 为首页配置重新验证缓存，为带 hash 的 `assets/` 配置一年不可变缓存，并设置内容类型保护与 Referrer Policy。未配置 SPA 回退，缺失资源应返回 404。首次发布后须分别核对首页、JS／字体、缓存响应头和实际浏览器交互；本地构建或 dry run 通过不代表公网验收通过。
-
-2026-10-20 首次发布已核对 11 个线上文件与本地构建的 SHA-256 完全一致；首页缓存、资源缓存与 404 响应符合配置。线上 Chromium 桌面和 320px 触屏模拟均完成 WebGL 启动、开始、暂停和继续，无应用报错或资源加载失败；生产页不暴露测试诊断。该检查不替代真机与长局验收。
+See the **[Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)** for illustrated controls, cards, enemies, mechanics, browser testing, deployment, validation history, and release notes. Offline: [English guide](docs/game-guide/Home.md) · [中文指南](docs/game-guide/Home-zh-CN.md). Contributor rules: [AGENTS.md](AGENTS.md).
 
 ## License
 
-项目代码采用 **GNU AGPL v3.0 or later**（`AGPL-3.0-or-later`）：你可以选择遵循自由软件基金会发布的第 3 版或任何后续版本。完整条款见 [LICENSE](LICENSE)。
-
-Phaser 按 MIT 许可分发，构建携带 [第三方声明](public/THIRD_PARTY_NOTICES.txt)。自托管 Noto Serif SC 字体子集使用 [SIL Open Font License 1.1](public/fonts/OFL.txt)。游戏美术是原创程序化几何图形。未来第三方美术和音乐必须单独确认授权，其资源许可与项目代码许可分别记录。
-
-*Echoes of Destiny — 命运可以安排，但这局怎么整活，由你决定。*
-
-### 2026-10-22 桌面车道与无尽机制更新
-
-本轮实现包括六车道桌面/四车道手机的独立布局和容量、无尽逐关增加两格攻击区、首关输出卡池、8张巨人杀手/百分比侵蚀卡、无尽伤害和频率提升、首领生命下限、清剿残敌后过关、随机史诗、中毒逐次强化、统一重伤补盾限制、自爆最大生命伤害和荆棘全屏反击。桌面初始火力与弹速匹配更宽战场及出怪预算，范围效果和融合距离按车道间距调整。
-
-数值、触发限制和全部卡牌见[当前规格](docs/builds-and-stages.md)和[游戏说明](docs/game-guide/Home.md)。本轮本地检查、浏览器、Wiki和PRE/PRO状态按交付时的实际结果分别核验；历史验证记录不代表本轮已验证或已部署。
-
-本轮已完成的本地验证：
-
-| 检查 | 结果 |
-| --- | --- |
-| docs:check / typecheck / lint / build / diff --check | 通过 |
-| Bun 单元测试 | 209 项通过；覆盖全部新规则、车道容量、逐关区域扩展到全场、自然成功与失败、重开及帧率一致性 |
-| Chromium 桌面 / 触屏 | 35 / 17 个场景覆盖；完整 52 项中首次 47 项通过，更新旧断言、排除热更新干扰并修复 320px 构筑面板横向溢出后，10 项定向复查全部通过，包含全部 5 个原失败场景 |
-| 窄屏构筑 | 属性改为单列，长数值可换行；新增卡牌预览、原生点按和面板无横向溢出均已验证 |
-
-Browser 插件不可用，使用匹配版本的 Playwright 与软件 WebGL；页面身份、非空内容、无错误遮罩、控制台、截图及交互状态均检查。截图和 trace 保留在系统临时目录。额外引擎验证、最新提交审阅、Wiki 与 PRE/PRO 的最终结果在 PR 交付记录中分别核验；不将模拟器或本地结果当作真机、长局性能或线上部署验收。
-
-本次 PRE 数值实验室（2026-10-22）通过 242 项 Bun 单元测试，以及真实 PRE 构建在 Chromium、320px 原生触控、Firefox、WebKit 上的 24 个浏览器场景。覆盖玩家／卡组与敌人编辑、两种重开、跳关、关卡范围和实际单卡奖励、版本保存、刷新恢复、配置往返、独立浏览器隔离、跨标签页冲突、无效导入、键盘焦点及 PRO／默认开发无调试入口。回归测试包含间隔修改后的计时、禁用锻体时消耗里程碑和自定义召唤提示。文档、类型、lint、两种构建与 PRE dry-run 分别校验；Browser 插件不可用，使用 Playwright，Firefox／WebKit 使用 Xvfb 软件 WebGL。该记录不代表真机、长时间平衡或生产发布验收。
+Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PARTY_NOTICES.txt) cover Phaser and fonts. [Brand assets and prompts](docs/assets/brand/README.md) record the documentation logo versions and their provenance.
