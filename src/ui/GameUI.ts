@@ -188,7 +188,7 @@ export class GameUI {
             : "首领战 · 集中火力"
           : `第 ${world.wave} 波 · 残响涌动`;
     this.scoreValue.textContent = `${world.score.toLocaleString("zh-CN")} 分`;
-    this.scoreProgress.textContent = `分数锻体已发 ${world.scoreTrainings} 张 · 下一张 ${(world.scoreTrainings + 1) * CONFIG.scoreTrainingInterval} 分${world.lastScoreTraining ? ` · 最近获得：${TRAINING_BY_ID.get(world.lastScoreTraining)?.name}` : ""}`;
+    this.scoreProgress.textContent = `分数锻体已发 ${world.scoreTrainings} 张 · 下一张 ${(world.scoreMilestones + 1) * CONFIG.scoreTrainingInterval} 分${world.scoreMilestones > world.scoreTrainings ? ` · 无候选跳过 ${world.scoreMilestones - world.scoreTrainings} 次` : ""}${world.lastScoreTraining ? ` · 最近获得：${TRAINING_BY_ID.get(world.lastScoreTraining)?.name}` : ""}`;
     this.killLabel.textContent = `击破 ${world.kills}`;
     const target = world.target;
     this.targetLabel.textContent = target
