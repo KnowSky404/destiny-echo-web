@@ -119,9 +119,9 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     expect(world.player.poisonSlowTime).toBe(0);
   });
 
-  test("timeout and scheduled spawning wait, and the pulse cooldown cannot recharge inside itself", () => {
+  test("scheduled spawning waits, and the pulse cooldown cannot recharge inside itself", () => {
     const world = ready();
-    world.stageElapsed = world.stage.deadline - 0.2;
+    world.stageElapsed = 96 - 0.2;
     world.bossSpawned = false;
     const before = world.stageElapsed;
     world.update(CONFIG.fixedStep);
@@ -130,8 +130,8 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     expect(world.stageElapsed).toBe(before);
     expect(world.bossSpawned).toBe(false);
     tick(world, 0.4);
-    expect(world.phase).toBe("GameOver");
-    expect(world.endingReason).toBe("timeout");
+    expect(world.phase).toBe("Playing");
+    expect(world.bossSpawned).toBe(true);
     expect(world.controlProcs).toBe(1);
 
     const cooldown = ready();

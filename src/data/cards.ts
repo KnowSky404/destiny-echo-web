@@ -1,3 +1,4 @@
+import { CONFIG } from "../game/config";
 import { type Random, shuffled } from "../game/random";
 import { healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
@@ -21,7 +22,7 @@ interface StatCard {
 function statCard(definition: StatCard): Card {
   const format = (value: number) =>
     definition.unit === "percent"
-      ? `${Math.round(value * 100)}%`
+      ? `${Number((value * 100 * (definition.field === "lifesteal" || definition.field === "shieldLeech" ? CONFIG.lifestealMultiplier : 1)).toFixed(2))}%`
       : `${Number(value.toFixed(2))}${definition.unit === "seconds" ? "s" : definition.unit === "multiplier" ? "×" : ""}`;
   return {
     ...definition,
@@ -78,7 +79,7 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "leech",
     name: "渴血刻印",
-    description: "普攻对敌人的实际伤害转化为生命，每层吸血 4%；宝箱不提供吸血。",
+    description: "普攻对敌人的实际伤害转化为生命，每层基础吸血 4%（实际 3.4%）；宝箱不提供吸血。",
     synergy: "blood",
     symbol: "bloodpact",
     field: "lifesteal",
@@ -352,7 +353,7 @@ export const EPIC_CARDS: readonly Card[] = [
     offense: false,
     description: "以敌人的伤口修复防线。吸血、持续回复和治疗加成同时强化。每局限取一次。",
     bonuses: { lifesteal: 0.12, regeneration: 3, recovery: 0.25 },
-    change: "吸血 +12% · 每秒回复 +3 · 治疗加成 +25%",
+    change: "实际吸血 +10.2% · 每秒回复 +3 · 治疗加成 +25%",
   }),
   epicCard({
     id: "fate-eye",
@@ -631,7 +632,8 @@ export const CARDS: readonly Card[] = [
   statCard({
     id: "shield-leech",
     name: "赤盾汲取",
-    description: "持有护盾时普攻吸血 +2 个百分点；护盾耗尽后失效，与过量治疗转盾联动。",
+    description:
+      "持有护盾时基础普攻吸血 +2 个百分点（实际 +1.7）；护盾耗尽后失效，与过量治疗转盾联动。",
     synergy: "blood",
     symbol: "bloodpact",
     field: "shieldLeech",
@@ -650,6 +652,10 @@ export function isControlCard(card: Card): boolean {
   return card.synergy === "frost" || card.synergy === "dominion";
 }
 
+export function isFirstStageExcluded(card: Card): boolean {
+  return isControlCard(card) || card.synergy === "blood" || card.synergy === "bastion";
+}
+
 export function eligibleCards(player: Player, stacks: ReadonlyMap<string, number>): Card[] {
   return CARDS.filter(
     (card) =>
@@ -666,7 +672,7 @@ export function drawCards(
   stageIndex = 0,
 ): string[] {
   const eligible = eligibleCards(player, stacks).filter(
-    (card) => stageIndex > 0 || !isControlCard(card),
+    (card) => stageIndex > 0 || !isFirstStageExcluded(card),
   );
   const pool = shuffled(
     eligible.filter((card) => card.rarity !== "epic"),

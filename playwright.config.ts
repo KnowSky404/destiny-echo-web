@@ -36,6 +36,7 @@ export default defineConfig({
       testMatch: "desktop.spec.ts",
       use: {
         browserName: "firefox",
+        viewport: { width: 1920, height: 1080 },
         launchOptions: {
           firefoxUserPrefs: {
             "webgl.force-enabled": true,

@@ -1,19 +1,19 @@
 # Fixed-defense combat architecture
 
-Echoes of Destiny is a static, run-local defense Roguelike. The player holds `(225, 736)`, fires tracking projectiles, selects priority targets and collects forty-three augment cards across ten families, including ten once-per-run epics, plus eight boss-only numeric trainings that do not belong to families. Four authored encounters lead to optional endless continuation. [Builds and stages](builds-and-stages.md) is the authoritative gameplay/parameter contract; this file defines ownership and lifecycle boundaries.
+Echoes of Destiny is a static, run-local defense Roguelike. The player holds `(arena.width/2, 736)`, fires tracking projectiles, selects priority targets and collects forty-three augment cards across ten families, including ten once-per-run epics, plus eight numeric trainings from bosses or score milestones that do not belong to families. Four authored encounters lead to optional endless continuation. [Builds and stages](builds-and-stages.md) is the authoritative gameplay/parameter contract; this file defines ownership and lifecycle boundaries.
 
 ## Ownership and fixed time
 
 - `src/game/world.ts`: run state, bounded pools, spawning, actual combat effects, rewards and endings; no Phaser, DOM, Bun or server imports.
-- `src/game/config.ts`: 450 × 800 field, defense geometry, fixed step, shot/effect budgets and chest cadence.
+- `src/game/config.ts`: 450 × 800 portrait field and 1600 × 800 desktop field (`arena.ts`), defense geometry, fixed step, shot/effect budgets and chest cadence.
 - `src/game/systems`: targeting, movement/swept collision, attack-permission stages, shield absorption, invulnerability and continuous non-stacking poison.
 - `src/game/stats.ts`: derived attack, interval, projectile, critical and lifesteal values. Base stats stay separate from family bonuses.
 - `src/data`: card effects/eligibility, ten 3/6/9 family descriptions, enemy attack roles and per-stage parameters.
 - `src/game/scenes`: Phaser textures, rendering and canvas input binding. `src/ui`: DOM HUD, overlays and keyboard/touch disclosure controls.
 
-Only `Playing` advances the 1/120-second accumulator. Frame gaps cap at 100ms and backgrounding pauses instead of collecting catch-up work. No rule depends on render frames, CSS pixels or DPR. The player position is restored every step, independent of browser input. Spawns/rewards, critical hits and endless boss skill draws have independent seeded streams. Cosmetic particles consume none of them.
+Only `Playing` advances the 1/120-second accumulator. Frame gaps cap at 100ms and backgrounding pauses instead of collecting catch-up work. No rule depends on render frames, CSS pixels or DPR. The player position is restored every step, independent of browser input. Spawns/rewards, score training, critical hits and endless boss skill draws have independent seeded streams. Cosmetic particles consume none of them.
 
-The fixed step first checks the control pulse, cleansing player debuffs before poison damage. Sanctuary separates player delta from hostile delta: player attacks/build effects and cumulative run time advance, while stage/deadline time, spawning, enemies, hostile shots/collisions, chests and hostile statuses stop. Its own recharge uses hostile delta. Remaining duration uses player delta and survives pause/rewards, but resets at clearance/stage/restart. Outside sanctuary, the fixed step advances clocks and enemies, refreshes targets, fires/moves projectiles, resolves swept hits and rewards, resolves periodic build effects, then enemy attacks. Friendly hits and newly applied control therefore resolve before an enemy can release an attack on that step. Any phase change stops subsequent combat settlement. Status timers, particles and visual rings advance only while combat remains active. The current stage deadline, not cumulative run time, can cause timeout.
+The fixed step first checks the control pulse, cleansing player debuffs before poison damage. Sanctuary separates player delta from hostile delta: player attacks/build effects and cumulative run time advance, while stage time, spawning, enemies, hostile shots/collisions, chests and hostile statuses stop. Its own recharge uses hostile delta. Remaining duration uses player delta and survives pause/rewards, but resets at clearance/stage/restart. Outside sanctuary, the fixed step advances clocks and enemies, refreshes targets, fires/moves projectiles, resolves swept hits and rewards, resolves periodic build effects, then enemy attacks. Friendly hits and newly applied control therefore resolve before an enemy can release an attack on that step. Any phase change stops subsequent combat settlement. Status timers, particles and visual rings advance only while combat remains active. Neither clock can end a run. Only zero player HP causes GameOver; zero boss HP clears a stage.
 
 ## Targeting and projectiles
 
@@ -24,6 +24,8 @@ The primary projectile tracks the selected target. Secondary projectiles distrib
 Heavy/critical multipliers are applied when a volley is emitted. `primary` and `critical` projectile fields reset on pool reuse and carry the correct control trigger and rendering color. Actual damage settlement applies victim-dependent bonuses, boss charge modifiers and execution, records actual removed HP, heals direct-hit lifesteal from non-overkill damage, then either settles one death or contributes to interrupt. A lethal incoming hit ends the run before counterattacks or healing can revive the player.
 
 Lightning/splash/periodic storms use the common enemy-damage path but cannot recursively trigger on-hit lightning/splash or drain chests. Death explosions settle through an iterative queue: every victim deactivates before enqueuing another explosion, bounding a chain by the enemy pool. Score, healing and death procs settle once. A stage transition clears pending chains immediately. Cosmetic-ring exhaustion never cancels damage.
+
+Score milestones award one random eligible training per 5,000 cumulative points without opening a selection or deducting score. Boss bonuses count, multiple crossed milestones settle in order, and eligibility is recomputed after every award. Trainings are tracked separately from augment layers, retained across stages, and reset on restart. First-stage augment rewards exclude control, frost, blood and bastion families; both score and boss training exclude leech in stage one.
 
 ## Enemy roles, readiness and control
 
@@ -46,6 +48,8 @@ Every boss entrance preserves living ordinary enemies and hostile shots. Ordinar
 
 Tank taunt is a finite skill field, with approach attempts and attack-phase action choices. Wizard actions select poison or ranged fire; neither ordinary shots nor deaths poison automatically. Enemy action randomness has its own seeded stream. Concentration, star and enhancement multipliers are captured in each enemy's damageScale; poison retains the stronger active potency without stacking.
 
+Endless regular damage, poison and slams are multiplied by 1.2. Attack intervals and preparation use 0.8 timing, including approaching taunt checks; HP-threshold skills retain their trigger thresholds. All direct-hit lifesteal sums card/training/family/shield inputs, caps the raw proportion at 0.5 and multiplies by 0.85 (effective cap 0.425).
+
 ## Run states and one-use rewards
 
 ```mermaid
@@ -60,7 +64,7 @@ stateDiagram-v2
   Playing --> StageClear: defeat any boss (after pending supplies)
   StageClear --> Playing: claim supply / heal 35 / next stage
   StageClear --> Victory: claim campaign boss-four reward
-  Playing --> GameOver: health exhausted / stage timeout
+  Playing --> GameOver: health exhausted
   Victory --> Playing: reset or preserve build into endless
   GameOver --> Playing: restart and reset
   Victory --> Menu
@@ -85,11 +89,11 @@ The focusable canvas supports T to cycle and C to restore automatic selection. W
 
 The navy, blue/violet and gold style remains. Blue/gold/pink rings indicate approach/preparation/attack; cyan hexers, amber shield-shaped tanks and green wizards have original procedural silhouettes. HUD poison/grievous-wounds/slow feedback, sanctuary countdowns, taunt lock labels and boss guard/skill/arrival/scaling-slam labels expose the new rules. Slow, stun and critical shots have distinct colors. A target bracket, enemy/boss HP, boss gold charge/interrupt progress, stage progress, effective stats and ten expandable family rows expose decisions. Rendering respects reduced motion without changing simulation timing. Reward/victory overlays stay bounded and scroll internally on 320px displays.
 
-Global budgets: **28 enemies, 240 friendly shots, 360 hostile shots, one chest, 120 particles and 32 rings**. Authored simultaneous enemy caps rise from 14 through 18/21 to 28. Image/simulation pools reuse objects. Canvas backing remains 450 × 800 independent of DPR. WebGL failure/context loss shows a readable recovery state. No Canvas fallback, audio, accounts, backend, analytics service or persistence is claimed. License/third-party notices remain in the static build.
+Global budgets: **28 enemies, 240 friendly shots, 360 hostile shots, one chest, 120 particles and 32 rings**. Authored simultaneous enemy caps rise from 14 through 18/21 to 28. Image/simulation pools reuse objects. Canvas backing is 450 × 800 on portrait entry or 1600 × 800 on desktop entry, independent of DPR. The chosen logical size stays fixed through resize/restart; FIT preserves proportions. Inputs use the actual canvas rectangle and arena dimensions. Desktop formations preserve four side lanes and 24-minion capacity. The top build/help buttons open native modal dialogs, pause combat, retain state and restore focus; closing requires manual resume. WebGL failure/context loss shows a readable recovery state. No Canvas fallback, audio, accounts, backend, analytics service or persistence is claimed. License/third-party notices remain in the static build.
 
 ## Verification boundaries and tuning metrics
 
-Bun tests exercise fixed position, 30/60/144 Hz equivalence, tracking/penetration, readiness and actual melee/ranged damage, boss counterplay, all forty-three augment cards and eight boss-only numeric trainings and ten tier families, once-per-run epic promotion and cleansing sanctuary, unique chain settlement, lifesteal/overheal bounds, slow/stun/boss resistance, mixed escorts, balanced 1:1:1 species, taunts, poison/slow, threshold skills, bounded summons, mixed four-reward endless stages, compounding growth, independent clocks, rewards, pause, endings and restart.
+Bun tests exercise fixed position, 30/60/144 Hz equivalence, tracking/penetration, readiness and actual melee/ranged damage, boss counterplay, all forty-three augment cards and eight numeric trainings from bosses or score milestones and ten tier families, once-per-run epic promotion and cleansing sanctuary, unique chain settlement, lifesteal/overheal bounds, slow/stun/boss resistance, mixed escorts, balanced 1:1:1 species, taunts, poison/slow, threshold skills, bounded summons, mixed four-reward endless stages, compounding growth, independent clocks, rewards, pause, endings and restart.
 
 `tests/unit/run.test.ts` uses normal target inputs, offered-card choices and endless continuation. It covers a four-stage victory under actual pressure, twenty seeds with success/failure, target decisions that change an outcome and campaign-winning builds both failing in endless and naturally clearing two endless stages. Additional explicit fixtures check mixed rewards and two-stage progression. `tests/policy.ts` is a fixed test policy, not game automation; the runs do not patch HP, damage, RNG, stages or clocks. Results are not human win rates or proof of balance.
 

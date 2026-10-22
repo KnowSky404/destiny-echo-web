@@ -1,5 +1,7 @@
 export const CONFIG = {
   width: 450,
+  scoreTrainingInterval: 5000,
+  lifestealMultiplier: 0.85,
   height: 800,
   player: { x: 225, y: 736 },
   defense: { y: 620, dangerY: 500, lanes: 7, laneGap: 56, rowGap: 54, rows: 4 },
@@ -11,6 +13,8 @@ export const CONFIG = {
   chestLastAt: 46,
   sanctuary: { interval: 8, empoweredInterval: 6, baseDuration: 0.5, durationPerLayer: 0.25 },
   endless: {
+    damageMultiplier: 1.2,
+    attackTiming: 0.8,
     populationCap: 360,
     escortCap: 12,
     summonCount: 6,

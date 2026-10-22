@@ -30,11 +30,14 @@ export async function dragTo(page: Page, x: number, y: number) {
   const box = await page.locator("canvas").boundingBox();
   if (!box) throw new Error("Canvas bounds unavailable");
   await page.mouse.move(
-    box.x + (state.player.x / 450) * box.width,
+    box.x + (state.player.x / state.arena.width) * box.width,
     box.y + (state.player.y / 800) * box.height,
   );
   await page.mouse.down();
-  await page.mouse.move(box.x + (x / 450) * box.width, box.y + (y / 800) * box.height);
+  await page.mouse.move(
+    box.x + (x / state.arena.width) * box.width,
+    box.y + (y / 800) * box.height,
+  );
   await page.clock.runFor(400);
   await page.mouse.up();
 }
@@ -44,7 +47,7 @@ export async function expectPlayerAt(page: Page, x: number, y: number) {
   const box = await page.locator("canvas").boundingBox();
   if (!box) throw new Error("Canvas bounds unavailable");
   // Native engines quantize pointer endpoints to CSS pixels (not logical game units).
-  expect((Math.abs(state.player.x - x) * box.width) / 450).toBeLessThanOrEqual(1.01);
+  expect((Math.abs(state.player.x - x) * box.width) / state.arena.width).toBeLessThanOrEqual(1.01);
   expect((Math.abs(state.player.y - y) * box.height) / 800).toBeLessThanOrEqual(1.01);
 }
 
@@ -73,7 +76,8 @@ export async function resizeAndFit(page: Page, width: number, height: number) {
 export async function clickTarget(page: Page, x: number, y: number, touch = false) {
   const box = await page.locator("canvas").boundingBox();
   if (!box) throw new Error("Canvas bounds unavailable");
-  const clientX = box.x + (x / 450) * box.width;
+  const state = await snapshot(page);
+  const clientX = box.x + (x / state.arena.width) * box.width;
   const clientY = box.y + (y / 800) * box.height;
   if (touch) await page.touchscreen.tap(clientX, clientY);
   else await page.mouse.click(clientX, clientY);
@@ -90,7 +94,7 @@ export async function firstReward(page: Page) {
   throw new Error("First chest never opened");
 }
 
-export async function bootFixture(page: Page, setup: string) {
+export async function bootFixture(page: Page, setup: string, width = 450) {
   await page.route(/\/src\/main\.ts(?:\?.*)?$/, (route) =>
     route.fulfill({
       contentType: "text/javascript",
@@ -101,7 +105,7 @@ export async function bootFixture(page: Page, setup: string) {
       import { GameUI } from "/src/ui/GameUI.ts";
       import { createGame } from "/src/game/createGame.ts";
       import "/src/ui/style.css";
-      const world = new World();
+      const world = new World(${width});
       world.start(3);
       world.bossSpawned = true;
       let fixtureId = 1000000;

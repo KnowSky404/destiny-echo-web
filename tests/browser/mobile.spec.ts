@@ -195,6 +195,8 @@ test("320px stage supply shows synergy progress and preserves the build on a nat
   expect(next.stacks).toEqual({ overload: 1, fuse: 1, bloodpact: 1 });
   expect(next.manualTargetId).toBeNull();
   await expect(page.locator("#stage-label")).toContainText("棱镜回廊");
+  await page.getByRole("button", { name: "本局构筑", exact: true }).tap();
+  await page.clock.runFor(100);
   await page.locator('[data-synergy="blast"] summary').tap();
   await expect(page.locator('[data-synergy="blast"] .synergy-details')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
@@ -256,6 +258,8 @@ test("320px touch can inspect all ten families and select a nine-layer critical 
   await page.clock.runFor(100);
   await expect(page.locator("#synergies details")).toHaveCount(10);
   await expect(page.locator('[data-synergy="precision"]')).toContainText("9/9 · 大质变");
+  await page.getByRole("button", { name: "本局构筑", exact: true }).tap();
+  await page.clock.runFor(100);
   await page.locator('[data-synergy="dominion"] summary').tap();
   await expect(page.locator('[data-synergy="dominion"] .synergy-details')).toContainText("9 层");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(

@@ -170,7 +170,7 @@ describe("authored encounters and independent schedules", () => {
       tick(world, 0.1);
       expect(world.boss?.maxHp).toBe(world.stage.bossHp);
       expect(world.boss?.stage).toBe("Approaching");
-      expect(world.stage.deadline - world.stage.bossAt).toBeGreaterThanOrEqual(36);
+      expect(world.stage.bossAt).toBeGreaterThan(0);
       if (index > 0) expect(world.stage.bossHp).toBeGreaterThan(stageAt(index - 1).bossHp);
     }
   });
@@ -199,17 +199,16 @@ describe("authored encounters and independent schedules", () => {
     expect(prism.enemies.items.length).toBeLessThanOrEqual(CONFIG.limits.enemies);
   });
 
-  test("total time cannot expire a fresh stage; only its own deadline ends it", () => {
+  test("neither total nor stage time can end a living run", () => {
     const world = new World();
     world.start(3);
     world.stageIndex = 2;
     world.elapsed = 1000;
     tick(world, 1);
     expect(world.phase).toBe("Playing");
-    world.stageElapsed = world.stage.deadline - CONFIG.fixedStep;
+    world.stageElapsed = 10000;
     tick(world, 0.02);
-    expect(world.phase).toBe("GameOver");
-    expect(world.endingReason).toBe("timeout");
+    expect(world.phase).toBe("Playing");
   });
 
   test("endless cycles themes with finite escalating difficulty and bounded cadence", () => {
@@ -219,7 +218,7 @@ describe("authored encounters and independent schedules", () => {
       expect(stage.bossHp).toBeGreaterThan(previous);
       expect(Number.isFinite(stage.bossHp)).toBe(true);
       expect(stage.spawnInterval).toBeGreaterThan(0);
-      expect(stage.damage).toBeLessThanOrEqual(4);
+      expect(stage.damage).toBeLessThanOrEqual(4.8);
       expect(stage.name).toContain("无尽");
       previous = stage.bossHp;
     }

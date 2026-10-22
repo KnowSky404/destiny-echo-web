@@ -170,7 +170,7 @@ describe("bounded endless population and growing attributes", () => {
       expect(stage.supportInterval).toBe(2);
       expect(stage.spawnInterval).toBeLessThanOrEqual(previous.spawnInterval);
       expect(stage.spawnInterval).toBeGreaterThan(0);
-      expect(stage.damage).toBeLessThanOrEqual(4);
+      expect(stage.damage).toBeLessThanOrEqual(4.8);
       expect(stage.attackPolicy).toEqual(finale.attackPolicy);
       expect(stage.bossFan).toBe(finale.bossFan);
       expect(stage.bossInterval).toBe(finale.bossInterval);

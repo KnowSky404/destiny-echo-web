@@ -28,7 +28,7 @@ export class BattleScene extends Phaser.Scene {
     createTextures(this);
     this.background();
     this.ship = this.add
-      .image(CONFIG.player.x, CONFIG.player.y, "player")
+      .image(this.world.arena.player.x, this.world.arena.player.y, "player")
       .setScale(0.74)
       .setDepth(5);
     this.halo = this.add.graphics().setDepth(4);
@@ -48,10 +48,10 @@ export class BattleScene extends Phaser.Scene {
   private background(): void {
     const g = this.add.graphics();
     g.fillStyle(0x0b1020, 1);
-    g.fillRect(0, 0, CONFIG.width, CONFIG.height);
+    g.fillRect(0, 0, this.world.arena.width, CONFIG.height);
     const random = seededRandom(73);
     for (let i = 0; i < 120; i++) {
-      const x = random() * CONFIG.width;
+      const x = random() * this.world.arena.width;
       const y = random() * CONFIG.height;
       const radius = i % 5 === 0 ? 1.3 : 0.6;
       g.fillStyle(i % 3 ? 0x8c9bbd : COLORS.blue, 0.15 + random() * 0.45);
@@ -79,22 +79,29 @@ export class BattleScene extends Phaser.Scene {
     }
     sigil.generateTexture("sigil", 420, 420);
     sigil.destroy();
-    this.sigil = this.add.image(225, 315, "sigil").setDepth(-1);
+    this.sigil = this.add.image(this.world.arena.player.x, 315, "sigil").setDepth(-1);
     g.fillStyle(COLORS.gold, 0.035);
-    g.fillRect(18, CONFIG.defense.y - CONFIG.defense.rowGap - 25, 414, CONFIG.defense.rowGap + 50);
+    g.fillRect(
+      18,
+      CONFIG.defense.y - CONFIG.defense.rowGap - 25,
+      this.world.arena.width - 36,
+      CONFIG.defense.rowGap + 50,
+    );
     g.lineStyle(1.5, COLORS.gold, 0.5);
-    g.lineBetween(18, CONFIG.defense.y + 25, 432, CONFIG.defense.y + 25);
+    g.lineBetween(18, CONFIG.defense.y + 25, this.world.arena.width - 18, CONFIG.defense.y + 25);
     g.lineStyle(1, 0x5b749d, 0.18);
-    g.strokeCircle(CONFIG.player.x, CONFIG.player.y, 44);
-    g.strokeCircle(CONFIG.player.x, CONFIG.player.y, 52);
+    g.strokeCircle(this.world.arena.player.x, this.world.arena.player.y, 44);
+    g.strokeCircle(this.world.arena.player.x, this.world.arena.player.y, 52);
     g.fillStyle(0x7185a4, 0.5);
     for (let lane = 0; lane < CONFIG.defense.lanes; lane++) {
-      const x = CONFIG.player.x + (lane - (CONFIG.defense.lanes - 1) / 2) * CONFIG.defense.laneGap;
+      const x =
+        this.world.arena.player.x +
+        (lane - (CONFIG.defense.lanes - 1) / 2) * this.world.arena.laneGap;
       g.strokeEllipse(x, CONFIG.defense.y, 42, 14);
       g.strokeEllipse(x, CONFIG.defense.y - CONFIG.defense.rowGap, 42, 14);
     }
     // Hundreds of static star / circle primitives become two cached GPU textures.
-    g.generateTexture("background", CONFIG.width, CONFIG.height);
+    g.generateTexture("background", this.world.arena.width, CONFIG.height);
     g.destroy();
     this.add.image(0, 0, "background").setOrigin(0).setDepth(-2);
     this.add
@@ -203,7 +210,12 @@ export class BattleScene extends Phaser.Scene {
           enemy.y,
           enemy.radius + 8,
           -Math.PI / 2,
-          -Math.PI / 2 + Math.PI * 2 * (1 - enemy.preparation / ENEMIES[enemy.kind].preparation),
+          -Math.PI / 2 +
+            Math.PI *
+              2 *
+              (1 -
+                enemy.preparation /
+                  (ENEMIES[enemy.kind].preparation * this.world.stage.attackTiming)),
         );
         this.overlay.strokePath();
       }
@@ -327,12 +339,20 @@ export class BattleScene extends Phaser.Scene {
           { x: 386, y: 230 },
         ]
       : [];
-    this.render("menu-wisp", preview, (image, item) => {
-      image.setTexture("wisp").setPosition(item.x, item.y).setScale(0.7).setAlpha(0.75);
-    });
-    this.render("menu-chest", menu ? [{ x: 225, y: 548 }] : [], (image, item) => {
-      image.setTexture("chest").setPosition(item.x, item.y).setScale(0.8);
-    });
+    this.render(
+      "menu-wisp",
+      preview.map((item) => ({ ...item, x: (item.x / CONFIG.width) * this.world.arena.width })),
+      (image, item) => {
+        image.setTexture("wisp").setPosition(item.x, item.y).setScale(0.7).setAlpha(0.75);
+      },
+    );
+    this.render(
+      "menu-chest",
+      menu ? [{ x: this.world.arena.player.x, y: 548 }] : [],
+      (image, item) => {
+        image.setTexture("chest").setPosition(item.x, item.y).setScale(0.8);
+      },
+    );
   }
 
   private render<T>(

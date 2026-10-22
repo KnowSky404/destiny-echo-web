@@ -16,12 +16,14 @@ export function combatStats(player: Player, stacks: ReadonlyMap<string, number>)
     secondaryDamage: barrage >= 6 ? 1 : barrage >= 3 ? 0.8 : CONFIG.friendlyShot.secondaryDamage,
     critChance: Math.min(0.85, player.stats.critChance + (precision >= 3 ? 0.1 : 0)),
     critDamage: player.stats.critDamage + (precision >= 6 ? 0.25 : 0) + (precision >= 9 ? 0.5 : 0),
-    lifesteal: Math.min(
-      0.5,
-      player.stats.lifesteal +
-        (blood >= 9 ? 0.1 : blood >= 3 ? 0.05 : 0) +
-        (player.shield > 0 ? player.stats.shieldLeech : 0),
-    ),
+    lifesteal:
+      CONFIG.lifestealMultiplier *
+      Math.min(
+        0.5,
+        player.stats.lifesteal +
+          (blood >= 9 ? 0.1 : blood >= 3 ? 0.05 : 0) +
+          (player.shield > 0 ? player.stats.shieldLeech : 0),
+      ),
   };
 }
 

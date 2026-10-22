@@ -1,8 +1,12 @@
+import { DESKTOP_WIDTH } from "./game/arena";
+import { CONFIG } from "./game/config";
 import { World } from "./game/world";
 import { element, GameUI } from "./ui/GameUI";
 import "./ui/style.css";
 
-const world = new World();
+const world = new World(
+  window.matchMedia("(min-width: 951px)").matches ? DESKTOP_WIDTH : CONFIG.width,
+);
 const ui = new GameUI(world);
 
 function supportsWebGL(): boolean {

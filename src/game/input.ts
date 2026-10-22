@@ -1,4 +1,3 @@
-import { CONFIG } from "./config";
 import type { Vec2 } from "./types";
 import type { World } from "./world";
 
@@ -78,10 +77,10 @@ export class InputController {
           // Use CSS pixels for touch tolerance, logical pixels for the simulation; never DPR.
           world.selectTargetAt(
             {
-              x: ((event.clientX - rect.left) / rect.width) * CONFIG.width,
-              y: ((event.clientY - rect.top) / rect.height) * CONFIG.height,
+              x: ((event.clientX - rect.left) / rect.width) * world.arena.width,
+              y: ((event.clientY - rect.top) / rect.height) * world.arena.height,
             },
-            ((event.pointerType === "touch" ? 22 : 10) / rect.width) * CONFIG.width,
+            ((event.pointerType === "touch" ? 22 : 10) / rect.width) * world.arena.width,
           );
         }
         this.reset();

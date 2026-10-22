@@ -16,7 +16,7 @@ export interface Stage {
   populationScale: number;
   attackPolicy: AttackPolicy;
   bossAt: number;
-  deadline: number;
+  attackTiming: number;
   bossName: string;
   bossHp: number;
   bossFan: number;
@@ -30,6 +30,7 @@ export interface Stage {
 
 type CampaignEncounter = Omit<
   Stage,
+  | "attackTiming"
   | "health"
   | "enemyCount"
   | "growth"
@@ -45,6 +46,7 @@ function campaignStage(index: number, encounter: CampaignEncounter): Stage {
   return {
     ...encounter,
     health: growth,
+    attackTiming: 1,
     enemyCount,
     growth,
     populationScale: 1,
@@ -64,7 +66,6 @@ export const STAGES: readonly Stage[] = [
     maxEnemies: 14,
     attackPolicy: { type: "defense" },
     bossAt: 52,
-    deadline: 88,
     bossName: "失控圣杯 · 空愿之器",
     bossHp: 2000,
     bossFan: 3,
@@ -82,7 +83,6 @@ export const STAGES: readonly Stage[] = [
     maxEnemies: 18,
     attackPolicy: { type: "defense" },
     bossAt: 48,
-    deadline: 90,
     bossName: "折光主教 · 千面棱镜",
     bossHp: 4300,
     bossFan: 5,
@@ -100,7 +100,6 @@ export const STAGES: readonly Stage[] = [
     maxEnemies: 21,
     attackPolicy: { type: "region", y: 450 },
     bossAt: 46,
-    deadline: 90,
     bossName: "焚星之心 · 永燃余烬",
     bossHp: 7200,
     bossFan: 3,
@@ -118,7 +117,6 @@ export const STAGES: readonly Stage[] = [
     maxEnemies: 28,
     attackPolicy: { type: "defense" },
     bossAt: 48,
-    deadline: 96,
     bossName: "终愿之器 · 命运归零",
     bossHp: 11000,
     bossFan: 5,
@@ -160,12 +158,13 @@ export function stageAt(index: number): Stage {
     populationScale,
     enemyCount,
     maxEnemies: ENCOUNTER_CAPACITY,
-    damage: Math.min(4, finale.damage * 1.04 ** Math.min(depth, 100)),
+    damage:
+      Math.min(4, finale.damage * 1.04 ** Math.min(depth, 100)) * CONFIG.endless.damageMultiplier,
+    attackTiming: CONFIG.endless.attackTiming,
     speed: finale.speed,
     spawnInterval: (finale.bossAt - 0.8) / enemyCount,
     bossAt: finale.bossAt,
     bossHp: Math.round(finale.bossHp * growth),
-    deadline: finale.deadline,
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
     supportInterval: finale.supportInterval,
     supportCount,
