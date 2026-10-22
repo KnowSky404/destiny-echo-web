@@ -19,7 +19,7 @@ import { DebugWorld } from "../../src/game/debug/DebugWorld";
 import { seededRandom } from "../../src/game/random";
 import { createPlayer, World } from "../../src/game/world";
 import { ProfileStore, STORAGE_KEY } from "../../src/ui/debug/store";
-import { tick } from "./helpers";
+import { enemy, hit, tick } from "./helpers";
 
 function required<T>(value: T | undefined | null): T {
   if (value === undefined || value === null) throw new Error("Expected test fixture value");
@@ -312,6 +312,93 @@ describe("PRE battle commands", () => {
     expect(
       world.enemies.items.filter((enemy) => enemy.active && enemy.kind === "boss"),
     ).toHaveLength(1);
+  });
+  test("temporary cadence changes and retained restarts restart the corresponding spawn timers", () => {
+    const world = started();
+    world.execute({ type: "spawn", kind: "boss", count: 1 });
+    world.execute({
+      type: "spawn-rules",
+      stage: { supportInterval: 100, supportCount: 1, maxEnemies: 2 },
+      weights: null,
+    });
+    world.resume();
+    tick(world, 2.1);
+    expect(world.enemies.items.filter((item) => item.active && item.kind !== "boss")).toHaveLength(
+      0,
+    );
+    world.execute({ type: "restart", restoreEntry: false });
+    world.execute({ type: "spawn", kind: "boss", count: 1 });
+    world.resume();
+    tick(world, 2.1);
+    expect(world.enemies.items.filter((item) => item.active && item.kind !== "boss")).toHaveLength(
+      0,
+    );
+    world.execute({
+      type: "spawn-rules",
+      stage: { supportInterval: 0.5, supportCount: 1, maxEnemies: 2 },
+      weights: null,
+    });
+    world.resume();
+    tick(world, 0.6);
+    expect(world.enemies.items.filter((item) => item.active && item.kind !== "boss")).toHaveLength(
+      1,
+    );
+    world.execute({ type: "jump", stage: 1, fresh: true });
+    world.execute({ type: "spawn-rules", stage: { spawnInterval: 100 }, weights: null });
+    world.resume();
+    tick(world, 2);
+    expect(world.stageSpawned).toBe(0);
+  });
+  test("empty stage training policies consume milestones without banking later awards, including checkpoints", () => {
+    const profile = defaultProfile();
+    const policy = defaultRewardPolicy();
+    policy.trainingWeights = Object.fromEntries(TRAININGS.map((item) => [item.id, 0]));
+    profile.payload.stageRules = [
+      { from: 1, to: 1, stage: {}, kindWeights: null, rewards: { stage: policy } },
+    ];
+    const world = started(profile);
+    world.bossSpawned = true;
+    world.score = 4900;
+    hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
+    expect(world.scoreTrainings).toBe(0);
+    expect(world.trainingStacks.size).toBe(0);
+    expect(world.snapshot().nextScoreTraining).toBe(10000);
+    expect(world.scoreMilestones).toBe(1);
+    world.execute({ type: "jump", stage: 2, fresh: false });
+    world.bossSpawned = true;
+    world.resume();
+    hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
+    expect(world.scoreTrainings).toBe(0);
+    world.score = 9900;
+    hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
+    expect(world.scoreTrainings).toBe(1);
+    expect(world.scoreMilestones).toBe(2);
+    world.execute({ type: "restart", restoreEntry: true });
+    expect(world.scoreMilestones).toBe(1);
+    expect(world.scoreTrainings).toBe(0);
+  });
+  test("boss summon notices report the actual configured count and enhancement", () => {
+    const profile = defaultProfile();
+    profile.payload.endless.summonCount = 2;
+    profile.payload.endless.summonMultiplier = 2.25;
+    profile.payload.endless.supplies = 0;
+    const world = started(profile);
+    world.stageIndex = 4;
+    world.bossSpawned = true;
+    enemy(world, {
+      kind: "boss",
+      x: 225,
+      y: 100,
+      defenseX: 225,
+      speed: 0,
+      hp: 70,
+      maxHp: 100,
+      skillsUsed: 0,
+    });
+    tick(world, 0.05);
+    expect(world.notice).toContain("召唤 2 只");
+    expect(world.notice).toContain("×2.25");
+    expect(world.enemies.items.filter((item) => item.active && item.enhanced)).toHaveLength(2);
   });
   test("editing actor max health preserves percentage and removing does not count as a kill", () => {
     const world = started();

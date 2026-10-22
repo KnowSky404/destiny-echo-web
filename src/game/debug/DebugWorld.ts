@@ -31,6 +31,7 @@ const PROGRESS_KEYS = [
   "kills",
   "score",
   "scoreTrainings",
+  "scoreMilestones",
   "openedChests",
   "arrivals",
   "enemyAttacks",
@@ -169,9 +170,11 @@ export class DebugWorld extends World {
       case "spawn-rules": {
         const patch = validateStagePatch(command.stage);
         const weights = validateKindWeights(command.weights);
+        const previous = this.stage;
         this.stagePatch = patch;
         this.kindWeights = weights;
         this.configuredStage = undefined;
+        this.rescheduleSpawns(previous);
         break;
       }
       case "enemy": {
@@ -393,9 +396,11 @@ export class DebugWorld extends World {
     });
     this.resetStage();
     if (!restore) {
+      const previous = this.stage;
       this.stagePatch = patch;
       this.kindWeights = weights;
       this.configuredStage = undefined;
+      this.rescheduleSpawns(previous);
     }
     this.entry = entry;
     this.toPaused();

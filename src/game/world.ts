@@ -206,6 +206,7 @@ export class World {
   clearedStages = 0;
   kills = 0;
   score = 0;
+  scoreMilestones = 0;
   scoreTrainings = 0;
   lastScoreTraining: string | null = null;
   openedChests = 0;
@@ -334,6 +335,13 @@ export class World {
     return ++this.rewardSerial;
   }
 
+  protected rescheduleSpawns(previous: ReturnType<typeof stageAt>): void {
+    if (this.stage.spawnInterval !== previous.spawnInterval)
+      this.spawnCooldown = this.stage.spawnInterval;
+    if (this.stage.supportInterval !== previous.supportInterval)
+      this.supportCooldown = this.stage.supportInterval;
+  }
+
   get endless() {
     return this.stageIndex >= STAGES.length;
   }
@@ -450,6 +458,7 @@ export class World {
     this.clearedStages = 0;
     this.kills = 0;
     this.score = 0;
+    this.scoreMilestones = 0;
     this.scoreTrainings = 0;
     this.lastScoreTraining = null;
     this.openedChests = 0;
@@ -1258,7 +1267,7 @@ export class World {
         // Bounded scalar queue survives saturation without deleting living units.
         this.pendingSummons += this.balance.payload.endless.summonCount;
         this.drainSummons();
-        this.notice = `首领 · 召唤 6 只强化援军，生命与伤害 ×1.5${this.pendingSummons > 0 ? " · 等待空位" : ""}`;
+        this.notice = `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · 等待空位" : ""}`;
       } else {
         const loss = Math.min(this.player.hp, this.bossSlamDamage);
         this.player.hp -= loss;
@@ -1536,7 +1545,7 @@ export class World {
     this.score += points;
     const earned = Math.floor(this.score / CONFIG.scoreTrainingInterval);
     const names: string[] = [];
-    while (this.scoreTrainings < earned) {
+    while (this.scoreMilestones < earned) {
       const policy = this.rewardPolicy("stage");
       const eligible = eligibleTrainings(this.player, this.stacks, this.stageIndex, policy);
       const item = weightedChoice(
@@ -1544,7 +1553,13 @@ export class World {
         (entry) => policy.trainingWeights[entry.id] ?? 1,
         this.trainingRandom,
       );
-      if (!item || !applyTraining(item.id, this.player, this.trainingStacks)) break;
+      if (!item || !applyTraining(item.id, this.player, this.trainingStacks)) {
+        // No eligible grant can change this pool. Consume all unavailable milestones
+        // now, so a later stage cannot retroactively award excluded training.
+        this.scoreMilestones = earned;
+        break;
+      }
+      this.scoreMilestones++;
       this.acquired(item.id);
       this.scoreTrainings++;
       this.lastScoreTraining = item.id;
@@ -1858,8 +1873,9 @@ export class World {
       kills: this.kills,
       score: this.score,
       scoreTrainings: this.scoreTrainings,
+      scoreMilestones: this.scoreMilestones,
       lastScoreTraining: this.lastScoreTraining,
-      nextScoreTraining: (this.scoreTrainings + 1) * CONFIG.scoreTrainingInterval,
+      nextScoreTraining: (this.scoreMilestones + 1) * CONFIG.scoreTrainingInterval,
       openedChests: this.openedChests,
       stacks: Object.fromEntries(this.stacks),
       trainingStacks: Object.fromEntries(this.trainingStacks),
