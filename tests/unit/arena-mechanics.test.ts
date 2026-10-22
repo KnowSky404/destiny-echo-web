@@ -20,9 +20,9 @@ import { attackPermitted } from "../../src/game/systems/enemy";
 import { createPlayer, World } from "../../src/game/world";
 import { enemy, hit, tick } from "./helpers";
 
-function passive(width: number = CONFIG.width) {
+function passive(width: number = CONFIG.width, seed = 71) {
   const world = new World(width);
-  world.start(71);
+  world.start(seed);
   world.stageIndex = 4;
   world.stageSupplies = 3;
   world.bossSpawned = true;
@@ -95,16 +95,36 @@ describe("arena geometry and expanding attack regions", () => {
       }
   });
 
-  test.each([450, 1600])(
-    "only an endless clearance adds two unique permanent regions, capped at the full field: %s",
+  test.each([450, 800, 1600, 2400])(
+    "endless clearances add unique regions until the field above the aircraft row is covered: %s",
     (width) => {
-      const a = passive(width);
-      const b = passive(width);
+      const a = passive(width, 0);
+      const b = passive(width, 0);
       const baseline = a.attackRegions.length;
+      expect(a.arena.attackRegions).toHaveLength(a.arena.laneCount * 7);
+      expect(new Set(a.arena.attackRegions.map((region) => region.y))).toEqual(
+        new Set([0, 100, 200, 300, 400, 500, 600]),
+      );
+      for (const region of a.arena.attackRegions) {
+        expect(region.y).toBeLessThan(700);
+        expect(region.height).toBe(100);
+        expect(region.y + region.height).toBeLessThanOrEqual(700);
+      }
+      expect(baseline).toBe(a.arena.laneCount * 2);
+      expect(new Set(a.attackRegions.map((region) => region.y))).toEqual(new Set([500, 600]));
+      expect(
+        a.attackRegions.reduce((area, region) => area + region.width * region.height, 0),
+      ).toBeCloseTo(width * 200, 6);
       for (let stage = 0; stage < 30; stage++) {
-        const previous = a.attackRegions.map((region) => region.id);
+        const previous = [...a.attackRegions];
         clearAndAdvance(a);
         clearAndAdvance(b);
+        if (stage === 0) {
+          const previousIds = new Set(previous.map((region) => region.id));
+          const added = a.attackRegions.filter((region) => !previousIds.has(region.id));
+          expect(added).toHaveLength(2);
+          expect(added.every((region) => region.y < 500)).toBe(true);
+        }
         expect(a.attackRegions).toEqual(b.attackRegions);
         expect(a.attackRegions.length).toBe(
           Math.min(baseline + (stage + 1) * 2, a.arena.attackRegions.length),
@@ -112,9 +132,26 @@ describe("arena geometry and expanding attack regions", () => {
         expect(new Set(a.attackRegions.map((region) => region.id)).size).toBe(
           a.attackRegions.length,
         );
-        for (const id of previous)
-          expect(a.attackRegions.some((region) => region.id === id)).toBe(true);
+        for (const region of previous) expect(a.attackRegions).toContainEqual(region);
+        for (const [index, region] of a.attackRegions.entries()) {
+          expect(region.x).toBeGreaterThanOrEqual(0);
+          expect(region.y).toBeGreaterThanOrEqual(0);
+          expect(region.x + region.width).toBeLessThanOrEqual(width + 1e-9);
+          expect(region.y + region.height).toBeLessThanOrEqual(700);
+          for (const other of a.attackRegions.slice(index + 1)) {
+            const overlapWidth =
+              Math.min(region.x + region.width, other.x + other.width) -
+              Math.max(region.x, other.x);
+            const overlapHeight =
+              Math.min(region.y + region.height, other.y + other.height) -
+              Math.max(region.y, other.y);
+            expect(overlapWidth <= 1e-9 || overlapHeight <= 1e-9).toBe(true);
+          }
+        }
       }
+      expect(
+        a.attackRegions.reduce((area, region) => area + region.width * region.height, 0),
+      ).toBeCloseTo(width * 700, 6);
       a.pause();
       const saved = a.snapshot();
       tick(a, 10);
@@ -127,7 +164,8 @@ describe("arena geometry and expanding attack regions", () => {
   test("new regions grant real melee damage before arrival and preserve target priority", () => {
     const world = passive();
     clearAndAdvance(world);
-    const region = world.attackRegions.find((region) => region.y < 600);
+    const baseline = new Set(world.arena.baseAttackRegions.map((region) => region.id));
+    const region = world.attackRegions.find((region) => !baseline.has(region.id));
     if (!region) throw new Error("No added region");
     const attacker = enemy(world, {
       x: region.x + region.width / 2,

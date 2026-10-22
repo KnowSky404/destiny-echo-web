@@ -80,12 +80,8 @@ export class BattleScene extends Phaser.Scene {
     sigil.destroy();
     this.sigil = this.add.image(this.world.arena.player.x, 315, "sigil").setDepth(-1);
     g.fillStyle(COLORS.gold, 0.035);
-    g.fillRect(
-      18,
-      CONFIG.defense.y - CONFIG.crowd.cellHeight - 25,
-      this.world.arena.width - 36,
-      CONFIG.crowd.cellHeight + 50,
-    );
+    for (const region of this.world.arena.baseAttackRegions)
+      g.fillRect(region.x, region.y, region.width, region.height);
     g.lineStyle(1.5, COLORS.gold, 0.5);
     g.lineBetween(18, CONFIG.defense.y + 25, this.world.arena.width - 18, CONFIG.defense.y + 25);
     g.lineStyle(1, 0x5b749d, 0.18);
@@ -139,7 +135,6 @@ export class BattleScene extends Phaser.Scene {
     this.overlay.clear();
     if (this.world.endless) {
       for (const region of this.world.attackRegions) {
-        if (region.y >= 600) continue;
         this.overlay.fillStyle(0xe57d98, 0.065);
         this.overlay.fillRect(region.x, region.y, region.width, region.height);
         this.overlay.lineStyle(1, 0xe57d98, 0.3);

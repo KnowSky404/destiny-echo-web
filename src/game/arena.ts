@@ -25,13 +25,14 @@ export function arenaLayout(width: number = CONFIG.width) {
       : CONFIG.crowd.margin + 136 + (index + 0.5) * laneGap,
   );
   const rows = Math.floor((CONFIG.defense.y - CONFIG.crowd.top) / CONFIG.crowd.cellHeight);
-  const regionRows = 8;
+  const regionHeight = 100;
+  const regionRows = 7;
   const attackRegions: AttackRegion[] = Array.from({ length: laneCount * regionRows }, (_, id) => ({
     id,
     x: ((id % laneCount) * width) / laneCount,
-    y: (Math.floor(id / laneCount) * CONFIG.height) / regionRows,
+    y: Math.floor(id / laneCount) * regionHeight,
     width: width / laneCount,
-    height: CONFIG.height / regionRows,
+    height: regionHeight,
   }));
   return {
     width,
@@ -45,6 +46,6 @@ export function arenaLayout(width: number = CONFIG.width) {
     minionCapacity: laneCount * rows,
     encounterCapacity: laneCount * rows + 1,
     attackRegions,
-    baseAttackRegions: attackRegions.filter((region) => region.y >= 600),
+    baseAttackRegions: attackRegions.filter((region) => region.y >= 500 && region.y < 700),
   };
 }

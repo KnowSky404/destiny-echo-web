@@ -268,6 +268,7 @@ export class World {
   private supportCooldown = 0;
   private supportSpawned = 0;
   private minionOrder: EnemyKind[] = [];
+  private attackRegionSpawns = 0;
   private endlessRewardTimes: number[] = [];
   protected pendingStageReward = false;
   private volleys = 0;
@@ -518,6 +519,7 @@ export class World {
     this.stageSupplies = 0;
     this.endlessRewardTimes = [];
     this.minionOrder = [];
+    this.attackRegionSpawns = 0;
     this.pendingStageReward = false;
     for (const kind of Object.keys(this.stageKindSpawns) as EnemyKind[])
       this.stageKindSpawns[kind] = 0;
@@ -1027,9 +1029,21 @@ export class World {
                 a - b,
             )[0];
     if (slot === undefined) return;
+    const minionSpawns = Object.entries(this.stageKindSpawns).reduce(
+      (count, [kind, spawned]) => count + (kind === "boss" ? 0 : spawned),
+      0,
+    );
+    const requireAttackRegion =
+      this.attackRegionSpawns <
+      Math.ceil((minionSpawns + 1) * CONFIG.endless.attackRegionSpawnRatio - 1e-9);
     const position =
       this.endless && kind !== "boss"
-        ? crowdSpawn(this.enemies.items, this.random, this.arena.crowdLanes)
+        ? crowdSpawn(
+            this.enemies.items,
+            this.random,
+            this.arena.crowdLanes,
+            requireAttackRegion ? this.attackRegions : undefined,
+          )
         : undefined;
     if (this.endless && kind !== "boss" && !position) return;
     const enemy = this.enemies.acquire();
@@ -1110,6 +1124,18 @@ export class World {
       formation: this.endless && kind !== "boss",
     });
     this.stageKindSpawns[kind]++;
+    if (
+      this.endless &&
+      kind !== "boss" &&
+      this.attackRegions.some(
+        (region) =>
+          spawnX >= region.x &&
+          spawnX < region.x + region.width &&
+          spawnY >= region.y &&
+          spawnY < region.y + region.height,
+      )
+    )
+      this.attackRegionSpawns++;
     if (ranged) this.rangedSpawns++;
     else if (kind !== "boss") this.meleeSpawns++;
     this.peakEnemies = Math.max(

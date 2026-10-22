@@ -40,7 +40,7 @@ function claim(world: World): void {
     throw new Error("Missing or invalid reward");
 }
 
-describe("balanced species and upper-half spawning", () => {
+describe("balanced species and endless random spawning", () => {
   test("each stage and every reinforcement stream use the same balanced three-species bag", () => {
     for (let index = 0; index < 8; index++) {
       const world = arena();
@@ -67,7 +67,7 @@ describe("balanced species and upper-half spawning", () => {
     }
   });
 
-  test("endless ordinary waves and escorts spawn throughout y=0..400, bosses stay at the top", () => {
+  test("endless minions spawn in the upper half or attack regions, bosses stay at the top", () => {
     const world = arena();
     world.bossSpawned = false;
     tick(world, 6);
@@ -76,12 +76,22 @@ describe("balanced species and upper-half spawning", () => {
     expect(minions.length).toBeLessThanOrEqual(24);
     for (const item of minions) {
       expect(item.spawnY).toBeGreaterThanOrEqual(0);
-      expect(item.spawnY).toBeLessThanOrEqual(400);
+      expect(
+        item.spawnY <= 400 ||
+          world.attackRegions.some(
+            (region) =>
+              item.spawnX >= region.x &&
+              item.spawnX <= region.x + region.width &&
+              item.spawnY >= region.y &&
+              item.spawnY <= region.y + region.height,
+          ),
+      ).toBe(true);
       expect(item.spawnX).toBeGreaterThanOrEqual(item.radius);
       expect(item.spawnX).toBeLessThanOrEqual(CONFIG.width - item.radius);
       expect(item.y).toBeGreaterThanOrEqual(item.spawnY);
     }
-    expect(minions.some((item) => item.spawnY < 100)).toBe(true);
+    expect(minions.some((item) => item.spawnY <= 400)).toBe(true);
+    expect(minions.some((item) => item.spawnY >= 500 && item.spawnY <= 700)).toBe(true);
     expect(new Set(minions.map((item) => item.spawnY)).size).toBeGreaterThan(1);
     expect(new Set(minions.map((item) => item.spawnX)).size).toBe(4 + world.scoreTrainings);
     world.stageElapsed = world.stage.bossAt;
@@ -90,7 +100,18 @@ describe("balanced species and upper-half spawning", () => {
     expect(
       world.enemies.items
         .filter((item) => item.active && item.kind !== "boss")
-        .every((item) => item.spawnY >= 0 && item.spawnY <= 400),
+        .every(
+          (item) =>
+            item.spawnY >= 0 &&
+            (item.spawnY <= 400 ||
+              world.attackRegions.some(
+                (region) =>
+                  item.spawnX >= region.x &&
+                  item.spawnX <= region.x + region.width &&
+                  item.spawnY >= region.y &&
+                  item.spawnY <= region.y + region.height,
+              )),
+        ),
     ).toBe(true);
   });
 });

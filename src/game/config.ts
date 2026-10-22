@@ -13,6 +13,7 @@ export const CONFIG = {
   chestLastAt: 46,
   sanctuary: { interval: 8, empoweredInterval: 6, baseDuration: 0.5, durationPerLayer: 0.25 },
   endless: {
+    attackRegionSpawnRatio: 0.3,
     damageMultiplier: 1.8,
     attackTiming: 0.6,
     populationCap: 360,

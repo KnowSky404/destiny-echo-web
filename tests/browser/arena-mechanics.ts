@@ -3,6 +3,51 @@ import { join } from "node:path";
 import { expect, type Page } from "@playwright/test";
 import { bootFixture, clickTarget, snapshot } from "./helpers";
 
+export async function endlessSpawnFlow(page: Page, name: string, touch = false) {
+  if (touch) await page.setViewportSize({ width: 320, height: 568 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4; world.stageSupplies = 3; world.bossSpawned = false;
+    world.player.cooldown = 1000; world.player.shield = 1000000;
+  `,
+    touch ? 450 : 1600,
+  );
+  const initial = await snapshot(page);
+  expect([...new Set(initial.attackRegions.map((region) => region.y))].sort()).toEqual([500, 600]);
+  const admissions = new Map<number, { spawnX: number; spawnY: number }>();
+  for (let step = 0; step < 8; step++) {
+    await page.clock.runFor(800);
+    for (const enemy of (await snapshot(page)).enemies)
+      if (enemy.kind !== "boss") admissions.set(enemy.id, enemy);
+  }
+  expect(admissions.size).toBeGreaterThanOrEqual(10);
+  let inRegions = 0;
+  const ordered = [...admissions.entries()].sort(([a], [b]) => a - b).map(([, enemy]) => enemy);
+  for (const [index, enemy] of ordered.entries()) {
+    if (
+      initial.attackRegions.some(
+        (region) =>
+          enemy.spawnX >= region.x &&
+          enemy.spawnX < region.x + region.width &&
+          enemy.spawnY >= region.y &&
+          enemy.spawnY < region.y + region.height,
+      )
+    )
+      inRegions++;
+    expect(inRegions).toBeGreaterThanOrEqual(Math.ceil((index + 1) * 0.3 - 1e-9));
+  }
+  expect(new Set(ordered.slice(5).map((enemy) => enemy.spawnY)).size).toBeGreaterThan(1);
+  await expect(page).toHaveTitle("命运残响 · Echoes of Destiny");
+  await expect(page.locator("canvas")).toBeVisible();
+  await expect(page.locator("vite-error-overlay")).toHaveCount(0);
+  await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+  await page.clock.runFor(100);
+  expect((await snapshot(page)).phase).toBe("Paused");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: join(tmpdir(), `destiny-${name}-endless-spawns.png`) });
+}
+
 export async function cleanupAndRegionsFlow(page: Page, name: string, touch = false) {
   if (touch) await page.setViewportSize({ width: 320, height: 568 });
   const width = touch ? 450 : 1600;
