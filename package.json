@@ -25,7 +25,7 @@
     "typecheck": "bunx --bun tsc --noEmit",
     "lint": "bunx --bun biome check .",
     "format": "bunx --bun biome check --write .",
-    "test:browser": "bunx --bun playwright test",
+    "test:browser": "bun run build:pre && bunx --bun playwright test",
     "dev:pre": "bunx --bun vite --mode pre",
     "build:pre": "bun run docs:check && bun run typecheck && bunx --bun vite build --mode pre",
     "balance:validate": "bun scripts/balance.ts validate",

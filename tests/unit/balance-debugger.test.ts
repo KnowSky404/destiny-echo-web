@@ -583,6 +583,43 @@ describe("browser-local version lifecycle", () => {
     expect(() => other.import('{"schemaVersion":2}')).toThrow();
     expect(other.state.draft).toEqual(before);
   });
+  test("deleted revisions are never reused after reload, restoring an old draft or removing every version", () => {
+    const storage = memoryStorage();
+    let store = new ProfileStore(storage);
+    const first = store.saveVersion();
+    const second = store.saveVersion();
+    store.remove(second.id, second.revision);
+    store = new ProfileStore(storage);
+    store.state.draft.payload.player.stats.damage = 70;
+    const third = store.saveVersion();
+    expect(third.id).toBe(first.id);
+    expect(third.revision).toBe(3);
+    expect(third.payload).not.toEqual(second.payload);
+    store.remove(first.id, first.revision);
+    store.remove(third.id, third.revision);
+    store.state.draft = structuredClone(first);
+    store.persist();
+    store = new ProfileStore(storage);
+    expect(store.saveVersion().revision).toBe(4);
+    store.copy(first);
+    expect(store.saveVersion().revision).toBe(1);
+    store.import(JSON.stringify(second));
+    expect(store.saveVersion().revision).toBe(1);
+  });
+  test("legacy storage infers revision counters and invalid counters preserve the original storage", () => {
+    const storage = memoryStorage();
+    const draft = defaultProfile();
+    draft.id = "legacy-profile";
+    draft.revision = 2;
+    storage.setItem(STORAGE_KEY, JSON.stringify({ draft, versions: [], selected: null }));
+    const legacy = new ProfileStore(storage);
+    expect(legacy.saveVersion().revision).toBe(3);
+    const invalid = JSON.stringify({ ...legacy.state, revisions: { "legacy-profile": -1 } });
+    storage.setItem(STORAGE_KEY, invalid);
+    const broken = new ProfileStore(storage);
+    expect(broken.warning).toContain("未能读取");
+    expect(storage.getItem(STORAGE_KEY)).toBe(invalid);
+  });
   test("blocked/corrupt storage has a readable fallback and never silently rewrites the original", () => {
     const storage = memoryStorage();
     storage.data.set(STORAGE_KEY, "bad JSON");

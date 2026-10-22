@@ -70,6 +70,8 @@ bun run build
 bun run test:browser
 ```
 
+`test:browser` 会先构建独立的 `dist-pre/`，因此上述流程在干净检出中也能启动所有测试服务器；`bun run build` 负责 `dist/` 的 PRO 产物。直接调用 Playwright CLI 时须自行先构建这两个目录。
+
 Linux 缺少图形库时按 Playwright 的依赖提示处理。无图形设备的环境可能无法启动 Firefox / WebKit 的 WebGL，可在支持 Mesa 的环境使用虚拟显示执行有界面测试；也可先运行 `bun run test:browser --project=chromium --project=mobile-chromium`。浏览器可通过 `PLAYWRIGHT_BROWSERS_PATH` 安装到可写缓存。测试服务器由 Playwright 启停，只监听回环地址；截图、失败 trace 和结果写入系统临时目录。
 
 本 VPS 的 Firefox / WebKit 使用以下方式访问软件 WebGL：
@@ -291,4 +293,4 @@ Phaser 按 MIT 许可分发，构建携带 [第三方声明](public/THIRD_PARTY_
 
 Browser 插件不可用，使用匹配版本的 Playwright 与软件 WebGL；页面身份、非空内容、无错误遮罩、控制台、截图及交互状态均检查。截图和 trace 保留在系统临时目录。额外引擎验证、最新提交审阅、Wiki 与 PRE/PRO 的最终结果在 PR 交付记录中分别核验；不将模拟器或本地结果当作真机、长局性能或线上部署验收。
 
-本次 PRE 数值实验室（2026-10-22）通过 237 项 Bun 单元测试，以及真实 PRE 构建在 Chromium、320px 原生触控、Firefox、WebKit 上的 20 个浏览器场景。覆盖玩家／卡组与敌人编辑、两种重开、跳关、关卡范围和实际单卡奖励、版本保存、刷新恢复、配置往返、独立浏览器隔离、无效导入、键盘焦点及 PRO／默认开发无调试入口。回归测试包含间隔修改后的计时、禁用锻体时消耗里程碑和自定义召唤提示。文档、类型、lint、两种构建与 PRE dry-run 分别校验；Browser 插件不可用，使用 Playwright，Firefox／WebKit 使用 Xvfb 软件 WebGL。该记录不代表真机、长时间平衡或生产发布验收。
+本次 PRE 数值实验室（2026-10-22）通过 239 项 Bun 单元测试，以及真实 PRE 构建在 Chromium、320px 原生触控、Firefox、WebKit 上的 20 个浏览器场景。覆盖玩家／卡组与敌人编辑、两种重开、跳关、关卡范围和实际单卡奖励、版本保存、刷新恢复、配置往返、独立浏览器隔离、无效导入、键盘焦点及 PRO／默认开发无调试入口。回归测试包含间隔修改后的计时、禁用锻体时消耗里程碑和自定义召唤提示。文档、类型、lint、两种构建与 PRE dry-run 分别校验；Browser 插件不可用，使用 Playwright，Firefox／WebKit 使用 Xvfb 软件 WebGL。该记录不代表真机、长时间平衡或生产发布验收。
