@@ -74,10 +74,18 @@ export class ProfileStore {
   }
   async withWriteLock<T>(action: () => T): Promise<T> {
     const write = () => {
-      this.assertCurrent();
-      return action();
+      // Firefox reports exceptions thrown across this native callback boundary
+      // as page errors even when the request promise has a rejection handler.
+      try {
+        this.assertCurrent();
+        return { ok: true as const, value: action() };
+      } catch (error) {
+        return { ok: false as const, error };
+      }
     };
-    return this.locks ? this.locks.request(`${STORAGE_KEY}:write`, write) : write();
+    const result = this.locks ? await this.locks.request(`${STORAGE_KEY}:write`, write) : write();
+    if (!result.ok) throw result.error;
+    return result.value;
   }
   persist(): boolean {
     if (!this.storage) {
