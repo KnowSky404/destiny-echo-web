@@ -258,6 +258,13 @@ test("loads real WebGL, old movement inputs keep the ship fixed and pause blocks
   await page.clock.runFor(100);
   await dragTo(page, 310, 740);
   await expectPlayerAt(page, initial.player.x, 736);
+  // A natural chest may have opened during the input exercise. Claim its real
+  // offer before testing blur from Playing; reward selection correctly stays frozen.
+  if ((await snapshot(page)).phase === "RewardSelection") {
+    await page.locator(".reward-card").first().click();
+    await page.clock.runFor(100);
+  }
+  expect((await snapshot(page)).phase).toBe("Playing");
   await page.evaluate(() => window.dispatchEvent(new Event("blur")));
   await page.clock.runFor(100);
   expect((await snapshot(page)).phase).toBe("Paused");
