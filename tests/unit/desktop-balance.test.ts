@@ -19,7 +19,7 @@ function arena(width: number = CONFIG.width) {
 }
 
 describe("first-stage survival restrictions", () => {
-  test("every reward source filters all four excluded families before epic promotion", () => {
+  test("every reward source filters all excluded families before epic promotion", () => {
     const world = arena();
     world.stacks.set("overload", 9);
     const later = new Set<string>();
@@ -129,18 +129,18 @@ test("living campaign and endless runs continue beyond every former deadline", (
 });
 
 test("endless damage and preparation/cadence use the agreed multipliers", () => {
-  expect(stageAt(4).damage).toBeCloseTo(1.35 * 1.04 * 1.2, 8);
+  expect(stageAt(4).damage).toBeCloseTo(1.35 * 1.08 * 1.8, 8);
   const world = arena();
   world.stageIndex = 4;
   world.stageSupplies = 3;
   const target = enemy(world, { kind: "wisp", y: 620, arrived: true, speed: 0 });
   tick(world, CONFIG.fixedStep);
-  expect(target.preparation).toBeCloseTo(ENEMIES.wisp.preparation * 0.8);
-  tick(world, Math.ceil((ENEMIES.wisp.preparation * 0.8) / CONFIG.fixedStep) * CONFIG.fixedStep);
+  expect(target.preparation).toBeCloseTo(ENEMIES.wisp.preparation * 0.6);
+  tick(world, Math.ceil((ENEMIES.wisp.preparation * 0.6) / CONFIG.fixedStep) * CONFIG.fixedStep);
   expect(world.regularAttacks).toBe(1);
   expect(world.damageTaken).toBeCloseTo(ENEMIES.wisp.damage * world.stage.damage);
-  expect(target.shotCooldown).toBeCloseTo(ENEMIES.wisp.interval * 0.8, 1);
-  expect(world.bossSlamDamage).toBe(120);
+  expect(target.shotCooldown).toBeCloseTo(ENEMIES.wisp.interval * 0.6, 1);
+  expect(world.bossSlamDamage).toBe(180);
 });
 
 test("all lifesteal sources and its cap are reduced by 15 percent", () => {

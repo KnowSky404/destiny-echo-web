@@ -2,6 +2,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 import { chooseReward } from "../policy";
+import { cleanupAndRegionsFlow, healthScalingCardsFlow } from "./arena-mechanics";
 import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
 import {
   boot,
@@ -67,19 +68,20 @@ test("desktop Firefox fills the wide screen and keeps target coordinates correct
   await start(page);
   await page.clock.runFor(4500);
   const state = await snapshot(page);
-  expect(state.arena.width).toBe(1600);
-  expect(state.player.x).toBe(800);
+  expect(state.arena.width).toBeGreaterThan(800);
+  expect(state.arena.laneCount).toBe(6);
+  expect(state.player.x).toBe(state.arena.width / 2);
   const viewport = page.viewportSize();
   const box = await page.locator("canvas").boundingBox();
   if (!box || !viewport) throw new Error("Missing viewport");
   expect((box.width * box.height) / (viewport.width * viewport.height)).toBeGreaterThan(0.8);
-  expect(box.width / box.height).toBeCloseTo(2, 2);
+  expect(box.width / box.height).toBeCloseTo(state.arena.width / 800, 2);
   expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(
     true,
   );
   await expect(page.locator("#build-dialog")).not.toBeVisible();
   await expect(page.locator("#help-dialog")).not.toBeVisible();
-  const target = state.enemies.find((item) => item.x > 800);
+  const target = state.enemies.find((item) => item.x > state.arena.width / 2);
   if (!target) throw new Error("No target on the right side of the wide arena");
   await clickTarget(page, target.x, target.y);
   expect((await snapshot(page)).manualTargetId).toBe(target.id);
@@ -92,7 +94,7 @@ test("desktop Firefox fills the wide screen and keeps target coordinates correct
   if (!current) throw new Error("Target disappeared while paused");
   await clickTarget(page, current.x, current.y);
   expect((await snapshot(page)).manualTargetId).toBe(target.id);
-  expect((await snapshot(page)).player.x).toBe(800);
+  expect((await snapshot(page)).player.x).toBe(state.arena.width / 2);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-wide-1366.png`) });
 });
 
@@ -111,7 +113,7 @@ test("top build and help dialogs pause battle, scroll independently and return k
   expect(title.height).toBeLessThan(48);
   expect(close.width).toBeLessThan(220);
   await expect(build.locator("#stats")).toContainText("普攻吸血");
-  await expect(build.locator("#synergies details")).toHaveCount(10);
+  await expect(build.locator("#synergies details")).toHaveCount(12);
   await expect(build).toContainText("下一张 5000 分");
   const before = await snapshot(page);
   await page.clock.runFor(600);
@@ -310,7 +312,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     );
     test.setTimeout(browserName === "firefox" ? 600_000 : 300_000);
     await boot(page);
-    await page.clock.setSystemTime(new Date(strategy === "offense" ? 2 : 1));
+    await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 1));
     await start(page);
     for (let second = 0; second < 95; second++) {
       const state = await snapshot(page);
@@ -380,7 +382,7 @@ for (const strategy of ["offense", "defensive"] as const) {
     expect(fresh.phase).toBe("Playing");
     expect(fresh.elapsed).toBeLessThan(0.3);
     expect(fresh.player.hp).toBe(100);
-    expect(fresh.player.stats.damage).toBe(12);
+    expect(fresh.player.stats.damage).toBe((12 * fresh.arena.laneCount) / 4);
     expect(fresh.player.stats.projectiles).toBe(1);
     expect(fresh.stacks).toEqual({});
     expect(fresh.manualTargetId).toBeNull();
@@ -419,14 +421,14 @@ test("production static build loads without diagnostics or missing assets", asyn
   expect(await page.evaluate(() => window.__ECHOES__)).toBeUndefined();
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
-  await expect(help).toContainText("43 张构筑残响卡");
-  await expect(help).toContainText("两项随机锻体与一张构筑残响三选一");
-  await expect(help).toContainText("无尽最多 24 只小怪与 1 个 Boss");
+  await expect(help).toContainText("51 张残响");
+  await expect(help).toContainText("两项不同锻体与一张随机残响三选一");
+  await expect(help).toContainText("手机最多 24 只小怪加首领");
   await expect(help).toContainText("遗世庇护");
   await expect(help).toContainText("首层 0.75 秒");
-  await expect(help).toContainText("治疗 -90%");
-  await expect(help).toContainText("此后每关 +6");
-  await expect(help).toContainText("首关宝箱和首领奖励排除");
+  await expect(help).toContainText("减少 90% 治疗");
+  await expect(help).toContainText("之后每关 +9");
+  await expect(help).toContainText("首关只开放");
   await expect(
     help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),
   ).toHaveAttribute("href", "https://github.com/KnowSky404/destiny-echo-web/wiki");
@@ -660,7 +662,7 @@ for (const layers of [3, 9]) {
       world.state.transition("RewardSelection");
     `,
     );
-    await expect(page.locator("#synergies details")).toHaveCount(10);
+    await expect(page.locator("#synergies details")).toHaveCount(12);
     await expect(page.locator('[data-card="overload"]')).toContainText(
       `${layers - 1} → ${layers}/${layers}`,
     );
@@ -824,4 +826,16 @@ test("mixed boss training reward settles before victory and survives endless", a
 
 test("full endless formation shows capacity and fusion star upgrades", async ({ page }, info) => {
   await crowdFusionFlow(page, info.project.name, false);
+});
+
+test("boss cleanup preserves minions and clearance expands two visible attack regions", async ({
+  page,
+}, info) => {
+  await cleanupAndRegionsFlow(page, info.project.name);
+});
+
+test("health-scaling card groups preview real coefficients and selection applies once", async ({
+  page,
+}, info) => {
+  await healthScalingCardsFlow(page, info.project.name);
 });

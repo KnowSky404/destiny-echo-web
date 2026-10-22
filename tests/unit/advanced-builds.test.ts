@@ -108,7 +108,7 @@ describe("large transformations and combined deterministic combat", () => {
     world.update(CONFIG.fixedStep);
     expect(world.player.hp).toBe(100);
     expect(first.hp).toBe(914);
-    expect(second.hp).toBe(950);
+    expect(second.hp).toBe(914);
     tick(world, 30);
     expect(world.player.shield).toBe(100);
   });

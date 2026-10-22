@@ -2,7 +2,7 @@ import { CONFIG } from "../game/config";
 import { type Random, shuffled } from "../game/random";
 import { combatStats } from "../game/stats";
 import type { Player, Stats, Training } from "../game/types";
-import { CARD_BY_ID, CARDS, drawCards } from "./cards";
+import { CARDS, drawCards } from "./cards";
 
 function training(
   id: string,
@@ -96,8 +96,7 @@ export function drawBossRewards(
     2,
   );
   const augments = drawCards(player, stacks, random, "stage", stageIndex);
-  const card =
-    augments.find((id) => CARD_BY_ID.get(id)?.rarity === "epic") ?? shuffled(augments, random)[0];
+  const card = shuffled(augments, random)[0];
   return [...trainingChoices.map((item) => item.id), ...(card ? [card] : [])];
 }
 

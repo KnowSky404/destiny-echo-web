@@ -1,18 +1,15 @@
+import { arenaLayout } from "../arena";
 import { CONFIG } from "../config";
 import { type Random, shuffled } from "../random";
 import type { Enemy, Vec2 } from "../types";
 import { advanceEnemy } from "./enemy";
 
-// FIT scales the entire 450 x 800 arena, so CSS size and DPR do not change capacity.
-// 414 / 68 = 6 columns; reserve the middle two for the 118 px boss silhouette.
-// floor((620 - 116) / 84) = 6 rows, leaving entry space above the formation.
-const columns = Math.floor((CONFIG.width - CONFIG.crowd.margin * 2) / CONFIG.crowd.cellWidth);
-const rows = Math.floor((CONFIG.defense.y - CONFIG.crowd.top) / CONFIG.crowd.cellHeight);
-export const CROWD_LANES = Array.from({ length: columns }, (_, lane) => lane)
-  .filter((lane) => Math.abs(lane - (columns - 1) / 2) >= CONFIG.crowd.reservedColumns / 2)
-  .map((lane) => CONFIG.player.x + (lane - (columns - 1) / 2) * CONFIG.crowd.cellWidth);
-export const MINION_CAPACITY = CROWD_LANES.length * rows;
-export const ENCOUNTER_CAPACITY = MINION_CAPACITY + 1;
+// Each arena has its own lanes; these exports describe the portrait baseline.
+const portrait = arenaLayout();
+const rows = portrait.rows;
+export const CROWD_LANES = portrait.crowdLanes;
+export const MINION_CAPACITY = portrait.minionCapacity;
+export const ENCOUNTER_CAPACITY = portrait.encounterCapacity;
 
 export function crowdSpawn(
   enemies: readonly Enemy[],
@@ -68,6 +65,7 @@ export function advanceFusion(
   enemies: readonly Enemy[],
   delta: number,
   merged: (enemy: Enemy) => void,
+  distance: number = CONFIG.fusion.distance,
 ): void {
   const claimed = new Set<number>();
   const progressing = new Set<number>();
@@ -81,7 +79,7 @@ export function advanceFusion(
         enemy.stunTime <= 0,
     )
     .sort((a, b) => a.id - b.id);
-  const close = (a: Enemy, b: Enemy) => Math.hypot(a.x - b.x, a.y - b.y) <= CONFIG.fusion.distance;
+  const close = (a: Enemy, b: Enemy) => Math.hypot(a.x - b.x, a.y - b.y) <= distance;
   for (const anchor of eligible) {
     if (claimed.has(anchor.id)) continue;
     const peers = eligible.filter(

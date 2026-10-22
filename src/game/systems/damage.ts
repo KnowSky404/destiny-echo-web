@@ -2,10 +2,9 @@ import { CONFIG } from "../config";
 import type { Player } from "../types";
 
 export function healingMultiplier(player: Player): number {
-  return player.poisonTime > 0 ? 1 - CONFIG.endless.poisonHealingReduction : 1;
+  return player.woundTime > 0 ? 1 - CONFIG.endless.woundRecoveryReduction : 1;
 }
 
-// Fixed card heals share poison's grievous wound penalty with combat healing.
 export function healPlayer(player: Player, amount: number): number {
   if (amount <= 0 || player.hp <= 0) return 0;
   const restored = Math.min(amount * healingMultiplier(player), player.stats.maxHp - player.hp);
@@ -13,31 +12,71 @@ export function healPlayer(player: Player, amount: number): number {
   return restored;
 }
 
+// Overheal has already paid the recovery penalty, so conversion pays it once.
+export function grantShield(
+  player: Player,
+  amount: number,
+  capacity = Infinity,
+  reduced = false,
+): number {
+  if (amount <= 0 || player.hp <= 0) return 0;
+  const restored = Math.max(
+    0,
+    Math.min(amount * (reduced ? 1 : healingMultiplier(player)), capacity - player.shield),
+  );
+  player.shield += restored;
+  if (player.shield > 0) player.poisonSlowTime = 0;
+  return restored;
+}
+
+export function applyWounds(player: Player, duration: number): void {
+  player.woundTime += Math.max(0, duration);
+}
+
 export function cleansePlayer(player: Player): void {
   player.poisonTime = 0;
   player.poisonSlowTime = 0;
-  player.poisonPotency = 1;
+  player.woundTime = 0;
+  player.poisonDamageBonus = 0;
+  player.poisonSlowBonus = 0;
 }
 
-export function applyPoison(player: Player, potency = 1): void {
-  player.poisonPotency = player.poisonTime > 0 ? Math.max(player.poisonPotency, potency) : potency;
-  player.poisonTime = CONFIG.endless.poisonDuration;
+export function applyPoison(player: Player, random: () => number = () => 0.5): void {
+  if (player.poisonTime > 0) {
+    if (random() < 0.5) player.poisonDamageBonus++;
+    else player.poisonSlowBonus += 0.01;
+  } else {
+    player.poisonDamageBonus = 0;
+    player.poisonSlowBonus = 0;
+  }
+  player.poisonTime += CONFIG.endless.poisonDuration;
+  applyWounds(player, CONFIG.endless.poisonDuration);
+  player.poisonSlowTime = player.shield <= 0 ? player.poisonTime : 0;
 }
 
-// Poison is one continuous effect. It consumes shields first without hit immunity
-// or per-tick retaliation; only real HP loss refreshes the attack-speed penalty.
+export function poisonSlow(player: Player): number {
+  return player.poisonTime > 0 && player.shield <= 0
+    ? Math.min(0.9, CONFIG.endless.poisonAttackSlow + player.poisonSlowBonus)
+    : 0;
+}
+
+// One continuous status drains shields first, without hit immunity or retaliation.
 export function advancePoison(player: Player, delta: number): number {
-  player.poisonSlowTime = Math.max(0, player.poisonSlowTime - delta);
   const duration = Math.min(delta, player.poisonTime);
+  const damage = duration * (CONFIG.endless.poisonDamagePerSecond + player.poisonDamageBonus);
   player.poisonTime = Math.max(0, player.poisonTime - delta);
+  player.woundTime = Math.max(0, player.woundTime - delta);
   if (player.poisonTime < 1e-9) player.poisonTime = 0;
-  if (duration <= 0 || player.hp <= 0) return 0;
-  const damage = duration * CONFIG.endless.poisonDamagePerSecond * player.poisonPotency;
+  if (player.woundTime < 1e-9) player.woundTime = 0;
   const absorbed = Math.min(player.shield, damage);
   player.shield -= absorbed;
   const loss = Math.min(player.hp, damage - absorbed);
   player.hp -= loss;
-  if (loss > 0) player.poisonSlowTime = CONFIG.endless.poisonDuration;
+  player.poisonSlowTime = poisonSlow(player) > 0 ? player.poisonTime : 0;
+  if (player.poisonTime === 0) {
+    player.poisonDamageBonus = 0;
+    player.poisonSlowBonus = 0;
+  }
   return absorbed + loss;
 }
 

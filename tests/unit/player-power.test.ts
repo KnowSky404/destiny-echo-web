@@ -217,8 +217,8 @@ describe("epic progression and actual power", () => {
     },
   );
   test("every family has a once-per-run epic that still contributes one family point", () => {
-    expect(EPIC_CARDS).toHaveLength(10);
-    expect(new Set(EPIC_CARDS.map((card) => card.synergy)).size).toBe(10);
+    expect(EPIC_CARDS).toHaveLength(12);
+    expect(new Set(EPIC_CARDS.map((card) => card.synergy)).size).toBe(12);
     for (const card of EPIC_CARDS) {
       const player = createPlayer();
       const stacks = new Map<string, number>();
@@ -230,7 +230,7 @@ describe("epic progression and actual power", () => {
     }
   });
 
-  test("early rewards keep foundations, later rewards can promote an epic, stage rewards guarantee one", () => {
+  test("early rewards keep foundations, later rewards can promote an epic, stage rewards also roll promotion", () => {
     const player = createPlayer();
     const stacks = new Map<string, number>();
     for (let seed = 0; seed < 100; seed++)
@@ -249,12 +249,12 @@ describe("epic progression and actual power", () => {
         expect(new Set(cards).size).toBe(3);
         expect(cards.some((card) => card?.offense)).toBe(true);
         const epics = cards.filter((card) => card?.rarity === "epic");
-        if (source === "stage") expect(epics).toHaveLength(1);
-        else promotions += epics.length;
+        expect(epics.length).toBeLessThanOrEqual(1);
+        promotions += epics.length;
       }
     }
     expect(promotions).toBeGreaterThan(0);
-    expect(promotions).toBeLessThan(200);
+    expect(promotions).toBeLessThan(300);
     for (const card of EPIC_CARDS) applyCard(card.id, player, stacks);
     expect(
       drawCards(player, stacks, seededRandom(1), "stage").some(

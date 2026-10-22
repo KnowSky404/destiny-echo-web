@@ -11,16 +11,17 @@ import {
 import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
 import { Pool } from "./pool";
-import { type Random, seededRandom } from "./random";
+import { type Random, seededRandom, shuffled } from "./random";
 import { RunState } from "./state";
 import { combatStats, overhealStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
-import { advanceFormation, advanceFusion, crowdSpawn, MINION_CAPACITY } from "./systems/crowd";
+import { advanceFormation, advanceFusion, crowdSpawn } from "./systems/crowd";
 import {
   advancePoison,
   applyPoison,
   cleansePlayer,
   damagePlayer,
+  grantShield,
   healingMultiplier,
   healPlayer,
 } from "./systems/damage";
@@ -34,6 +35,7 @@ import {
   tauntedTargets,
 } from "./systems/targeting";
 import type {
+  AttackRegion,
   Blast,
   BossSkill,
   Chest,
@@ -49,7 +51,7 @@ import type {
 
 type DamageSource = "shot" | "blast" | "counter" | "arc";
 
-export function createPlayer(position: Vec2 = CONFIG.player): Player {
+export function createPlayer(position: Vec2 = CONFIG.player, population = 1): Player {
   return {
     ...position,
     hp: 100,
@@ -58,9 +60,11 @@ export function createPlayer(position: Vec2 = CONFIG.player): Player {
     cooldown: 0,
     poisonTime: 0,
     poisonSlowTime: 0,
-    poisonPotency: 1,
+    woundTime: 0,
+    poisonDamageBonus: 0,
+    poisonSlowBonus: 0,
     stats: {
-      damage: 12,
+      damage: 12 * population,
       interval: 0.34,
       projectiles: 1,
       piercing: 0,
@@ -91,6 +95,12 @@ export function createPlayer(position: Vec2 = CONFIG.player): Player {
       overheal: 0,
       shieldCapacity: 0,
       shieldLeech: 0,
+      giantSlayer: 0,
+      giantPower: 0,
+      giantHunt: 0,
+      maxHealthDamage: 0,
+      currentHealthDamage: 0,
+      erosionPulse: 0,
     },
   };
 }
@@ -118,10 +128,12 @@ function createProjectile(): Projectile {
 
 export class World {
   readonly arena;
+  readonly attackRegions: AttackRegion[];
 
   constructor(width: number = CONFIG.width) {
     this.arena = arenaLayout(width);
-    this.player = createPlayer(this.arena.player);
+    this.player = createPlayer(this.arena.player, this.arena.laneCount / 4);
+    this.attackRegions = [...this.arena.baseAttackRegions];
   }
   readonly state = new RunState();
   readonly enemies = new Pool<Enemy>(CONFIG.limits.enemies, () => ({
@@ -217,6 +229,7 @@ export class World {
   lastScoreTraining: string | null = null;
   openedChests = 0;
   bossSpawned = false;
+  bossDefeated = false;
   endingReason = "health" as const;
   lastHitAt = -10;
   notice = "";
@@ -257,6 +270,8 @@ export class World {
   private combatRandom: Random = seededRandom(1);
   private bossRandom: Random = seededRandom(2);
   private enemyRandom: Random = seededRandom(3);
+  private regionRandom: Random = seededRandom(5);
+  private configuredStage?: { index: number; value: ReturnType<typeof stageAt> };
   private nextId = 1;
   private rewardSerial = 0;
   private accumulator = 0;
@@ -265,6 +280,7 @@ export class World {
   private bloodCooldown = 5;
   private shieldCooldown = 3;
   private stormCooldown = 6;
+  private erosionCooldown = 4;
   private frostCooldown = 6;
   private controlCooldown = 8;
   private supportCooldown = 0;
@@ -282,7 +298,12 @@ export class World {
     return Math.min(5, Math.floor(this.stageElapsed / 11) + 1);
   }
   get stage() {
-    return stageAt(this.stageIndex);
+    if (this.configuredStage?.index !== this.stageIndex)
+      this.configuredStage = {
+        index: this.stageIndex,
+        value: stageAt(this.stageIndex, this.arena.width),
+      };
+    return this.configuredStage.value;
   }
   get endless() {
     return this.stageIndex >= STAGES.length;
@@ -380,7 +401,9 @@ export class World {
     this.combatRandom = seededRandom(seed ^ 0x5a17);
     this.bossRandom = seededRandom(seed ^ 0xb055);
     this.enemyRandom = seededRandom(seed ^ 0xe11e);
-    this.player = createPlayer(this.arena.player);
+    this.regionRandom = seededRandom(seed ^ 0x2a0e);
+    this.attackRegions.splice(0, this.attackRegions.length, ...this.arena.baseAttackRegions);
+    this.player = createPlayer(this.arena.player, this.arena.laneCount / 4);
     this.stacks.clear();
     this.trainingStacks.clear();
     this.fusions = 0;
@@ -428,6 +451,7 @@ export class World {
     this.stageElapsed = 0;
     this.sanctuaryRemaining = 0;
     this.bossSpawned = false;
+    this.bossDefeated = false;
     this.reward = null;
     this.targetId = null;
     this.manualTargetId = null;
@@ -444,6 +468,7 @@ export class World {
     this.supportSpawned = 0;
     this.pendingSummons = 0;
     this.stormCooldown = 6;
+    this.erosionCooldown = 4;
     this.frostCooldown = 6;
     this.controlCooldown = 8;
     this.stageSpawned = 0;
@@ -469,6 +494,14 @@ export class World {
   }
 
   private advanceStage(): void {
+    if (this.endless) {
+      const active = new Set(this.attackRegions.map((region) => region.id));
+      const added = shuffled(
+        this.arena.attackRegions.filter((region) => !active.has(region.id)),
+        this.regionRandom,
+      ).slice(0, 2);
+      this.attackRegions.push(...added);
+    }
     this.stageIndex++;
     cleansePlayer(this.player);
     healPlayer(this.player, 35);
@@ -633,12 +666,17 @@ export class World {
         (enemy, time) => this.enemyDelta(enemy, time),
         this.arena.crowdLanes,
       );
-      advanceFusion(this.enemies.items, delta, (enemy) => {
-        this.fusions++;
-        this.showBlast(enemy, enemy.radius + 16, 0xdec28a);
-        this.notice = `${ENEMIES[enemy.kind].name} · 融合为 ${enemy.stars} 星，生命已回满`;
-        this.noticeUntil = this.elapsed + 2;
-      });
+      advanceFusion(
+        this.enemies.items,
+        delta,
+        (enemy) => {
+          this.fusions++;
+          this.showBlast(enemy, enemy.radius + 16, 0xdec28a);
+          this.notice = `${ENEMIES[enemy.kind].name} · 融合为 ${enemy.stars} 星，生命已回满`;
+          this.noticeUntil = this.elapsed + 2;
+        },
+        CONFIG.fusion.distance * this.arena.rangeScale,
+      );
     }
     this.refreshTarget();
     this.attack(delta);
@@ -650,15 +688,18 @@ export class World {
       chest.y = Math.min(340, chest.y + 7 * hostileDelta);
     }
     this.collisions();
+    this.completeStageIfReady();
     this.refreshTarget();
     if (this.phase !== "Playing") return;
     this.buildEffects(delta);
+    this.completeStageIfReady();
     this.refreshTarget();
     if (this.phase !== "Playing") return;
     // Resolve incoming friendly hits before releasing an attack on this step.
     if (!frozen && this.boss && this.endless) this.endlessBossSkills(this.boss);
     if (this.phase !== "Playing") return;
     this.enemyAttack(delta);
+    this.completeStageIfReady();
     if (this.phase !== "Playing") return;
     for (const enemy of this.enemies.items) {
       if (!enemy.active) continue;
@@ -732,8 +773,8 @@ export class World {
         this.shots,
         x,
         y,
-        Math.cos(angle) * CONFIG.friendlyShot.speed,
-        Math.sin(angle) * CONFIG.friendlyShot.speed,
+        Math.cos(angle) * CONFIG.friendlyShot.speed * Math.sqrt(this.arena.width / CONFIG.width),
+        Math.sin(angle) * CONFIG.friendlyShot.speed * Math.sqrt(this.arena.width / CONFIG.width),
         stats.damage *
           multiplier *
           (index === 0 ? 1 : stats.secondaryDamage) *
@@ -850,7 +891,7 @@ export class World {
       this.stage.maxEnemies - this.enemies.items.filter((item) => item.active).length;
     const count = Math.min(this.stage.supportCount, available);
     for (let index = 0; index < count; index++) {
-      const position = this.supportSpawned % 4;
+      const position = this.supportSpawned % this.arena.laneCount;
       if (!this.spawnMinion(this.arena.crowdLanes[position] ?? this.arena.player.x, enhanced))
         break;
       // Failed admissions do not consume the balanced species cycle.
@@ -860,7 +901,7 @@ export class World {
 
   private spawnMinion(x: number, enhanced = false): Enemy | undefined {
     const minions = this.enemies.items.filter((item) => item.active && item.kind !== "boss").length;
-    if (minions >= (this.endless ? MINION_CAPACITY : this.stage.maxEnemies - 1)) return;
+    if (minions >= (this.endless ? this.arena.minionCapacity : this.stage.maxEnemies - 1)) return;
     if (this.minionOrder.length === 0) {
       this.minionOrder = [...(this.endless ? ENDLESS_KINDS : CAMPAIGN_KINDS)];
       for (let index = this.minionOrder.length - 1; index > 0; index--) {
@@ -884,23 +925,21 @@ export class World {
     if (this.enemies.items.filter((item) => item.active).length >= this.stage.maxEnemies) return;
     const data = ENEMIES[kind];
     const occupied = new Set(
-      this.enemies.items.filter((item) => item.active).map((item) => item.slot),
+      this.enemies.items
+        .filter((item) => item.active && item.kind !== "boss")
+        .map((item) => item.slot),
     );
-    const slots = Array.from(
-      { length: CONFIG.defense.lanes * CONFIG.defense.rows },
-      (_, index) => index,
-    );
+    const slots = Array.from({ length: this.arena.minionCapacity }, (_, index) => index);
     const slotX = (slot: number) =>
-      this.arena.player.x +
-      ((slot % CONFIG.defense.lanes) - (CONFIG.defense.lanes - 1) / 2) * this.arena.laneGap;
+      this.arena.crowdLanes[slot % this.arena.laneCount] ?? this.arena.player.x;
     const slot =
       kind === "boss"
-        ? Math.floor(CONFIG.defense.lanes / 2)
+        ? this.arena.minionCapacity
         : slots
             .filter((index) => !occupied.has(index))
             .sort(
               (a, b) =>
-                Math.floor(a / CONFIG.defense.lanes) - Math.floor(b / CONFIG.defense.lanes) ||
+                Math.floor(a / this.arena.laneCount) - Math.floor(b / this.arena.laneCount) ||
                 Math.abs(slotX(a) - x) - Math.abs(slotX(b) - x) ||
                 a - b,
             )[0];
@@ -923,7 +962,7 @@ export class World {
               (enhanced ? CONFIG.endless.summonMultiplier : 1),
           );
     const ranged = kind !== "boss" && data.attackStyle === "ranged";
-    const spawnX = position?.x ?? slotX(slot);
+    const spawnX = kind === "boss" ? this.arena.player.x : (position?.x ?? slotX(slot));
     const spawnY = kind === "boss" ? -55 : (position?.y ?? -30);
     Object.assign(enemy, {
       id: this.nextId++,
@@ -945,19 +984,23 @@ export class World {
       attackPolicy: {
         ...(kind === "boss" && this.endless
           ? { type: "anywhere" as const }
-          : kind === "boss" || ranged
-            ? data.attackPolicy
-            : this.stage.attackPolicy),
+          : this.endless && !ranged
+            ? { type: "zones" as const, regions: this.attackRegions }
+            : kind === "boss" || ranged
+              ? data.attackPolicy
+              : this.stage.attackPolicy),
       },
       preparation: 0,
       arrived: false,
-      slot: this.endless && kind === "boss" ? MINION_CAPACITY : slot,
+      slot,
       defenseX: spawnX,
-      defenseY: Math.max(
-        spawnY,
-        (ranged && !this.endless ? 340 : CONFIG.defense.y) -
-          Math.floor(slot / CONFIG.defense.lanes) * CONFIG.defense.rowGap,
-      ),
+      defenseY:
+        kind === "boss"
+          ? CONFIG.defense.y
+          : Math.max(
+              spawnY,
+              CONFIG.defense.y - Math.floor(slot / this.arena.laneCount) * CONFIG.crowd.cellHeight,
+            ),
       interruptDamage: 0,
       interruptRequired: 0,
       slow: 0,
@@ -1028,7 +1071,12 @@ export class World {
           continue;
         }
       }
-      if (ENEMIES[enemy.kind].attackStyle === "melee" && !enemy.arrived) continue;
+      if (
+        ENEMIES[enemy.kind].attackStyle === "melee" &&
+        !enemy.arrived &&
+        enemy.attackPolicy.type !== "zones"
+      )
+        continue;
       enemy.shotCooldown -= effectiveDelta;
       if (enemy.shotCooldown > 1e-9) continue;
       const data = ENEMIES[enemy.kind];
@@ -1044,7 +1092,7 @@ export class World {
       if (enemy.kind === "wizard" && this.enemyRandom() < CONFIG.skills.poisonChance) {
         this.poisonCasts++;
         enemy.lastAction = "poison";
-        applyPoison(this.player, enemy.damageScale * CONFIG.endless.damageMultiplier);
+        applyPoison(this.player, this.enemyRandom);
         this.showBlast(enemy, enemy.radius + 10, 0xb6e7a4);
         continue;
       }
@@ -1158,8 +1206,14 @@ export class World {
           const difference = Math.atan2(Math.sin(wanted - angle), Math.cos(wanted - angle));
           const turn = CONFIG.friendlyShot.turnRate * delta;
           const heading = angle + clamp(difference, -turn, turn);
-          shot.vx = Math.cos(heading) * CONFIG.friendlyShot.speed;
-          shot.vy = Math.sin(heading) * CONFIG.friendlyShot.speed;
+          shot.vx =
+            Math.cos(heading) *
+            CONFIG.friendlyShot.speed *
+            Math.sqrt(this.arena.width / CONFIG.width);
+          shot.vy =
+            Math.sin(heading) *
+            CONFIG.friendlyShot.speed *
+            Math.sqrt(this.arena.width / CONFIG.width);
         }
       }
       shot.previousX = shot.x;
@@ -1192,7 +1246,7 @@ export class World {
     shot.hitIds.add(target.id);
     if (isEnemy(target)) {
       if (shot.critical) this.criticalHits++;
-      this.damageEnemy(target, shot.damage, "shot");
+      this.damageEnemy(target, shot.damage, "shot", shot.primary);
       if (this.phase === "Playing") this.onHitEffects(target, shot);
       this.resolveBlasts();
     } else {
@@ -1202,7 +1256,12 @@ export class World {
     if (shot.hitsLeft <= 0) shot.active = false;
   }
 
-  private damageEnemy(enemy: Enemy, rawDamage: number, source: DamageSource): void {
+  private damageEnemy(
+    enemy: Enemy,
+    rawDamage: number,
+    source: DamageSource,
+    primary = false,
+  ): void {
     if (!enemy.active || enemy.hp <= 0 || rawDamage <= 0 || this.phase !== "Playing") return;
     const stats = this.player.stats;
     const judgment = synergyTier(this.stacks, "judgment");
@@ -1228,8 +1287,26 @@ export class World {
             ? 1.5
             : 1
         : 1;
+    const giant = synergyTier(this.stacks, "giantslayer");
+    const erosion = synergyTier(this.stacks, "erosion");
+    const giantRatio = enemy.maxHp / Math.max(1, stats.maxHp);
+    const giantBonus =
+      source === "shot"
+        ? stats.giantPower * Math.log2(1 + giantRatio) +
+          (giantRatio >= 5 ? stats.giantHunt + (giant >= 6 ? 0.5 : 0) : 0)
+        : 0;
+    const percentDamage = primary
+      ? enemy.maxHp *
+          Math.min(
+            0.05,
+            stats.giantSlayer * (giant >= 9 ? 2 : giant >= 3 ? 1.25 : 1) +
+              stats.maxHealthDamage * (erosion >= 9 ? 2 : erosion >= 3 ? 1.25 : 1),
+          ) +
+        enemy.hp *
+          Math.min(0.1, stats.currentHealthDamage * (erosion >= 9 ? 2 : erosion >= 3 ? 1.25 : 1))
+      : 0;
     const damage =
-      rawDamage *
+      (rawDamage * (1 + giantBonus) + percentDamage) *
       (1 + bonus) *
       chargedMultiplier *
       (enemy.damageReductionTime > 0 ? 1 - CONFIG.endless.bossReduction : 1);
@@ -1275,8 +1352,7 @@ export class World {
       0,
       Math.min((scaled - restored) * overflow.conversion, overflow.capacity - this.player.shield),
     );
-    this.player.shield += shield;
-    this.shieldRestored += shield;
+    this.shieldRestored += grantShield(this.player, shield, overflow.capacity, true);
   }
 
   private slowEnemy(enemy: Enemy, strength: number, duration: number): void {
@@ -1320,7 +1396,7 @@ export class World {
           (enemy) =>
             enemy.active &&
             !visited.has(enemy.id) &&
-            Math.hypot(enemy.x - origin.x, enemy.y - origin.y) <= 220,
+            Math.hypot(enemy.x - origin.x, enemy.y - origin.y) <= 220 * this.arena.rangeScale,
         )
         .sort(
           (a, b) =>
@@ -1350,6 +1426,7 @@ export class World {
     color: number,
     excludeId?: number,
   ): void {
+    radius *= this.arena.rangeScale;
     this.showBlast(center, radius, color);
     for (const enemy of this.enemies.items) {
       if (this.phase !== "Playing") break;
@@ -1390,7 +1467,7 @@ export class World {
       (enemy.stunTime > 0 || this.sanctuaryRemaining > 0) &&
       synergyTier(this.stacks, "dominion") >= 9
     )
-      this.player.shield += Math.max(0, Math.min(8, this.player.stats.maxHp - this.player.shield));
+      this.shieldRestored += grantShield(this.player, 8, this.player.stats.maxHp);
     this.burst(
       enemy.x,
       enemy.y,
@@ -1398,35 +1475,49 @@ export class World {
       enemy.kind === "boss" ? 60 : 14,
     );
     if (enemy.kind === "boss") {
-      this.clearedStages++;
-      this.addScore(Math.ceil(this.player.hp) * 10);
-      this.clearCombat();
-      cleansePlayer(this.player);
-      this.sanctuaryRemaining = 0;
-      if (this.endless) {
-        this.pendingStageReward = true;
-        if (this.stageSupplies < CONFIG.endless.supplies) this.offerEndlessSupply();
-        else this.offerStageReward();
-        return;
-      }
-      this.offerStageReward();
+      this.bossDefeated = true;
+      this.pendingSummons = 0;
+      this.notice = "首领已击败 · 清除剩余敌人后领取过关奖励";
+      this.noticeUntil = this.elapsed + 5;
       return;
     }
     if (
       (this.player.stats.fuse > 0 || synergyTier(this.stacks, "blast") >= 3) &&
       (source !== "blast" || synergyTier(this.stacks, "blast") >= 6)
     ) {
-      this.queueBlast(enemy, Math.max(1, this.player.stats.fuse) * 16);
+      this.queueBlast(
+        enemy,
+        Math.max(1, this.player.stats.fuse) * 16,
+        0.03 * Math.max(1, this.player.stats.fuse),
+      );
     }
   }
 
-  private queueBlast(center: Vec2, damage: number): void {
+  private completeStageIfReady(): void {
+    if (
+      this.phase !== "Playing" ||
+      !this.bossDefeated ||
+      this.enemies.items.some((enemy) => enemy.active)
+    )
+      return;
+    this.clearedStages++;
+    this.addScore(Math.ceil(this.player.hp) * 10);
+    this.clearCombat();
+    cleansePlayer(this.player);
+    this.sanctuaryRemaining = 0;
+    if (this.endless && this.stageSupplies < CONFIG.endless.supplies) {
+      this.pendingStageReward = true;
+      this.offerEndlessSupply();
+    } else this.offerStageReward();
+  }
+
+  private queueBlast(center: Enemy, damage: number, maxHpFraction: number): void {
     const tier = synergyTier(this.stacks, "blast");
     this.blastQueue.push({
       x: center.x,
       y: center.y,
-      damage: damage * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
-      radius: tier >= 9 ? 190 : tier >= 3 ? 160 : 130,
+      damage: (damage + center.maxHp * maxHpFraction) * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
+      radius: (tier >= 9 ? 190 : tier >= 3 ? 160 : 130) * this.arena.rangeScale,
     });
   }
 
@@ -1475,6 +1566,7 @@ export class World {
         this.queueBlast(
           target,
           Math.max(1, stats.bloodpact) * 20 + stats.maxHp * (blast >= 9 ? 0.45 : 0.15),
+          0.02 * Math.max(1, stats.bloodpact),
         );
         this.resolveBlasts();
       }
@@ -1484,17 +1576,30 @@ export class World {
       this.shieldCooldown -= delta;
       if (this.shieldCooldown <= 1e-9) {
         this.shieldCooldown = 3;
-        const amount = Math.max(
-          0,
-          Math.min(
-            bastion >= 9 ? 20 : 10,
-            stats.maxHp * (bastion >= 9 ? 1 : 0.6) - this.player.shield,
-          ),
+        this.shieldRestored += grantShield(
+          this.player,
+          bastion >= 9 ? 20 : 10,
+          stats.maxHp * (bastion >= 9 ? 1 : 0.6),
         );
-        this.player.shield += amount;
-        this.shieldRestored += amount;
       }
     }
+    const erosion = synergyTier(this.stacks, "erosion");
+    if (stats.erosionPulse > 0) {
+      const interval = erosion >= 9 ? 2 : erosion >= 6 ? 3 : 4;
+      this.erosionCooldown = Math.min(this.erosionCooldown, interval) - delta;
+      if (this.erosionCooldown <= 1e-9) {
+        this.erosionCooldown = interval;
+        for (const enemy of this.enemies.items)
+          this.damageEnemy(
+            enemy,
+            enemy.maxHp *
+              Math.min(0.05, stats.erosionPulse * (erosion >= 9 ? 2 : erosion >= 3 ? 1.25 : 1)),
+            "arc",
+          );
+        this.resolveBlasts();
+      }
+    }
+    if (this.phase !== "Playing") return;
     const target = this.target;
     if (stats.storm > 0 || storm >= 6) {
       const interval = storm >= 9 ? 3 : storm >= 6 ? 4 : 6;
@@ -1554,7 +1659,8 @@ export class World {
         if (!shot.active) break;
       }
     }
-    if (this.sanctuaryRemaining > 0) return;
+    this.completeStageIfReady();
+    if (this.phase !== "Playing" || this.sanctuaryRemaining > 0) return;
     for (const shot of this.hostileShots.items) {
       if (
         !shot.active ||
@@ -1585,14 +1691,13 @@ export class World {
     }
     const bastion = synergyTier(this.stacks, "bastion");
     const complete = bastion >= 6;
-    const target = this.target;
-    if (target && isEnemy(target) && this.player.stats.thorns > 0) {
-      this.damageEnemy(target, this.player.stats.thorns * 18 * (complete ? 2 : 1), "counter");
-    }
-    if (complete && this.phase === "Playing") {
-      this.showBlast(this.player, 800, 0x95d9be);
+    const retaliation =
+      this.player.stats.thorns * 18 * (complete ? 2 : 1) +
+      (complete ? this.player.stats.maxHp * (bastion >= 9 ? 0.5 : 0.25) : 0);
+    if (retaliation > 0) {
+      this.showBlast(this.player, Math.hypot(this.arena.width, this.arena.height), 0x95d9be);
       for (const enemy of this.enemies.items) {
-        this.damageEnemy(enemy, this.player.stats.maxHp * (bastion >= 9 ? 0.5 : 0.25), "counter");
+        this.damageEnemy(enemy, retaliation, "counter");
         if (this.phase !== "Playing") break;
       }
     }
@@ -1622,6 +1727,7 @@ export class World {
     return {
       phase: this.phase,
       arena: structuredClone(this.arena),
+      attackRegions: structuredClone(this.attackRegions),
       elapsed: this.elapsed,
       stageIndex: this.stageIndex,
       stageElapsed: this.stageElapsed,
@@ -1639,6 +1745,7 @@ export class World {
       endlessRewardTimes: [...this.endlessRewardTimes],
       clearedStages: this.clearedStages,
       endless: this.endless,
+      bossDefeated: this.bossDefeated,
       seed: this.seed,
       player: structuredClone(this.player),
       combat: combatStats(this.player, this.stacks),

@@ -14,6 +14,7 @@ function finishBoss(world: World): void {
     y: 620,
     hp: 1,
     maxHp: world.stage.bossHp,
+    skillsUsed: 3,
     arrived: true,
     speed: 0,
   });
@@ -100,6 +101,7 @@ describe("continuous campaign and stage-reward lifetime", () => {
     expect(world.player.shield).toBe(40);
     expect(world.stacks.get("multishot")).toBe(1);
     expect(world.continueEndless()).toBe(false);
+    world.bossSpawned = true;
     finishBoss(world);
     while (world.reward?.source === "supply") {
       const supply = world.reward;
@@ -218,7 +220,7 @@ describe("authored encounters and independent schedules", () => {
       expect(stage.bossHp).toBeGreaterThan(previous);
       expect(Number.isFinite(stage.bossHp)).toBe(true);
       expect(stage.spawnInterval).toBeGreaterThan(0);
-      expect(stage.damage).toBeLessThanOrEqual(4.8);
+      expect(stage.damage).toBeLessThanOrEqual(14.4);
       expect(stage.name).toContain("无尽");
       previous = stage.bossHp;
     }

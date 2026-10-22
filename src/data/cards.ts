@@ -1,6 +1,6 @@
 import { CONFIG } from "../game/config";
 import { type Random, shuffled } from "../game/random";
-import { healPlayer } from "../game/systems/damage";
+import { grantShield, healingMultiplier, healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
 
 export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
@@ -286,10 +286,13 @@ function epicCard(
         player.stats[field] += amount;
       if (definition.restore) {
         healPlayer(player, definition.restore.hp);
-        player.shield += definition.restore.shield;
+        grantShield(player, definition.restore.shield);
       }
     },
-    preview: () => definition.change,
+    preview: (player) =>
+      definition.restore && healingMultiplier(player) < 1
+        ? `${definition.change} · 重伤后治疗 ${Number((definition.restore.hp * healingMultiplier(player)).toFixed(2))} / 护盾 ${Number((definition.restore.shield * healingMultiplier(player)).toFixed(2))}`
+        : definition.change,
   };
 }
 
@@ -396,6 +399,26 @@ export const EPIC_CARDS: readonly Card[] = [
     bonuses: { controlPulse: 2, control: 0.35, stun: 0.3 },
     change: "遗世庇护 +2 层 · 控制增伤 +35% · 命中眩晕 +0.3s",
   }),
+  epicCard({
+    id: "godfall",
+    name: "诸神黄昏",
+    synergy: "giantslayer",
+    symbol: "focus",
+    offense: true,
+    description: "主弹额外 0.75% 最大生命伤害，体量系数 +8%，巨物增伤 +20%。每局限取一次。",
+    bonuses: { giantSlayer: 0.0075, giantPower: 0.08, giantHunt: 0.2 },
+    change: "主弹最大生命 +0.75% · 体量系数 +8% · 巨物增伤 +20%",
+  }),
+  epicCard({
+    id: "event-horizon",
+    name: "终末视界",
+    synergy: "erosion",
+    symbol: "storm",
+    offense: true,
+    description: "主弹额外造成 0.6% 最大生命与 2% 当前生命伤害，全场脉冲额外 1%。每局限取一次。",
+    bonuses: { maxHealthDamage: 0.006, currentHealthDamage: 0.02, erosionPulse: 0.01 },
+    change: "主弹最大生命 +0.6% · 当前生命 +2% · 脉冲 +1%",
+  }),
 ];
 
 export const CARDS: readonly Card[] = [
@@ -480,7 +503,8 @@ export const CARDS: readonly Card[] = [
       player.stats.maxHp += 20;
       healPlayer(player, 30);
     },
-    preview: (player) => `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 30`,
+    preview: (player) =>
+      `生命上限 ${player.stats.maxHp} → ${player.stats.maxHp + 20} · 治疗 ${Number((30 * healingMultiplier(player)).toFixed(2))}`,
   },
   {
     type: "augment",
@@ -511,9 +535,10 @@ export const CARDS: readonly Card[] = [
     maxStacks: null,
     eligible: () => true,
     apply: (player) => {
-      player.shield += 24;
+      grantShield(player, 24);
     },
-    preview: (player) => `护盾 ${Math.ceil(player.shield)} → ${Math.ceil(player.shield + 24)}`,
+    preview: (player) =>
+      `护盾 ${Math.ceil(player.shield)} → ${Math.ceil(player.shield + 24 * healingMultiplier(player))}`,
   },
   {
     type: "augment",
@@ -521,7 +546,8 @@ export const CARDS: readonly Card[] = [
     offense: true,
     synergy: "blast",
     name: "余烬引信",
-    description: "击杀时引爆目标，对附近敌人造成每层 16 点伤害。殉星达到 6 层后可连锁引爆。",
+    description:
+      "击杀时引爆目标，对附近敌人造成每层 16 点 + 被引爆怪物最大生命 3% 的伤害。殉星 6 层后可连锁。",
     rarity: "rare",
     symbol: "blast",
     maxStacks: 4,
@@ -529,7 +555,8 @@ export const CARDS: readonly Card[] = [
     apply: (player) => {
       player.stats.fuse++;
     },
-    preview: (player) => `击杀爆炸 ${player.stats.fuse * 16} → ${(player.stats.fuse + 1) * 16}`,
+    preview: (player) =>
+      `击杀爆炸 ${player.stats.fuse * 16} → ${(player.stats.fuse + 1) * 16} · 来源怪物最大生命 +3% / 层`,
   },
   {
     type: "augment",
@@ -537,7 +564,8 @@ export const CARDS: readonly Card[] = [
     offense: true,
     synergy: "blast",
     name: "殉星契约",
-    description: "有敌人时每 5 秒献祭 3 生命（不会致死），在目标处爆炸。伤害随最大生命提升。",
+    description:
+      "有敌人时每 5 秒献祭 3 生命（不会致死），在目标处爆炸。除基础和玩家生命加成，每层附加目标最大生命 2%。",
     rarity: "rare",
     symbol: "bloodpact",
     maxStacks: 3,
@@ -546,7 +574,7 @@ export const CARDS: readonly Card[] = [
       player.stats.bloodpact++;
     },
     preview: (player) =>
-      `献祭基础伤害 ${player.stats.bloodpact * 20} → ${(player.stats.bloodpact + 1) * 20} · 生命加成`,
+      `献祭基础伤害 ${player.stats.bloodpact * 20} → ${(player.stats.bloodpact + 1) * 20} · 玩家生命加成 + 目标最大生命 2% / 层`,
   },
   {
     type: "augment",
@@ -554,7 +582,7 @@ export const CARDS: readonly Card[] = [
     offense: false,
     synergy: "bastion",
     name: "荆棘圣约",
-    description: "每次有效受击，向当前敌人反击每层 18 点伤害；护盾承伤也能触发。",
+    description: "每次有效受击，对全场每个敌人反击每层 18 点伤害；护盾承伤也能触发。",
     rarity: "rare",
     symbol: "thorns",
     maxStacks: 4,
@@ -643,6 +671,84 @@ export const CARDS: readonly Card[] = [
     maxStacks: 3,
     offense: false,
   }),
+  statCard({
+    id: "giant-slayer",
+    name: "巨人杀手",
+    synergy: "giantslayer",
+    symbol: "focus",
+    offense: true,
+    description: "主弹直接命中额外造成目标最大生命 0.25% 的伤害；高血量目标承受更多伤害。",
+    field: "giantSlayer",
+    amount: 0.0025,
+    label: "主弹最大生命伤害",
+    unit: "percent",
+    maxStacks: 4,
+  }),
+  statCard({
+    id: "titan-breaker",
+    name: "撼岳之力",
+    synergy: "giantslayer",
+    symbol: "damage",
+    offense: true,
+    description: "普攻额外增伤为 4% × log₂(1 + 敌人最大生命 / 玩家最大生命)，随目标体量成长。",
+    field: "giantPower",
+    amount: 0.04,
+    label: "体量增伤系数",
+    unit: "percent",
+    maxStacks: 4,
+  }),
+  statCard({
+    id: "colossus-hunt",
+    name: "猎神誓约",
+    synergy: "giantslayer",
+    symbol: "execution",
+    offense: true,
+    description: "对最大生命达到玩家 5 倍的敌人，普攻每层额外增伤 15%。",
+    field: "giantHunt",
+    amount: 0.15,
+    label: "巨物普攻增伤",
+    unit: "percent",
+    maxStacks: 4,
+  }),
+  statCard({
+    id: "life-rend",
+    name: "生命撕裂",
+    synergy: "erosion",
+    symbol: "piercing",
+    offense: true,
+    description: "主弹直接命中额外造成目标最大生命 0.2% 的伤害，与巨人杀手合计最高 5%。",
+    field: "maxHealthDamage",
+    amount: 0.002,
+    label: "主弹最大生命侵蚀",
+    unit: "percent",
+    maxStacks: 4,
+  }),
+  statCard({
+    id: "decay",
+    name: "衰亡刻痕",
+    synergy: "erosion",
+    symbol: "damage",
+    offense: true,
+    description: "主弹直接命中额外造成目标当前生命 1% 的伤害，羁绊后最高 10%。",
+    field: "currentHealthDamage",
+    amount: 0.01,
+    label: "主弹当前生命伤害",
+    unit: "percent",
+    maxStacks: 4,
+  }),
+  statCard({
+    id: "entropy",
+    name: "熵蚀脉冲",
+    synergy: "erosion",
+    symbol: "storm",
+    offense: true,
+    description: "每 4 秒对全场敌人造成每层 0.5% 最大生命伤害；羁绊缩短间隔，单次最高 5%。",
+    field: "erosionPulse",
+    amount: 0.005,
+    label: "全场最大生命侵蚀",
+    unit: "percent",
+    maxStacks: 4,
+  }),
   ...EPIC_CARDS,
 ];
 
@@ -653,7 +759,7 @@ export function isControlCard(card: Card): boolean {
 }
 
 export function isFirstStageExcluded(card: Card): boolean {
-  return isControlCard(card) || card.synergy === "blood" || card.synergy === "bastion";
+  return !["barrage", "might", "precision", "storm"].includes(card.synergy);
 }
 
 export function eligibleCards(player: Player, stacks: ReadonlyMap<string, number>): Card[] {
@@ -715,7 +821,7 @@ export function drawCards(
   }
   const collected = [...stacks.values()].reduce((sum, count) => sum + count, 0);
   const epics = eligible.filter((card) => card.rarity === "epic");
-  if (epics.length > 0 && (source === "stage" || (collected >= 3 && random() < 0.25))) {
+  if (epics.length > 0 && (source === "stage" || collected >= 3) && random() < 0.25) {
     const promoted = shuffled(epics, random);
     const epic = promoted.find((card) => card.synergy === focused) ?? promoted[0];
     if (epic) {

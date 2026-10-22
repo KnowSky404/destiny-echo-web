@@ -24,7 +24,7 @@ export async function trainingRewardFlow(page: Page, name: string, touch = false
   await expect(page.locator("canvas")).toBeVisible();
   await expect(page.locator(".reward-card")).toHaveCount(3);
   await expect(page.locator(".reward-card.training")).toHaveCount(2);
-  await expect(page.locator(".reward-card.epic")).toHaveCount(1);
+  await expect(page.locator(".reward-card:not(.training)")).toHaveCount(1);
   await expect(page.locator(".reward-modal")).toContainText("两项锻体与一张残响三选一");
   await expect(page.locator(".reward-card.training").first()).toContainText("不计入流派层数");
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
@@ -69,7 +69,7 @@ export async function crowdFusionFlow(page: Page, name: string, touch = false) {
     for (const [lane, x] of world.arena.crowdLanes.entries()) for (let row=0; row<6; row++) {
       const y = 620 - row*84;
       const kind = lane < 2 && row < 2 ? "wisp" : ["wisp","tank","wizard"][(lane+row)%3];
-      enemy({ kind, x, y, defenseX:x, defenseY:y, slot:row*4+lane,
+      enemy({ kind, x, y, defenseX:x, defenseY:y, slot:row*world.arena.laneCount+lane,
         formation:true, age:4, speed:0, stage:"Attacking", shotCooldown:100 });
     }
     enemy({ kind:"boss", x:world.arena.player.x, defenseX:world.arena.player.x, y:300, speed:0, stage:"Attacking", shotCooldown:100, skillsUsed:3 });
@@ -77,8 +77,10 @@ export async function crowdFusionFlow(page: Page, name: string, touch = false) {
     touch ? 450 : 1600,
   );
   const before = await snapshot(page);
-  expect(before.enemies).toHaveLength(25);
-  await expect(page.locator("#stage-route")).toContainText("25/25");
+  expect(before.enemies).toHaveLength(before.arena.encounterCapacity);
+  await expect(page.locator("#stage-route")).toContainText(
+    `${before.arena.encounterCapacity}/${before.arena.encounterCapacity}`,
+  );
   const shield = await page.locator("#shield-value").boundingBox();
   const timer = await page.locator("#timer").boundingBox();
   if (!shield || !timer) throw new Error("Missing HUD bounds");
@@ -88,7 +90,7 @@ export async function crowdFusionFlow(page: Page, name: string, touch = false) {
   await page.clock.runFor(3200);
   const after = await snapshot(page);
   expect(after.enemies.some((enemy) => enemy.stars === 2)).toBe(true);
-  expect(after.enemies.length).toBeLessThan(25);
+  expect(after.enemies.length).toBeLessThan(before.enemies.length);
   expect(after.kills).toBe(0);
   expect(after.metrics.fusions).toBeGreaterThan(0);
   await expect(page.locator("#arena-notice")).toContainText("融合为 2 星");

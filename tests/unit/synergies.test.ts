@@ -75,11 +75,11 @@ function stationary(world: World, overrides: Partial<Enemy> = {}) {
   });
 }
 
-describe("ten families and cumulative 3/6/9 breakpoints", () => {
-  test("forty-three unique augments retain ten complete families", () => {
-    expect(CARDS).toHaveLength(43);
-    expect(SYNERGIES).toHaveLength(10);
-    expect(new Set(CARDS.map((card) => card.id)).size).toBe(43);
+describe("twelve families and cumulative 3/6/9 breakpoints", () => {
+  test("fifty-one unique augments retain twelve complete families", () => {
+    expect(CARDS).toHaveLength(51);
+    expect(SYNERGIES).toHaveLength(12);
+    expect(new Set(CARDS.map((card) => card.id)).size).toBe(51);
     for (const card of CARDS) {
       const player = createPlayer();
       const before = structuredClone(player);
@@ -158,7 +158,9 @@ describe("explosions, sacrifice and bounded chain resolution", () => {
     if (!first) throw new Error("No target");
     hit(world, first);
     expect(world.kills).toBe(CONFIG.limits.enemies);
-    expect(world.player.hp).toBe(10 + CONFIG.limits.enemies * 2);
+    expect(world.player.hp).toBe(
+      Math.min(world.player.stats.maxHp, 10 + CONFIG.limits.enemies * 2),
+    );
     expect(world.explosionCount).toBe(CONFIG.limits.enemies);
     expect(world.blasts.items.length).toBeLessThanOrEqual(CONFIG.limits.blasts);
     expect(world.particles.items.length).toBeLessThanOrEqual(CONFIG.limits.particles);
@@ -172,7 +174,7 @@ describe("explosions, sacrifice and bounded chain resolution", () => {
     const target = stationary(world);
     tick(world, 3.1);
     expect(world.explosionCount).toBe(1);
-    expect(target.hp).toBeCloseTo(1000 - (20 + 120 * 0.45) * 2, 6);
+    expect(target.hp).toBeCloseTo(1000 - (20 + 1000 * 0.02 + 120 * 0.45) * 2, 6);
     expect(world.player.hp).toBe(1);
     world.pause();
     const before = world.snapshot();
@@ -215,7 +217,7 @@ describe("barrage, shields, judgment and heavy attacks", () => {
     incoming(world);
     expect(world.player.hp).toBe(100);
     expect(target.hp).toBe(939); // 36 thorns + 25 retaliation.
-    expect(other.hp).toBe(975);
+    expect(other.hp).toBe(939);
     incoming(world);
     expect(target.hp).toBe(939);
   });

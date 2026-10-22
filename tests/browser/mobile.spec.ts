@@ -1,6 +1,7 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
+import { cleanupAndRegionsFlow, healthScalingCardsFlow } from "./arena-mechanics";
 import { crowdFusionFlow, trainingRewardFlow } from "./crowd-rewards";
 import { boot, bootFixture, clickTarget, firstReward, snapshot, start } from "./helpers";
 import {
@@ -239,7 +240,7 @@ test("320px final victory keeps the endless action visible and accepts a native 
   expect(state.stageElapsed).toBeLessThan(0.3);
 });
 
-test("320px touch can inspect all ten families and select a nine-layer critical upgrade", async ({
+test("320px touch can inspect all twelve families and select a nine-layer critical upgrade", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 568 });
@@ -256,7 +257,7 @@ test("320px touch can inspect all ten families and select a nine-layer critical 
   await expect(page.locator('[data-card="lethal"]')).toContainText("8 → 9/9 · 大质变");
   await page.locator('[data-card="lethal"]').tap();
   await page.clock.runFor(100);
-  await expect(page.locator("#synergies details")).toHaveCount(10);
+  await expect(page.locator("#synergies details")).toHaveCount(12);
   await expect(page.locator('[data-synergy="precision"]')).toContainText("9/9 · 大质变");
   await page.getByRole("button", { name: "本局构筑", exact: true }).tap();
   await page.clock.runFor(100);
@@ -353,4 +354,16 @@ test("mixed boss training reward settles before victory and survives endless", a
 
 test("full endless formation shows capacity and fusion star upgrades", async ({ page }, info) => {
   await crowdFusionFlow(page, info.project.name, true);
+});
+
+test("boss cleanup preserves minions and clearance expands two visible attack regions", async ({
+  page,
+}, info) => {
+  await cleanupAndRegionsFlow(page, info.project.name, true);
+});
+
+test("health-scaling card groups preview real coefficients and selection applies once", async ({
+  page,
+}, info) => {
+  await healthScalingCardsFlow(page, info.project.name, true);
 });

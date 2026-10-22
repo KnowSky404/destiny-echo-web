@@ -101,7 +101,7 @@ describe("poison's grievous wounds reduce every health recovery source by 90 per
     },
   );
 
-  test("ordinary and epic card heals are reduced during frozen reward selection; shields retain their value", () => {
+  test("ordinary and epic card heals are reduced during frozen reward selection; shields share the same reduction", () => {
     const world = arena();
     world.player.hp = 20;
     applyPoison(world.player);
@@ -113,7 +113,7 @@ describe("poison's grievous wounds reduce every health recovery source by 90 per
     expect(world.player.stats.maxHp).toBe(120);
     expect(applyCard("aegis-core", world.player, world.stacks)).toBe(true);
     expect(world.player.hp).toBeCloseTo(31, 6);
-    expect(world.player.shield).toBe(60);
+    expect(world.player.shield).toBeCloseTo(6);
     expect(world.player.stats.maxHp).toBe(180);
   });
 
@@ -124,7 +124,7 @@ describe("poison's grievous wounds reduce every health recovery source by 90 per
     applyPoison(world.player);
     world.player.shield = 10;
     tick(world, 1);
-    expect(world.player.shield).toBeCloseTo(10 - 6 + 0.5, 6);
+    expect(world.player.shield).toBeCloseTo(10 - 10 + 0.5, 6);
     cleansePlayer(world.player);
     world.player.hp = 50;
     tick(world, 1);
@@ -152,9 +152,9 @@ describe("endless slam grows once per completed endless stage", () => {
       const target = enemy(world, { kind: "boss", y: 200, hp: 1000, maxHp: 1000, speed: 0 });
       hit(world, target, 300);
       expect(target.lastSkill).toBe("slam");
-      expect(world.player.hp).toBe(1000 - (120 + 6 * offset));
+      expect(world.player.hp).toBe(1000 - (180 + 9 * offset));
       expect(world.player.shield).toBe(500);
-      expect(world.notice).toContain(String(120 + 6 * offset));
+      expect(world.notice).toContain(String(180 + 9 * offset));
     },
   );
 });

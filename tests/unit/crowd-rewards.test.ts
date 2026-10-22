@@ -34,7 +34,7 @@ function formation(world: World): void {
         y,
         defenseX: x,
         defenseY: y,
-        slot: row * 4 + lane,
+        slot: row * world.arena.laneCount + lane,
         formation: true,
         arrived: true,
         speed: 0,
@@ -45,7 +45,7 @@ function formation(world: World): void {
 
 describe("readable capacity and non-destructive summons", () => {
   test.each([CONFIG.width, DESKTOP_WIDTH])(
-    "geometry admits 24 minions and a separate boss corridor at every fixed step: %s",
+    "geometry admits the arena capacity and a separate boss corridor at every fixed step: %s",
     (width) => {
       expect(MINION_CAPACITY).toBe(24);
       expect(ENCOUNTER_CAPACITY).toBe(25);
@@ -55,7 +55,7 @@ describe("readable capacity and non-destructive summons", () => {
         for (let frame = 0; frame < 120 * 65; frame++) {
           world.update(CONFIG.fixedStep);
           const living = world.enemies.items.filter((item) => item.active);
-          expect(living.length).toBeLessThanOrEqual(ENCOUNTER_CAPACITY);
+          expect(living.length).toBeLessThanOrEqual(world.arena.encounterCapacity);
           for (const [index, a] of living.entries())
             for (const b of living.slice(index + 1)) {
               // Bounding boxes include rings, bars and stars, not just collision bodies.
@@ -141,6 +141,9 @@ describe("readable capacity and non-destructive summons", () => {
     world.resume();
     hit(world, boss, 10000);
     expect(world.pendingSummons).toBe(0);
+    expect(world.phase).toBe("Playing");
+    for (const escort of world.enemies.items.filter((item) => item.active))
+      hit(world, escort, escort.hp + 1);
     expect(world.phase).toBe("StageClear");
   });
 
@@ -346,7 +349,7 @@ describe("low-value shield engine", () => {
     applyPoison(world.player);
     const target = enemy(world, { y: 300, speed: 0, hp: 10000, maxHp: 10000 });
     hit(world, target, 100);
-    expect(world.player.shield).toBeCloseTo(1 - 6 / 120 + 5.1 * 0.1 * 0.05, 6);
+    expect(world.player.shield).toBeCloseTo(1 - 10 / 120 + 5.1 * 0.1 * 0.05, 6);
   });
 });
 
