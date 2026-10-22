@@ -3,13 +3,13 @@
   "kind": "calibration-cell-evidence",
   "phase": "validation",
   "simulatorVersion": "1",
-  "collectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "collectorSha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2",
   "canonical": {
     "path": "experiments/balance/calibration/validation.json",
     "sha256": "7e2d4a276141506d37daadcb933466f7aff0d1b5fb4f9097f765193d2e0789ce"
   },
   "code": {
-    "commit": "9844dc87810e5493a3c17c82a13ebd69b7b799bb",
+    "commit": "b278669d236755393b932485fb52f0af178b7b3c",
     "dirty": true,
     "fingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
     "bunVersion": "1.4.3",

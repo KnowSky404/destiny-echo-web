@@ -1,0 +1,47 @@
+{
+  "kind": "post-review-collector-recollection",
+  "collectorSha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2",
+  "phases": [
+    {
+      "phase": "selection",
+      "completed": 1200,
+      "old": "artifacts/balance/calibration-selection-v5-evidence.json",
+      "oldSha256": "64aae05034f7ebe9cc1e1d531360f72fa64e1b7ba1bedfd8f9bcd48a627fa3f5",
+      "current": "artifacts/balance/calibration-selection-v5-review-p2-evidence.json",
+      "currentSha256": "265c529ba17281b428b010421d1d7259b0ccb54cf12475fdf9292fe02d8871b2",
+      "allNumericStatisticsAndRawDigestsUnchanged": true,
+      "permittedMetadataDifferences": ["collectorSha256", "code.commit", "code.dirty"]
+    },
+    {
+      "phase": "validation",
+      "completed": 3600,
+      "old": "artifacts/balance/calibration-validation-v5-evidence.json",
+      "oldSha256": "46bc79107d2742819e5832a57cbf469a51a06c41926c28adf6783884e6532665",
+      "current": "artifacts/balance/calibration-validation-v5-review-p2-evidence.json",
+      "currentSha256": "c0213df2991f8399059f53bf86a5d3cb06cec571aca8efc94990237cb45acf5c",
+      "allNumericStatisticsAndRawDigestsUnchanged": true,
+      "permittedMetadataDifferences": ["collectorSha256", "code.commit", "code.dirty"]
+    },
+    {
+      "phase": "endless",
+      "completed": 360,
+      "old": "artifacts/balance/calibration-endless-v5-evidence.json",
+      "oldSha256": "df863badc2257d7d18a8477bae971797691f52a320df7bbbe98901eb44d53349",
+      "current": "artifacts/balance/calibration-endless-v5-review-p2-evidence.json",
+      "currentSha256": "ca1122be37d4557a6c2f512274aea2f98c1321d8cda11504626bcc99b45e2f05",
+      "allNumericStatisticsAndRawDigestsUnchanged": true,
+      "permittedMetadataDifferences": ["collectorSha256", "code.commit", "code.dirty"]
+    },
+    {
+      "phase": "sensitivity",
+      "completed": 288,
+      "old": "artifacts/balance/calibration-sensitivity-v5-evidence.json",
+      "oldSha256": "5f95c6dfecdda7378fc1eb0731f5de4995f04a4c38c0411060861e4d9efcd43c",
+      "current": "artifacts/balance/calibration-sensitivity-v5-review-p2-evidence.json",
+      "currentSha256": "0682517ef54d9075af37a8c6deeb301a8a9b4352292a595698716d86bf100fca",
+      "allNumericStatisticsAndRawDigestsUnchanged": true,
+      "permittedMetadataDifferences": ["collectorSha256", "code.commit", "code.dirty"]
+    }
+  ],
+  "newStatisticalSamples": 0
+}

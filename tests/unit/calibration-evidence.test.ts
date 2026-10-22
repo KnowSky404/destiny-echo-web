@@ -445,6 +445,41 @@ describe("calibration evidence adoption gates", () => {
     }
   });
 
+  test("forged enemy-action counts fail even when all mechanic totals remain unchanged", async () => {
+    const natural = await fixture();
+    const original = present(natural.runs[0]).result;
+    const nativeStage = present(original.stages.find((stage) => stage.enemyAttacks > 0));
+    expect(nativeStage.enemyAttacks).toBe(present(nativeStage.metrics.mechanics.enemy_attack));
+    await expect(validate(natural)).resolves.toBeDefined();
+
+    for (const forgedCount of [0, nativeStage.enemyAttacks + 1]) {
+      const input = await fixture();
+      const result = present(input.runs[0]).result;
+      const stage = present(result.stages[nativeStage.stageIndex]);
+      const originalMetrics = structuredClone(result.metrics);
+      const originalStageMetrics = result.stages.map((stage) => structuredClone(stage.metrics));
+      stage.enemyAttacks = forgedCount;
+      expect(result.metrics).toEqual(originalMetrics);
+      expect(result.stages.map((stage) => stage.metrics)).toEqual(originalStageMetrics);
+      expect(
+        result.stages.reduce((sum, stage) => sum + (stage.metrics.mechanics.enemy_attack ?? 0), 0),
+      ).toBe(present(result.metrics.mechanics.enemy_attack));
+      await expect(validate(input)).rejects.toThrow("Inconsistent enemy attack counters");
+    }
+  });
+
+  test("native zero-attack evidence accepts an absent or explicit zero mechanic count", async () => {
+    const input = await endlessFixture();
+    const next = present(present(input.runs[0]).result.stages.at(-1));
+    expect(next.enemyAttacks).toBe(0);
+    expect(Object.hasOwn(next.metrics.mechanics, "enemy_attack")).toBe(false);
+    await expect(validate(input)).resolves.toBeDefined();
+    next.metrics.mechanics.enemy_attack = 0;
+    await expect(validate(input)).resolves.toBeDefined();
+    Reflect.set(next.metrics.mechanics, "enemy_attack", null);
+    await expect(validate(input)).rejects.toThrow();
+  });
+
   test("source and mechanic totals must agree even when scalar totals match", async () => {
     for (const [key, scalar] of [
       ["damageBySource", "enemyDamage"],

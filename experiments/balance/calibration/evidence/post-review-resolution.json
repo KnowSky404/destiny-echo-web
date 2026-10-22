@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "kind": "post-review-calibration-integrity-resolution-and-adoption-reaffirmation",
+  "recordedAt": "2026-10-22T22:55:59.715839+00:00",
+  "reviewFinding": "https://github.com/KnowSky404/destiny-echo-web/pull/13#discussion_r4354347213",
+  "previousHead": "b278669d236755393b932485fb52f0af178b7b3c",
+  "collectorSha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2",
+  "previousCollectorSha256": "76c9113627df05dcd2def92d026b0336b6848e168bfdb68a4130c46cca5f94a2",
+  "profileHash": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "simulationFingerprint": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "change": "Require exact equality between each stage enemyAttacks and mechanics.enemy_attack, treating an absent mechanic key as zero; existing numeric checks reject null. Forging only the direct counter while all additive metrics remain internally valid is rejected.",
+  "recollection": {
+    "cells": 36,
+    "records": 5448,
+    "stageSummaries": 14133,
+    "mismatches": 0,
+    "absentZero": 6913,
+    "explicitZero": 0,
+    "positive": 7220,
+    "allNumericalStatisticsAndRawDigestsUnchanged": true,
+    "newStatisticalSamples": 0,
+    "newCLIReplays": 0
+  },
+  "independentReview": {
+    "intervalEntries": 255,
+    "numericWilsonIntervals": 249,
+    "zeroEntryNulls": 6,
+    "warningsRetained": 73,
+    "pairedHarmsRetained": 88,
+    "existingExactReplayReceiptsVerified": 2,
+    "oldFullPeerSha256": "8b4592c152beb68a2d38f08293d23dd377c0241a84cdb7ab6b5ebdca30f22cd7",
+    "newFullPeerSha256": "83890397351973476195aecc56659542fc0d1a120bcd41e87bafc1d65d49be48",
+    "losslessMetadataReplacements": 10,
+    "allOtherParsedValuesUnchanged": true
+  },
+  "localChecks": {
+    "fullUnit": {
+      "passed": 380,
+      "failed": 0,
+      "assertions": 8663170,
+      "seconds": 62.95
+    },
+    "targetedCollector": {
+      "passed": 24,
+      "failed": 0,
+      "assertions": 242
+    },
+    "typecheck": "passed",
+    "buildPRO": "passed",
+    "buildPRE": "passed",
+    "renderedScope": "No browser, gameplay, guide-rule or numerical source change; prior fresh F static and historical natural-browser scopes remain explicitly unchanged."
+  },
+  "designDecision": {
+    "finalAdoptionReaffirmed": true,
+    "allSoftObservationBandsSatisfied": false,
+    "originalDecision": "artifacts/balance/calibration-v5-final-adoption.json",
+    "originalDecisionSha256": "8b98044b83245d9d0ae62bd277ab994b40819bb9ae775f537b894c38564e7c8b",
+    "reason": "The stronger collector and independent revalidation preserve every numerical outcome, pressure distribution, warning and paired harm. Original explicit design tradeoffs remain unchanged. Current strict phase reports/index use collector32a; original audits/freeze/decisions remain immutable historical records."
+  },
+  "references": [
+    {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-fix-report.json",
+      "sha256": "4302683bce3916f83bb98c27e4bd019d6dbc9f6405891d4af5d90bf26c539df2"
+    },
+    {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-existing-raw-audit.json",
+      "sha256": "402722025afc26e8d06948e5efc714f07512f0b3eb8274f32108fa8b05765ba5"
+    },
+    {
+      "path": "artifacts/balance/calibration-v5-review-p2-recollection.json",
+      "sha256": "ff2934cb470504ed9b990e5c2a7b8afd45258d3acbca27bd85c6545ae043cb9d"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-post-review-peer.json",
+      "sha256": "83890397351973476195aecc56659542fc0d1a120bcd41e87bafc1d65d49be48"
+    },
+    {
+      "path": "/tmp/destiny-calibration-v5-review-p2-peer-lossless-patch.json",
+      "sha256": "2d9db212dd6b9e0be308001bdf5f7d679f399080fc7ef733bcd29b237756e85d"
+    },
+    {
+      "path": "artifacts/balance/calibration-v5-before-review-p2-archive/manifest.json",
+      "sha256": "0692e79d73c1e873f120150caa43f08c6cf4590a52162912aab12e2066b7282b"
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/destiny-calibration-pr13-review-p2-full-unit.log",
+      "sha256": "a2fdcf289da388ab3bed861c6952ffdfbd2ed98c1426dcd2330da0d6ebacc544",
+      "exitCode": 0
+    },
+    {
+      "path": "/tmp/destiny-calibration-pr13-review-p2-build-pro.log",
+      "sha256": "a33b7657b0e848560db235b574c3066f51bcc94112e7e210df86a0063d5283f6",
+      "exitCode": 0
+    },
+    {
+      "path": "/tmp/destiny-calibration-pr13-review-p2-build-pre.log",
+      "sha256": "6eab938a82f3dbc0768df219c0eda96d1f1e947e56e6bec6fe9d6128d059cb11",
+      "exitCode": 0
+    },
+    {
+      "path": "/tmp/destiny-calibration-pr13-enemy-attack-counter-typecheck-rerun.log",
+      "sha256": "343fb16f28b5c96a9931c014b52d65ef09aa0337731348de7e8a1c9c8a4fa399",
+      "exitCode": 0
+    }
+  ],
+  "delivery": "Requires a new exact-head Codex review and rebase merge before clean-main Wiki, PRE acceptance and PRO release. No deployment is asserted."
+}

@@ -395,6 +395,9 @@ export async function validateCalibrationCell(
       ] as const)
         nonnegative(stage[key], `stage.${key}`, !key.endsWith("Seconds"));
       validateMetrics(stage.metrics, `stage[${stage.stageIndex}].metrics`);
+      // Native attacks increment both counters; an omitted mechanic key means zero.
+      if (stage.enemyAttacks !== (stage.metrics.mechanics.enemy_attack ?? 0))
+        throw new Error("Inconsistent enemy attack counters");
     }
     if (
       run.result.stages.filter((stage) => stage.cleared).length !== run.result.clearedStages ||

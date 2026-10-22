@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "kind": "PR13-P2-independent-post-review-semantic-implementation-annex",
+  "recordedAt": "2026-10-22T22:58:00.526Z",
+  "simulationsExecuted": 0,
+  "testsExecuted": 0,
+  "buildsExecuted": 0,
+  "remoteCallsExecuted": 0,
+  "materialUnresolvedFindings": [],
+  "collectorSha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2",
+  "frozenSimulationSource": "359b7c2478e4e28cc99996b7a6b6cdab9993e901493c95a9e4c67ff7089226e0",
+  "frozenProfile": "e33fe7cbc2c26362482762303b3b93aa6d2fed0dcc4b776cdef0d883543df102",
+  "implementationReview": [
+    "Both native melee and ranged actions increment direct counter and emit mechanic enemy_attack amount1 together; this is an existing data-integrity contract.",
+    "stage.enemyAttacks is checked as a nonnegative safe integer; validateMetrics rejects null/non-numeric mechanics before ??0 reconciliation.",
+    "Exact equality rejects forged0/original+1 direct counters despite unchanged additive metrics; tests use fresh structured clones and positive native control.",
+    "Native zero-time evidence accepts missing key or explicit0, while null rejects. Existing validation continues to check run-stage metric sums.",
+    "No runtime/profile/guide change; every numerical source file still matches frozen359 identity."
+  ],
+  "evidenceReview": {
+    "phases": 4,
+    "cells": 36,
+    "records": 5448,
+    "stageSummaries": 14133,
+    "counterMismatches": 0,
+    "newStatisticalSamples": 0,
+    "oldAndNewReportsEqualExcept": ["collectorSha256", "code.commit", "code.dirty"],
+    "committedCurrentCopiesMatch": true,
+    "losslessPeerPatch": {
+      "replacements": 10,
+      "allOtherValuesEqual": true,
+      "exactReconstructedSha256": "83890397351973476195aecc56659542fc0d1a120bcd41e87bafc1d65d49be48"
+    },
+    "intervalEntries": 255,
+    "numericWilsonIntervals": 249,
+    "zeroEntryNullCases": 6,
+    "warnings": 73,
+    "pairedHarms": 88,
+    "existingExactReplayReceipts": 2
+  },
+  "reportedCompletedChecks": {
+    "fullUnit": {
+      "passed": 380,
+      "failed": 0,
+      "assertions": 8663170,
+      "seconds": 62.95
+    },
+    "targeted": {
+      "passed": 24,
+      "failed": 0,
+      "assertions": 242
+    },
+    "typecheck": "passed",
+    "PRO": "passed",
+    "PRE": "passed",
+    "proof": "Existing receipt/log SHA values checked without rerunning commands."
+  },
+  "documentationReview": [
+    "New report correction names original b278 review, current32a collector and unchanged original raw/numerical evidence; old audits/freezes/decisions remain historical.",
+    "Protocol README current completed matrix identity corrected from76 to32a and historical clarification verified.",
+    "Current five curated post-review documents match source identities/receipts, report local post-review links exist.",
+    "Original adoption is reaffirmed, not rewritten; soft-band deviations remain explicitly unsatisfied.",
+    "Fresh380-unit checks are separate from earlier378-unit/static/browser evidence; no new browser or replay claim.",
+    "Newest exact-head Codex review/merge and later clean-main Wiki/PRE/PRO remain required; no deployment asserted."
+  ],
+  "currentDocuments": [
+    {
+      "path": "docs/balance-calibration-2026-10-22.md",
+      "sha256": "8908cae647d18f3985197d0a9c5b4f3fc3bd725aa0f556b3ff3f0d77ee3d364f"
+    },
+    {
+      "path": "experiments/balance/calibration/README.md",
+      "sha256": "0c1d9a71ef2588b9d7f6c6f905fd56ae010de3e07c18106087729c44d0c906cc"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/README.md",
+      "sha256": "9267abeeb62b4a819e4051bf59a64029c174c802b8d9a06833bc832177f4f3e1"
+    }
+  ],
+  "proofInputs": [
+    {
+      "path": "scripts/calibration-evidence.ts",
+      "sha256": "32a3af2edb022e0657493b9b78fdd5ee437c2029c53b473042d38f97c985e0f2"
+    },
+    {
+      "path": "tests/unit/calibration-evidence.test.ts",
+      "sha256": "18690f9abd6195076447cf8577ab4a364d134c4093777b7e8a9d757e9663fce0"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/post-review-collector-fix.json",
+      "sha256": "4302683bce3916f83bb98c27e4bd019d6dbc9f6405891d4af5d90bf26c539df2"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/post-review-raw-counter-audit.json",
+      "sha256": "402722025afc26e8d06948e5efc714f07512f0b3eb8274f32108fa8b05765ba5"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/post-review-recollection.json",
+      "sha256": "ff2934cb470504ed9b990e5c2a7b8afd45258d3acbca27bd85c6545ae043cb9d"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/post-review-peer-patch.json",
+      "sha256": "2d9db212dd6b9e0be308001bdf5f7d679f399080fc7ef733bcd29b237756e85d"
+    },
+    {
+      "path": "experiments/balance/calibration/evidence/post-review-resolution.json",
+      "sha256": "41ede8a17c3806c88a93f823c7c26aa141ba378fea64b811d1c957a8bddb6394"
+    }
+  ],
+  "remaining": [
+    "Root final format/index/lint/docs checks and atomic fix commit/push",
+    "Completed Codex review of newest exact head before rebase merge",
+    "Clean merged-main release preparation; Wiki/PRE then PRO remain separate"
+  ]
+}

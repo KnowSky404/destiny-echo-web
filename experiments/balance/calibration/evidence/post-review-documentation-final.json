@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "PR13-P2-final-wording-semantic-review-annex",
+  "recordedAt": "2026-10-22T22:58:19.884308+00:00",
+  "parentReview": {
+    "path": "/tmp/destiny-calibration-pr13-post-review-semantic-annex.json",
+    "sha256": "04b002d7c7c28efe06534d4410adb49cd9352a9fff438f91594a0047321d7e6b"
+  },
+  "result": "pass",
+  "materialUnresolvedFindings": [],
+  "report": {
+    "path": "docs/balance-calibration-2026-10-22.md",
+    "previousSha256": "8908cae647d18f3985197d0a9c5b4f3fc3bd725aa0f556b3ff3f0d77ee3d364f",
+    "finalSha256": "8908cae647d18f3985197d0a9c5b4f3fc3bd725aa0f556b3ff3f0d77ee3d364f"
+  },
+  "wordingVerified": "This recollection adds no statistical samples and does not rerun the formal gameplay simulations.",
+  "boundary": "Only formal recollection adds zero samples/reruns no formal simulations; full unit tests still execute their existing production-World regression cases. Independent semantic reviewer ran no simulations/tests/builds/remote calls.",
+  "otherReviewedDocumentsUnchanged": true,
+  "readyForRootFinalization": true
+}
