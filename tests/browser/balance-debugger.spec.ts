@@ -112,6 +112,20 @@ test("saved versions survive refresh and JSON export/import without affecting a 
     .toBeGreaterThanOrEqual(42);
   await open(page, "方案版本");
   await expect(page.getByText("本机试验 A v1 · 下次打开时沿用", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
+  const second = page.locator(".debug-version").filter({ hasText: "本机试验 A v2" });
+  await second.getByRole("button", { name: "删除本地版本", exact: true }).click();
+  await page.reload();
+  await expect(page.locator("canvas")).toBeVisible();
+  await open(page, "方案版本");
+  await page
+    .locator(".debug-version")
+    .filter({ hasText: "本机试验 A v1" })
+    .getByRole("button", { name: "载入为草稿", exact: true })
+    .click();
+  await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
+  await expect(page.getByText("本机试验 A v3", { exact: true })).toBeVisible();
+  await expect(page.getByText("本机试验 A v2", { exact: true })).toHaveCount(0);
   const context = await browser.newContext();
   try {
     const other = await context.newPage();
