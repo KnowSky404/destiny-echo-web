@@ -7,6 +7,7 @@ const strings: Record<string, readonly [string, string]> = {
   buildTrigger: ["本局构筑", "Build"],
   helpTrigger: ["玩法说明", "Help"],
   health: ["生命", "HP"],
+  defenseLine: ["防线 / DEFENSE LINE", "DEFENSE LINE"],
   scoreInitial: ["0 分", "0 points"],
   stageInitial: ["第 1 / 4 关 · 圣杯前庭", "Stage 1 / 4 · Grail Courtyard"],
   bossInitial: ["失控圣杯 · 空愿之器", "Runaway Grail · Vessel of Empty Wishes"],

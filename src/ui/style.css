@@ -318,7 +318,8 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 #shield-value {
-  font-size: 9px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
   color: var(--blue);
 }
 
@@ -400,6 +401,7 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 #game-canvas {
+  position: relative;
   width: 100%;
   height: 100%;
 }
@@ -408,6 +410,50 @@ kbd {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+}
+.defense-label {
+  position: absolute;
+  left: var(--defense-label-left);
+  top: var(--defense-label-top);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 7px;
+  border: 1px solid #dec28a45;
+  border-radius: 3px;
+  background: #0b1020ed;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  max-width: var(--defense-label-width);
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  user-select: none;
+}
+.defense-label > span {
+  min-width: 0;
+}
+#game-canvas:not([data-logical-width]) .defense-label {
+  visibility: hidden;
+}
+.defense-label svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .defense-label {
+    gap: 4px;
+    padding: 2px 5px;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .defense-label svg {
+    width: 12px;
+    height: 12px;
+  }
 }
 .boss-health {
   position: absolute;
@@ -626,10 +672,12 @@ kbd {
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 .card-topline {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 .card-topline strong {
@@ -652,7 +700,7 @@ kbd {
   line-height: 1.6;
 }
 .card-synergy {
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
 }
 .reward-card.synergy-upgrade {
@@ -688,6 +736,10 @@ kbd {
 .synergy-card summary::-webkit-details-marker {
   display: none;
 }
+.synergy-card summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -3px;
+}
 .synergy-card summary::after {
   content: "+";
   color: var(--muted);
@@ -702,6 +754,7 @@ kbd {
 .synergy-symbol svg {
   width: 17px;
   height: 17px;
+  stroke-width: 1.6;
 }
 .synergy-card strong {
   font-size: 12px;
@@ -709,8 +762,9 @@ kbd {
 }
 .synergy-count {
   margin-left: auto;
-  white-space: nowrap;
-  font-size: 9px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 11px;
   color: var(--muted);
 }
 .synergy-card.active .synergy-count,
@@ -721,7 +775,7 @@ kbd {
 .synergy-details {
   padding: 0 9px 9px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
 }
 .synergy-details p + p {
@@ -793,6 +847,7 @@ kbd {
 .stats dt svg {
   width: 19px;
   height: 19px;
+  stroke-width: 1.6;
   color: var(--violet);
 }
 .stats > div:nth-child(even) dt svg {
@@ -956,6 +1011,13 @@ kbd {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 36px;
 }
+.build-dialog .stats dd {
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: right;
+}
 .build-dialog .synergies {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
@@ -1107,6 +1169,9 @@ kbd {
 .desktop-arena #health-value,
 .desktop-arena .score-value {
   font-size: 13px;
+}
+.desktop-arena #shield-value {
+  font-size: 12px;
 }
 .desktop-arena .stage-status {
   position: absolute;
@@ -1345,7 +1410,10 @@ kbd {
   .game-layout {
     --arena-size: min(
       100%,
-      calc((100svh - 160px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 0.5625)
+      max(
+        230px,
+        calc((100svh - 160px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * 0.5625)
+      )
     );
     padding: 5px 14px 0;
     display: flex;
@@ -1397,7 +1465,7 @@ kbd {
   }
   #shield-value {
     grid-column: 1 / -1;
-    font-size: 9px;
+    font-size: 11px;
   }
   #shield-value:empty {
     display: none;
@@ -1470,13 +1538,7 @@ kbd {
   .card-topline strong {
     font-size: 14px;
   }
-  .card-change {
-    font-size: 10px;
-  }
   .card-description {
-    font-size: 9px;
-  }
-  .card-synergy {
     font-size: 9px;
   }
   .synergies {
@@ -1657,12 +1719,6 @@ kbd {
   .card-icon {
     flex-basis: 26px;
     height: 26px;
-  }
-  .card-change {
-    font-size: 9px;
-  }
-  .card-synergy {
-    font-size: 8px;
   }
   .reward-choices {
     gap: 8px;

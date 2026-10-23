@@ -148,18 +148,6 @@ export class BattleScene extends Phaser.Scene {
       .setDisplaySize(this.world.arena.width, CONFIG.height)
       .setOrigin(0)
       .setDepth(-2);
-    const defenseLabel = this.add
-      .text(22, CONFIG.defense.y + 36, t("DEFENSE LINE  /  防线", "DEFENSE LINE"), {
-        fontFamily: "sans-serif",
-        fontSize: "9px",
-        color: "#bea773",
-        resolution: TEXTURE_SCALE,
-      })
-      .setOrigin(0, 0);
-    const unsubscribe = onLocaleChange(() =>
-      defenseLabel.setText(t("DEFENSE LINE  /  防线", "DEFENSE LINE")),
-    );
-    this.onStop(unsubscribe);
   }
 
   update(_time: number, delta: number): void {

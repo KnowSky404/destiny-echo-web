@@ -13,6 +13,7 @@ export function createGame(parent: HTMLElement, world: World, ready: () => void)
     if (!canvas) return;
     const bounds = canvas.getBoundingClientRect();
     if (bounds.width <= 0 || bounds.height <= 0) return;
+    const parentBounds = parent.getBoundingClientRect();
     const metrics = arenaDisplayMetrics(world.arena, bounds.width, bounds.height);
     const values = {
       laneCount: String(metrics.laneCount),
@@ -32,6 +33,17 @@ export function createGame(parent: HTMLElement, world: World, ready: () => void)
       ["--arena-lane-gap-px", values.laneGapPx],
       ["--arena-cell-width-px", values.cellWidthPx],
       ["--arena-cell-height-px", values.cellHeightPx],
+      // Native UI text follows the actual FIT canvas, including letterboxing.
+      // Snap its anchor to CSS pixels without scaling the browser's glyphs.
+      [
+        "--defense-label-left",
+        String(Math.round(bounds.left - parentBounds.left + 22 * metrics.scale)),
+      ],
+      [
+        "--defense-label-top",
+        String(Math.round(bounds.top - parentBounds.top + (CONFIG.defense.y + 36) * metrics.scale)),
+      ],
+      ["--defense-label-width", String(Math.floor(bounds.width - 22 * metrics.scale - 8))],
     ];
     for (const [name, value] of properties) {
       if (parent.style.getPropertyValue(name) !== `${value}px`)
