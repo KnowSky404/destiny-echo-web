@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions / 使用与玩法问答
+    url: https://github.com/KnowSky404/destiny-echo-web/discussions/categories/q-a
+    about: Ask a question and find answers. / 提出问题或查找答案。
+  - name: Ideas / 开放想法讨论
+    url: https://github.com/KnowSky404/destiny-echo-web/discussions/categories/ideas
+    about: Discuss early ideas, balance, and possible improvements. / 交流初步构思、数值与可能的改进。
+  - name: Game guide / 游戏指南
+    url: https://github.com/KnowSky404/destiny-echo-web/wiki
+    about: Read the bilingual controls, cards, mechanics, and release notes. / 查阅双语操作、卡牌、机制与版本日志。

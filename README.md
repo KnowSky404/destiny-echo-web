@@ -21,6 +21,10 @@ A browser defense roguelike for desktop and touch screens. Hold a fixed position
 
 The game supports **English and Simplified Chinese**. Choose **English / 中文** in the header; the browser remembers your choice when local storage is available. Chinese is the default. Switching language keeps the current run and reward choices. WebGL is required. There are no accounts or saved combat runs.
 
+## Community
+
+Chinese and English are both welcome. Use [Issues](https://github.com/KnowSky404/destiny-echo-web/issues/new/choose) for reproducible bugs and specific feature requests, and [Discussions](https://github.com/KnowSky404/destiny-echo-web/discussions) for questions, ideas, and play experiences. The [Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki) covers controls, cards, and mechanics.
+
 ## Development
 
 Requires **Bun 1.4.3 or newer** and a WebGL-capable browser.
