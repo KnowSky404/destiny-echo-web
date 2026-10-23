@@ -1,5 +1,15 @@
 # Changelog
 
+## UI detail polish — 2026-10-23 (Unreleased)
+
+- Render the defense-line marker as native DOM text with an SVG shield: 12px on desktop, 11px on mobile, with a whole-CSS-pixel anchor that follows the real FIT canvas bounds. The marker does not read DPR or intercept pointer input.
+- Increase shield values to 12px desktop / 11px mobile. Keep reward changes and synergy previews at least 11px, with wrapping for narrow layouts.
+- Increase build-family progress to 11px and details to 12px; strengthen small attribute/family icon strokes and add a visible keyboard focus outline to family expanders.
+- Keep build attribute values at 16px with native sans-serif glyphs, tabular numerals and clear contrast. Allow the defense marker to wrap within the actual canvas width on short screens.
+- Keep a readable 230px arena column on short mobile screens, using page scrolling instead of squeezing the HUD.
+- Combat rules, targeting coordinates and formation geometry are unchanged.
+- Verification: docs/type/lint/build checks and 402 Bun tests passed; focused Playwright checks passed on Chromium desktop/touch, Firefox and WebKit. Wiki: publish separately from clean merged main and verify the remote SHA. PRE: not deployed for this change. PRO: not deployed for this change.
+
 ## Desktop interface and clarity — 2026-10-23
 
 - Move training and skill notices to the lower right, clear of the fixed ship.

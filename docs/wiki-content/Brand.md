@@ -40,6 +40,10 @@ Original geometric commands in `src/game/scenes/textures.ts` rasterize these spr
 | `hostile-shot` | 20×20 | 40×40 |
 | `spark` | 8×8 | 16×16 |
 
-The sigil cache grows from 420×420 to 840×840. The static background rasterizes at 2× with a 4096px width cap; defense-line text uses 2× resolution. The logical arena stays 800 units high, with desktop width 800–2400. The canvas backing scale follows its actual CSS display area within 1–2×, independently of DPR, avoiding enlargement of an 800px-high backing on a 1080p screen.
+The sigil cache grows from 420×420 to 840×840. The static background rasterizes at 2× with a 4096px width cap. The logical arena stays 800 units high, with desktop width 800–2400. The canvas backing scale follows its actual CSS display area within 1–2×, independently of DPR, avoiding enlargement of an 800px-high backing on a 1080p screen.
+
+The defense-line marker uses native DOM text and an SVG shield, rendered at 12 CSS pixels on desktop and 11 CSS pixels on mobile. Its anchor follows the actual FIT canvas bounds, including letterboxing, and rounds to whole CSS pixels. The marker does not read DPR or intercept pointer input. Shield values use 12px desktop / 11px mobile text; reward changes and synergy previews keep an 11px minimum. Build-family progress uses 11px text with 12px details, stronger small-icon strokes and a visible keyboard focus outline.
 
 A body slot is the 68×84 logical formation cell: on-screen footprint = logical size × actual canvas CSS scale. Lane spacing is measured separately; each monster's own radius determines its body diameter. Resizing updates display pixels without moving existing enemies or changing capacity or attack cells. In-game Help covers the core loop; the Wiki keeps the full reference.
+
+Build attribute values use 16px native sans-serif text and tabular numerals, with brighter contrast than their labels.

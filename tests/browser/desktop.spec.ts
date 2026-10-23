@@ -24,8 +24,19 @@ import {
   sanctuaryTauntFlow,
   woundsFlow,
 } from "./player-power";
+import { defenseLabelFlow, rewardReadabilityFlow } from "./ui-legibility";
 
 const runtimeErrors = new WeakMap<Page, string[]>();
+test("native defense label stays crisp, aligned and transparent to targeting after resize", async ({
+  page,
+}, info) => {
+  await defenseLabelFlow(page, info.project.name);
+});
+test("reward and build details stay readable with large shields and keyboard focus", async ({
+  page,
+}, info) => {
+  await rewardReadabilityFlow(page, info.project.name);
+});
 test("endless waves keep random positions and guarantee attack-region admissions", async ({
   page,
 }, info) => {
