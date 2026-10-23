@@ -103,7 +103,7 @@ function createProjectile(): Projectile {
 }
 
 export class World {
-  readonly arena;
+  private currentArena;
   readonly attackRegions: AttackRegion[];
 
   protected balance: BalanceProfile;
@@ -118,7 +118,7 @@ export class World {
   ) {
     this.observer = observer;
     this.balance = structuredClone(profile);
-    this.arena = arenaLayout(width);
+    this.currentArena = arenaLayout(width);
     this.player = createPlayer(
       this.arena.player,
       this.arena.laneCount / 4,
@@ -341,6 +341,9 @@ export class World {
   get phase() {
     return this.state.phase;
   }
+  get arena() {
+    return this.currentArena;
+  }
   get wave() {
     return Math.min(5, Math.floor(this.stageElapsed / 11) + 1);
   }
@@ -477,9 +480,15 @@ export class World {
       )?.id ?? null;
   }
 
-  start(seed = Date.now()): boolean {
+  start(seed = Date.now(), arenaWidth = this.arena.width): boolean {
     if (["Playing", "RewardSelection", "StageClear"].includes(this.phase)) return false;
+    // Validate before changing phase, then apply geometry only to an accepted new run.
+    const nextArena = arenaWidth === this.arena.width ? this.arena : arenaLayout(arenaWidth);
     if (!this.state.transition("Playing")) return false;
+    if (nextArena !== this.arena) {
+      this.currentArena = nextArena;
+      this.configuredStage = undefined;
+    }
     this.reset(seed);
     if (this.observer) this.observe("stage_enter");
     return true;

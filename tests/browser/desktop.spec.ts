@@ -73,7 +73,7 @@ test("desktop Firefox fills the wide screen and keeps target coordinates correct
   // Keep this coordinate check outside a seed-dependent chest reward overlay.
   await page.clock.setSystemTime(new Date(2));
   await start(page);
-  await page.clock.runFor(4500);
+  await page.clock.runFor(2500);
   const state = await snapshot(page);
   expect(state.arena.width).toBeGreaterThan(800);
   expect(state.arena.laneCount).toBe(6);
@@ -143,8 +143,9 @@ test("top build and help dialogs pause battle, scroll independently and return k
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.locator("#help-dialog");
   await expect(help).toBeVisible();
-  await expect(help).toContainText("玩家生命归零才失败");
-  await expect(help).toContainText("累计每 5,000 分");
+  await expect(help).toContainText("生命归零则本局结束");
+  await expect(help.locator("dt")).toHaveCount(4);
+  await expect(help).toContainText("三选一，组合流派");
   await page.getByRole("button", { name: "明白了", exact: true }).click();
   await page.getByRole("button", { name: "继续共鸣", exact: true }).click();
   await page.clock.runFor(200);
@@ -445,18 +446,16 @@ test("production static build loads without diagnostics or missing assets", asyn
   await expect(page.locator("#debug-trigger")).toHaveCount(0);
   await page.getByRole("button", { name: "玩法说明", exact: true }).click();
   const help = page.getByRole("dialog", { name: "在残响中，改写命运。" });
-  await expect(help).toContainText("51 张残响");
-  await expect(help).toContainText("两项不同锻体与一张随机残响三选一");
-  await expect(help).toContainText("手机最多 24 只小怪加首领");
-  await expect(help).toContainText("遗世庇护");
-  await expect(help).toContainText("首层 0.75 秒");
-  await expect(help).toContainText("减少 90% 治疗");
-  await expect(help).toContainText("重击首关直接扣 90 生命，之后每关 +7.5");
-  await expect(help).toContainText("首关只开放");
-  await expect(
-    help.getByRole("link", { name: "完整游戏 Wiki：卡牌、怪物、羁绊与机制" }),
-  ).toHaveAttribute("href", "https://github.com/KnowSky404/destiny-echo-web/wiki");
-  await expect(help).toContainText("没有有效嘲讽时不强制锁定坦克");
+  await expect(help.locator("dt")).toHaveCount(4);
+  await expect(help).toContainText("自动攻击，自由点选");
+  await expect(help).toContainText("三选一，组合流派");
+  await expect(help).toContainText("突破四关，挑战无尽");
+  await expect(help).toContainText("随时暂停，重新出发");
+  await expect(help.getByRole("link", { name: /完整游戏 Wiki/ })).toHaveAttribute(
+    "href",
+    "https://github.com/KnowSky404/destiny-echo-web/wiki",
+  );
+  await expect(help).not.toContainText("90% 治疗");
   await page.getByRole("button", { name: "明白了", exact: true }).click();
   expect(failures).toEqual([]);
 });
@@ -862,4 +861,141 @@ test("health-scaling card groups preview real coefficients and selection applies
   page,
 }, info) => {
   await healthScalingCardsFlow(page, info.project.name);
+});
+
+test("1080p backing, body-slot pixels and corner notices stay clear through resize", async ({
+  page,
+}, info) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await bootFixture(
+    page,
+    `
+    world.stageIndex = 4;
+    world.stageSupplies = 3;
+    world.player.cooldown = 100;
+    world.player.shield = 10000;
+    world.notice = "分数锻体 · 攻击强化 / 遗世庇护释放 · 已净化";
+    world.noticeUntil = 60;
+    world.attackRegions.push(...world.arena.attackRegions.filter(r => r.y === 200).slice(0, 2));
+    enemy({ x: 1200, defenseX: 1200, y: 300, speed: 0, hp: 10000, maxHp: 10000 });
+  `,
+    1600,
+  );
+  const before = await snapshot(page);
+  for (const [width, height] of [
+    [1920, 1080],
+    [1280, 720],
+  ] as const) {
+    await resizeAndFit(page, width, height);
+    await page.clock.runFor(200);
+    const measurement = await page.evaluate(() => {
+      const canvas = document.querySelector<HTMLCanvasElement>("#game-canvas canvas");
+      const parent = document.querySelector<HTMLElement>("#game-canvas");
+      const notice = document.querySelector<HTMLElement>("#arena-notice");
+      if (!canvas || !parent || !notice) throw new Error("Missing arena elements");
+      const rect = canvas.getBoundingClientRect();
+      const n = notice.getBoundingClientRect();
+      return {
+        backingWidth: canvas.width,
+        backingHeight: canvas.height,
+        width: rect.width,
+        height: rect.height,
+        notice: {
+          x: n.x - rect.x,
+          y: n.y - rect.y,
+          right: n.right - rect.x,
+          bottom: n.bottom - rect.y,
+        },
+        metrics: { ...parent.dataset },
+        pointerEvents: getComputedStyle(notice).pointerEvents,
+      };
+    });
+    expect(measurement.backingWidth).toBeGreaterThanOrEqual(measurement.width - 1);
+    expect(measurement.backingHeight).toBeGreaterThanOrEqual(measurement.height - 1);
+    expect(Number(measurement.metrics.laneCount)).toBe(before.arena.laneCount);
+    expect(Number(measurement.metrics.cellWidthPx)).toBeCloseTo((68 * measurement.height) / 800, 2);
+    expect(Number(measurement.metrics.cellHeightPx)).toBeCloseTo(
+      (84 * measurement.height) / 800,
+      2,
+    );
+    expect(measurement.notice.x).toBeGreaterThan(
+      measurement.width / 2 + (44 * measurement.height) / 800,
+    );
+    expect(measurement.notice.right).toBeLessThan(measurement.width);
+    expect(measurement.notice.bottom).toBeLessThan(measurement.height - 40);
+    expect(measurement.pointerEvents).toBe("none");
+    const state = await snapshot(page);
+    expect(state.arena).toEqual(before.arena);
+    expect(state.attackRegions).toEqual(before.attackRegions);
+    await clickTarget(page, 1200, 300);
+    expect((await snapshot(page)).manualTargetId).toBe(before.enemies[0]?.id);
+    await page.screenshot({
+      path: join(tmpdir(), `destiny-${info.project.name}-polish-${width}.png`),
+    });
+  }
+});
+
+test("1080p display resolution and lane geometry are independent of device DPR", async ({
+  browser,
+}, info) => {
+  test.skip(
+    info.project.name !== "chromium",
+    "One engine verifies renderer DPR policy; native touch has separate coverage.",
+  );
+  const measurements = [];
+  for (const deviceScaleFactor of [1, 2]) {
+    const context = await browser.newContext({
+      viewport: { width: 1920, height: 1080 },
+      deviceScaleFactor,
+    });
+    try {
+      const page = await context.newPage();
+      await boot(page);
+      measurements.push(
+        await page.evaluate(() => {
+          const canvas = document.querySelector<HTMLCanvasElement>("canvas");
+          if (!canvas) throw new Error("Missing canvas");
+          return { width: canvas.width, height: canvas.height, arena: window.__ECHOES__?.().arena };
+        }),
+      );
+    } finally {
+      await context.close();
+    }
+  }
+  expect(measurements[0]).toEqual(measurements[1]);
+});
+
+test("new runs recalculate lanes while resize and resume preserve the current formation", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await boot(page);
+  await start(page);
+  const first = await snapshot(page);
+  expect(first.arena.laneCount).toBe(6);
+  for (const [width, height, expectedLanes] of [
+    [2560, 1080, 8],
+    [1024, 1080, 4],
+  ] as const) {
+    await page.getByRole("button", { name: "暂停游戏", exact: true }).click();
+    await page.clock.runFor(100);
+    await resizeAndFit(page, width, height);
+    expect((await snapshot(page)).arena).toEqual(first.arena);
+    await page.getByRole("button", { name: "返回开始界面", exact: true }).click();
+    await page.clock.runFor(100);
+    await page.getByRole("button", { name: "开始共鸣", exact: true }).click();
+    await page.clock.runFor(500);
+    await expect(page.locator("#game-canvas canvas")).toHaveCount(1);
+    const state = await snapshot(page);
+    expect(state.arena.laneCount).toBe(expectedLanes);
+    expect(state.player.x).toBe(state.arena.width / 2);
+    expect(state.arena.minionCapacity).toBe(expectedLanes * 6);
+    expect(state.score).toBe(0);
+    await page.getByRole("button", { name: "Switch to English", exact: true }).click();
+    await page.clock.runFor(100);
+    await expect(page.locator("canvas")).toHaveAttribute("aria-label", /Echoes of Destiny/);
+    await page.getByRole("button", { name: "切换为中文", exact: true }).click();
+    await page.clock.runFor(100);
+    first.arena = state.arena;
+  }
 });

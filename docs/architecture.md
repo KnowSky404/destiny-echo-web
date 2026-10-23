@@ -5,7 +5,7 @@ Echoes of Destiny is a static, run-local defense Roguelike. The fixed player at 
 ## Ownership and time
 
 - `src/game/world.ts`: simulation, bounded pools, spawning, combat effects, one-use rewards and endings; no DOM, Phaser, Bun or server imports.
-- `src/game/arena.ts`: portrait/desktop geometry, lanes, capacity, spatial scale and the full attack grid. Geometry is chosen from the viewport at boot and stays fixed for the run.
+- `src/game/arena.ts`: portrait/desktop geometry, lanes, capacity, spatial scale and the full attack grid. Geometry is previewed at boot and recalculated from the viewport on start/restart, then stays fixed for the run.
 - `src/game/config.ts`: fixed step, timing, projectile/effect budgets and baseline parameters.
 - `src/game/systems`: targeting, swept collisions, movement/readiness, formation/fusion, recovery, wounds and escalating poison.
 - `src/game/stats.ts`: derived attack, firing interval, crit and lifesteal. Base stats and family modifiers remain distinct.
@@ -20,7 +20,7 @@ Outside sanctuary, movement and clocks precede target refresh, friendly shots/co
 
 ## Geometry, permission and input
 
-Portrait has four side lanes with six rows;1080p desktop has about six lanes with six rows, and capacity/budgets adapt. A center corridor reserves space for the boss. Initial firepower and projectile travel adapt to the wider population. Spatial effects and fusion proximity follow lane spacing; bodies and vertical spacing do not stretch. Resizing preserves the selected world, and FIT preserves rendering proportions.
+Portrait has four side lanes with six rows;1080p desktop has about six lanes with six rows, and capacity/budgets adapt. A center corridor reserves space for the boss. Initial firepower and projectile travel adapt to the wider population. Spatial effects and fusion proximity follow lane spacing; bodies and vertical spacing do not stretch. Resizing preserves the selected world, and FIT preserves rendering proportions. `arenaDisplayMetrics` converts the actual canvas CSS bounds into lane spacing and 68×84 formation-cell pixels. A ResizeObserver refreshes those presentation measurements and a bounded 1–2× backing scale independently of DPR. Procedural textures rasterize at 2× with compensated sprite display sizes; camera scaling never rewrites simulation coordinates.
 
 `AttackPolicy` supports defense arrival, a region y threshold, anywhere on-screen, and active grid zones. Endless melee gets permission either on arrival or inside an active grid cell, and that permission enables actual damage before arrival. Ranged actors retain their ranged policy. The same predicate determines attack-area target priority. Each endless clearance adds two random inactive cells from an independent stream, preserving earlier cells until full coverage. The renderer uses those exact cells; it cannot create a cosmetic-only warning. Restart resets the active list.
 

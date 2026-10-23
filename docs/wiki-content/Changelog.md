@@ -1,5 +1,14 @@
 # Changelog
 
+## Desktop interface and clarity — 2026-10-23
+
+- Move training and skill notices to the lower right, clear of the fixed ship.
+- Integrate the current scalable Echo Compass logo, improve canvas/texture clarity and record actual asset dimensions.
+- Replace Endless red boxes with star-position markers at the real active-cell bounds.
+- Recalculate lanes/capacity on new runs from the current viewport; preserve formation and attack cells during a run, with live body-slot pixel measurements.
+- Keep in-game Help focused on the core loop and link detailed rules to the bilingual Wiki.
+- Local checks, source/PR, Wiki and PRE/PRO delivery are separate; this change does not authorize game deployment.
+
 ## Stage calibration — 2026-10-22
 
 The official profile now calibrates opening pressure, later minion/boss endurance and action timing, plus the separate endless ramp and direct-HP slam. Numeric tables and bilingual help follow the profile. Reproducible selection, independent validation and strategy/layout sensitivity are recorded in the repository calibration report; proxy results are not human win rates. Source/PR, Wiki, PRE and PRO delivery remain separately verified.
@@ -28,7 +37,7 @@ The official profile now calibrates opening pressure, later minion/boss enduranc
 
 ## Next
 
-- Discuss game artwork and in-game brand integration separately with the maintainer.
+- Continue iterating on game artwork using the recorded source dimensions and versioned masters.
 
 ## Source history
 
