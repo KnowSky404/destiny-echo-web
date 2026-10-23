@@ -1,0 +1,21 @@
+title: "[Idea] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share early ideas, balance feedback, or possible directions. Chinese and English are both welcome.
+        For a specific, actionable request, use the [feature request form](https://github.com/KnowSky404/destiny-echo-web/issues/new?template=feature_request.yml).
+        欢迎使用中文或英文交流初步构思、数值体验或可能的方向。明确、可执行的需求请使用[功能建议表单](https://github.com/KnowSky404/destiny-echo-web/issues/new?template=feature_request.yml)。
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea / 你的想法
+      description: What would you like to explore, and why? / 希望探讨什么，为什么？
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and examples / 背景与示例
+      description: Optional; describe a play experience, a tradeoff, or an example. / 选填；可描述游玩体验、取舍或示例。

@@ -21,6 +21,10 @@
 
 游戏支持**简体中文和英文**，点击顶部 **English / 中文** 切换；默认中文，可用本地存储时记住选择。切换语言保留当前战斗与奖励选项。需要 WebGL，没有账户或战斗存档。
 
+## 交流与反馈
+
+欢迎使用中文或英文交流。可复现的问题与明确的功能需求请通过 [Issues](https://github.com/KnowSky404/destiny-echo-web/issues/new/choose) 提交，使用与玩法问答、初步构思和游玩体验请到 [Discussions](https://github.com/KnowSky404/destiny-echo-web/discussions) 交流。操作、卡牌与机制说明见[中文 Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki/Home-zh-CN)。
+
 ## 开发
 
 需要 **Bun 1.4.3 或更新版本**及支持 WebGL 的浏览器。

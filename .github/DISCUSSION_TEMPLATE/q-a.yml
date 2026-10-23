@@ -1,0 +1,26 @@
+title: "[Q&A] "
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask about controls, mechanics, or using the project. Chinese and English are both welcome.
+        For a reproducible bug, use the [bug report form](https://github.com/KnowSky404/destiny-echo-web/issues/new?template=bug_report.yml).
+        欢迎使用中文或英文询问操作、机制或项目使用问题。可复现的故障请使用[问题反馈表单](https://github.com/KnowSky404/destiny-echo-web/issues/new?template=bug_report.yml)。
+  - type: textarea
+    id: question
+    attributes:
+      label: Question / 你的问题
+      description: Include the context needed to understand your question. / 请提供理解问题所需的背景。
+    validations:
+      required: true
+  - type: textarea
+    id: tried
+    attributes:
+      label: What you have tried / 已经尝试的办法
+      description: Optional; link relevant guide pages or existing discussions. / 选填；可附相关指南页面或已有讨论。
+  - type: input
+    id: environment
+    attributes:
+      label: Environment / 运行环境
+      description: Optional; include PRO, PRE, or local development, plus your browser and device when relevant. / 选填；如与问题有关，请提供正式版、PRE 或本地开发，以及浏览器和设备。
