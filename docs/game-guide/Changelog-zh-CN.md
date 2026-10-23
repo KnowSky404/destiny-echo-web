@@ -6,7 +6,7 @@
 
 [首页](Home-zh-CN.md) · [卡牌](Cards-zh-CN.md) · [流派](Builds-zh-CN.md) · [敌人](Enemies-zh-CN.md) · [关卡](Stages-zh-CN.md) · [机制](Mechanics-zh-CN.md) · [开发与发布](Development-zh-CN.md) · [版本日志](Changelog-zh-CN.md) · [配图](Gallery-zh-CN.md) · [品牌](Brand-zh-CN.md) · [验证历史](Validation-zh-CN.md)
 
-## 界面细节精修 — 2026-10-23（未发布）
+## 界面细节精修 — 2026-10-23
 
 - 防线标识改为原生 DOM 文字与 SVG 盾牌，桌面 12px、移动端 11px；锚点跟随真实 FIT 画布边界并取整到 CSS 像素，不读取 DPR，也不拦截指针输入。
 - 护盾数字提升至桌面 12px / 移动端 11px；奖励数值和羁绊预览保持至少 11px，窄屏允许换行。
@@ -14,7 +14,11 @@
 - 构筑属性数值保持 16px 无衬线与等宽数字，提高对比度；防线标识在矮屏内按实际画布宽度换行。
 - 矮屏手机保留至少 230px 宽的战场栏，通过页面滚动查看，避免生命值和关卡名被挤碎。
 - 战斗规则、索敌坐标和编队几何保持一致。
-- 验证：文档、类型、lint、构建及 402 项 Bun 测试通过；Chromium 桌面/触屏、Firefox 与 WebKit 定向浏览器检查通过。Wiki：从干净合并主线单独发布并核对远端提交。PRE：本次未部署。PRO：本次未部署。
+- 源码：[PR #17](https://github.com/KnowSky404/destiny-echo-web/pull/17)，游戏提交 `bfa6f299e8c373982acd966547210920c2bcfac7`。远端 Codex 审阅仍在运行时，按用户明确指示直接合并；不宣称远端审阅已经完成。
+- 验证：文档、类型、lint、构建及 402 项 Bun 测试通过；本地 Chromium 桌面/触屏、Firefox 与 WebKit 定向检查覆盖相关界面。PRE、PRO 均通过 Firefox 1920×1080 与 Chromium 320×568 触屏的线上验收，涵盖自然计时、暂停/继续、原生防线标识、双语、构筑和帮助。Chromium 桌面软件渲染的截图超时记录保留，未计为通过；不等于真机或长局验证。
+- PRE：[打开预览](https://destiny-echo-web-pre.littlecontrol.workers.dev/)，版本 `7c75cb2e-d4e2-44c6-9d4b-d8d894eb90c0`，核对为 100% 流量；15 个公开文件的 SHA-256 与构建一致，缓存、安全响应头及缺失文件 404 通过。
+- PRO：[打开生产环境](https://destiny-echo-web.littlecontrol.workers.dev/)，版本 `d51ac3d9-3ee9-4519-9aa9-583d51fd1e21`，在 PRE 验收后发布并核对为 100% 流量；12 个公开文件的 SHA-256 与构建一致，同样通过 HTTP 检查。两环境部署同一个游戏提交，保持原有独立构建模式。
+- Wiki 根据双语说明源生成，与游戏 Worker 分别发布和核验。
 
 ## 桌面界面与清晰度 — 2026-10-23
 

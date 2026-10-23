@@ -6,7 +6,7 @@ English · [简体中文](Changelog-zh-CN.md)
 
 [Home](Home.md) · [Cards](Cards.md) · [Builds](Builds.md) · [Enemies](Enemies.md) · [Stages](Stages.md) · [Mechanics](Mechanics.md) · [Development](Development.md) · [Changelog](Changelog.md) · [Gallery](Gallery.md) · [Brand](Brand.md) · [Validation](Validation.md)
 
-## UI detail polish — 2026-10-23 (Unreleased)
+## UI detail polish — 2026-10-23
 
 - Render the defense-line marker as native DOM text with an SVG shield: 12px on desktop, 11px on mobile, with a whole-CSS-pixel anchor that follows the real FIT canvas bounds. The marker does not read DPR or intercept pointer input.
 - Increase shield values to 12px desktop / 11px mobile. Keep reward changes and synergy previews at least 11px, with wrapping for narrow layouts.
@@ -14,7 +14,11 @@ English · [简体中文](Changelog-zh-CN.md)
 - Keep build attribute values at 16px with native sans-serif glyphs, tabular numerals and clear contrast. Allow the defense marker to wrap within the actual canvas width on short screens.
 - Keep a readable 230px arena column on short mobile screens, using page scrolling instead of squeezing the HUD.
 - Combat rules, targeting coordinates and formation geometry are unchanged.
-- Verification: docs/type/lint/build checks and 402 Bun tests passed; focused Playwright checks passed on Chromium desktop/touch, Firefox and WebKit. Wiki: publish separately from clean merged main and verify the remote SHA. PRE: not deployed for this change. PRO: not deployed for this change.
+- Source: [PR #17](https://github.com/KnowSky404/destiny-echo-web/pull/17), game commit `bfa6f299e8c373982acd966547210920c2bcfac7`. The user explicitly directed merge while remote Codex review was still running; no completed remote review is claimed.
+- Verification: docs/type/lint/build checks and 402 Bun tests passed; focused local Playwright checks covered Chromium desktop/touch, Firefox and WebKit. Live PRE and PRO acceptance passed with Firefox 1920×1080 and Chromium 320×568 touch: natural timer advancement, pause/resume, native defense text, both languages, Build and Help. Chromium desktop software-rendering screenshot timeouts were retained and not counted as passing; this is not physical-device or long-session proof.
+- PRE: [play preview](https://destiny-echo-web-pre.littlecontrol.workers.dev/), version `7c75cb2e-d4e2-44c6-9d4b-d8d894eb90c0`, verified at 100% traffic; 15 public files matched the build SHA-256, with cache/security headers and missing-file 404 verified.
+- PRO: [play production](https://destiny-echo-web.littlecontrol.workers.dev/), version `d51ac3d9-3ee9-4519-9aa9-583d51fd1e21`, verified at 100% traffic after PRE acceptance; 12 public files matched the build SHA-256, with the same HTTP checks. Both environments deploy the same game commit, using their existing separate build modes.
+- Wiki content is generated from these bilingual sources and published independently of the game Workers.
 
 ## Desktop interface and clarity — 2026-10-23
 
