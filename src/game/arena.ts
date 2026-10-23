@@ -3,7 +3,7 @@ import type { AttackRegion } from "./types";
 
 export const DESKTOP_WIDTH = 1600;
 
-// Choose geometry once at boot; resizing and DPR never rewrite a running battle.
+// Preview at boot and choose again on new runs; resize/DPR never rewrite a running battle.
 export function arenaWidthForViewport(width: number, height: number): number {
   if (width < 951) return CONFIG.width;
   return Math.max(
@@ -47,5 +47,34 @@ export function arenaLayout(width: number = CONFIG.width) {
     encounterCapacity: laneCount * rows + 1,
     attackRegions,
     baseAttackRegions: attackRegions.filter((region) => region.y >= 500 && region.y < 700),
+  };
+}
+
+/** CSS-pixel measurements of a fixed logical arena inside its available display area. */
+export function arenaDisplayMetrics(
+  arena: ReturnType<typeof arenaLayout>,
+  displayWidth: number,
+  displayHeight: number,
+) {
+  if (
+    !Number.isFinite(displayWidth) ||
+    !Number.isFinite(displayHeight) ||
+    displayWidth <= 0 ||
+    displayHeight <= 0
+  )
+    throw new Error("Invalid arena display size");
+  const scale = Math.min(displayWidth / arena.width, displayHeight / arena.height);
+  return {
+    scale,
+    widthPx: arena.width * scale,
+    heightPx: arena.height * scale,
+    laneGapPx: arena.laneGap * scale,
+    // A body slot is the authored 68×84 crowd cell, independent of monster radius or DPR.
+    cellWidthPx: CONFIG.crowd.cellWidth * scale,
+    cellHeightPx: CONFIG.crowd.cellHeight * scale,
+    laneCount: arena.laneCount,
+    rows: arena.rows,
+    minionCapacity: arena.minionCapacity,
+    encounterCapacity: arena.encounterCapacity,
   };
 }

@@ -5,7 +5,7 @@ import { InputController } from "../input";
 import { seededRandom } from "../random";
 import { synergyTier } from "../synergies";
 import type { World } from "../world";
-import { COLORS, createTextures } from "./textures";
+import { COLORS, createTextures, TEXTURE_SCALE } from "./textures";
 
 export class BattleScene extends Phaser.Scene {
   private inputController?: InputController;
@@ -24,12 +24,37 @@ export class BattleScene extends Phaser.Scene {
     super("battle");
   }
 
+  private onStop(cleanup: () => void): void {
+    let disposed = false;
+    const dispose = () => {
+      if (disposed) return;
+      disposed = true;
+      this.events.off(Phaser.Scenes.Events.SHUTDOWN, dispose);
+      this.events.off(Phaser.Scenes.Events.DESTROY, dispose);
+      cleanup();
+    };
+    // Scene stops emit SHUTDOWN, while destroying a complete Game goes straight
+    // to DESTROY. Release external subscriptions in both lifecycle paths.
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, dispose);
+    this.events.once(Phaser.Scenes.Events.DESTROY, dispose);
+  }
+
   create(): void {
+    const fitCamera = () => {
+      // Only the drawing buffer changes. Combat and pointer input retain the
+      // complete, fixed logical arena at every viewport size.
+      this.cameras.main
+        .setSize(this.scale.width, this.scale.height)
+        .setZoom(this.scale.width / this.world.arena.width, this.scale.height / CONFIG.height)
+        .centerOn(this.world.arena.width / 2, CONFIG.height / 2);
+    };
+    fitCamera();
+    this.scale.on(Phaser.Scale.Events.RESIZE, fitCamera);
     createTextures(this);
     this.background();
     this.ship = this.add
       .image(this.world.arena.player.x, this.world.arena.player.y, "player")
-      .setScale(0.74)
+      .setScale(0.74 / TEXTURE_SCALE)
       .setDepth(5);
     this.halo = this.add.graphics().setDepth(4);
     this.overlay = this.add.graphics().setDepth(6);
@@ -47,8 +72,10 @@ export class BattleScene extends Phaser.Scene {
     this.game.canvas.setAttribute("role", "img");
     this.game.canvas.tabIndex = 0;
     this.game.canvas.setAttribute("aria-keyshortcuts", "T C");
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    this.onStop(() => {
       this.inputController?.destroy();
+      this.inputController = undefined;
+      this.scale.off(Phaser.Scale.Events.RESIZE, fitCamera);
       unsubscribe();
     });
     this.ready();
@@ -56,6 +83,9 @@ export class BattleScene extends Phaser.Scene {
 
   private background(): void {
     const g = this.add.graphics();
+    // Keep wide cached backgrounds below 4096px while supplying desktop detail.
+    const backgroundScale = Math.min(TEXTURE_SCALE, 4096 / this.world.arena.width);
+    g.scaleCanvas(backgroundScale, backgroundScale);
     g.fillStyle(0x0b1020, 1);
     g.fillRect(0, 0, this.world.arena.width, CONFIG.height);
     const random = seededRandom(73);
@@ -72,6 +102,7 @@ export class BattleScene extends Phaser.Scene {
       }
     }
     const sigil = this.add.graphics();
+    sigil.scaleCanvas(TEXTURE_SCALE, TEXTURE_SCALE);
     sigil.lineStyle(1, 0x6e72ba, 0.2);
     for (const radius of [135, 167, 195, 205]) sigil.strokeCircle(210, 210, radius);
     for (let i = 0; i < 12; i++) {
@@ -86,9 +117,12 @@ export class BattleScene extends Phaser.Scene {
       sigil.lineStyle(1, COLORS.blue, 0.2);
       sigil.strokeCircle(210 + Math.cos(angle) * 205, 210 + Math.sin(angle) * 205, 3);
     }
-    sigil.generateTexture("sigil", 420, 420);
+    sigil.generateTexture("sigil", 420 * TEXTURE_SCALE, 420 * TEXTURE_SCALE);
     sigil.destroy();
-    this.sigil = this.add.image(this.world.arena.player.x, 315, "sigil").setDepth(-1);
+    this.sigil = this.add
+      .image(this.world.arena.player.x, 315, "sigil")
+      .setDisplaySize(420, 420)
+      .setDepth(-1);
     g.fillStyle(COLORS.gold, 0.035);
     for (const region of this.world.arena.baseAttackRegions)
       g.fillRect(region.x, region.y, region.width, region.height);
@@ -103,20 +137,29 @@ export class BattleScene extends Phaser.Scene {
         g.strokeEllipse(x, CONFIG.defense.y - row * CONFIG.crowd.cellHeight, 42, 14);
     }
     // Hundreds of static star / circle primitives become two cached GPU textures.
-    g.generateTexture("background", this.world.arena.width, CONFIG.height);
+    g.generateTexture(
+      "background",
+      Math.ceil(this.world.arena.width * backgroundScale),
+      Math.ceil(CONFIG.height * backgroundScale),
+    );
     g.destroy();
-    this.add.image(0, 0, "background").setOrigin(0).setDepth(-2);
+    this.add
+      .image(0, 0, "background")
+      .setDisplaySize(this.world.arena.width, CONFIG.height)
+      .setOrigin(0)
+      .setDepth(-2);
     const defenseLabel = this.add
       .text(22, CONFIG.defense.y + 36, t("DEFENSE LINE  /  防线", "DEFENSE LINE"), {
         fontFamily: "sans-serif",
         fontSize: "9px",
         color: "#bea773",
+        resolution: TEXTURE_SCALE,
       })
       .setOrigin(0, 0);
     const unsubscribe = onLocaleChange(() =>
       defenseLabel.setText(t("DEFENSE LINE  /  防线", "DEFENSE LINE")),
     );
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, unsubscribe);
+    this.onStop(unsubscribe);
   }
 
   update(_time: number, delta: number): void {
@@ -149,10 +192,29 @@ export class BattleScene extends Phaser.Scene {
     this.overlay.clear();
     if (this.world.endless) {
       for (const region of this.world.attackRegions) {
-        this.overlay.fillStyle(0xe57d98, 0.065);
-        this.overlay.fillRect(region.x, region.y, region.width, region.height);
-        this.overlay.lineStyle(1, 0xe57d98, 0.3);
-        this.overlay.strokeRect(region.x + 1, region.y + 1, region.width - 2, region.height - 2);
+        const centerX = region.x + region.width / 2;
+        const centerY = region.y + region.height / 2;
+        // Star coordinates and short constellation links trace the real cell
+        // boundaries, leaving the action visible instead of covering it in red.
+        this.overlay.lineStyle(0.75, COLORS.blue, 0.3);
+        this.overlay.strokeEllipse(centerX, centerY, 42, 14);
+        this.overlay.lineStyle(0.8, COLORS.gold, 0.42);
+        for (const x of [region.x, region.x + region.width]) {
+          for (const y of [region.y, region.y + region.height]) {
+            const directionX = x < centerX ? 1 : -1;
+            const directionY = y < centerY ? 1 : -1;
+            this.overlay.lineBetween(x + directionX * 7, y, x + directionX * 23, y);
+            this.overlay.lineBetween(x, y + directionY * 7, x, y + directionY * 19);
+            this.overlay.fillStyle(COLORS.blue, 0.8);
+            this.overlay.fillTriangle(x, y - 4, x - 1.5, y, x + 1.5, y);
+            this.overlay.fillTriangle(x, y + 4, x - 1.5, y, x + 1.5, y);
+            this.overlay.fillTriangle(x - 4, y, x, y - 1.5, x, y + 1.5);
+            this.overlay.fillTriangle(x + 4, y, x, y - 1.5, x, y + 1.5);
+          }
+        }
+        this.overlay.fillStyle(COLORS.gold, 0.8);
+        this.overlay.fillTriangle(centerX, centerY - 4, centerX - 3, centerY, centerX + 3, centerY);
+        this.overlay.fillTriangle(centerX, centerY + 4, centerX - 3, centerY, centerX + 3, centerY);
       }
     }
     for (const blast of this.world.blasts.items) {
@@ -288,7 +350,7 @@ export class BattleScene extends Phaser.Scene {
         (enemy) => enemy.active && enemy.kind === kind,
       );
       this.render(kind, enemies, (image, enemy) => {
-        image.setPosition(enemy.x, enemy.y).setScale(kind === "boss" ? 0.9 : 0.8);
+        image.setPosition(enemy.x, enemy.y).setScale((kind === "boss" ? 0.9 : 0.8) / TEXTURE_SCALE);
         image.rotation = this.reducedMotion
           ? 0
           : kind === "sentinel"
@@ -313,14 +375,17 @@ export class BattleScene extends Phaser.Scene {
       "chest",
       this.world.chests.items.filter((item) => item.active),
       (image, item) => {
-        image.setPosition(item.x, item.y).setScale(0.9);
+        image.setPosition(item.x, item.y).setScale(0.9 / TEXTURE_SCALE);
       },
     );
     this.render(
       "friendly-shot",
       this.world.shots.items.filter((item) => item.active),
       (image, item) => {
-        image.setPosition(item.x, item.y).setScale(0.7).setRotation(Math.atan2(item.vx, -item.vy));
+        image
+          .setPosition(item.x, item.y)
+          .setScale(0.7 / TEXTURE_SCALE)
+          .setRotation(Math.atan2(item.vx, -item.vy));
         image.setTint(
           item.critical
             ? 0xf1ce7a
@@ -334,7 +399,7 @@ export class BattleScene extends Phaser.Scene {
       "hostile-shot",
       this.world.hostileShots.items.filter((item) => item.active),
       (image, item) => {
-        image.setPosition(item.x, item.y).setScale(item.radius / 5);
+        image.setPosition(item.x, item.y).setScale(item.radius / 5 / TEXTURE_SCALE);
       },
     );
     this.render(
@@ -343,7 +408,7 @@ export class BattleScene extends Phaser.Scene {
       (image, item) => {
         image
           .setPosition(item.x, item.y)
-          .setScale(0.45)
+          .setScale(0.45 / TEXTURE_SCALE)
           .setTint(item.color)
           .setAlpha(Math.max(0, item.life / item.maxLife));
       },
@@ -361,14 +426,21 @@ export class BattleScene extends Phaser.Scene {
       "menu-wisp",
       preview.map((item) => ({ ...item, x: (item.x / CONFIG.width) * this.world.arena.width })),
       (image, item) => {
-        image.setTexture("wisp").setPosition(item.x, item.y).setScale(0.7).setAlpha(0.75);
+        image
+          .setTexture("wisp")
+          .setPosition(item.x, item.y)
+          .setScale(0.7 / TEXTURE_SCALE)
+          .setAlpha(0.75);
       },
     );
     this.render(
       "menu-chest",
       menu ? [{ x: this.world.arena.player.x, y: 548 }] : [],
       (image, item) => {
-        image.setTexture("chest").setPosition(item.x, item.y).setScale(0.8);
+        image
+          .setTexture("chest")
+          .setPosition(item.x, item.y)
+          .setScale(0.8 / TEXTURE_SCALE);
       },
     );
   }

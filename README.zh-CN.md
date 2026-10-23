@@ -65,3 +65,5 @@ bun run balance:replay --case artifacts/balance/smoke/cases/death.json
 ```
 
 每次使用新输出目录。standard 每策略×布局100个种子，每方案600局；数据不等于真人通关率。实际证据见 [基线实验报告](experiments/balance/baseline-report.md)。
+
+游戏与文档共用最新矢量 Logo；[素材实际分辨率](docs/game-guide/Brand-zh-CN.md#游戏素材分辨率)记录精灵、背景和画布尺寸。游戏内帮助只保留核心玩法，完整规则见 Wiki。

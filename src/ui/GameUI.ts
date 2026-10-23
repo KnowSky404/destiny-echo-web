@@ -73,7 +73,10 @@ export class GameUI {
   private frame = 0;
   private lastHudAt = 0;
 
-  constructor(private readonly world: World) {
+  constructor(
+    private readonly world: World,
+    private readonly startRun: () => boolean = () => world.start(),
+  ) {
     this.pauseButton.addEventListener("click", () => {
       if (!this.loaded || this.fatal) return;
       // A blur may pause the model after this button was painted as "pause".
@@ -155,7 +158,7 @@ export class GameUI {
     const message =
       typeof this.failure.message === "function" ? this.failure.message() : this.failure.message;
     this.overlay.hidden = false;
-    this.overlay.innerHTML = `<section class="modal error-modal" role="alert"><div class="modal-emblem">✧</div><h2>${title}</h2><p>${message}</p><button class="button button-primary" type="button">${t("重新加载", "Reload")}</button></section>`;
+    this.overlay.innerHTML = `<section class="modal error-modal" role="alert"><div class="modal-emblem" aria-hidden="true"><img src="/brand/echoes-mark.svg" width="44" height="44" alt="" /></div><h2>${title}</h2><p>${message}</p><button class="button button-primary" type="button">${t("重新加载", "Reload")}</button></section>`;
     this.overlay.querySelector("button")?.addEventListener("click", () => window.location.reload());
     this.pauseButton.disabled = true;
   }
@@ -458,7 +461,7 @@ export class GameUI {
           ? t("选择一项，完成战役", "Choose one to complete the campaign")
           : t("选择一项，进入下一关", "Choose one to enter the next stage")
         : t("选择一张，立即强化", "Choose one to upgrade immediately");
-      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${rewardTitle}</h2><p>${rewardDescriptionText}</p>${stageClear && !finale ? `<p class="next-stage-rule">${stageSubtitle(next, world.stageIndex + 1)}</p>` : ""}<div class="reward-choices">${choices}${emptyChoice}</div><p class="modal-hint">${rewardHint} · ${t("战斗已暂停", "Combat paused")}</p></section>`;
+      this.overlay.innerHTML = `<section class="modal reward-modal" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true"><img src="/brand/echoes-mark.svg" width="44" height="44" alt="" /></div><h2 id="overlay-title">${rewardTitle}</h2><p>${rewardDescriptionText}</p>${stageClear && !finale ? `<p class="next-stage-rule">${stageSubtitle(next, world.stageIndex + 1)}</p>` : ""}<div class="reward-choices">${choices}${emptyChoice}</div><p class="modal-hint">${rewardHint} · ${t("战斗已暂停", "Combat paused")}</p></section>`;
       this.bindActions();
       if (focus) this.focusOverlay();
       return;
@@ -480,7 +483,7 @@ export class GameUI {
       extra = `<p class="run-progress">${t(`已突破 ${world.clearedStages} 关`, `${world.clearedStages} stages cleared`)} · ${stageName(world.stageIndex)}</p><dl class="result-stats"><div><dt>${t("存续时间", "Time survived")}</dt><dd>${formatTime(world.elapsed)}</dd></div><div><dt>${t("击破敌人", "Enemies defeated")}</dt><dd>${world.kills}</dd></div><div><dt>${t("收集残响", "Echoes collected")}</dt><dd>${[...world.stacks.values()].reduce((sum, count) => sum + count, 0)}</dd></div><div><dt>${t("本局得分", "Run score")}</dt><dd>${world.score}</dd></div></dl>`;
       buttons = `${phase === "Victory" ? `<button type="button" class="button button-primary" data-action="endless">${t("继续无尽 · 保留构筑", "Continue endless · Keep build")}</button>` : ""}<button type="button" class="button ${phase === "Victory" ? "button-quiet" : "button-primary"}" data-action="start">${t("再次共鸣", "Resonate again")}</button><button type="button" class="button button-quiet" data-action="menu">${t("返回开始界面", "Return to menu")}</button>`;
     }
-    this.overlay.innerHTML = `<section class="modal ${phase === "Victory" ? "victory-modal" : ""}" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true">✧</div><h2 id="overlay-title">${title}</h2><p>${description}</p>${phase === "Victory" || phase === "GameOver" ? extra : ""}<div class="modal-actions">${buttons}</div>${phase === "Victory" || phase === "GameOver" ? "" : extra}</section>`;
+    this.overlay.innerHTML = `<section class="modal ${phase === "Victory" ? "victory-modal" : ""}" role="dialog" aria-labelledby="overlay-title"><div class="modal-emblem" aria-hidden="true"><img src="/brand/echoes-mark.svg" width="44" height="44" alt="" /></div><h2 id="overlay-title">${title}</h2><p>${description}</p>${phase === "Victory" || phase === "GameOver" ? extra : ""}<div class="modal-actions">${buttons}</div>${phase === "Victory" || phase === "GameOver" ? "" : extra}</section>`;
     this.bindActions();
     if (focus) this.focusOverlay();
   }
@@ -492,7 +495,7 @@ export class GameUI {
           this.world.chooseCard(button.dataset.card, Number(button.dataset.token));
         } else if (button.dataset.action === "skip-empty")
           this.world.skipUnavailableReward(Number(button.dataset.token));
-        else if (button.dataset.action === "start") this.world.start();
+        else if (button.dataset.action === "start") this.startRun();
         else if (button.dataset.action === "endless") this.world.continueEndless();
         else if (button.dataset.action === "resume") this.world.resume();
         else if (button.dataset.action === "menu") this.world.toMenu();

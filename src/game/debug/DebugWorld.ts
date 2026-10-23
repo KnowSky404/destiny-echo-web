@@ -83,9 +83,9 @@ export class DebugWorld extends World {
     elapsed: 0,
   };
 
-  override start(seed = Date.now() >>> 0): boolean {
+  override start(seed = Date.now() >>> 0, arenaWidth = this.arena.width): boolean {
     validateNumber(seed, ["种子", 0, 0xffffffff, true], "seed");
-    return super.start(seed);
+    return super.start(seed, arenaWidth);
   }
 
   get debugInfo() {

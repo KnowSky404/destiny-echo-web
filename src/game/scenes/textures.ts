@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 
 export const COLORS = { blue: 0x91dbea, violet: 0xa795ed, gold: 0xdec28a, pink: 0xe57d98 };
+// Rasterize the original vector drawings at 2x; display sizes stay in world units.
+export const TEXTURE_SCALE = 2;
 
 export function createTextures(scene: Phaser.Scene): void {
   const g = scene.add.graphics();
@@ -11,8 +13,9 @@ export function createTextures(scene: Phaser.Scene): void {
   };
   const texture = (key: string, width: number, height: number, draw: () => void) => {
     g.clear();
+    g.scaleCanvas(TEXTURE_SCALE, TEXTURE_SCALE);
     draw();
-    g.generateTexture(key, width, height);
+    g.generateTexture(key, width * TEXTURE_SCALE, height * TEXTURE_SCALE);
   };
   texture("player", 64, 72, () => {
     g.fillStyle(0x111c35, 1);

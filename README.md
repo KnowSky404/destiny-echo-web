@@ -50,7 +50,7 @@ See the **[Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)** for illu
 
 ## License
 
-Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PARTY_NOTICES.txt) cover Phaser and fonts. [Brand assets and prompts](docs/assets/brand/README.md) record the documentation logo versions and their provenance.
+Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PARTY_NOTICES.txt) cover Phaser and fonts. [Brand assets and prompts](docs/assets/brand/README.md) record the shared game/documentation logo versions and their provenance.
 
 ## Balance experiments
 
@@ -65,3 +65,5 @@ bun run balance:replay --case artifacts/balance/smoke/cases/death.json
 ```
 
 Use a new output directory for each run. Standard evaluates 100 seeds per strategy × layout (600 runs per profile); these are test-agent results, not human win rates. See the [recorded baseline experiment](experiments/balance/baseline-report.md) for actual evidence and limitations.
+
+The game and docs share the current vector logo. [Actual asset resolutions](docs/game-guide/Brand.md#game-asset-resolutions) list sprite, background and canvas sizes. In-game Help covers the core loop; use the Wiki for detailed rules.

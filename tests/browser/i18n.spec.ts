@@ -133,7 +133,8 @@ test("English covers the playable menu, help, chest, build, pause and persisted 
   await english(page.locator("#overlay"));
   await activate(page.locator(".help-trigger").first(), touch);
   await expect(page.locator("#help-dialog")).toBeVisible();
-  await expect(page.locator("#help-dialog")).toContainText("Giant Slayer");
+  await expect(page.locator("#help-dialog")).toContainText("Choose one, shape your build");
+  await expect(page.locator("#help-dialog dt")).toHaveCount(4);
   await english(page.locator("#help-dialog"));
   await activate(page.locator("#close-help"), touch);
   await activate(page.locator('[data-action="start"]'), touch);
