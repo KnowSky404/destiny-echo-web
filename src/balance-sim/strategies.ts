@@ -72,7 +72,7 @@ export function resolveStrategy(config: StrategyConfig): ResolvedStrategyConfig 
   if (!Number.isInteger(seed)) throw new Error("Strategy seed must be an unsigned 32-bit integer");
   return {
     name,
-    version: "1",
+    version: targetKind === "active" && name !== "legacy" ? "2" : "1",
     seed,
     reward: {
       kind: kind as ResolvedStrategyConfig["reward"]["kind"],
@@ -268,6 +268,29 @@ export function createStrategy(config: ResolvedStrategyConfig) {
         .filter((enemy) => enemy.telegraph > 0 || enemy.preparation > 0)
         .sort(
           (a, b) =>
+            Number(b.telegraph > 0 && b.role !== "minion") -
+              Number(a.telegraph > 0 && a.role !== "minion") ||
+            (a.telegraph > 0 && b.telegraph > 0 ? a.telegraph - b.telegraph : 0) ||
+            Number(b.kind === "boss") - Number(a.kind === "boss") ||
+            a.hp / a.maxHp - b.hp / b.maxHp ||
+            a.id - b.id,
+        )[0];
+      // Version 2 uses only visible charge/exposure state. The decision interval,
+      // reward policy, strategy RNG and all native targeting actions stay unchanged.
+      const dangerousLeader = threats
+        .filter((enemy) => enemy.role !== "minion" && enemy.telegraph > 0)
+        .sort(
+          (a, b) =>
+            a.telegraph - b.telegraph ||
+            Number(b.kind === "boss") - Number(a.kind === "boss") ||
+            a.hp / a.maxHp - b.hp / b.maxHp ||
+            a.id - b.id,
+        )[0];
+      const exposedLeader = threats
+        .filter((enemy) => enemy.role !== "minion" && enemy.vulnerableTime > 0)
+        .sort(
+          (a, b) =>
+            a.vulnerableTime - b.vulnerableTime ||
             Number(b.kind === "boss") - Number(a.kind === "boss") ||
             a.hp / a.maxHp - b.hp / b.maxHp ||
             a.id - b.id,
@@ -286,7 +309,8 @@ export function createStrategy(config: ResolvedStrategyConfig) {
         !boss &&
         !imminent &&
         world.player.hp / world.player.stats.maxHp >= config.target.chestSafeHealthRatio;
-      const target = interruptible ?? (safeChest ? chest : imminent);
+      const target =
+        dangerousLeader ?? exposedLeader ?? interruptible ?? (safeChest ? chest : imminent);
       if (target && (isEnemy(target) || safeChest)) world.selectTargetAt(target);
       else world.clearTarget();
       return true;

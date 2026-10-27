@@ -4,7 +4,7 @@ import { CONFIG } from "../../src/game/config";
 import { seededRandom } from "../../src/game/random";
 import { combatStats } from "../../src/game/stats";
 import { createPlayer, World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 function ready(ids = ["edict"]): World {
   const world = new World();
@@ -27,7 +27,7 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     expect(world.player.hp).toBe(0.01);
     expect(world.player.poisonTime).toBe(0);
     expect(world.player.poisonSlowTime).toBe(0);
-    expect(combatStats(world.player, world.stacks).interval).toBe(0.34);
+    expect(combatStats(world.player, world.stacks).interval).toBe(world.player.stats.interval);
     expect(world.sanctuaryRemaining).toBeCloseTo(0.75 - CONFIG.fixedStep, 6);
   });
 
@@ -88,6 +88,9 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     const world = ready();
     world.stageIndex = 4;
     world.stageSupplies = 3;
+    isolateEndless(world);
+    world.player.hp = 1000;
+    world.player.stats.maxHp = 1000;
     const boss = enemy(world, {
       kind: "boss",
       x: 225,
@@ -95,6 +98,9 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
       hp: 1000,
       maxHp: 1000,
       attackPolicy: { type: "anywhere" },
+      stage: "Attacking",
+      patternCooldown: 0,
+      shotCooldown: 1000,
       speed: 0,
     });
     world.update(CONFIG.fixedStep);
@@ -106,7 +112,15 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     expect(boss.skillsUsed).toBe(0);
     tick(world, 0.5);
     expect(boss.skillsUsed).toBe(1);
+    expect(world.bossSpecials).toBe(0);
+    expect(boss.castSkill).not.toBeNull();
+    expect(boss.telegraph).toBeGreaterThan(0);
+    const charge = boss.telegraph;
+    tick(world, charge - CONFIG.fixedStep);
+    expect(world.bossSpecials).toBe(0);
+    tick(world, CONFIG.fixedStep * 2);
     expect(world.bossSpecials).toBe(1);
+    expect(boss.castSkill).toBeNull();
   });
 
   test("killing a wizard during sanctuary cannot reapply poison", () => {
@@ -165,8 +179,13 @@ describe("cleansing sanctuary has separate player and hostile clocks", () => {
     expect(world.sanctuaryRemaining).toBe(frozen.sanctuaryRemaining);
     const boss = enemy(world, { kind: "boss", x: 225, y: 500, hp: 1 });
     hit(world, boss, 1);
-    expect(world.phase).toBe("StageClear");
+    expect(world.phase).toBe("Playing");
+    expect(world.clearPresentationRemaining).toBeGreaterThan(0);
     expect(world.sanctuaryRemaining).toBe(0);
+    const combatTime = { elapsed: world.elapsed, stageElapsed: world.stageElapsed };
+    tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
+    expect(world.phase).toBe("StageClear");
+    expect({ elapsed: world.elapsed, stageElapsed: world.stageElapsed }).toEqual(combatTime);
     const stageReward = world.reward;
     if (!stageReward) throw new Error("No stage reward");
     world.chooseCard(stageReward.choices[0] ?? "", stageReward.token);
@@ -230,15 +249,17 @@ describe("epic progression and actual power", () => {
     }
   });
 
-  test("early rewards keep foundations, later rewards can promote an epic, stage rewards also roll promotion", () => {
+  test("early rewards keep foundations and can promote one epic without a hidden collection gate", () => {
     const player = createPlayer();
     const stacks = new Map<string, number>();
-    for (let seed = 0; seed < 100; seed++)
-      expect(
-        drawCards(player, stacks, seededRandom(seed)).some(
-          (id) => CARD_BY_ID.get(id)?.rarity === "epic",
-        ),
-      ).toBe(false);
+    let earlyPromotions = 0;
+    for (let seed = 0; seed < 100; seed++) {
+      const choices = drawCards(player, stacks, seededRandom(seed));
+      earlyPromotions += choices.filter((id) => CARD_BY_ID.get(id)?.rarity === "epic").length;
+      expect(choices.some((id) => CARD_BY_ID.get(id)?.offense)).toBe(true);
+    }
+    expect(earlyPromotions).toBeGreaterThan(0);
+    expect(earlyPromotions).toBeLessThan(30);
     for (let index = 0; index < 3; index++) applyCard("ward", player, stacks);
     let promotions = 0;
     for (let seed = 0; seed < 100; seed++) {

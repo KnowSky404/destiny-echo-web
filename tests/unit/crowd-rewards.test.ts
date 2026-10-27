@@ -12,13 +12,14 @@ import { synergyCount } from "../../src/game/synergies";
 import { ENCOUNTER_CAPACITY, MINION_CAPACITY } from "../../src/game/systems/crowd";
 import { applyPoison } from "../../src/game/systems/damage";
 import { World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, enterBossEncounter, hit, isolateEndless, tick } from "./helpers";
 
 function arena(seed = 4, width: number = CONFIG.width): World {
   // Keep fixed mechanic expectations independent of the calibrated release profile.
   const world = new World(width, defaultProfile());
   world.start(seed);
   world.stageIndex = 4;
+  isolateEndless(world);
   world.bossSpawned = true;
   world.stageSupplies = 3;
   world.player.cooldown = 1000;
@@ -54,6 +55,7 @@ describe("readable capacity and non-destructive summons", () => {
       for (const seed of [1, 4, 19]) {
         const world = arena(seed, width);
         world.bossSpawned = false;
+        Reflect.set(world, "encounterStageIndex", -1);
         for (let frame = 0; frame < 120 * 65; frame++) {
           world.update(CONFIG.fixedStep);
           const living = world.enemies.items.filter((item) => item.active);
@@ -68,8 +70,11 @@ describe("readable capacity and non-destructive summons", () => {
               ).toBe(true);
             }
         }
+        expect(world.boss).toBeUndefined();
+        enterBossEncounter(world);
+        world.update(CONFIG.fixedStep);
         expect(world.boss).toBeDefined();
-        expect(world.fusions).toBeGreaterThan(0);
+        expect(world.stageSpawned).toBeGreaterThan(0);
       }
     },
     20000,
@@ -88,7 +93,7 @@ describe("readable capacity and non-destructive summons", () => {
     if (!shot) throw new Error("No shot");
     Object.assign(shot, { x: 10, y: 10, vx: 0, vy: 10, lifetime: 6, damage: 1 });
     world.bossSpawned = false;
-    world.stageElapsed = world.stage.bossAt;
+    enterBossEncounter(world);
     world.update(CONFIG.fixedStep);
     expect(world.boss).toBeDefined();
     expect(minions.every((item, index) => item.active && item.id === ids[index])).toBe(true);
@@ -98,7 +103,7 @@ describe("readable capacity and non-destructive summons", () => {
     expect(world.enemies.items.filter((item) => item.active)).toHaveLength(25);
   });
 
-  test("saturated summons queue six per threshold, preserve escorts and admit enhanced replacements only into vacancies", () => {
+  test("warned summons preserve saturated escorts and admit enhanced replacements only into vacancies", () => {
     const world = arena(4);
     formation(world);
     const boss = enemy(world, {
@@ -113,7 +118,12 @@ describe("readable capacity and non-destructive summons", () => {
     });
     const escorts = world.enemies.items.filter((item) => item.active && item !== boss);
     const originalIds = escorts.map((item) => item.id);
-    hit(world, boss, 300);
+    enterBossEncounter(world, true);
+    boss.skillsUsed = 3;
+    boss.stage = "Attacking";
+    boss.pendingSkills = ["summon"];
+    boss.patternCooldown = 0;
+    tick(world, 2.5);
     expect(boss.lastSkill).toBe("summon");
     expect(world.pendingSummons).toBe(6);
     expect(escorts.map((item) => item.id)).toEqual(originalIds);
@@ -132,7 +142,6 @@ describe("readable capacity and non-destructive summons", () => {
         ENEMIES[summoned?.kind ?? "wisp"].hp *
           world.stage.health *
           world.stage.populationScale *
-          (1 + (world.wave - 1) * 0.12) *
           1.5,
       ),
     );
@@ -146,31 +155,35 @@ describe("readable capacity and non-destructive summons", () => {
     expect(world.phase).toBe("Playing");
     for (const escort of world.enemies.items.filter((item) => item.active))
       hit(world, escort, escort.hp + 1);
+    tick(world, 0.9);
     expect(world.phase).toBe("StageClear");
   });
 
-  test("endless quotas plateau while all lost population becomes documented minion stats", () => {
-    expect([4, 5, 6].map((index) => stageAt(index).enemyCount)).toEqual([270, 360, 360]);
+  test("endless uses one polynomial health factor and finite budgets without repeated compression", () => {
+    expect([4, 5, 6].map((index) => stageAt(index).enemyCount)).toEqual([72, 72, 72]);
     for (const index of [4, 5, 10, 10000]) {
       const stage = stageAt(index);
       expect(stage.maxEnemies).toBe(25);
-      expect(stage.supportCount).toBe(12);
-      expect(stage.populationScale).toBeCloseTo(
-        (135 * stage.growth) / stage.enemyCount +
-          Math.ceil(14 * stage.growth) / stage.supportCount -
-          1,
-        3,
-      );
+      expect(stage.supportCount).toBe(4);
+      expect(stage.populationScale).toBe(1);
       const world = arena();
       world.stageIndex = index;
+      Reflect.set(world, "encounterStageIndex", -1);
       world.bossSpawned = false;
       tick(world, 0.81);
       const minion = world.enemies.items.find((item) => item.active);
       expect(Number.isFinite(minion?.maxHp)).toBe(true);
       expect(minion?.maxHp).toBe(
-        Math.round(ENEMIES[minion?.kind ?? "wisp"].hp * stage.health * stage.populationScale),
+        Math.round(
+          ENEMIES[minion?.kind ?? "wisp"].hp *
+            stage.health *
+            CONFIG.fusion.health ** ((minion?.stars ?? 1) - 1),
+        ),
       );
-      expect(minion?.damageScale).toBeCloseTo(Math.sqrt(stage.populationScale), 3);
+      expect(minion?.damageScale).toBeCloseTo(
+        CONFIG.fusion.damage ** ((minion?.stars ?? 1) - 1),
+        3,
+      );
     }
   });
 });
@@ -381,6 +394,7 @@ describe("boss-only mixed training rewards", () => {
     world.clearedStages = 3;
     const boss = enemy(world, { kind: "boss", x: 225, y: 300, hp: 1, speed: 0 });
     hit(world, boss, 1);
+    tick(world, 0.9);
     expect(world.phase).toBe("StageClear");
     expect(world.continueEndless()).toBe(false);
     const reward = world.reward;

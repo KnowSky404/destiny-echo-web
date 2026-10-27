@@ -24,6 +24,9 @@ describe("player guide and wiki synchronization", () => {
     const rows = [...endlessTable.matchAll(/^\| (\d+) \|.*? \| ([\d.]+) \|$/gm)];
     expect(rows).toHaveLength(4);
     const world = new World();
+    // The static stage table lists authored Slam damage before the player-HP cap.
+    // Use sufficient maximum HP to compare that independent stage value.
+    world.player.stats.maxHp = 1000;
     for (const row of rows) {
       world.stageIndex = STAGES.length + Number(row[1]) - 1;
       expect(Number(row[2])).toBe(world.bossSlamDamage);

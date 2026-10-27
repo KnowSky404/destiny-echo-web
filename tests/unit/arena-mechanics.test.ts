@@ -19,7 +19,7 @@ import {
 } from "../../src/game/systems/damage";
 import { attackPermitted } from "../../src/game/systems/enemy";
 import { createPlayer, World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 function passive(width: number = CONFIG.width, seed = 71) {
   // Keep fixed mechanic expectations independent of the calibrated release profile.
@@ -30,6 +30,7 @@ function passive(width: number = CONFIG.width, seed = 71) {
   world.bossSpawned = true;
   world.player.cooldown = 1000;
   world.player.shield = 100000;
+  isolateEndless(world);
   return world;
 }
 
@@ -47,13 +48,19 @@ function clearAndAdvance(world: World) {
     }),
     1,
   );
+  expect(world.phase).toBe("Playing");
+  expect(world.clearPresentationRemaining).toBeGreaterThan(0);
+  const clock = { elapsed: world.elapsed, stageElapsed: world.stageElapsed };
+  tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
   expect(world.phase).toBe("StageClear");
+  expect({ elapsed: world.elapsed, stageElapsed: world.stageElapsed }).toEqual(clock);
   const reward = world.reward;
   if (!reward) throw new Error("Missing stage reward");
   world.chooseCard(reward.choices[0] ?? "", reward.token);
   world.stageSupplies = 3;
   world.bossSpawned = true;
   world.player.cooldown = 1000;
+  isolateEndless(world);
 }
 
 describe("arena geometry and expanding attack regions", () => {
@@ -217,6 +224,8 @@ describe("boss cleanup and rewards", () => {
       expect(world.regularAttacks).toBeGreaterThan(0);
       hit(world, escort, 1001);
       expect(world.clearedStages).toBe(1);
+      expect(world.clearPresentationRemaining).toBeGreaterThan(0);
+      tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
       expect(world.phase).toBe("StageClear");
       const cleared = world.snapshot();
       tick(world, 2);
@@ -262,9 +271,13 @@ describe("boss cleanup and rewards", () => {
     for (const width of [450, 1600])
       for (let index = 4; index < 44; index++) {
         const stage = stageAt(index, width);
-        const tank =
-          Math.round(ENEMIES.tank.hp * stage.health * stage.populationScale * 1.48 * 1.5) *
-          3.5 ** 2;
+        const tank = Math.round(
+          ENEMIES.tank.hp *
+            stage.health *
+            stage.populationScale *
+            CONFIG.endless.summonMultiplier *
+            CONFIG.fusion.health ** (CONFIG.fusion.maxStars - 1),
+        );
         expect(stage.bossHp).toBeGreaterThan(tank);
         expect(stage.damage).toBeGreaterThan(stageAt(3, width).damage * 1.2);
         expect(stage.attackTiming).toBeLessThan(0.8);
@@ -317,9 +330,9 @@ describe("wounds and escalating poison", () => {
     expect(player.woundTime).toBe(8);
     advancePoison(player, 1);
     expect(player.hp).toBe(94);
-    expect(combatStats(player, new Map()).interval).toBeCloseTo(0.34 / 0.69);
+    expect(combatStats(player, new Map()).interval).toBeCloseTo(player.stats.interval / 0.69);
     grantShield(player, 100);
-    expect(combatStats(player, new Map()).interval).toBe(0.34);
+    expect(combatStats(player, new Map()).interval).toBe(player.stats.interval);
     cleansePlayer(player);
     expect(player.poisonDamageBonus + player.poisonSlowBonus + player.woundTime).toBe(0);
   });
@@ -328,12 +341,12 @@ describe("wounds and escalating poison", () => {
     const player = createPlayer();
     player.hp = player.stats.maxHp = 10000;
     for (let i = 0; i < 100; i++) applyPoison(player, () => 0.99);
-    expect(combatStats(player, new Map()).interval).toBeCloseTo(3.4);
+    expect(combatStats(player, new Map()).interval).toBeCloseTo(player.stats.interval * 10);
     advancePoison(player, player.poisonTime);
     expect(
       player.poisonTime + player.woundTime + player.poisonDamageBonus + player.poisonSlowBonus,
     ).toBe(0);
-    expect(combatStats(player, new Map()).interval).toBe(0.34);
+    expect(combatStats(player, new Map()).interval).toBe(player.stats.interval);
   });
 });
 

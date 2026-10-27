@@ -19,6 +19,8 @@ A browser defense roguelike for desktop and touch screens. Hold a fixed position
 - Pick one reward at a time; combat pauses while you choose. Family bonuses activate at 3 / 6 / 9 stacks.
 - Defeat each boss and every remaining enemy to advance. Restarting clears the run.
 
+Endless uses finite waves, native stars and three segment supplies. From depth four, a Colossus and Wizard share one elite segment: choose a warning to counter, reselect that leader for this cast, then land focused primary hits after forming. Enough damage can also interrupt. Weak points reward follow-up fire; high-star resistance, deep-endless percentage and recovery allowances, and mixed wave packs limit automatic snowballing. Training credit stays separate from score, with gradually rising requirements and complementary build choices. See the [evolution contract](docs/endless-evolution.md) and [stage rules](docs/game-guide/Stages.md). The normal campaign goal is 8–12 combat minutes. The [v4 calibration record](docs/endless-evolution-calibration-v4-2026-10-27.md) records 300/600/120 completed runs, passing ordinary-build pacing and a candidate accepted for PRE delivery. Strong builds and concentrated second-stage deaths remain documented limits; source review, Wiki and environment publication are verified separately.
+
 The game supports **English and Simplified Chinese**. Choose **English / 中文** in the header; the browser remembers your choice when local storage is available. Chinese is the default. Switching language keeps the current run and reward choices. WebGL is required. There are no accounts or saved combat runs.
 
 ## Community
@@ -46,6 +48,8 @@ bun run build
 
 `bun run build` produces `dist/`; `bun run build:pre` produces `dist-pre/`. PRE has a browser-local balance laboratory. Preview and production are separate releases.
 
+Browser projects, headless limitations, and the explicit 15 FPS option for long natural controls are covered in [browser verification](docs/game-guide/Development.md#browser-verification).
+
 See the **[Wiki](https://github.com/KnowSky404/destiny-echo-web/wiki)** for illustrated controls, cards, enemies, mechanics, browser testing, deployment, validation history, and release notes. Offline: [English guide](docs/game-guide/Home.md) · [中文指南](docs/game-guide/Home-zh-CN.md). Contributor rules: [AGENTS.md](AGENTS.md).
 
 ## License
@@ -54,7 +58,7 @@ Code: [GNU AGPL v3.0 or later](LICENSE). [Third-party notices](public/THIRD_PART
 
 ## Balance experiments
 
-The developer-only [Balance Simulator V1](docs/balance-simulator.md) runs the real fixed-step World in Bun. PRE profile exports are direct inputs; experiments never apply balance changes or deploy. Adopted stage values are maintained in the official profile; see the [calibration method and evidence](docs/balance-calibration-2026-10-22.md) and [resolved stage tables](docs/game-guide/Stages.md).
+The developer-only [Balance Simulator V1](docs/balance-simulator.md) runs the real fixed-step World in Bun. PRE profile exports are direct inputs; experiments never apply balance changes or deploy. Stage values are maintained in the official profile; see the [current calibration record](docs/endless-evolution-calibration-v4-2026-10-27.md), [historical calibration method](docs/balance-calibration-2026-10-22.md), and [resolved stage tables](docs/game-guide/Stages.md).
 
 ```sh
 bun run balance:simulate --profile official --preset smoke --out artifacts/balance/smoke

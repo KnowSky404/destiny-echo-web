@@ -1,10 +1,31 @@
 import { ENEMIES } from "../../src/data/enemies";
 import { CONFIG } from "../../src/game/config";
+import { createEncounterState } from "../../src/game/systems/encounter";
 import type { Enemy, EnemyKind } from "../../src/game/types";
 import { World } from "../../src/game/world";
 import { chooseReward, type RunPolicy } from "../policy";
 
 let fixtureId = 1_000_000;
+
+/** Explicitly isolate mechanics fixtures from the natural endless director. */
+export function isolateEndless(world: World): void {
+  Reflect.set(world, "encounterState", createEncounterState([]));
+  Reflect.set(world, "encounterStageIndex", world.stageIndex);
+}
+
+/** Enter a real main-boss segment without deleting existing fixture enemies. */
+export function enterBossEncounter(world: World, alreadySpawned = false): void {
+  if (!world.endless) {
+    world.stageElapsed = world.stage.bossAt;
+    return;
+  }
+  Reflect.set(world, "encounterState", {
+    ...createEncounterState([{ id: "main", type: "main", kind: "boss" }]),
+    admittedLeaders: alreadySpawned ? 1 : 0,
+    initialEscortsRemaining: 0,
+  });
+  Reflect.set(world, "encounterStageIndex", world.stageIndex);
+}
 
 export function tick(world: World, seconds: number): void {
   for (let index = 0; index < Math.round(seconds * 120); index++) world.update(1 / 120);
@@ -43,6 +64,8 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       id: fixtureId++,
       active: true,
       kind,
+      role: kind === "boss" ? "boss" : "minion",
+      trainingCredit: data.score,
       x: 57,
       y: -30,
       hp: data.hp,
@@ -64,6 +87,7 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       enhanced: false,
       telegraph: 0,
       interruptDamage: 0,
+      interruptHits: 0,
       interruptRequired: 0,
       slow: 0,
       slowTime: 0,
@@ -72,6 +96,11 @@ export function enemy(world: World, overrides: Partial<Enemy> = {}): Enemy {
       primaryHits: 0,
       skillsUsed: 0,
       lastSkill: null,
+      castSkill: null,
+      castId: 0,
+      pendingSkills: [],
+      vulnerableTime: 0,
+      wardTime: 0,
       damageReductionTime: 0,
       stars: 1,
       damageScale: 1,
@@ -95,7 +124,7 @@ export function naturalRun(
 ): World {
   const world = new World(width);
   world.start(seed);
-  for (let frame = 0; frame < 120 * 650; frame++) {
+  for (let frame = 0; frame < 120 * 900; frame++) {
     if (endless && world.phase === "Victory") world.continueEndless();
     if (["RewardSelection", "StageClear"].includes(world.phase) && world.reward) {
       const choice = chooseReward(world.reward.choices, world.stacks, world.player.hp, policy);
@@ -103,7 +132,13 @@ export function naturalRun(
         throw new Error("No eligible reward");
     }
     if (endless && world.phase === "Victory") world.continueEndless();
-    if (world.clearedStages >= (endless ? 6 : 4) || world.phase !== "Playing") break;
+    if (
+      (endless
+        ? world.stageIndex >= 6 && world.clearPresentationRemaining === 0
+        : world.phase === "Victory") ||
+      world.phase !== "Playing"
+    )
+      break;
     if (policy !== "auto" && frame % 60 === 0) {
       const chest = world.chests.items.find((item) => item.active);
       if (chest && !world.boss) world.selectTargetAt(chest);

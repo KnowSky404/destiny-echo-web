@@ -1,0 +1,41 @@
+{
+  "kind": "v3-selection-curated-audit-index",
+  "recordedAt": "2026-10-27T02:17:27.818863+00:00",
+  "files": {
+    "selection-summary.json": {
+      "sha256": "1b05aca3b42a54f412617f7cdfc8935d6d597113d8f8e14a9c0a78e4e9aa8cf2",
+      "bytes": 5144
+    },
+    "selection-summary.md": {
+      "sha256": "1685a26b51810a5b5b386bcc55154dbb2eae552ce58a2f1346757574a822535b",
+      "bytes": 2097
+    },
+    "summary-pre-format-canonical-sha256.txt": {
+      "sha256": "e78645c7112e9fe1e4cc1bc8308106677cc6664bce43f06a094c7f6d3d133409",
+      "bytes": 65
+    },
+    "hash-index.json": {
+      "sha256": "65065b06963020c8104fb1de9313cb8d283c9eef759389c8c3a3ff35a8e93ff7",
+      "bytes": 554
+    },
+    "native-input-hashes.json": {
+      "sha256": "dc82e28cada4063be89ab12a9e5b73b5ecbdd9e2c96811e8fdb75df215a557a0",
+      "bytes": 1074
+    },
+    "audit.json": {
+      "sha256": "a6309ec9563e2cb91fa7d6fbf12d8ed593a20ab12598ac6841da3b1f2b16ef14",
+      "bytes": 29758187
+    },
+    "coordinator-label-snapshot.jsonl": {
+      "sha256": "cb09388b950c7b1b02be8f436a166621f2c110a16724af4f07314f303b933c55",
+      "bytes": 57238
+    }
+  },
+  "curatorSha256": "e72c749685948604c8b00d933dc8f9ddc5cccd4d64ee55dbfe07fb11fe85b0cf",
+  "canonicalEqualityAfterFormatting": true,
+  "originalCompleteAuditBytesUnchanged": true,
+  "all300NativeShardsAuditsSidecarsRecheckedUnchanged": true,
+  "nativeSealedOutputsRecheckedUnchanged": true,
+  "newWorldRunsByAuditor": 0,
+  "releaseAccepted": false
+}

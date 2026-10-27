@@ -14,6 +14,7 @@ export const CONFIG = {
   sanctuary: { interval: 8, empoweredInterval: 6, baseDuration: 0.5, durationPerLayer: 0.25 },
   endless: {
     attackRegionSpawnRatio: 0.3,
+    leaderStunRecovery: 0.4,
     damageMultiplier: 1.8,
     attackTiming: 0.6,
     populationCap: 360,

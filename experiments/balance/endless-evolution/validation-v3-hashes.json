@@ -1,0 +1,27 @@
+{
+  "kind": "v3-final-curated-summary-hash-index",
+  "recordedAt": "2026-10-27T03:15:57.493650+00:00",
+  "files": {
+    "native-case-sidecar-index.json": {
+      "sha256": "8a7646a1058e866f90fdee7a6529dce01f282af294eae05e68b5d9ef45e52210",
+      "bytes": 237540
+    },
+    "validation-summary-canonical-sha256.txt": {
+      "sha256": "2f1ac79c19ae0083e4e59c55a36f8ce44d559153f6db9e90055b08b6cf77e3f6",
+      "bytes": 65
+    },
+    "validation-summary.json": {
+      "sha256": "9c0777edb7bafe0438da6da34352c062d110309a46af9c2c5ce7307e0d967615",
+      "bytes": 10067
+    },
+    "validation-summary.md": {
+      "sha256": "658c11cfa21a51db7cc310ce5420f577dd6240e376fc9a305eb38a969327d050",
+      "bytes": 1921
+    }
+  },
+  "curatorSha256": "fd553ced3c0f1f255069d6a4fec3b125e316804b1d25b6a73bc9a34471235507",
+  "originalAuditAndIndexUnchanged": true,
+  "allNativeShardPerJobAuditSidecarAndSealedOutputsRecheckedUnchanged": true,
+  "summaryCanonicalEquality": true,
+  "releaseAccepted": false
+}

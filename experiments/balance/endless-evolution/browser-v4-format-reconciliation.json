@@ -1,0 +1,11 @@
+{
+  "kind": "v4-browser-format-only-reconciliation",
+  "recordedAt": "2026-10-27T06:00:41.283178+00:00",
+  "source": "artifacts/balance/endless-evolution/browser-v4-20261027/qa-result.json",
+  "sourceSha256": "25b72cd450b90e3fe37e57f464e3e31fcaed0c2a376838a323fb3419fed99dd7",
+  "curatedFile": "experiments/balance/endless-evolution/browser-v4-audit.json",
+  "curatedSha256": "e5ee9652de4e0e03cc13d8a5fb68be105c5a7bbb90b4b36fa51b72cd7ba4d8d6",
+  "parsedValuesEqual": true,
+  "originalRewritten": false,
+  "change": "Biome collapses two singleton caseKeys arrays; content unchanged"
+}

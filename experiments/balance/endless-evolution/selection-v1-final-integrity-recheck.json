@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "endless-evolution-selection-final-integrity-recheck",
+  "collectedAt": "2026-10-23T11:47:45.674Z",
+  "collectorSha256": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+  "regressionTestsSha256": "05b14c60299ce99ca68786ef2af7c7c2a006e7b0750461cfa9e69216c08d1182",
+  "priorEvidenceSha256": "3bea67f480a91e6a9636e608d553ef4ca58d7e2a021ea30abcdfb0c36ff1592a",
+  "accepted": true,
+  "candidateCompleted": 300,
+  "baselineCompleted": 300,
+  "guards": [
+    "Campaign success must be campaign_victory; endless success must be endless_target_reached.",
+    "Both success modes require final.hp > 0.",
+    "Enemy attack counters are nonnegative safe integers and match mechanics.enemy_attack exactly; missing mechanics is zero and null is rejected.",
+    "Existing clear/reward/depth boundary, continuous-metric tolerances, telemetry and unresolved-outcome gates remain enforced."
+  ],
+  "unchanged": {
+    "baselineRaw": true,
+    "candidateRaw": true,
+    "baselineManifest": true,
+    "candidateManifest": true,
+    "statistics": true
+  },
+  "inputHashes": {
+    "baselineRaw": "221f35543fe708a9145bc61d65d10cacdda2fbda196468068a5fabc362c1ccb4",
+    "candidateRaw": "64cd7b0b55ff57009606d6b3b11a6d26d02b9da1752974e4627ddb9ef8094941",
+    "baselineManifest": "a6fe4817f0fd352eb76bed4c8542e3c13ffa1abc43f665e25c356b5c44dd1d1c",
+    "candidateManifest": "79710f931a065f2290da04a035316c19ee56390b25093977f756a010c71b4f5c"
+  },
+  "statisticsCanonicalHash": "efa22ef3065c168dd160f867b715cd8dcd521672d662a79d2543dcd5448fba34",
+  "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "note": "Original selection evidence/audit/adoption are preserved. This is a new strict read of the identical raw records after collector-only hardening; sampling World/profile fingerprints are unchanged."
+}

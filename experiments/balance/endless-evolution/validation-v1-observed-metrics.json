@@ -1,0 +1,1940 @@
+{
+  "schemaVersion": 1,
+  "kind": "observed-telemetry-from-rejected-holdout",
+  "recordedAt": "2026-10-26T03:20:59.164685+00:00",
+  "strictCollectorAccepted": false,
+  "records": 600,
+  "resolvedIndividuallyAccepted": 599,
+  "budgetUnresolved": 1,
+  "candidateRawSha256": "75c0e82d9b8d28b1bf65019fb214c75c14c24ad6b96b530cc0e62dcdc58ad7e6",
+  "generatorSha256": "085633359809dd3c844d204e8b0b2b98f4b818bff011a58def47194b87776c95",
+  "scope": "Observational summaries preserve all 600 actual World records including the budget-exhausted run; they do not waive the formal rejection. No unknown final outcome is classified as death or victory.",
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "records": 100,
+      "resolved": 100,
+      "budget": 0,
+      "ttk": {
+        "minion": {
+          "count": 30832,
+          "mean": 4.814943889463309,
+          "p50RankBucket": {
+            "lowerSeconds": 1,
+            "upperSeconds": 2
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 8,
+            "upperSeconds": 12
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 193,
+          "mean": 40.94680483591929,
+          "p50RankBucket": {
+            "lowerSeconds": 30,
+            "upperSeconds": 45
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 45,
+            "upperSeconds": 60
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 29,
+        "p50": 52.008333333326796,
+        "p90": 81.68666666663303,
+        "min": 14.108333333335505,
+        "max": 129.30833333326615
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 579000,
+        "kill:minion": 2197920
+      },
+      "casts": {
+        "castStarts": 2015,
+        "castInterrupts": 1986,
+        "castReleases": 16,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 139.03750000003788,
+            "p90": 156.91750000002162,
+            "min": 115.92500000003832,
+            "max": 165.89166666668012
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 9087,
+              "mean": 5.969310553540038,
+              "p50RankBucket": {
+                "lowerSeconds": 2,
+                "upperSeconds": 3
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 43.38041666668996,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.020400000000000064,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.02280000000000001
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 32,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 63.69166666660874,
+            "p90": 140.00249999987344,
+            "min": 37.89999999996553,
+            "max": 206.2749999998124
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 113.98799999999994,
+            "min": 80.27999999999994,
+            "max": 130
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 9440.0,
+            "p90": 9500.0,
+            "min": 9420,
+            "max": 9500
+          },
+          "ttk": {
+            "minion": {
+              "count": 6283,
+              "mean": 6.691280704540592,
+              "p50RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 12,
+                "upperSeconds": 20
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 34,
+              "mean": 42.12696078427541,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.064,
+            "p90": 0.07200000000000002,
+            "min": 0,
+            "max": 0.07600000000000001
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 32,
+          "clears": 30,
+          "playerSeconds": {
+            "n": 32,
+            "p50": 125.96249999988544,
+            "p90": 141.59499999987125,
+            "min": 98.67499999991026,
+            "max": 219.1083333331341
+          },
+          "entryHp": {
+            "n": 32,
+            "p50": 100.0,
+            "p90": 145.7707792000006,
+            "min": 37.40000000000002,
+            "max": 160
+          },
+          "entryTrainingScore": {
+            "n": 32,
+            "p50": 22120.0,
+            "p90": 22180.0,
+            "min": 19540,
+            "max": 22180
+          },
+          "ttk": {
+            "minion": {
+              "count": 6571,
+              "mean": 3.6003741185986637,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 30,
+              "mean": 36.43555555552242,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 32,
+            "p50": 0.055,
+            "p90": 0.10340000000000002,
+            "min": 0,
+            "max": 0.20349999999999993
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 30,
+          "clears": 29,
+          "playerSeconds": {
+            "n": 30,
+            "p50": 125.0458333332196,
+            "p90": 153.1308333331942,
+            "min": 98.57499999991035,
+            "max": 275.7499999997492
+          },
+          "entryHp": {
+            "n": 30,
+            "p50": 120.0,
+            "p90": 160.0,
+            "min": 42.906249999994344,
+            "max": 190
+          },
+          "entryTrainingScore": {
+            "n": 30,
+            "p50": 39640.0,
+            "p90": 39700.0,
+            "min": 28600,
+            "max": 39700
+          },
+          "ttk": {
+            "minion": {
+              "count": 8891,
+              "mean": 3.206821504889673,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 29,
+              "mean": 35.83821839077203,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 60,
+                "upperSeconds": 90
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 30,
+            "p50": 0.053068181818181806,
+            "p90": 0.12349999999999994,
+            "min": 0,
+            "max": 0.26649999999999996
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "records": 100,
+      "resolved": 100,
+      "budget": 0,
+      "ttk": {
+        "minion": {
+          "count": 44149,
+          "mean": 4.330914441246505,
+          "p50RankBucket": {
+            "lowerSeconds": 2,
+            "upperSeconds": 3
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 8,
+            "upperSeconds": 12
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 184,
+          "mean": 37.00384963768029,
+          "p50RankBucket": {
+            "lowerSeconds": 30,
+            "upperSeconds": 45
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 45,
+            "upperSeconds": 60
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 26,
+        "p50": 28.924999999996395,
+        "p90": 51.545833333322534,
+        "min": 16.041666666665243,
+        "max": 84.02499999996985
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 552000,
+        "kill:minion": 3271500
+      },
+      "casts": {
+        "castStarts": 1741,
+        "castInterrupts": 1716,
+        "castReleases": 7,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 135.970833333374,
+            "p90": 148.78583333336235,
+            "min": 109.60000000003329,
+            "max": 155.66666666668942
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 13637,
+              "mean": 5.450877514607164,
+              "p50RankBucket": {
+                "lowerSeconds": 2,
+                "upperSeconds": 3
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 39.47583333335775,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.021599999999999966,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.02280000000000001
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 31,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 62.19999999994343,
+            "p90": 137.48166666654257,
+            "min": 39.11666666663109,
+            "max": 187.17499999982977
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 116.71274999999986,
+            "min": 83.15999999999997,
+            "max": 130
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 12680.0,
+            "p90": 12680.0,
+            "min": 12680,
+            "max": 12680
+          },
+          "ttk": {
+            "minion": {
+              "count": 9657,
+              "mean": 6.348797072929268,
+              "p50RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 12,
+                "upperSeconds": 20
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 32,
+              "mean": 39.71380208329721,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.06799999999999998,
+            "p90": 0.07599999999999994,
+            "min": 0.03076923076923077,
+            "max": 0.08499999999999996
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 31,
+          "clears": 26,
+          "playerSeconds": {
+            "n": 31,
+            "p50": 124.10833333322046,
+            "p90": 136.6416666665424,
+            "min": 104.72499999990475,
+            "max": 147.79999999986558
+          },
+          "entryHp": {
+            "n": 31,
+            "p50": 100.0,
+            "p90": 130.0,
+            "min": 38.20000000000004,
+            "max": 160
+          },
+          "entryTrainingScore": {
+            "n": 31,
+            "p50": 30200.0,
+            "p90": 30200.0,
+            "min": 28440,
+            "max": 30200
+          },
+          "ttk": {
+            "minion": {
+              "count": 9380,
+              "mean": 2.9419411869198546,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 26,
+              "mean": 31.69134615381733,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 31,
+            "p50": 0.061875000000000034,
+            "p90": 0.09349999999999994,
+            "min": 0,
+            "max": 0.09349999999999994
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 26,
+          "clears": 26,
+          "playerSeconds": {
+            "n": 26,
+            "p50": 124.03749999988725,
+            "p90": 136.89583333320888,
+            "min": 117.86666666655947,
+            "max": 147.6249999998658
+          },
+          "entryHp": {
+            "n": 26,
+            "p50": 130.0,
+            "p90": 160.0,
+            "min": 63.9062499999196,
+            "max": 210
+          },
+          "entryTrainingScore": {
+            "n": 26,
+            "p50": 55040.0,
+            "p90": 55100.0,
+            "min": 53260,
+            "max": 55100
+          },
+          "ttk": {
+            "minion": {
+              "count": 11475,
+              "mean": 2.4371401597653954,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 26,
+              "mean": 29.473397435870645,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 26,
+            "p50": 0.07109375,
+            "p90": 0.09499999999999996,
+            "min": 0,
+            "max": 0.11699999999999988
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "records": 100,
+      "resolved": 100,
+      "budget": 0,
+      "ttk": {
+        "minion": {
+          "count": 44513,
+          "mean": 3.6656604063211025,
+          "p50RankBucket": {
+            "lowerSeconds": 1,
+            "upperSeconds": 2
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 5,
+            "upperSeconds": 8
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 277,
+          "mean": 31.944344163646846,
+          "p50RankBucket": {
+            "lowerSeconds": 20,
+            "upperSeconds": 30
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 45,
+            "upperSeconds": 60
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 56,
+        "p50": 99.5583333332897,
+        "p90": 131.62083333326495,
+        "min": 34.32500000000591,
+        "max": 148.4166666665919
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 831000,
+        "kill:minion": 3467720
+      },
+      "casts": {
+        "castStarts": 2292,
+        "castInterrupts": 2267,
+        "castReleases": 5,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 120.11666666670833,
+            "p90": 148.05750000002968,
+            "min": 105.00833333336297,
+            "max": 155.41666666668965
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 7897,
+              "mean": 4.705890422525619,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 31.159166666687224,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.019200000000000016,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.02280000000000001
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 60,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 121.97916666658557,
+            "p90": 137.60499999987488,
+            "min": 39.19999999996435,
+            "max": 211.24166666647454
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 119.31599999999997,
+            "min": 89.39999999999993,
+            "max": 130
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 9440.0,
+            "p90": 9500.0,
+            "min": 9420,
+            "max": 9500
+          },
+          "ttk": {
+            "minion": {
+              "count": 10210,
+              "mean": 4.092006203065265,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 64,
+              "mean": 34.573697916635226,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.058461538461538474,
+            "p90": 0.07599999999999994,
+            "min": 0,
+            "max": 0.14799999999999996
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 60,
+          "clears": 57,
+          "playerSeconds": {
+            "n": 60,
+            "p50": 121.96666666655574,
+            "p90": 139.42333333320653,
+            "min": 103.59166666657245,
+            "max": 208.7166666664769
+          },
+          "entryHp": {
+            "n": 60,
+            "p50": 100.0,
+            "p90": 160.0,
+            "min": 39.80000000000001,
+            "max": 160
+          },
+          "entryTrainingScore": {
+            "n": 60,
+            "p50": 22120.0,
+            "p90": 22180.0,
+            "min": 20000,
+            "max": 22180
+          },
+          "ttk": {
+            "minion": {
+              "count": 11232,
+              "mean": 3.1743508131500096,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 57,
+              "mean": 31.683625730965336,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 60,
+            "p50": 0.055,
+            "p90": 0.09349999999999994,
+            "min": 0,
+            "max": 0.20349999999999993
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 57,
+          "clears": 56,
+          "playerSeconds": {
+            "n": 57,
+            "p50": 123.64999999988754,
+            "p90": 144.68166666653514,
+            "min": 106.0499999999036,
+            "max": 226.03333333312776
+          },
+          "entryHp": {
+            "n": 57,
+            "p50": 130.0,
+            "p90": 160.0,
+            "min": 73.70000000000002,
+            "max": 240
+          },
+          "entryTrainingScore": {
+            "n": 57,
+            "p50": 39640.0,
+            "p90": 39700.0,
+            "min": 30480,
+            "max": 39700
+          },
+          "ttk": {
+            "minion": {
+              "count": 15174,
+              "mean": 3.201096173275943,
+              "p50RankBucket": {
+                "lowerSeconds": 0.5,
+                "upperSeconds": 1
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 56,
+              "mean": 30.60684523806741,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 57,
+            "p50": 0.05,
+            "p90": 0.09499999999999996,
+            "min": 0,
+            "max": 0.12349999999999994
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "records": 100,
+      "resolved": 100,
+      "budget": 0,
+      "ttk": {
+        "minion": {
+          "count": 70820,
+          "mean": 2.9874757601413577,
+          "p50RankBucket": {
+            "lowerSeconds": 1,
+            "upperSeconds": 2
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 5,
+            "upperSeconds": 8
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 279,
+          "mean": 29.999641577050383,
+          "p50RankBucket": {
+            "lowerSeconds": 20,
+            "upperSeconds": 30
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 30,
+            "upperSeconds": 45
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 57,
+        "p50": 61.499999999984105,
+        "p90": 82.06166666663692,
+        "min": 11.108333333333976,
+        "max": 107.77499999995717
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 837000,
+        "kill:minion": 5318420
+      },
+      "casts": {
+        "castStarts": 2115,
+        "castInterrupts": 2100,
+        "castReleases": 1,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 119.26250000004097,
+            "p90": 145.0500000000324,
+            "min": 105.48333333336335,
+            "max": 148.33333333336276
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 13085,
+              "mean": 3.6736619538931397,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 29.585500000019778,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.018369230769230784,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.02280000000000001
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 62,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 119.80416666659414,
+            "p90": 131.37583333323275,
+            "min": 42.01666666662845,
+            "max": 169.31666666652214
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 128.02,
+            "min": 91.19999999999995,
+            "max": 131.39999999999998
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 12680.0,
+            "p90": 12680.0,
+            "min": 12680,
+            "max": 12680
+          },
+          "ttk": {
+            "minion": {
+              "count": 15548,
+              "mean": 3.476816417971363,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 63,
+              "mean": 31.842857142828183,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.05692307692307691,
+            "p90": 0.07599999999999994,
+            "min": 0,
+            "max": 0.07600000000000001
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 62,
+          "clears": 57,
+          "playerSeconds": {
+            "n": 62,
+            "p50": 123.67083333322086,
+            "p90": 136.1633333332095,
+            "min": 102.42499999990685,
+            "max": 189.40833333316107
+          },
+          "entryHp": {
+            "n": 62,
+            "p50": 100.24374999999932,
+            "p90": 150.0,
+            "min": 53.800000000000026,
+            "max": 178.57499999998583
+          },
+          "entryTrainingScore": {
+            "n": 62,
+            "p50": 30200.0,
+            "p90": 30200.0,
+            "min": 30200,
+            "max": 30200
+          },
+          "ttk": {
+            "minion": {
+              "count": 18220,
+              "mean": 2.7877488108280533,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 59,
+              "mean": 30.10494350279748,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 62,
+            "p50": 0.056718749999999984,
+            "p90": 0.09294999999999994,
+            "min": 0,
+            "max": 0.09350000000000001
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 57,
+          "clears": 57,
+          "playerSeconds": {
+            "n": 57,
+            "p50": 122.32499999988875,
+            "p90": 135.26666666654367,
+            "min": 110.09999999989986,
+            "max": 199.16666666648558
+          },
+          "entryHp": {
+            "n": 57,
+            "p50": 130.0,
+            "p90": 190.0,
+            "min": 45.63749999998849,
+            "max": 250
+          },
+          "entryTrainingScore": {
+            "n": 57,
+            "p50": 55040.0,
+            "p90": 55100.0,
+            "min": 49040,
+            "max": 55100
+          },
+          "ttk": {
+            "minion": {
+              "count": 23967,
+              "mean": 2.44723334862992,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 57,
+              "mean": 28.579970760207928,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 57,
+            "p50": 0.05,
+            "p90": 0.08699999999999994,
+            "min": 0,
+            "max": 0.12349999999999994
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "records": 100,
+      "resolved": 100,
+      "budget": 0,
+      "ttk": {
+        "minion": {
+          "count": 46726,
+          "mean": 3.8246201258377077,
+          "p50RankBucket": {
+            "lowerSeconds": 1,
+            "upperSeconds": 2
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 5,
+            "upperSeconds": 8
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 269,
+          "mean": 37.10043370506617,
+          "p50RankBucket": {
+            "lowerSeconds": 30,
+            "upperSeconds": 45
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 45,
+            "upperSeconds": 60
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 55,
+        "p50": 98.62499999995798,
+        "p90": 132.34499999993227,
+        "min": 14.708333333335158,
+        "max": 149.76666666659068
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 807000,
+        "kill:minion": 3420920
+      },
+      "casts": {
+        "castStarts": 2820,
+        "castInterrupts": 2768,
+        "castReleases": 28,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 126.02500000004636,
+            "p90": 161.97083333335038,
+            "min": 105.00833333336297,
+            "max": 196.54999999998557
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 8810,
+              "mean": 4.981342224746265,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 37.376333333351454,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 60,
+                "upperSeconds": 90
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.020400000000000064,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.04440000000000005
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 57,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 124.2249999998991,
+            "p90": 152.03666666652848,
+            "min": 36.59999999996671,
+            "max": 240.00833333311505
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 117.98399999999997,
+            "min": 62.51999999999987,
+            "max": 130
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 9440.0,
+            "p90": 9500.0,
+            "min": 9420,
+            "max": 9500
+          },
+          "ttk": {
+            "minion": {
+              "count": 10978,
+              "mean": 4.397366703099247,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 58,
+              "mean": 42.43850574708784,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 60,
+                "upperSeconds": 90
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.060000000000000026,
+            "p90": 0.07600000000000001,
+            "min": 0,
+            "max": 0.16399999999999992
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 57,
+          "clears": 55,
+          "playerSeconds": {
+            "n": 57,
+            "p50": 125.35833333321932,
+            "p90": 154.57499999985941,
+            "min": 111.54999999989855,
+            "max": 229.0416666664584
+          },
+          "entryHp": {
+            "n": 57,
+            "p50": 100.0,
+            "p90": 141.99999999999994,
+            "min": 40,
+            "max": 160
+          },
+          "entryTrainingScore": {
+            "n": 57,
+            "p50": 22120.0,
+            "p90": 22180.0,
+            "min": 21500,
+            "max": 22180
+          },
+          "ttk": {
+            "minion": {
+              "count": 11450,
+              "mean": 3.4641732168818566,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 56,
+              "mean": 36.03735119044342,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 57,
+            "p50": 0.05210526315789462,
+            "p90": 0.09349999999999997,
+            "min": 0,
+            "max": 0.16923076923076924
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 55,
+          "clears": 55,
+          "playerSeconds": {
+            "n": 55,
+            "p50": 126.49999999988495,
+            "p90": 152.22166666652828,
+            "min": 111.61666666656515,
+            "max": 232.00833333312232
+          },
+          "entryHp": {
+            "n": 55,
+            "p50": 130.0,
+            "p90": 171.48422000002722,
+            "min": 52.63750000001153,
+            "max": 210
+          },
+          "entryTrainingScore": {
+            "n": 55,
+            "p50": 39640.0,
+            "p90": 39700.0,
+            "min": 32680,
+            "max": 39700
+          },
+          "ttk": {
+            "minion": {
+              "count": 15488,
+              "mean": 3.02715005165014,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 55,
+              "mean": 32.05196969694055,
+              "p50RankBucket": {
+                "lowerSeconds": 20,
+                "upperSeconds": 30
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 55,
+            "p50": 0.05416666666666667,
+            "p90": 0.09124999999999996,
+            "min": 0,
+            "max": 0.12349999999999994
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "records": 100,
+      "resolved": 99,
+      "budget": 1,
+      "ttk": {
+        "minion": {
+          "count": 78000,
+          "mean": 3.502719978630215,
+          "p50RankBucket": {
+            "lowerSeconds": 1,
+            "upperSeconds": 2
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 5,
+            "upperSeconds": 8
+          }
+        },
+        "elite": {
+          "count": 0,
+          "mean": null,
+          "p50RankBucket": null,
+          "p90RankBucket": null
+        },
+        "boss": {
+          "count": 268,
+          "mean": 42.89319029848739,
+          "p50RankBucket": {
+            "lowerSeconds": 30,
+            "upperSeconds": 45
+          },
+          "p90RankBucket": {
+            "lowerSeconds": 60,
+            "upperSeconds": 90
+          }
+        }
+      },
+      "successfulIdleSeconds": {
+        "n": 53,
+        "p50": 64.0416666666512,
+        "p90": 81.31999999997498,
+        "min": 20.291666666669023,
+        "max": 108.15833333329016
+      },
+      "trainingScoreBySource": {
+        "kill:boss": 804000,
+        "kill:minion": 5109500
+      },
+      "casts": {
+        "castStarts": 3246,
+        "castInterrupts": 3177,
+        "castReleases": 43,
+        "missingLifecycleEvents": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0
+      },
+      "byStage": [
+        {
+          "stage": 1,
+          "actualEntries": 100,
+          "clears": 100,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 125.27500000004576,
+            "p90": 189.16583333332568,
+            "min": 105.48333333336335,
+            "max": 218.78333333329869
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 100.0,
+            "min": 100,
+            "max": 100
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 0.0,
+            "p90": 0.0,
+            "min": 0,
+            "max": 0
+          },
+          "ttk": {
+            "minion": {
+              "count": 17063,
+              "mean": 4.489119244368979,
+              "p50RankBucket": {
+                "lowerSeconds": 2,
+                "upperSeconds": 3
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 8,
+                "upperSeconds": 12
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 100,
+              "mean": 47.38266666667433,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 90,
+                "upperSeconds": 120
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.020400000000000064,
+            "p90": 0.02280000000000001,
+            "min": 0.009230769230769252,
+            "max": 0.046799999999999994
+          }
+        },
+        {
+          "stage": 2,
+          "actualEntries": 100,
+          "clears": 59,
+          "playerSeconds": {
+            "n": 100,
+            "p50": 122.69999999990594,
+            "p90": 151.1033333331966,
+            "min": 22.74999999997931,
+            "max": 448.9083333329251
+          },
+          "entryHp": {
+            "n": 100,
+            "p50": 100.0,
+            "p90": 128.02,
+            "min": 36.599999999999866,
+            "max": 131.39999999999998
+          },
+          "entryTrainingScore": {
+            "n": 100,
+            "p50": 12680.0,
+            "p90": 12680.0,
+            "min": 12680,
+            "max": 12680
+          },
+          "ttk": {
+            "minion": {
+              "count": 17374,
+              "mean": 4.2536707148574795,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 60,
+              "mean": 45.90444444440269,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 60,
+                "upperSeconds": 90
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 100,
+            "p50": 0.05846153846153842,
+            "p90": 0.07599999999999994,
+            "min": 0,
+            "max": 0.15200000000000002
+          }
+        },
+        {
+          "stage": 3,
+          "actualEntries": 59,
+          "clears": 53,
+          "playerSeconds": {
+            "n": 59,
+            "p50": 125.30833333321937,
+            "p90": 151.7466666665287,
+            "min": 102.42499999990685,
+            "max": 299.0166666663947
+          },
+          "entryHp": {
+            "n": 59,
+            "p50": 100.0,
+            "p90": 160.0,
+            "min": 36.24374999999173,
+            "max": 178.34374999998604
+          },
+          "entryTrainingScore": {
+            "n": 59,
+            "p50": 30200.0,
+            "p90": 30200.0,
+            "min": 29060,
+            "max": 30200
+          },
+          "ttk": {
+            "minion": {
+              "count": 18953,
+              "mean": 3.336203151652817,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 5,
+                "upperSeconds": 8
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 55,
+              "mean": 40.531212121175265,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 45,
+                "upperSeconds": 60
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 59,
+            "p50": 0.05843749999999996,
+            "p90": 0.09349999999999996,
+            "min": 0,
+            "max": 0.10450000000000002
+          }
+        },
+        {
+          "stage": 4,
+          "actualEntries": 53,
+          "clears": 53,
+          "playerSeconds": {
+            "n": 53,
+            "p50": 127.53333333321734,
+            "p90": 139.66833333320636,
+            "min": 109.50833333323374,
+            "max": 177.89166666650488
+          },
+          "entryHp": {
+            "n": 53,
+            "p50": 130.0,
+            "p90": 190.0,
+            "min": 47.483750000004164,
+            "max": 220
+          },
+          "entryTrainingScore": {
+            "n": 53,
+            "p50": 55040.0,
+            "p90": 55100.0,
+            "min": 48160,
+            "max": 55100
+          },
+          "ttk": {
+            "minion": {
+              "count": 24610,
+              "mean": 2.416903020450193,
+              "p50RankBucket": {
+                "lowerSeconds": 1,
+                "upperSeconds": 2
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 3,
+                "upperSeconds": 5
+              }
+            },
+            "elite": {
+              "count": 0,
+              "mean": null,
+              "p50RankBucket": null,
+              "p90RankBucket": null
+            },
+            "boss": {
+              "count": 53,
+              "mean": 33.46462264147901,
+              "p50RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              },
+              "p90RankBucket": {
+                "lowerSeconds": 30,
+                "upperSeconds": 45
+              }
+            }
+          },
+          "maxOneSecondHpLossRatio": {
+            "n": 53,
+            "p50": 0.058157894736842165,
+            "p90": 0.09441666666666665,
+            "min": 0,
+            "max": 0.12349999999999994
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Deterministic policy outcomes are not human completion rates.",
+    "TTK is birth-to-death active player-clock time including approach; surviving enemies are censored. Histogram rank intervals are not exact median lifetimes.",
+    "Birth stars include every role, fixed miniboss stars, main bosses, escorts and summons; fusion promotions are not births. This mixture is not a native-weight probability estimate.",
+    "Idle means no live enemy or chest at a Playing step start, including designed breaks and death animation; presentation seconds are separate."
+  ]
+}

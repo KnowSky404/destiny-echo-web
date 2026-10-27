@@ -5,7 +5,7 @@ import type { WorldObservation } from "../../src/game/observation";
 import { applyPoison } from "../../src/game/systems/damage";
 import { World } from "../../src/game/world";
 import { chooseReward } from "../policy";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 class FixtureWorld extends World {
   clearStage(): void {
@@ -39,8 +39,10 @@ function incoming(world: World, damage: number): void {
 
 function natural(observer?: (event: WorldObservation) => void) {
   const world = new World(CONFIG.width, officialProfile(), observer);
-  world.start(4);
-  for (let step = 0; step < 120 * 650; step++) {
+  // A naturally winning control retained for settlement and observer equivalence.
+  world.start(5);
+  // Four campaign stages target 8–12 minutes; retain a finite 15-minute budget.
+  for (let step = 0; step < 120 * 900; step++) {
     if (["StageClear", "RewardSelection"].includes(world.phase) && world.reward) {
       const choice = chooseReward(world.reward.choices, world.stacks, world.player.hp);
       if (choice) world.chooseCard(choice, world.reward.token);
@@ -188,6 +190,7 @@ describe("read-only battle settlement observations", () => {
         defenseX: world.player.x,
         y: world.player.y - 13,
         speed: 0,
+        damageScale: 100,
         arrived: true,
         stage: "Attacking",
       });
@@ -202,7 +205,7 @@ describe("read-only battle settlement observations", () => {
     }
   });
 
-  test("boss slam has a distinct fatal source and ignores shields", () => {
+  test("boss slam telegraphs its distinct fatal source and reports shield absorption", () => {
     const { world, events } = setup();
     world.pause();
     world.toMenu();
@@ -211,9 +214,13 @@ describe("read-only battle settlement observations", () => {
     world.stageSupplies = 3;
     world.bossSpawned = true;
     world.player.cooldown = 1000;
-    world.player.hp = 80;
-    world.player.shield = 100;
-    world.player.invulnerable = 10;
+    // Keep this a fatal settlement under the calibrated slam value, with both
+    // shield absorption and HP loss represented rather than asserting tuning.
+    const hpLoss = Math.floor(world.bossSlamDamage / 2);
+    const shieldAbsorbed = world.bossSlamDamage - hpLoss;
+    world.player.hp = hpLoss;
+    world.player.shield = shieldAbsorbed;
+    isolateEndless(world);
     const target = enemy(world, {
       kind: "boss",
       x: 225,
@@ -223,15 +230,23 @@ describe("read-only battle settlement observations", () => {
       hp: 1000,
       maxHp: 1000,
       attackPolicy: { type: "anywhere" },
+      stage: "Attacking",
+      patternCooldown: 0,
+      shotCooldown: 1000,
     });
     hit(world, target, 300);
+    expect(target.castSkill).toBe("slam");
+    expect(target.telegraph).toBeGreaterThan(0);
+    expect(events.filter((event) => event.type === "death")).toHaveLength(0);
+    expect(events.filter((event) => event.type === "player_damage")).toHaveLength(0);
+    tick(world, target.telegraph + CONFIG.fixedStep);
     expect(events.find((event) => event.type === "death")?.source).toBe("boss_slam");
     expect(events.find((event) => event.type === "player_damage")).toMatchObject({
       source: "boss_slam",
-      hpLoss: 80,
-      shieldAbsorbed: 0,
+      hpLoss,
+      shieldAbsorbed,
     });
-    expect(world.player.shield).toBe(100);
+    expect(world.player.shield).toBe(0);
   });
 
   test("bloodpact self-cost is observed separately from legacy incoming damage", () => {
@@ -278,6 +293,11 @@ describe("read-only battle settlement observations", () => {
     world.clearStage();
     const clear = events.find((event) => event.type === "stage_clear");
     expect(clear).toMatchObject({ stageIndex: 0, hp: 25, stageElapsed: 15, elapsed: 20 });
+    expect(world.reward).toBeNull();
+    expect(events.filter((event) => event.type === "reward_offer")).toHaveLength(0);
+    tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
+    expect(world.elapsed).toBe(20);
+    expect(world.stageElapsed).toBe(15);
     const reward = world.reward;
     if (!reward) throw new Error("Missing stage reward");
     expect(
@@ -324,6 +344,7 @@ describe("read-only battle settlement observations", () => {
   test("observations and candidate lists are frozen detached values; detaching stops emission", () => {
     const { world, events } = setup();
     world.clearStage();
+    tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
     const offered = events.find((event) => event.type === "reward_offer");
     expect(offered && Object.isFrozen(offered)).toBe(true);
     expect(offered?.choices && Object.isFrozen(offered.choices)).toBe(true);

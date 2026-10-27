@@ -123,20 +123,31 @@ export async function bootFixture(page: Page, setup: string, width = 450) {
         const kind = overrides.kind ?? "wisp";
         const data = ENEMIES[kind];
         const entity = world.enemies.acquire();
-        Object.assign(entity, { id: fixtureId++, kind, x: 225, y: 620, hp: data.hp,
+        Object.assign(entity, { id: fixtureId++, kind, role: kind === "boss" ? "boss" : "minion",
+          trainingCredit: data.score, x: 225, y: 620, hp: data.hp,
           maxHp: data.hp, radius: data.radius, speed: data.speed, age: 0,
           shotCooldown: 0, patternCooldown: 2.8, stage: "Approaching",
           attackPolicy: { ...data.attackPolicy }, preparation: 0, arrived: true,
           slot: 3, defenseX: 225, defenseY: 620, telegraph: 0,
           spawnX: overrides.x ?? 225, spawnY: overrides.y ?? 620, enhanced: false,
-          interruptDamage: 0, interruptRequired: 0,
-          skillsUsed: 0, lastSkill: null, damageReductionTime: 0,
+          interruptDamage: 0, interruptHits: 0, interruptRequired: 0,
+          skillsUsed: 0, lastSkill: null, castSkill: null, castId: 0, pendingSkills: [],
+          vulnerableTime: 0, wardTime: 0, damageReductionTime: 0,
           stars: 1, damageScale: 1, fusionTime: 0, fusionPeers: "", tauntRemaining: 0,
           skillCooldown: 1000, lastAction: null, formation: false,
           slow: 0, slowTime: 0, stunTime: 0, receivedHits: 0, primaryHits: 0 }, overrides);
         return entity;
       }
       ${setup}
+      // Mechanic fixtures that explicitly freeze natural spawns keep only their
+      // authored enemies. Natural endless tests opt in with bossSpawned=false.
+      if (world.endless && world.bossSpawned && world.encounterStageIndex !== world.stageIndex) {
+        world.encounterStageIndex = world.stageIndex;
+        world.encounterState = {
+          plan: [{ id: "main", type: "main", kind: "boss" }],
+          index: 0, spentBudget: 0, admittedLeaders: 1, initialEscortsRemaining: 0, breakRemaining: 0,
+        };
+      }
       world.pause();
       const ui = new GameUI(world);
       createGame(document.querySelector("#game-canvas"), world, () => ui.ready());

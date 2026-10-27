@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "kind": "endless-evolution-selection-target-contract-recheck",
+  "collectedAt": "2026-10-23T11:32:39.400Z",
+  "collectorSha256": "2a4b50b91c2fd49b7733d1e420c5b56db2faece92a7cf51467a5173e0fcf1ab5",
+  "regressionTestsSha256": "3067e53c8455fa903a3e8c20ec541aa4b117103e487173061774f0d6ada3122f",
+  "priorEvidenceSha256": "3bea67f480a91e6a9636e608d553ef4ca58d7e2a021ea30abcdfb0c36ff1592a",
+  "accepted": true,
+  "candidateCompleted": 300,
+  "baselineCompleted": 300,
+  "guards": [
+    "Campaign success must be campaign_victory; endless success must be endless_target_reached.",
+    "Both success modes require final.hp > 0.",
+    "Existing clear/reward/depth boundary, counters, telemetry and unresolved-outcome gates remain enforced."
+  ],
+  "unchanged": {
+    "baselineRaw": true,
+    "candidateRaw": true,
+    "baselineManifest": true,
+    "candidateManifest": true,
+    "statistics": true
+  },
+  "inputHashes": {
+    "baselineRaw": "221f35543fe708a9145bc61d65d10cacdda2fbda196468068a5fabc362c1ccb4",
+    "candidateRaw": "64cd7b0b55ff57009606d6b3b11a6d26d02b9da1752974e4627ddb9ef8094941",
+    "baselineManifest": "a6fe4817f0fd352eb76bed4c8542e3c13ffa1abc43f665e25c356b5c44dd1d1c",
+    "candidateManifest": "79710f931a065f2290da04a035316c19ee56390b25093977f756a010c71b4f5c"
+  },
+  "statisticsCanonicalHash": "efa22ef3065c168dd160f867b715cd8dcd521672d662a79d2543dcd5448fba34",
+  "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "tests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "note": "Original selection evidence/audit/adoption are preserved. This is a new strict read of the identical raw records after collector-only hardening; sampling World/profile fingerprints are unchanged."
+}

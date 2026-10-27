@@ -17,6 +17,7 @@ import {
   snapshot,
   start,
 } from "./helpers";
+import { configureNaturalRender } from "./natural-render";
 import {
   attackAreaFlow,
   epicRewardFlow,
@@ -132,7 +133,7 @@ test("top build and help dialogs pause battle, scroll independently and return k
   expect(close.width).toBeLessThan(220);
   await expect(build.locator("#stats")).toContainText("普攻吸血");
   await expect(build.locator("#synergies details")).toHaveCount(12);
-  await expect(build).toContainText("下一张 5000 分");
+  await expect(build).toContainText("锻体阅历 0 / 5,000");
   const before = await snapshot(page);
   await page.clock.runFor(600);
   expect(await snapshot(page)).toEqual(before);
@@ -171,6 +172,7 @@ test("score training is awarded automatically in the wide battlefield without op
     page,
     `
     world.score = 4900;
+    world.trainingScore = 4900;
     world.player.stats.damage = 100;
     world.player.cooldown = 0;
     enemy({ x: 800, y: 600, defenseX: 800, defenseY: 600, hp: 1, speed: 0 });
@@ -184,11 +186,13 @@ test("score training is awarded automatically in the wide battlefield without op
   expect(state.phase).toBe("Playing");
   expect(state.reward).toBeNull();
   expect(state.trainingStacks["training-leech"]).toBeUndefined();
-  await expect(page.locator("#score-value")).toHaveText("5,000 分");
-  await expect(page.locator("#arena-notice")).toContainText("分数锻体");
+  await expect(page.locator("#score-value")).toHaveText("总分 5,000 分");
+  await expect(page.locator("#arena-notice")).toContainText("阅历锻体");
   await page.getByRole("button", { name: "本局构筑", exact: true }).click();
   await page.clock.runFor(100);
-  await expect(page.locator("#build-dialog")).toContainText("分数锻体已发 1 张 · 下一张 10000 分");
+  await expect(page.locator("#build-dialog")).toContainText(
+    "锻体阅历 5,000 / 11,500 · 已获得 1 次",
+  );
   await expect(page.locator(".collected-card.training")).toHaveCount(1);
   await page.screenshot({
     path: join(tmpdir(), `destiny-${info.project.name}-score-training.png`),
@@ -336,17 +340,31 @@ for (const strategy of ["offense", "random"] as const) {
       browserName !== "chromium" && browserName !== "firefox",
       "Natural desktop runs execute in Chromium and Firefox.",
     );
-    test.setTimeout(600_000);
+    // CPU-only Firefox advanced 94 logical seconds in 600 wall seconds.
+    // 600 / 94 * 180 is about 1149 seconds; allow startup/input work once.
+    // The simulation budget and every outcome/input assertion stay fixed.
+    test.setTimeout(
+      process.env.ECHOES_BROWSER_NATURAL_FPS === "15" &&
+        browserName === "firefox" &&
+        strategy === "offense"
+        ? 1_500_000
+        : 600_000,
+    );
     // Match the simulator's resolved portrait failure, including its policy RNG.
     if (strategy === "random") await page.setViewportSize({ width: 450, height: 900 });
     const rewardRandom = seededRandom(resolveStrategy({ name: "random-auto" }).seed);
+    await configureNaturalRender(page);
     await boot(page);
     await page.clock.setSystemTime(new Date(strategy === "offense" ? 4 : 2401570752));
     await start(page);
-    for (let second = 0; second < 95; second++) {
+    // The calibrated first boss arrives at 90s. The random control now clears
+    // that stage before its observed stage-two failure, so let its reward settle.
+    const budgetSeconds = strategy === "offense" ? 180 : 260;
+    for (let second = 0; second < budgetSeconds; second++) {
       const state = await snapshot(page);
-      if (["GameOver", "Victory", "StageClear"].includes(state.phase)) break;
-      if (state.phase === "RewardSelection" && state.reward) {
+      if (["GameOver", "Victory"].includes(state.phase)) break;
+      if (strategy === "offense" && state.phase === "StageClear") break;
+      if (["RewardSelection", "StageClear"].includes(state.phase) && state.reward) {
         // World and the DOM render on separate callbacks under the fake clock.
         await page.clock.runFor(100);
         const id =
@@ -373,7 +391,7 @@ for (const strategy of ["offense", "random"] as const) {
     expect(result.metrics.damageTaken).toBeGreaterThan(0);
     expect(result.kills).toBeGreaterThan(0);
     if (strategy === "offense") {
-      expect(result.elapsed).toBeGreaterThanOrEqual(52);
+      expect(result.elapsed).toBeGreaterThanOrEqual(90);
       expect(result.openedChests).toBeGreaterThanOrEqual(6);
       expect(result.metrics.damageTaken).toBeGreaterThan(0);
       expect(result.enemies).toEqual([]);
@@ -570,6 +588,9 @@ test("boss charge releases a damaging special in the rendered game", async ({ pa
     page,
     `
     world.elapsed = 63;
+    // Exercise release below both interrupt conditions, including the new
+    // four-primary-hit route, while still letting real shots damage the boss.
+    world.player.stats.interval = 2;
     const boss = enemy({ kind: "boss", stage: "Attacking", telegraph: 2, interruptRequired: 90 });
   `,
   );
@@ -725,26 +746,38 @@ test("endless wave renders tanks and poison wizards in equal three-species compo
     page,
     `world.stageIndex = 4; world.stageSupplies = 3; world.bossSpawned = false; world.player.cooldown = 100; world.player.shield = 2000;`,
   );
-  await page.clock.runFor(7000);
+  // Observe early attacks and the live poison label during the same 7s window.
+  // Ranged enemies keep advancing after they can fire, and poison can expire
+  // before the final composition snapshot.
+  let rangedBeforeDefense = false;
+  let poisonVisible = false;
+  for (let sample = 0; sample < 14; sample++) {
+    await page.clock.runFor(500);
+    const observed = await snapshot(page);
+    rangedBeforeDefense ||= observed.enemies.some(
+      (item) => item.kind === "wizard" && item.stage === "Attacking" && item.y < 500,
+    );
+    if (!poisonVisible && observed.player.poisonTime > 0) {
+      await expect(page.locator("#status-effects")).toContainText("中毒");
+      poisonVisible = true;
+    }
+  }
   const state = await snapshot(page);
   expect(state.endless).toBe(true);
   expect(state.metrics.rangedSpawns).toBeGreaterThan(0);
-  expect(
-    state.enemies.some(
-      (item) => item.kind === "wizard" && item.stage === "Attacking" && item.y < 500,
-    ),
-  ).toBe(true);
+  expect(rangedBeforeDefense).toBe(true);
   expect(state.hostileShots.length).toBeGreaterThan(0);
   const counts = [
     state.stageKindSpawns.wisp,
     state.stageKindSpawns.tank,
     state.stageKindSpawns.wizard,
   ];
+  expect(counts.every((count) => count > 0)).toBe(true);
   expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
-  expect(state.player.poisonTime).toBeGreaterThan(0);
+  expect(state.metrics.poisonCasts).toBeGreaterThan(0);
+  expect(poisonVisible).toBe(true);
   await expect(page.locator("#target-label")).toContainText("攻击区优先");
-  await expect(page.locator("#status-effects")).toContainText("中毒");
-  await expect(page.locator("#stage-route")).toContainText("出怪预算 270");
+  await expect(page.locator("#stage-route")).toContainText(`出怪预算 ${state.stageQuota}`);
   expect(errors).toEqual([]);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-ranged-wave.png`) });
 });
@@ -804,19 +837,24 @@ test("endless boss guard renders reduction, skill count and arrival damage bonus
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-endless-guard.png`) });
 });
 
-test("random endless supply freezes and accepts exactly one native card choice", async ({
+test("clearing an endless segment grants a frozen supply and accepts one native card choice", async ({
   page,
 }) => {
   await bootFixture(
     page,
     `
     world.stageIndex = 4;
-    world.stageElapsed = 43;
     world.player.cooldown = 100;
     world.player.shield = 2000;
+    world.encounterStageIndex = world.stageIndex;
+    world.encounterState = {
+      plan: [{ id: "wave1", type: "wave", budget: 1 }, { id: "miniA", type: "mini", kind: "tank" }],
+      index: 0, spentBudget: 1, admittedLeaders: 0, initialEscortsRemaining: 0, breakRemaining: 0,
+    };
   `,
   );
-  await expect(page.getByRole("heading", { name: "无尽随机补给 1 / 3" })).toBeVisible();
+  await page.clock.runFor(1800);
+  await expect(page.getByRole("heading", { name: "无尽分段补给 1 / 3" })).toBeVisible();
   await expect(page.locator(".reward-card")).toHaveCount(3);
   const frozen = await snapshot(page);
   await page.clock.runFor(1000);

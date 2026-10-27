@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { expect, type Page, test } from "@playwright/test";
@@ -30,6 +30,36 @@ async function open(page: Page, tab?: string) {
   await expect(page.getByRole("dialog", { name: "PRE 数值实验室" })).toBeVisible();
   if (tab) await page.getByRole("tab", { name: tab, exact: true }).click();
 }
+
+test("official v2 export preserves the calibrated campaign and training payload", async ({
+  page,
+}, info) => {
+  await boot(page);
+  const before = await snapshot(page);
+  await open(page, "方案版本");
+  await page.getByRole("button", { name: "保存为新版本", exact: true }).click();
+  const downloaded = page.waitForEvent("download");
+  await page.getByRole("button", { name: "导出此版本", exact: true }).click();
+  const file = await (await downloaded).path();
+  if (!file) throw new Error("Missing official v2 export");
+  const text = await readFile(file, "utf8");
+  const profile = JSON.parse(text);
+  const official = officialProfile();
+  expect(profile.schemaVersion).toBe(2);
+  expect(profile.baseline).toBe("balance-v2");
+  expect(profile.id).toBe(official.id);
+  expect(profile.revision).toBe(official.revision + 1);
+  expect(profile.payload).toEqual(official.payload);
+  expect(
+    profile.payload.stageRules
+      .slice(0, 4)
+      .map((rule: { stage: { bossAt: number } }) => rule.stage.bossAt),
+  ).toEqual([95, 95, 95, 95]);
+  expect(profile.payload.stageRules[1].stage).toMatchObject({ health: 3.6, bossHp: 220000 });
+  expect(profile.payload.evolution).toMatchObject({ growthLinear: 0.3, growthQuadratic: 0.2 });
+  expect(await snapshot(page)).toEqual(before);
+  await writeFile(join(tmpdir(), `destiny-official-v2-${info.project.name}.json`), text);
+});
 
 test("real PRE build edits a battle, preserves temporary builds across jumps, and restores an entry", async ({
   page,
@@ -148,7 +178,7 @@ test("saved versions survive refresh and JSON export/import without affecting a 
     expect((await snapshot(other)).player.stats.damage).toBeLessThan(
       (await snapshot(page)).player.stats.damage,
     );
-    expect(await other.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBeNull();
+    expect(await other.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBeNull();
     await other.locator("#debug-trigger").click();
     await other.getByRole("tab", { name: "方案版本", exact: true }).click();
     await other.getByLabel("导入配置 JSON", { exact: true }).setInputFiles({
@@ -210,6 +240,11 @@ test("visual stage-range and card-pool editors control actual subsequent rewards
   await open(page, "方案版本");
   await page.getByLabel("方案名称", { exact: true }).fill("第二至三关的单卡试验");
   await page.getByText("方案：关卡范围与覆盖", { exact: true }).click();
+  // The official profile now has campaign-specific rules. Remove them through
+  // the editor so this interval test has the same isolated precedence fixture.
+  for (const _rule of officialProfile().payload.stageRules)
+    await page.getByRole("button", { name: "删除此规则", exact: true }).first().click();
+  await expect(page.getByRole("button", { name: "删除此规则", exact: true })).toHaveCount(0);
   await page.getByRole("button", { name: "新增关卡规则", exact: true }).click();
   await page.getByLabel("起始关（含）", { exact: true }).fill("2");
   await page.getByLabel("结束关（含，留空为无限）", { exact: true }).fill("3");
@@ -277,7 +312,7 @@ test("same-origin tabs serialize writes, reject stale saves, and can export an u
     await expect
       .poll(async () =>
         page.evaluate(
-          () => JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}").versions?.length,
+          () => JSON.parse(localStorage.getItem("echoes:pre:balance:v2") ?? "{}").versions?.length,
         ),
       )
       .toBe(2);
@@ -291,9 +326,14 @@ test("same-origin tabs serialize writes, reject stale saves, and can export an u
       })
       .toBe(1);
     const saved = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}"),
+      JSON.parse(localStorage.getItem("echoes:pre:balance:v2") ?? "{}"),
     );
-    expect(saved.versions.map((version: { revision: number }) => version.revision)).toEqual([1, 2]);
+    const official = officialProfile();
+    const firstRevision = official.id === "default" ? 1 : official.revision + 1;
+    expect(saved.versions.map((version: { revision: number }) => version.revision)).toEqual([
+      firstRevision,
+      firstRevision + 1,
+    ]);
     const stale = (await page.locator(".debug-status").textContent())?.includes("其他 PRE 标签页")
       ? page
       : peer;
@@ -304,7 +344,7 @@ test("same-origin tabs serialize writes, reject stale saves, and can export an u
     const draft = JSON.parse(await readFile(path, "utf8"));
     expect(draft.id).not.toBe(saved.versions[0].id);
     expect(draft.revision).toBe(1);
-    expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(
+    expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(
       JSON.stringify(saved),
     );
     await stale.reload();
@@ -314,12 +354,12 @@ test("same-origin tabs serialize writes, reject stale saves, and can export an u
     await expect
       .poll(async () =>
         stale.evaluate(() =>
-          JSON.parse(localStorage.getItem("echoes:pre:balance:v1") ?? "{}").versions.map(
+          JSON.parse(localStorage.getItem("echoes:pre:balance:v2") ?? "{}").versions.map(
             (version: { revision: number }) => version.revision,
           ),
         ),
       )
-      .toEqual([1, 2, 3]);
+      .toEqual([firstRevision, firstRevision + 1, firstRevision + 2]);
   } finally {
     await peer.close();
   }
@@ -329,7 +369,10 @@ test("PRO artifact has no debugger, ignores profile-like storage, and ordinary d
   page,
 }) => {
   await page.goto("http://127.0.0.1:4187/");
-  await page.evaluate(() => localStorage.setItem("echoes:pre:balance:v1", '{"draft":"fake"}'));
+  await page.evaluate(() => {
+    localStorage.setItem("echoes:pre:balance:v1", '{"draft":"fake"}');
+    localStorage.setItem("echoes:pre:balance:v2", '{"draft":"fake"}');
+  });
   await page.reload();
   await expect(page.locator("canvas")).toBeVisible();
   await expect(page.locator("#debug-trigger")).toHaveCount(0);

@@ -49,6 +49,27 @@ describe("environment-independent natural balance runner", () => {
     );
   });
 
+  test("readonly telemetry preserves the native result and exposes immutable event snapshots", () => {
+    let observations = 0;
+    let sawChoice = false;
+    const result = runNatural(base, quickProfile(), {
+      onObservation(event) {
+        observations++;
+        expect(Object.isFrozen(event)).toBe(true);
+        expect(Reflect.set(event, "stageIndex", 999)).toBe(false);
+        if (event.choices) {
+          sawChoice = true;
+          expect(Object.isFrozen(event.choices)).toBe(true);
+        }
+        expect(event).not.toHaveProperty("world");
+        expect(event).not.toHaveProperty("random");
+      },
+    });
+    expect(observations).toBeGreaterThan(0);
+    expect(sawChoice).toBe(true);
+    expect(result).toEqual(runNatural(base, quickProfile()));
+  });
+
   test("separate runs and profile snapshots cannot contaminate each other", () => {
     const profile = quickProfile();
     const original = structuredClone(profile);
@@ -132,6 +153,16 @@ describe("environment-independent natural balance runner", () => {
     );
     const dead = officialProfile();
     dead.payload.player.hp = 1;
+    dead.payload.player.stats.damage = 0;
+    dead.payload.stageRules = [
+      {
+        from: 1,
+        to: null,
+        stage: { bossAt: 0, damage: 100, attackTiming: 0.5 },
+        kindWeights: null,
+        rewards: {},
+      },
+    ];
     expect(runNatural(base, dead).termination).toBe("death");
     const original = World.prototype.update;
     const brokenStep = spyOn(World.prototype, "update").mockImplementation(function (
@@ -233,6 +264,9 @@ describe("environment-independent natural balance runner", () => {
     const profile = quickProfile();
     profile.payload.player.hp = 1e12;
     profile.payload.player.stats.maxHp = 1e12;
+    profile.payload.enemies.boss.score = 1e9;
+    profile.payload.evolution.trainingBase = 1;
+    profile.payload.evolution.trainingStep = 0;
     const result = runNatural(base, parseProfile(profile));
     expect(result.termination).toBe("error");
     expect(result.reason).toContain("Automatic training loop guard");
@@ -267,7 +301,10 @@ describe("environment-independent natural balance runner", () => {
       result.playerSeconds - result.enemySeconds,
       8,
     );
-    expect(result.playerSeconds).toBeCloseTo(result.steps * CONFIG.fixedStep, 7);
+    expect(result.playerSeconds + result.evolution.presentationSeconds).toBeCloseTo(
+      result.steps * CONFIG.fixedStep,
+      7,
+    );
     for (const stage of result.stages) {
       expect(stage.entryTime.stageSeconds).toBe(0);
       expect(stage.bossSpawnTime?.stageSeconds).toBeGreaterThanOrEqual(10);

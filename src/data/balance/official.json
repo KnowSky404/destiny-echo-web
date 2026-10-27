@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 1,
-  "baseline": "balance-v1",
-  "id": "stage-calibration-20261022",
-  "name": "Stage calibration 2026-10-22",
+  "schemaVersion": 2,
+  "baseline": "balance-v2",
+  "id": "endless-evolution-20261027-v4",
+  "name": "Endless evolution 2026-10-27 v4",
   "revision": 1,
   "payload": {
     "player": {
@@ -10,7 +10,7 @@
       "shield": 0,
       "stats": {
         "damage": 12,
-        "interval": 0.34,
+        "interval": 0.38,
         "projectiles": 1,
         "piercing": 0,
         "maxHp": 100,
@@ -130,25 +130,41 @@
       "slamDamage": 60,
       "slamDamagePerStage": 5
     },
+    "evolution": {
+      "trainingBase": 5000,
+      "trainingStep": 1500,
+      "growthLinear": 0.3,
+      "growthQuadratic": 0.2,
+      "breakSeconds": 1.5,
+      "bossPercentPerSecond": 0.025,
+      "elitePercentPerSecond": 0.05,
+      "vulnerableMultiplier": 2,
+      "chargeSeconds": 2.4,
+      "recoverySeconds": 1.5,
+      "vulnerableSeconds": 2,
+      "firingIntervalFloor": 0.12,
+      "weakPointDamage": 0.01,
+      "interruptHits": 4
+    },
     "rewards": {
       "chest": {
         "mode": "guided",
         "firstStageRestriction": true,
-        "epicChance": 0.25,
+        "epicChance": 0.3,
         "cardWeights": {},
         "trainingWeights": {}
       },
       "supply": {
         "mode": "guided",
         "firstStageRestriction": true,
-        "epicChance": 0.25,
+        "epicChance": 0.3,
         "cardWeights": {},
         "trainingWeights": {}
       },
       "stage": {
         "mode": "guided",
         "firstStageRestriction": true,
-        "epicChance": 0.25,
+        "epicChance": 0.3,
         "cardWeights": {},
         "trainingWeights": {}
       }
@@ -159,52 +175,148 @@
         "to": 1,
         "stage": {
           "health": 0.6,
-          "damage": 0.55,
-          "attackTiming": 1.2
+          "damage": 0.12,
+          "attackTiming": 1.4,
+          "bossHp": 12000,
+          "bossAt": 95,
+          "speed": 0.85,
+          "interrupt": 120
         },
         "kindWeights": null,
-        "rewards": {}
+        "rewards": {
+          "chest": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.1,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "supply": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.1,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "stage": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.1,
+            "cardWeights": {},
+            "trainingWeights": {}
+          }
+        }
       },
       {
         "from": 2,
         "to": 2,
         "stage": {
-          "health": 3,
-          "bossHp": 8600,
-          "interrupt": 260,
-          "speed": 1.1,
-          "attackTiming": 1
+          "health": 3.6,
+          "bossHp": 220000,
+          "interrupt": 700,
+          "speed": 1,
+          "attackTiming": 1.2,
+          "bossAt": 95,
+          "damage": 0.4
         },
         "kindWeights": null,
-        "rewards": {}
+        "rewards": {
+          "chest": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.15,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "supply": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.15,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "stage": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.15,
+            "cardWeights": {},
+            "trainingWeights": {}
+          }
+        }
       },
       {
         "from": 3,
         "to": 3,
         "stage": {
-          "health": 4.5,
-          "bossHp": 16000,
-          "interrupt": 650,
-          "damage": 1.3,
-          "speed": 1.5,
-          "attackTiming": 0.85
+          "health": 9,
+          "bossHp": 650000,
+          "interrupt": 2200,
+          "damage": 0.55,
+          "speed": 1.25,
+          "attackTiming": 1.05,
+          "bossAt": 95
         },
         "kindWeights": null,
-        "rewards": {}
+        "rewards": {
+          "chest": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.2,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "supply": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.2,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "stage": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.2,
+            "cardWeights": {},
+            "trainingWeights": {}
+          }
+        }
       },
       {
         "from": 4,
         "to": 4,
         "stage": {
-          "health": 9,
-          "bossHp": 32000,
-          "interrupt": 1800,
-          "damage": 1.5,
-          "speed": 1.65,
-          "attackTiming": 0.75
+          "health": 18,
+          "bossHp": 1400000,
+          "interrupt": 6000,
+          "damage": 0.65,
+          "speed": 1.35,
+          "attackTiming": 1,
+          "bossAt": 95
         },
         "kindWeights": null,
-        "rewards": {}
+        "rewards": {
+          "chest": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.25,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "supply": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.25,
+            "cardWeights": {},
+            "trainingWeights": {}
+          },
+          "stage": {
+            "mode": "guided",
+            "firstStageRestriction": true,
+            "epicChance": 0.25,
+            "cardWeights": {},
+            "trainingWeights": {}
+          }
+        }
       }
     ]
   }

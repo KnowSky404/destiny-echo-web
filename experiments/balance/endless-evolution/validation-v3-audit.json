@@ -1,0 +1,344 @@
+{
+  "kind": "v3-validation-final-curated-integrity-summary",
+  "recordedAt": "2026-10-27T03:15:57.242411+00:00",
+  "sourceFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "profileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+  "planned": 600,
+  "completed": 600,
+  "wins": 301,
+  "naturalDeaths": 299,
+  "unresolved": 0,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "denominator": 100,
+      "wins": 39,
+      "deaths": 61,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 39,
+        "p10": 518.5449999996928,
+        "p50": 539.149999999674,
+        "p90": 625.7066666662621,
+        "min": 490.2999999997184,
+        "max": 768.1999999994657
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 27,
+      "deaths": 73,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 27,
+        "p10": 508.20333333303546,
+        "p50": 531.4916666663477,
+        "p90": 681.5349999995447,
+        "min": 471.4666666664022,
+        "max": 760.7083333328059
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "denominator": 100,
+      "wins": 61,
+      "deaths": 39,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 61,
+        "p10": 484.6333333330569,
+        "p50": 506.5416666663703,
+        "p90": 590.2499999996276,
+        "min": 472.3666666664014,
+        "max": 741.5666666661566
+      },
+      "normalSuccessMedian480to720": true,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 56,
+      "deaths": 44,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 56,
+        "p10": 482.64999999972537,
+        "p50": 505.7708333330377,
+        "p90": 560.3791666663215,
+        "min": 474.26666666639966,
+        "max": 744.4999999994873
+      },
+      "normalSuccessMedian480to720": true,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "denominator": 100,
+      "wins": 60,
+      "deaths": 40,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 60,
+        "p10": 484.2808333330572,
+        "p50": 505.51666666637124,
+        "p90": 550.7466666663302,
+        "min": 472.13333333306826,
+        "max": 658.8833333328985
+      },
+      "normalSuccessMedian480to720": true,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 58,
+      "deaths": 42,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 58,
+        "p10": 482.0391666663926,
+        "p50": 509.62499999970083,
+        "p90": 610.9858333329421,
+        "min": 475.5833333330651,
+        "max": 703.0166666661917
+      },
+      "normalSuccessMedian480to720": true,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 100
+        }
+      ]
+    }
+  ],
+  "normalSuccessMedian480to720AllFourAccepted": true,
+  "deathStageIndexCounts": {
+    "1": 270,
+    "2": 21,
+    "3": 8
+  },
+  "depth20": null,
+  "sameClear20CohortTtk": [],
+  "integrity": {
+    "runtimeSourceFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 600,
+    "nativeShardFiles": 600,
+    "perJobAudits": 600,
+    "passiveSidecarFiles": 600,
+    "eachNativeRunWithinOneBoundedCarrier": true,
+    "allCurrentFrozenArchivedSourceProfileProtocolAndCollectorEqual": true,
+    "freshFullStrictCollectorEqual": true,
+    "allNativePassiveTtkCreditStarsCastsAndChronologyAccepted": true,
+    "missingDuplicateUnplannedUnresolved": 0
+  },
+  "bindings": {
+    "nativeStrictSha256": "10eb1fe7048bc82921142c990d1164947b0323f3be9b36efac58f17286b11edb",
+    "manifestSha256": "29590043975db72d71bc21d6c0a758f3834fbfb0573b46a9e84aed6ee2e9449e",
+    "receiptSha256": "3aa7744a26eb46a949563f792352b93a9319baaef4f61120ad0c9d22cc030a4f",
+    "rawSha256": "dd9ee03bcc6609ad51fa1373b31c6530f9b067fb2c78d1be18b324353cedf4b6",
+    "adoptionHash": "8c9a2d661d36e07cf8338f3e56d5e6bdcdab9153bc2a72c9e3e788743f17e068",
+    "freezeSha256": "c0e9fadd1697468416a235b67988e7c29b5a932ee77ead997e958198dea62418",
+    "protocolSha256": "e90aa93f1852d3f837514cd83fb2d4afbb8c73000f85d4303fa8f6f91b7e12da",
+    "collectorSha256": "4b0251f96756b2492f57f2d523139b813bcde274a91e0f6c49d6288aa26b4847",
+    "runnerHashes": {
+      "driver.ts": "44db8aef062979f12146c87e683178bd92fbc16517aee3ebf74553157d6aedd2",
+      "core.ts": "c9b2c6a31689899267ddfc579f9fbc8a36dc79934f03962355868befc7feb882",
+      "coordinator.py": "567afa4787ff8589b48a4d12ca230334c32aebaef232b1e440172c9636ecc705",
+      "observation.ts": "d91ab3635386c457a7461df4cb32e5464ae3d121a19938c511af1ae075ff7d2f"
+    },
+    "caseHashes": [
+      {
+        "path": "cases/campaign_victory.json",
+        "sha256": "ef9cd3c0fd3c9b6817c6a5fa5d562db8a679ac6916bae23f457d81f446404962",
+        "expectedHash": "c8403d8df52d05d61d077c045f092984fd4a3fd93a1b0403604b4afb3f3d9f90",
+        "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48"
+      },
+      {
+        "path": "cases/death.json",
+        "sha256": "353f9c4aff2d82d24e8cfc897dd0647dade237d7168a373d7e4f5de5ea70cdff",
+        "expectedHash": "e256b38716935a8b995fd5c2d018063400757ebc258aec0895b3f107b5ee4284",
+        "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48"
+      }
+    ],
+    "sidecarShardAndPerJobAuditIndex": {
+      "path": "native-case-sidecar-index.json",
+      "sha256": "8a7646a1058e866f90fdee7a6529dce01f282af294eae05e68b5d9ef45e52210",
+      "sidecarCount": 600
+    },
+    "fullAudit": {
+      "path": "../audit.json",
+      "sha256": "173f8fa8a35116ac2e4e4f43ec9d613353a1c9e549e0e0764c95a52671fe4232",
+      "bytes": 59088020
+    },
+    "fullAuditOriginalHashIndexSha256": "c3ecc75f2354678e1ae242fb7eb886d5fd77f39b9455181b7cedff273fe30d36"
+  },
+  "releaseAccepted": false,
+  "newWorldRunsByAuditor": 0,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V3 seeds differ from V1/V2. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment.",
+    "Native maximum1second HP/source aggregates do not prove a specific human reaction or per-cast causality. A single authored slam cap does not cap combined damage from all sources.",
+    "All exact cases/native sidecar hash rows remain in ignored NFS evidence; this compact summary binds their original hashes rather than copying large raw evidence into Git."
+  ]
+}

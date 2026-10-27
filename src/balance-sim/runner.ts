@@ -6,6 +6,7 @@ import { CONFIG } from "../game/config";
 import type { WorldObservation } from "../game/observation";
 import { synergyCount } from "../game/synergies";
 import { World } from "../game/world";
+import { EvolutionMetricsCollector } from "./evolution-metrics";
 import { createStrategy, resolveStrategy, rewardKind } from "./strategies";
 import type {
   CombatMetrics,
@@ -55,6 +56,7 @@ export function playerSnapshot(world: World): PlayerSnapshot {
     hp: world.player.hp,
     maxHp: world.player.stats.maxHp,
     shield: world.player.shield,
+    trainingScore: world.trainingScore,
     cards: Object.fromEntries(world.stacks),
     trainings: Object.fromEntries(world.trainingStacks),
     synergies: Object.fromEntries(
@@ -82,7 +84,11 @@ function applyMetric(target: CombatMetrics, event: WorldObservation): void {
     add(target.shieldBySource, source, amount);
   } else if (event.type === "mechanic") {
     // Sanctuary events contain duration; mechanics counts activations, not seconds.
-    add(target.mechanics, source, source === "sanctuary" ? 1 : amount || 1);
+    add(
+      target.mechanics,
+      source,
+      source === "sanctuary" || source.startsWith("cast_") ? 1 : amount || 1,
+    );
   }
 }
 
@@ -127,6 +133,8 @@ export function validateRunConfig(config: RunConfig): void {
 
 export interface RunControl {
   isCancelled?: () => boolean;
+  /** Readonly telemetry; no World, pool, action or RNG references escape. */
+  onObservation?: (event: Readonly<WorldObservation>) => void;
 }
 
 /** Executes the real fixed-step World using only native natural-run actions. No I/O. */
@@ -141,6 +149,7 @@ export function runNatural(
   const resolved = resolveStrategy(runConfig.strategy);
   const strategy = createStrategy(resolved);
   const total = metrics();
+  const evolution = new EvolutionMetricsCollector();
   const stages: StageSummary[] = [];
   const rewards: RewardDecision[] = [];
   const events: SimEvent[] = [];
@@ -219,6 +228,8 @@ export function runNatural(
     else droppedRewards++;
   };
   const observe = (event: WorldObservation): void => {
+    control.onObservation?.(event);
+    evolution.observe(event);
     if (event.type === "mechanic" && event.source === "sanctuary") sanctuaryActivations++;
     if (event.type === "auto_training" && ++actionTrainings > AUTO_TRAININGS_PER_ACTION)
       throw new Error(
@@ -241,11 +252,25 @@ export function runNatural(
       ...(event.hpLoss === undefined ? {} : { hpLoss: event.hpLoss }),
       ...(event.shieldAbsorbed === undefined ? {} : { shieldAbsorbed: event.shieldAbsorbed }),
       ...(event.kind === undefined ? {} : { detail: event.kind }),
+      ...(event.entityId === undefined ? {} : { entityId: event.entityId }),
+      ...(event.role === undefined ? {} : { role: event.role }),
+      ...(event.stars === undefined ? {} : { stars: event.stars }),
+      ...(event.trainingCredit === undefined ? {} : { trainingCredit: event.trainingCredit }),
+      ...(event.trainingScore === undefined ? {} : { trainingScore: event.trainingScore }),
+      ...(event.castId === undefined ? {} : { castId: event.castId }),
+      ...(event.duration === undefined ? {} : { duration: event.duration }),
     };
     const detail =
-      ["enemy_spawn", "enemy_damage", "chest_damage", "player_damage", "heal", "shield"].includes(
-        event.type,
-      ) ||
+      [
+        "enemy_spawn",
+        "enemy_death",
+        "enemy_damage",
+        "chest_damage",
+        "player_damage",
+        "heal",
+        "shield",
+        "training_score",
+      ].includes(event.type) ||
       (event.type === "mechanic" && ["arrival", "enemy_attack"].includes(event.source ?? ""));
     remember(simEvent, !detail);
     const time = { playerSeconds: event.elapsed, stageSeconds: event.stageElapsed };
@@ -272,6 +297,7 @@ export function runNatural(
         pendingSummonsPeak: 0,
         spawned: 0,
         metrics: metrics(),
+        evolution: evolution.stage(event.stageIndex),
       });
     } else if (event.type === "stage_clear" && stage) {
       stage.cleared = true;
@@ -433,7 +459,10 @@ export function runNatural(
         }
         if (
           config.mode === "endless" &&
-          world.clearedStages >= STAGES.length + config.endlessTarget
+          world.clearedStages >= STAGES.length + config.endlessTarget &&
+          world.clearPresentationRemaining === 0 &&
+          !world.reward &&
+          world.stageIndex >= STAGES.length + config.endlessTarget
         ) {
           finish(
             "endless_target_reached",
@@ -473,6 +502,10 @@ export function runNatural(
         const priorStageSeconds = world.stageElapsed;
         const priorPlayerSeconds = world.elapsed;
         const priorSanctuaryActivations = sanctuaryActivations;
+        const beforePresentation = world.clearPresentationRemaining > 0;
+        const idle =
+          !world.enemies.items.some((enemy) => enemy.active) &&
+          !world.chests.items.some((chest) => chest.active);
         const status = {
           poison: world.player.poisonTime > 0,
           wound: world.player.woundTime > 0,
@@ -482,16 +515,25 @@ export function runNatural(
         steps++;
         const playerDelta = world.elapsed - priorPlayerSeconds;
         const hostileDelta = world.stageElapsed - priorStageSeconds;
+        const presentationFrozen = beforePresentation && playerDelta === 0 && hostileDelta === 0;
         if (
-          playerDelta <= 0 ||
-          playerDelta > CONFIG.fixedStep + 1e-7 ||
-          hostileDelta < -1e-9 ||
-          hostileDelta > playerDelta + 1e-7
+          !presentationFrozen &&
+          (playerDelta <= 0 ||
+            playerDelta > CONFIG.fixedStep + 1e-7 ||
+            hostileDelta < -1e-9 ||
+            hostileDelta > playerDelta + 1e-7)
         )
           throw new Error("Fixed-step simulation failed to advance consistent clocks");
+        if (presentationFrozen) evolution.presentationStep(stage.stageIndex, CONFIG.fixedStep);
         enemySeconds += hostileDelta;
         stage.playerSeconds += playerDelta;
         stage.enemySeconds += hostileDelta;
+        evolution.step(
+          stage.stageIndex,
+          playerDelta,
+          new Set(world.enemies.items.filter((enemy) => enemy.active).map((enemy) => enemy.id)),
+          idle,
+        );
         stage.arrivals =
           world.arrivals -
           stages.filter((item) => item !== stage).reduce((sum, item) => sum + item.arrivals, 0);
@@ -555,6 +597,23 @@ export function runNatural(
   } catch (error) {
     finish("error", error instanceof Error ? error.message : String(error));
   }
+  const observedDeaths = Object.values(evolution.total.deathsByRole).reduce(
+    (sum, count) => sum + count,
+    0,
+  );
+  if (observedDeaths !== world.kills) {
+    evolution.total.missingLifecycleEvents += Math.abs(world.kills - observedDeaths);
+    const message = `Enemy death observation mismatch: World kills=${world.kills}, observed deaths=${observedDeaths}`;
+    if ((termination as Termination) === "error") reason += `; ${message}`;
+    else finish("error", message);
+    remember({
+      type: "runner_error",
+      stageIndex: world.stageIndex,
+      playerSeconds: world.elapsed,
+      stageSeconds: world.stageElapsed,
+      detail: message,
+    });
+  }
   total.effectiveDps = world.elapsed > 0 ? total.enemyDamage / world.elapsed : null;
   for (const stage of stages)
     stage.metrics.effectiveDps =
@@ -587,6 +646,7 @@ export function runNatural(
     phase: world.phase,
     final: playerSnapshot(world),
     metrics: total,
+    evolution: evolution.total,
     stages,
     rewards,
     rewardCount,

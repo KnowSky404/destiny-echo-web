@@ -1,0 +1,4939 @@
+{
+  "kind": "endless-evolution-v2-selection-independent-audit",
+  "recordedAt": "2026-10-26T08:31:20.213Z",
+  "scope": "Completed selection matrix only; not fresh holdout or human acceptance.",
+  "experiment": {
+    "schemaVersion": 1,
+    "mode": "campaign",
+    "seeds": [
+      2816236665, 3822239626, 2757599430, 3083479736, 2456068346, 544986507, 991772831, 164880476,
+      2545004761, 3293791299, 3284843505, 2121113441, 93812930, 81281721, 3995368986, 2842321276,
+      3452706830, 1695809325, 362810263, 3129905631, 2275152672, 2434419272, 3751876176, 2239539774,
+      1582137451, 3893894824, 4263474444, 2946900338, 1760011102, 3716977329, 3576620189,
+      3160132303, 3316329215, 1148213292, 879082991, 3065766326, 559596870, 249068863, 2336179367,
+      2748382863, 1821871035, 1708641320, 2174532014, 3671463937, 268247958, 2416197928, 296327140,
+      1887749333, 2186589858, 971200111
+    ],
+    "validationSeeds": [],
+    "strategies": [
+      {
+        "name": "random-auto"
+      },
+      {
+        "name": "build-auto"
+      },
+      {
+        "name": "build-active"
+      }
+    ],
+    "layouts": [
+      {
+        "id": "portrait",
+        "width": 450
+      },
+      {
+        "id": "desktop",
+        "width": 1600
+      }
+    ],
+    "maxSteps": 108000,
+    "maxSeconds": 900,
+    "endlessTarget": 2,
+    "maxRuns": 5000,
+    "trace": false,
+    "sampleIntervalSeconds": 1,
+    "traceCapacity": 1000,
+    "deathWindowSeconds": 8,
+    "eventCapacity": 400,
+    "observations": {
+      "provisional": true,
+      "unresolvedRatio": 0.05,
+      "layoutGap": 0.2,
+      "stageDrop": 0.35,
+      "strategyGain": 0.1,
+      "buildConcentration": 0.6
+    }
+  },
+  "codeFingerprint": "a70d80614f38f3ee09c7da4abcd936cbb2893730d3cda6be1a221ab716a70273",
+  "profileHash": "011462d76f4c4fb2c523e98eb6df08a510fe9cb94e8163fcf9309ca674c5a5e6",
+  "sourceFiles": 47,
+  "collectorSha256": "4b0251f96756b2492f57f2d523139b813bcde274a91e0f6c49d6288aa26b4847",
+  "startedAt": "2026-10-26T08:11:25.622Z",
+  "finishedAt": "2026-10-26T08:29:58.807Z",
+  "counts": {
+    "wins": 169,
+    "deaths": 131,
+    "unresolved": 0
+  },
+  "deathByStage": [
+    {
+      "stage": 1,
+      "deaths": 0
+    },
+    {
+      "stage": 2,
+      "deaths": 114
+    },
+    {
+      "stage": 3,
+      "deaths": 11
+    },
+    {
+      "stage": 4,
+      "deaths": 6
+    }
+  ],
+  "secondStageDeathConcentration": 0.8702290076335878,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "strategyVersion": "1",
+      "width": 450,
+      "runs": 50,
+      "successes": 18,
+      "deaths": 32,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.24138749651846741, 0.49858983123887307],
+      "successfulPlayerSeconds": {
+        "n": 18,
+        "p10": 495.98583333304657,
+        "p50": 534.391666666345,
+        "p90": 609.9891666662763,
+        "min": 474.6416666663993,
+        "max": 672.7416666662192
+      },
+      "normalSuccessMedianTargetMet": null,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 31
+        },
+        {
+          "stage": 3,
+          "deaths": 0
+        },
+        {
+          "stage": 4,
+          "deaths": 1
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 18042,
+          "sum": 79651.00833328895,
+          "mean": 4.4147549236941,
+          "min": 0,
+          "max": 179.34999999983694,
+          "medianRankBucketUpperSeconds": [2, 2],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 119
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 503
+            },
+            {
+              "upperSeconds": 1,
+              "count": 2782
+            },
+            {
+              "upperSeconds": 2,
+              "count": 5651
+            },
+            {
+              "upperSeconds": 3,
+              "count": 2937
+            },
+            {
+              "upperSeconds": 5,
+              "count": 2429
+            },
+            {
+              "upperSeconds": 8,
+              "count": 1724
+            },
+            {
+              "upperSeconds": 12,
+              "count": 900
+            },
+            {
+              "upperSeconds": 20,
+              "count": 469
+            },
+            {
+              "upperSeconds": 30,
+              "count": 170
+            },
+            {
+              "upperSeconds": 45,
+              "count": 103
+            },
+            {
+              "upperSeconds": 60,
+              "count": 155
+            },
+            {
+              "upperSeconds": 90,
+              "count": 53
+            },
+            {
+              "upperSeconds": 120,
+              "count": 17
+            },
+            {
+              "upperSeconds": 180,
+              "count": 30
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 108,
+          "sum": 4194.158333332235,
+          "mean": 38.83479938270588,
+          "min": 17.191666666680348,
+          "max": 68.67499999993754,
+          "medianRankBucketUpperSeconds": [45, 45],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 1
+            },
+            {
+              "upperSeconds": 30,
+              "count": 22
+            },
+            {
+              "upperSeconds": 45,
+              "count": 57
+            },
+            {
+              "upperSeconds": 60,
+              "count": 23
+            },
+            {
+              "upperSeconds": 90,
+              "count": 5
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1133,
+        "interrupts": 1122,
+        "releases": 1,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.055346153846153864,
+        "p50": 0.07200000000000002,
+        "p90": 0.09364999999999994,
+        "min": 0.04750000000000001,
+        "max": 0.11049999999999997
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 16.281666666671374,
+        "p50": 29.125000000008043,
+        "p90": 72.01416666664076,
+        "min": 11.933333333335531,
+        "max": 141.27499999994026
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 11246,
+        "p50": 19010,
+        "p90": 64540,
+        "min": 10620,
+        "max": 64600
+      }
+    },
+    {
+      "strategy": "random-auto",
+      "strategyVersion": "1",
+      "width": 1600,
+      "runs": 50,
+      "successes": 19,
+      "deaths": 31,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.25862789310193596, 0.5184955306900703],
+      "successfulPlayerSeconds": {
+        "n": 19,
+        "p10": 512.854999999698,
+        "p50": 534.083333333012,
+        "p90": 578.8649999996379,
+        "min": 499.14166666637703,
+        "max": 660.3499999995638
+      },
+      "normalSuccessMedianTargetMet": null,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 22
+        },
+        {
+          "stage": 3,
+          "deaths": 7
+        },
+        {
+          "stage": 4,
+          "deaths": 2
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 31621,
+          "sum": 124319.84999992678,
+          "mean": 3.9315597229665977,
+          "min": 0.01666666666665151,
+          "max": 168.3999999998469,
+          "medianRankBucketUpperSeconds": [3, 3],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 78
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 503
+            },
+            {
+              "upperSeconds": 1,
+              "count": 4601
+            },
+            {
+              "upperSeconds": 2,
+              "count": 10252
+            },
+            {
+              "upperSeconds": 3,
+              "count": 5348
+            },
+            {
+              "upperSeconds": 5,
+              "count": 5112
+            },
+            {
+              "upperSeconds": 8,
+              "count": 2900
+            },
+            {
+              "upperSeconds": 12,
+              "count": 1365
+            },
+            {
+              "upperSeconds": 20,
+              "count": 755
+            },
+            {
+              "upperSeconds": 30,
+              "count": 223
+            },
+            {
+              "upperSeconds": 45,
+              "count": 227
+            },
+            {
+              "upperSeconds": 60,
+              "count": 191
+            },
+            {
+              "upperSeconds": 90,
+              "count": 29
+            },
+            {
+              "upperSeconds": 120,
+              "count": 13
+            },
+            {
+              "upperSeconds": 180,
+              "count": 24
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 118,
+          "sum": 4416.141666665393,
+          "mean": 37.42492937852028,
+          "min": 25.058333333310543,
+          "max": 71.94166666660124,
+          "medianRankBucketUpperSeconds": [45, 45],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 24
+            },
+            {
+              "upperSeconds": 45,
+              "count": 74
+            },
+            {
+              "upperSeconds": 60,
+              "count": 17
+            },
+            {
+              "upperSeconds": 90,
+              "count": 3
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1171,
+        "interrupts": 1163,
+        "releases": 2,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.049230769230769245,
+        "p50": 0.06830555555555554,
+        "p90": 0.09260000000000003,
+        "min": 0.03789473684210526,
+        "max": 0.12349999999999994
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 15.166666666668709,
+        "p50": 25.09583333333549,
+        "p90": 45.61999999999936,
+        "min": 12.666666666669048,
+        "max": 69.04999999997514
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 15586,
+        "p50": 38120,
+        "p90": 90940,
+        "min": 14360,
+        "max": 91000
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "strategyVersion": "1",
+      "width": 450,
+      "runs": 50,
+      "successes": 36,
+      "deaths": 14,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.5833487630404344, 0.8252582933408878],
+      "successfulPlayerSeconds": {
+        "n": 36,
+        "p10": 481.2541666663933,
+        "p50": 505.97499999970415,
+        "p90": 535.6708333330105,
+        "min": 472.8333333330676,
+        "max": 584.8833333329658
+      },
+      "normalSuccessMedianTargetMet": true,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 14
+        },
+        {
+          "stage": 3,
+          "deaths": 0
+        },
+        {
+          "stage": 4,
+          "deaths": 0
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 28314,
+          "sum": 67099.07499996127,
+          "mean": 2.369819700500151,
+          "min": 0,
+          "max": 56.78333333328169,
+          "medianRankBucketUpperSeconds": [2, 2],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 687
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 2853
+            },
+            {
+              "upperSeconds": 1,
+              "count": 7467
+            },
+            {
+              "upperSeconds": 2,
+              "count": 9037
+            },
+            {
+              "upperSeconds": 3,
+              "count": 2600
+            },
+            {
+              "upperSeconds": 5,
+              "count": 2707
+            },
+            {
+              "upperSeconds": 8,
+              "count": 1683
+            },
+            {
+              "upperSeconds": 12,
+              "count": 634
+            },
+            {
+              "upperSeconds": 20,
+              "count": 327
+            },
+            {
+              "upperSeconds": 30,
+              "count": 158
+            },
+            {
+              "upperSeconds": 45,
+              "count": 154
+            },
+            {
+              "upperSeconds": 60,
+              "count": 7
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 158,
+          "sum": 4735.416666664591,
+          "mean": 29.970991561168294,
+          "min": 15.591666666679075,
+          "max": 57.62499999994759,
+          "medianRankBucketUpperSeconds": [30, 30],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 3
+            },
+            {
+              "upperSeconds": 30,
+              "count": 90
+            },
+            {
+              "upperSeconds": 45,
+              "count": 52
+            },
+            {
+              "upperSeconds": 60,
+              "count": 13
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1249,
+        "interrupts": 1238,
+        "releases": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.04,
+        "p50": 0.064,
+        "p90": 0.09349999999999994,
+        "min": 0.021052631578947368,
+        "max": 0.12349999999999994
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 18.759166666672602,
+        "p50": 116.14999999994555,
+        "p90": 142.86499999992327,
+        "min": 12.633333333335024,
+        "max": 167.5916666665757
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 13024,
+        "p50": 64460,
+        "p90": 64600,
+        "min": 10760,
+        "max": 64600
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "strategyVersion": "1",
+      "width": 1600,
+      "runs": 50,
+      "successes": 30,
+      "deaths": 20,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.4618143774758936, 0.7239161026974346],
+      "successfulPlayerSeconds": {
+        "n": 30,
+        "p10": 473.26583333306723,
+        "p50": 502.8833333330403,
+        "p90": 568.5383333329808,
+        "min": 456.2583333330827,
+        "max": 686.0833333328737
+      },
+      "normalSuccessMedianTargetMet": true,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 18
+        },
+        {
+          "stage": 3,
+          "deaths": 2
+        },
+        {
+          "stage": 4,
+          "deaths": 0
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 35513,
+          "sum": 128001.70833325123,
+          "mean": 3.604362017662581,
+          "min": 0,
+          "max": 181.62499999983487,
+          "medianRankBucketUpperSeconds": [2, 2],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 537
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 2693
+            },
+            {
+              "upperSeconds": 1,
+              "count": 10310
+            },
+            {
+              "upperSeconds": 2,
+              "count": 8539
+            },
+            {
+              "upperSeconds": 3,
+              "count": 3409
+            },
+            {
+              "upperSeconds": 5,
+              "count": 3901
+            },
+            {
+              "upperSeconds": 8,
+              "count": 3166
+            },
+            {
+              "upperSeconds": 12,
+              "count": 1364
+            },
+            {
+              "upperSeconds": 20,
+              "count": 633
+            },
+            {
+              "upperSeconds": 30,
+              "count": 399
+            },
+            {
+              "upperSeconds": 45,
+              "count": 345
+            },
+            {
+              "upperSeconds": 60,
+              "count": 52
+            },
+            {
+              "upperSeconds": 90,
+              "count": 94
+            },
+            {
+              "upperSeconds": 120,
+              "count": 38
+            },
+            {
+              "upperSeconds": 180,
+              "count": 31
+            },
+            {
+              "upperSeconds": 300,
+              "count": 2
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 142,
+          "sum": 4340.058333331591,
+          "mean": 30.563791079799934,
+          "min": 13.441666666677364,
+          "max": 68.2416666666046,
+          "medianRankBucketUpperSeconds": [30, 30],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 16
+            },
+            {
+              "upperSeconds": 30,
+              "count": 69
+            },
+            {
+              "upperSeconds": 45,
+              "count": 38
+            },
+            {
+              "upperSeconds": 60,
+              "count": 15
+            },
+            {
+              "upperSeconds": 90,
+              "count": 4
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1114,
+        "interrupts": 1106,
+        "releases": 3,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.0375263157894737,
+        "p50": 0.0645,
+        "p90": 0.09349999999999996,
+        "min": 0.027999999999999973,
+        "max": 0.2149999999999999
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 16.158333333336792,
+        "p50": 66.89999999998147,
+        "p90": 94.39916666662673,
+        "min": 14.258333333337301,
+        "max": 114.51666666662024
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 21204,
+        "p50": 90840,
+        "p90": 90940,
+        "min": 16220,
+        "max": 91000
+      }
+    },
+    {
+      "strategy": "build-active",
+      "strategyVersion": "2",
+      "width": 450,
+      "runs": 50,
+      "successes": 36,
+      "deaths": 14,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.5833487630404344, 0.8252582933408878],
+      "successfulPlayerSeconds": {
+        "n": 36,
+        "p10": 485.86249999972244,
+        "p50": 507.249999999703,
+        "p90": 554.8458333329932,
+        "min": 477.3833333330635,
+        "max": 672.0833333328865
+      },
+      "normalSuccessMedianTargetMet": true,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 12
+        },
+        {
+          "stage": 3,
+          "deaths": 2
+        },
+        {
+          "stage": 4,
+          "deaths": 0
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 28172,
+          "sum": 81960.68333328099,
+          "mean": 2.9092958729689404,
+          "min": 0,
+          "max": 159.74999999985477,
+          "medianRankBucketUpperSeconds": [2, 2],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 681
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 2792
+            },
+            {
+              "upperSeconds": 1,
+              "count": 7128
+            },
+            {
+              "upperSeconds": 2,
+              "count": 8444
+            },
+            {
+              "upperSeconds": 3,
+              "count": 2509
+            },
+            {
+              "upperSeconds": 5,
+              "count": 2894
+            },
+            {
+              "upperSeconds": 8,
+              "count": 1942
+            },
+            {
+              "upperSeconds": 12,
+              "count": 759
+            },
+            {
+              "upperSeconds": 20,
+              "count": 502
+            },
+            {
+              "upperSeconds": 30,
+              "count": 245
+            },
+            {
+              "upperSeconds": 45,
+              "count": 183
+            },
+            {
+              "upperSeconds": 60,
+              "count": 38
+            },
+            {
+              "upperSeconds": 90,
+              "count": 32
+            },
+            {
+              "upperSeconds": 120,
+              "count": 11
+            },
+            {
+              "upperSeconds": 180,
+              "count": 12
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 160,
+          "sum": 5034.599999997652,
+          "mean": 31.466249999985326,
+          "min": 15.591666666679075,
+          "max": 62.86666666660949,
+          "medianRankBucketUpperSeconds": [30, 30],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 2
+            },
+            {
+              "upperSeconds": 30,
+              "count": 86
+            },
+            {
+              "upperSeconds": 45,
+              "count": 54
+            },
+            {
+              "upperSeconds": 60,
+              "count": 14
+            },
+            {
+              "upperSeconds": 90,
+              "count": 4
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1292,
+        "interrupts": 1284,
+        "releases": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.03996,
+        "p50": 0.06996153846153844,
+        "p90": 0.09499999999999996,
+        "min": 0.020400000000000064,
+        "max": 0.12349999999999994
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 18.759166666672602,
+        "p50": 108.9999999999464,
+        "p90": 144.49833333325776,
+        "min": 12.633333333335024,
+        "max": 165.8166666665773
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 13456,
+        "p50": 64460,
+        "p90": 64600,
+        "min": 11280,
+        "max": 64600
+      }
+    },
+    {
+      "strategy": "build-active",
+      "strategyVersion": "2",
+      "width": 1600,
+      "runs": 50,
+      "successes": 30,
+      "deaths": 20,
+      "unresolved": 0,
+      "naturalSuccessCI95": [0.4618143774758936, 0.7239161026974346],
+      "successfulPlayerSeconds": {
+        "n": 30,
+        "p10": 475.372499999732,
+        "p50": 506.7333333330368,
+        "p90": 580.2549999996367,
+        "min": 456.9333333330821,
+        "max": 605.9083333329467
+      },
+      "normalSuccessMedianTargetMet": true,
+      "deathByStage": [
+        {
+          "stage": 1,
+          "deaths": 0
+        },
+        {
+          "stage": 2,
+          "deaths": 17
+        },
+        {
+          "stage": 3,
+          "deaths": 0
+        },
+        {
+          "stage": 4,
+          "deaths": 3
+        }
+      ],
+      "ttk": {
+        "minion": {
+          "count": 38666,
+          "sum": 128461.50833325068,
+          "mean": 3.3223376696128555,
+          "min": 0,
+          "max": 121.10833333322324,
+          "medianRankBucketUpperSeconds": [2, 2],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 507
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 2580
+            },
+            {
+              "upperSeconds": 1,
+              "count": 10031
+            },
+            {
+              "upperSeconds": 2,
+              "count": 9886
+            },
+            {
+              "upperSeconds": 3,
+              "count": 4094
+            },
+            {
+              "upperSeconds": 5,
+              "count": 4813
+            },
+            {
+              "upperSeconds": 8,
+              "count": 3875
+            },
+            {
+              "upperSeconds": 12,
+              "count": 1419
+            },
+            {
+              "upperSeconds": 20,
+              "count": 731
+            },
+            {
+              "upperSeconds": 30,
+              "count": 312
+            },
+            {
+              "upperSeconds": 45,
+              "count": 294
+            },
+            {
+              "upperSeconds": 60,
+              "count": 53
+            },
+            {
+              "upperSeconds": 90,
+              "count": 15
+            },
+            {
+              "upperSeconds": 120,
+              "count": 55
+            },
+            {
+              "upperSeconds": 180,
+              "count": 1
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "elite": {
+          "count": 0,
+          "sum": 0,
+          "mean": null,
+          "min": null,
+          "max": null,
+          "medianRankBucketUpperSeconds": null,
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 0
+            },
+            {
+              "upperSeconds": 30,
+              "count": 0
+            },
+            {
+              "upperSeconds": 45,
+              "count": 0
+            },
+            {
+              "upperSeconds": 60,
+              "count": 0
+            },
+            {
+              "upperSeconds": 90,
+              "count": 0
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        },
+        "boss": {
+          "count": 148,
+          "sum": 4561.224999998081,
+          "mean": 30.819087837824874,
+          "min": 13.441666666677364,
+          "max": 65.80833333327348,
+          "medianRankBucketUpperSeconds": [30, 30],
+          "buckets": [
+            {
+              "upperSeconds": 0.25,
+              "count": 0
+            },
+            {
+              "upperSeconds": 0.5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1,
+              "count": 0
+            },
+            {
+              "upperSeconds": 2,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3,
+              "count": 0
+            },
+            {
+              "upperSeconds": 5,
+              "count": 0
+            },
+            {
+              "upperSeconds": 8,
+              "count": 0
+            },
+            {
+              "upperSeconds": 12,
+              "count": 0
+            },
+            {
+              "upperSeconds": 20,
+              "count": 14
+            },
+            {
+              "upperSeconds": 30,
+              "count": 64
+            },
+            {
+              "upperSeconds": 45,
+              "count": 55
+            },
+            {
+              "upperSeconds": 60,
+              "count": 14
+            },
+            {
+              "upperSeconds": 90,
+              "count": 1
+            },
+            {
+              "upperSeconds": 120,
+              "count": 0
+            },
+            {
+              "upperSeconds": 180,
+              "count": 0
+            },
+            {
+              "upperSeconds": 300,
+              "count": 0
+            },
+            {
+              "upperSeconds": 600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 3600,
+              "count": 0
+            },
+            {
+              "upperSeconds": 7200,
+              "count": 0
+            },
+            {
+              "upperSeconds": 1000000,
+              "count": 0
+            }
+          ]
+        }
+      },
+      "casts": {
+        "starts": 1200,
+        "interrupts": 1193,
+        "releases": 0,
+        "unwarnedReleases": 0,
+        "prematureReleases": 0,
+        "missingLifecycleEvents": 0
+      },
+      "perRunMaximumOneSecondHpLossRatio": {
+        "n": 50,
+        "p10": 0.04207692307692308,
+        "p50": 0.064,
+        "p90": 0.09499999999999996,
+        "min": 0.03076923076923077,
+        "max": 0.12349999999999994
+      },
+      "idleSeconds": {
+        "n": 50,
+        "p10": 18.205000000005285,
+        "p50": 61.77916666666067,
+        "p90": 88.64333333329793,
+        "min": 14.258333333337301,
+        "max": 114.51666666662024
+      },
+      "trainingScore": {
+        "n": 50,
+        "p10": 18898,
+        "p50": 90850,
+        "p90": 90940,
+        "min": 16780,
+        "max": 91000
+      }
+    }
+  ],
+  "gates": {
+    "all300IdentitiesAndHashesVerified": true,
+    "nativeSingleAndFullStrictAuditsAccepted": true,
+    "allFourBuildSuccessfulMedians480To720": true,
+    "eligibleForRootProspectiveHoldoutAdoption": true,
+    "releaseAccepted": false,
+    "holdoutAdoptionWritten": false
+  },
+  "nativeEvidence": {
+    "directory": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/data/selection",
+    "manifestSha256": "b74033e410902ff7b7ef19ba47731656765f40545227904de74e42ab39a1eba3",
+    "rawSha256": "aab0a783a9e38bd7a311ea393337ffded60228273aac18804b64850f6bd46e20",
+    "receiptSha256": "6503aae8637f1bd1ccb8bddc3149b2db967c35d8a46ff19f95d5088c655cd624",
+    "strictEvidenceSha256": "de089e76b1458b4a190488dba69f02fb05503c9a491d2b0408fbb8184f84d648",
+    "strictEvidenceCanonicalHash": "db59229d6d75a593889aca331b116f54b27e0fdb377bc84847f65ae93aa8a4df",
+    "freshCollectorEqualExceptCollectionTimestamp": true
+  },
+  "historicalContext": {
+    "path": "selection-v1-evidence.json",
+    "sha256": "3bea67f480a91e6a9636e608d553ef4ca58d7e2a021ea30abcdfb0c36ff1592a",
+    "paired": false,
+    "reason": "v1 selection master2026102301 differs from v2 selection master2026102601; active strategy version changed1→2. No paired outcomes or causal improvement claim."
+  },
+  "limitations": [
+    "Success duration percentiles use only naturally victorious members of each strategy/layout group; deaths and unresolved outcomes never enter that timing denominator.",
+    "TTK means describe defeated entities only, include approach time, and censor enemies still alive at the end. Histogram rank buckets are not exact median lifetimes. Fusion donors are not kills.",
+    "Campaign elite count is zero: missing applicability is shown as null, not invented zero TTK.",
+    "The per-run maximum one-second HP-loss window excludes sacrifice self-cost and does not prove physical-device experience.",
+    "Selection supports calibration/adoption discussion only. Fresh600/120 validation, browser readability, latest-head review, Wiki and PRE remain separate."
+  ],
+  "records": [
+    {
+      "id": "run-1",
+      "seed": 2816236665,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "e9da5e63ec9c11c25bf716861c58246f145dfd0fac2343118bf7cbca1fbb8805",
+      "recordHash": "ac93d160e464fac444437d9a84894cc40b99b3cbb26bf97ba67f57be30f78960"
+    },
+    {
+      "id": "run-2",
+      "seed": 3822239626,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "d467b56941dda17d0a49f8dd50fcb5dae324ee9c643528ad7b9c8e1cbd22a6e5",
+      "recordHash": "bddb2ac0583765a914f49270fcd4d1e40fb4541d7919ef50f2dcd15b11e85108"
+    },
+    {
+      "id": "run-3",
+      "seed": 2757599430,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "477262be4e59f0e3ea198af28dac70b4ebd90477f9d0ef7d73eebe04b97dafd4",
+      "recordHash": "7e5e18b35d67f1e2b0afe064f0ff7f9b62af35f49b71fde3aeb0c7bf48fc179a"
+    },
+    {
+      "id": "run-4",
+      "seed": 3083479736,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "bed79a8906a7089409122d984fdbdc90c2524dcd35eedddde8ce0a54fe04bcd5",
+      "recordHash": "a0e445f5d55a858fb9929145903a219d3b2e8db9737901a5925f7db36227d1b4"
+    },
+    {
+      "id": "run-5",
+      "seed": 2456068346,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "d4aaaada87cc2c24ad4e3f2cbf3b83846c224bc644304058846b8f790c8934af",
+      "recordHash": "839684c4eb848299831a3997c18622b6fb1f7df58b113674ac5326722bb1fd98"
+    },
+    {
+      "id": "run-6",
+      "seed": 544986507,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "33e0ae5a0e16aeaab152027895acf29442c91c64dcf3de8582c41ae844572865",
+      "recordHash": "28d5033ab406665aa5770e311aa915bc98390c5fdbc537ac9c58135ac17d6d50"
+    },
+    {
+      "id": "run-7",
+      "seed": 991772831,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "c9c48e883c2e7bc7d39ac79412399b488d6980c0eec9320e008ee6f1f6091f65",
+      "recordHash": "ae714a19fbdeec1163a51eec11cd5df997f21013a405e6a3546a787acb838e18"
+    },
+    {
+      "id": "run-8",
+      "seed": 164880476,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "d5fd025620e09b642cd3ea4137c512104e1105a1f4c709f14ce2942673b62235",
+      "recordHash": "38d26cd91b45cf6907449ad7605199505aba32214dd4621876fbfc4dc797ee5c"
+    },
+    {
+      "id": "run-9",
+      "seed": 2545004761,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "be80cf325a5cdc802e9218b220207e24a5400595430291f30d1253393e31908d",
+      "recordHash": "2a8cefc1e623ad16d9a042dc31370c82c090e74bf2341f14127f11cface97cf5"
+    },
+    {
+      "id": "run-10",
+      "seed": 3293791299,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "c4c89237e838ed331739cd634dd2b94a1c0052ad14689eb149c60fa617ae016a",
+      "recordHash": "457c0e1bb5acfced8c33f165ab99ccfdcc5f46a9c39b159dc0ae21349a40aabc"
+    },
+    {
+      "id": "run-11",
+      "seed": 3284843505,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "d1f4a1d824b4edc53dde3ddc934ec2f53c435bb1596201fe0b345c40667ba1fa",
+      "recordHash": "b58dbc75e5ced0203ac79ba0ae260f7ef1adc3bb55ab5930b289f3022cd5ad81"
+    },
+    {
+      "id": "run-12",
+      "seed": 2121113441,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "1b5529ab4096ab174c19061dead4dab31a996d14a74d6f500cd586b53d2a5569",
+      "recordHash": "9e5c4a56d339d24fb2cd4034659f2eb0d29ef9d89cf6d351d001826ab91b2516"
+    },
+    {
+      "id": "run-13",
+      "seed": 93812930,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "16be6316af2b4be71f0228ad06987c5612ab78dee1a022452a4761a7bbee333a",
+      "recordHash": "bd38b270f0f0f56cf2ba14fbed7bf2d62c17add0eda5388b4b07b92100f4a73b"
+    },
+    {
+      "id": "run-14",
+      "seed": 81281721,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "4f4aee589565504e1aa5fa2fa6754b61d4b41a85610de8cd132a76f69e4433de",
+      "recordHash": "676269b4f465448d1d96a794f23708563a831a9096fc2b807e74b484f9ea3a41"
+    },
+    {
+      "id": "run-15",
+      "seed": 3995368986,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "d15111547a2d4e986438bc57e8c917ab8cc7d0eba0c0ee1249f0e7d016dd1d70",
+      "recordHash": "b308f510ec88655d88b7d3b7107d6a306fbd9d021540dd1d61481a7fd86e9217"
+    },
+    {
+      "id": "run-16",
+      "seed": 2842321276,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "79fe9c4b1d47006b6be5ed3be8c3b0f4ef131ae26b82de319b35b3a2853ecf73",
+      "recordHash": "c789762c5cffa3e2e9479f70882cbaa0a50c5363a1e4d520b1e27e8ebe89f494"
+    },
+    {
+      "id": "run-17",
+      "seed": 3452706830,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "a2a5734bf65754cee5db1448c3c8497bc8682df715779094f5e5bbbf277a1217",
+      "recordHash": "29cf01cf3bffab377fb84204f00e14d847bb0a03c606f4fa58cadccc4f07ac36"
+    },
+    {
+      "id": "run-18",
+      "seed": 1695809325,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "1b31ddaa1a45891b055b75b8d1ba92bdc9985cf5003b40acef545631c68906a0",
+      "recordHash": "5cbe305c99a920d81846353348708aac9ec91aee83e70cb37c1e321f6cf44261"
+    },
+    {
+      "id": "run-19",
+      "seed": 362810263,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "dbbe96466ac40a461c8dd7c5322e1d0c9569bc583c7333bd900f78755f7f1372",
+      "recordHash": "a265c74b0632cdfbe5bf8c545e1c21097dcbc76fff33e63c247157945ca61e0c"
+    },
+    {
+      "id": "run-20",
+      "seed": 3129905631,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "80717eb533d5de5a6b3dfb6027d59158b8c4925c882902c352fa80de9aee63da",
+      "recordHash": "f72d219eeeede2f8c743dcafcd79d27b5d959b4e50f45871281a5274e5adb5c3"
+    },
+    {
+      "id": "run-21",
+      "seed": 2275152672,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "4efe22cb6797b573d7b49ab3f574e10eb0a752a7aaeef0a68bc121af0b47c3bb",
+      "recordHash": "36fbf6c8b7b17a9d655bd2844e18333c773169acc754eb8b07fd305200c592f0"
+    },
+    {
+      "id": "run-22",
+      "seed": 2434419272,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "84f930c92e7662d3ba2880bf9fb28a031d4082447b6cddc0d1a585a050db3f25",
+      "recordHash": "2cce0f4f4be49f14c6c72523d644f6aa41362cee8335f865d580f5c446076a1f"
+    },
+    {
+      "id": "run-23",
+      "seed": 3751876176,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "00875314798078260392708e49da84197e93900d5d8f3c1cbd55d6dd770bfe25",
+      "recordHash": "d744f45525d5983a59fbdd1d679d5df28c13c48b62e7ff8f546f9dbd63d763f3"
+    },
+    {
+      "id": "run-24",
+      "seed": 2239539774,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "5e2db3b0325c76387adb70e84ebca37dcec0c59ed68e3ee5978cf24b70dc2a43",
+      "recordHash": "8010fc032e1bb659cab7a4694cc92f9827871c141b67482c11b4ff1b033a8fc1"
+    },
+    {
+      "id": "run-25",
+      "seed": 1582137451,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "ad6e60206c7f356d671a7334474adff5615ee5f431e988b704e9d6f6ba5df0e4",
+      "recordHash": "dc1b11978f3ff1f26c6cf420b0b35418a0326af072bfb14b8f4c847271060b5b"
+    },
+    {
+      "id": "run-26",
+      "seed": 3893894824,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "017a67fdb8d88f95142667f2fb73f07fcb1b1c215ee312fcd38f842530a319b6",
+      "recordHash": "b2b991e10a76b600a77a414eb2a1ac399ed5f518414ceb8c818b2f411943cafd"
+    },
+    {
+      "id": "run-27",
+      "seed": 4263474444,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "54ebf54e8587ee2d79bed664befcb112c6c2618ac937b2e24fd47e468211a099",
+      "recordHash": "9c94c15325883c8020f7c670271100e188e7442382a3c7573bd444c67d0ab5ec"
+    },
+    {
+      "id": "run-28",
+      "seed": 2946900338,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "9939b8c7347305b60fd2f7f8c9bfe03a5831ef1c97bab80c986cb50c6751e046",
+      "recordHash": "0a2fe43ccfc94626ed349f320f4f852606d24582bd228d7b89fda0445c932b34"
+    },
+    {
+      "id": "run-29",
+      "seed": 1760011102,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "a0fb8af06c2d4baf05673ab9b71a2d34ed63bbf60c22912d6f5a347cedb39b45",
+      "recordHash": "dbef621fc892db7bc75ee21a25c320cfcd5dd6ea7cdb38be8ad44a8119a7841b"
+    },
+    {
+      "id": "run-30",
+      "seed": 3716977329,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "662df23e605aa525cd89ea25676028a7c205648db2b24cdfbabe6f098afcef9f",
+      "recordHash": "d9d0e93e3d37fb19e42d508adf063c55f124421ab0f205d604d40e711e317b51"
+    },
+    {
+      "id": "run-31",
+      "seed": 3576620189,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "29406062fb73e67b3afc6c3406b75c7c5504c69b763c57872003e5adbbfd470e",
+      "recordHash": "2a530474945296eca6e40093065217fd66c0ac7f50b2611f814fcb1b6ebcecba"
+    },
+    {
+      "id": "run-32",
+      "seed": 3160132303,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "1ad54d4f1e5f8b16efbb0ee2a93acdaefa97092a7d4965a4ef8b006e08a1c614",
+      "recordHash": "c97ad44600ff22f8cd7f5f2ebfb0aef0d6000cac6f8888ec743da0717933ce76"
+    },
+    {
+      "id": "run-33",
+      "seed": 3316329215,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "ee0d8ea5c3048f7ff64351081f8c16a92cc090ac2d618871b0828f4ee603865c",
+      "recordHash": "d7ce94f3802dfbe7c3e7fd41f58487aa337ccdf7f561af7fafe5ae15b18825b7"
+    },
+    {
+      "id": "run-34",
+      "seed": 1148213292,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "ea1467763f74e39f0744157c20282fc65299102012cd270f77b396b62c482f28",
+      "recordHash": "62735f986747cbf91c472602223c15f6f7382214455572c65e391bc963845a97"
+    },
+    {
+      "id": "run-35",
+      "seed": 879082991,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "98149132863d25ab25d13ef9b7ab3f9da09f6bb0f02e0f0e8a12f61f75c4223b",
+      "recordHash": "adb24928ae6c742d197318fe6447ae894985aa7876938551483165bee6894490"
+    },
+    {
+      "id": "run-36",
+      "seed": 3065766326,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "15f0f2f2befb8491bc2bb12dc55810e394d19f2230914d22b1d407eaec9db3f8",
+      "recordHash": "9970dc70cfa84f61b322fadf6d1b4072403c5031a0393c0b76623a6147e17cb2"
+    },
+    {
+      "id": "run-37",
+      "seed": 559596870,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2e3f6f52e1a957b694f7346b493665dd1da45c51f0819bccf8af0dc2aee6c53e",
+      "recordHash": "9374c1a1ead673b84cdbd3fd727386ba875e223387ece2b91d09a8b094421dbf"
+    },
+    {
+      "id": "run-38",
+      "seed": 249068863,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "d4fedd694ea4761129af321a8eb42a1a30d3aa4e48f778d030034b276bf479f2",
+      "recordHash": "a62b330faa22e02b5fd267b1ca62296f46a5a5ccf1e3738f450976e6ae1853f2"
+    },
+    {
+      "id": "run-39",
+      "seed": 2336179367,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "0d8e729390a3ffce6fbd219e22b9e0d3cceebc3c05c5a5676731ecd2b06dc489",
+      "recordHash": "b8f4e3feadb8ed4c0b9d4e91e6564ff02830081f664159f1e34f43190e58e55e"
+    },
+    {
+      "id": "run-40",
+      "seed": 2748382863,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "cc26611b90b8817f35808cb32fe88a6d5d92c6f70a7ce3fdafcc714c3e649699",
+      "recordHash": "02dcd69b8d7fb4c85d206b3714c5d0c90235e242f93dd38b4763b7149e1295da"
+    },
+    {
+      "id": "run-41",
+      "seed": 1821871035,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "b45805c397efcefad57fb1315a6b3efb12367a19d385ac995160b460ac34bfee",
+      "recordHash": "989d5e04f264dd90b190578f09fbd1de8c4a5b86aa9b8d69c1769f5bd5c141dd"
+    },
+    {
+      "id": "run-42",
+      "seed": 1708641320,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "91c78c314a65a0c5dd5b72869057cb0451d9d38baab34a5d0cebb1b92443b904",
+      "recordHash": "55b4297443ba21ccda077774d5e0843d6a5f45597bd1bb5aee32447c88518b6e"
+    },
+    {
+      "id": "run-43",
+      "seed": 2174532014,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "6366a6b6042abad62629be4497c5d54e6c99a3bb57588215a89b17360c6846f1",
+      "recordHash": "1001da6fb7bb9887f7286a006a47a01e529f3f5d25b89065bcc1abc3948b1359"
+    },
+    {
+      "id": "run-44",
+      "seed": 3671463937,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "dadb2816702d401543d407df835b0823a509e82240701cf324fe1b7b55b62997",
+      "recordHash": "a73491c21babeca14be1e0c308649915e725d7fcd032040e6e440b7606cb51af"
+    },
+    {
+      "id": "run-45",
+      "seed": 268247958,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "36dbbc9b91b06a5e8267213cbe94f8ee20bad0510416b0a2516a18a5aafd43ba",
+      "recordHash": "120ac7ea6a725f8e8bf0f9eab8befc325fe1043550e93af8bbde35f890022c98"
+    },
+    {
+      "id": "run-46",
+      "seed": 2416197928,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "af2e5e28508b8b3c5f372e52734523a83faef1adbad89ad264f38ef8ba3eb80a",
+      "recordHash": "168e300696d4dfa07799e60b5372d58e06f3f924b65c1b71b25c6de4a2b52dd2"
+    },
+    {
+      "id": "run-47",
+      "seed": 296327140,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "0f6e15bcdce6cada30f97bf44f0934b829448ba70e689bda70c9e8cb561cc87f",
+      "recordHash": "379177b3c354c76c77cbaf0671cbb236b3b28d26ca0b80bc08046c915847bd9a"
+    },
+    {
+      "id": "run-48",
+      "seed": 1887749333,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "ed6db957762c5f121d262144f4eef48f2806ec2a507c318436f9d9d79a1c932d",
+      "recordHash": "4b9b83ab7d216194d8bbb466c5c5198f7661bcc073a9793f0fa2eed0394e32b6"
+    },
+    {
+      "id": "run-49",
+      "seed": 2186589858,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "ca430641e90f45fc79ee26a65843b7c8e86b8ade55f5f027cae34f66f918b223",
+      "recordHash": "d43c0933e8d7c333a11cc4b54893434162e5f8dd67ed4ea2abfe7650bd21fde3"
+    },
+    {
+      "id": "run-50",
+      "seed": 971200111,
+      "strategy": "random-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "7c5fb2c5a6127b4417137d2269f1e4a222faf5c09efa3ee97d88e4331720e0df",
+      "recordHash": "a28859322c10792402fd22921b152b990dd9560c5b412574b99f20653509d8dc"
+    },
+    {
+      "id": "run-51",
+      "seed": 2816236665,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "c12c572f28941f5fb1fce9f6ce924caf85ed03443a30c00f9fcc5bc46b7184cd",
+      "recordHash": "f5b6d375cb3edd8ee976397f04fe06e211cbc4fa97a8a1420405da05e776ffdf"
+    },
+    {
+      "id": "run-52",
+      "seed": 3822239626,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "df5913469193dafdbdf9f7d5da3ef58aa8ce75d48674e88a224dc1b7afce149b",
+      "recordHash": "a236ca9376dc8d8118ffc58a0c65dba823468b4951a238d4a546cfb835b45fc9"
+    },
+    {
+      "id": "run-53",
+      "seed": 2757599430,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "2795febe5f475e7c147790d8941cd364ec672748ceeaeb38a5d0cf1a7d00044e",
+      "recordHash": "89039cff7065381ca05da54e47f97ef345c9d370abbc96dcd6f549802a92e512"
+    },
+    {
+      "id": "run-54",
+      "seed": 3083479736,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "7de650570f2432e3530895dd13b058f43ca8c3712b6362c220e2c34568a75dc5",
+      "recordHash": "f93ab1ad4d28dc5b11e4ff12a5c6656f9fa0633defca01edf5bf44e3e0dafbb2"
+    },
+    {
+      "id": "run-55",
+      "seed": 2456068346,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "8eb9ce6243d37b5904263700c45735b13dce9ac4e4736a9026072202c7f2c839",
+      "recordHash": "d69c1f8df5be5f90e93831ebe49ffe505e59ab5760c56037d6079cb2742547c5"
+    },
+    {
+      "id": "run-56",
+      "seed": 544986507,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "2321bca4514a58bf3538f009ad989aca6988f8116f00b95079952008cde7d988",
+      "recordHash": "14458d88b690110ce43ac3143dd6347366d167a4867acb3a23868e9358898b37"
+    },
+    {
+      "id": "run-57",
+      "seed": 991772831,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "fef6c040a0c6f7b45e4a2b0f54c517db6265553914e9bf77e612e43eb88231da",
+      "recordHash": "f6d2a148b8728e5513cc8473f83d6a84b7c5ec9976000ad820732c51a2a27740"
+    },
+    {
+      "id": "run-58",
+      "seed": 164880476,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "62cbd0f255a021f643f67502162774fdad73f674dadda5e51aeb3dc6d271a920",
+      "recordHash": "f2fbd3c94b645aace8153d9bed2be0abe06a449f36dba8c26b91cf3acc4a0a93"
+    },
+    {
+      "id": "run-59",
+      "seed": 2545004761,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "209f435f79f23ce5a9ab860e27da6199960cfd87c50e6740f4c1502d89c9d4ad",
+      "recordHash": "147bc6b44df26a88c5dfaba716b03b29bf86666e18d1b4b3fd703223ae8cd6f3"
+    },
+    {
+      "id": "run-60",
+      "seed": 3293791299,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "1de62e9ccd187394fcdcc162dd146e5cebf812733370a18d994aadc880960a00",
+      "recordHash": "be72c472ec86bebe7c5d8293fe2ef104c03fe45a554be6b0240d3fe5c211b656"
+    },
+    {
+      "id": "run-61",
+      "seed": 3284843505,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "d0367add76982b67c9cbb1c89d2dbac94a15d2b554af413f7f751498e6f5346b",
+      "recordHash": "f40ddc1f90717ecfdcd03e295e67acbf0c4fb7fd687bb3cbdb58be5fc8e1162f"
+    },
+    {
+      "id": "run-62",
+      "seed": 2121113441,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "504f398fdbfdc1cc6d803ed183c7432fbcdc10a38a22a067a1ade9a7a82077d3",
+      "recordHash": "5a335c83ef86a2bf5d92ccf7ada3671f9a109e96d44e8de8031a84c68b385c3a"
+    },
+    {
+      "id": "run-63",
+      "seed": 93812930,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "0b60cc4603d768afef70954074184bc1ec5f8a7212db4e15999d030e0a59eea6",
+      "recordHash": "121bc1c38414d789f9c2469f90d8ae691bee2c3f3b3751b6a139d5d9adb58f8e"
+    },
+    {
+      "id": "run-64",
+      "seed": 81281721,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "8820118a58e487c260b3618807ee6caa1a162d234785d0f2760237adab26fcfc",
+      "recordHash": "2a92caa677f1e0622fa83cc5de247042ef7765560d0c824f6abd2036694dfe67"
+    },
+    {
+      "id": "run-65",
+      "seed": 3995368986,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "8ea1bfde1dcc0d5a650b30ee5f0f86ce7a1b88b934d08b3800d309b3a14c5a52",
+      "recordHash": "9851cd5ccaf52a2e62542517fdc9ea882fe488517b3d37ddcc3f912e0bc74f51"
+    },
+    {
+      "id": "run-66",
+      "seed": 2842321276,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "4dbe45b1656588934d5b4e822a7abb36db9e233b9c753167544c10962c84c154",
+      "recordHash": "dc47bb56858e677261f61f1f38e81abe2e8753701106032d779b9eb759709d82"
+    },
+    {
+      "id": "run-67",
+      "seed": 3452706830,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "80ef12a6d8547f6b7f18aec5e9a6ab2c450e34413641ab06d13518f7a8590eb3",
+      "recordHash": "ea6bcf7657da288f0356bc85dfd0b8bf1d9f18494dcf025ac541d2d3fb77b1c9"
+    },
+    {
+      "id": "run-68",
+      "seed": 1695809325,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "745ecc716b50f8b035800ae90343665a9afe688a847dd97f5251de41fe0e92b2",
+      "recordHash": "92bd97d0e63dc12cbbe474a67bc4bf9127c4077debcdd31deee065a7ec7f4f28"
+    },
+    {
+      "id": "run-69",
+      "seed": 362810263,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "beef9332f191ee2a15690a83a81f33c314b81e6051c39632c88f0391dd322c25",
+      "recordHash": "68482cb71050064e239c42cd97ce559f347d232bd2949ff9f7f7cde3e732d02c"
+    },
+    {
+      "id": "run-70",
+      "seed": 3129905631,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "57bce9b5135a51ecf17c09d4b18495f2c5478c28b6ed35d61f56f9982ce18cb8",
+      "recordHash": "6757fdb09d1ff27aa8a625549a271e17888feddfcb50b2184021a4f14401bbab"
+    },
+    {
+      "id": "run-71",
+      "seed": 2275152672,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "a9646a53d974563b12939ae2d3d6d90928ac79906e04d7184f763b7555c55363",
+      "recordHash": "06d692b935e308fd32e548f9bd446cdc3b58a98d54aa114b2cfee33d5c920c36"
+    },
+    {
+      "id": "run-72",
+      "seed": 2434419272,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "978d14de9a29335ff2a03f9b961e3b8f97b89a9d6a5e31fe7bc4cc45b3b3cf68",
+      "recordHash": "df3a6d82023806347cf1f7fe1e555dc1c63aef0e3419a4db6ec527e834e741a4"
+    },
+    {
+      "id": "run-73",
+      "seed": 3751876176,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9602b5183f7fa5998fa18ac5d44e027c7d895137c15a110fd4beb91ae62b59aa",
+      "recordHash": "ccb8a46f38906c40505e87245fa48a69fcdeec198f97d5655e9914c2b2aac09b"
+    },
+    {
+      "id": "run-74",
+      "seed": 2239539774,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "d0d103e4140bdc5ee0a7b51a9898743517e5c94f04c770f45318d6c590feafed",
+      "recordHash": "35337cc5bc1bdda774a8a63e2f2c4aa06febaca72f4428e9b4934cf952bb7213"
+    },
+    {
+      "id": "run-75",
+      "seed": 1582137451,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "a8661fb981dc7e65cc54a1967bee5928a407da389e99bba51618512655074e88",
+      "recordHash": "e71c2d11b13cf875af08ec220409f421fc372c906e9a8ccb088e985b7c5be91c"
+    },
+    {
+      "id": "run-76",
+      "seed": 3893894824,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "762efe49c034af089064c7e2ece20fdd4d030c8721b6e5d45fbba0f00aef851e",
+      "recordHash": "0a89a0120d55dd4e46718288ef188d8c8fadca401e7866f4364bbfe999ad2c9b"
+    },
+    {
+      "id": "run-77",
+      "seed": 4263474444,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "adee63535ce33c97f3f869d1d44041d71f130b514331b7d9ecda8781c3e2baf3",
+      "recordHash": "4524ac6847ec507621a46a33f0c4b3aad424a4bdf5fbe51754b3fa5caa81fa23"
+    },
+    {
+      "id": "run-78",
+      "seed": 2946900338,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "31c3b06e99e866c2d22f9d0c1804c7355eca12fdc0bb4fd8aa8724fb4ca4c108",
+      "recordHash": "55981f74292701a08b28dc30723bcac177abfb480b6253daa79f993e48a410c4"
+    },
+    {
+      "id": "run-79",
+      "seed": 1760011102,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "3dd7789070df4d7efa53328f44884d9157facb470599779156b7b6033a658f31",
+      "recordHash": "092cb17de80ee25d475f77cbda091da25bf7da53b49ee7c891591fd0c685f949"
+    },
+    {
+      "id": "run-80",
+      "seed": 3716977329,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "7ec4380b10ccf1825c44af0c006b9c25e401d9582fa564bc24eb0220dd2e7436",
+      "recordHash": "908a86a5abd2d9544484e8cab7c43bc6dfc1880415ee94d01dc348fa99fc9cfd"
+    },
+    {
+      "id": "run-81",
+      "seed": 3576620189,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "8ab63e35382a48782dea023cf6966f4e612c9cb025ee38d22be6fdd747773869",
+      "recordHash": "b1d70f681dcc8555925b176a48d59e2163a71f148557551e420ec8813162bc77"
+    },
+    {
+      "id": "run-82",
+      "seed": 3160132303,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "c09fc7518acd44f6d3b082336cd6659a3cb55e3ed92e37fd6863dc0af5394603",
+      "recordHash": "db2bd1feedbda541d3484db6a0d987e96385a7c34f46ca310177b662d0ac5fa3"
+    },
+    {
+      "id": "run-83",
+      "seed": 3316329215,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "830310fa77d717f6da863600c78569383087dcc40692319c2932746fcb67cf2e",
+      "recordHash": "d318dfa1f2eec8cdf4feded137a2d237d4d5b8a3e770eecaa24e707ce53ec053"
+    },
+    {
+      "id": "run-84",
+      "seed": 1148213292,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "e6c950693bbbf155226f334ca668b8530865524db2eebb4893f21f32cc3a2ce1",
+      "recordHash": "b39032c8a5f055d1f0137ef75effcb14273d157a25a01663e2329950823ea52a"
+    },
+    {
+      "id": "run-85",
+      "seed": 879082991,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "223254282c66e8304c6f323f890455abe0ba1c25da84df08b4dc2d76068cb196",
+      "recordHash": "67d7c756ef39c45fbfbabc9d4d2bf9b613035d52ba805b770a94b19794d609c7"
+    },
+    {
+      "id": "run-86",
+      "seed": 3065766326,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "4b227c201d0fd53ec18bf964a92e458b139b3cd749fd52b8cad293df28a716d5",
+      "recordHash": "8642297c4030fbed3de9a71ee4ffc86108b71e6602d5dd840f1032d9b21598c1"
+    },
+    {
+      "id": "run-87",
+      "seed": 559596870,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "6745131b1d8cd15c0c95b8928c75bbe64ef33728b512999d12a9fd8910dfc4a5",
+      "recordHash": "308c436afd0335ca88cabf58a89e2ae9921201282a69c906a0b84827efea8a5b"
+    },
+    {
+      "id": "run-88",
+      "seed": 249068863,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "c102aca8dbabe0299c05cbdc972c88466b94e13d38a9491fb3bbd0a3a6910f59",
+      "recordHash": "47b0667ddf82785ff0637351213ef72e5edf0460dc3c15f86b7e2e68b2f9cb5c"
+    },
+    {
+      "id": "run-89",
+      "seed": 2336179367,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "cc7f8cffd23a2b4fdfe1c17f14afe1c4010c2b9af2781e1459a2f9b101b62d35",
+      "recordHash": "3d883650b232633bbe2ed6747785010bd5e79ec2bdf4830a75c35c9608999a5f"
+    },
+    {
+      "id": "run-90",
+      "seed": 2748382863,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "56309a3246742d1bab83f441e1addbd9d6233f396a3df5fe1fa8703f78790cbc",
+      "recordHash": "c34431b18409fd9c32c042371bdeb196fb826c9b0f2ce2cfce1a83f9fe0d13dd"
+    },
+    {
+      "id": "run-91",
+      "seed": 1821871035,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "ffeb7a002223faface5bb142da48119332abdd230a2a05923be60f51eea1ad93",
+      "recordHash": "b0663378b6f5f1c7f99eba357e2b1965512c8c672db725c391cc5f3c578701f1"
+    },
+    {
+      "id": "run-92",
+      "seed": 1708641320,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "f83b34cee8fc35b2c2c5557102c24a68d4884e46e972c60038e3768f6c918d00",
+      "recordHash": "8c96ec0615ebf209b9d9a79874460c5b1fab777c5d916871ec0d5fe57486ef1d"
+    },
+    {
+      "id": "run-93",
+      "seed": 2174532014,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "19dda8a7b91cf5efa5b64dbd979e9745c2cf07ddea1fa32e112bde5fb71ee49f",
+      "recordHash": "89928fc0fdf372418affc200d869203a99aca585849cd137689037e7476ae214"
+    },
+    {
+      "id": "run-94",
+      "seed": 3671463937,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "e90632a2ca694f290829b64bd77942966e45494f1e3b929f7217517709a8d6f8",
+      "recordHash": "253fd5918622999f8ed41774099da75ce1e5ce494ef9b16a549ad1b4566447f0"
+    },
+    {
+      "id": "run-95",
+      "seed": 268247958,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9c8773e6d43bd731c295da1c6fd97f2793916d1a8a5cd16b657defe546557939",
+      "recordHash": "787c0bfecd23d975a4ef4b11084bb96f215ecb05e77dcf33945592e554814938"
+    },
+    {
+      "id": "run-96",
+      "seed": 2416197928,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "cdb06fb9d5e0b222b56b5693a9f0a6023612cc500b61c9844406cd3086e730a5",
+      "recordHash": "5af0af2f9a6da100e0211270db1e4bdd0adb7cebd4f39a1825ac78f98b8a017e"
+    },
+    {
+      "id": "run-97",
+      "seed": 296327140,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "239fcd75dcd9cdee8a4a5d0e1b1143f355a4fdfbd0cf0e4485ceedfde8426e51",
+      "recordHash": "9667323f4909e9f57f497b34dc23b85bb2694fe60f5cbdd91291f59a9167e02c"
+    },
+    {
+      "id": "run-98",
+      "seed": 1887749333,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "048b9601c2176b0060ed01e7a06e5b50fa78e799760f0a56b85f6870fa49eebd",
+      "recordHash": "e80986cd1e117d64a1c701220380218595106a9c9fcc6edf02605e3d69a927dd"
+    },
+    {
+      "id": "run-99",
+      "seed": 2186589858,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "960852db4ffd769d52df179a5208e9725d5a71e09aa26b807bad747333520a51",
+      "recordHash": "da90c07259dbccaaadfbfa3384423a7d7f87eae6294a529ad322bda34c5f3032"
+    },
+    {
+      "id": "run-100",
+      "seed": 971200111,
+      "strategy": "random-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "30fc6f986e41295dfbde05b03f51767732af750a849db362fed93c6370672a28",
+      "recordHash": "5f614a49c6ff7fd16e82e3ca774a4e8231940c26d00b78fc520469950d90f3a8"
+    },
+    {
+      "id": "run-101",
+      "seed": 2816236665,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "3cae4b888256604a3d172bbc84d8b034693f429d38bd63145730ac123ff1cb97",
+      "recordHash": "1be888c0f4bf733c24250bf60ef808d551692d3d97c2993ee9ab91fba158f33b"
+    },
+    {
+      "id": "run-102",
+      "seed": 3822239626,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "d529a681bdf99123ff920905aff72d14364ec28f402497da26b956acea4fb8ed",
+      "recordHash": "c7f9a648646627faeda79b4da9267b26934b30c49943852cc2e1fa83e1a7e6e3"
+    },
+    {
+      "id": "run-103",
+      "seed": 2757599430,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "0b7f58aec15e4e44df8c4995c6793653cceaef7b9829cba0d7966d8e7ed42d9e",
+      "recordHash": "b0e2fa5f8acafd12896df3775f63ae8b4a3b34a48fd13295d2166598d1869875"
+    },
+    {
+      "id": "run-104",
+      "seed": 3083479736,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "c82a3c50f0ab893127fae83c011ba0e1a41dd0ae791d09b0cc948a417f5b4e57",
+      "recordHash": "49a63b30be1b47277ef346d11a43fa2f9c89a379ac8f308ba1d7248fce990659"
+    },
+    {
+      "id": "run-105",
+      "seed": 2456068346,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2257524f99ecb7c26442cadc70de2a76902de8111a7a0c1050cb31bda22ef9f9",
+      "recordHash": "c3e0e5358cf5ed4891180e996336e5250cf97392ab5b29e32595fa547dfec3b3"
+    },
+    {
+      "id": "run-106",
+      "seed": 544986507,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "ee16b8a736dec09073cfa1845d18d542d32c820e0f53f51f91c3908e6452c331",
+      "recordHash": "844c486db587708f3e549ea671cc7c273e40db8874fffd47a0f9633b6d176796"
+    },
+    {
+      "id": "run-107",
+      "seed": 991772831,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "31c8ba052495d9839d011452bf92d456de400689993bcea435e479314e4f8ed9",
+      "recordHash": "88a8f859b0bbd57156fa50c37563b2182cfca9c9a870947f194c45fddbc2022c"
+    },
+    {
+      "id": "run-108",
+      "seed": 164880476,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "8f965cbb2515d7b9b9d1648badba2dab91397d480c6ecfba887210d667dc0ff1",
+      "recordHash": "9dfb41534596a1168405b60bda7c1aceffce1b78c22a312c74141b1ac2a1cb04"
+    },
+    {
+      "id": "run-109",
+      "seed": 2545004761,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "303109a7c5736a770d072ddf93dd55a53407e239709578fc1f4f5cedc1afb232",
+      "recordHash": "879b1a4590c71a721ccb4813f6bbb1a6ba34c0971f82941a7af33cbee274a3ce"
+    },
+    {
+      "id": "run-110",
+      "seed": 3293791299,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "40122c72b71852db2cf4978149ea7ab0ddb5690277584e7f964dbef6544fa896",
+      "recordHash": "b4dcafe1c5f4e47d4b76d4aad5b193bc1f0d97a930cea53affeb12ee17bc18fb"
+    },
+    {
+      "id": "run-111",
+      "seed": 3284843505,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "a61b6634601931616cc92b26d04e9fcf5f45962ee1131b13eccf10c07f2d74fd",
+      "recordHash": "482841e690ad160c0930462b6fc6db1209c2ac2bc4891d9693213a7b4207ef04"
+    },
+    {
+      "id": "run-112",
+      "seed": 2121113441,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "6f398371c93b9a5cf4675ed547a8591a9fefa38634311f748d8246189db868f8",
+      "recordHash": "b3cdd2d1a612834d8132c0482c19f42f63a1f177357f869e42e32a902932a9c4"
+    },
+    {
+      "id": "run-113",
+      "seed": 93812930,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "dafb3e5ec1fd3a84a8fa18cf6814291f560538348f2c76e355d58d8828802bc5",
+      "recordHash": "9ac58ac949f8e58f92854672f397d1c84e42becf7a44e2c2d88eaab3648a9d93"
+    },
+    {
+      "id": "run-114",
+      "seed": 81281721,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "ec7b7f9162b9381ab82ae81eea90f0bfde96ee6f3ca8ec1b94b11148ed2404f1",
+      "recordHash": "0edb8a4a0bbcdb30a168be9c162dcf6f427cded58025f049da0a957b90513670"
+    },
+    {
+      "id": "run-115",
+      "seed": 3995368986,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "bcc7e201333cc0555c6dcad8b1d0bd8838d11348e3d027c53d6d534a46c64982",
+      "recordHash": "53e7e71a6a485d8a054f3980e04125e5e0b0cdbfd2ddc39c9b959ea277392d95"
+    },
+    {
+      "id": "run-116",
+      "seed": 2842321276,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "1393bf7efd2a0739f1152aca8882ffcc618c1826556487862ba0ff06ce9ed73d",
+      "recordHash": "9b58457485e312a09967d49ddb0eda67a587965ca16f853b5c069f220c892eed"
+    },
+    {
+      "id": "run-117",
+      "seed": 3452706830,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "060b770ac698c06096c61c01982e3811e07fbddedb0131c344ca6dde6e692264",
+      "recordHash": "f28fd805fde949b1f4470741f08431d3d35de673446e8a587855e1c3da605fdb"
+    },
+    {
+      "id": "run-118",
+      "seed": 1695809325,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "cf082b8a40489069a2dd87fa87a534d4a62b41cbda480f47d4a33ca455220574",
+      "recordHash": "4505955d18f6a448f4db193e273ec70952958ee23082cb7f05ce508cb6e17b4e"
+    },
+    {
+      "id": "run-119",
+      "seed": 362810263,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "3e6ffabcf57ad5972a4c030787c4a470411ac15946ee8d66e8c357e5eed79fea",
+      "recordHash": "730d2714027b1da075650171086ccef3311b2d6bf7a13f329be6562ea3da6a4c"
+    },
+    {
+      "id": "run-120",
+      "seed": 3129905631,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "7570e916af69da7ebd99261fb1d4578f3ee90a9261b0109612af7fb22a4d353e",
+      "recordHash": "78de4381102a45700cad9e96a93fce860cacaa1a722401d2886c82715ab58fc5"
+    },
+    {
+      "id": "run-121",
+      "seed": 2275152672,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "ed6bd3b0b6142ccbe66337efaca1fa479523be08c86b8ef406c960ff4a673f71",
+      "recordHash": "478701cbe306fa876cdf60e4ef49ad329e81c0d61c5450547fb5d41d01bd90b9"
+    },
+    {
+      "id": "run-122",
+      "seed": 2434419272,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "53a02f81795b19f4bafba477309030f3c2ce547d2d9bb04f9b01b2e30af53cfb",
+      "recordHash": "7884ea2270d57e4b292ed55a50c28cdc0c827b28b342fbf2abe398a15d388315"
+    },
+    {
+      "id": "run-123",
+      "seed": 3751876176,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "f4b17c267102357f3c1fc7f5ab639421595c64403b5a449c9148a504a0322a4a",
+      "recordHash": "94b500353d1e650f1424a112b4c854ae3191d9adf9f5a9a316bd6806911d8a02"
+    },
+    {
+      "id": "run-124",
+      "seed": 2239539774,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "2880bf4f5a280949bbafda91fb4979227dcaf0155009782e41f079b0b2e979ff",
+      "recordHash": "97d3adc50cf953fabc207fd26fdb35293570d070d327bb39170d421a739d5403"
+    },
+    {
+      "id": "run-125",
+      "seed": 1582137451,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "73f1ebb074ef052771775afd369bd24439002fa335043db595de8d6d2f9bdad2",
+      "recordHash": "30a93f5b0dba8282767e4dec288ae430fbcda78f15bf873aa15da6c4fe5f518f"
+    },
+    {
+      "id": "run-126",
+      "seed": 3893894824,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "0be0b4e886d548a08662e5b3d0776049ace5852371cd250d4af72df3f3d3d071",
+      "recordHash": "f7ad823cecb0e6ba39d4c1799192f36e2e818e2e4016c275363cdf37f47427db"
+    },
+    {
+      "id": "run-127",
+      "seed": 4263474444,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "8c8a76764b8415382005235d17a214f5e04b4bc6f15d288f36c003290941c7d0",
+      "recordHash": "a2428a68828b36c88154c5a10f2034544640f8215d85a5177fb694892ccb9082"
+    },
+    {
+      "id": "run-128",
+      "seed": 2946900338,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "cab3ddf8211397b4917098f5003ad40c19445e8da8c1e0247a41246f6399c6ce",
+      "recordHash": "246f1a1ebda0baba23cf7b8b30b352a2bb5ac320519ad08923d531f8af922b37"
+    },
+    {
+      "id": "run-129",
+      "seed": 1760011102,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "0081edf65d7ff6aa78f687ee7bdcfa49be6c270192e9f697649e9dfe25c32d06",
+      "recordHash": "3553529eb4e31a5390f201eb2cb4ad9710a6a1151377863c62e6f1b39e4fd2f4"
+    },
+    {
+      "id": "run-130",
+      "seed": 3716977329,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "af2f63d58303c2f92e03717a8cd545ddfd6d0fe69f763e033cb238a41db5f7cc",
+      "recordHash": "47997bdcbd9a2ed133d61a6a481bd74de0cab706611c721868c43896256337da"
+    },
+    {
+      "id": "run-131",
+      "seed": 3576620189,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "1b941c8daa9d0809c7eb6b9e3fa6d8fc567d78fb1a767cb46a6cc3ed0ceb9202",
+      "recordHash": "8da07935a6990213f4c98dcd36a7ec4a6a871a1233892bce5d8e03b410422356"
+    },
+    {
+      "id": "run-132",
+      "seed": 3160132303,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "767153699d5d13e9715f6347de42d3fe179b90548d47ec92ac65bc9dad4c908e",
+      "recordHash": "ca8730b9514f28f2c1a16e137923b41307f7e72d9b0f5dad45260f533f20d08d"
+    },
+    {
+      "id": "run-133",
+      "seed": 3316329215,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "bd9b59af50d2b08eccb740f99fcbdd5bf49831eaa1f9c159d15ad119470426ac",
+      "recordHash": "9f67f174a8474c62e77611a3a412220b28490b19e239f1942c2a5d513764b866"
+    },
+    {
+      "id": "run-134",
+      "seed": 1148213292,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "9eb52b1dc9990fa7a0244bd31c8aa0f0f7ce50b6eb8b04fd248a442b3e301760",
+      "recordHash": "d7f042a10e9d620a2e9b2161722e5da84e7febb85280b68953e76c4da4d54f01"
+    },
+    {
+      "id": "run-135",
+      "seed": 879082991,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "3b657fd965532f8284758fd763f54d8107e2d0105f730e8cc1c6c48ac8f1586c",
+      "recordHash": "32b5467639a0a4b38e3a39bffbd5c3b1615e2d4b38ede564cbabf114d80996b9"
+    },
+    {
+      "id": "run-136",
+      "seed": 3065766326,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "f6ee5fe827b04feb7dde5cac0530d80eee766b6f67783e30033ef362219b0825",
+      "recordHash": "4e3abb661fc48e2268a3f0798c2588c5935fd32a4f38b69d563df111e2155a2d"
+    },
+    {
+      "id": "run-137",
+      "seed": 559596870,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2f7db92573d2232fca7729c1c32bb2fe35ff7d9a19986b19aec614aafe3eb9bd",
+      "recordHash": "756364fed456eca4097fd5aa95a2495ac6b7e498bf326847a1ae0c97789cc093"
+    },
+    {
+      "id": "run-138",
+      "seed": 249068863,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "31fddce5f99e2d8447d2aea14885046473534eadd42abbf1e151ebfc144e105e",
+      "recordHash": "ff6c96035ff3fe9b40a82c466810024cc035a13fcb7c8f4fc61ed83978c58d60"
+    },
+    {
+      "id": "run-139",
+      "seed": 2336179367,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "c9f966bdf616d996e9824bd6376474fa6bc0e222bd997d557e0adec03a4bf17f",
+      "recordHash": "2a8a6363b18bd4e10cd50f1765bb658c485004732bcb8144dafb003fa3cddf75"
+    },
+    {
+      "id": "run-140",
+      "seed": 2748382863,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "606f8b3374afe1b4de42d825a446c2d729b26752c647bcc8a14ca7a0f8532322",
+      "recordHash": "c494c2945e2d2d58204f0bb42cab904dd686a0127aaf7944adf302db382956c0"
+    },
+    {
+      "id": "run-141",
+      "seed": 1821871035,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "c2681346ca0bd8fd552abebea25ad42d96609aa7ddab2e42bd9962f9994b10cf",
+      "recordHash": "ce2abcf65229bea597956197c718c400c3583a2db1ba5a3e5ad143c63b1f1ab9"
+    },
+    {
+      "id": "run-142",
+      "seed": 1708641320,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "f05ee5e11e60a426ac28dddea665d0af1087fb01a7ac6bd66cf1379349f59746",
+      "recordHash": "751dd862018cadd31cb7373c98026e3b70bbf1d687ff9dd3b42811270d57d996"
+    },
+    {
+      "id": "run-143",
+      "seed": 2174532014,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "0741080ede9746d07388e71bcba1e6a124d047fb375b3812090478b58d7ca908",
+      "recordHash": "4a1a93398f3d044dbfab12e4d1a5e890826662ff1dda2085b66a12577f2847d9"
+    },
+    {
+      "id": "run-144",
+      "seed": 3671463937,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "63b688b9188595ed6c99770fedae747767956bf5425e3f4623a49376890bf301",
+      "recordHash": "e9fa37a0f8b57b617b87b8de3a3521c0e33596aa94f21fe62ca4080485cba90a"
+    },
+    {
+      "id": "run-145",
+      "seed": 268247958,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "c68bc7bba3c84c97339de8c9acc7986bbf82ff223bc904df225a91ba846685a8",
+      "recordHash": "b63bdd30b0528e690ef0fbe37084388d9ae0e33d8b2d2994a886b17b783d189b"
+    },
+    {
+      "id": "run-146",
+      "seed": 2416197928,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "3d608f8ce649bead18c02de47acec31d9633118eac9a6f854c6a7c6241500445",
+      "recordHash": "032a5d125bb569be2bb8b7c2f2ed0d6b9f1151a596e20a092f36269d1acec51e"
+    },
+    {
+      "id": "run-147",
+      "seed": 296327140,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "3bce24481b35de09374b5bca592dd299175e81f85c97b3a9b18b1d1a4089a9b3",
+      "recordHash": "2c539591236284237bab6c637e4314cf99d4aacf55aae0429f30d9513daa04e2"
+    },
+    {
+      "id": "run-148",
+      "seed": 1887749333,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "aabcc0403d97a567f71c440c13b59c0714f2f0b71134a609f555d1b78d8b4258",
+      "recordHash": "f28c2de9f6aab4fb8dca1e68f2cf245afcc550b6acadc7dbf89a21126e26242e"
+    },
+    {
+      "id": "run-149",
+      "seed": 2186589858,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "35914cba4003169f98cba96fe55f7d8f696efb80846b4a38bb179840a3902c32",
+      "recordHash": "e8cc618cf200695a5582d2e60e43d50ce7330794c6a20a92a28fad246b953960"
+    },
+    {
+      "id": "run-150",
+      "seed": 971200111,
+      "strategy": "build-auto",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2e777db2f6a7ff2c81a44c28d5f9ea113b8d85f42cc32613471b744a3fdc82a8",
+      "recordHash": "dc41c84537ebbe02f486c4b812736c0ee98988dd00c3b5c22b78e053117e676e"
+    },
+    {
+      "id": "run-151",
+      "seed": 2816236665,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "40b2b883ce3b87838bcb05373e1afcc94203f4a235c5c734f4b78ada10c815fe",
+      "recordHash": "4218c25f6a51ce4105b3f8cc3fabbbb111fa43faa891b8bcf4f1dc9e26e204bf"
+    },
+    {
+      "id": "run-152",
+      "seed": 3822239626,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "20a01e42c24f98f5d48165f18dce5a59a8c7913fb1aeb716c1c675d8a1858f03",
+      "recordHash": "9cf6d0d783e1d85ed17261a1ac4e8d6f6bf36d06aa53a2af12be3fd2b8dc9179"
+    },
+    {
+      "id": "run-153",
+      "seed": 2757599430,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "8841f05e92f58fc35b5dfffbcbe6afd1bf60814c9be6c68eb19724e2e67ba8b2",
+      "recordHash": "530c884f48a049590ae8f73650b23bd6afb692d4bf04324885e4e2809b42c9aa"
+    },
+    {
+      "id": "run-154",
+      "seed": 3083479736,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "f6d13f15ee8258735c505f17bea4a0a44967be2cd406e1e4005ef5ef646ee33d",
+      "recordHash": "de71696fdf0e5ae2f0004d0e38aa25664297f7c1c50f88a16476e4b247be9026"
+    },
+    {
+      "id": "run-155",
+      "seed": 2456068346,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "95536f2af926252e8ab8ec3aa0180560d357ba3e9a976f0247a0ab712e1cbc67",
+      "recordHash": "19e3165f8e8e67bc0260df9842b1a8586be485151b39902328d7c3631920df23"
+    },
+    {
+      "id": "run-156",
+      "seed": 544986507,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "8d7d904134a68c9dd10293a7c6d3249dfa36e34f7b0a9af6df8e85e2f1d09496",
+      "recordHash": "704dd4240eddf56fe5430c57a31e0bff75d174273930d60bef8aea73d2593939"
+    },
+    {
+      "id": "run-157",
+      "seed": 991772831,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "94a0ad5cce746a8bfc7f902bf7b21dc24c2b6da5ddf2efd073ae7511cf84ec3d",
+      "recordHash": "c987b9107744729d3615623e21d0788c2dfbce4dafbbc091dae754ca053db1ce"
+    },
+    {
+      "id": "run-158",
+      "seed": 164880476,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "f9a7fb62756a2df7279840ba4f30bacc2630393790c193e3976a514548f1ef44",
+      "recordHash": "1739ef3c3b1314b6956e700b18f789694279264ddd8643e5f748dd797c049264"
+    },
+    {
+      "id": "run-159",
+      "seed": 2545004761,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "30be78d92325c4d1ce48a4f925437fd5f910206484567543f917aaf0d6899273",
+      "recordHash": "c16b302cbe24ddbd8939ff3fba76a8739195cc4a6dcaf0d3f193b6ed55efde2f"
+    },
+    {
+      "id": "run-160",
+      "seed": 3293791299,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "168c62a23dbc9ad6f48bc1ae54b4494af10aff8fddeac209a01483e3a4f829fc",
+      "recordHash": "088e4e3ef4f86d69e53bf783e99f749fbad434f840bad7d2009baf94c8a07312"
+    },
+    {
+      "id": "run-161",
+      "seed": 3284843505,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "5700d5c4588b3e6212498014bd62c098ccacb29383651f130b6c955161d0687a",
+      "recordHash": "891b7e637e00f3b93dde853d3ce8f2b26619463f7694666435ec4781efb5ea6d"
+    },
+    {
+      "id": "run-162",
+      "seed": 2121113441,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9eaee296757857ee8eba84e90315a8f232a781d8a0390b12c2dd854971920a05",
+      "recordHash": "9c74a5902f4750d7147eb0ae3994091f17f1e3809a3433553ce76deb25e5edd2"
+    },
+    {
+      "id": "run-163",
+      "seed": 93812930,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "3b6df7905e44cda145df35a0c2977faa6ecec8f1186f6ebc35dddd8d90916e35",
+      "recordHash": "90bb0f6193ec1e2b7bf99eebc4cd05f76f580590fb40ada001179ac1ac20ac8d"
+    },
+    {
+      "id": "run-164",
+      "seed": 81281721,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "368c746f8a17d870bd263effdf122f798d3d285d2184bb6dca5b9d13f706d9c6",
+      "recordHash": "ff063782996ce63c06840a7cf4d4b7ef16ce142df884c1b1738afc1af92e9b14"
+    },
+    {
+      "id": "run-165",
+      "seed": 3995368986,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "a7d964de2d3ed405207e633f70b99310f08b7ce5ef03e8a885d6807e916179b9",
+      "recordHash": "489643935eac000c7334694847c157637a6503304076051a4112d7aeeba21f44"
+    },
+    {
+      "id": "run-166",
+      "seed": 2842321276,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "c6349593dc54eaefdeaf399534087315d1aefa72407bc6febc3b5f9e2ea490e3",
+      "recordHash": "d02432e22ab5ca93197592630c54b09867acdd509bba07d1a2c9fddce7777f55"
+    },
+    {
+      "id": "run-167",
+      "seed": 3452706830,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "3724190b11dfa0be6e9221128c22dd74331b3ef716ab3daea4c6f02741e136d3",
+      "recordHash": "f15c6d88d81dc66709f0751a00c2e53dd4db735d208f823316c193a9d1dad67a"
+    },
+    {
+      "id": "run-168",
+      "seed": 1695809325,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "3f505eabef814c4f23139de2d342f8ca1e6fde459c365e727a4e8689fa085ba3",
+      "recordHash": "46894797bdfb958bc2b0ac4c236e780bc4f6409d0a21f508cea473537f887fd3"
+    },
+    {
+      "id": "run-169",
+      "seed": 362810263,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "849c6a4219a1a1f3fd8604bca0918fb5d95c94cb8a4df6e1f07d159db574693b",
+      "recordHash": "cb54be654e6180eaf9a21b40f048461ba3470ee1f056bfa4681094b55daafafc"
+    },
+    {
+      "id": "run-170",
+      "seed": 3129905631,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "5ab029af89c0c9a20f1f1c32e5a3e8643242fbc76bb3e743d7845d0009441b89",
+      "recordHash": "c2a570d17f480b08bf57ac9c7933eb531395b4fca598eb2837d7d402461bab18"
+    },
+    {
+      "id": "run-171",
+      "seed": 2275152672,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "c6aa3d2e72643d9641625ae344da84f6d3e4e0f11dfc5af8516bc5e6847e45e3",
+      "recordHash": "1af73cd0c86afb09631d31a3cae51c06c24849571dffe8097059cf9c5da022a9"
+    },
+    {
+      "id": "run-172",
+      "seed": 2434419272,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "48c21029815516b9fab03c4b6e651ae746907b6b8603e9be4ab097446e35053d",
+      "recordHash": "f1a94f9d6633a85384f14c55fefcadcc903b72292bad7c9c2cc49495fe24d45e"
+    },
+    {
+      "id": "run-173",
+      "seed": 3751876176,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "9f2e85832344896a11882550a3d64ffca46b545566a83d6379cfc1f1129cfa64",
+      "recordHash": "9c1384869c4c41c48e0086157185945dda41fcdfae889420c38c3ab2f1418f49"
+    },
+    {
+      "id": "run-174",
+      "seed": 2239539774,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "dd267e685e7f7bf619bd253bba936300c6a9675659dc63072ff15cd63f7c5d51",
+      "recordHash": "a8f2a5bfad305e50a3b5f775a5050c1d5e203c2a6f43e59f603057188ff86a90"
+    },
+    {
+      "id": "run-175",
+      "seed": 1582137451,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "c1771e823b18993c699c6814d211e8e2801a6f55853a5d44e3b1ca12bc73293f",
+      "recordHash": "f8d1fde881e11494b99c1342b923baf2f5d6c1b3a67f2c03b702108674282a62"
+    },
+    {
+      "id": "run-176",
+      "seed": 3893894824,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "3a72533395547a1b56084b1a61a36b62fdd20bd7971a20b553b31f924fa5da9b",
+      "recordHash": "c5417137691357e8998a6052eda51e4cd56eaad44494a1817a9ef2ef1dea6892"
+    },
+    {
+      "id": "run-177",
+      "seed": 4263474444,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "0f26a5e999103b89519a159c87032d3b0bea6593ca0aee710809e9a369bf7801",
+      "recordHash": "ccb2e5a2ceaebf2a9b7399c3e17f92f01f51eadcfee663fc191dce07c0ff3cbc"
+    },
+    {
+      "id": "run-178",
+      "seed": 2946900338,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "92fdec383fb85cebfbab0ef0ae728059a63cf50fd1a843782bdb3488224cd0b6",
+      "recordHash": "5f228b9cc5fe02b8df1a7080780b3651b44efbad7d98ee1422b2590412a7a9ac"
+    },
+    {
+      "id": "run-179",
+      "seed": 1760011102,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "8f03465cf03c35179440709c5d8751cd52107b657e983a294645a0e9619194b4",
+      "recordHash": "1b1ed1acd5d8f0aa4d4b90128a02e668938026e13b195c9a176ab6decfd79a65"
+    },
+    {
+      "id": "run-180",
+      "seed": 3716977329,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "aa915e3507359cd288b6869343b8b6b26c742f63f82e86f46bbcbeace2523ed6",
+      "recordHash": "55fcd4c4cbad621dd541a790445d0bed98f257b380b860027c4cb192012e7bee"
+    },
+    {
+      "id": "run-181",
+      "seed": 3576620189,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "69718f1d44aba5bdbc157baa9b5657c292705bbc181597e9b45db44da9a02204",
+      "recordHash": "1eaf614feb69950b0b8fec9a172ecd447505fdaf517e548959d16bb48c8a9816"
+    },
+    {
+      "id": "run-182",
+      "seed": 3160132303,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "94c6aeaaf4920a49164032da46c7efd32815a472447f8fce65e5a73b4a8aeed3",
+      "recordHash": "efd599b8e733ab98e439c06cfa04c6495068e830fc8b9bd2240e993496f7c39f"
+    },
+    {
+      "id": "run-183",
+      "seed": 3316329215,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9dd053083ecef13852961675ca0b845e04103cef97aa5e73dc04590d1b0169fb",
+      "recordHash": "beedcc8ad3e1d9b04d84c4589593eb6ec9dba78952ef5a946e31168304ad28fd"
+    },
+    {
+      "id": "run-184",
+      "seed": 1148213292,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "11ed84afbf8e184b51960e85a65b2b7aafc22292875e4bb620848fc367a9d66d",
+      "recordHash": "6406155893f845e2405230651a2d4465388c3d695c696e0078bc41f68c391954"
+    },
+    {
+      "id": "run-185",
+      "seed": 879082991,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "4b24b15ffba8ce320c4c4559d93370b10d95e2b8165150336e29b9111ca440b7",
+      "recordHash": "47db237a457e02170b4536ffe6dfcd3c1474f91330580702b0892d0e1df7cbc5"
+    },
+    {
+      "id": "run-186",
+      "seed": 3065766326,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9080be7879ec86b252420b5e9324fea346192626179403a565f4697d0d16e390",
+      "recordHash": "08538c68f4f42e1b745c462f1a6d3505d8fd34d8b7c35eb33717eb440f0bffc0"
+    },
+    {
+      "id": "run-187",
+      "seed": 559596870,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "56cd0b5fbf8efda65f9dc39bfa71a7460a9b6199e9d8d47ba553b23effac5933",
+      "recordHash": "82c460f35e166cb6a05c57670340a78b6579d9c6d49af77c65b4f89e1b36acf3"
+    },
+    {
+      "id": "run-188",
+      "seed": 249068863,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "f413601ee2972e93b8bf3c76fc1a4ad63fd66388253f45df3c5b3e6d29bd03d1",
+      "recordHash": "dd9f839735cfb987b1e23c68f6dd29a353c9590deba809aa5d152535bc70906d"
+    },
+    {
+      "id": "run-189",
+      "seed": 2336179367,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "b172cd1295772cf56602ac6fb014270447923e2813f9b0687c2b9b5960c2bd4b",
+      "recordHash": "0b7b5dd6d2d4f3b621d10297515dd9b6592055b6708ef38409b0902142b7cd76"
+    },
+    {
+      "id": "run-190",
+      "seed": 2748382863,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "4aa631547a640942c076faaa5c03eff3778a8550e335f30b3a667c54f2af2d10",
+      "recordHash": "bace438c2a9de59f0801cb9f3a037fd1d340aa7cc93afa3431f87040e5b61635"
+    },
+    {
+      "id": "run-191",
+      "seed": 1821871035,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "b8fb8a35403113130c4e188e9d237ac6cf437ad1b926671189d93db2594ac624",
+      "recordHash": "0d3c9a91865d52ba5f91874e68596de6dae4c19dbff3edbd7845bf1779938774"
+    },
+    {
+      "id": "run-192",
+      "seed": 1708641320,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "b76ce34c61e459d08fd26a9e1ab6b440041fe09d1630a4aae2ff407be9dbd1f5",
+      "recordHash": "522cdecb3bd161c989db5d8843ac31d495afa8acc8f648ab3b8bfacf7275292d"
+    },
+    {
+      "id": "run-193",
+      "seed": 2174532014,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "7ad6d34299a9db7f2363bda0a18481f226679d0533d170c2a80bcfbd46385471",
+      "recordHash": "db7aca981e786a78989fd05f7356dd99c2e035321ac083737617fb7bc91662c5"
+    },
+    {
+      "id": "run-194",
+      "seed": 3671463937,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "54fbee64fa4f232bd552dba951a3140d011a2a2d75dfe21a5e5b46263eacb05d",
+      "recordHash": "fa23a2f0a7e40cc3130378c0c5d04523db592838f0485394f78b9787771f3608"
+    },
+    {
+      "id": "run-195",
+      "seed": 268247958,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "1441e9d7ae6acd561d05c85f1b4697f9ace5cdc9e39dcd9bc62d3b144509b6a2",
+      "recordHash": "980eb318cc580049a36668bce0cf259e875f901d46a1bec8cdce6899d047084d"
+    },
+    {
+      "id": "run-196",
+      "seed": 2416197928,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "80e08aa7fbb6b1d05bd553aa5681e2a402672c8b270dbee80f6e287c09591e5d",
+      "recordHash": "654bea2698e2352c52804b92ea3c5fd79659340f9b307253632f4695a39b9106"
+    },
+    {
+      "id": "run-197",
+      "seed": 296327140,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "78e1678e47cb89ad14d9ced1697cba9b10288b1e924efe7543a614fc976eea4b",
+      "recordHash": "84d906db2151723496c04f117891a4232f16369d9253da08f93a9d5de1ea658e"
+    },
+    {
+      "id": "run-198",
+      "seed": 1887749333,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "37e11e537a7318519270a42dc6a19b07ab59c52cce5a11873340f94ac194af33",
+      "recordHash": "a8aa5928714f8143f4b403b477fff51506745478c37e9e91a7ee124f0450f708"
+    },
+    {
+      "id": "run-199",
+      "seed": 2186589858,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "dacc4185d0a03abfde1f17433bb4e3ee41d2dcfc2aac5b24b84a231c78bab1ca",
+      "recordHash": "99ea7bde5b89a9fe654f6514ec1980ce601feb0b5e3a35981ab6bf6798940f1e"
+    },
+    {
+      "id": "run-200",
+      "seed": 971200111,
+      "strategy": "build-auto",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "3f267da0e5c3fcf81d0536bf38bf04d2209690b99512e14dd9e311f34836ae47",
+      "recordHash": "c79fa377d99f5a632378080c184d8a3c236cfd07bf9a93d357a2703b592ff9aa"
+    },
+    {
+      "id": "run-201",
+      "seed": 2816236665,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "4feb239bff0c7520fcf30dd39d3f77684a06a3fbd5df20d4243c9942ef5eac33",
+      "recordHash": "4a2cffbdd72fad4981da6cd609871718017461af1d53c247283b8f1eaa1f9785"
+    },
+    {
+      "id": "run-202",
+      "seed": 3822239626,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "cc00ea61729fab3ba5ae08fede5e71dc7b11c90ae53fc4c42f8c10a552576336",
+      "recordHash": "2945acf79c57dbc715d5ea929ea03fefbcf1c2507078aeac8d2c2a9a47689474"
+    },
+    {
+      "id": "run-203",
+      "seed": 2757599430,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "f1d9d11c86852494e94039a5125a21a27ef24400bf383a251b460cff0f90517b",
+      "recordHash": "a19182a65ec96a75071b9758d832cf588a477f2ce65333c72a12a626ca36d3d8"
+    },
+    {
+      "id": "run-204",
+      "seed": 3083479736,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "6f29c0c54427dd2de05f59108e4a0583544563123f20bd485591ea5bdf7a8aec",
+      "recordHash": "2f7b2de1cfc1a24c6a8bd3e56e3cf8a44f6b6d612c7c8dad1b8c1ab8866d82b0"
+    },
+    {
+      "id": "run-205",
+      "seed": 2456068346,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "890d6832ce2162316789fa2df7a1060b550c05305ea3c19c9dff6daa3c3cba59",
+      "recordHash": "4c5dc6a5fda27395aa71bec27a6c6ff3a5506fccd5e477a0a9ffd063e86e5cd5"
+    },
+    {
+      "id": "run-206",
+      "seed": 544986507,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "5142909c62f39732a08c5104ea8b3202bfefc41238803ef5610b56d9126e8b39",
+      "recordHash": "fb2a1cd02b339131784ba2f9e208d902ce69a50bfc1b4b649cff2c5c378ab81b"
+    },
+    {
+      "id": "run-207",
+      "seed": 991772831,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "0f66098b1f138d3d9c35a9c886d525ed7f5792544a85cbfd12b13dfc392531b3",
+      "recordHash": "6bdbed9abb1d1c742d83ae6c044faec3f565850ebc49f91c2f7af8984e846110"
+    },
+    {
+      "id": "run-208",
+      "seed": 164880476,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "a0f17b92ce1ff83e6f10d624f6875fec455a941b6d8660ec22737e03ee3426bf",
+      "recordHash": "46584e1d6d6a6311ce332c6f858b08ad18672d9f771bbf3a5d836fe8fe2801ff"
+    },
+    {
+      "id": "run-209",
+      "seed": 2545004761,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "fbd5cbaaf2d072f3c5f7bc465790cf6634acaac9b5e60d8cc3ae3185ed1b56ca",
+      "recordHash": "cd9997f93bb3fc9290fe4cd6eec43779a85bd9686a9c57f4efc7d9c5d52ace1f"
+    },
+    {
+      "id": "run-210",
+      "seed": 3293791299,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "6c292248c1f5754e7ccac4ebc6bf21ea9b46e67b069317a19f5e32743903079e",
+      "recordHash": "6483d88c1004f612900c6318203437b803e353710088989746a7cedfea704ea9"
+    },
+    {
+      "id": "run-211",
+      "seed": 3284843505,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "3a89757edc009312dee976e6f8c632fd876888c6368041e233c467f2f7dba7dd",
+      "recordHash": "0574d30dc1b020b9950a2663ba5b067501457a07dc32df18ca95d05b883309ae"
+    },
+    {
+      "id": "run-212",
+      "seed": 2121113441,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "aa3988e571b8228cf4fb95299b8fb7613af4391693038cb3f0d867820a00378b",
+      "recordHash": "d50bdbb2501e7ae87e953c7e3c1b069eb8e98dd8ad559ac175c32d710fece3fd"
+    },
+    {
+      "id": "run-213",
+      "seed": 93812930,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "6a2d0d5047221fcb8d884cb5a51d64212100cf673366979999db7e54a23bfc62",
+      "recordHash": "e426fb83f9211e233bb669de919272ad4192e9a7c0c03e198e3f27f1f054807f"
+    },
+    {
+      "id": "run-214",
+      "seed": 81281721,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "207ebd51d6ecd747d1102d28cc4a8d792e1f9d1284a298aaf8717052d877ff91",
+      "recordHash": "61d4b7a4db6049b51f8d4776005d517b199044b0263fea15b80efcd9c87b6cad"
+    },
+    {
+      "id": "run-215",
+      "seed": 3995368986,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "61e7b22d30dc1cd7bc957bb473904fda9f7c224b5be4e7ac788b9540d6a3c739",
+      "recordHash": "6dc9c18885a525f4f3059a1a94f0bff410858619f889d1a5dba32813753119a5"
+    },
+    {
+      "id": "run-216",
+      "seed": 2842321276,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "b91e3d28958d6b4a78350a4eb94c6d744ab81dbe7eaa360c3330330c336cdc6f",
+      "recordHash": "39d149cce71df67d91c6d8df1497dffd7850f67b8b1986f716332df2535812e6"
+    },
+    {
+      "id": "run-217",
+      "seed": 3452706830,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "c648698a2918010681a371faa43f0df222d5b0d556c506e825e946f5cebf1fec",
+      "recordHash": "e76eea601e7a400e125ce6df414ff4fb7e28567a4ba5fad4e2a4ae9e5e10cadb"
+    },
+    {
+      "id": "run-218",
+      "seed": 1695809325,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "596eafd24b6062093632f78bd5bd54be852998ca2defa2b8a1f9a50c018cd375",
+      "recordHash": "a43be60a9c58c3661d548ee2175f71c26bdc8e2dc143748d951e5d9ae3a2938b"
+    },
+    {
+      "id": "run-219",
+      "seed": 362810263,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "f0691c41bcf277b0f7c7063bf238b8a2fa234e442083e3abee0d4322e2f11073",
+      "recordHash": "2c58426930a6adf6274bccd761f6a9f1828953094303f3e5851140a0eeb8222b"
+    },
+    {
+      "id": "run-220",
+      "seed": 3129905631,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "c67e17e1e0d3e830a15b732722f5109e518c26280c7307e4947e6758c7c1da48",
+      "recordHash": "485d73dd9305dd64272528449b2810cbb553bc3b06b2c550e2ff2595db272794"
+    },
+    {
+      "id": "run-221",
+      "seed": 2275152672,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "2b02d9a9742f284cfade8f2d0e3fb92cd91344729a92f035a317b1bc1abacc20",
+      "recordHash": "41ed0d40c5eac207014eb4c69a2407f9c2be3e2c065e8e7aac1226d5b4faa20e"
+    },
+    {
+      "id": "run-222",
+      "seed": 2434419272,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "51956b03b5d8d5b6d8a901355c1d2cb989acef079cdafd867c24f46f5c3fd3b5",
+      "recordHash": "d0d1760587461a5ed63b2342d5b6281cd7d69f0f040a18cffb50da84d117e9f3"
+    },
+    {
+      "id": "run-223",
+      "seed": 3751876176,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "5eeb5baa57e527e10cbe27fb0823c3d65a4ee21d81a908b3061e8e63f333792b",
+      "recordHash": "4f77961fcdf5dd3e63e2557a247af6a1481af7c64f4bf27b31b20dfcd6f6e282"
+    },
+    {
+      "id": "run-224",
+      "seed": 2239539774,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "f922e3d107c4af678251e5d606d2d30ea111c98c87744682c0a66affee3fdb3e",
+      "recordHash": "2e67632207feb8a8c11c77a49d3c568933c8a7b4e60cb2de54270ddab856c075"
+    },
+    {
+      "id": "run-225",
+      "seed": 1582137451,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2c27cb988d65a03e1b0a59b9aab6f28f0801f755c123ef1a5a18f73531b1be2f",
+      "recordHash": "31cf5762bb006566ef6878ec5f3fa4cd18693d956d0805ff31815f8c2e5022ad"
+    },
+    {
+      "id": "run-226",
+      "seed": 3893894824,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "adb86b69c5af1b91609236bfc528e28054bc16d1b3d979dc8484870e592b5d25",
+      "recordHash": "f93d728e54b4dc79546cd7e0de1d3bc2b616bd6cea0109a2f0d9bf5eb990eba6"
+    },
+    {
+      "id": "run-227",
+      "seed": 4263474444,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "3d7c6bc10ff1ab7d6576434ef11df49e94a5a4e544fb0f6eea5399d78c4d06e7",
+      "recordHash": "4af364c2359775aca7e0eb5e13231d1ce6384e9c4e6b8e7ca01e1c87bad45a3a"
+    },
+    {
+      "id": "run-228",
+      "seed": 2946900338,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "25b1d4f99e73cab627d9e83cf530b703b638d6f234ec9254a91ac90af2e3ccc9",
+      "recordHash": "35e18cb9e10bc0337b207afd77a80c67489a45b40fb23ee2e1837954483d08be"
+    },
+    {
+      "id": "run-229",
+      "seed": 1760011102,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "067eec8a961dfe7b4f462ab446aff109b3fa8aaa7061845399a80dc830e85c29",
+      "recordHash": "51c9a056c8a282d9ddab550aba541859fd046d45ed1191a14a668002661b7088"
+    },
+    {
+      "id": "run-230",
+      "seed": 3716977329,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "02b4731834be04d6ba12c7d5cd223bceb115ebe0dd6fcf7a33e7bd5f4ee703c7",
+      "recordHash": "dd563574c3cd3fa3028f57daea94b1f8426969d26dbb59c5df48334d51a729b1"
+    },
+    {
+      "id": "run-231",
+      "seed": 3576620189,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "66766e93305583ba2430164de7c18d2ce81a1ccb4bbc3a79a89406f6f014a0ef",
+      "recordHash": "4bda5242a2693a907192e6e9827f9a902a527c4711ca86fd26ba49dc633bcf2c"
+    },
+    {
+      "id": "run-232",
+      "seed": 3160132303,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "285929af02e13e2ec9c0ba8e2f24363efee1a9a6523439ac041062f2f856d90e",
+      "recordHash": "ad0177be6139b35fb7d9412785f0b743b912689332a59cc344f53b6e8bfd36e1"
+    },
+    {
+      "id": "run-233",
+      "seed": 3316329215,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "20c727a8de8b2787d30759439c1f4126cc86e5f7435a9d0d7d3e80b519223f19",
+      "recordHash": "716ec276d85a77b1f93ebde87186b3a732f944876c036a4419ce49d0bee4cec5"
+    },
+    {
+      "id": "run-234",
+      "seed": 1148213292,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "c2a572f32b57dc48a4218066451f1ce7aa3c19479a42269d0fc719e2b4af5015",
+      "recordHash": "758a7d6486d0e0aa04b1707c943c915707f6cc54b2d27b1906d8d130ac0e3790"
+    },
+    {
+      "id": "run-235",
+      "seed": 879082991,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "a1aea211d6b0c42ceb041e4597e162fbb63a34d6b77acc4f0ff72c83d72545a9",
+      "recordHash": "7dfaea6ffbf03be27999e4e7bdfc4500a5726fa0010ad7bdf879199839254027"
+    },
+    {
+      "id": "run-236",
+      "seed": 3065766326,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2bd653863b6b2e7913790e5f20a215e228b6663fa38915e165bb5d680b102d78",
+      "recordHash": "b28d33354f71a98dac11ea9836a7dfb3fa1ca81c076b02c4c912f2e2064ba418"
+    },
+    {
+      "id": "run-237",
+      "seed": 559596870,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "f7711791d422d27d0414828b1719454a662b9cd406ea548441e9c2477da3323b",
+      "recordHash": "b79485df74379049f8a61336582c440d8e1ef26ac568f47a5d93f1693abe9101"
+    },
+    {
+      "id": "run-238",
+      "seed": 249068863,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "d30399d3cb21d933f094609f323c593057dc023e4851a40daf6ab3d71587bbd8",
+      "recordHash": "1d17a5ccd99eb919a474cac812d14c7437263beedccbe1e5f9378e390d930832"
+    },
+    {
+      "id": "run-239",
+      "seed": 2336179367,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "04254e2f9b2732bba5c0d874a191a841d62c9a5071d9f92a171c100e57fd72cd",
+      "recordHash": "7759088e939d60490afae2057ce5936ac1041f76efca96a59660631b851dd765"
+    },
+    {
+      "id": "run-240",
+      "seed": 2748382863,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "b003d3f4e5c24f60de295a0f54c411754a383d626a5b7897c504b08942410c5a",
+      "recordHash": "b06fadb43c0815e8e46fd4944e6217f4263bc4f39049c5c98dc682cf07a2b4e0"
+    },
+    {
+      "id": "run-241",
+      "seed": 1821871035,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "38ccdac274c48b57cda044fee694b9e91195594e5b3b94378b57e89ef30ae7a6",
+      "recordHash": "e20526b58cdb3f57e636ac4ca8139f230f011a130adf1de1ac755e7a4762faed"
+    },
+    {
+      "id": "run-242",
+      "seed": 1708641320,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "909ab796fc78bfd012f042449f77029d9a7e4fe8d2a4b40c197679f36d538f98",
+      "recordHash": "8c331568a33361a346a490aa8e04bbdb88f4d4c3e1fc7f72a1ad4147e5c1adc6"
+    },
+    {
+      "id": "run-243",
+      "seed": 2174532014,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "4082a20b7430bc957fa21defc96d77f206659176518633c06b25b08d66a2bd3e",
+      "recordHash": "ebcab416a3c50388cf958d0a7a414fa3b57322a2bae246d685bc5f9751ab5467"
+    },
+    {
+      "id": "run-244",
+      "seed": 3671463937,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "death",
+      "shardSha256": "4289dac3896d539d171150bbf6e2dc1096022041f3ed63c973063483c5980bd3",
+      "recordHash": "646b93a7b3eb967584f1158415949842e810421bb429c88808deb332263db291"
+    },
+    {
+      "id": "run-245",
+      "seed": 268247958,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "08f8e3aa2fc47a725a0e162c656b5f49890d18701e47ce8347cb28c7da06935d",
+      "recordHash": "a4adda8d5dc86e967d9b28d1e656bd6f010b9de25bbcb4e483f8ed3b927bc38c"
+    },
+    {
+      "id": "run-246",
+      "seed": 2416197928,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "5f508baccb201eeaf2409ed4ae665411c255bdebd68039b9ea3bdc36983d7cd6",
+      "recordHash": "406a2aff2f53cc525285dabe001934fd5359a1b23b1ca6b6ff4ae7483c29bb2d"
+    },
+    {
+      "id": "run-247",
+      "seed": 296327140,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "38325f426c1245d787438e726285200319fb064d8ab483496ce4f461329be740",
+      "recordHash": "1686110652d298502bd8491df805acb3544e7911a2b6f30e3973bab06c81c72c"
+    },
+    {
+      "id": "run-248",
+      "seed": 1887749333,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "d389ff1429eee6c8cfb435509e5eb3b9a8b578adc9f5387dbcf7404f2d108177",
+      "recordHash": "0107879143a9026ce19f73717212eecebc176de67d9f670932ce773ba88b1363"
+    },
+    {
+      "id": "run-249",
+      "seed": 2186589858,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "2c369db249084801fa78d74df5c23fbd2e05638d3e1fcca0d74928535c9de60a",
+      "recordHash": "bde6dd1ed428ea3f133ba2d8dc56bd621c69c495fdd518ead480c100c0b8d275"
+    },
+    {
+      "id": "run-250",
+      "seed": 971200111,
+      "strategy": "build-active",
+      "width": 450,
+      "termination": "campaign_victory",
+      "shardSha256": "7d14fcfb409764fec4d4424f24a8530033ca9769c72bc18089f4cf8acba2b702",
+      "recordHash": "0003adc3cf00e656b47c719d287e5f13c465f8471e88f8056caa3fd781169e45"
+    },
+    {
+      "id": "run-251",
+      "seed": 2816236665,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "8bffeba07023f82e5f9b2850732c7280ee99ca6fbb188a3d2a21104a2fc38008",
+      "recordHash": "9e2f450f27a6d36cecdddaa4a4146c37161c0241d35fbff2fb88943b0339e660"
+    },
+    {
+      "id": "run-252",
+      "seed": 3822239626,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "a731a582ebebd7bbe4b4a83506b3ad216b9834cc9ce63da852f5ce38b19933bf",
+      "recordHash": "6f82309144b1e4c7ff255550854df716422e40f2e9f773ee2aacba9f59d9a617"
+    },
+    {
+      "id": "run-253",
+      "seed": 2757599430,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "91388b97d878d5d0fdaec45a617552c3fc368416ffd58e4109a744162063383e",
+      "recordHash": "e53b9550810dab8807a985b33c34a52c3538d2788211cb2ce16dd5a98d1d8fb5"
+    },
+    {
+      "id": "run-254",
+      "seed": 3083479736,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "56e409f680f3aec5e87bfda8cce8982af181de4f7be64ad13c05a80c2df0e60a",
+      "recordHash": "91e2320cdf6645e8d55dc03edf88993b2caea6fff356987a365be7121b4d10f3"
+    },
+    {
+      "id": "run-255",
+      "seed": 2456068346,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "4252245c46e5f69605aa5382d870bf04d94a9f215098134f0c0904984681ed85",
+      "recordHash": "e581ab43f69d1e293814f5079e8be30674d85d0770a3345d69c5b212c5575a6e"
+    },
+    {
+      "id": "run-256",
+      "seed": 544986507,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "0c5af46f413e5077424fafb2ac854b1148028aedeb6873e299d938483f4db84c",
+      "recordHash": "6c3150a577de905e0e6fcc16c65fa98aee4cd10ccb69540ea82433816da90e8b"
+    },
+    {
+      "id": "run-257",
+      "seed": 991772831,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "e6f0d0e70ca2826e00f7c96db11810bcdb926ba672f7c11eadc0cfd203b41f02",
+      "recordHash": "99d9786999e2dede3b5fe875fad83df9061c5585692a3433c44cc46d24ada420"
+    },
+    {
+      "id": "run-258",
+      "seed": 164880476,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "c8bb00380520923c0a05cbef4974dd482eeeabf2255b949ff0e7280e335ccb1a",
+      "recordHash": "618e26137fd0e1a175a97c2fba66a6ac5355038d1884f1a88a71954d8d55cf08"
+    },
+    {
+      "id": "run-259",
+      "seed": 2545004761,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9d24c3bd11505714c01598cd91bf3e1d249150be04773f696fa98917f7d3d96a",
+      "recordHash": "afd363a9a457267646867e8d8f54f8e876db7af3d75206e6f1d28346ef57c5da"
+    },
+    {
+      "id": "run-260",
+      "seed": 3293791299,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "7b69d458cc53e171d090dbba2f15863e19d2ed08323f1d3740ba838026b5cafa",
+      "recordHash": "57ad4597e8183b25386a63f85e70d7f1e4c3c8b38e0d628591140a9a9e4b2035"
+    },
+    {
+      "id": "run-261",
+      "seed": 3284843505,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "896288431eed61e919b83212334611b88a48a9cb6ed535232e458837958bdb07",
+      "recordHash": "58642e2766275072de6922a9ceabd3e4433e586a8655800606f5c93c17ce3eae"
+    },
+    {
+      "id": "run-262",
+      "seed": 2121113441,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "7039ff250fdc9a0643b3f4ae54cac501295ed7451225e02cc89adad38a40f54a",
+      "recordHash": "e3816b28b6fb265505e9fa95aefa81c0592d5eca0ada55dd28d9324e2eb0b89f"
+    },
+    {
+      "id": "run-263",
+      "seed": 93812930,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "d6c6574806b610754c973898f3197bb69cb5cdac27ed69d7e036e6dd95a9a647",
+      "recordHash": "2b4afe5dd9e79688332fecc49a2a547e59c04b4c55780b8f8eccd0dd926ef506"
+    },
+    {
+      "id": "run-264",
+      "seed": 81281721,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "73a016eba55f116a782660fd1c9ba2a260cfcc78c68275c7dee75146a0bf0140",
+      "recordHash": "973dc364a9a03f06890642d89209b02d605578ced9e0def11d8800e0e5a03e2a"
+    },
+    {
+      "id": "run-265",
+      "seed": 3995368986,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "bf1a4596108804099d1df7e23463e1986baba5495c67799b8bfb520af77017f0",
+      "recordHash": "505a31fef461ad6193483c04a25515896891e02f851dfd7dfb89ff2710b99cfe"
+    },
+    {
+      "id": "run-266",
+      "seed": 2842321276,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "049c8cd563042cef12e26e670b54e733cc753eb4721ab3e880bb747132f41cfd",
+      "recordHash": "21bec32c854aad34c39605e074e92e8a6de2c37ffe78ee928e21fcda05e8408d"
+    },
+    {
+      "id": "run-267",
+      "seed": 3452706830,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "a8cbf5fa432d57e473b703215d3cbd5c696410bee9cf9a25589276bf835e3795",
+      "recordHash": "7e520440ee315c907e855d0ab16fc647b02283e26fdf3ee60c835a9279649a9a"
+    },
+    {
+      "id": "run-268",
+      "seed": 1695809325,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "54ecd84b9195e94564f83e8ed37f0a28b58bb5fb8833d202651ab5248a549506",
+      "recordHash": "60bf88a232532f167c74f21379bbc7d0bac3c1ed7cef63f925364eb1da5bfb80"
+    },
+    {
+      "id": "run-269",
+      "seed": 362810263,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "cf2204e1d583f3643415b6ceacea9f3519355ae6020312e5627ed7f22e4d99dc",
+      "recordHash": "bd7f02a1548adcc288fe76cb37aa764346f066d51d03db671e49e9bc21e97416"
+    },
+    {
+      "id": "run-270",
+      "seed": 3129905631,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "578a600ac2c68ec55ab7a65951e39b4bb350cb6929badc87f82306d256349f8c",
+      "recordHash": "72e4d49aa3b4dff14db0befaa3977ce725f966d79d503b9f63ddb3093d9d9932"
+    },
+    {
+      "id": "run-271",
+      "seed": 2275152672,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "a9988c7e3a6eebfd364b04ae0976045bc77711e08038d0402e9f81cb3ceb85f0",
+      "recordHash": "b6742965b6929d15dfb414aa9af038d089404332cad150fe58300f712c9e2d74"
+    },
+    {
+      "id": "run-272",
+      "seed": 2434419272,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "f2acd05a1ba60a7148366cbfaed07e9c8122483cafb8ea14a8215fd84cdd3905",
+      "recordHash": "98f756cbb30b9703606d4ddad563ee1d68a50531e653357cd8ba1901628eaa7a"
+    },
+    {
+      "id": "run-273",
+      "seed": 3751876176,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "514353898884c604a64112558405a155983ea1b194e074651de94139c28813e9",
+      "recordHash": "4b3355e8c7926237319bb9bd1a5b5f9c78f2a97795e2f5ec2ce8e3489854757e"
+    },
+    {
+      "id": "run-274",
+      "seed": 2239539774,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "0971e9e8031624a665ecaa4fd105ec78d7c1d5f28121d54cc6e0e98aa1a4d542",
+      "recordHash": "4f8eb1ccbccee1090afc7c353c209eff1b85ec84a7143085dc362495bc998b64"
+    },
+    {
+      "id": "run-275",
+      "seed": 1582137451,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "34689fa6f3087ac044eb22b1e189e54045a8cdef2368494b9a1e5570ab070f1b",
+      "recordHash": "ddfd6eb3a8d1441917e46786339bbad38431b844043fda3334445f347492ddb9"
+    },
+    {
+      "id": "run-276",
+      "seed": 3893894824,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "33a49cfaefc63b53d7e0ddfc73218dec52ed751dfc7df647c975fc1cd7b56054",
+      "recordHash": "69a0127529bbb4c90483f367d4d5cb0f19b48d94b78c8fd9531aac2381b3e9c1"
+    },
+    {
+      "id": "run-277",
+      "seed": 4263474444,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "9aaa9f939ad40e21374b68b9f351fbb21cf1f4c26daf0a303c594b3d9c1425c5",
+      "recordHash": "24075e2b845925fe83f3cf0273a3e9ff50b0913bd9b1c46bb21fe87d12ab0b3b"
+    },
+    {
+      "id": "run-278",
+      "seed": 2946900338,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "bb53860af12515edc0cef71b5cc3f01bc4ef4ee4cab350b12d15a559bebf7435",
+      "recordHash": "33d28b1b69d0d367d41aab49642751946527f0f431cb5c2f87161fb4e085178b"
+    },
+    {
+      "id": "run-279",
+      "seed": 1760011102,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "d7d62511e6a5739a515c411c668c4b0efdf8edea996d83c32f53f60061b5a0b4",
+      "recordHash": "c6caee7afaae216e811e7fff2dce1105243c9ce1e21b84213a94ac85da661e3b"
+    },
+    {
+      "id": "run-280",
+      "seed": 3716977329,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "e41b175bc076f0895ef780aa437a66214ba65ce346c15aa25a3339f5a01e0d3f",
+      "recordHash": "6618d099667bcd03186dc6d8c14626ecaaf4df893530fbce176995d9b380aa07"
+    },
+    {
+      "id": "run-281",
+      "seed": 3576620189,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "c52c22fbc01d58ac924b83fbde7f61787eaa45af3d8f42c70c6cbc6a74d08c3d",
+      "recordHash": "6b213079db09ae5bb3075e62a4d75a281a031e874061cb7a978728cfc092aa0e"
+    },
+    {
+      "id": "run-282",
+      "seed": 3160132303,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "dc4cf5633a869d84313018365a84a248b571ebe8d5c7f3ae849cbb16ada57a39",
+      "recordHash": "1af98337128165a552bef8259b483c3abfbee5c6f906ecbea5aa6e29f5b6c487"
+    },
+    {
+      "id": "run-283",
+      "seed": 3316329215,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "54763fc70658345228535b9c057ebfa714d6dbb62d9f4bd79ae158fdfdd562aa",
+      "recordHash": "f99dfda3b1dd17834b11127fdfccb89fd8c6e0c884ddd927b8e0b0d7f5b6ea9e"
+    },
+    {
+      "id": "run-284",
+      "seed": 1148213292,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "4a980073c02f3c051b048b493bee857049f5ab7b4a452623d9188e0d4301f5c1",
+      "recordHash": "581bc0a213b6ecf6f060fcc0ce84763c47f3f01c89e766faf865e592c8ebacfa"
+    },
+    {
+      "id": "run-285",
+      "seed": 879082991,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "83fe0cea5adaa0cb5567f3428d59fb8a25e055724d8b2ce78447ed5f88b3bab3",
+      "recordHash": "e7048ff1d92dd11ebecf7e8815c86bd638c4e01a2997f0a50ee583e72cc7fe7b"
+    },
+    {
+      "id": "run-286",
+      "seed": 3065766326,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "234267e4fdccb6211512489026920733ef38c22c3789854aa8cbe5def5987b84",
+      "recordHash": "cea14fbfa20af2067b712867bde12e024f420fb4f394e5642418b919bcd2e1b9"
+    },
+    {
+      "id": "run-287",
+      "seed": 559596870,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "f6814a7893ef18fd6f37c4d3a1cfa1654ad9a500c84f119921be406b6964d627",
+      "recordHash": "dea0563c42ad3a8dc00b19d1fc3f500932c276302eb90ab95cb9baf55444224f"
+    },
+    {
+      "id": "run-288",
+      "seed": 249068863,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "36a9f099e7cdb5c7a61cb0698cdabedd14c507d4d99498531bddc7b9ca02d2ef",
+      "recordHash": "1f44ff576b01d836d4a1a5fb5a85aa9c5bb7e65a89ee6dda818d8be10bdf4013"
+    },
+    {
+      "id": "run-289",
+      "seed": 2336179367,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "329d4022cef09c811e2e2d8f6b789206f70600ec3f42a60f06b9b85a20086d3c",
+      "recordHash": "cfca4abf060499fb53e109ea0815a7738944d95905c0dce9f63ceb0949d96733"
+    },
+    {
+      "id": "run-290",
+      "seed": 2748382863,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "570d17e1c137b5a339bca96d0ae67d68d2b7dba8ab23121ce3a49ef7c05b1b25",
+      "recordHash": "2e6ae8696ef62244ec30738fcda6368334b983592657a5172bead84ce714e0a6"
+    },
+    {
+      "id": "run-291",
+      "seed": 1821871035,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "714ef229ccc3a2f673c61e36d97d34fcbe5554e6e83723775719badc15e1a49a",
+      "recordHash": "315800ca11c7cecd9ca216bc24b6a53c180b0264437897643ca850a5421b3b2c"
+    },
+    {
+      "id": "run-292",
+      "seed": 1708641320,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "2c2ad28bd1db735319974dd87469cb0cb9aee507238f02e5b7db470ae757757e",
+      "recordHash": "91860b6023a3a6db1dc26a264b94013796b5404a0ac45562b681ca50a757be63"
+    },
+    {
+      "id": "run-293",
+      "seed": 2174532014,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "9f570c3a5931b2752439e6e02c2995bdcad38bc9604cf2a5a941efba6cc6c810",
+      "recordHash": "07e0e89064fc8b2d08af703fa6bed4818f476aaf281c6bfa7a5d4c8d2b7e6cfd"
+    },
+    {
+      "id": "run-294",
+      "seed": 3671463937,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "228609a69a1b76617876cc0a0c42cd19d48a95779b09373b01cc07e9bfc88edd",
+      "recordHash": "61cab44c80905d6ffa659342cd0f2dd5e8e53848bf4b7279682a99aeb7313ace"
+    },
+    {
+      "id": "run-295",
+      "seed": 268247958,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "bf9bdfec3e855c273d9c6df5b0039e0dc4785127d72ff80a7316aa724b4fe3b7",
+      "recordHash": "c393b1211772c53872cbe18923b844d1e09e8f18a4eb3e03c7c1473272c4aa52"
+    },
+    {
+      "id": "run-296",
+      "seed": 2416197928,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "e746d369bc06f96409615aa8d6b2313a67067f8f097cc115b4c1c11f73ce4d92",
+      "recordHash": "42cc8ee9c6bec57e414e43ea494e50c04ad286e02b22819d44274bc25d74ee2a"
+    },
+    {
+      "id": "run-297",
+      "seed": 296327140,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "f4e41953a1f49d05c90a49ca21bb922b4b9f146fa7e5e5f0832c879c85d3c289",
+      "recordHash": "c54cfd6e384f0f0eece13d2009049b397069b9604477a4b3812b8acbad93b730"
+    },
+    {
+      "id": "run-298",
+      "seed": 1887749333,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "80605bbb4b8923ccb9b46dc92b634620d8d6e6a565ec84aef3c722e07da7552e",
+      "recordHash": "ca8da42c2bdf0e733d6d65f9e8aefd86a8bc31859818f96d6e846b9d9b6b9e1d"
+    },
+    {
+      "id": "run-299",
+      "seed": 2186589858,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "campaign_victory",
+      "shardSha256": "e3953dc13b7dd324fd4946ceb1d6f539d114b36a38eefa3d388a83f2564f7749",
+      "recordHash": "ff7921529eb1dd7537f448aa2ab4d69937a7fd4e888f9567c60b286e35a66506"
+    },
+    {
+      "id": "run-300",
+      "seed": 971200111,
+      "strategy": "build-active",
+      "width": 1600,
+      "termination": "death",
+      "shardSha256": "06ebfe7e5eb9164039b2c7e8b99ad9e02856087a50fad31b716c2ebbfaa68aaa",
+      "recordHash": "98e4334a70cb7e686284d2112d6ddc65ac5c4b429f2b1ceabf875a3073c4d9de"
+    }
+  ]
+}

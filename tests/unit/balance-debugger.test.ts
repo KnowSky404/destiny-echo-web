@@ -16,11 +16,13 @@ import { CARDS, drawCards } from "../../src/data/cards";
 import { ENEMIES } from "../../src/data/enemies";
 import { stageAt } from "../../src/data/stages";
 import { drawBossRewards, TRAININGS } from "../../src/data/training";
+import { CONFIG } from "../../src/game/config";
 import { DebugWorld } from "../../src/game/debug/DebugWorld";
 import { seededRandom } from "../../src/game/random";
+import type { EncounterState } from "../../src/game/systems/encounter";
 import { createPlayer, World } from "../../src/game/world";
 import { ProfileStore, STORAGE_KEY } from "../../src/ui/debug/store";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 function required<T>(value: T | undefined | null): T {
   if (value === undefined || value === null) throw new Error("Expected test fixture value");
@@ -66,7 +68,7 @@ describe("portable balance profiles", () => {
   test("rejects incompatible, unknown, unsafe and incomplete inputs with field errors", () => {
     for (const change of [
       (p: ReturnType<typeof defaultProfile>) => {
-        p.schemaVersion = 2 as 1;
+        p.schemaVersion = 3 as 2;
       },
       (p: ReturnType<typeof defaultProfile>) => {
         p.payload.player.stats.damage = Number.NaN;
@@ -153,13 +155,16 @@ describe("portable balance profiles", () => {
     expect(custom.profile.payload.enemies.wisp.damage).toBe(30);
     expect(standard.profile.payload.enemies.wisp.damage).toBe(ENEMIES.wisp.damage);
   });
-  test("default reward policy preserves legacy choices and RNG state across sources and seeds", () => {
+  test("explicit stage probabilities match implicit defaults and preserve RNG state", () => {
     for (let seed = 1; seed <= 50; seed++)
       for (const source of ["chest", "supply", "stage"] as const) {
         const first = seededRandom(seed);
         const second = seededRandom(seed);
         expect(
-          drawCards(createPlayer(), new Map(), first, source, seed % 5, defaultRewardPolicy()),
+          drawCards(createPlayer(), new Map(), first, source, seed % 5, {
+            ...defaultRewardPolicy(),
+            epicChance: [0.1, 0.15, 0.2, 0.25, 0.3][seed % 5] ?? 0.3,
+          }),
         ).toEqual(drawCards(createPlayer(), new Map(), second, source, seed % 5));
         expect(first.getState()).toBe(second.getState());
       }
@@ -266,7 +271,7 @@ describe("PRE battle commands", () => {
     world.execute({ type: "player", values: playerValues(world), overrides: {} });
     expect(world.player.stats.damage).toBe(22);
     world.execute({ type: "new-run", seed: 4 });
-    expect(world.player).toEqual(createPlayer());
+    expect(world.player).toEqual(createPlayer(CONFIG.player, 1, defaultProfile().payload.player));
     expect(world.stacks.size).toBe(0);
   });
   test("invalid deck and rule commands leave the build/configuration untouched", () => {
@@ -359,24 +364,71 @@ describe("PRE battle commands", () => {
     ];
     const world = started(profile);
     world.bossSpawned = true;
-    world.score = 4900;
+    world.trainingScore = 4900;
     hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
     expect(world.scoreTrainings).toBe(0);
     expect(world.trainingStacks.size).toBe(0);
-    expect(world.snapshot().nextScoreTraining).toBe(10000);
+    expect(world.snapshot().nextScoreTraining).toBe(11500);
     expect(world.scoreMilestones).toBe(1);
     world.execute({ type: "jump", stage: 2, fresh: false });
     world.bossSpawned = true;
     world.resume();
     hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
     expect(world.scoreTrainings).toBe(0);
-    world.score = 9900;
+    world.trainingScore = 11400;
     hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
     expect(world.scoreTrainings).toBe(1);
     expect(world.scoreMilestones).toBe(2);
     world.execute({ type: "restart", restoreEntry: true });
+    expect(world.trainingScore).toBe(5000);
     expect(world.scoreMilestones).toBe(1);
     expect(world.scoreTrainings).toBe(0);
+  });
+  test("live endless budget edits replan the director without reclaiming admissions and restart uses the requested budget", () => {
+    const world = started();
+    world.execute({ type: "jump", stage: 5, fresh: true });
+    world.execute({ type: "spawn-rules", stage: { spawnInterval: 0.2 }, weights: null });
+    world.player.cooldown = 1000;
+    world.player.shield = 100000;
+    world.resume();
+    tick(world, 0.5);
+    const encounter = () => Reflect.get(world, "encounterState") as EncounterState;
+    const budgets = () =>
+      encounter().plan.flatMap((step) => (step.type === "wave" ? [step.budget] : []));
+    const spent = encounter().spentBudget;
+    expect(spent).toBeGreaterThanOrEqual(2);
+    expect(budgets()).toEqual([36, 36]);
+    const actors = world.enemies.items
+      .filter((item) => item.active)
+      .map(({ id, hp, trainingCredit }) => ({ id, hp, trainingCredit }));
+    world.execute({
+      type: "spawn-rules",
+      stage: { enemyCount: 10, spawnInterval: 0.2 },
+      weights: null,
+    });
+    expect(world.stage.enemyCount).toBe(10);
+    expect(budgets()).toEqual([spent + Math.ceil((10 - spent) / 2), Math.floor((10 - spent) / 2)]);
+    expect(encounter().spentBudget).toBe(spent);
+    world.execute({
+      type: "spawn-rules",
+      stage: { enemyCount: 1, spawnInterval: 0.2 },
+      weights: null,
+    });
+    expect(world.stage.enemyCount).toBe(spent);
+    expect(budgets()).toEqual([spent, 0]);
+    expect(world.debugInfo.stagePatch.enemyCount).toBe(1);
+    expect(
+      world.enemies.items
+        .filter((item) => item.active)
+        .map(({ id, hp, trainingCredit }) => ({ id, hp, trainingCredit })),
+    ).toEqual(actors);
+    world.execute({ type: "restart", restoreEntry: false });
+    expect(world.stage.enemyCount).toBe(1);
+    world.player.cooldown = 1000;
+    world.resume();
+    tick(world, 0.25);
+    expect(budgets()).toEqual([1, 0]);
+    expect(world.stageSpawned).toBe(1);
   });
   test("boss summon notices report the actual configured count and enhancement", () => {
     const profile = defaultProfile();
@@ -385,6 +437,9 @@ describe("PRE battle commands", () => {
     profile.payload.endless.supplies = 0;
     const world = started(profile);
     world.stageIndex = 4;
+    isolateEndless(world);
+    world.player.cooldown = 1000;
+    world.player.shield = 100000;
     world.bossSpawned = true;
     enemy(world, {
       kind: "boss",
@@ -394,9 +449,16 @@ describe("PRE battle commands", () => {
       speed: 0,
       hp: 70,
       maxHp: 100,
-      skillsUsed: 0,
+      skillsUsed: 3,
+      pendingSkills: ["summon"],
+      patternCooldown: 0,
+      stage: "Attacking",
+      arrived: true,
     });
     tick(world, 0.05);
+    expect(world.notice).toContain("蓄力");
+    expect(world.enemies.items.filter((item) => item.active && item.enhanced)).toHaveLength(0);
+    tick(world, profile.payload.evolution.chargeSeconds + 0.05);
     expect(world.notice).toContain("召唤 2 只");
     expect(world.notice).toContain("×2.25");
     expect(world.enemies.items.filter((item) => item.active && item.enhanced)).toHaveLength(2);
@@ -433,7 +495,7 @@ describe("PRE battle commands", () => {
     expect(world.stage.damage).toBe(4);
     expect(world.stageElapsed).toBe(0);
     world.execute({ type: "restart", restoreEntry: true });
-    expect(world.player).toEqual(createPlayer());
+    expect(world.player).toEqual(createPlayer(CONFIG.player, 1, defaultProfile().payload.player));
     expect(world.elapsed + world.kills + world.score).toBe(0);
     expect(world.stage.damage).toBe(1);
     world.resume();

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-selection-curated-output-index",
+  "nativeOutputsUnchanged": true,
+  "releaseAccepted": false,
+  "files": {
+    "selection-v4-audit.json": "5ec2720c823212a3a49aebaf8cd99041dd14929ee66b39750540222ed11ef994"
+  }
+}

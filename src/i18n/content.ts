@@ -31,11 +31,11 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   fuse: [
     "Ember Fuse",
-    "Kills explode for 16 damage plus 3% of the source monster's maximum HP per stack. Chains unlock at blast tier 6.",
+    "Kills explode for 16 damage plus 3% of the source monster's maximum HP per stack. Chains unlock at blast tier 6. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   bloodpact: [
     "Starfall Pact",
-    "With enemies present, sacrifice 3 HP every 5s, nonlethally. Explode at a target using base damage, player maximum HP and 2% target maximum HP per stack.",
+    "With enemies present, sacrifice 3 HP every 5s, nonlethally. Explode at a target using base damage, player maximum HP and 2% target maximum HP per stack. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   thorns: [
     "Thorn Covenant",
@@ -43,11 +43,11 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   focus: [
     "Gaze of Weakness",
-    "+20% boss damage per stack. Focus fire during the gold charge telegraph.",
+    "+20% boss damage per stack. From Endless depth 4, reselect a leader for each warning; primary hits count after forming ends. Damage can still interrupt automatically.",
   ],
   harvest: [
     "Final Echo",
-    "Each kill heals 2 HP per stack, capped at maximum health. Chain kills count.",
+    "Each kill heals 2 HP per stack, capped at maximum health. Chain kills count. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   force: ["Might Sigil", "+5 base damage. Heavy strikes and critical hits amplify it."],
   momentum: [
@@ -60,15 +60,15 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   leech: [
     "Bloodthirst Sigil",
-    "Basic attacks heal from actual enemy HP removed: 4% base, 3.4% effective per stack. Chests grant no lifesteal.",
+    "Basic attacks heal from actual enemy HP removed: 4% base, 3.4% effective per stack. Chests grant no lifesteal. From Endless depth 4, the recovery ceiling scales with your maximum HP and lifesteal; check HP/s in Build. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   renewal: [
     "Unending Spring",
-    "Regenerate 1.2 HP/s in combat; stop during pause and reward selection.",
+    "Regenerate 1.2 HP/s in combat; stop during pause and reward selection. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   recovery: [
     "Crimson Grace",
-    "+15 percentage points to healing from lifesteal, kills and regeneration.",
+    "+15 percentage points to healing from lifesteal, kills and regeneration. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   keen: [
     "Fated Edge",
@@ -93,16 +93,16 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   chill: [
     "Frost Sigil",
-    "Basic hits slow for 2s by 10% per stack, affecting movement, preparation and attack timing.",
+    "All basic projectiles slow on hit for 2s by 10% per stack. Endless minions above one star divide slow strength by their star count. From Endless depth 4, it cannot delay a leader’s first preparation or active charge.",
   ],
   frostbite: ["Shatter Hex", "+12% damage per stack against slowed enemies."],
   icefield: [
     "Winter Pulse",
-    "Every 6s, slow all enemies for 2s: 20% base plus 5% per stack. Synergy extends duration.",
+    "Every 6s, slow all enemies for 2s: 20% base plus 5% per stack. Synergy extends duration; Endless minions above one star divide slow strength by their star count. From Endless depth 4, it cannot delay a leader’s first preparation or active charge.",
   ],
   impact: [
     "Dread Sigil",
-    "Every fourth primary hit on the same enemy stuns for 0.15s per stack; bosses receive one quarter duration.",
+    "Every fourth primary hit on the same enemy stuns for 0.15s per stack; main bosses receive one quarter duration. Endless minions above one star divide stun duration by their star count. From Endless depth 4, it cannot delay a leader’s first preparation or active charge.",
   ],
   suppression: ["Suppression Edict", "+12% damage per stack against stunned or charging enemies."],
   edict: [
@@ -111,19 +111,19 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   overflow: [
     "Overflow Ward",
-    "Convert 10% of combat overhealing into shield, with a base storage cap of 20% player maximum HP.",
+    "Convert 10% of combat overhealing into shield, with a base storage cap of 20% player maximum HP. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance. Deep shield storage limits also apply; existing shield remains.",
   ],
   reservoir: [
     "Bloodforged Vessel",
-    "+5 percentage points of overheal conversion and +10% maximum-HP storage. Can activate conversion by itself.",
+    "+5 percentage points of overheal conversion and +10% maximum-HP storage. Can activate conversion by itself. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance. Deep shield storage limits also apply; existing shield remains.",
   ],
   "shield-leech": [
     "Crimson Siphon",
-    "While shielded, gain 2 percentage points of base lifesteal (1.7 effective). Ends when shield is exhausted.",
+    "While shielded, gain 2 percentage points of base lifesteal (1.7 effective). Ends when shield is exhausted. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   "giant-slayer": [
     "Giant Slayer",
-    "Primary direct hits add 0.25% of the victim's maximum HP as damage.",
+    "Primary direct hits add 0.25% of the victim's maximum HP as damage. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   "titan-breaker": [
     "Mountain Breaker",
@@ -135,15 +135,15 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   "life-rend": [
     "Life Rend",
-    "Primary direct hits add 0.2% victim maximum HP damage. Combined with Giant Slayer, capped at 5%.",
+    "Primary direct hits add 0.2% victim maximum HP damage. Combined with Giant Slayer, capped at 5%. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   decay: [
     "Decay Mark",
-    "Primary direct hits add 1% victim current HP damage, capped at 10% after synergy.",
+    "Primary direct hits add 1% victim current HP damage, capped at 10% after synergy. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   entropy: [
     "Entropy Pulse",
-    "Every 4s, deal 0.5% of each enemy's maximum HP per stack across the arena; synergy shortens the interval, capped at 5% per pulse.",
+    "Every 4s, deal 0.5% of each enemy's maximum HP per stack across the arena; synergy shortens the interval, capped at 5% per pulse. Enemy-HP damage shares the target boss or elite's per-second budget; it scales down with a minion's stars. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   "nova-heart": [
     "Supernova Heart",
@@ -159,7 +159,7 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   "final-verdict": [
     "Final Edict",
-    "+40% boss damage, +40% damage against Attacking enemies and +4 HP per kill. Once per run.",
+    "+40% boss damage, +40% damage against Attacking enemies and +4 HP per kill. Once per run. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   "titan-heart": [
     "Titan Heart",
@@ -167,7 +167,7 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   "crimson-grail": [
     "Crimson Grail",
-    "+10.2% effective lifesteal, +3 HP/s regeneration and +25% healing bonus. Once per run.",
+    "+10.2% effective lifesteal, +3 HP/s regeneration and +25% healing bonus. Once per run. From Endless depth 7, combat HP recovery and shield generation also share a recovery allowance.",
   ],
   "fate-eye": [
     "Eye of Fate",
@@ -187,11 +187,11 @@ export const CARD_EN: Record<string, readonly [name: string, effect: string]> = 
   ],
   godfall: [
     "Godfall",
-    "+0.75% primary maximum-HP damage, +8% size coefficient and +20% giant-target damage. Once per run.",
+    "+0.75% primary maximum-HP damage, +8% size coefficient and +20% giant-target damage. Once per run. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
   "event-horizon": [
     "Event Horizon",
-    "+0.6% primary maximum-HP damage, +2% current-HP damage and +1% arena pulse. Once per run.",
+    "+0.6% primary maximum-HP damage, +2% current-HP damage and +1% arena pulse. Once per run. From Endless depth 7, minions also share a per-target percentage-damage allowance that declines with depth.",
   ],
 };
 
@@ -263,9 +263,9 @@ export const FAMILY_EN: Record<string, readonly [string, readonly string[]]> = {
   frost: [
     "Eternal Winter",
     [
-      "+10 percentage points of on-hit slow; duration 3s.",
-      "Every four basic hits on one enemy freeze it for 0.6s; bosses receive one quarter duration.",
-      "Freeze every three hits for 1s; +30% damage against slowed enemies.",
+      "+10 percentage points of on-hit slow; duration 3s. Endless minions above one star divide slow strength by their star count.",
+      "Every four hits on the same enemy from any basic projectile, including secondary shots, freeze it for 0.6s; main bosses receive one quarter duration. Endless minions above one star divide freeze duration by their star count.",
+      "Freeze every three basic-projectile hits on the same enemy, including secondary shots, for 1s; +30% damage against slowed enemies. Endless minions above one star divide freeze duration by their star count.",
     ],
   ],
   dominion: [
@@ -296,6 +296,8 @@ export const FAMILY_EN: Record<string, readonly [string, readonly string[]]> = {
 
 // Longest phrases are replaced first. Numbers and arrows come from live previews.
 export const TERMS_EN: Record<string, string> = {
+  基础攻击间隔: "Base firing interval",
+  实际间隔受本局下限约束: "Effective interval respects this run's floor",
   攻击间隔: "Firing interval",
   过量转盾储量上限: "Overheal shield capacity",
   玩家生命加成: "Player HP bonus",
@@ -424,7 +426,7 @@ export function rewardDescription(id: string, locale: Locale = getLocale()): str
   const english =
     reward.type === "training"
       ? id === "training-haste"
-        ? "Run training: reduce the base firing interval by 6%, to a minimum of 0.08s. Adds no family stacks."
+        ? "Run training: reduce the base firing interval by 6%. Effective interval respects this run's floor (official: 0.12s). Adds no family stacks."
         : "Run training: permanently improve this run's base stats. Adds no family stacks."
       : (CARD_EN[id]?.[1] ?? reward.description);
   return translate(locale, reward.description, english);
@@ -472,14 +474,12 @@ export function bossName(index: number, locale: Locale = getLocale()): string {
 export function stageSubtitle(stage: Stage, index: number, locale: Locale = getLocale()): string {
   if (index < STAGES.length)
     return translate(locale, stage.subtitle, SUBTITLE_EN[index] ?? stage.subtitle);
-  const numbers = /最多 (\d+) 只小怪与 1 个首领；清完护卫才过关。每关 (\d+) 次补给/.exec(
-    stage.subtitle,
-  );
+  const numbers = /场内最多 (\d+) 个敌人/.exec(stage.subtitle);
   return translate(
     locale,
     stage.subtitle,
     numbers
-      ? `Up to ${numbers[1]} minions and one boss; clear all escorts to advance. ${numbers[2]} supplies per stage. Each clearance opens two random attack cells.`
+      ? `Clear waves and elites before the main boss; up to ${numbers[1]} active enemies. Three segment supplies per layer.`
       : stage.subtitle,
   );
 }

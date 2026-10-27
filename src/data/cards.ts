@@ -1,9 +1,10 @@
 import { CONFIG } from "../game/config";
-import { type Random, weightedShuffle } from "../game/random";
+import { type Random, weightedChoice, weightedShuffle } from "../game/random";
 import { grantShield, healingMultiplier, healPlayer } from "../game/systems/damage";
 import type { Card, Player, Reward, Stats, SynergyId } from "../game/types";
 import { t } from "../i18n/locale";
-import type { RewardPolicy } from "./balance/model";
+import { DEFAULT_EVOLUTION, type RewardPolicy } from "./balance/model";
+import { SYNERGIES } from "./synergies";
 
 export const RARITY_NAMES = { common: "普通", rare: "稀有", epic: "史诗" } as const;
 
@@ -85,7 +86,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "leech",
     name: "渴血刻印",
-    description: "普攻对敌人的实际伤害转化为生命，每层基础吸血 4%（实际 3.4%）；宝箱不提供吸血。",
+    description:
+      "普攻对敌人的实际伤害转化为生命，每层基础吸血 4%（实际 3.4%）；宝箱不提供吸血。无尽第 4 层起，回复上限随自身生命上限和吸血成长，构筑可查看 HP/s。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     synergy: "blood",
     symbol: "bloodpact",
     field: "lifesteal",
@@ -99,7 +101,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "renewal",
     name: "不息血泉",
-    description: "战斗中每秒恢复 1.2 生命，暂停与选牌时停止。",
+    description:
+      "战斗中每秒恢复 1.2 生命，暂停与选牌时停止。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     synergy: "blood",
     symbol: "vitality",
     field: "regeneration",
@@ -112,7 +115,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "recovery",
     name: "赤色恩赐",
-    description: "吸血、击杀与持续回复的治疗量增加 15 个百分点。",
+    description:
+      "吸血、击杀与持续回复的治疗量增加 15 个百分点。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     synergy: "blood",
     symbol: "harvest",
     field: "recovery",
@@ -207,7 +211,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "chill",
     name: "寒霜刻印",
-    description: "普攻命中减速 2 秒，每层减速 10%；同时减慢移动、准备和攻击计时。",
+    description:
+      "所有普攻弹命中减速 2 秒，每层减速 10%；高星普通怪减速强度按星级减弱。无尽第 4 层起，大小首领首次准备与已开始蓄力不被减速延后。",
     synergy: "frost",
     symbol: "frost",
     field: "slow",
@@ -235,7 +240,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "icefield",
     name: "永冬脉冲",
-    description: "每 6 秒全场减速 2 秒，基础 20% 加每层 5%；羁绊延长持续。",
+    description:
+      "每 6 秒全场减速 2 秒，基础 20% 加每层 5%；羁绊延长持续，高星普通怪减速强度按星级减弱。无尽第 4 层起，大小首领首次准备与已开始蓄力不被减速延后。",
     synergy: "frost",
     symbol: "frost",
     field: "frostPulse",
@@ -248,7 +254,8 @@ const EXTRA_CARDS: readonly Card[] = [
   statCard({
     id: "impact",
     name: "震慑刻印",
-    description: "主弹每命中同一敌人 4 次，眩晕每层 0.15 秒；首领持续四分之一。",
+    description:
+      "主弹每命中同一敌人 4 次，眩晕每层 0.15 秒；主首领持续四分之一，高星普通怪时长按星级减弱。无尽第 4 层起，大小首领首次准备与已开始蓄力不被眩晕延后。",
     synergy: "dominion",
     symbol: "control",
     field: "stun",
@@ -359,7 +366,8 @@ export const EPIC_CARDS: readonly Card[] = [
     synergy: "judgment",
     symbol: "execution",
     offense: true,
-    description: "对首领和攻击阶段的敌人各增加 40% 伤害，每次击杀额外回复 4 生命。每局限取一次。",
+    description:
+      "对首领和攻击阶段的敌人各增加 40% 伤害，每次击杀额外回复 4 生命。每局限取一次。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     bonuses: { focus: 2, execution: 2, harvest: 2 },
     change: "首领增伤 +40% · 攻击阶段增伤 +40% · 击杀回复 +4",
     changeEn: "Boss bonus +40% · Attacking-state damage bonus +40% · Kill healing +4",
@@ -381,7 +389,8 @@ export const EPIC_CARDS: readonly Card[] = [
     synergy: "blood",
     symbol: "bloodpact",
     offense: false,
-    description: "以敌人的伤口修复防线。吸血、持续回复和治疗加成同时强化。每局限取一次。",
+    description:
+      "以敌人的伤口修复防线。吸血、持续回复和治疗加成同时强化。每局限取一次。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     bonuses: { lifesteal: 0.12, regeneration: 3, recovery: 0.25 },
     change: "实际吸血 +10.2% · 每秒回复 +3 · 治疗加成 +25%",
     changeEn: "Effective lifesteal +10.2% · HP/s +3 · Healing bonus +25%",
@@ -437,7 +446,8 @@ export const EPIC_CARDS: readonly Card[] = [
     synergy: "giantslayer",
     symbol: "focus",
     offense: true,
-    description: "主弹额外 0.75% 最大生命伤害，体量系数 +8%，巨物增伤 +20%。每局限取一次。",
+    description:
+      "主弹额外 0.75% 最大生命伤害，体量系数 +8%，巨物增伤 +20%。每局限取一次。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     bonuses: { giantSlayer: 0.0075, giantPower: 0.08, giantHunt: 0.2 },
     change: "主弹最大生命 +0.75% · 体量系数 +8% · 巨物增伤 +20%",
     changeEn: "Primary maximum HP +0.75% · Size coefficient +8% · Giant bonus +20%",
@@ -448,7 +458,8 @@ export const EPIC_CARDS: readonly Card[] = [
     synergy: "erosion",
     symbol: "storm",
     offense: true,
-    description: "主弹额外造成 0.6% 最大生命与 2% 当前生命伤害，全场脉冲额外 1%。每局限取一次。",
+    description:
+      "主弹额外造成 0.6% 最大生命与 2% 当前生命伤害，全场脉冲额外 1%。每局限取一次。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     bonuses: { maxHealthDamage: 0.006, currentHealthDamage: 0.02, erosionPulse: 0.01 },
     change: "主弹最大生命 +0.6% · 当前生命 +2% · 脉冲 +1%",
     changeEn: "Primary maximum HP +0.6% · Current HP +2% · Pulse +1%",
@@ -583,7 +594,7 @@ export const CARDS: readonly Card[] = [
     synergy: "blast",
     name: "余烬引信",
     description:
-      "击杀时引爆目标，对附近敌人造成每层 16 点 + 被引爆怪物最大生命 3% 的伤害。殉星 6 层后可连锁。",
+      "击杀时引爆目标，对附近敌人造成每层 16 点 + 被引爆怪物最大生命 3% 的伤害。殉星 6 层后可连锁。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     rarity: "rare",
     symbol: "blast",
     maxStacks: 4,
@@ -601,7 +612,7 @@ export const CARDS: readonly Card[] = [
     synergy: "blast",
     name: "殉星契约",
     description:
-      "有敌人时每 5 秒献祭 3 生命（不会致死），在目标处爆炸。除基础和玩家生命加成，每层附加目标最大生命 2%。",
+      "有敌人时每 5 秒献祭 3 生命（不会致死），在目标处爆炸。除基础和玩家生命加成，每层附加目标最大生命 2%。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     rarity: "rare",
     symbol: "bloodpact",
     maxStacks: 3,
@@ -635,7 +646,8 @@ export const CARDS: readonly Card[] = [
     offense: true,
     synergy: "judgment",
     name: "破绽凝视",
-    description: "每层对首领额外造成 20% 伤害。金色蓄力，是火力全开的时机。",
+    description:
+      "每层对首领额外造成 20% 伤害。无尽第 4 层起，每次预警重新点选确认，起势后主弹才累计打断；伤害路线照常。",
     rarity: "common",
     symbol: "focus",
     maxStacks: 3,
@@ -652,7 +664,8 @@ export const CARDS: readonly Card[] = [
     offense: false,
     synergy: "judgment",
     name: "终焉回响",
-    description: "每次击杀回复每层 2 点生命，最高不超过生命上限。连锁击杀同样生效。",
+    description:
+      "每次击杀回复每层 2 点生命，最高不超过生命上限。连锁击杀同样生效。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     rarity: "common",
     symbol: "harvest",
     maxStacks: 3,
@@ -668,7 +681,7 @@ export const CARDS: readonly Card[] = [
     id: "overflow",
     name: "余血屏障",
     description:
-      "战斗中过量治疗的 10% 转为护盾，基础储量上限为最大生命的 20%；可与吸血、回复联动。",
+      "战斗中过量治疗的 10% 转为护盾，基础储量上限为最大生命的 20%；可与吸血、回复联动。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。转盾还受深层储量限制；已有护盾保留。",
     synergy: "blood",
     symbol: "ward",
     field: "overheal",
@@ -683,7 +696,8 @@ export const CARDS: readonly Card[] = [
     type: "augment",
     id: "reservoir",
     name: "血铸容器",
-    description: "过量治疗转盾 +5 个百分点，储量上限 +10% 最大生命；可单独启动转盾。",
+    description:
+      "过量治疗转盾 +5 个百分点，储量上限 +10% 最大生命；可单独启动转盾。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。转盾还受深层储量限制；已有护盾保留。",
     synergy: "bastion",
     rarity: "rare",
     symbol: "ward",
@@ -704,7 +718,7 @@ export const CARDS: readonly Card[] = [
     id: "shield-leech",
     name: "赤盾汲取",
     description:
-      "持有护盾时基础普攻吸血 +2 个百分点（实际 +1.7）；护盾耗尽后失效，与过量治疗转盾联动。",
+      "持有护盾时基础普攻吸血 +2 个百分点（实际 +1.7）；护盾耗尽后失效，与过量治疗转盾联动。无尽第 7 层起，战斗回血与转盾另受共享回复额度限制。",
     synergy: "blood",
     symbol: "bloodpact",
     field: "shieldLeech",
@@ -721,7 +735,8 @@ export const CARDS: readonly Card[] = [
     synergy: "giantslayer",
     symbol: "focus",
     offense: true,
-    description: "主弹直接命中额外造成目标最大生命 0.25% 的伤害；高血量目标承受更多伤害。",
+    description:
+      "主弹直接命中额外造成目标最大生命 0.25% 的伤害；高血量目标承受更多伤害。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     field: "giantSlayer",
     amount: 0.0025,
     label: "主弹最大生命伤害",
@@ -763,7 +778,8 @@ export const CARDS: readonly Card[] = [
     synergy: "erosion",
     symbol: "piercing",
     offense: true,
-    description: "主弹直接命中额外造成目标最大生命 0.2% 的伤害，与巨人杀手合计最高 5%。",
+    description:
+      "主弹直接命中额外造成目标最大生命 0.2% 的伤害，与巨人杀手合计最高 5%。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     field: "maxHealthDamage",
     amount: 0.002,
     label: "主弹最大生命侵蚀",
@@ -777,7 +793,8 @@ export const CARDS: readonly Card[] = [
     synergy: "erosion",
     symbol: "damage",
     offense: true,
-    description: "主弹直接命中额外造成目标当前生命 1% 的伤害，羁绊后最高 10%。",
+    description:
+      "主弹直接命中额外造成目标当前生命 1% 的伤害，羁绊后最高 10%。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     field: "currentHealthDamage",
     amount: 0.01,
     label: "主弹当前生命伤害",
@@ -791,7 +808,8 @@ export const CARDS: readonly Card[] = [
     synergy: "erosion",
     symbol: "storm",
     offense: true,
-    description: "每 4 秒对全场敌人造成每层 0.5% 最大生命伤害；羁绊缩短间隔，单次最高 5%。",
+    description:
+      "每 4 秒对全场敌人造成每层 0.5% 最大生命伤害；羁绊缩短间隔，单次最高 5%。对大小首领，敌方生命项受共享每秒额度限制；对高星普通怪，该项按星级减弱。无尽第 7 层起，普通怪的敌方生命伤害项也共享随层数递减的每秒额度。",
     field: "erosionPulse",
     amount: 0.005,
     label: "全场最大生命侵蚀",
@@ -812,27 +830,83 @@ export function isFirstStageExcluded(card: Card): boolean {
   return !["barrage", "might", "precision", "storm"].includes(card.synergy);
 }
 
-export function eligibleCards(player: Player, stacks: ReadonlyMap<string, number>): Card[] {
+export function eligibleCards(
+  player: Player,
+  stacks: ReadonlyMap<string, number>,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
+): Card[] {
+  // Evaluate the permanent interval before poison, without importing the combat
+  // module back into its card catalog's initialization cycle.
+  const barrage = [...stacks].reduce(
+    (sum, [id, count]) => sum + (CARD_BY_ID.get(id)?.synergy === "barrage" ? count : 0),
+    0,
+  );
+  const permanentInterval = player.stats.interval * (barrage >= 9 ? 0.75 : barrage >= 3 ? 0.88 : 1);
   return CARDS.filter(
     (card) =>
       (card.maxStacks === null || (stacks.get(card.id) ?? 0) < card.maxStacks) &&
-      card.eligible(player),
+      card.eligible(player) &&
+      (card.id !== "haste" || permanentInterval > firingIntervalFloor + 1e-9),
   );
+}
+
+export const COMPLEMENTARY_FAMILIES: Readonly<Record<SynergyId, SynergyId>> = {
+  barrage: "precision",
+  precision: "barrage",
+  might: "giantslayer",
+  giantslayer: "might",
+  blast: "erosion",
+  erosion: "blast",
+  blood: "bastion",
+  bastion: "blood",
+  frost: "dominion",
+  dominion: "frost",
+  judgment: "storm",
+  storm: "judgment",
+};
+
+export function stageEpicChance(stageIndex: number): number {
+  return [0.1, 0.15, 0.2, 0.25][stageIndex] ?? 0.3;
+}
+
+function rewardPool(
+  player: Player,
+  stacks: ReadonlyMap<string, number>,
+  stageIndex: number,
+  policy?: RewardPolicy,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
+): Card[] {
+  return eligibleCards(player, stacks, firingIntervalFloor).filter(
+    (card) =>
+      (stageIndex > 0 || policy?.firstStageRestriction === false || !isFirstStageExcluded(card)) &&
+      (policy?.cardWeights[card.id] ?? 1) > 0,
+  );
+}
+
+function primaryFamily(
+  stacks: ReadonlyMap<string, number>,
+): { id: SynergyId; count: number } | undefined {
+  return SYNERGIES.map(({ id }) => ({
+    id,
+    count: [...stacks].reduce(
+      (sum, [cardId, count]) => sum + (CARD_BY_ID.get(cardId)?.synergy === id ? count : 0),
+      0,
+    ),
+  }))
+    .filter(({ count }) => count > 0)
+    .sort((a, b) => b.count - a.count)[0];
 }
 
 export function drawCards(
   player: Player,
   stacks: ReadonlyMap<string, number>,
   random: Random,
-  source: Reward["source"] = "chest",
+  _source: Reward["source"] = "chest",
   stageIndex = 0,
   policy?: RewardPolicy,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
 ): string[] {
-  const eligible = eligibleCards(player, stacks).filter(
-    (card) =>
-      (stageIndex > 0 || policy?.firstStageRestriction === false || !isFirstStageExcluded(card)) &&
-      (policy?.cardWeights[card.id] ?? 1) > 0,
-  );
+  const eligible = rewardPool(player, stacks, stageIndex, policy, firingIntervalFloor);
   const weight = (card: Card) => policy?.cardWeights[card.id] ?? 1;
   if (policy?.mode === "weighted")
     return weightedShuffle(eligible, weight, random)
@@ -843,14 +917,9 @@ export function drawCards(
     weight,
     random,
   );
-  const counts = new Map<SynergyId, number>();
-  for (const [id, count] of stacks) {
-    const family = CARD_BY_ID.get(id)?.synergy;
-    if (family) counts.set(family, (counts.get(family) ?? 0) + count);
-  }
-  const focused = [...counts]
-    .filter(([family]) => pool.some((card) => card.synergy === family))
-    .sort((a, b) => b[1] - a[1])[0]?.[0];
+  const primary = primaryFamily(stacks);
+  const focused = primary?.id;
+  const mature = (primary?.count ?? 0) >= 9;
   // Two different offers from the most invested family help reach 3/6/9 without
   // drowning it in ten families. The third slot retains an alternative.
   const foundations = new Set([
@@ -868,38 +937,76 @@ export function drawCards(
     "titan-heart",
     "tempest-core",
   ]);
-  const preferred = focused
-    ? pool.filter((card) => card.synergy === focused).slice(0, 2)
-    : pool.filter((card) => foundations.has(card.id)).slice(0, 2);
-  const choices = [...preferred, ...pool.filter((card) => !preferred.includes(card))].slice(0, 3);
+  const choices: Card[] = [];
+  if (mature && focused) {
+    for (const family of [focused, COMPLEMENTARY_FAMILIES[focused], undefined]) {
+      const remaining = pool.filter((card) => !choices.includes(card));
+      const selected = remaining.find((card) => card.synergy === family) ?? remaining[0];
+      if (selected) choices.push(selected);
+    }
+  } else {
+    const preferred = focused
+      ? pool.filter((card) => card.synergy === focused).slice(0, 2)
+      : pool.filter((card) => foundations.has(card.id)).slice(0, 2);
+    choices.push(
+      ...[...preferred, ...pool.filter((card) => !preferred.includes(card))].slice(0, 3),
+    );
+  }
   // Conditional damage cards (for example crit damage without crit chance) are
   // not the only escape from a weak start: always retain a foundation upgrade.
   if (!choices.some((card) => foundations.has(card.id))) {
     const attack = pool.find((card) => foundations.has(card.id) && !choices.includes(card));
     if (attack) choices[choices.length - 1] = attack;
   }
-  const collected = [...stacks.values()].reduce((sum, count) => sum + count, 0);
   const epics = eligible.filter((card) => card.rarity === "epic");
-  if (
-    epics.length > 0 &&
-    (source === "stage" || collected >= 3) &&
-    random() < (policy?.epicChance ?? 0.25)
-  ) {
+  if (epics.length > 0 && random() < (policy?.epicChance ?? stageEpicChance(stageIndex))) {
     const promoted = weightedShuffle(epics, weight, random);
     const epic = promoted.find((card) => card.synergy === focused) ?? promoted[0];
     if (epic) {
       // Preserve a foundation option even when the epic itself is defensive.
-      const replacement = choices.findIndex((card) => !foundations.has(card.id));
-      if (choices.length === 0) choices.push(epic);
+      let replacement = mature
+        ? choices.findIndex((card) => card.synergy === epic.synergy)
+        : choices.findIndex((card) => !foundations.has(card.id));
+      const selectedIndex = replacement >= 0 ? replacement : choices.length - 1;
+      if (
+        !foundations.has(epic.id) &&
+        foundations.has(choices[selectedIndex]?.id ?? "") &&
+        choices.filter((card) => foundations.has(card.id)).length === 1
+      )
+        replacement = choices.findIndex((card) => !foundations.has(card.id));
+      if (choices.length < 3) choices.push(epic);
       else choices[replacement >= 0 ? replacement : choices.length - 1] = epic;
     }
   }
   return choices.map((card) => card.id);
 }
 
-export function applyCard(id: string, player: Player, stacks: Map<string, number>): boolean {
+/** The boss's single card slot rolls its final rarity directly, without three-slot dilution. */
+export function drawBossCard(
+  player: Player,
+  stacks: ReadonlyMap<string, number>,
+  random: Random,
+  stageIndex: number,
+  policy?: RewardPolicy,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
+): string | undefined {
+  const eligible = rewardPool(player, stacks, stageIndex, policy, firingIntervalFloor);
+  const weight = (card: Card) => policy?.cardWeights[card.id] ?? 1;
+  if (policy?.mode === "weighted") return weightedChoice(eligible, weight, random)?.id;
+  const epics = eligible.filter((card) => card.rarity === "epic");
+  const epic = epics.length > 0 && random() < (policy?.epicChance ?? stageEpicChance(stageIndex));
+  const candidates = eligible.filter((card) => (card.rarity === "epic") === epic);
+  return weightedChoice(candidates, weight, random)?.id;
+}
+
+export function applyCard(
+  id: string,
+  player: Player,
+  stacks: Map<string, number>,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
+): boolean {
   const card = CARD_BY_ID.get(id);
-  if (!card || !eligibleCards(player, stacks).includes(card)) return false;
+  if (!card || !eligibleCards(player, stacks, firingIntervalFloor).includes(card)) return false;
   card.apply(player);
   stacks.set(id, (stacks.get(id) ?? 0) + 1);
   return true;

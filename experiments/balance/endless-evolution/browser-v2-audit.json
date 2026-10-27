@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "kind": "endless-evolution-browser-audit",
+  "revision": "v2-20261026",
+  "recordedAt": "2026-10-26T09:56:23.608Z",
+  "status": "local-ui-passed-gameplay-rejected",
+  "source": {
+    "baseCommit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+    "dirtySnapshot": true,
+    "codeFingerprint": "a70d80614f38f3ee09c7da4abcd936cbb2893730d3cda6be1a221ab716a70273",
+    "officialProfileHash": "011462d76f4c4fb2c523e98eb6df08a510fe9cb94e8163fcf9309ca674c5a5e6",
+    "productSourceManifestSHA256": "85c0570b45a7b9ee0e5602cfd56252e613597bf3646e7452595fd73dd414094e",
+    "browserAssertionsManifestSHA256": "5ceddff0c4b2fce22451ece0a0369c871f8cdc7632db710a580af82f8a692401",
+    "dualBuildManifestSHA256": "c0a051e5895bcde0b04737eadf4ce6d4bf0fb31d7ba5968abe7a9b0afd8d042e",
+    "dualBuildFiles": 29,
+    "frozen47ManifestSHA256": "71355586f313e6f75583cee052736bee10ff828cee570e39b03c813ab08fc7b6"
+  },
+  "primaryMatrix": {
+    "uniqueCases": 52,
+    "executions": 52,
+    "passed": 52,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "batches": 16,
+    "categories": {
+      "core": 16,
+      "leaderControl": 4,
+      "sanctuary": 8,
+      "guardAndHud": 4,
+      "segmentSupplies": 4,
+      "criticalEnglishRewards": 4,
+      "naturalControls": 4,
+      "actualCliPreImports": 4,
+      "officialPreExports": 4
+    },
+    "actualKeysAndReceiptAudit": "qa/environment/final-identity-check.json"
+  },
+  "supplementary": {
+    "uniqueCases": 3,
+    "passed": 3,
+    "shortViewport": {
+      "passed": 1,
+      "viewport": [320, 568],
+      "documentHeight": 673,
+      "nativeWheelScrollTop": 105,
+      "nativeTouchScrollTop": 105,
+      "footerAfterScroll": [432.515625, 465.796875],
+      "cardsOwnDimensionsEqual": true,
+      "worldSnapshotUnchanged": true
+    },
+    "builtHelp": {
+      "passed": 2,
+      "environment": "local PRO static build",
+      "viewports": ["desktop", "320px simulated touch"],
+      "englishChineseEnglish": true,
+      "nativeReadScrollClose": true,
+      "pausedTimerAndHp": true,
+      "manualResume": true
+    },
+    "initialHelpProbe": {
+      "executions": 2,
+      "failed": 2,
+      "classification": "test locator ambiguity",
+      "detail": "Both legal resume controls matched; scoped test-only selector to pause overlay. Same source/build/180s timeout then passed. Original reports and traces retained under qa/probes/built-help."
+    }
+  },
+  "naturalEnvironment": {
+    "projects": ["chromium", "firefox"],
+    "controls": ["offense", "random"],
+    "explicitRenderFPS": 15,
+    "worldFixedStep": 0.008333333333333333,
+    "logicalSeconds": {
+      "offense": 180,
+      "random": 260
+    },
+    "wallCapsSeconds": {
+      "chromium": 600,
+      "firefoxRandom": 600,
+      "firefoxOffense": 1500
+    },
+    "firefox": "headed Xvfb",
+    "ordinaryRenderFPS": 60,
+    "mesaThreads": "default",
+    "performanceBoundary": "Software WebGL environment acceptance; no physical-device or 60FPS performance claim. Initial Chromium slow segment and original caps preserved."
+  },
+  "preExportContract": {
+    "schemaVersion": 2,
+    "id": "endless-evolution-20261026",
+    "officialPayloadDeepEqual": true,
+    "localSavedRevision": 2,
+    "campaignBossAt": [95, 95, 95, 95],
+    "stageTwo": {
+      "health": 3.6,
+      "bossHp": 220000
+    },
+    "trainingGrowth": {
+      "linear": 0.3,
+      "quadratic": 0.2
+    }
+  },
+  "historical": [
+    {
+      "scope": "original235",
+      "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+      "passed": 228,
+      "failed": 3,
+      "skipped": 4,
+      "failure": "Three genuine English reward-layout failures; original gate remains failed. Engine-scope skips are not gameplay passes.",
+      "archive": "/root/Clouds/destiny-echo-web/artifacts/balance/endless-evolution/browser-20261026-final-20261026T041730Z",
+      "manifestSHA256": "a83ce41a2bfb217d32411be0cc09aaaf2e4945e32d1e7b5be39898b90e5f00a9"
+    },
+    {
+      "scope": "CSS r2 follow-up33",
+      "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+      "passed": 33,
+      "detail": "Scoped layout fix, including card natural height and scroll reachability. Earlier r1 had22 automated passes but was visually rejected for overlapping card text; preserved inside this archive.",
+      "archive": "/root/Clouds/destiny-echo-web/artifacts/balance/endless-evolution/browser-css-r2-20261026-final-20261026T080458Z",
+      "manifestSHA256": "e7f04f9e1fb148f2fe5da962324c04036315625c86b92bd39ca9fd5189af6d21"
+    }
+  ],
+  "archive": {
+    "path": "/root/Clouds/destiny-echo-web/artifacts/balance/endless-evolution/browser-v2-20261026-final-20261026T095210Z",
+    "manifestSHA256": "012a04325457c84812c7eca24e27ec878320a8c76386e1e0669e99b1232efcb5",
+    "receiptSHA256": "11a2e22131cd7517bef43374ee2e7f2df839ce5e7c8b9a283502475a15bc19cb",
+    "regularFiles": 451,
+    "totalBytes": 25031993,
+    "verifiedFiles": 451,
+    "independentSha256ExitCode": 0,
+    "sourceBuildAssertionsUnchanged": true,
+    "skippedLinks": [],
+    "report": "qa/REPORT.md",
+    "caseLedger": "qa/matrix-cases.tsv",
+    "screenshots": "qa/screenshots/index.json"
+  },
+  "releaseBoundary": {
+    "localUiAccepted": true,
+    "overallGameplayAccepted": false,
+    "v2Published": false,
+    "decisionSource": "Parent release decision after separate Endless evaluation; not independently audited by this browser record.",
+    "reason": "Sustained Endless challenge remains unresolved.",
+    "livePreAcceptancePerformed": false
+  },
+  "limits": [
+    "52 bounded current-source cases; not a repeat of the entire235 historical matrix.",
+    "Local PRE/PRO builds are distinct from Cloudflare PRE/PRO deployments.",
+    "No automatic CLI replay or new QA seed sampling; imported real case only prepares manual PRE state.",
+    "No complete four-stage browser pacing session or human-feel/physical-device acceptance.",
+    "Archive docs reflect copy time and may differ from final formal-calibration documentation."
+  ]
+}

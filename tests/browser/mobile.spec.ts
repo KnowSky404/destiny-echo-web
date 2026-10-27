@@ -285,7 +285,7 @@ test("320px touch can inspect all twelve families and select a nine-layer critic
   await page.screenshot({ path: join(tmpdir(), "destiny-mobile-ten-families.png") });
 });
 
-test("320px endless random supplies fit and grant three cards followed by the boss card", async ({
+test("320px endless segment supplies fit and grant three cards followed by the boss card", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 568 });
@@ -293,16 +293,44 @@ test("320px endless random supplies fit and grant three cards followed by the bo
     page,
     `
     world.stageIndex = 4;
-    // A living 1-HP boss has already consumed its health-threshold skills.
-    enemy({ kind: "boss", hp: 1, skillsUsed: 3 });
+    world.bossSpawned = false;
+    world.player.stats.damage = 1000000;
+    world.encounterStageIndex = world.stageIndex;
+    world.encounterState = {
+      plan: [{ id: "wave1", type: "wave", budget: 0 },
+        { id: "miniA", type: "mini", kind: "tank" },
+        { id: "wave2", type: "wave", budget: 0 },
+        { id: "main", type: "main", kind: "boss" }],
+      index: 0, spentBudget: 0, admittedLeaders: 0, initialEscortsRemaining: 0, breakRemaining: 0,
+    };
+    // Keep this a native director/reward-layout fixture rather than a long
+    // balance run: real spawned units and escorts use visible, stationary
+    // 1-HP bodies. A stationary boss at its normal offscreen entrance cannot
+    // become a valid target, so place the fixture inside the arena.
+    const spawn = world.spawnEnemy.bind(world);
+    world.spawnEnemy = (...args) => {
+      const unit = spawn(...args);
+      if (unit) { unit.hp = unit.maxHp = 1; unit.speed = 0; unit.y = 500; }
+      return unit;
+    };
   `,
   );
-  await page.clock.runFor(1000);
+  const advanceToReward = async () => {
+    for (let attempt = 0; attempt < 30; attempt++) {
+      if (["RewardSelection", "StageClear"].includes((await snapshot(page)).phase)) {
+        await page.clock.runFor(100);
+        return;
+      }
+      await page.clock.runFor(500);
+    }
+    throw new Error("Segment reward never settled within the 15-second fixture budget");
+  };
   for (let supply = 1; supply <= 3; supply++) {
-    await expect(page.getByRole("heading", { name: `无尽随机补给 ${supply} / 3` })).toBeVisible();
+    await advanceToReward();
+    await expect(page.getByRole("heading", { name: `无尽分段补给 ${supply} / 3` })).toBeVisible();
     const frame = await page.locator(".arena-frame").boundingBox();
     const modal = await page.locator(".reward-modal").boundingBox();
-    if (!frame || !modal) throw new Error("Missing random supply bounds");
+    if (!frame || !modal) throw new Error("Missing segment supply bounds");
     expect(modal.y).toBeGreaterThanOrEqual(frame.y);
     expect(modal.y + modal.height).toBeLessThanOrEqual(frame.y + frame.height);
     const frozen = await snapshot(page);
@@ -313,6 +341,7 @@ test("320px endless random supplies fit and grant three cards followed by the bo
     await page.locator(".reward-card").first().tap();
     await page.clock.runFor(100);
   }
+  await advanceToReward();
   await expect(page.getByRole("heading", { name: "第 5 关突破" })).toBeVisible();
   await expect(page.locator(".reward-modal")).toContainText("两项锻体与一张残响三选一");
   await page.locator(".reward-card").first().tap();
@@ -324,7 +353,7 @@ test("320px endless random supplies fit and grant three cards followed by the bo
       (a, b) => a + b,
       0,
     ),
-  ).toBe(4);
+  ).toBe(4 + next.scoreTrainings);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );

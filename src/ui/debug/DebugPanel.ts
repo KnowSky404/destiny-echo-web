@@ -8,6 +8,7 @@ import {
   ENDLESS_FIELDS,
   ENEMY_FIELDS,
   type EnemyNumbers,
+  EVOLUTION_FIELDS,
   type KindWeights,
   MINION_KINDS,
   type NumericField,
@@ -478,6 +479,12 @@ export class DebugPanel {
     });
     spawn.append(button("补入战场", () => this.command({ type: "spawn", kind, count })));
     const rules = details(this.body, "当前关卡临时出怪规则");
+    rules.append(
+      el(
+        "p",
+        "无尽预算修改只重分当前及后续怪群的剩余名额，已出场信用不追回；显示有效预算，保留构筑重开才完整采用请求值。补给数量按前三段累计 floor(N×k/3) 分配，可能连续选多次。",
+      ),
+    );
     const stagePatch = { ...this.world.debugInfo.stagePatch };
     let weights = structuredClone(this.world.debugInfo.kindWeights);
     this.stageFields(
@@ -662,6 +669,7 @@ export class DebugPanel {
     importer.append(file);
     actions.append(importer);
     this.body.append(actions);
+    this.renderLegacyProfiles();
     const versions = details(this.body, `已保存版本（${this.store.state.versions.length}）`, true);
     if (!this.store.state.versions.length) versions.append(el("p", "尚无已保存版本。"));
     for (const version of this.store.state.versions) {
@@ -738,15 +746,89 @@ export class DebugPanel {
         });
     }
     const endless = details(this.body, "方案：无尽成长与补给");
+    endless.append(
+      el("p", "v2 生命成长使用下方一次项与二次项；旧版指数成长字段仅保留在 JSON 中。"),
+    );
     const endlessGrid = el("div", undefined, "debug-grid");
     endless.append(endlessGrid);
-    for (const key of Object.keys(ENDLESS_FIELDS) as (keyof typeof ENDLESS_FIELDS)[])
+    for (const key of Object.keys(ENDLESS_FIELDS) as (keyof typeof ENDLESS_FIELDS)[]) {
+      if (["healthGrowth", "damageGrowth", "timingGrowth"].includes(key)) continue;
       numberField(endlessGrid, ENDLESS_FIELDS[key], draft.payload.endless[key], (n) => {
         draft.payload.endless[key] = n;
         this.saveDraft();
       });
+    }
+    const evolution = details(this.body, "方案：锻体与无尽节奏");
+    const evolutionGrid = el("div", undefined, "debug-grid");
+    evolution.append(evolutionGrid);
+    for (const key of Object.keys(EVOLUTION_FIELDS) as (keyof typeof EVOLUTION_FIELDS)[])
+      numberField(evolutionGrid, EVOLUTION_FIELDS[key], draft.payload.evolution[key], (n) => {
+        draft.payload.evolution[key] = n;
+        this.saveDraft();
+      });
     this.renderStageRules(draft);
     this.renderRewardPolicy(draft);
+  }
+  private renderLegacyProfiles(): void {
+    const section = details(this.body, "v1 方案备份与迁移");
+    section.append(
+      el(
+        "p",
+        "v1 原始数据保留。迁移仅保存新的 v2 副本，补齐新规则参数；不会启用或重开战斗，旧版回放仍需旧代码。",
+      ),
+    );
+    if (this.store.legacyStorageRaw !== null) {
+      const raw = this.store.legacyStorageRaw;
+      section.append(
+        button("导出 v1 原始存储", () =>
+          this.downloadJSON(raw, "echoes-balance-v1-storage-backup.json"),
+        ),
+      );
+    }
+    for (const [index, source] of this.store.legacyProfiles.entries()) {
+      const row = el("div", undefined, "debug-version");
+      row.append(el("strong", () => `${source.name} v${source.revision} · v1`));
+      const actions = el("div", undefined, "debug-actions");
+      actions.append(
+        button("导出 v1 方案", () =>
+          this.downloadJSON(
+            `${JSON.stringify(source, null, 2)}\n`,
+            `echoes-balance-v1-${source.id}-v${source.revision}.json`,
+          ),
+        ),
+        button("迁移为 v2 独立版本", () =>
+          this.write(() => {
+            this.store.migrateLegacy(index);
+            return "已迁移为独立 v2 版本；草稿、选中版本与当前战斗保持不变";
+          }),
+        ),
+      );
+      row.append(actions);
+      section.append(row);
+    }
+    const importer = el("label", "导入并迁移 v1 方案副本", "debug-import button button-quiet");
+    const input = el("input");
+    input.type = "file";
+    input.accept = ".json,application/json";
+    input.addEventListener("change", async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      if (file.size > 2_000_000) {
+        this.message("配置文件不能超过 2 MB", true);
+        return;
+      }
+      try {
+        const text = await file.text();
+        await this.write(() => {
+          this.store.migrateLegacyVersion(text);
+          return "已迁移为独立 v2 版本；草稿、选中版本与当前战斗保持不变";
+        });
+      } catch (error) {
+        this.message(error instanceof Error ? error.message : String(error), true);
+      }
+    });
+    importer.append(input);
+    section.append(importer);
   }
   private renderProfileIdentity(parent: HTMLElement): void {
     const { draft } = this.store.state;
@@ -1082,6 +1164,19 @@ export class DebugPanel {
       link.remove();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
       return "已导出配置。生产环境需另行校验、应用和发布";
+    }, false);
+  }
+  private downloadJSON(text: string, filename: string): void {
+    this.attempt(() => {
+      const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+      const link = el("a");
+      link.href = url;
+      link.download = filename;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return "已导出原始 v1 数据";
     }, false);
   }
 }

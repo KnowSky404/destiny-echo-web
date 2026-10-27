@@ -1,0 +1,207 @@
+{
+  "kind": "independent-holdout-unresolved-counterexample",
+  "recordedAt": "2026-10-26T03:14:50.968085+00:00",
+  "record": "artifacts/balance/endless-evolution/candidate-validation-v1-complete/shards/run-580.json",
+  "recordSha256": "3e2f682b36240b28b59a2acc53921565585a0536a91317d2bcd527209dc56834",
+  "id": "run-580",
+  "seed": 1802079540,
+  "strategy": {
+    "name": "build-active"
+  },
+  "width": 1600,
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "termination": "budget_exhausted",
+  "reason": "Maximum fixed steps reached",
+  "steps": 108000,
+  "playerSeconds": 898.3999999993473,
+  "presentationSeconds": 1.5999999999999968,
+  "validMetrics": true,
+  "invalidValues": [],
+  "phase": "Playing",
+  "final": {
+    "hp": 100,
+    "maxHp": 100,
+    "shield": 0,
+    "trainingScore": 43000,
+    "cards": {
+      "momentum": 3,
+      "force": 6,
+      "multishot": 1,
+      "chain": 1,
+      "expose": 1
+    },
+    "trainings": {
+      "training-critical": 1,
+      "training-critical-power": 2,
+      "training-leech": 1,
+      "training-damage": 1
+    },
+    "synergies": {
+      "blast": 0,
+      "barrage": 1,
+      "bastion": 0,
+      "judgment": 0,
+      "might": 9,
+      "blood": 0,
+      "precision": 1,
+      "storm": 1,
+      "frost": 0,
+      "dominion": 0,
+      "giantslayer": 0,
+      "erosion": 0
+    }
+  },
+  "stages": [
+    {
+      "stage": 1,
+      "cleared": true,
+      "playerSeconds": 150.47500000002748,
+      "bossSpawnTime": {
+        "playerSeconds": 90.00000000001769,
+        "stageSeconds": 90.00000000001769
+      },
+      "bossDeathTime": {
+        "playerSeconds": 141.86666666670197,
+        "stageSeconds": 141.86666666670197
+      },
+      "clearTime": {
+        "playerSeconds": 150.47500000002748,
+        "stageSeconds": 150.47500000002748
+      },
+      "entry": {
+        "hp": 100,
+        "maxHp": 100,
+        "shield": 0,
+        "trainingScore": 0,
+        "cards": {},
+        "trainings": {},
+        "synergies": {
+          "blast": 0,
+          "barrage": 0,
+          "bastion": 0,
+          "judgment": 0,
+          "might": 0,
+          "blood": 0,
+          "precision": 0,
+          "storm": 0,
+          "frost": 0,
+          "dominion": 0,
+          "giantslayer": 0,
+          "erosion": 0
+        }
+      },
+      "castStarts": 13,
+      "castInterrupts": 13,
+      "castReleases": 0,
+      "minionTtkCount": 131,
+      "minionTtkMean": 8.265076335879547,
+      "minionTtkMax": 54.5333333333417
+    },
+    {
+      "stage": 2,
+      "cleared": true,
+      "playerSeconds": 448.9083333329251,
+      "bossSpawnTime": {
+        "playerSeconds": 240.47499999994562,
+        "stageSeconds": 90.00000000001769
+      },
+      "bossDeathTime": {
+        "playerSeconds": 573.1083333329765,
+        "stageSeconds": 422.6333333331133
+      },
+      "clearTime": {
+        "playerSeconds": 599.3833333329526,
+        "stageSeconds": 448.9083333330894
+      },
+      "entry": {
+        "hp": 92.03999999999996,
+        "maxHp": 100,
+        "shield": 0,
+        "trainingScore": 12680,
+        "cards": {
+          "momentum": 1,
+          "force": 4,
+          "multishot": 1,
+          "chain": 1
+        },
+        "trainings": {
+          "training-critical": 1,
+          "training-critical-power": 1
+        },
+        "synergies": {
+          "blast": 0,
+          "barrage": 1,
+          "bastion": 0,
+          "judgment": 0,
+          "might": 5,
+          "blood": 0,
+          "precision": 0,
+          "storm": 1,
+          "frost": 0,
+          "dominion": 0,
+          "giantslayer": 0,
+          "erosion": 0
+        }
+      },
+      "castStarts": 87,
+      "castInterrupts": 79,
+      "castReleases": 8,
+      "minionTtkCount": 237,
+      "minionTtkMean": 41.397855133576996,
+      "minionTtkMax": 375.5249999996585
+    },
+    {
+      "stage": 3,
+      "cleared": false,
+      "playerSeconds": 299.0166666663947,
+      "bossSpawnTime": {
+        "playerSeconds": 689.3833333328707,
+        "stageSeconds": 90.00000000001769
+      },
+      "bossDeathTime": {
+        "playerSeconds": 875.9333333327011,
+        "stageSeconds": 276.5499999999128
+      },
+      "clearTime": null,
+      "entry": {
+        "hp": 100,
+        "maxHp": 100,
+        "shield": 0,
+        "trainingScore": 29060,
+        "cards": {
+          "momentum": 2,
+          "force": 6,
+          "multishot": 1,
+          "chain": 1,
+          "expose": 1
+        },
+        "trainings": {
+          "training-critical": 1,
+          "training-critical-power": 2,
+          "training-leech": 1
+        },
+        "synergies": {
+          "blast": 0,
+          "barrage": 1,
+          "bastion": 0,
+          "judgment": 0,
+          "might": 8,
+          "blood": 0,
+          "precision": 1,
+          "storm": 1,
+          "frost": 0,
+          "dominion": 0,
+          "giantslayer": 0,
+          "erosion": 0
+        }
+      },
+      "castStarts": 50,
+      "castInterrupts": 49,
+      "castReleases": 1,
+      "minionTtkCount": 133,
+      "minionTtkMean": 41.8937343358015,
+      "minionTtkMax": 282.94999999974266
+    }
+  ],
+  "interpretation": "Reached declared fixed-step budget with positive HP and third-stage boss already dead, while remaining enemies prevented natural clear. Unresolved duration/cleanup counterexample, never classified as death or victory. No rerun, extension, retuning, or deletion. Remaining original IDs continue unchanged; formal campaign evidence must reject."
+}

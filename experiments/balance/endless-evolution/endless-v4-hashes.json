@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-endless-curated-output-index",
+  "nativeOutputsUnchanged": true,
+  "releaseAcceptedByAuditor": false,
+  "files": {
+    "endless-v4-audit.json": "f40ca0c90a4fb406aa8eb2d2ee39671a34904706c328ee81d66bfa7e1229bb9d"
+  }
+}

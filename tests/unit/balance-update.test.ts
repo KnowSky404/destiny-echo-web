@@ -7,7 +7,7 @@ import { CONFIG } from "../../src/game/config";
 import { seededRandom } from "../../src/game/random";
 import { applyPoison, cleansePlayer, healingMultiplier } from "../../src/game/systems/damage";
 import { createPlayer, World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 function arena(): World {
   // Keep fixed mechanic expectations independent of the calibrated release profile.
@@ -17,6 +17,7 @@ function arena(): World {
   world.stageSupplies = CONFIG.endless.supplies;
   world.bossSpawned = true;
   world.player.cooldown = 1000;
+  isolateEndless(world);
   return world;
 }
 
@@ -143,22 +144,66 @@ describe("poison's grievous wounds reduce every health recovery source by 90 per
 
 describe("endless slam grows once per completed endless stage", () => {
   test.each([0, 1, 2, 20])(
-    "depth offset %s scales only the HP loss, bypassing shields and invulnerability",
+    "depth offset %s telegraphs the scaled slam and applies ordinary shield absorption",
     (offset) => {
       const world = arena();
       world.stageIndex += offset;
       world.player.hp = 1000;
       world.player.stats.maxHp = 1000;
       world.player.shield = 500;
-      world.player.invulnerable = 100;
-      const target = enemy(world, { kind: "boss", y: 200, hp: 1000, maxHp: 1000, speed: 0 });
+      isolateEndless(world);
+      const target = enemy(world, {
+        kind: "boss",
+        y: 200,
+        hp: 1000,
+        maxHp: 1000,
+        speed: 0,
+        stage: "Attacking",
+        attackPolicy: { type: "anywhere" },
+        patternCooldown: 0,
+        shotCooldown: 1000,
+      });
       hit(world, target, 300);
-      expect(target.lastSkill).toBe("slam");
-      expect(world.player.hp).toBe(1000 - (180 + 9 * offset));
+      expect(target.castSkill).toBe("slam");
+      expect(target.lastSkill).toBeNull();
+      expect(target.telegraph).toBeGreaterThan(0);
+      expect(world.player.hp).toBe(1000);
       expect(world.player.shield).toBe(500);
-      expect(world.notice).toContain(String(180 + 9 * offset));
+      tick(world, target.telegraph + CONFIG.fixedStep);
+      expect(target.lastSkill).toBe("slam");
+      expect(world.bossSlamDamage).toBe(180 + 9 * offset);
+      expect(world.player.hp).toBe(1000);
+      expect(world.player.shield).toBe(500 - (180 + 9 * offset));
+      expect(world.damageTaken).toBe(180 + 9 * offset);
     },
   );
+
+  test("a released slam respects active hit immunity", () => {
+    const world = arena();
+    world.player.shield = 500;
+    world.player.invulnerable = 100;
+    const boss = enemy(world, {
+      kind: "boss",
+      y: 200,
+      hp: 1000,
+      maxHp: 1000,
+      speed: 0,
+      stage: "Attacking",
+      attackPolicy: { type: "anywhere" },
+      castSkill: "slam",
+      telegraph: 0.1,
+      interruptRequired: 1000,
+      skillsUsed: 3,
+      patternCooldown: 0,
+      shotCooldown: 1000,
+    });
+    tick(world, 0.2);
+    expect(boss.lastSkill).toBe("slam");
+    expect(world.bossSpecials).toBe(1);
+    expect(world.player.hp).toBe(100);
+    expect(world.player.shield).toBe(500);
+    expect(world.damageTaken).toBe(0);
+  });
 });
 
 describe("first-stage reward pool", () => {
@@ -219,6 +264,8 @@ describe("first-stage reward pool", () => {
     world.chooseCard(reward.choices[0] ?? "", reward.token);
     const boss = enemy(world, { kind: "boss", y: 500, hp: 1, speed: 0 });
     hit(world, boss, 1);
+    expect(world.clearPresentationRemaining).toBeGreaterThan(0);
+    tick(world, world.clearPresentationRemaining + CONFIG.fixedStep);
     expect(world.phase).toBe("StageClear");
     expect(
       world.reward?.choices.every((id) => {

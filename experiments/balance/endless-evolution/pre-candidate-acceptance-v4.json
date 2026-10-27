@@ -1,0 +1,82 @@
+{
+  "kind": "endless-evolution-v4-pre-candidate-acceptance",
+  "decidedAt": "2026-10-27T07:02:13.897Z",
+  "calibrationAccepted": true,
+  "acceptedForPreDelivery": true,
+  "deliveryComplete": false,
+  "productionReleaseAuthorized": false,
+  "humanAcceptanceCompleted": false,
+  "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "freezeSha256": "ceb885236b1592346bc746da3d57174b49671ac6cdc24a159a5c662aa7811574",
+  "prospectiveAdoptionSha256": "b33ee12ea55c7e8e3cf11ee7369add25aa3af840c66c2c8286e202ad7507d342",
+  "evidence": {
+    "selection": {
+      "completed": 300,
+      "finishedAt": "2026-10-27T05:46:52.018Z",
+      "manifestSha256": "2e8f32054ed700b27288ef6260198db5ef99e5c7c4352ae198e74fc2dbb7c59e",
+      "driverReceiptSha256": "e28f5dd4d3f144bde9a7e7bd46aa67c4b3eb2f25c9f878122dd6e428d4ae9871",
+      "nativeStrictSha256": "10f5cbfaa7118e2a1ce3014feb42f373d64e76c48d3370e34043516c638d518f"
+    },
+    "validation": {
+      "completed": 600,
+      "finishedAt": "2026-10-27T06:45:54.008Z",
+      "manifestSha256": "01cc74a5a67619edd1bb4a9dd93add0fd1ef8f6a7377ef62e9189192b87ae010",
+      "driverReceiptSha256": "acd2511fc7427bcc45a480b626612b348521082ac2d5017dc98526b3376b1c4a",
+      "nativeStrictSha256": "2e75f15d58e25897590299895efd861461cd16e66afe216c6c3c75528285b769"
+    },
+    "endless": {
+      "completed": 120,
+      "finishedAt": "2026-10-27T06:48:29.168Z",
+      "manifestSha256": "f08378f924f1d9918c8ba2e97d546f91caca778800cbd4a5d72e7adde1645f03",
+      "driverReceiptSha256": "9fb42e6a4ed21bec9e11e13678eb29b098bcec92104aa04fbaf73e5244c69a2b",
+      "nativeStrictSha256": "e4e18d79d3d26cada5331cf294b5592237fa3689dea0a64f499d39e50c74d0ba"
+    }
+  },
+  "outcomes": {
+    "selection": {
+      "denominator": 300,
+      "campaignVictory": 170,
+      "death": 130,
+      "unresolved": 0
+    },
+    "validation": {
+      "denominator": 600,
+      "campaignVictory": 355,
+      "death": 245,
+      "unresolved": 0
+    },
+    "endless": {
+      "denominator": 120,
+      "clear20": 30,
+      "death": 90,
+      "unresolved": 0
+    }
+  },
+  "validationNormalSuccessP50Seconds": [502.475, 502.7208333333, 506.5833333333, 506.6],
+  "reasons": [
+    "All1020 planned outcomes and source/native/sidecar identities passed the frozen integrity gates; all four ordinary-build campaign successful medians satisfy480–720seconds.",
+    "Of49 actual depth7 entrants,30 clear20; the19 later natural deaths are distributed across depths7,8,9,11,12,13,14,16,17,19. This is exposure evidence, not an imposed death quota.",
+    "Within the same depth20 surviving normal inputs, D10-to20 star/finite-credit standardized minion player-time ratios exceed1 in all four groups; hostile-time ratios exceed1 in three groups and are0.9798 in the fourth. Observability improves without claiming every cohort slows.",
+    "Normal automatic depth20 groups release27 and24 casts; recorded boss_slam alone removes387.72HP and absorbs399.78shield across those groups. Active groups release1 each, consistent with deliberate per-cast interruption; no causal human skill-effect claim is made.",
+    "All90 endless terminal player-damage events are retained with no full-HP single-hit deaths; late19 deaths occur below34%HP before the fatal hit. Maximum recorded late1-second HP loss is53.93%, not a per-hit bound. No budget stall is observed; maximum late layer120.52seconds and idle4.75seconds.",
+    "Current runtime587 Bun tests and exact four known-input native hashes passed; current UI3 full71 rendered checks passed with stable source/assertion/build manifests. Earlier UI failures/drift remain preserved and excluded."
+  ],
+  "limitations": [
+    "Twenty-two of30 depth20 survivors take zero hostile HP loss and27 enter with fullHP. Strong defensive builds can still cover pressure; do not claim universal late HP attrition.",
+    "Some D7-to20 minion common-strata and leader hostile-time lifetimes still shorten. Species, positions, fusion time, natural build changes and survivor selection are not fully controlled.",
+    "Campaign stage2 remains219/245 deaths overall and115/130 in normal groups. This concentration is not declared fixed.",
+    "Stage-level1-second maxima do not store peak timestamps or per-hit causal sources; do not attribute a peak using the fatal hit or whole-stage source totals.",
+    "Finite fixed-policy samples and software-rendered fixtures do not establish human win rates, physical-device performance, guaranteed absence of future spikes/stalls, or PRO acceptance."
+  ],
+  "requiredBeforePreDeliveryComplete": [
+    "Atomic source/manual/generated-guide commit and push",
+    "Current-head Codex review, all valid findings resolved and required checks",
+    "Expected-head rebase merge and verified clean matching main",
+    "Independent Wiki publication and readback",
+    "Merged-source PRE build/dry-run, existing global cf authentication, PRE-only deployment and authoritative100%GET reconciliation",
+    "All public assets SHA/size/MIME/cache/headers, homepage200 and true404",
+    "Two gated real PRE desktop/touch native UI flows, with raw-export and legacy-migration proof boundaries",
+    "Archive ignored raw evidence before own branch/worktree cleanup"
+  ]
+}

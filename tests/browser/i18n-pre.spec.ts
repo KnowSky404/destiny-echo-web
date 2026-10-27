@@ -124,17 +124,19 @@ test("English PRE tabs preserve pending numeric edits, checkboxes, selections an
   await switchBack(page, "Profile versions");
   await expect(page.getByLabel("Profile name", { exact: true })).toHaveValue(name);
   await englishPanel(page, [name]);
+  const official = officialProfile();
+  const revision = official.id === "default" ? 1 : official.revision + 1;
   await page.getByRole("button", { name: "Save new version", exact: true }).click();
-  await expect(page.locator(".debug-status")).toContainText(`Saved ${name} v1`);
+  await expect(page.locator(".debug-status")).toContainText(`Saved ${name} v${revision}`);
   await englishPanel(page, [name]);
-  await expect(page.locator(".debug-version strong")).toHaveText(`${name} v1`);
+  await expect(page.locator(".debug-version strong")).toHaveText(`${name} v${revision}`);
   await page.getByRole("button", { name: "Activate version for testing", exact: true }).click();
   await expect(page.locator(".debug-version strong")).toHaveText(
-    `${name} v1 · Reuse on next visit`,
+    `${name} v${revision} · Reuse on next visit`,
   );
   await switchBack(page, "Profile versions");
   await expect(page.locator(".debug-version strong")).toHaveText(
-    `${name} v1 · Reuse on next visit`,
+    `${name} v${revision} · Reuse on next visit`,
   );
   await englishPanel(page, [name]);
 
@@ -197,7 +199,7 @@ test("English PRE manual review preserves the imported case, raw JSON, input fil
   await page.locator("#debug-trigger").click();
   await language(page, "en");
   await page.getByRole("tab", { name: "Experiments / review", exact: true }).click();
-  const stored = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"));
+  const stored = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"));
   await page.getByLabel("Load experiment summary or case JSON", { exact: true }).setInputFiles({
     name: "case.json",
     mimeType: "application/json",
@@ -224,7 +226,7 @@ test("English PRE manual review preserves the imported case, raw JSON, input fil
   expect(
     await fileInput.evaluate((input: HTMLInputElement) => input.files?.[0]?.name ?? null),
   ).toBe(originalFile);
-  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(stored);
+  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(stored);
   await expect(
     page.getByRole("button", { name: "Prepare manual case run (reload)", exact: true }),
   ).toBeEnabled();

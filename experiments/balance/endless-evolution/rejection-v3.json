@@ -1,0 +1,54 @@
+{
+  "kind": "endless-evolution-v3-gameplay-rejection",
+  "recordedAt": "2026-10-27T03:53:24.756194+00:00",
+  "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "profileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+  "releaseAccepted": false,
+  "engineeringPassed": true,
+  "nativeRecordingIntegrityPassed": true,
+  "campaignNormalSuccessPacingPassed": true,
+  "sustainedLateChallengePassed": false,
+  "formalCounts": {
+    "selection": {
+      "planned": 300,
+      "wins": 156,
+      "death": 144,
+      "unresolved": 0
+    },
+    "campaignValidation": {
+      "planned": 600,
+      "wins": 301,
+      "death": 299,
+      "unresolved": 0
+    },
+    "endless": {
+      "planned": 120,
+      "target20": 36,
+      "death": 84,
+      "unresolved": 0
+    }
+  },
+  "reasons": [
+    "Every one of the36 inputs reaching depth7 subsequently cleared depth20.",
+    "All four normal same-clear20 cohorts still killed minions faster at depth20 than at depth5.",
+    "The faster signal remains in common public role/birth-star/death-star/finite-credit strata, with incomplete species/position/fusion-time adjustment.",
+    "Depth20 hostile HP loss was zero across the panel; shields absorbed5828.789, while2022HP loss came from bloodpact. Warned releases alone do not establish sustained challenge."
+  ],
+  "precision": [
+    "Zero hostile HP loss is a depth20 finding, not a claim about all late depths.",
+    "Native outcomes and all original budgets, deaths, nonentrants and censored lifecycles remain unchanged.",
+    "No human win rate or paired comparison against differently seeded V1/V2 is claimed.",
+    "Stage2 still accounts for270/299 campaign deaths."
+  ],
+  "archive": {
+    "root": "/root/Clouds/destiny-echo-web/artifacts/balance/endless-evolution/v3-formal-rejection-20261027",
+    "files": 3664,
+    "bytes": 553311184,
+    "manifestSha256": "585c6d7de79e22db4402dd4906a10b65b64d9cb28c0bb1d5d2dee14a378209a2",
+    "receiptSha256": "dc128c581c86cb579a5d848aed41226f38ec3b86927004beaa51959a8329cde2"
+  },
+  "prOpened": false,
+  "wikiPublished": false,
+  "preDeployed": false,
+  "proChanged": false
+}

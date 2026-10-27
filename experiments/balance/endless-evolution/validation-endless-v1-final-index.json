@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-evolution-final-report-index",
+  "recordedAt": "2026-10-26T03:27:09.907Z",
+  "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "collectorSha256": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+  "reportFiles": {
+    "endless-v1-evidence.json": "20d65d6a3d7d30848b1cae7d91271a4ea52c7b15dc39ec59e55fec407cb3b47b",
+    "endless-v1-audit.json": "2a120a92d0daf79925a129113ce5ab3b5c0a7b6d8ffe4e7841360b33f2dfe929",
+    "endless-v1-hashes.json": "fa0a980eb20f6840afdc509b93c264c68a9072059cbc69a7fcd1453c1f5bc6e4",
+    "validation-v1-rejection.json": "d475447d2c273ecbb189e7208b3b4fc9dd30b35b82c5dd8d573f740c0aff5e71",
+    "validation-v1-observed-metrics.json": "32e7d49203fe375744f8556ef3416f00cda83da525e416b679a8d65f0213be39",
+    "validation-v1-budget-counterexample.json": "87aafccab145e0d70910a64b7826b5498399f3d7be7633e019a1a95b03255a6b",
+    "validation-v1-rejection-hashes.json": "9e0bbbba453802480ee1fecfa994fec527948ca445b9f97d15e611be9c04923b",
+    "validation-endless-v1-audit.md": "e933ae798701256d1c4e3504912c57c8ebb82d79ea2d239b418db6fb899c373d"
+  },
+  "reportsFormattedBeforeHashing": true,
+  "campaign": {
+    "planned": 600,
+    "actual": 600,
+    "successes": 276,
+    "naturalDeaths": 323,
+    "budgetUnresolved": 1,
+    "strictCollectorAccepted": false,
+    "releaseAccepted": false,
+    "unresolvedIds": ["run-580"]
+  },
+  "endless": {
+    "planned": 120,
+    "actual": 120,
+    "entered": 56,
+    "clear1": 43,
+    "clear5": 43,
+    "clear10": 43,
+    "clear20": 43,
+    "successes": 43,
+    "naturalDeaths": 77,
+    "budgetUnresolved": 0,
+    "strictCollectorAccepted": true,
+    "lateChallengeDemonstrated": false
+  },
+  "preservation": "Original directories and all raw records remain unchanged; recovery only ran missing original IDs with original budgets and frozen source/profile. No retuning after independent results.",
+  "samplingProcessesStopped": true
+}

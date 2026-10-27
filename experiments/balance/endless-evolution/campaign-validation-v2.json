@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "mode": "campaign",
+  "masterSeed": 2026102602,
+  "seedCount": 100,
+  "strategies": [
+    {
+      "name": "random-auto"
+    },
+    {
+      "name": "build-auto"
+    },
+    {
+      "name": "build-active"
+    }
+  ],
+  "layouts": [
+    {
+      "id": "portrait",
+      "width": 450
+    },
+    {
+      "id": "desktop",
+      "width": 1600
+    }
+  ],
+  "maxSeconds": 900,
+  "maxSteps": 108000,
+  "maxRuns": 5000,
+  "endlessTarget": 2,
+  "trace": false,
+  "sampleIntervalSeconds": 1,
+  "traceCapacity": 1000,
+  "deathWindowSeconds": 8,
+  "eventCapacity": 400,
+  "validationSeeds": []
+}

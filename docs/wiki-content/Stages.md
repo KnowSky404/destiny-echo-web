@@ -1,51 +1,68 @@
 # Stages and endless mode
 
-![Endless attack cells; real PRE stage-jump illustration, not a natural-clear result](../assets/screenshots/endless-pre-v1.png)
+![Earlier PRE attack-cell illustration; a stage jump is not natural-clear evidence](../assets/screenshots/endless-pre-v1.png)
 
 ## Four-stage campaign
 
-Each encounter has its own clock and boss, with no time limit. Sanctuary freezes stage time. Defeat the boss and all minions, then pick one of two trainings and one augment. Stages 1–3 cleanse and restore up to 35 HP, retaining build, shield and score. Stage four offers its reward before victory and optional endless continuation.
+Each encounter has its own clock and boss, without a timeout. Sanctuary freezes stage time. Defeat the boss and all minions, then choose one of two trainings and one augment. Stages 1–3 cleanse and restore up to 35 HP, keeping build, shield and score. Stage four offers its reward before victory and optional endless continuation. The pacing goal is 8–12 combat minutes for an ordinary four-stage run; this is a calibration target, not a verified human completion time.
 
 {{STAGE_TABLES}}
 
-The first two tables cover campaign encounters; the last table gives the first four endless layers. Values use the four-lane mobile baseline.
+The first two tables cover the campaign; the third gives the first four endless layers, all at the four-lane mobile baseline. Numbers come from the resolved official profile rather than an older authored boss-HP constant.
 
-Campaign minion HP uses the independently calibrated multiplier shown for each encounter; routine budgets retain 50% growth per stage. Wave HP adds ×(1 + (wave−1) ×0.12). Waves advance every 11s up to wave 5, including escorts at spawn time. Attack timing multiplies ordinary intervals and initial preparation. The boss interval shown already includes the boss base interval, stage boss interval multiplier and attack timing multiplier; charge duration uses its separate table value. Below half HP, campaign bosses multiply ordinary interval by 0.8, shorten charge by 0.3s, round interruption threshold ×4/3, and add 4 base charged-shot damage before the stage damage multiplier.
+Campaign minion HP receives its stage multiplier and ×(1 + (wave−1) ×0.12). Waves advance every 11s up to five, including escorts at spawn time. Attack timing multiplies ordinary intervals and initial preparation. The boss interval includes its base interval, stage multiplier and attack timing; charge duration is separate. A campaign boss's current charge can be interrupted by its damage threshold or {{INTERRUPT_HITS}} primary hits. Below half HP, campaign bosses multiply ordinary intervals by 0.8, shorten charge by 0.3s, round the interruption requirement ×4/3 and add 4 base charged-shot damage before stage damage scaling.
 
-## Endless scaling
+Campaign chest opportunities come from `campaignChestTiming(index, bossAt)`. Authored short waves retain the {{CHEST_FIRST}}s first chest, {{CHEST_BASE_INTERVAL}}s interval and {{CHEST_BASE_LAST}}s cutoff, never later than five seconds before the boss. Extending boss arrival keeps the authored opportunity count, spreads those opportunities from {{CHEST_FIRST}}s to five seconds before the new arrival, and does not add cards merely because the wave lasts longer. Current planned counts across the four stages are {{CAMPAIGN_CHEST_COUNTS}}; collecting them still requires breaking the active chest.
 
-Let d=1 mean the first endless stage after the finale, with growth G = `{{ENDLESS_GROWTH}}`. Endless uses the original finale template and current endless settings; individual campaign calibrations do not replace this baseline:
+## Endless segments and growth
 
-- Minion HP multiplier: `{{ENDLESS_HP}}`, then wave, stars and enhanced-summon multipliers.
-- Boss HP takes the greater of original growth `{{ENDLESS_BOSS_GROWTH}}` and 1.25× the strongest same-stage tank HP, rounds it, then multiplies by the boss base-HP adjustment {{ENDLESS_BOSS_HP_SCALE}}. The tank reference uses wave 5, enhanced summon and three-star fusion.
-- Routine budget N = `{{ENDLESS_BUDGET}}`.
-- Escort batch S = `{{ENDLESS_SUPPORT}}`, attempted every {{ENDLESS_SUPPORT_INTERVAL}}s.
-- Compression P = `{{ENDLESS_COMPRESSION}}`. Excess counts become minion HP ×P and ordinary damage ×√P; poison ignores it.
-- Ordinary damage multiplier: `{{ENDLESS_DAMAGE}}`. Minion speed stays ×{{ENDLESS_SPEED}}.
-- Boss appears at {{ENDLESS_BOSS_AT}}s; themes repeat while stats grow, without a timeout.
-- Ordinary attacks and slam share damage multiplier {{ENDLESS_DAMAGE_MULTIPLIER}}. Ordinary attacks/preparation multiply timing by `{{ENDLESS_TIMING}}`; slow and below-half boss timing still apply. Poison starts independently at {{ENDLESS_POISON_DPS}} damage per second.
-- Slam directly removes `{{ENDLESS_SLAM}}` player HP, ignoring shield/invulnerability and unrelated stage/arrival damage multipliers.
+Layers 1–3 follow **wave one → elite → wave two → main boss**, with a Colossus on odd layers and Wizard on even layers. From layer 4, the sequence is **wave one → Colossus and Wizard together → wave two → main boss**. It preserves two elites and their two initial escort allocations, moving them into one segment so the player can choose which cast to counter. Admit both leaders before their finite escorts; wait for legal space on failure, without repeating an admitted leader or losing an escort. All allocated leaders/initial escorts must enter and the segment must be empty before advancing. Exhaust the current segment's budget and clear its enemies, then wait {{BREAK_SECONDS}}s before the next segment. Main-boss arrival depends on clearance, replacing the fixed waiting timer.
 
-## Arena, capacity and attack cells
+Let d=1 be the first endless layer, total health growth G = `{{ENDLESS_GROWTH}}`. The base quadratic term is 1.5 at depth 1 and 7.5 at depth 5. The tail factor starts after depth 5; total growth at depth 20 is 191.4. Use the official profile's resolved fourth encounter, including campaign overrides, as the health and boss baseline:
 
-Mobile uses a 450×800 world with four side lanes, six rows per lane: 24 minions plus one boss. Desktop selects width 800–2400 at height 800; 1920×1080 gives roughly 1505×800 and six lanes, 36 minions plus a boss. Center corridor 136 units, row spacing 84. Routine budgets, escort batches and numeric caps scale by lane count / 4. Actual encounter admission never exceeds physical capacity.
+- Minion HP multiplier: `{{ENDLESS_HP}}`. Endless adds neither the campaign's time-wave HP multiplier nor compressed excess population.
+- One/two/three stars multiply HP by 1/3.5/12.25 and ordinary damage by 1/2.5/6.25. They spend 1/3/9 basic spawn credits.
+- Four-lane routine budget: `{{ENDLESS_BUDGET}}`, divided across two waves. Escort batch: `{{ENDLESS_SUPPORT}}`. Budgets and batches scale by lane count / 4; a failed spawn spends nothing.
+- Boss HP is the rounded greater of `{{ENDLESS_BOSS_GROWTH}}` and **1.8 × the same-layer enhanced three-star Colossus HP**, then multiplied by the boss base-HP adjustment {{ENDLESS_BOSS_HP_SCALE}}. This uses the resolved finale, not the older 11,000 HP template.
+- Elites have twice the corresponding same-star minion HP: two stars on layers 1–5, three stars from layer 6. They cannot fuse.
+- Ordinary damage: `{{ENDLESS_DAMAGE}}`; preparation/attack timing: `{{ENDLESS_TIMING}}`; minion speed multiplier {{ENDLESS_SPEED}}. Poison independently starts at {{ENDLESS_POISON_DPS}}/s.
+- Slam authored damage: `{{ENDLESS_SLAM}}`. From depth 4, take the smaller of that value and 45% of player maximum HP. Shield and hit invulnerability apply; arrival adds no multiplier. The table shows damage before this player-dependent cap, not guaranteed HP loss.
 
-Geometry is previewed at page entry and recalculated from the current viewport on a new start or restart. Resize, pause, stage transitions and Endless continuation preserve the current run's lanes and attack cells. A 68×84 logical formation cell maps to screen pixels through the actual canvas CSS scale; DPR never changes combat. Area effects and fusion scale with lane spacing; initial damage scales with lane population and friendly shot speed with √(world-width ratio). Bodies/vertical spacing do not stretch. When no vacancy exists, spawns wait; death/fusion allows forward compaction. Skill summons queue at most {{ENDLESS_PENDING_SUMMONS}} slots and cancel on boss death.
+Native spawn weights for one/two/three stars are 100/0/0 on layers 1–2, 75/25/0 on 3–5, 45/45/10 on 6–10, and 20/50/30 from 11. Remove unaffordable stars before sampling the remaining wave budget. These are spawn weights, not the final field composition after fusion.
 
-The enemy area contains lane count ×7 cells, excluding the player row. Initially the bottom two enemy rows are open. Each endless clearance uniformly adds two distinct inactive cells, preserving them for the run; open all remaining cells if fewer than two, and stop at full coverage. Blue/gold star positions, corner marks and faint connecting lines show each open cell's actual bounds; HUD shows open/total. Melee can prepare and deal damage inside open cells before final arrival; arrival permission also remains. Ranged/boss policies persist. Pause, rewards and resize do not reroll cells; restart restores initial coverage.
+From depth 7, routine waves arrive in mixed packs of two; from depth 13, packs of three. For base interval b, the within-pack gap is min(0.25s, b/2); the final gap is packSize ×b −withinGap ×(packSize−1), preserving the average interval for a complete pack. Only successful admissions advance the pack counter. Pool/position failures wait without spending credit; the last pack may be partial. Segment entry and restart reset the counter; live budget changes preserve it. Native role rotation, star costs, attack-region guarantees and capacity stay in force. Pause, rewards and Sanctuary freeze the hostile spawn clock.
 
-## Endless boss skills
+## Arena and attack cells
 
-First reaching 70%, 40% and 10% HP independently rolls one of three equally likely skills; repeats are allowed.
+Mobile uses 450×800 with four side lanes and six rows: 24 minions plus a boss slot. Desktop chooses width 800–2400 at height 800; 1920×1080 gives roughly 1505×800, six lanes and 36 minion slots plus one boss. The center corridor is 136 units and row spacing 84. Elites share the existing bounded slots; they do not expand the pool. Bodies, bars, stars and persistent rings retain their spacing.
 
-| Skill | Effect |
+New start/restart recalculates geometry; resize, pause, stage transitions and endless continuation preserve it. Formation cells are 68×84 logical units; DPR never changes combat. Area/fusion distances scale with lane spacing, starting damage with lane population, and friendly shot speed with √(world-width ratio). Failed admissions wait for legal space. The independent cosmetic death echo releases its combat slot immediately.
+
+The enemy field has lane count ×7 attack cells, excluding the player row. The lower two rows start open. Each endless clearance uniformly opens two distinct remaining cells; fewer than two remaining means open all, and full coverage stops growth. Active cells keep their blue/gold markers. Melee may prepare and attack within them; ranged/boss policies remain. Pause, rewards and resize do not reroll; restart restores baseline coverage. Routine enemies, escorts and summons retain the 30% successful-admission guarantee inside active attack regions.
+
+## Elite and main-boss casts
+
+An endless boss or elite keeps ordinary preparation and the full {{CHARGE_SECONDS}}s charge warning, without an additional 2.8s opening cooldown. From depth 4, its first permitted preparation and active charge use hostile time independently of slow/stun; movement and later recovery remain affected. Pause and Sanctuary freeze hostile time. An effective stun cannot be refreshed during its duration or the following {{LEADER_STUN_RECOVERY_SECONDS}}s of hostile-time recovery. Main bosses retain quarter-duration stuns/freezes, elites full duration, with Dominion scaling. Campaign/depths 1–3 keep their earlier preparation/charge rules; minions retain their own attacks and control rules.
+
+First crossing 70%, 40% and 10% main-boss HP independently queues one equally likely guard, summon or slam; repeats are allowed. Every cast charges for {{CHARGE_SECONDS}}s. Campaign and depths 1–3 retain the damage-or-{{INTERRUPT_HITS}}-hit rule. From depth 4, forming precedes interruption accumulation, and the primary-hit route requires current-cast confirmation and current targeting; see [Mechanics](Mechanics.md) for the damage and depth-scaled hit thresholds. Either route cancels and consumes the cast, opens a {{VULNERABLE_SECONDS}}s weakness and prevents an immediate recast. The next cast takes a queued HP-threshold skill first; with an empty queue, the main boss charges a single aimed shot instead. An active cast is never replaced by a newly queued skill, and only one cast runs at a time. Successful charged shots recover for {{VOLLEY_RECOVERY_SECONDS}}s; threshold and elite casts recover for {{RECOVERY_SECONDS}}s.
+
+| Cast | Successful release |
 | --- | --- |
-| Damage ward | 90% reduction against all damage for 3s; repeating refreshes it |
-| Enhanced summon | {{ENDLESS_SUMMON_COUNT}} extra balanced minions, HP/damage ×{{ENDLESS_SUMMON_MULTIPLIER}}, preserving existing escorts; wait for vacancies, at most {{ENDLESS_PENDING_SUMMONS}} pending slots |
-| Slam | Directly remove {{ENDLESS_SLAM}} HP; can kill through shield and hit invulnerability |
+| Main charged shot | One aimed projectile using the stage's charged-shot damage; normal stage and arrival multipliers apply, followed by the depth-7 ordinary-impact cap |
+| Main guard | 90% self damage reduction for 3s |
+| Main summon | {{ENDLESS_SUMMON_COUNT}} extra minions, HP/ordinary damage ×{{ENDLESS_SUMMON_MULTIPLIER}}; preserve escorts and wait for space, up to {{ENDLESS_PENDING_SUMMONS}} queued admissions |
+| Main slam | Authored `{{ENDLESS_SLAM}}`, capped at 45% player maximum HP from depth 4; shield and invulnerability apply |
+| Colossus elite ward | All living allies, including the caster, receive 25% damage reduction for 3s |
+| Wizard elite ritual | Other living allies heal 20% maximum HP; caster fires a three-shot fan and does not heal itself |
 
-A nonlethal hit crossing several thresholds resolves each in order; a dead boss casts nothing. Slow/stun cannot stop these skills; Sanctuary defers them and a kill during it cancels pending casts. Ordinary shots emitted after arrival deal double damage; existing shots retain their captured damage.
+An interrupted weakness multiplies ordinary damage by 1.35 and the percentage-damage allowance by {{VULNERABLE_MULTIPLIER}}. Each primary hit also adds a base weak-point component of {{WEAK_POINT_PERCENT}} target maximum HP. This component receives target damage modifiers and shares the same percentage bucket with existing cards, so it is not guaranteed extra HP removal. The added component grants no lifesteal; existing percentage-card basic damage remains eligible under the deep-endless recovery allowance. HP crossings enqueue casts rather than instantly releasing them. From depth 4, slow/stun cannot delay an active charge; Sanctuary still freezes it. Death cancels pending casts. Ordinary shots emitted after arrival retain the existing double-damage rule.
 
-## Endless rewards
+All enemy maximum/current-HP components—including existing primary effects, the added weak-point component, erosion pulses, kill explosions and sacrifice—share each affected boss's allowance after damage modifiers: {{BOSS_PERCENT}} maximum HP/s for a main boss, {{ELITE_PERCENT}}/s for an elite, with only 0.25s of burst storage. Weakness changes the allowance without granting a fresh full bucket. High-star endless minions divide enemy-HP-derived components by their star count. From depth 7, these components also share a per-minion allowance of 20% / (1 +0.08 ×(depth−7)) maximum HP per player combat second, with 0.25s storage, after modifiers and star division. Fixed damage and player-HP-derived damage keep their ordinary path. Final-phase execution remains a separate threshold effect.
 
-{{ENDLESS_SUPPLIES}} direct choose-one-of-three supplies are scheduled randomly between 3s and five seconds before the boss. After full cleanup, one mixed boss reward brings the total to {{ENDLESS_TOTAL_REWARDS}} choices per stage. Every 5,000 cumulative points separately grants automatic training. Early clearance settles missing supplies before the boss reward, recalculating eligibility each time. Endless has no reward chests. Pause/selection does not spend supply time.
+## Rewards and readable rhythm
+
+The official profile grants one choose-three supply after each of the first three completed combat segments. A custom total N is distributed cumulatively as floor(N × k / 3) after segment k=1/2/3. The paired elite segment adds no extra supply. Full-layer cleanup grants one mixed boss reward. Endless has no chests. Pausing and choosing stop combat.
+
+Training uses separate finite-budget kill credit: cumulative automatic training n requires T(n)={{TRAINING_BASE}}n+{{TRAINING_STEP}}n(n−1)/2. HP clearance bonuses and excess reinforcements add display score only. See [Mechanics](Mechanics.md).
+
+Deaths leave 0.5/0.6/0.8s echoes for minions/elites/main bosses. Full-stage clearance keeps 0.8s of visual afterglow before rewards; combat, statuses and both clocks stop, and no damage or reward can be settled during it. Attack paths, marks and death effects use bounded cosmetic state, with no gameplay RNG consumption. The timing and numeric defaults require measured calibration and PRE acceptance; visual polish alone does not prove balance.

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "endless-evolution-selection-report-format-reconciliation",
+  "recordedAt": "2026-10-23T11:22:11.052Z",
+  "adoptionRecordSha256": "d1680b54564b77446e767571553b9583475e828af144ed8f6a106bf6246cbda7",
+  "files": [
+    {
+      "file": "selection-v1-evidence.json",
+      "adoptionSha256": "d764b0b7f2dca3c6d2295f56ebd7285af23d78e1246fdb63af64d784ba571e02",
+      "currentSha256": "3bea67f480a91e6a9636e608d553ef4ca58d7e2a021ea30abcdfb0c36ff1592a",
+      "canonicalContentHash": "1441a661797bae6fbaa03de408f36bbe582ace36cc828568c2ba06b9981a36d3",
+      "originalJsonStringifySerializationHashMatches": true
+    },
+    {
+      "file": "selection-v1-audit.json",
+      "adoptionSha256": "eb6d6bafac0276a26d7dc38525f78d9809551cefffc85150c9be22b819542e8d",
+      "currentSha256": "f2d2dfb7ab7ed4b7ea987ad2346e72d9e36c0667b9aa15b0256fe03f55228649",
+      "canonicalContentHash": "4da10573d6635c964e10c6bf7b980bc0adcb55c07265d26b7679cea767fec7cf",
+      "originalJsonStringifySerializationHashMatches": true
+    }
+  ],
+  "changes": "Biome reformatted only whitespace after the prospective adoption record was written. Re-serializing the parsed objects with the original JSON.stringify(data,null,2) algorithm exactly reproduces both byte hashes recorded before candidate holdout started. The original adoption record is retained unchanged.",
+  "simulationFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f"
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-validation-curated-output-index",
+  "nativeOutputsUnchanged": true,
+  "releaseAcceptedByAuditor": false,
+  "files": {
+    "validation-v4-audit.json": "9ef492c1bdd2320649181cf6d3e04f589a7944ad0abdbfc2d7b5ff494adfafa8"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "kind": "endless-evolution-v4-holdout-adoption",
+  "acceptedForValidation": true,
+  "releaseAccepted": false,
+  "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "selectionEvidenceSha256": "10f5cbfaa7118e2a1ce3014feb42f373d64e76c48d3370e34043516c638d518f",
+  "selectionReceiptSha256": "e28f5dd4d3f144bde9a7e7bd46aa67c4b3eb2f25c9f878122dd6e428d4ae9871",
+  "adoptedAt": "2026-10-27T05:48:29.847Z",
+  "reason": "Complete fresh300selection and independent persisted-byte/sidecar audit passed; zero unresolved/error/invalid outcomes and all four normal successful medians meet480–720seconds. Current587unit tests passed. This authorizes independent holdouts only, not release or a human success-rate claim.",
+  "selectionCounts": {
+    "campaign_victory": 170,
+    "death": 130,
+    "budget_exhausted": 0,
+    "error": 0,
+    "cancelled": 0
+  },
+  "normalGroups": [
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "successes": 31,
+      "originalDenominator": 50,
+      "p50": 509.91666666636723
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "successes": 32,
+      "originalDenominator": 50,
+      "p50": 513.7999999996971
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "successes": 31,
+      "originalDenominator": 50,
+      "p50": 519.9249999996915
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "successes": 32,
+      "originalDenominator": 50,
+      "p50": 510.8499999996997
+    }
+  ],
+  "unitProofSha256": "5de83ac5ebf87bd8244122d8a19f30f0fc2e5bec694c37acc373ed717bb29538",
+  "independentAuditSha256": "ade74f77e6a0c572325419f4c60231c7e22c741874fab43ad1da66647ed27ced",
+  "independentAuditIndexSha256": "98e1316523e63d38cf9e311999df34a7026685f0ef0dc1513ccaa770104b14b6"
+}

@@ -65,12 +65,12 @@ test("PRE experiment export, validated case import and manual preparation preser
   await expect
     .poll(() =>
       page.evaluate(() => {
-        const stored = localStorage.getItem("echoes:pre:balance:v1");
+        const stored = localStorage.getItem("echoes:pre:balance:v2");
         return stored ? JSON.parse(stored).draft.name : null;
       }),
     )
     .toBe("正在编辑的草稿");
-  let saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"));
+  let saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"));
   await page.getByRole("tab", { name: "实验/复核", exact: true }).click();
   await expect(page.locator(".debug-profile-state")).toContainText("草稿：正在编辑的草稿");
   await expect(page.locator(".debug-profile-state")).toContainText("选中版本：已选固定方案");
@@ -98,7 +98,7 @@ test("PRE experiment export, validated case import and manual preparation preser
     };
     await page.getByLabel("导入候选为独立版本（保留草稿）", { exact: true }).setInputFiles(input);
     await expect(page.locator(".debug-status")).toContainText("已导入候选");
-    saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"));
+    saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"));
     const next = JSON.parse(saved ?? "{}");
     expect(JSON.stringify(next.draft)).toBe(JSON.stringify(previous.draft));
     expect(JSON.stringify(next.selected)).toBe(JSON.stringify(previous.selected));
@@ -109,7 +109,7 @@ test("PRE experiment export, validated case import and manual preparation preser
     expect(next.versions.at(-1).id).not.toBe(candidate.id);
     await peer.getByLabel("导入候选为独立版本（保留草稿）", { exact: true }).setInputFiles(input);
     await expect(peer.locator(".debug-status")).toContainText("其他 PRE 标签页");
-    expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(saved);
+    expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(saved);
   } finally {
     await peer.close();
   }
@@ -117,7 +117,7 @@ test("PRE experiment export, validated case import and manual preparation preser
   await upload(page, sample);
   await expect(page.getByText("单局人工复核", { exact: true })).toBeVisible();
   await expect(page.locator("#debug-content")).toContainText("种子：78451 · 策略：build-active");
-  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(saved);
+  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(saved);
   await page.getByRole("button", { name: "按案例准备人工开局（重新载入）", exact: true }).click();
   await expect(page.locator("canvas")).toBeVisible();
   await expect(page.getByRole("dialog", { name: "PRE 数值实验室" })).toBeVisible();
@@ -129,7 +129,7 @@ test("PRE experiment export, validated case import and manual preparation preser
   expect(prepared.elapsed).toBe(0);
   expect(prepared.stageIndex).toBe(0);
   expect(prepared.phase).toBe("Paused");
-  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(saved);
+  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(saved);
   expect(await page.evaluate((key) => sessionStorage.getItem(key), REVIEW_CASE_KEY)).toBeNull();
   await expect(page.locator(".debug-profile-state")).toContainText("草稿：正在编辑的草稿");
   await expect(page.locator(".debug-profile-state")).toContainText("选中版本：已选固定方案");
@@ -241,7 +241,7 @@ test("actual CLI case prepares the matching PRE seed and arena for manual review
   const document = JSON.parse(await readFile(path, "utf8")) as ReviewCase;
   await boot(page);
   await open(page);
-  const saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"));
+  const saved = await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"));
   await upload(page, document);
   await expect(page.getByText("单局人工复核", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "按案例准备人工开局（重新载入）", exact: true }).click();
@@ -257,7 +257,7 @@ test("actual CLI case prepares the matching PRE seed and arena for manual review
   expect(state.player.stats.damage).toBe(
     (document.profile.payload.player.stats.damage * state.arena.laneCount) / 4,
   );
-  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v1"))).toBe(saved);
+  expect(await page.evaluate(() => localStorage.getItem("echoes:pre:balance:v2"))).toBe(saved);
   await page.getByText("单局人工复核", { exact: true }).scrollIntoViewIfNeeded();
   await page.screenshot({
     path: join(tmpdir(), `destiny-balance-cli-case-${info.project.name}.png`),

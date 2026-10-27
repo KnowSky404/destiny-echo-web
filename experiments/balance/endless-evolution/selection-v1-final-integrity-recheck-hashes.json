@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "selection-final-integrity-recheck-hash-index",
+  "collectedAt": "2026-10-23T11:48:02.064448+00:00",
+  "reportsFormattedBeforeHashing": true,
+  "files": {
+    "selection-v1-final-integrity-recheck.json": {
+      "sha256": "4c1862a8568f036c00976a5095ca640b084802121010d1cc33258fa67c22055f",
+      "canonicalSha256": "4b9f3d3bedf21c79a40acd548a8ae50ef91fd28810b4f09383cd212562097d8e"
+    }
+  },
+  "collectorSha256": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+  "samplingSourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f"
+}

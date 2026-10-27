@@ -4,7 +4,7 @@ import { CONFIG } from "../../src/game/config";
 import { DebugWorld } from "../../src/game/debug/DebugWorld";
 import type { AttackRegion, Enemy, EnemyKind } from "../../src/game/types";
 import { World } from "../../src/game/world";
-import { enemy, tick } from "./helpers";
+import { enemy, enterBossEncounter, tick } from "./helpers";
 
 function inRegions(x: number, y: number, regions: readonly AttackRegion[]): boolean {
   return regions.some(
@@ -85,7 +85,7 @@ describe("endless attack-region spawn guarantees", () => {
         expect(world.stageSpawned).toBe(ordinary);
 
         clearMinions(world);
-        world.stageElapsed = world.stage.bossAt;
+        enterBossEncounter(world);
         world.update(CONFIG.fixedStep);
         expect(world.boss?.spawnY).toBe(-55);
         expect(world.admissions.length).toBeGreaterThan(ordinary);
@@ -93,6 +93,7 @@ describe("endless attack-region spawn guarantees", () => {
         const escorts = world.admissions.length;
 
         clearMinions(world);
+        enterBossEncounter(world, true);
         world.pendingSummons = world.endlessRules.summonCount;
         world.update(CONFIG.fixedStep);
         expect(world.pendingSummons).toBe(0);
@@ -100,7 +101,7 @@ describe("endless attack-region spawn guarantees", () => {
         expect(world.admissions.slice(escorts).every((item) => item.enhanced)).toBe(true);
 
         clearMinions(world);
-        tick(world, world.stage.supportInterval + CONFIG.fixedStep);
+        tick(world, 5 + CONFIG.fixedStep);
         expect(world.admissions.length).toBeGreaterThan(escorts + world.endlessRules.summonCount);
         expectEveryPrefixGuaranteed(world);
         const counts = ENDLESS_KINDS.map((kind) => world.stageKindSpawns[kind]);
@@ -142,6 +143,7 @@ describe("endless attack-region spawn guarantees", () => {
         y: 100,
         speed: 0,
       });
+      enterBossEncounter(world, true);
       world.pendingSummons = world.endlessRules.summonCount;
       tick(world, 0.1);
       expect(world.pendingSummons).toBe(world.endlessRules.summonCount);

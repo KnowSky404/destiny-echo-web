@@ -27,7 +27,7 @@ export interface StrategyConfig {
 }
 export interface ResolvedStrategyConfig {
   name: StrategyName;
-  version: "1";
+  version: "1" | "2";
   seed: number;
   reward: {
     kind: "random" | "build" | "legacy";
@@ -67,6 +67,7 @@ export interface PlayerSnapshot {
   hp: number;
   maxHp: number;
   shield: number;
+  trainingScore: number;
   cards: Record<string, number>;
   trainings: Record<string, number>;
   synergies: Record<string, number>;
@@ -74,6 +75,35 @@ export interface PlayerSnapshot {
 export interface KeyTime {
   playerSeconds: number;
   stageSeconds: number;
+}
+export interface TimeDistribution {
+  count: number;
+  sum: number;
+  min: number | null;
+  max: number | null;
+  /** Fixed upper bounds in seconds, shared by all runs; exact counts, bounded storage. */
+  buckets: Array<{ upperSeconds: number; count: number }>;
+}
+export interface EvolutionMetrics {
+  ttk: Record<"minion" | "elite" | "boss", TimeDistribution>;
+  spawnedByRole: Record<"minion" | "elite" | "boss", number>;
+  deathsByRole: Record<"minion" | "elite" | "boss", number>;
+  spawnedByStars: Record<string, number>;
+  deathCreditByRole: Record<"minion" | "elite" | "boss", number>;
+  trainingScore: number;
+  trainingScoreBySource: Record<string, number>;
+  idleSeconds: number;
+  presentationSeconds: number;
+  longestIdleSeconds: number;
+  castStarts: number;
+  castInterrupts: number;
+  castReleases: number;
+  unwarnedReleases: number;
+  prematureReleases: number;
+  missingLifecycleEvents: number;
+  maxOneSecondHpLoss: number;
+  maxOneSecondDamage: number;
+  maxOneSecondHpLossRatio: number;
 }
 export interface CombatMetrics {
   enemyDamage: number;
@@ -118,6 +148,7 @@ export interface StageSummary {
   pendingSummonsPeak: number;
   spawned: number;
   metrics: CombatMetrics;
+  evolution: EvolutionMetrics;
 }
 export interface RewardDecision {
   order: number;
@@ -142,6 +173,12 @@ export interface SimEvent {
   source?: string;
   choice?: string;
   entityId?: number;
+  role?: "minion" | "elite" | "boss";
+  stars?: number;
+  trainingCredit?: number;
+  trainingScore?: number;
+  castId?: number;
+  duration?: number;
   amount?: number;
   hpLoss?: number;
   shieldAbsorbed?: number;
@@ -196,6 +233,7 @@ export interface RunResult {
   phase: Phase;
   final: PlayerSnapshot;
   metrics: CombatMetrics;
+  evolution: EvolutionMetrics;
   stages: StageSummary[];
   rewards: RewardDecision[];
   rewardCount: number;

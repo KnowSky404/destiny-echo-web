@@ -55,6 +55,7 @@ const names: Record<string, string> = {
   无尽关数: "Endless layer",
   怪物预算: "Minion budget",
   重击生命损失: "Slam HP loss",
+  重击伤害: "Slam damage",
   关卡: "Stage",
   首领: "Boss",
 };
@@ -110,11 +111,11 @@ export async function bilingualPages(
   en.Enemies = (en.Enemies ?? "").replace("{{ENEMY_TABLES}}", numericTables(zh.Enemies ?? ""));
   en.Stages = (en.Stages ?? "").replace("{{STAGE_TABLES}}", numericTables(zh.Stages ?? "", 3));
   for (const [key, value] of Object.entries(stageValues))
-    for (const name of ["Stages", "Enemies"])
+    for (const name of ["Stages", "Enemies", "Mechanics", "Home", "Development"])
       en[name] = (en[name] ?? "").replaceAll(`{{${key}}}`, String(value));
   en.Cards = `# Cards and training\n\n${gallery("rewards-desktop-v1", "Earlier Chinese card offer; the game now supports either language")}
 
-${CARDS.length} augments across ${SYNERGIES.length} families: ${CARDS.filter((card) => card.rarity !== "epic").length} common/rare and ${CARDS.filter((card) => card.rarity === "epic").length} epics. Epics are once per run. Every acquisition grants one family stack, even an epic with several effects. Caps are per card ID; composite epic effects do not consume ordinary card stacks. Previews use starting four-lane stats, before wounds; the game shows changes for the current build. Unlimited cards still obey combat caps.
+${CARDS.length} augments across ${SYNERGIES.length} families: ${CARDS.filter((card) => card.rarity !== "epic").length} common/rare and ${CARDS.filter((card) => card.rarity === "epic").length} epics. Epics are once per run. Every acquisition grants one family stack, even an epic with several effects. Caps are per card ID; composite epic effects do not consume ordinary card stacks. Previews use starting four-lane stats, before wounds; the game shows changes for the current build. Unlimited cards still obey combat caps. High-star endless minions divide received enemy-HP-derived damage, slow strength and stun duration by stars. From depth 4, lifesteal also uses an own-maximum-HP/effective-lifesteal time allowance before healing bonuses, wounds and overheal. From depth 7, minion percentage damage has a further shared depth-scaled allowance; combat healing and generated shields also share an own-HP allowance and future combat shields have a depth-scaled ceiling. Listed coefficients do not guarantee final damage against every target or a healing rate; see [Mechanics](Mechanics.md).
 
 ${SYNERGIES.map(
   (family) => `## ${entry(FAMILY_EN, family.id)[0]} / ${family.name}
@@ -140,9 +141,9 @@ ${CARDS.filter((card) => card.synergy === family.id)
   .join("\n")}`,
 ).join("\n")}
 
-## Boss and score training
+## Boss and Training XP
 
-Every 5,000 cumulative points automatically grants an eligible training, without pausing, spending points or choosing; crossing several milestones awards them in order. Stage one excludes lifesteal. Boss offers contain two different trainings and one augment: choose one. Trainings add no family stacks, persist for the run, and do not appear in chests or supplies. Maximum-HP training does not heal.
+Automatic training uses separate finite-budget kill credit: T(n)=${stageValues.TRAINING_BASE}n+${stageValues.TRAINING_STEP}n(n−1)/2, with cumulative milestones 5,000/11,500/19,500/29,000/40,000. Marginal costs rise arithmetically. Clearance HP bonuses and excess reinforcements add display score only. Multiple crossed milestones settle in order, without pausing or spending score; manual training does not raise automatic thresholds. Stage one excludes lifesteal. Full-stage offers contain two different trainings and one augment: choose one; elites do not grant an extra stage reward. Trainings add no family stacks, persist for the run, and do not appear in chests or supplies. Maximum-HP training does not heal.
 
 ${table(
   ["Training / in-game name / ID", "Starting change", "Effect"],
@@ -150,7 +151,7 @@ ${table(
     `${previewEnglish(item.name)} / ${item.name} / \`${item.id}\``,
     previewEnglish(item.preview(createPlayer())),
     item.id === "training-haste"
-      ? "Base firing interval ×0.94, minimum 0.08s; no family stack"
+      ? `Base interval ×0.94; effective interval respects the active profile floor (official ${stageValues.FIRING_FLOOR}s); no family stack`
       : "Adjust run base stats; no family stack",
   ]),
 )}
@@ -159,7 +160,7 @@ ${table(
 
 Each card acquisition, including duplicates and epics, adds one family stack. Tiers unlock at 3 / 6 / 9 and different families can coexist. Higher tiers keep lower effects, replacing a stated multiplier, threshold or interval rather than adding both values. Cards below their own cap remain available after nine family stacks.
 
-Stage one offers Barrage, Might, Precision and Storm; other families unlock in stage two. Guided offers favor invested families and retain foundational offense; an epic promotion may replace a family slot.
+Stage one offers Barrage, Might, Precision and Storm; other families unlock in stage two. Guided offers retain two main-family choices before nine stacks; at nine, offer continuation / fixed complement / free, filling unavailable slots from the remaining pool. A legal foundation upgrade remains available even after nine stacks, and epic promotion preserves the only foundation option. Pairs: Barrage↔Precision, Might↔Giant Slayer, Blast↔Erosion, Blood↔Bastion, Frost↔Dominion, Judgment↔Storm. At most one epic may replace a slot. Final-offer epic rates are 10/15/20/25% across campaign stages and 30% in endless; the single boss augment slot rolls that rate directly.
 
 ${SYNERGIES.map((family) => {
   const [name, tiers] = entry(FAMILY_EN, family.id);
@@ -171,7 +172,7 @@ ${SYNERGIES.map((family) => {
   )}`;
 }).join("\n\n")}
 
-Build enough damage, firing speed, projectiles or area coverage before relying on recovery. Lifesteal comes only from actual basic enemy HP damage, not explosions, counters or chests. These are current rules, not a claim of completed balance.
+Build enough damage, firing speed, projectiles or area coverage before relying on recovery. Lifesteal comes only from actual basic enemy HP damage; the added weak-point component, explosions, counters and chests grant none. Existing percentage-card basic damage remains eligible. From endless depth 4, lifesteal first uses an own-maximum-HP/effective-lifesteal time allowance; healing bonuses and wounds apply afterward. These are current rules, not a claim of completed balance.
 `;
   const extraNames = ["Development", "Changelog", "Gallery", "Brand", "Validation"];
   for (const name of extraNames) zh[name] = await source(`${name}-zh-CN.md`);

@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — counterplay candidate, 2026-10-27
+
+- Preserve the rejected v1/v2/v3 reports. V3 completed 300/600/120 and passed recording integrity and campaign pacing, but late endless challenge still failed; V4 now has calibration acceptance for PRE candidate delivery, with publication and human acceptance verified separately.
+- From endless depth 4, put the existing Colossus and Wizard in one elite segment between the two waves. Keep the original leader/initial-escort totals, three supplies, training credit and bounded capacity.
+- Each deep-endless warning needs fresh target selection for primary-hit interruption, including reselecting the current target with F or tapping it again. Confirmation is allowed during forming; interruption accumulation starts afterward. The damage route remains available without confirmation.
+- Make first permitted leader preparation and active charges independent of ordinary slow/stun from depth 4, while retaining later recovery control and Sanctuary/pause freezes. Keep all-basic-projectile Winter procs.
+- Add a post-depth-5 health tail, star-scaled percentage/control resistance for ordinary minions, and a depth-4 lifesteal time allowance before healing bonuses/wounds/overheal. Other healing does not spend that lifesteal-specific allowance; depth 7 adds the shared limits below. Campaign rules remain.
+- Cap each depth-4+ slam at 45% player maximum HP before shield and hit invulnerability; this is not a guarantee against combined damage.
+- V4 adds mixed packs of two from depth 7 and three from depth 13, preserving the mean wave admission interval. From depth 7, minion percentage damage and actual combat HP/shield recovery use separate depth-scaled quarter-second allowances, future combat shields have a capacity ceiling, and ordinary melee/projectile hits are individually capped at 35% maximum HP. Existing excess shields and instant card effects retain their paths.
+- Q has been adopted into the worktree for fresh validation; 170 new seeds were reserved before the V4 freeze. All300/600/120 outcomes and independent audits passed, with prospective adoption before holdouts; normal-build campaign success medians are502–507s. PRE candidate acceptance retains strong-build, composition and stage2-attrition limits. Development fixtures and historical engineering/browser checks cannot replace fresh validation. Source review/merge, Wiki and PRE/PRO remain separate.
+
+## Unreleased — calibration candidate revision 2, 2026-10-26
+
+- Retain the rejected v1 evidence: one of 600 campaign outcomes remained budget-unresolved, and late endless interaction was not demonstrated. No historical result is rewritten.
+- Rebalance second-stage pressure and campaign Boss arrival timing; numeric stage tables follow the current official profile. Endless health uses G(d)=1+0.3d+0.2d², retaining G(1)=1.5.
+- Keep Winter's all-basic-projectile hit counting. Endless bosses/elites accept one effective stun, reject refreshes during it and for 0.4s afterward; pause/Sanctuary freeze the recovery timer. Campaign/minions, slow, damage and cast interruption keep their rules.
+- Endless leaders keep ordinary preparation and the full 2.4s warning but drop the additional 2.8s initial cooldown before their first cast.
+- The visible active benchmark policy 2 prioritizes dangerous leader charges, then exposed leaders. It is a strategy improvement, not a World weak-point bug fix.
+- The v2 300/600/120 matrices later completed, with no unresolved results and passing ordinary-build campaign pacing. Late endless challenge still failed acceptance: depth-20 casts were all interrupted and surviving builds cleared later enemies faster. The historical report remains rejected; these results do not validate the October 27 candidate.
+
+## Unreleased — endless evolution and training economy
+
+- Replace the waiting loop with waves, Colossus/Wizard elites and a main boss; use both elite kinds in a shared segment from endless layer four. Award supplies after the first three completed segments.
+- Introduce native star weights and 1/3/9 budget costs, shared quadratic health growth from the resolved finale, and boss HP derived from the strongest enhanced three-star tank.
+- Separate display score from finite-budget training credit. Automatic thresholds start at 5,000 then add 1,500 to each next requirement; HP clearance bonuses and excess reinforcements cannot feed training.
+- Add telegraphed, interruptible casts with weakness/recovery; slam respects shield and hit invulnerability. Enemy-HP damage shares main/elite per-target allowances, while ordinary damage and final execution retain their paths.
+- Guided epic rates become 10/15/20/25% across the campaign and 30% in endless, including the final boss card slot. Nine-stack builds gain continuation/complement/free choices.
+- Show attack paths, mark pulses and 0.5/0.6/0.8s death echoes, with a 0.8s visual-only clearance afterglow. v2 profiles require explicit migration copies from retained v1 data.
+- The 8–12 minute normal campaign rhythm is a calibration target. Evidence, PR review/merge, Wiki publication and PRE/PRO rollout remain separately verified; these notes do not assert completion.
+
+
 ## UI detail polish — 2026-10-23
 
 - Render the defense-line marker as native DOM text with an SVG shield: 12px on desktop, 11px on mobile, with a whole-CSS-pixel anchor that follows the real FIT canvas bounds. The marker does not read DPR or intercept pointer input.

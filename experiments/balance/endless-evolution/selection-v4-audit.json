@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-selection-independent-integrity-and-pacing-summary",
+  "recordedAt": "2026-10-27T05:49:03.793504+00:00",
+  "completedAt": "2026-10-27T05:46:52.018Z",
+  "status": "supports-prospective-holdout-adoption-only",
+  "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "sampledGitIdentity": {
+    "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+    "dirty": true,
+    "meaning": "uncommitted frozen worktree sample; old Git commit alone does not contain Q",
+    "finalCommitSourceMappingRequired": true
+  },
+  "planned": 300,
+  "completed": 300,
+  "victories": 170,
+  "naturalDeaths": 130,
+  "unresolved": 0,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "denominator": 50,
+      "wins": 23,
+      "deaths": 27,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 23,
+        "p10": 500.988333333042,
+        "p50": 529.8083333330159,
+        "p90": 559.7983333329886,
+        "min": 479.56666666639484,
+        "max": 781.7083333327868
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 21,
+      "deaths": 29,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 21,
+        "p10": 515.2499999996958,
+        "p50": 537.8666666663419,
+        "p90": 629.5999999995918,
+        "min": 501.34166666637503,
+        "max": 668.2916666662233
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "denominator": 50,
+      "wins": 31,
+      "deaths": 19,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 31,
+        "p10": 488.24166666638695,
+        "p50": 509.91666666636723,
+        "p90": 577.2416666663061,
+        "min": 463.274999999743,
+        "max": 657.0083333329002
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 32,
+      "deaths": 18,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 32,
+        "p10": 482.9916666663917,
+        "p50": 513.7999999996971,
+        "p90": 582.6541666663012,
+        "min": 467.53333333307245,
+        "max": 608.5833333329442
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "denominator": 50,
+      "wins": 31,
+      "deaths": 19,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 31,
+        "p10": 487.7083333330541,
+        "p50": 519.9249999996915,
+        "p90": 578.5916666663048,
+        "min": 463.5416666664094,
+        "max": 617.8999999996024
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 32,
+      "deaths": 18,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 32,
+        "p10": 486.3966666663886,
+        "p50": 510.8499999996997,
+        "p90": 566.7383333329823,
+        "min": 475.97499999973144,
+        "max": 693.433333332867
+      },
+      "normalSuccessMedian480to720": true
+    }
+  ],
+  "normalSuccessMedian480to720AllFour": true,
+  "deathStageCounts1to4": [0, 114, 13, 3],
+  "normalDeathStageCounts1to4": [0, 61, 11, 2],
+  "integrity": {
+    "runtimeFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 300,
+    "shards": 300,
+    "perRunAudits": 300,
+    "passiveSidecars": 300,
+    "boundedCarriers": 76,
+    "allCarrierExitsZero": true,
+    "eachRecordWithinExactlyOneCarrier": true,
+    "currentFrozenArchivedSourceProfileEqual": true,
+    "fullStrictCollectorCanonicalEqual": true,
+    "allNativeSidecarRoleStarCreditTtkCastsReconciled": true,
+    "nativeOutputsUnchanged": true,
+    "missingDuplicateUnplannedUnresolved": 0
+  },
+  "nativeBindings": {
+    "nativeStrictSha256": "10f5cbfaa7118e2a1ce3014feb42f373d64e76c48d3370e34043516c638d518f",
+    "manifestSha256": "2e8f32054ed700b27288ef6260198db5ef99e5c7c4352ae198e74fc2dbb7c59e",
+    "receiptSha256": "e28f5dd4d3f144bde9a7e7bd46aa67c4b3eb2f25c9f878122dd6e428d4ae9871",
+    "rawSha256": "6fc17f08445d91261948518ed5e505be3313e4cffadaa8b19c69b5207c8a038d"
+  },
+  "fullAudit": {
+    "directory": "artifacts/balance/endless-evolution/v4-runner-20261027/audit-v4/outputs/selection-2026-10-27T05-47-41-843Z",
+    "auditSha256": "ade74f77e6a0c572325419f4c60231c7e22c741874fab43ad1da66647ed27ced",
+    "auditBytes": 31116060,
+    "indexSha256": "98e1316523e63d38cf9e311999df34a7026685f0ef0dc1513ccaa770104b14b6",
+    "auditorSha256": "7abf838163bc1158633d49f11c48d9c10a86eadf4f1c247373e478c75fa676f7"
+  },
+  "releaseAccepted": false,
+  "holdoutsStartedByAuditor": false,
+  "newWorldRunsByAuditor": 0,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V4 seeds differ from V1/V2/V3. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment.",
+    "Stage2 concentration remains114/130 deaths and61/74 normal deaths; no claim that the cliff disappeared.",
+    "Sampling commit/dirty metadata binds a worktree snapshot, not an assertion that old HEAD already contains Q. Final commit/review/merge source mapping is separate."
+  ]
+}
