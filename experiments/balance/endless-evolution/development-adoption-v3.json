@@ -1,0 +1,1815 @@
+{
+  "kind": "endless-evolution-v3-development-adoption",
+  "recordedAt": "2026-10-27T01:47:08.330934+00:00",
+  "releaseAccepted": false,
+  "independentValidation": false,
+  "frozenCodeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+  "developmentScope": "Exactly four previously observed survivor inputs, no reserved selection or holdout World execution. Bot wins are not human acceptance.",
+  "O": {
+    "kind": "O-fixed-observed-development-findings",
+    "recordedAt": "2026-10-27T01:34:07.769958+00:00",
+    "plannedNativeRuns": 4,
+    "completedNativeRuns": 4,
+    "sourceFingerprint": "39b61033874b0c3f429cc5dab5a9120c8c5d0385326d3dd766bbae3b57f5ee21",
+    "profileHash": "011462d76f4c4fb2c523e98eb6df08a510fe9cb94e8163fcf9309ca674c5a5e6",
+    "releaseAccepted": false,
+    "independentValidation": false,
+    "runs": [
+      {
+        "id": "seed1074236464-auto450",
+        "termination": "endless_target_reached",
+        "playerSeconds": 2234.3000000095603,
+        "enemySeconds": 2041.1666666788512,
+        "steps": 270420,
+        "endlessReached": 21,
+        "endlessCleared": 20,
+        "nativeResultHash": "50bce504b2d46a2675f997a3f993257fbbd2c40965dc239ecac09f8f07096688",
+        "recordSha256": "71b7df2924f4ae6d0ff6afc9318e155e67a55a4b2b7f059d6f19e55219dc8d1b",
+        "receiptSha256": "15a00ce460ca25c76c0c05e364edbb68001453e8f0e029c2192a509a06ce7a9d",
+        "accepted": true,
+        "first6NCanonicalEqual": true,
+        "globalMaxOneSecondHpLossRatio": 0.26139605978261365
+      },
+      {
+        "id": "seed1074236464-active1600",
+        "termination": "endless_target_reached",
+        "playerSeconds": 2235.3583333428783,
+        "enemySeconds": 1967.3333333445778,
+        "steps": 270547,
+        "endlessReached": 21,
+        "endlessCleared": 20,
+        "nativeResultHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+        "recordSha256": "4c54c6ecba17603436e8ecffea3f922da7df7ed860b00e85d3f4dc305329d20e",
+        "receiptSha256": "097b5c2b7c4e8078e9c5c81d35578220b4ec4d8ac0643965faa28e2855ebceaf",
+        "accepted": true,
+        "first6NCanonicalEqual": true,
+        "globalMaxOneSecondHpLossRatio": 0.07599999999999994
+      },
+      {
+        "id": "seed4136239728-auto450",
+        "termination": "endless_target_reached",
+        "playerSeconds": 2279.4916666755694,
+        "enemySeconds": 2015.3333333451722,
+        "steps": 275843,
+        "endlessReached": 21,
+        "endlessCleared": 20,
+        "nativeResultHash": "45dccfde122939dc587e90fe74e18775cb4430abd631cf867c9cae4706514287",
+        "recordSha256": "00b9dd9cf3b3982fc5dc2863337b205ed3f2c7fe3188bf9c811ca412c2708bc2",
+        "receiptSha256": "bfa5fa7b7343b38e7f58fedd0c26a0d46959b01a7fe69df5197e08f2cd4f0ee9",
+        "accepted": true,
+        "first6NCanonicalEqual": true,
+        "globalMaxOneSecondHpLossRatio": 0.45
+      },
+      {
+        "id": "seed4136239728-active1600",
+        "termination": "endless_target_reached",
+        "playerSeconds": 2204.7500000099903,
+        "enemySeconds": 1893.341666676969,
+        "steps": 266874,
+        "endlessReached": 21,
+        "endlessCleared": 20,
+        "nativeResultHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+        "recordSha256": "44ca6835679e584a0f82da3d2f1e39a0c60af59afe1fc7f14909e562c46a4491",
+        "receiptSha256": "dc290775bdacbe1bf94d70d65301b66d7a111fa2dcfa482a098de9f533e1f1f2",
+        "accepted": true,
+        "first6NCanonicalEqual": true,
+        "globalMaxOneSecondHpLossRatio": 0.3391652960526316
+      }
+    ],
+    "limits": [
+      "Exactly four previously observed survivor inputs; this is development evidence, not fresh holdout or human success rate.",
+      "All original native configs/full profile/7200 seconds/864000 steps/strategy/RNG streams preserved. Source changes can change realized later choices/rewards.",
+      "First6 complete StageSummary equality to native N is tested; whole-result hashes may differ.",
+      "Death-cancel observations are censored, with null latency. No release or interrupt is fabricated from a cancellation.",
+      "Interrupt channel is read from actual native cumulative damage/hit operands. Generic sidecar old thresholdCause text is superseded only by these explicit metadata snapshots.",
+      "Opened primary, selected, impact-time aimed target, damage-time cast confirmation, and countedPrimary are different fields. Auto/manual focus both allowed; manual flag does not establish human action.",
+      "Native role TTK and death-star/finite-credit cells describe defeated entities including approach/pre-fusion lifetime. Living entities are censored and low-star reinforcement mix affects pooled means.",
+      "Stage skill counters are preserved at stage granularity; no causal HP/shield attribution to a specific ward/volley cast is inferred.",
+      "Engineering guards passing is separate from sustained late challenge, browser acceptance or release adoption."
+    ],
+    "slamCapComparison": {
+      "kind": "O-single-getter-cap-versus-native-N-paired-development",
+      "recordedAt": "2026-10-27T01:35:00.323560+00:00",
+      "formula": "endless depth>=4 ? min(original Math.round authored formula,player.stats.maxHp*0.45) : original Math.round authored formula",
+      "changedSourceFiles": ["src/game/world.ts"],
+      "unchangedObserverRunnerAndOther69SourceFiles": true,
+      "rows": [
+        {
+          "id": "seed1074236464-auto450",
+          "nativeNHash": "70eae726fb92df4b138ff7e38251abfda5c4bd12e8737ffd327d819415e64858",
+          "nativeOHash": "50bce504b2d46a2675f997a3f993257fbbd2c40965dc239ecac09f8f07096688",
+          "wholeNativeEqual": false,
+          "protectedFirst6Equal": true,
+          "allStageRoleTtkEqual": false,
+          "allStageCastCountsEqual": true,
+          "depth13": {
+            "originalAuthoredSlam": 180,
+            "maxHpFractionCap": 157.5,
+            "OGetterSlamBeforeOriginalHurt": 157.5,
+            "N": {
+              "maxHp": 350,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 180,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "melee:wisp": 0,
+                "bloodpact": 42,
+                "poison": 0,
+                "projectile:wizard": 0,
+                "projectile:boss": 0,
+                "boss_slam": 0
+              },
+              "shieldAbsorbedBySource": {
+                "melee:wisp": 68.53275000000002,
+                "bloodpact": 0,
+                "poison": 59.99999999998636,
+                "projectile:wizard": 140.52675,
+                "projectile:boss": 94.14599999999999,
+                "boss_slam": 180
+              },
+              "healingBySource": {
+                "lifesteal": 24.23933750000092,
+                "regeneration": 17.760662500001406
+              },
+              "casts": {
+                "castStarts": 8,
+                "castInterrupts": 1,
+                "castReleases": 6
+              }
+            },
+            "O": {
+              "maxHp": 350,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 157.5,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "melee:wisp": 0,
+                "bloodpact": 42,
+                "poison": 0,
+                "projectile:wizard": 0,
+                "projectile:boss": 0,
+                "boss_slam": 0
+              },
+              "shieldAbsorbedBySource": {
+                "melee:wisp": 68.53275000000002,
+                "bloodpact": 0,
+                "poison": 59.99999999998636,
+                "projectile:wizard": 140.52675,
+                "projectile:boss": 94.14599999999999,
+                "boss_slam": 157.5
+              },
+              "healingBySource": {
+                "lifesteal": 24.23933750000092,
+                "regeneration": 17.760662500001406
+              },
+              "casts": {
+                "castStarts": 8,
+                "castInterrupts": 1,
+                "castReleases": 6
+              }
+            }
+          },
+          "NGlobalMaxOneSecondHpLossRatio": 0.26139605978261365,
+          "OGlobalMaxOneSecondHpLossRatio": 0.26139605978261365,
+          "OGlobalMaximumStage": {
+            "stageIndex": 9,
+            "depth": 6,
+            "maxOneSecondHpLossRatio": 0.26139605978261365,
+            "maxOneSecondDamage": 77.9025,
+            "entryMaxHp": 230,
+            "clearMaxHp": 260,
+            "hpLoss": 251.11207161978857,
+            "hpLossBySource": {
+              "melee:tank": 40.21796875000004,
+              "bloodpact": 51,
+              "poison": 59.651915369791354,
+              "projectile:wizard": 100.2421875,
+              "projectile:boss": 0
+            },
+            "shieldAbsorbed": 465.9919908802166,
+            "shieldAbsorbedBySource": {
+              "melee:tank": 160.83921875000004,
+              "bloodpact": 0,
+              "poison": 90.34808463020742,
+              "projectile:wizard": 20.0484375,
+              "projectile:boss": 194.75625000000002
+            },
+            "healingBySource": {
+              "regeneration": 70.33934010416404,
+              "lifesteal": 147.27966901559847,
+              "harvest": 63.493062500000484
+            },
+            "skills": {
+              "boss_skill:ritual": 2,
+              "boss_skill:ward": 4,
+              "boss_skill:volley": 3,
+              "boss_skill:guard": 2
+            }
+          }
+        },
+        {
+          "id": "seed1074236464-active1600",
+          "nativeNHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+          "nativeOHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+          "wholeNativeEqual": true,
+          "protectedFirst6Equal": true,
+          "allStageRoleTtkEqual": true,
+          "allStageCastCountsEqual": true,
+          "depth13": {
+            "originalAuthoredSlam": 180,
+            "maxHpFractionCap": 157.5,
+            "OGetterSlamBeforeOriginalHurt": 157.5,
+            "N": {
+              "maxHp": 350,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 77.87812499999995,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "melee:wisp": 0,
+                "poison": 0,
+                "bloodpact": 48,
+                "projectile:wizard": 0,
+                "melee:tank": 0
+              },
+              "shieldAbsorbedBySource": {
+                "melee:wisp": 60.225750000000005,
+                "poison": 128.83333333330233,
+                "bloodpact": 0,
+                "projectile:wizard": 48.457500000000095,
+                "melee:tank": 90.33862499999998
+              },
+              "healingBySource": {
+                "lifesteal": 23.70226562500199,
+                "regeneration": 15.93749999999981,
+                "harvest": 8.360234375001255,
+                "stage_recovery": 30
+              },
+              "casts": {
+                "castStarts": 7,
+                "castInterrupts": 7,
+                "castReleases": 0
+              }
+            },
+            "O": {
+              "maxHp": 350,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 77.87812499999995,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "melee:wisp": 0,
+                "poison": 0,
+                "bloodpact": 48,
+                "projectile:wizard": 0,
+                "melee:tank": 0
+              },
+              "shieldAbsorbedBySource": {
+                "melee:wisp": 60.225750000000005,
+                "poison": 128.83333333330233,
+                "bloodpact": 0,
+                "projectile:wizard": 48.457500000000095,
+                "melee:tank": 90.33862499999998
+              },
+              "healingBySource": {
+                "lifesteal": 23.70226562500199,
+                "regeneration": 15.93749999999981,
+                "harvest": 8.360234375001255,
+                "stage_recovery": 30
+              },
+              "casts": {
+                "castStarts": 7,
+                "castInterrupts": 7,
+                "castReleases": 0
+              }
+            }
+          },
+          "NGlobalMaxOneSecondHpLossRatio": 0.07599999999999994,
+          "OGlobalMaxOneSecondHpLossRatio": 0.07599999999999994,
+          "OGlobalMaximumStage": {
+            "stageIndex": 1,
+            "depth": null,
+            "maxOneSecondHpLossRatio": 0.07599999999999994,
+            "maxOneSecondDamage": 7.599999999999994,
+            "entryMaxHp": 100,
+            "clearMaxHp": 130,
+            "hpLoss": 67.99999999999996,
+            "hpLossBySource": {
+              "projectile:boss": 28,
+              "projectile:hexer": 36.39999999999996,
+              "melee:sentinel": 3.5999999999999943
+            },
+            "shieldAbsorbed": 0,
+            "shieldAbsorbedBySource": {
+              "projectile:boss": 0,
+              "projectile:hexer": 0,
+              "melee:sentinel": 0
+            },
+            "healingBySource": {
+              "lifesteal": 97.99999999999989
+            },
+            "skills": {}
+          }
+        },
+        {
+          "id": "seed4136239728-auto450",
+          "nativeNHash": "36393d0c10fa558cf5e2736aefcdbcb25fc05d3d83b35304a7e71f89fc7a19a0",
+          "nativeOHash": "45dccfde122939dc587e90fe74e18775cb4430abd631cf867c9cae4706514287",
+          "wholeNativeEqual": false,
+          "protectedFirst6Equal": true,
+          "allStageRoleTtkEqual": true,
+          "allStageCastCountsEqual": true,
+          "depth13": {
+            "originalAuthoredSlam": 180,
+            "maxHpFractionCap": 94.5,
+            "OGetterSlamBeforeOriginalHurt": 94.5,
+            "N": {
+              "maxHp": 210,
+              "maxOneSecondHpLoss": 165.30603183593772,
+              "maxOneSecondDamageIncludingShield": 180,
+              "maxOneSecondHpLossRatio": 0.787171580171132,
+              "hpLossBySource": {
+                "bloodpact": 54,
+                "poison": 19.27018164062892,
+                "melee:tank": 12.460499999999996,
+                "projectile:boss": 0,
+                "projectile:wizard": 0,
+                "melee:wisp": 0,
+                "boss_slam": 325.3060318359377
+              },
+              "shieldAbsorbedBySource": {
+                "bloodpact": 0,
+                "poison": 24.479818359373084,
+                "melee:tank": 0,
+                "projectile:boss": 47.07299999999999,
+                "projectile:wizard": 9.6915,
+                "melee:wisp": 8.306999999999999,
+                "boss_slam": 34.6939681640623
+              },
+              "healingBySource": {
+                "regeneration": 108.35449218749964,
+                "lifesteal": 218.5983248697931,
+                "harvest": 55.961458333333326,
+                "stage_recovery": 28.122438085937716
+              },
+              "casts": {
+                "castStarts": 6,
+                "castInterrupts": 2,
+                "castReleases": 3
+              }
+            },
+            "O": {
+              "maxHp": 210,
+              "maxOneSecondHpLoss": 79.80603183593769,
+              "maxOneSecondDamageIncludingShield": 94.5,
+              "maxOneSecondHpLossRatio": 0.38002872302827473,
+              "hpLossBySource": {
+                "bloodpact": 54,
+                "poison": 19.27018164062892,
+                "melee:tank": 12.460499999999996,
+                "projectile:boss": 0,
+                "projectile:wizard": 0,
+                "melee:wisp": 0,
+                "boss_slam": 146.89288501953146
+              },
+              "shieldAbsorbedBySource": {
+                "bloodpact": 0,
+                "poison": 24.479818359373084,
+                "melee:tank": 0,
+                "projectile:boss": 47.07299999999999,
+                "projectile:wizard": 9.6915,
+                "melee:wisp": 8.306999999999999,
+                "boss_slam": 42.107114980468516
+              },
+              "healingBySource": {
+                "regeneration": 72.22161880859342,
+                "lifesteal": 141.44048951823078,
+                "harvest": 18.961458333333326
+              },
+              "casts": {
+                "castStarts": 6,
+                "castInterrupts": 2,
+                "castReleases": 3
+              }
+            }
+          },
+          "NGlobalMaxOneSecondHpLossRatio": 0.787171580171132,
+          "OGlobalMaxOneSecondHpLossRatio": 0.45,
+          "OGlobalMaximumStage": {
+            "stageIndex": 8,
+            "depth": 5,
+            "maxOneSecondHpLossRatio": 0.45,
+            "maxOneSecondDamage": 94.5,
+            "entryMaxHp": 210,
+            "clearMaxHp": 210,
+            "hpLoss": 349.876500000006,
+            "hpLossBySource": {
+              "bloodpact": 72,
+              "poison": 60.00000000000597,
+              "melee:tank": 10.003500000000003,
+              "projectile:boss": 113.373,
+              "boss_slam": 94.5
+            },
+            "shieldAbsorbed": 0,
+            "shieldAbsorbedBySource": {
+              "bloodpact": 0,
+              "poison": 0,
+              "melee:tank": 0,
+              "projectile:boss": 0,
+              "boss_slam": 0
+            },
+            "healingBySource": {
+              "regeneration": 108.96687499998428,
+              "lifesteal": 75.49113749999927,
+              "harvest": 138.4151124999717,
+              "stage_recovery": 27.00337499998625
+            },
+            "skills": {
+              "boss_skill:ward": 1,
+              "boss_skill:volley": 2,
+              "boss_skill:slam": 1,
+              "boss_skill:summon": 1
+            }
+          }
+        },
+        {
+          "id": "seed4136239728-active1600",
+          "nativeNHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+          "nativeOHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+          "wholeNativeEqual": true,
+          "protectedFirst6Equal": true,
+          "allStageRoleTtkEqual": true,
+          "allStageCastCountsEqual": true,
+          "depth13": {
+            "originalAuthoredSlam": 180,
+            "maxHpFractionCap": 108.0,
+            "OGetterSlamBeforeOriginalHurt": 108.0,
+            "N": {
+              "maxHp": 240,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 36.654333333332886,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "bloodpact": 42,
+                "poison": 0,
+                "melee:tank": 0,
+                "projectile:wizard": 0
+              },
+              "shieldAbsorbedBySource": {
+                "bloodpact": 0,
+                "poison": 73.98333333332991,
+                "melee:tank": 37.38149999999999,
+                "projectile:wizard": 19.382999999999996
+              },
+              "healingBySource": {
+                "regeneration": 33.47910156249985,
+                "lifesteal": 30.208320312503293,
+                "harvest": 8.312578125000016
+              },
+              "casts": {
+                "castStarts": 7,
+                "castInterrupts": 6,
+                "castReleases": 0
+              }
+            },
+            "O": {
+              "maxHp": 240,
+              "maxOneSecondHpLoss": 0,
+              "maxOneSecondDamageIncludingShield": 36.654333333332886,
+              "maxOneSecondHpLossRatio": 0,
+              "hpLossBySource": {
+                "bloodpact": 42,
+                "poison": 0,
+                "melee:tank": 0,
+                "projectile:wizard": 0
+              },
+              "shieldAbsorbedBySource": {
+                "bloodpact": 0,
+                "poison": 73.98333333332991,
+                "melee:tank": 37.38149999999999,
+                "projectile:wizard": 19.382999999999996
+              },
+              "healingBySource": {
+                "regeneration": 33.47910156249985,
+                "lifesteal": 30.208320312503293,
+                "harvest": 8.312578125000016
+              },
+              "casts": {
+                "castStarts": 7,
+                "castInterrupts": 6,
+                "castReleases": 0
+              }
+            }
+          },
+          "NGlobalMaxOneSecondHpLossRatio": 0.3391652960526316,
+          "OGlobalMaxOneSecondHpLossRatio": 0.3391652960526316,
+          "OGlobalMaximumStage": {
+            "stageIndex": 9,
+            "depth": 6,
+            "maxOneSecondHpLossRatio": 0.3391652960526316,
+            "maxOneSecondDamage": 64.44140625000001,
+            "entryMaxHp": 190,
+            "clearMaxHp": 190,
+            "hpLoss": 230.0210937500046,
+            "hpLossBySource": {
+              "melee:tank": 110.83921875000003,
+              "bloodpact": 48,
+              "projectile:wizard": 24.05812499999999,
+              "melee:wisp": 6.873750000000001,
+              "poison": 40.250000000004576
+            },
+            "shieldAbsorbed": 0,
+            "shieldAbsorbedBySource": {
+              "melee:tank": 0,
+              "bloodpact": 0,
+              "projectile:wizard": 0,
+              "melee:wisp": 0,
+              "poison": 0
+            },
+            "healingBySource": {
+              "lifesteal": 66.54201041668131,
+              "regeneration": 118.96252083333917,
+              "harvest": 44.51656250000207
+            },
+            "skills": {}
+          }
+        }
+      ],
+      "lateRoleCounts": {
+        "elite": {
+          "starts": 220,
+          "interrupts": 133,
+          "releases": 55,
+          "censored": 32,
+          "damageOnly": 35,
+          "hitsOnly": 98,
+          "both": 0,
+          "openedPrimary": 2841,
+          "selected": 1893,
+          "confirmedPrimary": 853,
+          "countedPrimary": 853
+        },
+        "boss": {
+          "starts": 286,
+          "interrupts": 160,
+          "releases": 105,
+          "censored": 21,
+          "damageOnly": 17,
+          "hitsOnly": 143,
+          "both": 0,
+          "openedPrimary": 3667,
+          "selected": 3667,
+          "confirmedPrimary": 1210,
+          "countedPrimary": 1210
+        }
+      },
+      "depth20RoleCounts": {
+        "elite": {
+          "starts": 11,
+          "interrupts": 5,
+          "releases": 4,
+          "censored": 2,
+          "damageOnly": 2,
+          "hitsOnly": 3,
+          "both": 0,
+          "openedPrimary": 155,
+          "selected": 97,
+          "confirmedPrimary": 48,
+          "countedPrimary": 48
+        },
+        "boss": {
+          "starts": 13,
+          "interrupts": 7,
+          "releases": 5,
+          "censored": 1,
+          "damageOnly": 0,
+          "hitsOnly": 7,
+          "both": 0,
+          "openedPrimary": 173,
+          "selected": 173,
+          "confirmedPrimary": 70,
+          "countedPrimary": 70
+        }
+      },
+      "guards": {
+        "completeNativeRecords": 4,
+        "strictNativeAccepted": 4,
+        "attachments": 28,
+        "protectedStageSummaries": 24,
+        "clearedEndlessLayers": 80,
+        "supplies": 240
+      },
+      "limits": [
+        "Exactly4 observed development inputs; no fresh holdout success rate or release acceptance.",
+        "The cap is on single authored slam damage before original hurt/shield/invulnerability processing. It does not cap every damage source or guarantee aggregate1second damage is <=45%.",
+        "This uses maximum HP, not current HP; lethal outcomes are not dynamically prevented or relabelled.",
+        "Actual later realized builds can diverge after mechanics change; use native per-input facts rather than infer full equivalence from equal cast counts."
+      ],
+      "releaseAccepted": false
+    }
+  },
+  "OReadOnlyAudit": {
+    "kind": "read-only-O-native-evidence-audit-reusing-prior-checker",
+    "recordedAt": "2026-10-27T01:34:07.676Z",
+    "accepted": true,
+    "completed": 4,
+    "sourceFingerprint": "39b61033874b0c3f429cc5dab5a9120c8c5d0385326d3dd766bbae3b57f5ee21",
+    "profileHash": "011462d76f4c4fb2c523e98eb6df08a510fe9cb94e8163fcf9309ca674c5a5e6",
+    "sourceFiles": 70,
+    "runtimeFingerprintFiles": 47,
+    "sourceDeltaExactlyApprovedGetter": true,
+    "protectedFirst6StageSummaries": 24,
+    "clearedEndlessStages": 80,
+    "supplyDecisions": 240,
+    "lateByRole": {
+      "elite": {
+        "starts": 220,
+        "interrupts": 133,
+        "releases": 55,
+        "censored": 32,
+        "damageOnly": 35,
+        "hitsOnly": 98,
+        "both": 0,
+        "openedPrimary": 2841,
+        "selected": 1893,
+        "confirmedPrimary": 853,
+        "countedPrimary": 853
+      },
+      "boss": {
+        "starts": 286,
+        "interrupts": 160,
+        "releases": 105,
+        "censored": 21,
+        "damageOnly": 17,
+        "hitsOnly": 143,
+        "both": 0,
+        "openedPrimary": 3667,
+        "selected": 3667,
+        "confirmedPrimary": 1210,
+        "countedPrimary": 1210
+      }
+    },
+    "depth20ByRole": {
+      "elite": {
+        "starts": 11,
+        "interrupts": 5,
+        "releases": 4,
+        "censored": 2,
+        "damageOnly": 2,
+        "hitsOnly": 3,
+        "both": 0,
+        "openedPrimary": 155,
+        "selected": 97,
+        "confirmedPrimary": 48,
+        "countedPrimary": 48
+      },
+      "boss": {
+        "starts": 13,
+        "interrupts": 7,
+        "releases": 5,
+        "censored": 1,
+        "damageOnly": 0,
+        "hitsOnly": 7,
+        "both": 0,
+        "openedPrimary": 173,
+        "selected": 173,
+        "confirmedPrimary": 70,
+        "countedPrimary": 70
+      }
+    },
+    "worldExecutedByAuditor": false,
+    "releaseAccepted": false,
+    "independentValidation": false
+  },
+  "slamCapComparison": {
+    "kind": "O-single-getter-cap-versus-native-N-paired-development",
+    "recordedAt": "2026-10-27T01:35:00.323560+00:00",
+    "formula": "endless depth>=4 ? min(original Math.round authored formula,player.stats.maxHp*0.45) : original Math.round authored formula",
+    "changedSourceFiles": ["src/game/world.ts"],
+    "unchangedObserverRunnerAndOther69SourceFiles": true,
+    "rows": [
+      {
+        "id": "seed1074236464-auto450",
+        "nativeNHash": "70eae726fb92df4b138ff7e38251abfda5c4bd12e8737ffd327d819415e64858",
+        "nativeOHash": "50bce504b2d46a2675f997a3f993257fbbd2c40965dc239ecac09f8f07096688",
+        "wholeNativeEqual": false,
+        "protectedFirst6Equal": true,
+        "allStageRoleTtkEqual": false,
+        "allStageCastCountsEqual": true,
+        "depth13": {
+          "originalAuthoredSlam": 180,
+          "maxHpFractionCap": 157.5,
+          "OGetterSlamBeforeOriginalHurt": 157.5,
+          "N": {
+            "maxHp": 350,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 180,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "melee:wisp": 0,
+              "bloodpact": 42,
+              "poison": 0,
+              "projectile:wizard": 0,
+              "projectile:boss": 0,
+              "boss_slam": 0
+            },
+            "shieldAbsorbedBySource": {
+              "melee:wisp": 68.53275000000002,
+              "bloodpact": 0,
+              "poison": 59.99999999998636,
+              "projectile:wizard": 140.52675,
+              "projectile:boss": 94.14599999999999,
+              "boss_slam": 180
+            },
+            "healingBySource": {
+              "lifesteal": 24.23933750000092,
+              "regeneration": 17.760662500001406
+            },
+            "casts": {
+              "castStarts": 8,
+              "castInterrupts": 1,
+              "castReleases": 6
+            }
+          },
+          "O": {
+            "maxHp": 350,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 157.5,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "melee:wisp": 0,
+              "bloodpact": 42,
+              "poison": 0,
+              "projectile:wizard": 0,
+              "projectile:boss": 0,
+              "boss_slam": 0
+            },
+            "shieldAbsorbedBySource": {
+              "melee:wisp": 68.53275000000002,
+              "bloodpact": 0,
+              "poison": 59.99999999998636,
+              "projectile:wizard": 140.52675,
+              "projectile:boss": 94.14599999999999,
+              "boss_slam": 157.5
+            },
+            "healingBySource": {
+              "lifesteal": 24.23933750000092,
+              "regeneration": 17.760662500001406
+            },
+            "casts": {
+              "castStarts": 8,
+              "castInterrupts": 1,
+              "castReleases": 6
+            }
+          }
+        },
+        "NGlobalMaxOneSecondHpLossRatio": 0.26139605978261365,
+        "OGlobalMaxOneSecondHpLossRatio": 0.26139605978261365,
+        "OGlobalMaximumStage": {
+          "stageIndex": 9,
+          "depth": 6,
+          "maxOneSecondHpLossRatio": 0.26139605978261365,
+          "maxOneSecondDamage": 77.9025,
+          "entryMaxHp": 230,
+          "clearMaxHp": 260,
+          "hpLoss": 251.11207161978857,
+          "hpLossBySource": {
+            "melee:tank": 40.21796875000004,
+            "bloodpact": 51,
+            "poison": 59.651915369791354,
+            "projectile:wizard": 100.2421875,
+            "projectile:boss": 0
+          },
+          "shieldAbsorbed": 465.9919908802166,
+          "shieldAbsorbedBySource": {
+            "melee:tank": 160.83921875000004,
+            "bloodpact": 0,
+            "poison": 90.34808463020742,
+            "projectile:wizard": 20.0484375,
+            "projectile:boss": 194.75625000000002
+          },
+          "healingBySource": {
+            "regeneration": 70.33934010416404,
+            "lifesteal": 147.27966901559847,
+            "harvest": 63.493062500000484
+          },
+          "skills": {
+            "boss_skill:ritual": 2,
+            "boss_skill:ward": 4,
+            "boss_skill:volley": 3,
+            "boss_skill:guard": 2
+          }
+        }
+      },
+      {
+        "id": "seed1074236464-active1600",
+        "nativeNHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+        "nativeOHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+        "wholeNativeEqual": true,
+        "protectedFirst6Equal": true,
+        "allStageRoleTtkEqual": true,
+        "allStageCastCountsEqual": true,
+        "depth13": {
+          "originalAuthoredSlam": 180,
+          "maxHpFractionCap": 157.5,
+          "OGetterSlamBeforeOriginalHurt": 157.5,
+          "N": {
+            "maxHp": 350,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 77.87812499999995,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "melee:wisp": 0,
+              "poison": 0,
+              "bloodpact": 48,
+              "projectile:wizard": 0,
+              "melee:tank": 0
+            },
+            "shieldAbsorbedBySource": {
+              "melee:wisp": 60.225750000000005,
+              "poison": 128.83333333330233,
+              "bloodpact": 0,
+              "projectile:wizard": 48.457500000000095,
+              "melee:tank": 90.33862499999998
+            },
+            "healingBySource": {
+              "lifesteal": 23.70226562500199,
+              "regeneration": 15.93749999999981,
+              "harvest": 8.360234375001255,
+              "stage_recovery": 30
+            },
+            "casts": {
+              "castStarts": 7,
+              "castInterrupts": 7,
+              "castReleases": 0
+            }
+          },
+          "O": {
+            "maxHp": 350,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 77.87812499999995,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "melee:wisp": 0,
+              "poison": 0,
+              "bloodpact": 48,
+              "projectile:wizard": 0,
+              "melee:tank": 0
+            },
+            "shieldAbsorbedBySource": {
+              "melee:wisp": 60.225750000000005,
+              "poison": 128.83333333330233,
+              "bloodpact": 0,
+              "projectile:wizard": 48.457500000000095,
+              "melee:tank": 90.33862499999998
+            },
+            "healingBySource": {
+              "lifesteal": 23.70226562500199,
+              "regeneration": 15.93749999999981,
+              "harvest": 8.360234375001255,
+              "stage_recovery": 30
+            },
+            "casts": {
+              "castStarts": 7,
+              "castInterrupts": 7,
+              "castReleases": 0
+            }
+          }
+        },
+        "NGlobalMaxOneSecondHpLossRatio": 0.07599999999999994,
+        "OGlobalMaxOneSecondHpLossRatio": 0.07599999999999994,
+        "OGlobalMaximumStage": {
+          "stageIndex": 1,
+          "depth": null,
+          "maxOneSecondHpLossRatio": 0.07599999999999994,
+          "maxOneSecondDamage": 7.599999999999994,
+          "entryMaxHp": 100,
+          "clearMaxHp": 130,
+          "hpLoss": 67.99999999999996,
+          "hpLossBySource": {
+            "projectile:boss": 28,
+            "projectile:hexer": 36.39999999999996,
+            "melee:sentinel": 3.5999999999999943
+          },
+          "shieldAbsorbed": 0,
+          "shieldAbsorbedBySource": {
+            "projectile:boss": 0,
+            "projectile:hexer": 0,
+            "melee:sentinel": 0
+          },
+          "healingBySource": {
+            "lifesteal": 97.99999999999989
+          },
+          "skills": {}
+        }
+      },
+      {
+        "id": "seed4136239728-auto450",
+        "nativeNHash": "36393d0c10fa558cf5e2736aefcdbcb25fc05d3d83b35304a7e71f89fc7a19a0",
+        "nativeOHash": "45dccfde122939dc587e90fe74e18775cb4430abd631cf867c9cae4706514287",
+        "wholeNativeEqual": false,
+        "protectedFirst6Equal": true,
+        "allStageRoleTtkEqual": true,
+        "allStageCastCountsEqual": true,
+        "depth13": {
+          "originalAuthoredSlam": 180,
+          "maxHpFractionCap": 94.5,
+          "OGetterSlamBeforeOriginalHurt": 94.5,
+          "N": {
+            "maxHp": 210,
+            "maxOneSecondHpLoss": 165.30603183593772,
+            "maxOneSecondDamageIncludingShield": 180,
+            "maxOneSecondHpLossRatio": 0.787171580171132,
+            "hpLossBySource": {
+              "bloodpact": 54,
+              "poison": 19.27018164062892,
+              "melee:tank": 12.460499999999996,
+              "projectile:boss": 0,
+              "projectile:wizard": 0,
+              "melee:wisp": 0,
+              "boss_slam": 325.3060318359377
+            },
+            "shieldAbsorbedBySource": {
+              "bloodpact": 0,
+              "poison": 24.479818359373084,
+              "melee:tank": 0,
+              "projectile:boss": 47.07299999999999,
+              "projectile:wizard": 9.6915,
+              "melee:wisp": 8.306999999999999,
+              "boss_slam": 34.6939681640623
+            },
+            "healingBySource": {
+              "regeneration": 108.35449218749964,
+              "lifesteal": 218.5983248697931,
+              "harvest": 55.961458333333326,
+              "stage_recovery": 28.122438085937716
+            },
+            "casts": {
+              "castStarts": 6,
+              "castInterrupts": 2,
+              "castReleases": 3
+            }
+          },
+          "O": {
+            "maxHp": 210,
+            "maxOneSecondHpLoss": 79.80603183593769,
+            "maxOneSecondDamageIncludingShield": 94.5,
+            "maxOneSecondHpLossRatio": 0.38002872302827473,
+            "hpLossBySource": {
+              "bloodpact": 54,
+              "poison": 19.27018164062892,
+              "melee:tank": 12.460499999999996,
+              "projectile:boss": 0,
+              "projectile:wizard": 0,
+              "melee:wisp": 0,
+              "boss_slam": 146.89288501953146
+            },
+            "shieldAbsorbedBySource": {
+              "bloodpact": 0,
+              "poison": 24.479818359373084,
+              "melee:tank": 0,
+              "projectile:boss": 47.07299999999999,
+              "projectile:wizard": 9.6915,
+              "melee:wisp": 8.306999999999999,
+              "boss_slam": 42.107114980468516
+            },
+            "healingBySource": {
+              "regeneration": 72.22161880859342,
+              "lifesteal": 141.44048951823078,
+              "harvest": 18.961458333333326
+            },
+            "casts": {
+              "castStarts": 6,
+              "castInterrupts": 2,
+              "castReleases": 3
+            }
+          }
+        },
+        "NGlobalMaxOneSecondHpLossRatio": 0.787171580171132,
+        "OGlobalMaxOneSecondHpLossRatio": 0.45,
+        "OGlobalMaximumStage": {
+          "stageIndex": 8,
+          "depth": 5,
+          "maxOneSecondHpLossRatio": 0.45,
+          "maxOneSecondDamage": 94.5,
+          "entryMaxHp": 210,
+          "clearMaxHp": 210,
+          "hpLoss": 349.876500000006,
+          "hpLossBySource": {
+            "bloodpact": 72,
+            "poison": 60.00000000000597,
+            "melee:tank": 10.003500000000003,
+            "projectile:boss": 113.373,
+            "boss_slam": 94.5
+          },
+          "shieldAbsorbed": 0,
+          "shieldAbsorbedBySource": {
+            "bloodpact": 0,
+            "poison": 0,
+            "melee:tank": 0,
+            "projectile:boss": 0,
+            "boss_slam": 0
+          },
+          "healingBySource": {
+            "regeneration": 108.96687499998428,
+            "lifesteal": 75.49113749999927,
+            "harvest": 138.4151124999717,
+            "stage_recovery": 27.00337499998625
+          },
+          "skills": {
+            "boss_skill:ward": 1,
+            "boss_skill:volley": 2,
+            "boss_skill:slam": 1,
+            "boss_skill:summon": 1
+          }
+        }
+      },
+      {
+        "id": "seed4136239728-active1600",
+        "nativeNHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+        "nativeOHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+        "wholeNativeEqual": true,
+        "protectedFirst6Equal": true,
+        "allStageRoleTtkEqual": true,
+        "allStageCastCountsEqual": true,
+        "depth13": {
+          "originalAuthoredSlam": 180,
+          "maxHpFractionCap": 108.0,
+          "OGetterSlamBeforeOriginalHurt": 108.0,
+          "N": {
+            "maxHp": 240,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 36.654333333332886,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "bloodpact": 42,
+              "poison": 0,
+              "melee:tank": 0,
+              "projectile:wizard": 0
+            },
+            "shieldAbsorbedBySource": {
+              "bloodpact": 0,
+              "poison": 73.98333333332991,
+              "melee:tank": 37.38149999999999,
+              "projectile:wizard": 19.382999999999996
+            },
+            "healingBySource": {
+              "regeneration": 33.47910156249985,
+              "lifesteal": 30.208320312503293,
+              "harvest": 8.312578125000016
+            },
+            "casts": {
+              "castStarts": 7,
+              "castInterrupts": 6,
+              "castReleases": 0
+            }
+          },
+          "O": {
+            "maxHp": 240,
+            "maxOneSecondHpLoss": 0,
+            "maxOneSecondDamageIncludingShield": 36.654333333332886,
+            "maxOneSecondHpLossRatio": 0,
+            "hpLossBySource": {
+              "bloodpact": 42,
+              "poison": 0,
+              "melee:tank": 0,
+              "projectile:wizard": 0
+            },
+            "shieldAbsorbedBySource": {
+              "bloodpact": 0,
+              "poison": 73.98333333332991,
+              "melee:tank": 37.38149999999999,
+              "projectile:wizard": 19.382999999999996
+            },
+            "healingBySource": {
+              "regeneration": 33.47910156249985,
+              "lifesteal": 30.208320312503293,
+              "harvest": 8.312578125000016
+            },
+            "casts": {
+              "castStarts": 7,
+              "castInterrupts": 6,
+              "castReleases": 0
+            }
+          }
+        },
+        "NGlobalMaxOneSecondHpLossRatio": 0.3391652960526316,
+        "OGlobalMaxOneSecondHpLossRatio": 0.3391652960526316,
+        "OGlobalMaximumStage": {
+          "stageIndex": 9,
+          "depth": 6,
+          "maxOneSecondHpLossRatio": 0.3391652960526316,
+          "maxOneSecondDamage": 64.44140625000001,
+          "entryMaxHp": 190,
+          "clearMaxHp": 190,
+          "hpLoss": 230.0210937500046,
+          "hpLossBySource": {
+            "melee:tank": 110.83921875000003,
+            "bloodpact": 48,
+            "projectile:wizard": 24.05812499999999,
+            "melee:wisp": 6.873750000000001,
+            "poison": 40.250000000004576
+          },
+          "shieldAbsorbed": 0,
+          "shieldAbsorbedBySource": {
+            "melee:tank": 0,
+            "bloodpact": 0,
+            "projectile:wizard": 0,
+            "melee:wisp": 0,
+            "poison": 0
+          },
+          "healingBySource": {
+            "lifesteal": 66.54201041668131,
+            "regeneration": 118.96252083333917,
+            "harvest": 44.51656250000207
+          },
+          "skills": {}
+        }
+      }
+    ],
+    "lateRoleCounts": {
+      "elite": {
+        "starts": 220,
+        "interrupts": 133,
+        "releases": 55,
+        "censored": 32,
+        "damageOnly": 35,
+        "hitsOnly": 98,
+        "both": 0,
+        "openedPrimary": 2841,
+        "selected": 1893,
+        "confirmedPrimary": 853,
+        "countedPrimary": 853
+      },
+      "boss": {
+        "starts": 286,
+        "interrupts": 160,
+        "releases": 105,
+        "censored": 21,
+        "damageOnly": 17,
+        "hitsOnly": 143,
+        "both": 0,
+        "openedPrimary": 3667,
+        "selected": 3667,
+        "confirmedPrimary": 1210,
+        "countedPrimary": 1210
+      }
+    },
+    "depth20RoleCounts": {
+      "elite": {
+        "starts": 11,
+        "interrupts": 5,
+        "releases": 4,
+        "censored": 2,
+        "damageOnly": 2,
+        "hitsOnly": 3,
+        "both": 0,
+        "openedPrimary": 155,
+        "selected": 97,
+        "confirmedPrimary": 48,
+        "countedPrimary": 48
+      },
+      "boss": {
+        "starts": 13,
+        "interrupts": 7,
+        "releases": 5,
+        "censored": 1,
+        "damageOnly": 0,
+        "hitsOnly": 7,
+        "both": 0,
+        "openedPrimary": 173,
+        "selected": 173,
+        "confirmedPrimary": 70,
+        "countedPrimary": 70
+      }
+    },
+    "guards": {
+      "completeNativeRecords": 4,
+      "strictNativeAccepted": 4,
+      "attachments": 28,
+      "protectedStageSummaries": 24,
+      "clearedEndlessLayers": 80,
+      "supplies": 240
+    },
+    "limits": [
+      "Exactly4 observed development inputs; no fresh holdout success rate or release acceptance.",
+      "The cap is on single authored slam damage before original hurt/shield/invulnerability processing. It does not cap every damage source or guarantee aggregate1second damage is <=45%.",
+      "This uses maximum HP, not current HP; lethal outcomes are not dynamically prevented or relabelled.",
+      "Actual later realized builds can diverge after mechanics change; use native per-input facts rather than infer full equivalence from equal cast counts."
+    ],
+    "releaseAccepted": false
+  },
+  "worktreeEquivalence": {
+    "kind": "actual-worktree-O4-adoption-equivalence-result",
+    "finishedAt": "2026-10-27T01:43:05.727Z",
+    "nativeRuns": 4,
+    "independentValidation": false,
+    "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+    "payloadHash": "c2327e7c0cd40e0dd707f617750bcc686383f14c4001cfc1f1f2e123621ce082",
+    "initialCode": {
+      "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+      "dirty": true,
+      "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+      "bunVersion": "1.4.3",
+      "fixedStep": 0.008333333333333333,
+      "files": {
+        "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+        "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+        "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+        "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+        "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+        "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+        "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+        "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+        "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+        "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+        "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+        "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+        "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+        "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+        "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+        "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+        "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+        "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+        "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+        "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+        "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+        "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+        "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+        "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+        "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+        "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+        "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+        "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+        "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+        "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+        "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+        "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+        "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+        "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+        "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+        "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+        "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+        "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+        "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+        "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+        "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+        "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+        "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+        "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+        "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+        "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+        "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+      }
+    },
+    "sourceUnchanged": true,
+    "allNativeResultHashesEqual": true,
+    "receipts": [
+      {
+        "id": "seed1074236464-auto450",
+        "startedAt": "2026-10-27T01:39:52.251Z",
+        "finishedAt": "2026-10-27T01:40:44.096Z",
+        "wallMs": 51959.213532,
+        "configHash": "067b5fae34ed2caad3d3ed2258899caa14ef195f59014b5444cfd6cf4428d14c",
+        "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+        "codeBefore": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "codeAfter": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "sourceUnchanged": true,
+        "resultHash": "50bce504b2d46a2675f997a3f993257fbbd2c40965dc239ecac09f8f07096688",
+        "resultJsonSha256": "a22918898b441bf5ba35305ef191c8c3ad081f4c4015d7a2d4ad97b68ccfc071",
+        "oReferencePath": "/tmp/endless-evolution-v3-O-development-20261027/results/O/seed1074236464-auto450/record.json",
+        "oReferenceRecordSha256": "71b7df2924f4ae6d0ff6afc9318e155e67a55a4b2b7f059d6f19e55219dc8d1b",
+        "oResultHash": "50bce504b2d46a2675f997a3f993257fbbd2c40965dc239ecac09f8f07096688",
+        "exactlyEqual": true,
+        "differences": 0,
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "validMetrics": true,
+        "steps": 270420,
+        "playerSeconds": 2234.3000000095603,
+        "cancelled": false,
+        "injectedActions": false
+      },
+      {
+        "id": "seed1074236464-active1600",
+        "startedAt": "2026-10-27T01:40:44.273Z",
+        "finishedAt": "2026-10-27T01:41:43.296Z",
+        "wallMs": 59134.730149999996,
+        "configHash": "15d91e637da50e2e96ab1516f8597eeb9c52723e2ec20b447bb75522c82feaf4",
+        "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+        "codeBefore": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "codeAfter": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "sourceUnchanged": true,
+        "resultHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+        "resultJsonSha256": "bfe0c742c5e1cea38f6c127dbdc330aaf796f1fa78619c07716eb7e1076afb8b",
+        "oReferencePath": "/tmp/endless-evolution-v3-O-development-20261027/results/O/seed1074236464-active1600/record.json",
+        "oReferenceRecordSha256": "4c54c6ecba17603436e8ecffea3f922da7df7ed860b00e85d3f4dc305329d20e",
+        "oResultHash": "9609927cc3a94081fa426bb7374d553266a35e8837b5cfd72b8c7bf7d3b63a76",
+        "exactlyEqual": true,
+        "differences": 0,
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "validMetrics": true,
+        "steps": 270547,
+        "playerSeconds": 2235.3583333428783,
+        "cancelled": false,
+        "injectedActions": false
+      },
+      {
+        "id": "seed4136239728-auto450",
+        "startedAt": "2026-10-27T01:41:43.469Z",
+        "finishedAt": "2026-10-27T01:42:24.070Z",
+        "wallMs": 40675.46961300001,
+        "configHash": "87ebeb47fbeab67b4af31cad559de49e27d5704776309bef3614a476f3759994",
+        "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+        "codeBefore": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "codeAfter": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "sourceUnchanged": true,
+        "resultHash": "45dccfde122939dc587e90fe74e18775cb4430abd631cf867c9cae4706514287",
+        "resultJsonSha256": "1e0c763695160eabae6f803eefe9d1f14b27e481b500ba755c80971ad4d72520",
+        "oReferencePath": "/tmp/endless-evolution-v3-O-development-20261027/results/O/seed4136239728-auto450/record.json",
+        "oReferenceRecordSha256": "00b9dd9cf3b3982fc5dc2863337b205ed3f2c7fe3188bf9c811ca412c2708bc2",
+        "oResultHash": "45dccfde122939dc587e90fe74e18775cb4430abd631cf867c9cae4706514287",
+        "exactlyEqual": true,
+        "differences": 0,
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "validMetrics": true,
+        "steps": 275843,
+        "playerSeconds": 2279.4916666755694,
+        "cancelled": false,
+        "injectedActions": false
+      },
+      {
+        "id": "seed4136239728-active1600",
+        "startedAt": "2026-10-27T01:42:24.201Z",
+        "finishedAt": "2026-10-27T01:43:05.596Z",
+        "wallMs": 41470.53639599998,
+        "configHash": "30dc46bbc5a052b3374b054b35a16a5af817d0e3665f43e573c0db91f119b896",
+        "officialProfileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+        "codeBefore": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "codeAfter": {
+          "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+          "dirty": true,
+          "fingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+          "bunVersion": "1.4.3",
+          "fixedStep": 0.008333333333333333,
+          "files": {
+            "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+            "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+            "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+            "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+            "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+            "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+            "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+            "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+            "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+            "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+            "src/balance-sim/runner.ts": "3fb697d44d5325d2ac5f12905bf8869fd4f90c1cb63ed2193c456f78f9d25af6",
+            "src/balance-sim/strategies.ts": "3ac2580886b0502bca5d4bf02dbfe1ef87f9af9735fa1bbd2ed7b1cb34a2129b",
+            "src/balance-sim/types.ts": "0a4a2760bf72e5646d5a9bac36d13cfd8b350fc9353edae106c9149c8aa2132b",
+            "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+            "src/data/balance/official.json": "5f16ca95c6a4c1ee961c568703dff112d0dabbe502843b04cd3983f26fce8e46",
+            "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+            "src/data/cards.ts": "778e5b6f5f5aba7c7588eb8905a70b9753916c550b96b1b144a0c108519e5ee5",
+            "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+            "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+            "src/data/stages.ts": "db0166463a8893a151efa58244e4d1ad6b092bb4a8c9417b431ec1e3974236f2",
+            "src/data/synergies.ts": "3946fb9b1020d68f7f8f6956350bd06e4883e985f6b03b01941a145b8c6ddd97",
+            "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+            "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+            "src/game/config.ts": "b92578ce659f3941f0469300e48e0fc165cd5b574b3951a997bce3a859ad86fe",
+            "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+            "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+            "src/game/input.ts": "a3353112e83e6b6264fb6cedff44bf7904d2c09e4b43af39d97b973b9b7ef906",
+            "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+            "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+            "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+            "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+            "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+            "src/game/scenes/BattleScene.ts": "f0e4f8ea06057933add65d8a7ab925dd6912d105ce3240e9c7fdfd95edf600a3",
+            "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+            "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+            "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+            "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+            "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+            "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+            "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+            "src/game/systems/encounter.ts": "f57dece4f7d2b7690dd76a5bcbcc9d1b8750b78233a1e46b69e0c0072a68dcf7",
+            "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+            "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+            "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+            "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+            "src/game/world.ts": "ff0a04808139cf53072d5adfe604f0e1e116c0214b9f132c6de2b7de1ce6ee1f",
+            "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+          }
+        },
+        "sourceUnchanged": true,
+        "resultHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+        "resultJsonSha256": "0ceeeece8d81ca62981b1df590d9962557ac9526ab35ace7567efb7463172966",
+        "oReferencePath": "/tmp/endless-evolution-v3-O-development-20261027/results/O/seed4136239728-active1600/record.json",
+        "oReferenceRecordSha256": "44ca6835679e584a0f82da3d2f1e39a0c60af59afe1fc7f14909e562c46a4491",
+        "oResultHash": "552db6b86e2a013b159f4b2f1558b5d554239a2597f0d56bb7a71f740c27819c",
+        "exactlyEqual": true,
+        "differences": 0,
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "validMetrics": true,
+        "steps": 266874,
+        "playerSeconds": 2204.7500000099903,
+        "cancelled": false,
+        "injectedActions": false
+      }
+    ]
+  },
+  "custody": {
+    "FINDINGS.json": "1849362902001568807012c4e2a866df848cec924730b6e57179d5ebefdb5cfc",
+    "SLAM-CAP-COMPARISON.json": "e165945cf17719eeebe1c908fb0251c279dc04966ef6731c124fcb62e79635f9",
+    "read-only-audit/audit.json": "a5f1bfb789a898dea19a98b8a979f86513ea0c5c4e9938e73d5c3eed6ab25eab"
+  },
+  "worktreeEquivalenceSha256": "a54eea18aad21d7b903e6c3e641e06d1d64801e7c302208acc8a1f2faf1426a0"
+}

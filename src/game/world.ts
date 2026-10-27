@@ -6,8 +6,9 @@ import {
   rewardPolicyAt,
 } from "../data/balance/profile";
 import { applyCard, drawCards } from "../data/cards";
+import type { StarLevel } from "../data/endless";
 import { CAMPAIGN_KINDS, ENDLESS_KINDS, ENEMIES, type EnemyDefinition } from "../data/enemies";
-import { STAGES, type stageAt } from "../data/stages";
+import { campaignChestTiming, STAGES, type stageAt } from "../data/stages";
 import { SYNERGIES, TIER_NAMES } from "../data/synergies";
 import {
   applyTraining,
@@ -21,10 +22,13 @@ import { arenaLayout } from "./arena";
 import { CONFIG } from "./config";
 import type { ObservationDetails, WorldObservationType, WorldObserver } from "./observation";
 import { Pool } from "./pool";
+import { type CombatEffect, type DeathEcho, PRESENTATION_LIMITS } from "./presentation";
+import { trainingsEarned, trainingThreshold } from "./progression";
 import { type SeededRandom, seededRandom, shuffled, weightedChoice } from "./random";
 import { RunState } from "./state";
 import { combatStats, overhealStats } from "./stats";
 import { synergyProgress, synergyTier } from "./synergies";
+import { BossPercentLimiter } from "./systems/boss-damage";
 import { advanceFormation, advanceFusion, crowdSpawn } from "./systems/crowd";
 import {
   advancePoison,
@@ -35,6 +39,21 @@ import {
   healingMultiplier,
   healPlayer,
 } from "./systems/damage";
+import {
+  admitEncounterEscort,
+  admitEncounterLeader,
+  admitEncounterSpawn,
+  advanceEncounter,
+  createEncounterPlan,
+  createEncounterState,
+  currentEncounterStep,
+  drawSpawnStars,
+  type EncounterState,
+  encounterAdmissionsComplete,
+  encounterLeaders,
+  replanEncounterBudget,
+  starCost,
+} from "./systems/encounter";
 import { advanceAttackStage, advanceEnemy, attackPermitted } from "./systems/enemy";
 import { clamp, segmentHitsCircle } from "./systems/movement";
 import {
@@ -51,6 +70,7 @@ import type {
   Chest,
   Enemy,
   EnemyKind,
+  EnemyRole,
   Particle,
   Player,
   Projectile,
@@ -129,8 +149,6 @@ export class World {
 
   setObserver(observer?: WorldObserver): void {
     this.observer = observer;
-    // Projectiles already in flight at attachment have unknown provenance.
-    this.hostileSources = new WeakMap();
   }
 
   private observe(type: WorldObservationType, details: ObservationDetails = {}): void {
@@ -175,6 +193,8 @@ export class World {
     id: 0,
     active: false,
     kind: "wisp",
+    role: "minion",
+    trainingCredit: 0,
     x: 0,
     y: 0,
     hp: 0,
@@ -196,6 +216,7 @@ export class World {
     spawnY: 0,
     enhanced: false,
     interruptDamage: 0,
+    interruptHits: 0,
     interruptRequired: 0,
     slow: 0,
     slowTime: 0,
@@ -204,6 +225,11 @@ export class World {
     primaryHits: 0,
     skillsUsed: 0,
     lastSkill: null,
+    castSkill: null,
+    castId: 0,
+    pendingSkills: [],
+    vulnerableTime: 0,
+    wardTime: 0,
     damageReductionTime: 0,
     stars: 1,
     damageScale: 1,
@@ -260,6 +286,21 @@ export class World {
   clearedStages = 0;
   kills = 0;
   score = 0;
+  trainingScore = 0;
+  readonly deathEchoes: DeathEcho[] = [];
+  readonly effects: CombatEffect[] = [];
+  clearPresentationRemaining = 0;
+  private stageCompletionPending = false;
+  private encounterState?: EncounterState;
+  private encounterStageIndex = -1;
+  /** Successful wave entities, independent of their star credit or current survival. */
+  private waveAdmissions = 0;
+  private pendingSegmentSupplies = 0;
+  private readonly percentLimiters = new Map<number, BossPercentLimiter>();
+  private lifestealLimiter = new BossPercentLimiter();
+  private combatRecoveryLimiter = new BossPercentLimiter();
+  private readonly leaderStunRecoveryTimes = new Map<number, number>();
+  private readonly counterFocusConfirmations = new Map<number, number>();
   scoreMilestones = 0;
   scoreTrainings = 0;
   lastScoreTraining: string | null = null;
@@ -336,7 +377,31 @@ export class World {
   private endlessRewardTimes: number[] = [];
   protected pendingStageReward = false;
   private volleys = 0;
-  private readonly blastQueue: Array<{ x: number; y: number; radius: number; damage: number }> = [];
+  private readonly blastQueue: Array<{
+    x: number;
+    y: number;
+    radius: number;
+    damage: number;
+    percentDamage: number;
+  }> = [];
+
+  get nextTrainingThreshold(): number {
+    return trainingThreshold(this.scoreMilestones + 1, this.balance.payload.evolution);
+  }
+
+  get encounterLabel(): string {
+    if (!this.endless)
+      return t(`第 ${this.wave} 波 · 残响涌动`, `Wave ${this.wave} · Echoes rising`);
+    const step = this.encounterState && currentEncounterStep(this.encounterState);
+    if (!step) return t("无尽遭遇 · 准备交锋", "Endless encounter · Prepare");
+    if (this.encounterState?.breakRemaining)
+      return t("余响消散 · 下一段即将开始", "Echoes fading · Next encounter soon");
+    return step.type === "wave"
+      ? t("怪群交锋 · 清场后推进", "Enemy wave · Clear to advance")
+      : step.type === "mini"
+        ? t("小首领 · 观察蓄力并集火打断", "Elite · Focus fire to interrupt")
+        : t("主首领 · 打断后攻击弱点", "Boss · Interrupt and exploit openings");
+  }
 
   get phase() {
     return this.state.phase;
@@ -360,6 +425,105 @@ export class World {
   }
   get endlessRules() {
     return this.balance.payload.endless;
+  }
+
+  get firingIntervalFloor(): number {
+    return this.balance.payload.evolution.firingIntervalFloor;
+  }
+
+  get interruptHitTarget(): number {
+    const authored = this.balance.payload.evolution.interruptHits;
+    if (!this.lateEndlessLeaderRules) return authored;
+    const depth = this.stageIndex - STAGES.length + 1;
+    return Math.max(authored, Math.min(12, 6 + Math.floor((depth - 1) / 4)));
+  }
+
+  private get lateEndlessLeaderRules(): boolean {
+    return this.endless && this.stageIndex - STAGES.length + 1 >= 4;
+  }
+
+  /** Enemy-HP-derived damage is budgeted after modifiers; ordinary damage is unaffected. */
+  private percentDamageRate(enemy: Enemy): number | null {
+    if (enemy.role === "minion") {
+      const depth = this.stageIndex - STAGES.length + 1;
+      return this.endless && depth >= 7 ? 0.2 / (1 + 0.08 * (depth - 7)) : null;
+    }
+    const rate =
+      enemy.role === "boss"
+        ? this.balance.payload.evolution.bossPercentPerSecond
+        : this.balance.payload.evolution.elitePercentPerSecond;
+    return (
+      rate * (enemy.vulnerableTime > 0 ? this.balance.payload.evolution.vulnerableMultiplier : 1)
+    );
+  }
+
+  counterFocusRequired(enemy: Enemy): boolean {
+    return this.lateEndlessLeaderRules && enemy.active && enemy.role !== "minion";
+  }
+
+  interruptOpeningRemaining(enemy: Enemy): number {
+    if (!this.counterFocusRequired(enemy) || enemy.telegraph <= 0) return 0;
+    const remaining =
+      Math.min(0.8, this.balance.payload.evolution.chargeSeconds / 3) -
+      (this.balance.payload.evolution.chargeSeconds - enemy.telegraph);
+    return remaining > 1e-9 ? remaining : 0;
+  }
+
+  /** Steady recovery ceiling, including recovery and wounds, before shield conversion. */
+  get lifestealRecoveryPerSecond(): number | null {
+    if (!this.lateEndlessLeaderRules) return null;
+    return (
+      this.player.stats.maxHp *
+      combatStats(this.player, this.stacks, this.firingIntervalFloor).lifesteal *
+      0.25 *
+      (1 + this.player.stats.recovery) *
+      healingMultiplier(this.player)
+    );
+  }
+
+  /** Actual combat HP recovery and generated combat shields share this rate. */
+  get combatRecoveryPerSecond(): number | null {
+    const depth = this.stageIndex - STAGES.length + 1;
+    return this.endless && depth >= 7
+      ? (this.player.stats.maxHp * 0.04) / (1 + 0.075 * (depth - 7))
+      : null;
+  }
+
+  /** Value-only view: inspecting the budget cannot initialize or refill it. */
+  get combatRecoveryAllowance(): { available: number; capacity: number } | null {
+    const rate = this.combatRecoveryPerSecond;
+    if (rate === null) return null;
+    const capacity = rate * 0.25;
+    return {
+      available: Math.min(capacity, this.combatRecoveryLimiter.snapshot().available),
+      capacity,
+    };
+  }
+
+  /** Applies only to future combat generation; existing and immediate card shields survive. */
+  get combatShieldCeiling(): number | null {
+    const depth = this.stageIndex - STAGES.length + 1;
+    return this.endless && depth >= 7
+      ? this.player.stats.maxHp * Math.max(0.25, 1 - 0.05 * (depth - 6))
+      : null;
+  }
+
+  protected refillCombatRecovery(delta: number): void {
+    const depth = this.stageIndex - STAGES.length + 1;
+    if (!this.endless || depth < 7) return;
+    this.combatRecoveryLimiter.advance(
+      delta,
+      this.player.stats.maxHp,
+      0.04 / (1 + 0.075 * (depth - 7)),
+    );
+  }
+
+  private spendCombatRecovery(actualGain: number): number {
+    if (actualGain <= 0) return 0;
+    if (this.combatRecoveryPerSecond === null) return actualGain;
+    // HP/stat changes refresh capacity with zero elapsed time, never a new burst.
+    this.refillCombatRecovery(0);
+    return this.combatRecoveryLimiter.consume(actualGain);
   }
 
   resolveStage(index: number) {
@@ -393,7 +557,9 @@ export class World {
     return rewardPolicyAt(this.balance, this.stageIndex, source);
   }
 
-  protected acquired(_id: string): void {}
+  protected acquired(_id: string): void {
+    this.refillCombatRecovery(0);
+  }
 
   protected minionWeights(): KindWeights | null {
     return kindWeightsAt(this.balance, this.stageIndex);
@@ -404,6 +570,16 @@ export class World {
   }
 
   protected rescheduleSpawns(previous: ReturnType<typeof stageAt>): void {
+    if (
+      this.endless &&
+      this.encounterState &&
+      this.encounterStageIndex === this.stageIndex &&
+      previous.enemyCount !== this.stage.enemyCount
+    ) {
+      const replanned = replanEncounterBudget(this.encounterState, this.stage.enemyCount);
+      this.encounterState = replanned.state;
+      this.stage.enemyCount = replanned.effectiveBudget;
+    }
     if (this.stage.spawnInterval !== previous.spawnInterval)
       this.spawnCooldown = this.stage.spawnInterval;
     if (this.stage.supportInterval !== previous.supportInterval)
@@ -414,12 +590,13 @@ export class World {
     return this.stageIndex >= STAGES.length;
   }
   get bossSlamDamage() {
-    return Math.round(
+    const damage = Math.round(
       (this.balance.payload.endless.slamDamage +
         Math.max(0, this.stageIndex - STAGES.length) *
           this.balance.payload.endless.slamDamagePerStage) *
         this.balance.payload.endless.damageMultiplier,
     );
+    return this.lateEndlessLeaderRules ? Math.min(damage, this.player.stats.maxHp * 0.45) : damage;
   }
   get boss(): Enemy | undefined {
     return this.enemies.items.find((enemy) => enemy.active && enemy.kind === "boss");
@@ -447,6 +624,7 @@ export class World {
       );
     this.manualTargetId = candidates[0]?.target.id ?? null;
     this.refreshTarget();
+    this.confirmCounterFocus(this.manualTargetId);
     return true;
   }
 
@@ -458,6 +636,29 @@ export class World {
     const index = targets.findIndex((target) => target.id === this.manualTargetId);
     this.manualTargetId = targets[(index + 1) % targets.length]?.id ?? null;
     this.refreshTarget();
+    this.confirmCounterFocus(this.manualTargetId);
+  }
+
+  /** Read-only confirmation for the currently visible cast, never a future sticky lock. */
+  counterFocusConfirmed(enemy: Enemy): boolean {
+    return (
+      this.lateEndlessLeaderRules &&
+      enemy.active &&
+      enemy.role !== "minion" &&
+      enemy.telegraph > 0 &&
+      this.counterFocusConfirmations.get(enemy.id) === enemy.castId
+    );
+  }
+
+  private confirmCounterFocus(id: number | null): void {
+    // PRE may remove pooled objects directly, without the ordinary defeat path.
+    for (const entityId of this.counterFocusConfirmations.keys())
+      if (!this.enemies.items.some((enemy) => enemy.active && enemy.id === entityId))
+        this.counterFocusConfirmations.delete(entityId);
+    if (!this.lateEndlessLeaderRules || id === null || id !== this.targetId) return;
+    const enemy = this.enemies.items.find((item) => item.active && item.id === id);
+    if (enemy && enemy.role !== "minion" && enemy.telegraph > 0)
+      this.counterFocusConfirmations.set(enemy.id, enemy.castId);
   }
 
   clearTarget(): void {
@@ -533,6 +734,7 @@ export class World {
     this.clearedStages = 0;
     this.kills = 0;
     this.score = 0;
+    this.trainingScore = 0;
     this.scoreMilestones = 0;
     this.scoreTrainings = 0;
     this.lastScoreTraining = null;
@@ -592,6 +794,20 @@ export class World {
     this.controlCooldown = 8;
     this.stageSpawned = 0;
     this.stageSupplies = 0;
+    this.encounterState = undefined;
+    this.encounterStageIndex = -1;
+    this.waveAdmissions = 0;
+    this.pendingSegmentSupplies = 0;
+    this.stageCompletionPending = false;
+    this.clearPresentationRemaining = 0;
+    this.percentLimiters.clear();
+    this.lifestealLimiter = new BossPercentLimiter();
+    this.combatRecoveryLimiter = new BossPercentLimiter();
+    this.refillCombatRecovery(0);
+    this.leaderStunRecoveryTimes.clear();
+    this.counterFocusConfirmations.clear();
+    this.deathEchoes.length = 0;
+    this.effects.length = 0;
     this.endlessRewardTimes = [];
     this.minionOrder = [];
     this.attackRegionSpawns = 0;
@@ -606,6 +822,9 @@ export class World {
   }
 
   protected clearCombat(): void {
+    this.percentLimiters.clear();
+    this.leaderStunRecoveryTimes.clear();
+    this.counterFocusConfirmations.clear();
     for (const pool of [this.enemies, this.shots, this.hostileShots, this.chests]) pool.clear();
     this.targetId = null;
     this.manualTargetId = null;
@@ -670,7 +889,12 @@ export class World {
     if (
       training
         ? !stageReward || !applyTraining(id, this.player, this.trainingStacks)
-        : !applyCard(id, this.player, this.stacks)
+        : !applyCard(
+            id,
+            this.player,
+            this.stacks,
+            this.balance.payload.evolution.firingIntervalFloor,
+          )
     )
       return false;
     if (this.observer) {
@@ -713,6 +937,11 @@ export class World {
     if (stageReward) this.advanceStage();
     this.state.transition("Playing");
     this.accumulator = 0;
+    if (!stageReward && this.pendingSegmentSupplies > 0) {
+      this.pendingSegmentSupplies--;
+      this.offerEndlessSupply();
+      return true;
+    }
     if (this.pendingStageReward) {
       if (this.stageSupplies < this.balance.payload.endless.supplies) this.offerEndlessSupply();
       else this.offerStageReward();
@@ -733,13 +962,13 @@ export class World {
   }
 
   private prepareEndlessSupplies(): void {
-    if (this.endlessRewardTimes.length > 0) return;
-    // Sample simulation times once per stage. Pauses never consume the schedule.
-    this.endlessRewardTimes = Array.from({ length: this.balance.payload.endless.supplies }, () => {
-      const end = Math.max(0, this.stage.bossAt - 5);
-      const start = Math.min(CONFIG.chestFirstAt, end);
-      return start + this.random() * (end - start);
-    }).sort((a, b) => a - b);
+    // Supplies are earned at segment boundaries, never by waiting on a timer.
+    if (this.encounterStageIndex === this.stageIndex && this.encounterState) return;
+    this.encounterState = createEncounterState(
+      createEncounterPlan(this.stageIndex - STAGES.length + 1, this.stage.enemyCount),
+    );
+    this.encounterStageIndex = this.stageIndex;
+    this.waveAdmissions = 0;
   }
 
   protected offerEndlessSupply(): void {
@@ -754,6 +983,7 @@ export class World {
         "supply",
         this.stageIndex,
         this.rewardPolicy("supply"),
+        this.balance.payload.evolution.firingIntervalFloor,
       ),
       source: "supply",
     };
@@ -772,6 +1002,7 @@ export class World {
         this.random,
         this.stageIndex,
         this.rewardPolicy("stage"),
+        this.balance.payload.evolution.firingIntervalFloor,
       ),
       source: "stage",
     };
@@ -785,12 +1016,23 @@ export class World {
     this.accumulator += Math.min(delta, CONFIG.maxFrameDelta);
     while (this.accumulator + 1e-9 >= CONFIG.fixedStep && this.phase === "Playing") {
       this.accumulator -= CONFIG.fixedStep;
-      this.step(CONFIG.fixedStep);
+      if (this.clearPresentationRemaining > 0) {
+        this.advancePresentation(CONFIG.fixedStep);
+        this.clearPresentationRemaining = Math.max(
+          0,
+          this.clearPresentationRemaining - CONFIG.fixedStep,
+        );
+        if (this.clearPresentationRemaining < 1e-9) {
+          this.clearPresentationRemaining = 0;
+          this.offerStageReward();
+        }
+      } else this.step(CONFIG.fixedStep);
     }
     if (this.phase !== "Playing") this.accumulator = 0;
   }
 
   private step(delta: number): void {
+    this.advancePresentation(delta);
     this.advanceControlPulse(delta);
     this.advanceCombat(delta);
     this.sanctuaryRemaining = Math.max(0, this.sanctuaryRemaining - delta);
@@ -837,10 +1079,30 @@ export class World {
       this.state.transition("GameOver");
       return;
     }
+    if (this.lateEndlessLeaderRules)
+      this.lifestealLimiter.advance(
+        delta,
+        this.player.stats.maxHp,
+        combatStats(this.player, this.stacks, this.firingIntervalFloor).lifesteal * 0.25,
+      );
+    // Player combat seconds continue through Sanctuary, but update() never enters
+    // this path during Pause, rewards or the visual clear presentation.
+    this.refillCombatRecovery(delta);
     for (const enemy of this.enemies.items) {
       if (enemy.active) {
         enemy.damageReductionTime = Math.max(0, enemy.damageReductionTime - hostileDelta);
         enemy.tauntRemaining = Math.max(0, enemy.tauntRemaining - hostileDelta);
+        enemy.vulnerableTime = Math.max(0, enemy.vulnerableTime - hostileDelta);
+        enemy.wardTime = Math.max(0, enemy.wardTime - hostileDelta);
+        const percentRate = this.percentDamageRate(enemy);
+        if (percentRate !== null) {
+          let limiter = this.percentLimiters.get(enemy.id);
+          if (!limiter) {
+            limiter = new BossPercentLimiter();
+            this.percentLimiters.set(enemy.id, limiter);
+          }
+          limiter.advance(delta, enemy.maxHp, percentRate);
+        }
       }
     }
     if (this.endless) {
@@ -849,6 +1111,7 @@ export class World {
     // Position is a simulation invariant, independent of all browser input.
     Object.assign(this.player, this.arena.player);
     if (!frozen) this.spawn(delta);
+    if (this.phase !== "Playing") return;
     for (const enemy of this.enemies.items) {
       if (!frozen && enemy.active && !enemy.formation) {
         if (advanceEnemy(enemy, this.enemyDelta(enemy, delta), this.wave)) {
@@ -875,6 +1138,13 @@ export class World {
         delta,
         (enemy) => {
           this.fusions++;
+          const percentRate = this.percentDamageRate(enemy);
+          if (percentRate !== null) {
+            // Fusion changes capacity but never grants a new initial burst.
+            this.percentLimiters.get(enemy.id)?.advance(0, enemy.maxHp, percentRate);
+            for (const donor of this.enemies.items)
+              if (!donor.active) this.percentLimiters.delete(donor.id);
+          }
           if (this.observer)
             this.observe("mechanic", { source: "fusion", kind: enemy.kind, amount: 1 });
           this.showBlast(enemy, enemy.radius + 16, 0xdec28a);
@@ -899,22 +1169,38 @@ export class World {
     this.collisions();
     this.completeStageIfReady();
     this.refreshTarget();
-    if (this.phase !== "Playing") return;
+    if (this.phase !== "Playing" || this.clearPresentationRemaining > 0) return;
     this.buildEffects(delta);
     this.completeStageIfReady();
     this.refreshTarget();
-    if (this.phase !== "Playing") return;
+    if (this.phase !== "Playing" || this.clearPresentationRemaining > 0) return;
     // Resolve incoming friendly hits before releasing an attack on this step.
     if (!frozen && this.boss && this.endless) this.endlessBossSkills(this.boss);
-    if (this.phase !== "Playing") return;
+    if (this.phase !== "Playing" || this.clearPresentationRemaining > 0) return;
     this.enemyAttack(delta);
     this.completeStageIfReady();
-    if (this.phase !== "Playing") return;
+    if (this.phase !== "Playing" || this.clearPresentationRemaining > 0) return;
     for (const enemy of this.enemies.items) {
       if (!enemy.active) continue;
       enemy.stunTime = Math.max(0, enemy.stunTime - hostileDelta);
+      const recovery = this.leaderStunRecoveryTimes.get(enemy.id);
+      if (recovery !== undefined) {
+        const remaining = Math.max(0, recovery - hostileDelta);
+        if (remaining > 1e-9) this.leaderStunRecoveryTimes.set(enemy.id, remaining);
+        else this.leaderStunRecoveryTimes.delete(enemy.id);
+      }
       enemy.slowTime = Math.max(0, enemy.slowTime - hostileDelta);
       if (enemy.slowTime === 0) enemy.slow = 0;
+    }
+  }
+
+  private advancePresentation(delta: number): void {
+    for (const list of [this.deathEchoes, this.effects]) {
+      for (const effect of list) {
+        effect.life = Math.max(0, effect.life - delta);
+        if (effect.life < 1e-9) effect.life = 0;
+      }
+      for (let i = list.length - 1; i >= 0; i--) if ((list[i]?.life ?? 0) <= 0) list.splice(i, 1);
     }
     for (const particle of this.particles.items) {
       if (!particle.active) continue;
@@ -928,13 +1214,28 @@ export class World {
       blast.life -= delta;
       if (blast.life <= 0) blast.active = false;
     }
-    if (
-      this.endless &&
-      !frozen &&
-      this.stageElapsed >= (this.endlessRewardTimes[this.stageSupplies] ?? Infinity)
-    ) {
-      this.offerEndlessSupply();
-    }
+  }
+
+  private effect(
+    kind: CombatEffect["kind"],
+    position: Vec2,
+    color: number,
+    life: number,
+    radius: number,
+    to?: Vec2,
+  ): void {
+    if (this.effects.length >= PRESENTATION_LIMITS.effects) this.effects.shift();
+    this.effects.push({
+      id: this.nextId++,
+      kind,
+      x: position.x,
+      y: position.y,
+      color,
+      life,
+      maxLife: life,
+      radius,
+      ...(to ? { toX: to.x, toY: to.y } : {}),
+    });
   }
 
   private enemyDelta(enemy: Enemy, delta: number): number {
@@ -947,10 +1248,17 @@ export class World {
     this.player.cooldown = Math.max(0, this.player.cooldown - delta);
     const target = this.target;
     if (this.player.cooldown > 1e-9 || !target) return;
-    const stats = combatStats(this.player, this.stacks);
+    const stats = combatStats(
+      this.player,
+      this.stacks,
+      this.balance.payload.evolution.firingIntervalFloor,
+    );
     const barrage = synergyTier(this.stacks, "barrage");
     const might = synergyTier(this.stacks, "might");
-    this.player.cooldown += stats.interval;
+    this.player.cooldown += Math.max(
+      this.balance.payload.evolution.firingIntervalFloor,
+      stats.interval,
+    );
     this.volleys++;
     const cadence = might >= 9 ? 3 : might >= 6 ? 4 : 5;
     const heavy =
@@ -965,7 +1273,11 @@ export class World {
   }
 
   private fireVolley(target: Target, multiplier: number): void {
-    const stats = combatStats(this.player, this.stacks);
+    const stats = combatStats(
+      this.player,
+      this.stacks,
+      this.balance.payload.evolution.firingIntervalFloor,
+    );
     const count = stats.projectiles;
     const others = rankedTargets(
       tauntedTargets(this.targets, this.endless, this.sanctuaryRemaining > 0),
@@ -1033,11 +1345,16 @@ export class World {
   }
 
   private spawn(delta: number): void {
+    if (this.endless) {
+      this.spawnEndless(delta);
+      return;
+    }
     const stage = this.stage;
+    const chestTiming = campaignChestTiming(this.stageIndex, stage.bossAt);
     if (!this.bossSpawned && this.stageElapsed >= stage.bossAt) {
       this.bossSpawned = Boolean(this.spawnEnemy("boss", this.arena.width / 2));
       if (!this.bossSpawned) return;
-      this.reinforceBoss();
+      this.reinforceBoss(false, true);
       this.supportCooldown = stage.supportInterval;
       this.announce(
         this.endless
@@ -1059,7 +1376,7 @@ export class World {
       if (
         !this.endless &&
         this.stageElapsed >= this.nextChestAt &&
-        this.nextChestAt <= Math.min(CONFIG.chestLastAt, stage.bossAt - 5) &&
+        this.nextChestAt <= chestTiming.last + 1e-9 &&
         !this.chests.items.some((chest) => chest.active)
       ) {
         const chest = this.chests.acquire();
@@ -1076,7 +1393,7 @@ export class World {
             radius: 26,
             age: 0,
           });
-          this.nextChestAt = this.stageElapsed + CONFIG.chestInterval;
+          this.nextChestAt = this.stageElapsed + chestTiming.interval;
           this.announce(
             "宝箱显现 · 点击可优先击破，获取残响",
             "Chest appeared · Select it to focus fire and claim an echo",
@@ -1094,14 +1411,135 @@ export class World {
     }
   }
 
+  private spawnEndless(delta: number): void {
+    this.prepareEndlessSupplies();
+    const previous = this.encounterState;
+    if (!previous) return;
+    const active = this.enemies.items.filter((enemy) => enemy.active).length;
+    const next = advanceEncounter(
+      previous,
+      active,
+      delta,
+      this.balance.payload.evolution.breakSeconds,
+    );
+    this.encounterState = next.state;
+    if (next.changed && previous.breakRemaining === 0 && active === 0) {
+      this.hostileShots.clear();
+      this.shots.clear();
+      this.targetId = null;
+      if (this.observer)
+        this.observe("mechanic", {
+          source: `segment_clear:${currentEncounterStep(previous)?.id}`,
+          amount: 1,
+        });
+    }
+    if (next.enteredStep) {
+      this.spawnCooldown = 0;
+      this.waveAdmissions = 0;
+      const due =
+        previous.index < 3
+          ? Math.floor(((previous.index + 1) * this.balance.payload.endless.supplies) / 3)
+          : this.stageSupplies;
+      if (this.stageSupplies < due) {
+        this.pendingSegmentSupplies = due - this.stageSupplies - 1;
+        this.offerEndlessSupply();
+        return;
+      }
+    }
+    if (next.completed || next.state.breakRemaining > 0) return;
+    const step = currentEncounterStep(next.state);
+    if (!step) return;
+    this.spawnCooldown -= delta;
+    if (step.type === "wave") {
+      if (this.spawnCooldown > 0) return;
+      const stars = drawSpawnStars(
+        this.stageIndex - STAGES.length + 1,
+        step.budget - next.state.spentBudget,
+        this.random,
+      );
+      if (stars && this.spawnMinion(this.arena.player.x, false, stars, true)) {
+        this.encounterState = admitEncounterSpawn(next.state, stars);
+        this.stageSpawned++;
+        this.waveAdmissions++;
+        const depth = this.stageIndex - STAGES.length + 1;
+        const packSize = depth >= 13 ? 3 : depth >= 7 ? 2 : 1;
+        const interval = Math.max(0, this.stage.spawnInterval);
+        const intraGap = Math.min(0.25, interval * 0.5);
+        // The final gap repays the shorter intra-pack gaps without adding admissions.
+        this.spawnCooldown =
+          packSize === 1
+            ? this.stage.spawnInterval
+            : this.waveAdmissions % packSize === 0
+              ? packSize * interval - intraGap * (packSize - 1)
+              : intraGap;
+      }
+    } else if (
+      next.state.admittedLeaders < encounterLeaders(step).length ||
+      next.state.initialEscortsRemaining > 0
+    ) {
+      const role: EnemyRole = step.type === "main" ? "boss" : "elite";
+      const stars: StarLevel =
+        role === "boss" ? 1 : this.stageIndex - STAGES.length + 1 >= 6 ? 3 : 2;
+      const leaders = encounterLeaders(step);
+      let state = next.state;
+      let leaderEntered = false;
+      // The cursor records admissions, so a dead first member is never spawned again.
+      // Admit both leaders before escorts can occupy the remaining physical slots.
+      while (state.admittedLeaders < leaders.length) {
+        const kind = leaders[state.admittedLeaders];
+        if (!kind) break;
+        const enemy = this.spawnEnemy(kind, this.arena.player.x, false, { role, stars });
+        if (!enemy) return;
+        state = admitEncounterLeader(state, this.stage.supportCount * leaders.length);
+        this.encounterState = state;
+        leaderEntered = true;
+        if (role === "boss") {
+          this.bossSpawned = true;
+          this.supportCooldown = Math.max(4, this.stage.supportInterval);
+        }
+      }
+      const available =
+        this.stage.maxEnemies - this.enemies.items.filter((item) => item.active).length;
+      const count = Math.min(state.initialEscortsRemaining, available);
+      for (let index = 0; index < count; index++) {
+        const position = this.supportSpawned % this.arena.laneCount;
+        if (
+          !this.spawnMinion(this.arena.crowdLanes[position] ?? this.arena.player.x, false, 1, true)
+        )
+          break;
+        this.supportSpawned++;
+        state = admitEncounterEscort(state);
+        this.encounterState = state;
+      }
+      if (leaderEntered) {
+        this.announce(
+          role === "boss"
+            ? "主首领降临 · 观察预警，打断后攻击弱点"
+            : "小首领现身 · 集火打断，阻止护阵与仪式",
+          role === "boss"
+            ? "Boss arrived · Interrupt and exploit openings"
+            : "Elite arrived · Interrupt wards and rituals",
+        );
+        this.noticeUntil = this.elapsed + 3;
+      }
+    } else if (step.type === "main" && this.boss) {
+      this.drainSummons();
+      this.supportCooldown -= delta;
+      if (this.supportCooldown <= 0) {
+        this.supportCooldown = Math.max(5, this.stage.supportInterval);
+        if (this.pendingSummons === 0) this.reinforceBoss(false, false);
+      }
+    }
+  }
+
   private drainSummons(): void {
     for (let count = this.pendingSummons; count > 0; count--) {
-      if (!this.spawnMinion(this.arena.player.x, true)) break;
+      if (!this.spawnMinion(this.arena.player.x, true, 1, false)) break;
       this.pendingSummons--;
     }
   }
 
-  private reinforceBoss(enhanced = false): void {
+  private reinforceBoss(enhanced = false, budgeted = false): void {
     // Reinforcements have no total quota while the boss lives. Bound each batch
     // by free slots even when its planned size grows beyond the physical pool.
     const available =
@@ -1109,14 +1547,26 @@ export class World {
     const count = Math.min(this.stage.supportCount, available);
     for (let index = 0; index < count; index++) {
       const position = this.supportSpawned % this.arena.laneCount;
-      if (!this.spawnMinion(this.arena.crowdLanes[position] ?? this.arena.player.x, enhanced))
+      if (
+        !this.spawnMinion(
+          this.arena.crowdLanes[position] ?? this.arena.player.x,
+          enhanced,
+          1,
+          budgeted,
+        )
+      )
         break;
       // Failed admissions do not consume the balanced species cycle.
       this.supportSpawned++;
     }
   }
 
-  private spawnMinion(x: number, enhanced = false): Enemy | undefined {
+  private spawnMinion(
+    x: number,
+    enhanced = false,
+    stars: StarLevel = 1,
+    budgeted = true,
+  ): Enemy | undefined {
     const minions = this.enemies.items.filter((item) => item.active && item.kind !== "boss").length;
     if (minions >= Math.min(this.arena.minionCapacity, this.stage.maxEnemies - 1)) return;
     const weights = this.minionWeights();
@@ -1126,7 +1576,12 @@ export class World {
         (item) => weights[item],
         this.random,
       );
-      return kind ? this.spawnEnemy(kind, x, enhanced) : undefined;
+      return kind
+        ? this.spawnEnemy(kind, x, enhanced, {
+            stars,
+            trainingCredit: budgeted ? this.enemyData(kind).score * starCost(stars) : 0,
+          })
+        : undefined;
     }
     if (this.minionOrder.length === 0) {
       this.minionOrder = [...(this.endless ? ENDLESS_KINDS : CAMPAIGN_KINDS)];
@@ -1142,14 +1597,24 @@ export class World {
     }
     const kind = this.minionOrder[0];
     if (!kind) return;
-    const enemy = this.spawnEnemy(kind, x, enhanced);
+    const enemy = this.spawnEnemy(kind, x, enhanced, {
+      stars,
+      trainingCredit: budgeted ? this.enemyData(kind).score * starCost(stars) : 0,
+    });
     if (enemy) this.minionOrder.shift();
     return enemy;
   }
 
-  protected spawnEnemy(kind: EnemyKind, x: number, enhanced = false): Enemy | undefined {
+  protected spawnEnemy(
+    kind: EnemyKind,
+    x: number,
+    enhanced = false,
+    options: { role?: EnemyRole; stars?: StarLevel; trainingCredit?: number } = {},
+  ): Enemy | undefined {
     if (this.enemies.items.filter((item) => item.active).length >= this.stage.maxEnemies) return;
     const data = this.enemyData(kind);
+    const role: EnemyRole = options.role ?? (kind === "boss" ? "boss" : "minion");
+    const stars = options.stars ?? 1;
     const occupied = new Set(
       this.enemies.items
         .filter((item) => item.active && item.kind !== "boss")
@@ -1189,6 +1654,8 @@ export class World {
     if (this.endless && kind !== "boss" && !position) return;
     const enemy = this.enemies.acquire();
     if (!enemy) return;
+    this.percentLimiters.delete(enemy.id);
+    this.counterFocusConfirmations.delete(enemy.id);
     const hp =
       kind === "boss"
         ? (this.stage.bossHp * data.hp) / ENEMIES.boss.hp
@@ -1196,8 +1663,10 @@ export class World {
             data.hp *
               this.stage.health *
               this.stage.populationScale *
-              (1 + (this.wave - 1) * 0.12) *
-              (enhanced ? this.balance.payload.endless.summonMultiplier : 1),
+              (this.endless ? 1 : 1 + (this.wave - 1) * 0.12) *
+              (enhanced ? this.balance.payload.endless.summonMultiplier : 1) *
+              CONFIG.fusion.health ** (stars - 1) *
+              (role === "elite" ? 2 : 1),
           );
     const ranged = kind !== "boss" && data.attackStyle === "ranged";
     const spawnX = kind === "boss" ? this.arena.player.x : (position?.x ?? slotX(slot));
@@ -1205,6 +1674,8 @@ export class World {
     Object.assign(enemy, {
       id: this.nextId++,
       kind,
+      role,
+      trainingCredit: options.trainingCredit ?? data.score * starCost(stars),
       definition: data,
       encounter: structuredClone(this.stage),
       x: spawnX,
@@ -1219,10 +1690,10 @@ export class World {
       age: 0,
       telegraph: 0,
       shotCooldown: 0,
-      patternCooldown: 2.8,
+      patternCooldown: this.endless && role !== "minion" ? 0 : 2.8,
       stage: "Approaching",
       attackPolicy: {
-        ...(kind === "boss" && this.endless
+        ...(role !== "minion" && this.endless
           ? { type: "anywhere" as const }
           : this.endless && !ranged
             ? { type: "zones" as const, regions: this.attackRegions }
@@ -1242,6 +1713,7 @@ export class World {
               CONFIG.defense.y - Math.floor(slot / this.arena.laneCount) * CONFIG.crowd.cellHeight,
             ),
       interruptDamage: 0,
+      interruptHits: 0,
       interruptRequired: 0,
       slow: 0,
       slowTime: 0,
@@ -1250,13 +1722,19 @@ export class World {
       primaryHits: 0,
       skillsUsed: 0,
       lastSkill: null,
+      castSkill: null,
+      castId: 0,
+      pendingSkills: [],
+      vulnerableTime: 0,
+      wardTime: 0,
       damageReductionTime: 0,
-      stars: 1,
+      stars,
       damageScale:
         kind === "boss"
           ? 1
           : Math.sqrt(this.stage.populationScale) *
-            (enhanced ? this.balance.payload.endless.summonMultiplier : 1),
+            (enhanced ? this.balance.payload.endless.summonMultiplier : 1) *
+            CONFIG.fusion.damage ** (stars - 1),
       fusionTime: 0,
       fusionPeers: "",
       tauntRemaining: 0,
@@ -1281,17 +1759,55 @@ export class World {
     else if (kind !== "boss") this.meleeSpawns++;
     const activeEnemies = this.enemies.items.filter((item) => item.active).length;
     this.peakEnemies = Math.max(this.peakEnemies, activeEnemies);
-    if (this.observer) this.observe("enemy_spawn", { kind, amount: activeEnemies });
+    if (this.observer)
+      this.observe("enemy_spawn", {
+        kind,
+        amount: activeEnemies,
+        entityId: enemy.id,
+        role,
+        stars,
+        trainingCredit: enemy.trainingCredit,
+      });
     if (this.observer && kind === "boss") this.observe("boss_spawn", { kind });
     return enemy;
   }
 
   private enemyAttack(delta: number): void {
+    const hostileDelta = this.sanctuaryRemaining > 0 ? 0 : delta;
     for (const enemy of this.enemies.items) {
       if (this.phase !== "Playing") break;
+      if (!enemy.active) continue;
+      // Existing warnings and the first entry preparation use hostile time.
+      // Movement and subsequent recovery retain their ordinary enemy clock.
+      if (this.lateEndlessLeaderRules && enemy.role !== "minion" && enemy.telegraph > 0) {
+        if (hostileDelta > 0) this.bossCastTurn(enemy, hostileDelta);
+        continue;
+      }
+      const firstPreparation =
+        this.lateEndlessLeaderRules &&
+        enemy.role !== "minion" &&
+        enemy.castId === 0 &&
+        (enemy.stage === "Preparing" || (enemy.stage === "Approaching" && attackPermitted(enemy)));
+      if (firstPreparation) {
+        if (hostileDelta <= 0) continue;
+        if (
+          !advanceAttackStage(
+            enemy,
+            hostileDelta,
+            this.enemyStage(enemy).attackTiming,
+            this.enemyDefinition(enemy).preparation,
+          )
+        )
+          continue;
+        if (enemy.patternCooldown <= 1e-9) {
+          this.bossCastTurn(enemy, 0);
+          continue;
+        }
+        // A positive PRE/debug cooldown keeps its ordinary effective-time path.
+      }
       const effectiveDelta = this.enemyDelta(enemy, delta);
-      if (!enemy.active || effectiveDelta <= 0) continue;
-      if (enemy.kind === "tank" && !attackPermitted(enemy)) {
+      if (effectiveDelta <= 0) continue;
+      if (enemy.role === "minion" && enemy.kind === "tank" && !attackPermitted(enemy)) {
         enemy.skillCooldown -= effectiveDelta;
         if (enemy.skillCooldown <= 1e-9) {
           enemy.skillCooldown =
@@ -1309,12 +1825,23 @@ export class World {
       )
         continue;
       const enraged = enemy.kind === "boss" && enemy.hp < enemy.maxHp / 2;
+      if (this.endless && enemy.role !== "minion" && this.bossCastTurn(enemy, effectiveDelta))
+        continue;
       if (enemy.kind === "boss" && !this.endless) {
         if (enemy.telegraph > 0) {
           enemy.telegraph = Math.max(0, enemy.telegraph - effectiveDelta);
           if (enemy.telegraph <= 1e-9) {
             // Consume the charge even when subtraction leaves a tiny positive residue.
             enemy.telegraph = 0;
+            if (this.observer)
+              this.observe("mechanic", {
+                source: "cast_release",
+                kind: enemy.kind,
+                entityId: enemy.id,
+                role: enemy.role,
+                castId: enemy.castId,
+                amount: 1,
+              });
             this.aimedVolley(
               enemy,
               1,
@@ -1336,8 +1863,20 @@ export class World {
         }
         enemy.patternCooldown -= effectiveDelta;
         if (enemy.patternCooldown <= 0) {
+          enemy.castId++;
           enemy.telegraph = this.enemyStage(enemy).chargeTime - (enraged ? 0.3 : 0);
+          if (this.observer)
+            this.observe("mechanic", {
+              source: "cast_start",
+              kind: enemy.kind,
+              entityId: enemy.id,
+              role: enemy.role,
+              castId: enemy.castId,
+              duration: enemy.telegraph,
+              amount: 1,
+            });
           enemy.interruptDamage = 0;
+          enemy.interruptHits = 0;
           enemy.interruptRequired = Math.round(
             this.enemyStage(enemy).interrupt * (enraged ? 4 / 3 : 1),
           );
@@ -1363,11 +1902,19 @@ export class World {
         (enraged ? 0.8 : 1) *
         (enemy.kind === "boss" ? this.enemyStage(enemy).bossInterval : 1) *
         this.enemyStage(enemy).attackTiming;
-      if (enemy.kind === "tank" && this.enemyRandom() < CONFIG.skills.tauntChance) {
+      if (
+        enemy.role === "minion" &&
+        enemy.kind === "tank" &&
+        this.enemyRandom() < CONFIG.skills.tauntChance
+      ) {
         this.castTaunt(enemy);
         continue;
       }
-      if (enemy.kind === "wizard" && this.enemyRandom() < CONFIG.skills.poisonChance) {
+      if (
+        enemy.role === "minion" &&
+        enemy.kind === "wizard" &&
+        this.enemyRandom() < CONFIG.skills.poisonChance
+      ) {
         this.poisonCasts++;
         enemy.lastAction = "poison";
         applyPoison(this.player, this.enemyRandom);
@@ -1429,7 +1976,8 @@ export class World {
           (enemy.kind === "boss" && this.endless && enemy.arrived ? 2 : 1),
         radius,
       );
-      if (shot && this.observer) this.hostileSources.set(shot, `projectile:${enemy.kind}`);
+      // Combat provenance must survive observer attachment and detachment.
+      if (shot) this.hostileSources.set(shot, `projectile:${enemy.kind}`);
     }
     this.enemyAttacks++;
     if (this.observer)
@@ -1439,43 +1987,112 @@ export class World {
 
   private endlessBossSkills(enemy: Enemy): void {
     const skills: readonly BossSkill[] = ["guard", "summon", "slam"];
-    while (this.phase === "Playing" && enemy.active && enemy.hp > 0) {
+    while (enemy.active && enemy.hp > 0) {
       const threshold = CONFIG.endless.bossThresholds[enemy.skillsUsed];
       if (threshold === undefined || enemy.hp > enemy.maxHp * threshold + 1e-9) break;
-      // Consume each health threshold once, including several crossed in one hit.
       enemy.skillsUsed++;
       const skill = skills[Math.floor(this.bossRandom() * skills.length)] ?? "guard";
-      enemy.lastSkill = skill;
-      this.bossSpecials++;
-      if (this.observer)
-        this.observe("mechanic", { source: `boss_skill:${skill}`, kind: enemy.kind, amount: 1 });
-      if (skill === "guard") {
-        enemy.damageReductionTime = CONFIG.endless.bossReductionDuration;
-        this.announce("首领 · 减伤 90%，持续 3 秒", "Boss · 90% damage reduction for 3s");
-      } else if (skill === "summon") {
-        // Bounded scalar queue survives saturation without deleting living units.
-        this.pendingSummons += this.balance.payload.endless.summonCount;
-        this.drainSummons();
-        this.announce(
-          `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · 等待空位" : ""}`,
-          `Boss · Summons ${this.balance.payload.endless.summonCount} enhanced escorts, HP and damage ×${this.balance.payload.endless.summonMultiplier}${this.pendingSummons > 0 ? " · Waiting for space" : ""}`,
-        );
-      } else {
-        const hp = this.player.hp;
-        const loss = Math.min(this.player.hp, this.bossSlamDamage);
-        this.player.hp -= loss;
-        this.damageTaken += loss;
-        if (this.observer) this.observePlayerDamage("boss_slam", hp, this.player.shield);
-        this.lastHitAt = this.elapsed;
-        this.burst(this.player.x, this.player.y, 0xe57d98, 18);
-        this.announce(
-          `首领 · 重击，直接损失 ${this.bossSlamDamage} 生命`,
-          `Boss · Slam directly removes ${this.bossSlamDamage} HP`,
-        );
-        if (this.player.hp <= 0) this.state.transition("GameOver");
-      }
-      this.noticeUntil = this.elapsed + 3;
+      enemy.pendingSkills.push(skill);
     }
+  }
+
+  private bossCastTurn(enemy: Enemy, delta: number): boolean {
+    const tuning = this.balance.payload.evolution;
+    if (enemy.telegraph > 0) {
+      enemy.telegraph = Math.max(0, enemy.telegraph - delta);
+      if (enemy.telegraph <= 1e-9) {
+        enemy.telegraph = 0;
+        const skill = enemy.castSkill;
+        this.counterFocusConfirmations.delete(enemy.id);
+        enemy.castSkill = null;
+        enemy.patternCooldown = skill === "volley" ? 4.5 : tuning.recoverySeconds;
+        enemy.shotCooldown = Math.max(enemy.shotCooldown, enemy.patternCooldown);
+        if (!skill) return true;
+        enemy.lastSkill = skill;
+        this.bossSpecials++;
+        if (this.observer) {
+          this.observe("mechanic", {
+            source: "cast_release",
+            kind: enemy.kind,
+            entityId: enemy.id,
+            role: enemy.role,
+            castId: enemy.castId,
+            amount: 1,
+          });
+          this.observe("mechanic", { source: `boss_skill:${skill}`, kind: enemy.kind, amount: 1 });
+        }
+        if (skill === "volley") {
+          this.aimedVolley(enemy, 1, this.enemyStage(enemy).specialDamage, 240, 10);
+        } else if (skill === "slam") {
+          this.effect("impact", this.player, 0xe57d98, 0.55, 50);
+          this.hurt(this.bossSlamDamage, "boss_slam");
+        } else if (skill === "guard") {
+          enemy.damageReductionTime = CONFIG.endless.bossReductionDuration;
+        } else if (skill === "summon") {
+          this.pendingSummons += this.balance.payload.endless.summonCount;
+          this.drainSummons();
+          this.announce(
+            `首领 · 召唤 ${this.balance.payload.endless.summonCount} 只强化援军，生命与伤害 ×${this.balance.payload.endless.summonMultiplier}`,
+            `Boss · Summons ${this.balance.payload.endless.summonCount} enhanced escorts, HP and damage ×${this.balance.payload.endless.summonMultiplier}`,
+          );
+          this.noticeUntil = this.elapsed + 3;
+        } else if (skill === "ward") {
+          for (const ally of this.enemies.items)
+            if (ally.active) ally.wardTime = Math.max(ally.wardTime, 3);
+          this.showBlast(enemy, 100 * this.arena.rangeScale, 0xdec28a);
+        } else {
+          for (const ally of this.enemies.items) {
+            if (ally.active && ally.id !== enemy.id)
+              ally.hp = Math.min(ally.maxHp, ally.hp + ally.maxHp * 0.2);
+          }
+          this.aimedVolley(enemy, 3, this.enemyDefinition(enemy).damage, 150);
+          this.effect("erosion", enemy, 0xb6e7a4, 0.55, enemy.radius + 24);
+        }
+      }
+      return true;
+    }
+    enemy.patternCooldown = Math.max(0, enemy.patternCooldown - delta);
+    if (enemy.patternCooldown > 1e-9) return enemy.vulnerableTime > 0 || enemy.lastSkill !== null;
+    const skill =
+      enemy.role === "elite"
+        ? enemy.kind === "tank"
+          ? "ward"
+          : "ritual"
+        : (enemy.pendingSkills.shift() ?? "volley");
+    if (!skill) return false;
+    enemy.castSkill = skill;
+    enemy.castId++;
+    this.counterFocusConfirmations.delete(enemy.id);
+    enemy.telegraph = tuning.chargeSeconds;
+    enemy.interruptDamage = 0;
+    enemy.interruptHits = 0;
+    const authoredInterrupt = Math.max(
+      1,
+      Math.round(this.enemyStage(enemy).interrupt * (enemy.role === "elite" ? 0.4 : 1)),
+    );
+    enemy.interruptRequired = this.lateEndlessLeaderRules
+      ? Math.max(authoredInterrupt, enemy.maxHp * (enemy.role === "elite" ? 0.25 : 0.1))
+      : authoredInterrupt;
+    if (this.observer)
+      this.observe("mechanic", {
+        source: "cast_start",
+        kind: enemy.kind,
+        entityId: enemy.id,
+        role: enemy.role,
+        castId: enemy.castId,
+        duration: tuning.chargeSeconds,
+        amount: 1,
+      });
+    this.announce(
+      this.lateEndlessLeaderRules
+        ? "起势后开启打断窗口 · 本次需重新点选 / F 确认主弹打断"
+        : `危险蓄力 · ${enemy.interruptRequired} 伤害或 ${this.interruptHitTarget} 次主弹命中可打断`,
+      this.lateEndlessLeaderRules
+        ? "Counter window opens after wind-up · Reselect / F to arm primary-hit interruption"
+        : `Dangerous charge · Interrupt with ${enemy.interruptRequired} damage or ${this.interruptHitTarget} primary hits`,
+    );
+    this.noticeUntil = this.elapsed + enemy.telegraph;
+    return true;
   }
 
   private moveShots(pool: Pool<Projectile>, delta: number): void {
@@ -1562,8 +2179,16 @@ export class World {
     rawDamage: number,
     source: DamageSource,
     primary = false,
+    extraPercentDamage = 0,
   ): void {
-    if (!enemy.active || enemy.hp <= 0 || rawDamage <= 0 || this.phase !== "Playing") return;
+    if (
+      !enemy.active ||
+      enemy.hp <= 0 ||
+      rawDamage + extraPercentDamage <= 0 ||
+      this.phase !== "Playing" ||
+      this.clearPresentationRemaining > 0
+    )
+      return;
     const stats = this.player.stats;
     const judgment = synergyTier(this.stacks, "judgment");
     const frost = synergyTier(this.stacks, "frost");
@@ -1606,13 +2231,34 @@ export class World {
         enemy.hp *
           Math.min(0.1, stats.currentHealthDamage * (erosion >= 9 ? 2 : erosion >= 3 ? 1.25 : 1))
       : 0;
-    const damage =
-      (rawDamage * (1 + giantBonus) + percentDamage) *
+    const modifier =
       (1 + bonus) *
       chargedMultiplier *
-      (enemy.damageReductionTime > 0 ? 1 - CONFIG.endless.bossReduction : 1);
+      (enemy.damageReductionTime > 0 ? 1 - CONFIG.endless.bossReduction : 1) *
+      (enemy.wardTime > 0 ? 0.75 : 1) *
+      (enemy.vulnerableTime > 0 ? 1.35 : 1);
+    let percentage = (percentDamage + extraPercentDamage) * modifier;
+    if (this.endless && enemy.role === "minion" && enemy.stars > 1) percentage /= enemy.stars;
+    let weakPoint =
+      primary && enemy.role !== "minion" && enemy.vulnerableTime > 0
+        ? enemy.maxHp * this.balance.payload.evolution.weakPointDamage * modifier
+        : 0;
+    const percentRate = this.percentDamageRate(enemy);
+    if (percentRate !== null && percentage + weakPoint > 0) {
+      let limiter = this.percentLimiters.get(enemy.id);
+      if (!limiter) {
+        limiter = new BossPercentLimiter();
+        limiter.advance(0, enemy.maxHp, percentRate);
+        this.percentLimiters.set(enemy.id, limiter);
+      }
+      percentage = limiter.consume(percentage);
+      weakPoint = limiter.consume(weakPoint);
+    }
+    const leechableDamage = rawDamage * (1 + giantBonus) * modifier + percentage;
+    const damage = leechableDamage + weakPoint;
     const previousHp = enemy.hp;
     const actualDamage = Math.min(enemy.hp, damage);
+    const leechableActual = Math.min(enemy.hp, leechableDamage);
     enemy.hp = Math.max(0, enemy.hp - damage);
     const executeAt = judgment >= 9 ? 0.15 : judgment >= 6 ? 0.08 : 0;
     if (executeAt > 0 && enemy.hp > 0 && enemy.hp <= enemy.maxHp * executeAt) {
@@ -1621,20 +2267,62 @@ export class World {
     }
     this.damageDealt += previousHp - enemy.hp;
     if (this.observer)
-      this.observe("enemy_damage", { source, kind: enemy.kind, amount: previousHp - enemy.hp });
+      this.observe("enemy_damage", {
+        source,
+        kind: enemy.kind,
+        amount: previousHp - enemy.hp,
+        entityId: enemy.id,
+        role: enemy.role,
+      });
     if (source === "shot")
-      this.heal(actualDamage * combatStats(this.player, this.stacks).lifesteal, "lifesteal");
+      this.heal(
+        leechableActual *
+          combatStats(this.player, this.stacks, this.balance.payload.evolution.firingIntervalFloor)
+            .lifesteal,
+        "lifesteal",
+      );
     if (enemy.hp <= 0) {
       this.defeatEnemy(enemy, source);
       return;
     }
     if (enemy.kind === "boss" && this.endless && this.sanctuaryRemaining <= 0)
       this.endlessBossSkills(enemy);
-    if (enemy.kind === "boss" && enemy.telegraph > 0) {
+    if (
+      enemy.role !== "minion" &&
+      enemy.telegraph > 0 &&
+      (!this.lateEndlessLeaderRules ||
+        this.balance.payload.evolution.chargeSeconds - enemy.telegraph + 1e-9 >=
+          Math.min(0.8, this.balance.payload.evolution.chargeSeconds / 3))
+    ) {
       enemy.interruptDamage += actualDamage * (dominion >= 9 ? 1.5 : 1);
-      if (enemy.interruptDamage >= enemy.interruptRequired) {
+      if (
+        primary &&
+        source === "shot" &&
+        (!this.lateEndlessLeaderRules ||
+          (this.targetId === enemy.id && this.counterFocusConfirmed(enemy)))
+      )
+        enemy.interruptHits++;
+      if (
+        enemy.interruptDamage >= enemy.interruptRequired ||
+        enemy.interruptHits >= this.interruptHitTarget
+      ) {
         enemy.telegraph = 0;
-        enemy.patternCooldown = enemy.hp < enemy.maxHp / 2 ? 3.2 : 4;
+        this.counterFocusConfirmations.delete(enemy.id);
+        if (this.observer)
+          this.observe("mechanic", {
+            source: "cast_interrupt",
+            kind: enemy.kind,
+            entityId: enemy.id,
+            role: enemy.role,
+            castId: enemy.castId,
+            amount: 1,
+          });
+        enemy.castSkill = null;
+        enemy.patternCooldown = Math.max(
+          this.balance.payload.evolution.recoverySeconds,
+          this.balance.payload.evolution.vulnerableSeconds,
+        );
+        enemy.vulnerableTime = this.balance.payload.evolution.vulnerableSeconds;
         enemy.shotCooldown = 1;
         this.bossInterrupts++;
         if (this.observer)
@@ -1651,15 +2339,36 @@ export class World {
 
   private heal(amount: number, source = "unknown"): void {
     if (amount <= 0 || this.player.hp <= 0) return;
+    // Capacity changes clip storage even when this heal produces no actual gain.
+    this.refillCombatRecovery(0);
+    if (source === "lifesteal" && this.lateEndlessLeaderRules) {
+      // Refresh capacity without minting tokens when leech or own maxHP changes.
+      this.lifestealLimiter.advance(
+        0,
+        this.player.stats.maxHp,
+        combatStats(this.player, this.stacks, this.firingIntervalFloor).lifesteal * 0.25,
+      );
+      amount = this.lifestealLimiter.consume(amount);
+      if (amount <= 0) return;
+    }
     const scaled = amount * (1 + this.player.stats.recovery) * healingMultiplier(this.player);
-    const restored = Math.min(scaled, this.player.stats.maxHp - this.player.hp);
+    const requestedHp = Math.min(scaled, this.player.stats.maxHp - this.player.hp);
+    const restored =
+      this.combatRecoveryPerSecond === null
+        ? requestedHp
+        : this.spendCombatRecovery(Math.max(0, requestedHp));
     this.player.hp += restored;
     this.healingDone += restored;
     if (this.observer && restored > 0) this.observe("heal", { source, amount: restored });
     const overflow = overhealStats(this.player, this.stacks);
     const shield = Math.max(
       0,
-      Math.min((scaled - restored) * overflow.conversion, overflow.capacity - this.player.shield),
+      Math.min(
+        // A budget-denied HP heal is not overhealing. Only the portion beyond
+        // missing HP can convert, and restoreShield charges its actual gain once.
+        (scaled - requestedHp) * overflow.conversion,
+        overflow.capacity - this.player.shield,
+      ),
     );
     this.shieldRestored += this.restoreShield(
       shield,
@@ -1675,27 +2384,51 @@ export class World {
     reduced: boolean,
     source: string,
   ): number {
-    const restored = grantShield(this.player, amount, capacity, reduced);
+    let restored: number;
+    const ceiling = this.combatShieldCeiling;
+    if (ceiling === null) restored = grantShield(this.player, amount, capacity, reduced);
+    else {
+      if (amount <= 0 || this.player.hp <= 0) return 0;
+      this.refillCombatRecovery(0);
+      const scaled = amount * (reduced ? 1 : healingMultiplier(this.player));
+      const requested = Math.max(
+        0,
+        Math.min(scaled, Math.min(capacity, ceiling) - this.player.shield),
+      );
+      restored = this.spendCombatRecovery(requested);
+      this.player.shield += restored;
+      if (this.player.shield > 0) this.player.poisonSlowTime = 0;
+    }
     if (this.observer && restored > 0) this.observe("shield", { source, amount: restored });
     return restored;
   }
 
   private slowEnemy(enemy: Enemy, strength: number, duration: number): void {
     if (!enemy.active || strength <= 0) return;
-    const slow = Math.min(0.7, strength) * (enemy.kind === "boss" ? 0.5 : 1);
+    const starResistance = this.endless && enemy.role === "minion" ? enemy.stars : 1;
+    const slow = (Math.min(0.7, strength) * (enemy.kind === "boss" ? 0.5 : 1)) / starResistance;
     enemy.slow = Math.max(enemy.slow, slow);
     enemy.slowTime = Math.max(enemy.slowTime, duration);
   }
 
   private stunEnemy(enemy: Enemy, duration: number): void {
     if (!enemy.active || duration <= 0) return;
+    const endlessLeader = this.endless && enemy.role !== "minion";
+    if (endlessLeader && (this.leaderStunRecoveryTimes.get(enemy.id) ?? 0) > 1e-9) return;
     const dominion = synergyTier(this.stacks, "dominion");
+    const starResistance = this.endless && enemy.role === "minion" ? enemy.stars : 1;
     enemy.stunTime = Math.max(
       enemy.stunTime,
-      duration *
+      (duration *
         (dominion >= 9 ? 1.6 : dominion >= 3 ? 1.3 : 1) *
-        (enemy.kind === "boss" ? 0.25 : 1),
+        (enemy.kind === "boss" ? 0.25 : 1)) /
+        starResistance,
     );
+    if (endlessLeader)
+      this.leaderStunRecoveryTimes.set(
+        enemy.id,
+        enemy.stunTime + CONFIG.endless.leaderStunRecovery,
+      );
     this.controlProcs++;
     this.burst(enemy.x, enemy.y, 0xc7b7e8, 4);
   }
@@ -1730,6 +2463,7 @@ export class World {
         )[0];
       if (!next) break;
       visited.add(next.id);
+      this.effect("chain", origin, 0xa7b8fa, 0.22, 3, next);
       this.damageEnemy(next, shot.damage * 0.3 * (storm >= 9 ? 2 : 1), "arc");
       this.showBlast(next, 24, 0xa7b8fa);
       origin = next;
@@ -1764,13 +2498,27 @@ export class World {
     }
   }
 
-  private addScore(points: number): void {
+  private addScore(points: number, trainingPoints = 0, role?: EnemyRole): void {
     this.score += points;
-    const earned = Math.floor(this.score / CONFIG.scoreTrainingInterval);
+    this.trainingScore += trainingPoints;
+    if (this.observer && trainingPoints > 0)
+      this.observe("training_score", {
+        source: `kill:${role ?? "minion"}`,
+        role,
+        amount: trainingPoints,
+        trainingScore: this.trainingScore,
+      });
+    const earned = trainingsEarned(this.trainingScore, this.balance.payload.evolution);
     const names: string[] = [];
     while (this.scoreMilestones < earned) {
       const policy = this.rewardPolicy("stage");
-      const eligible = eligibleTrainings(this.player, this.stacks, this.stageIndex, policy);
+      const eligible = eligibleTrainings(
+        this.player,
+        this.stacks,
+        this.stageIndex,
+        policy,
+        this.balance.payload.evolution.firingIntervalFloor,
+      );
       const item = weightedChoice(
         eligible,
         (entry) => policy.trainingWeights[entry.id] ?? 1,
@@ -1797,8 +2545,8 @@ export class World {
     }
     if (names.length > 0) {
       this.announce(
-        `分数锻体 · 已自动获得 ${names.map((id) => rewardName(id, "zh-CN")).join("、")}`,
-        `Score training · Automatically gained ${names.map((id) => rewardName(id, "en")).join(", ")}`,
+        `阅历锻体 · 已自动获得 ${names.map((id) => rewardName(id, "zh-CN")).join("、")}`,
+        `XP training · Automatically gained ${names.map((id) => rewardName(id, "en")).join(", ")}`,
       );
       this.noticeUntil = this.elapsed + 4;
     }
@@ -1806,10 +2554,41 @@ export class World {
 
   private defeatEnemy(enemy: Enemy, source: DamageSource): void {
     enemy.active = false;
+    enemy.pendingSkills.length = 0;
+    enemy.castSkill = null;
+    this.percentLimiters.delete(enemy.id);
+    this.leaderStunRecoveryTimes.delete(enemy.id);
+    this.counterFocusConfirmations.delete(enemy.id);
+    if (this.observer)
+      this.observe("enemy_death", {
+        source,
+        kind: enemy.kind,
+        entityId: enemy.id,
+        role: enemy.role,
+        stars: enemy.stars,
+        trainingCredit: enemy.trainingCredit,
+      });
     if (this.observer && enemy.kind === "boss")
       this.observe("boss_death", { source, kind: enemy.kind });
     this.kills++;
-    this.addScore(this.enemyDefinition(enemy).score * 3 ** (enemy.stars - 1));
+    this.addScore(
+      this.enemyDefinition(enemy).score * 3 ** (enemy.stars - 1),
+      enemy.trainingCredit,
+      enemy.role,
+    );
+    const life = enemy.role === "boss" ? 0.8 : enemy.role === "elite" ? 0.6 : 0.5;
+    if (this.deathEchoes.length >= PRESENTATION_LIMITS.deaths) this.deathEchoes.shift();
+    this.deathEchoes.push({
+      id: enemy.id,
+      kind: enemy.kind,
+      role: enemy.role,
+      x: enemy.x,
+      y: enemy.y,
+      color: enemy.role === "boss" ? 0xdec28a : 0xa795ed,
+      life,
+      maxLife: life,
+      stars: enemy.stars,
+    });
     if (source === "blast") this.chainKills++;
     this.heal(this.player.stats.harvest * 2, "harvest");
     if (
@@ -1848,21 +2627,24 @@ export class World {
   protected completeStageIfReady(): void {
     if (
       this.phase !== "Playing" ||
+      this.stageCompletionPending ||
       !this.bossDefeated ||
+      (this.endless &&
+        this.encounterState &&
+        currentEncounterStep(this.encounterState)?.type === "main" &&
+        !encounterAdmissionsComplete(this.encounterState)) ||
       this.enemies.items.some((enemy) => enemy.active)
     )
       return;
     this.clearedStages++;
+    this.stageCompletionPending = true;
     // Observe before clear-score training, cleansing, rewards and stage recovery.
     if (this.observer) this.observe("stage_clear");
     this.addScore(Math.ceil(this.player.hp) * 10);
     this.clearCombat();
     cleansePlayer(this.player);
     this.sanctuaryRemaining = 0;
-    if (this.endless && this.stageSupplies < this.balance.payload.endless.supplies) {
-      this.pendingStageReward = true;
-      this.offerEndlessSupply();
-    } else this.offerStageReward();
+    this.clearPresentationRemaining = 0.8;
   }
 
   private queueBlast(center: Enemy, damage: number, maxHpFraction: number): void {
@@ -1870,7 +2652,8 @@ export class World {
     this.blastQueue.push({
       x: center.x,
       y: center.y,
-      damage: (damage + center.maxHp * maxHpFraction) * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
+      damage: damage * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
+      percentDamage: center.maxHp * maxHpFraction * (tier >= 9 ? 2 : tier >= 3 ? 1.4 : 1),
       radius: (tier >= 9 ? 190 : tier >= 3 ? 160 : 130) * this.arena.rangeScale,
     });
   }
@@ -1895,7 +2678,7 @@ export class World {
           enemy.active &&
           Math.hypot(enemy.x - blast.x, enemy.y - blast.y) <= blast.radius + enemy.radius
         )
-          this.damageEnemy(enemy, blast.damage, "blast");
+          this.damageEnemy(enemy, blast.damage, "blast", false, blast.percentDamage);
         if (this.phase !== "Playing") break;
       }
     }
@@ -1946,13 +2729,17 @@ export class World {
       this.erosionCooldown = Math.min(this.erosionCooldown, interval) - delta;
       if (this.erosionCooldown <= 1e-9) {
         this.erosionCooldown = interval;
-        for (const enemy of this.enemies.items)
+        for (const enemy of this.enemies.items) {
+          if (enemy.active) this.effect("erosion", enemy, 0xa795ed, 0.55, enemy.radius + 14);
           this.damageEnemy(
             enemy,
+            0,
+            "arc",
+            false,
             enemy.maxHp *
               Math.min(0.05, stats.erosionPulse * (erosion >= 9 ? 2 : erosion >= 3 ? 1.25 : 1)),
-            "arc",
           );
+        }
         this.resolveBlasts();
       }
     }
@@ -1965,7 +2752,8 @@ export class World {
         this.stormCooldown = interval;
         this.areaDamage(
           target,
-          combatStats(this.player, this.stacks).damage *
+          combatStats(this.player, this.stacks, this.balance.payload.evolution.firingIntervalFloor)
+            .damage *
             (1 + Math.max(1, stats.storm) * 0.5) *
             (storm >= 9 ? 2 : 1),
           150,
@@ -2005,6 +2793,7 @@ export class World {
               "chest",
               this.stageIndex,
               this.rewardPolicy("chest"),
+              this.balance.payload.evolution.firingIntervalFloor,
             ),
             source: "chest",
           };
@@ -2049,6 +2838,12 @@ export class World {
 
   private hurt(damage: number, source = "unknown"): void {
     if (this.player.invulnerable > 0 || this.player.hp <= 0 || damage <= 0) return;
+    if (
+      this.endless &&
+      this.stageIndex - STAGES.length + 1 >= 7 &&
+      (source.startsWith("melee:") || source.startsWith("projectile:"))
+    )
+      damage = Math.min(damage, this.player.stats.maxHp * 0.35);
     const before = this.player.hp + this.player.shield;
     const hp = this.player.hp;
     const shield = this.player.shield;
@@ -2120,13 +2915,25 @@ export class World {
       bossDefeated: this.bossDefeated,
       seed: this.seed,
       player: structuredClone(this.player),
-      combat: combatStats(this.player, this.stacks),
+      combat: combatStats(
+        this.player,
+        this.stacks,
+        this.balance.payload.evolution.firingIntervalFloor,
+      ),
       kills: this.kills,
       score: this.score,
+      trainingScore: this.trainingScore,
+      nextTrainingThreshold: this.nextTrainingThreshold,
+      encounterLabel: this.encounterState
+        ? (currentEncounterStep(this.encounterState)?.id ?? "complete")
+        : "campaign",
+      clearPresentationRemaining: this.clearPresentationRemaining,
+      deathEchoes: structuredClone(this.deathEchoes),
+      effects: structuredClone(this.effects),
       scoreTrainings: this.scoreTrainings,
       scoreMilestones: this.scoreMilestones,
       lastScoreTraining: this.lastScoreTraining,
-      nextScoreTraining: (this.scoreMilestones + 1) * CONFIG.scoreTrainingInterval,
+      nextScoreTraining: this.nextTrainingThreshold,
       openedChests: this.openedChests,
       stacks: Object.fromEntries(this.stacks),
       trainingStacks: Object.fromEntries(this.trainingStacks),
@@ -2163,6 +2970,13 @@ export class World {
           ({
             id,
             kind,
+            role,
+            trainingCredit,
+            castSkill,
+            castId,
+            pendingSkills,
+            vulnerableTime,
+            wardTime,
             x,
             y,
             hp,
@@ -2175,6 +2989,7 @@ export class World {
             defenseX,
             defenseY,
             interruptDamage,
+            interruptHits,
             interruptRequired,
             spawnX,
             spawnY,
@@ -2190,6 +3005,18 @@ export class World {
           }) => ({
             id,
             kind,
+            role,
+            trainingCredit,
+            castSkill,
+            castId,
+            pendingSkills: [...pendingSkills],
+            counterFocusConfirmed:
+              this.lateEndlessLeaderRules &&
+              role !== "minion" &&
+              telegraph > 0 &&
+              this.counterFocusConfirmations.get(id) === castId,
+            vulnerableTime,
+            wardTime,
             x,
             y,
             hp,
@@ -2202,6 +3029,7 @@ export class World {
             defenseX,
             defenseY,
             interruptDamage,
+            interruptHits,
             interruptRequired,
             spawnX,
             spawnY,

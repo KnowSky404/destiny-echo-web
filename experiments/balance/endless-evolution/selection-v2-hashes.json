@@ -1,0 +1,46 @@
+{
+  "kind": "endless-evolution-v2-selection-curated-custody",
+  "recordedAt": "2026-10-26T08:32:38.466Z",
+  "formattingOnly": {
+    "evidenceInitiallyByteIdentical": true,
+    "jsonCanonicalHashesUnchanged": true,
+    "markdownUnchanged": true,
+    "nativeUnchanged": {
+      "nativeEvidence": true,
+      "manifest": true,
+      "raw": true,
+      "receipt": true
+    },
+    "evidenceCopyCanonicalEqualToNative": true
+  },
+  "native": {
+    "directory": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/data/selection",
+    "evidenceSha256": "de089e76b1458b4a190488dba69f02fb05503c9a491d2b0408fbb8184f84d648",
+    "evidenceCanonicalHash": "db59229d6d75a593889aca331b116f54b27e0fdb377bc84847f65ae93aa8a4df",
+    "manifestSha256": "b74033e410902ff7b7ef19ba47731656765f40545227904de74e42ab39a1eba3",
+    "rawSha256": "aab0a783a9e38bd7a311ea393337ffded60228273aac18804b64850f6bd46e20",
+    "receiptSha256": "6503aae8637f1bd1ccb8bddc3149b2db967c35d8a46ff19f95d5088c655cd624"
+  },
+  "documents": [
+    {
+      "path": "selection-v2-evidence.json",
+      "bytes": 659406,
+      "sha256": "83eb08ea6f48b2727998e1827a7c990a1eda522a03f99509eaa4e9aab4bc683f",
+      "canonicalHash": "db59229d6d75a593889aca331b116f54b27e0fdb377bc84847f65ae93aa8a4df"
+    },
+    {
+      "path": "selection-v2-audit.json",
+      "bytes": 151055,
+      "sha256": "c8e0542c48f2679905bef492c7d17d902e00ad85bc341df8679bf09ef2c1c945",
+      "canonicalHash": "02cece79e414defe57858f241974f50051f5e36f502ee58fea305b2765356066"
+    },
+    {
+      "path": "selection-v2-audit.md",
+      "bytes": 3511,
+      "sha256": "38d2f9afeb8be8e0951332dce3f2334ec5a4e9b02f0b7f64395c4e8727279f8e",
+      "canonicalHash": null
+    }
+  ],
+  "rootProspectiveAdoptionWritten": false,
+  "releaseAccepted": false
+}

@@ -22,7 +22,7 @@
       <section class="arena-column" aria-label="游戏主界面" data-i18n-aria="gameScreen">
         <div class="hud">
           <div class="health-block"><div class="health-label"><span class="heart" aria-hidden="true">♥</span><span data-i18n="health">生命</span><output id="health-value">100 / 100</output><output id="shield-value"></output></div><meter class="sr-only" id="health-meter" min="0" max="100" value="100" aria-label="玩家生命" data-i18n-aria="playerHealth"></meter><div class="health-track" aria-hidden="true"><span id="health-fill"></span></div></div>
-          <output id="score-value" class="score-value" aria-label="本局得分" data-i18n-aria="runScore" data-i18n-initial="scoreInitial">0 分</output>
+          <output id="score-value" class="score-value" aria-label="本局得分" data-i18n-aria="runScore" data-i18n-initial="scoreInitial">总分 0 分</output>
           <output class="timer" id="timer" aria-label="战斗用时" data-i18n-aria-initial="combatTime">00:00</output>
           <button type="button" class="pause-button" id="pause-button" aria-label="暂停游戏" data-i18n-aria-initial="pauseGame" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg></button>
         </div>
@@ -51,9 +51,9 @@
       <h2 id="help-title" data-i18n="helpTitle" tabindex="-1" autofocus>在残响中，改写命运。</h2>
       <p data-i18n="helpIntro">固定阵地，组合残响，突破四关并挑战无尽。</p>
       <dl class="core-guide">
-        <div><dt data-i18n="targetingTitle">自动攻击，自由点选</dt><dd data-i18n="targetingHelp">战机自动攻击。点选敌人或宝箱优先锁定，点空白 / C 恢复自动；T 切换目标。</dd></div>
-        <div><dt data-i18n="augmentsTitle">三选一，组合流派</dt><dd data-i18n="augmentsHelp">宝箱和补给三选一。同流派叠加 3 / 6 / 9 层解锁羁绊，顶部查看本局构筑。</dd></div>
-        <div><dt data-i18n="rewardsTitle">突破四关，挑战无尽</dt><dd data-i18n="rewardsHelp">首领与小怪全灭后领奖。突破四关可保留构筑挑战无尽；生命归零则本局结束。</dd></div>
+        <div><dt data-i18n="targetingTitle">自动攻击，自由点选</dt><dd data-i18n="targetingHelp">战机自动攻击。点选敌人或宝箱优先锁定，点空白 / C 恢复自动；T 切换目标，F 重新确认当前目标。无尽第 4 层起，每次大小首领预警都需重新点选才累计主弹打断，可在起势时提前确认；起势结束才累计打断命中与伤害，自动射击照常。伤害达标仍可自动打断，随后主弹可趁弱点破防。第 4 层起，首领首次准备与已开始蓄力不受减速、眩晕拖延；遗世庇护可冻结，眩晕后短暂恢复。</dd></div>
+        <div><dt data-i18n="augmentsTitle">三选一，组合流派</dt><dd data-i18n="augmentsHelp">宝箱和补给三选一。同流派叠加 3 / 6 / 9 层解锁羁绊。击破常规波次与首领积累锻体阅历，每次所需阅历递增；总分另计，顶部构筑面板查看进度。</dd></div>
+        <div><dt data-i18n="rewardsTitle">突破四关，挑战无尽</dt><dd data-i18n="rewardsHelp">首领与小怪全灭、余响消散后领奖。突破四关可保留构筑挑战无尽：清空怪群与小首领推进分段、获得补给，最后迎战主首领。第 4 层起两只小首领同段；第 7 层起普通怪两只成组，第 13 层起三只成组。高星普通怪承受的敌方生命伤害项、减速强度与眩晕时长按星级减弱；第 7 层起，普通怪的百分比伤害额度，以及战斗回血与转盾共享的回复额度随层数温和下降，构筑可查看 HP/s 与转盾储量，已有护盾与卡牌即时效果保留。吸血另受自身生命上限和吸血对应的回复上限限制。无尽第 7 层起，普通近战与敌方弹幕单次最多承受生命上限的 35%；首领重击第 4 层起为 45%。多次攻击和持续伤害仍可致命。生命归零则本局结束。</dd></div>
         <div><dt data-i18n="pauseTitle">随时暂停，重新出发</dt><dd data-i18n="pauseHelp">P / Esc 或暂停按钮；查看面板和切后台也会暂停。返回后手动继续，重开清除本局。</dd></div>
       </dl>
       <a class="wiki-link" href="https://github.com/KnowSky404/destiny-echo-web/wiki" target="_blank" rel="noopener noreferrer"><span><strong data-i18n="wikiLink">完整游戏 Wiki</strong><small data-i18n="wikiDescription">卡牌、怪物、羁绊与详细机制</small></span><span aria-hidden="true">↗</span></a>

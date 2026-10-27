@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { defaultProfile } from "../../src/data/balance/profile";
 import { applyCard, CARDS, drawCards, eligibleCards } from "../../src/data/cards";
 import { SYNERGIES } from "../../src/data/synergies";
 import { CONFIG } from "../../src/game/config";
@@ -10,7 +11,7 @@ import { createPlayer, World } from "../../src/game/world";
 import { enemy, tick } from "./helpers";
 
 function arena(ids: string[] = []): World {
-  const world = new World();
+  const world = new World(CONFIG.width, defaultProfile());
   world.start(9);
   world.bossSpawned = true;
   world.player.cooldown = 100;
@@ -239,6 +240,7 @@ describe("barrage, shields, judgment and heavy attacks", () => {
     hit(world, boss, 1);
     expect(boss.active).toBe(false);
     expect(world.executions).toBe(1);
+    tick(world, 0.9);
     expect(world.phase).toBe("StageClear");
   });
 
@@ -402,7 +404,7 @@ describe("AOE, slowing and crowd control", () => {
     world.pause();
     expect(world.start(9)).toBe(true);
     for (const family of SYNERGIES) expect(synergyTier(world.stacks, family.id)).toBe(0);
-    expect(world.player).toEqual(createPlayer());
+    expect(world.player).toEqual(createPlayer(CONFIG.player, 1, defaultProfile().payload.player));
     expect(
       world.damageDealt +
         world.damageTaken +

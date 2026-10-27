@@ -1,0 +1,435 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-Q-v4-readonly-summary",
+  "assessment": {
+    "supportsFreshValidation": true,
+    "formalOrHumanAccepted": false,
+    "newWorldExecutions": 0,
+    "officialDocumentsModifiedDuringAnalysis": false,
+    "originalDenominator": 4,
+    "d20EnteredOriginalInputCount": 3,
+    "unreachedIsNullNotZero": true
+  },
+  "archive": {
+    "directory": "artifacts/balance/endless-evolution/v4-Q-independent-readonly-20261027",
+    "inputFilesBoundToNativeArchive": 36,
+    "hashIndexSha256": "32dcfc563964b655709a5d19fe25bfb96a6a708e8acfc36dbfd829ae478e0e0e",
+    "archiveReceiptSha256": "1b1043b2b0615bf25fd4b4fbd6bd1d791bf8338daa2092d242a85cbc6ae15dbc",
+    "readonlySummarySha256": "1f66beba3c6431e5b468e86e529407c192626cd2e5db7137e5d92854b36a1a90",
+    "pairedAnalysisSha256": "3f1f3d6f1eb2c99c17fdba771195ac1281ae6fcc5f967f62ba0a813b49d2629c",
+    "lateSourceFlowSha256": "8b49f1605d5e1b970b8545d3c5a5a2d60efeaeb221f3308cb9ab0c761f9975ac"
+  },
+  "depthSummaries": [
+    {
+      "depth": 5,
+      "originalDenominator": 4,
+      "qEnteredInputCount": 4,
+      "minionOnSameEnteredInputs": {
+        "O4": {
+          "playerClockLifetime": {
+            "n": 388,
+            "mean": 1.3350085910724734,
+            "atMostOneSecondFraction": 0.49226804123711343
+          },
+          "hostileClockLifetime": {
+            "n": 388,
+            "mean": 1.20451030927863,
+            "atMostOneSecondFraction": 0.538659793814433
+          }
+        },
+        "P": {
+          "playerClockLifetime": {
+            "n": 388,
+            "mean": 1.3350085910724734,
+            "atMostOneSecondFraction": 0.49226804123711343
+          },
+          "hostileClockLifetime": {
+            "n": 388,
+            "mean": 1.20451030927863,
+            "atMostOneSecondFraction": 0.538659793814433
+          }
+        },
+        "Q": {
+          "playerClockLifetime": {
+            "n": 388,
+            "mean": 1.3350085910724734,
+            "atMostOneSecondFraction": 0.49226804123711343
+          },
+          "hostileClockLifetime": {
+            "n": 388,
+            "mean": 1.20451030927863,
+            "atMostOneSecondFraction": 0.538659793814433
+          }
+        }
+      },
+      "qVersusPCommonStrata": {
+        "playerClockLifetime": {
+          "ratio": 1.0,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 1.0,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      }
+    },
+    {
+      "depth": 7,
+      "originalDenominator": 4,
+      "qEnteredInputCount": 4,
+      "minionOnSameEnteredInputs": {
+        "O4": {
+          "playerClockLifetime": {
+            "n": 300,
+            "mean": 1.4448333333517303,
+            "atMostOneSecondFraction": 0.41333333333333333
+          },
+          "hostileClockLifetime": {
+            "n": 300,
+            "mean": 1.3876388888890125,
+            "atMostOneSecondFraction": 0.43333333333333335
+          }
+        },
+        "P": {
+          "playerClockLifetime": {
+            "n": 294,
+            "mean": 1.777607709773201,
+            "atMostOneSecondFraction": 0.3299319727891156
+          },
+          "hostileClockLifetime": {
+            "n": 294,
+            "mean": 1.6575113378686228,
+            "atMostOneSecondFraction": 0.36054421768707484
+          }
+        },
+        "Q": {
+          "playerClockLifetime": {
+            "n": 304,
+            "mean": 1.807099780724764,
+            "atMostOneSecondFraction": 0.29605263157894735
+          },
+          "hostileClockLifetime": {
+            "n": 304,
+            "mean": 1.6953947368422406,
+            "atMostOneSecondFraction": 0.33223684210526316
+          }
+        }
+      },
+      "qVersusPCommonStrata": {
+        "playerClockLifetime": {
+          "ratio": 1.0249303308548452,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 1.0333293431605408,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      }
+    },
+    {
+      "depth": 10,
+      "originalDenominator": 4,
+      "qEnteredInputCount": 4,
+      "minionOnSameEnteredInputs": {
+        "O4": {
+          "playerClockLifetime": {
+            "n": 284,
+            "mean": 1.1488849765404503,
+            "atMostOneSecondFraction": 0.5070422535211268
+          },
+          "hostileClockLifetime": {
+            "n": 284,
+            "mean": 1.0861795774648197,
+            "atMostOneSecondFraction": 0.5422535211267606
+          }
+        },
+        "P": {
+          "playerClockLifetime": {
+            "n": 280,
+            "mean": 1.727172619069611,
+            "atMostOneSecondFraction": 0.30714285714285716
+          },
+          "hostileClockLifetime": {
+            "n": 280,
+            "mean": 1.534017857142877,
+            "atMostOneSecondFraction": 0.36428571428571427
+          }
+        },
+        "Q": {
+          "playerClockLifetime": {
+            "n": 288,
+            "mean": 1.821412037060229,
+            "atMostOneSecondFraction": 0.2881944444444444
+          },
+          "hostileClockLifetime": {
+            "n": 288,
+            "mean": 1.6206018518518768,
+            "atMostOneSecondFraction": 0.3472222222222222
+          }
+        }
+      },
+      "qVersusPCommonStrata": {
+        "playerClockLifetime": {
+          "ratio": 1.0717565027457505,
+          "baseSupport": 0.9964285714285714,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 1.0738284210938307,
+          "baseSupport": 0.9964285714285714,
+          "targetSupport": 1.0
+        }
+      }
+    },
+    {
+      "depth": 20,
+      "originalDenominator": 4,
+      "qEnteredInputCount": 3,
+      "minionOnSameEnteredInputs": {
+        "O4": {
+          "playerClockLifetime": {
+            "n": 170,
+            "mean": 0.9699509803780422,
+            "atMostOneSecondFraction": 0.6235294117647059
+          },
+          "hostileClockLifetime": {
+            "n": 170,
+            "mean": 0.8260784313725611,
+            "atMostOneSecondFraction": 0.6941176470588235
+          }
+        },
+        "P": {
+          "playerClockLifetime": {
+            "n": 160,
+            "mean": 1.6827083333088466,
+            "atMostOneSecondFraction": 0.275
+          },
+          "hostileClockLifetime": {
+            "n": 160,
+            "mean": 1.3268229166666106,
+            "atMostOneSecondFraction": 0.45625
+          }
+        },
+        "Q": {
+          "playerClockLifetime": {
+            "n": 156,
+            "mean": 1.9370192307410434,
+            "atMostOneSecondFraction": 0.24358974358974358
+          },
+          "hostileClockLifetime": {
+            "n": 156,
+            "mean": 1.5449252136751492,
+            "atMostOneSecondFraction": 0.3717948717948718
+          }
+        }
+      },
+      "qVersusPCommonStrata": {
+        "playerClockLifetime": {
+          "ratio": 1.1102961573479264,
+          "baseSupport": 0.99375,
+          "targetSupport": 0.9807692307692307
+        },
+        "hostileClockLifetime": {
+          "ratio": 1.1310794965260567,
+          "baseSupport": 0.99375,
+          "targetSupport": 0.9807692307692307
+        }
+      }
+    }
+  ],
+  "pressureAndRisk": [
+    {
+      "id": "seed1074236464-auto450",
+      "termination": "endless_target_reached",
+      "endlessCleared": 20,
+      "deathStage": null,
+      "fatalSource": null,
+      "fullMax1sHpRatio": 0.26139605978261365,
+      "d7to20EnemyHp": 888.711584629825,
+      "d7to20MaxLayerSeconds": 91.13333333449373,
+      "d7to20LongestIdle": 3.4916666666158562
+    },
+    {
+      "id": "seed1074236464-active1600",
+      "termination": "death",
+      "endlessCleared": 17,
+      "deathStage": 21,
+      "fatalSource": "melee:wisp",
+      "fullMax1sHpRatio": 0.31515021929824794,
+      "d7to20EnemyHp": 2009.8735527361675,
+      "d7to20MaxLayerSeconds": 90.12500000114755,
+      "d7to20LongestIdle": 3.458333333377368
+    },
+    {
+      "id": "seed4136239728-auto450",
+      "termination": "endless_target_reached",
+      "endlessCleared": 20,
+      "deathStage": null,
+      "fatalSource": null,
+      "fullMax1sHpRatio": 0.45,
+      "d7to20EnemyHp": 2870.2181418560062,
+      "d7to20MaxLayerSeconds": 99.20833333459655,
+      "d7to20LongestIdle": 3.6416666667130357
+    },
+    {
+      "id": "seed4136239728-active1600",
+      "termination": "endless_target_reached",
+      "endlessCleared": 20,
+      "deathStage": null,
+      "fatalSource": null,
+      "fullMax1sHpRatio": 0.3391652960526316,
+      "d7to20EnemyHp": 754.8497883161086,
+      "d7to20MaxLayerSeconds": 92.49166666784436,
+      "d7to20LongestIdle": 4.308333333388191
+    }
+  ],
+  "d20PerInput": {
+    "seed1074236464-auto450": {
+      "enemyHpLossExcludingBloodpact": 47.49864266878723,
+      "bloodpact": 51,
+      "shieldAbsorbed": 219.514107331206,
+      "entryHp": 350,
+      "entryMaxHp": 350,
+      "entryShield": 0,
+      "trainingScore": 24270,
+      "castStarts": 6,
+      "castEndCauses": {
+        "cast_interrupt": 3,
+        "cast_release": 2,
+        "entity_death": 1
+      },
+      "allReleasesFullyWarned": true
+    },
+    "seed1074236464-active1600": null,
+    "seed4136239728-auto450": {
+      "enemyHpLossExcludingBloodpact": 0,
+      "bloodpact": 54,
+      "shieldAbsorbed": 61.906916666663705,
+      "entryHp": 280,
+      "entryMaxHp": 280,
+      "entryShield": 98,
+      "trainingScore": 23610,
+      "castStarts": 5,
+      "castEndCauses": {
+        "cast_release": 3,
+        "cast_interrupt": 1,
+        "entity_death": 1
+      },
+      "allReleasesFullyWarned": true
+    },
+    "seed4136239728-active1600": {
+      "enemyHpLossExcludingBloodpact": 0,
+      "bloodpact": 45,
+      "shieldAbsorbed": 73.05187500000001,
+      "entryHp": 330,
+      "entryMaxHp": 330,
+      "entryShield": 115.49999999999999,
+      "trainingScore": 30030,
+      "castStarts": 5,
+      "castEndCauses": {
+        "cast_interrupt": 5
+      },
+      "allReleasesFullyWarned": true
+    }
+  },
+  "limitations": [
+    "Four previously observed development inputs only; no fresh or human inference.",
+    "Natural builds/rewards diverge after depth7 and three Q changes are combined; no single-component causal effect.",
+    "D20 common cohort is three original inputs; the D18 death remains in original denominator4, not zero-filled.",
+    "TTK is actual defeated-unit birth-to-death lifetime including approach/control; no fake living/fusion-donor deaths.",
+    "Player/hostile clocks differ under Sanctuary. Common strata do not control species, location or exact fusion time.",
+    "Successful warnings alone do not prove pressure; two strong D20 builds have zero enemy HP loss.",
+    "No required death quota or claim that every group must lose HP. Fresh challenge/pacing/safety gates remain pending."
+  ],
+  "withinQSameD20Inputs": {
+    "inputIds": ["seed1074236464-auto450", "seed4136239728-auto450", "seed4136239728-active1600"],
+    "d7to20CommonStrata": {
+      "minion": {
+        "playerClockLifetime": {
+          "ratio": 1.1430617375775272,
+          "baseSupport": 0.990990990990991,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 0.9575438557173533,
+          "baseSupport": 0.990990990990991,
+          "targetSupport": 1.0
+        }
+      },
+      "elite": {
+        "playerClockLifetime": {
+          "ratio": 0.8948041975696474,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 0.7317315894228036,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      },
+      "boss": {
+        "playerClockLifetime": {
+          "ratio": 0.9633873943604288,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 0.7904956018018193,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      }
+    },
+    "d7to20PerInputMinion": {
+      "seed1074236464-auto450": {
+        "playerClockLifetime": {
+          "ratio": 1.1106613190427796,
+          "baseSupport": 0.9666666666666667,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 0.9408169934639106,
+          "baseSupport": 0.9666666666666667,
+          "targetSupport": 1.0
+        }
+      },
+      "seed4136239728-auto450": {
+        "playerClockLifetime": {
+          "ratio": 1.1348094538560547,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 1.04160143819655,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      },
+      "seed4136239728-active1600": {
+        "playerClockLifetime": {
+          "ratio": 1.166612631392868,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        },
+        "hostileClockLifetime": {
+          "ratio": 0.9126108393970513,
+          "baseSupport": 1.0,
+          "targetSupport": 1.0
+        }
+      }
+    },
+    "d5to20MinionRatios": {
+      "playerClockLifetime": 1.4107763723422595,
+      "hostileClockLifetime": 1.2274307617465738
+    },
+    "d10to20MinionRatios": {
+      "playerClockLifetime": 1.0425680266240873,
+      "hostileClockLifetime": 0.951094129375522
+    }
+  }
+}

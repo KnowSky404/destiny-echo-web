@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "development-Q-v4-curated-byte-index",
+  "nativeRecordsRewritten": false,
+  "formalOrHumanAccepted": false,
+  "files": {
+    "development-Q-v4.json": "cff964aa6db1ba73e6819899b748db863d6ba0fa7eff79f1d8a3540c5d7d8e2a",
+    "independent-Q-v4.json": "3bb4b4a1095e07857a88adbcdf0f01955bd7bf92388a7c7675a2456686a6762a",
+    "independent-Q-v4.md": "1f66beba3c6431e5b468e86e529407c192626cd2e5db7137e5d92854b36a1a90"
+  }
+}

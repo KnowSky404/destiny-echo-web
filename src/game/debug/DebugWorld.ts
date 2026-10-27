@@ -30,6 +30,7 @@ const PROGRESS_KEYS = [
   "clearedStages",
   "kills",
   "score",
+  "trainingScore",
   "scoreTrainings",
   "scoreMilestones",
   "openedChests",
@@ -107,6 +108,7 @@ export class DebugWorld extends World {
     this.history.push(id);
     Object.assign(this.player.stats, this.overrides);
     this.player.hp = Math.min(this.player.hp, this.player.stats.maxHp);
+    super.acquired(id);
   }
 
   protected override reset(seed: number): void {
@@ -317,6 +319,8 @@ export class DebugWorld extends World {
     Object.assign(scratch.stats, this.overrides);
     this.player.stats = scratch.stats;
     this.player.hp = Math.min(this.player.hp, scratch.stats.maxHp);
+    // Persist capacity clips for zero-time PRE edits without refilling allowance.
+    this.refillCombatRecovery(0);
   }
 
   private refreshReward(): void {
@@ -331,6 +335,7 @@ export class DebugWorld extends World {
             this.random,
             this.stageIndex,
             this.rewardPolicy("stage"),
+            this.balance.payload.evolution.firingIntervalFloor,
           )
         : drawCards(
             this.player,
@@ -339,6 +344,7 @@ export class DebugWorld extends World {
             reward.source,
             this.stageIndex,
             this.rewardPolicy(reward.source),
+            this.balance.payload.evolution.firingIntervalFloor,
           );
   }
 

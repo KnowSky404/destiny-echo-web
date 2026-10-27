@@ -1,0 +1,386 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-campaign-holdout-rejection",
+  "recordedAt": "2026-10-26T03:19:14.853Z",
+  "releaseAccepted": false,
+  "strictCollectorAccepted": false,
+  "conclusion": "Complete planned matrix is preserved, but formal campaign validation is rejected because at least one natural outcome remains unresolved at the predeclared budget. No outcome was rerun, extended, removed or reclassified. Descriptive successful-run medians cannot waive this gate.",
+  "protocol": {
+    "masterSeed": 2026102302,
+    "seedsPerGroup": 100,
+    "planned": 600,
+    "maxSeconds": 900,
+    "maxSteps": 108000,
+    "codeFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+    "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f"
+  },
+  "identity": {
+    "actual": 600,
+    "unique": 600,
+    "missing": 0,
+    "duplicates": 0,
+    "importedOriginalRecords": 260,
+    "actuallySupplementedRecords": 340
+  },
+  "preservation": {
+    "sourceArtifactsUnchanged": true,
+    "importedShardsByteIdentical": true,
+    "orderedRawEqualsActualShards": true
+  },
+  "acceptance": {
+    "errors": 0,
+    "invalid": 0,
+    "budget": 1,
+    "cancelled": 0,
+    "unexpectedOutcome": 1,
+    "duplicates": 0,
+    "missing": 0
+  },
+  "strictRejection": {
+    "rawRejection": "Error: run-580: invalid, cancelled, error or budget-exhausted run",
+    "manifestRejection": "Error: /root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/candidate-validation-v1-complete: evidence is incomplete",
+    "resolvedRecordsIndividuallyAccepted": 599,
+    "unresolvedRecordsNotPassedOrReclassified": [
+      {
+        "id": "run-580",
+        "seed": 1802079540,
+        "strategy": "build-active",
+        "width": 1600,
+        "termination": "budget_exhausted",
+        "reason": "Maximum fixed steps reached",
+        "playerSeconds": 898.3999999993473,
+        "steps": 108000,
+        "hp": 100,
+        "clearedStages": 2,
+        "stage": 3
+      }
+    ]
+  },
+  "hashes": {
+    "candidateRaw": "75c0e82d9b8d28b1bf65019fb214c75c14c24ad6b96b530cc0e62dcdc58ad7e6",
+    "baselineRaw": "7584a94b777544ec84690c2c7252233a1ebdb4ac4302c339ab043d43662018b1",
+    "candidateManifest": "4fc3b7bcdb11798fe9e4f15ca402c3865b202e7b80edcb2d4e0396ae86372e0c",
+    "baselineManifest": "0a0539cb2e497b99e5188de61257f8c42ca4cb2e432185c7f02fc6af888af532",
+    "driverReceipt": "b60bad30b69016936f664a9782791a24009a969f7eea0c6564a14876c9484cbd",
+    "collector": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+    "auditScript": "23ed9a69a9afed5a361164d0e2446d3687d65b7c590a8ebb4c3a261e4427660a",
+    "originalDriver": "af5778c59b74ac11f96c5a832b7464a52edabf634cbcae33ba225cebaa4eb568",
+    "continuationDriver": "84a5d532fbc55ffe0ca431e18490a21335e12e0cae2075006effc60f7c2272a8",
+    "samplingBody": "c24c322b68d69169e658b3cc2ec57f00eadb7afe03056bc3b25fe0d67bfbb8df"
+  },
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "runs": 100,
+      "successes": 29,
+      "deaths": 71,
+      "unresolved": 0,
+      "naturalSuccessRateCI95": [0.2101483574912227, 0.3853889117557111],
+      "naturalDeathRateCI95": [0.6146110882442888, 0.7898516425087772],
+      "successfulPlayerSeconds": {
+        "n": 29,
+        "p10": 487.45333333305433,
+        "p50": 515.5666666663622,
+        "p90": 595.5733333329559,
+        "min": 473.2499999997339,
+        "max": 821.3499999994174
+      },
+      "durationTargetMetDescriptively": null,
+      "baselineSuccesses": 21,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 68,
+        "3": 2,
+        "4": 1
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.04923076923076923,
+        "p50": 0.06400000000000002,
+        "p90": 0.08259999999999999,
+        "min": 0.04,
+        "max": 0.26649999999999996
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 2,
+        "p50": 3,
+        "p90": 9,
+        "min": 2,
+        "max": 9
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 12.580833333336425,
+        "p50": 22.75833333333735,
+        "p90": 70.52166666662757,
+        "min": 6.941666666667505,
+        "max": 129.30833333326615
+      }
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "runs": 100,
+      "successes": 26,
+      "deaths": 74,
+      "unresolved": 0,
+      "naturalSuccessRateCI95": [0.18404698464748132, 0.3537098944918718],
+      "naturalDeathRateCI95": [0.6462901055081282, 0.8159530153525186],
+      "successfulPlayerSeconds": {
+        "n": 26,
+        "p10": 484.89166666639,
+        "p50": 509.5249999997009,
+        "p90": 551.1666666663298,
+        "min": 475.61666666639843,
+        "max": 587.3916666662968
+      },
+      "durationTargetMetDescriptively": null,
+      "baselineSuccesses": 26,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 69,
+        "3": 5,
+        "4": 0
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.049230769230769245,
+        "p50": 0.07199999999999994,
+        "p90": 0.08499999999999996,
+        "min": 0.039999999999999994,
+        "max": 0.11699999999999988
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 3,
+        "p50": 3,
+        "p90": 11,
+        "min": 3,
+        "max": 11
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 11.135833333335102,
+        "p50": 17.458333333337805,
+        "p90": 38.13499999999971,
+        "min": 9.041666666668306,
+        "max": 84.02499999996985
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "runs": 100,
+      "successes": 56,
+      "deaths": 44,
+      "unresolved": 0,
+      "naturalSuccessRateCI95": [0.4622810465167699, 0.6532797336983921],
+      "naturalDeathRateCI95": [0.34672026630160796, 0.5377189534832302],
+      "successfulPlayerSeconds": {
+        "n": 56,
+        "p10": 466.54999999974,
+        "p50": 485.9124999997224,
+        "p90": 545.9249999996679,
+        "min": 456.0999999997495,
+        "max": 785.0083333327838
+      },
+      "durationTargetMetDescriptively": true,
+      "baselineSuccesses": 74,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 40,
+        "3": 3,
+        "4": 1
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.040000000000000015,
+        "p50": 0.06515624999999997,
+        "p90": 0.09365000000000002,
+        "min": 0.012000000000000028,
+        "max": 0.20349999999999993
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 2,
+        "p50": 6,
+        "p90": 8,
+        "min": 1,
+        "max": 9
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 17.53333333333964,
+        "p50": 72.70833333331467,
+        "p90": 124.04333333328192,
+        "min": 6.066666666666753,
+        "max": 148.4166666665919
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "runs": 100,
+      "successes": 57,
+      "deaths": 43,
+      "unresolved": 0,
+      "naturalSuccessRateCI95": [0.47215389549212305, 0.6626670147588988],
+      "naturalDeathRateCI95": [0.33733298524110106, 0.5278461045078768],
+      "successfulPlayerSeconds": {
+        "n": 57,
+        "p10": 465.8049999997407,
+        "p50": 482.7249999997253,
+        "p90": 509.6349999997008,
+        "min": 450.8499999997543,
+        "max": 680.333333332879
+      },
+      "durationTargetMetDescriptively": true,
+      "baselineSuccesses": 71,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 38,
+        "3": 5,
+        "4": 0
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.04473076923076925,
+        "p50": 0.06400000000000002,
+        "p90": 0.08717500000000003,
+        "min": 0.01680000000000007,
+        "max": 0.12349999999999994
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 2,
+        "p50": 8,
+        "p90": 10,
+        "min": 2,
+        "max": 11
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 11.308333333335142,
+        "p50": 53.84166666665202,
+        "p90": 77.8599999999779,
+        "min": 7.400000000000775,
+        "max": 107.77499999995717
+      }
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "runs": 100,
+      "successes": 55,
+      "deaths": 45,
+      "unresolved": 0,
+      "naturalSuccessRateCI95": [0.45244602997442135, 0.6438546202048803],
+      "naturalDeathRateCI95": [0.3561453797951198, 0.5475539700255787],
+      "successfulPlayerSeconds": {
+        "n": 55,
+        "p10": 473.0116666664008,
+        "p50": 495.35833333304714,
+        "p90": 599.669999999619,
+        "min": 453.3166666664187,
+        "max": 838.8666666660681
+      },
+      "durationTargetMetDescriptively": true,
+      "baselineSuccesses": 73,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 43,
+        "3": 2,
+        "4": 0
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.04583333333333333,
+        "p50": 0.06853125000000004,
+        "p90": 0.09349999999999996,
+        "min": 0.012000000000000028,
+        "max": 0.16923076923076924
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 2,
+        "p50": 6,
+        "p90": 8,
+        "min": 1,
+        "max": 9
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 17.53333333333964,
+        "p50": 72.13749999998308,
+        "p90": 123.72999999994033,
+        "min": 6.066666666666753,
+        "max": 149.76666666659068
+      }
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "runs": 100,
+      "successes": 53,
+      "deaths": 46,
+      "unresolved": 1,
+      "naturalSuccessRateCI95": null,
+      "naturalDeathRateCI95": null,
+      "successfulPlayerSeconds": {
+        "n": 53,
+        "p10": 472.7733333330677,
+        "p50": 492.9916666663826,
+        "p90": 589.3566666662952,
+        "min": 460.25833333307907,
+        "max": 785.3083333327835
+      },
+      "durationTargetMetDescriptively": true,
+      "baselineSuccesses": 70,
+      "firstStageDeaths": 0,
+      "deathStages": {
+        "1": 0,
+        "2": 41,
+        "3": 5,
+        "4": 0
+      },
+      "maxOneSecondHpLossRatio": {
+        "n": 100,
+        "p10": 0.04475000000000001,
+        "p50": 0.06799999999999999,
+        "p90": 0.09350000000000001,
+        "min": 0.03076923076923077,
+        "max": 0.15200000000000002
+      },
+      "trainingChoices": {
+        "n": 100,
+        "p10": 2,
+        "p50": 8,
+        "p90": 10,
+        "min": 2,
+        "max": 11
+      },
+      "idleSeconds": {
+        "n": 100,
+        "p10": 11.308333333335142,
+        "p50": 52.3958333333254,
+        "p90": 77.84333333330676,
+        "min": 7.400000000000775,
+        "max": 108.15833333329016
+      }
+    }
+  ],
+  "limitations": [
+    "These deterministic strategy observations are not human completion rates.",
+    "Success-duration medians describe successful runs only. The unresolved outcome is preserved and prevents formal validation acceptance.",
+    "Binary natural-outcome confidence intervals are null for a group containing an unresolved outcome, which is never silently counted as a death.",
+    "Every resolved candidate record and all baseline records passed the unchanged current strict collector; the complete candidate matrix was explicitly rejected.",
+    "No parameters changed during the independent experiment or recovery. Reading these holdout results precludes calling a future retuned candidate independent on the same seeds."
+  ]
+}

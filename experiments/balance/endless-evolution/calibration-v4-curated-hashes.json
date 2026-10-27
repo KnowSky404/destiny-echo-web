@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-calibration-measurement-curated-byte-index",
+  "measurementCheckpoint": "2026-10-27T07:02:13.897Z",
+  "calibrationAcceptedForPreDelivery": true,
+  "productionAuthorizationAtCheckpoint": false,
+  "deliveryCompleteAtCheckpoint": false,
+  "rootDecision": {
+    "path": "experiments/balance/endless-evolution/pre-candidate-acceptance-v4.json",
+    "sha256": "554f9ab9e8b9446aded15db2eb841952085073f5b389a1e2042aca9b67eac285"
+  },
+  "sampledCodeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "fullProfileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "newWorldRunsByAuditAndAnalysis": 0,
+  "nativeOrHistoricalReportsRewritten": false,
+  "files": {
+    "docs/endless-evolution-calibration-v4-2026-10-27.md": "b6a79e842b8135ddb6ae3b1f275c6cbf9200e7b3be26d6f7382bf61fc2570d8a",
+    "experiments/balance/endless-evolution/development-Q-v4.json": "cff964aa6db1ba73e6819899b748db863d6ba0fa7eff79f1d8a3540c5d7d8e2a",
+    "experiments/balance/endless-evolution/development-Q-v4-hashes.json": "6894977fd1d0e9d0c86d06e2005a72edb7f03cb975aa58596d7deff115544dd7",
+    "experiments/balance/endless-evolution/independent-Q-v4.json": "3bb4b4a1095e07857a88adbcdf0f01955bd7bf92388a7c7675a2456686a6762a",
+    "experiments/balance/endless-evolution/independent-Q-v4.md": "1f66beba3c6431e5b468e86e529407c192626cd2e5db7137e5d92854b36a1a90",
+    "experiments/balance/endless-evolution/selection-v4-audit.json": "5ec2720c823212a3a49aebaf8cd99041dd14929ee66b39750540222ed11ef994",
+    "experiments/balance/endless-evolution/selection-v4-hashes.json": "6eebad457b2f8e38f24f6cf15039035a908c288673e996fef374e139e8d44547",
+    "experiments/balance/endless-evolution/validation-v4-audit.json": "9ef492c1bdd2320649181cf6d3e04f589a7944ad0abdbfc2d7b5ff494adfafa8",
+    "experiments/balance/endless-evolution/validation-v4-hashes.json": "9b8137d2e27344b66716f6df2bd9a1093c07e181d06f341abd0caea870333108",
+    "experiments/balance/endless-evolution/endless-v4-audit.json": "f40ca0c90a4fb406aa8eb2d2ee39671a34904706c328ee81d66bfa7e1229bb9d",
+    "experiments/balance/endless-evolution/endless-v4-hashes.json": "a39d92bb8588b2a263182ea7c93e09b6586e4e52ba1ab2a717a2ace4f0cedbfb"
+  }
+}

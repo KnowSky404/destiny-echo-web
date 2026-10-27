@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "kind": "rejected-independent-holdout-report-hash-index",
+  "recordedAt": "2026-10-26T03:21:58.649375+00:00",
+  "reportsFormattedBeforeHashing": true,
+  "strictCollectorAccepted": false,
+  "reports": {
+    "validation-v1-rejection.json": {
+      "sha256": "d475447d2c273ecbb189e7208b3b4fc9dd30b35b82c5dd8d573f740c0aff5e71"
+    },
+    "validation-v1-observed-metrics.json": {
+      "sha256": "32e7d49203fe375744f8556ef3416f00cda83da525e416b679a8d65f0213be39"
+    },
+    "validation-v1-budget-counterexample.json": {
+      "sha256": "87aafccab145e0d70910a64b7826b5498399f3d7be7633e019a1a95b03255a6b"
+    }
+  },
+  "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "collectorSha256": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+  "auditScriptSha256": "23ed9a69a9afed5a361164d0e2446d3687d65b7c590a8ebb4c3a261e4427660a",
+  "observationalSummaryScriptSha256": "085633359809dd3c844d204e8b0b2b98f4b818bff011a58def47194b87776c95",
+  "signingScriptSha256": "37afc4a80897baa4aa9ed47fee9f2ad39a6c9b750077653ec4bb12c03d01f21e",
+  "rawInputs": {
+    "candidate": "75c0e82d9b8d28b1bf65019fb214c75c14c24ad6b96b530cc0e62dcdc58ad7e6",
+    "baseline": "7584a94b777544ec84690c2c7252233a1ebdb4ac4302c339ab043d43662018b1"
+  },
+  "manifests": {
+    "candidate": "4fc3b7bcdb11798fe9e4f15ca402c3865b202e7b80edcb2d4e0396ae86372e0c",
+    "baseline": "0a0539cb2e497b99e5188de61257f8c42ca4cb2e432185c7f02fc6af888af532"
+  },
+  "driverReceipt": "b60bad30b69016936f664a9782791a24009a969f7eea0c6564a14876c9484cbd",
+  "originalDriverSha256": "af5778c59b74ac11f96c5a832b7464a52edabf634cbcae33ba225cebaa4eb568",
+  "continuationDriverSha256": "84a5d532fbc55ffe0ca431e18490a21335e12e0cae2075006effc60f7c2272a8",
+  "samplingBodySha256": "c24c322b68d69169e658b3cc2ec57f00eadb7afe03056bc3b25fe0d67bfbb8df",
+  "collectorCli": {
+    "receiptSha256": "0b6885d222903a907aea2a8d41ee6b163d16e634a36918cf9466d3f3df473216",
+    "logSha256": "661013332c058e27e7ca3297f3b87119960d1c997bfa1533703ed3a8a314685c",
+    "exitCode": 1,
+    "acceptedEvidenceFileCreated": false
+  },
+  "note": "The complete 600-ID collection is retained with failed status; this index authenticates rejection/observational reports, not acceptance."
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "endless-evolution-v3-browser-acceptance",
+  "recordedAt": "2026-10-27T02:27:05.083413+00:00",
+  "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "matrixPassed": 60,
+  "supplementaryPassed": 3,
+  "planned": 63,
+  "browserPlugin": "unavailable; repository Playwright with software WebGL; Firefox headed under Xvfb",
+  "boundaries": [
+    "Current V3 has12 new counterplay cases and48 existing affected bounded cases, plus3 help/scroll probes.",
+    "Historical4 long natural browser controls were not rerun; unchanged campaign is exercised by current full unit tests and independent natural simulation.",
+    "This is local source/test/PRE-build verification, not remote PRE, physical-device, human completion-rate or60FPS performance acceptance.",
+    "All initial failures and their classifications remain preserved; only final accepted actual-run receipts contribute to63/63."
+  ],
+  "nativeEvidenceHashes": {
+    "qa-result.json": "215f5eb7a4d8f7125103520fab0529600ec9daf50d300f03079ad003293e854c",
+    "final-audit.json": "a045eab489cf7311bbf58413763d9137b2c045ab65e0676a46a603b41f76bd2a",
+    "failure-classification.json": "71e532db75a68065754a59e720b78e08aedc67efec1fe8b7acd103fa7e0be9d2"
+  },
+  "sourceManifestSha256": "f4cb36420f873bd46ca7b2b45b798dc42f9b08583ef53c2e04a8a54906231039",
+  "dualBuildManifestSha256": "ca6a29d67d6f11ec3ddc49572c3cc4929625afa5ebe74cdcb4bd3c1f8ad13a85",
+  "remotePreDeployed": false,
+  "proChanged": false,
+  "rawEvidenceRoot": "artifacts/balance/endless-evolution/browser-v3-20261027",
+  "releaseAccepted": false
+}

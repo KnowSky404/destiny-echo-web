@@ -600,6 +600,20 @@ kbd {
 }
 .reward-modal {
   padding: 25px 13px 17px;
+  max-height: calc(100% - 24px);
+  display: flex;
+  flex-direction: column;
+}
+.reward-modal > :not(.reward-choices) {
+  flex-shrink: 0;
+}
+.reward-modal .reward-choices {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.reward-modal .reward-choices > * {
+  flex-shrink: 0;
 }
 .reward-modal h2 {
   font-size: 24px;
@@ -857,6 +871,10 @@ kbd {
   font-family: var(--serif);
   font-size: 18px;
   font-variant-numeric: tabular-nums;
+}
+.stat-unit {
+  display: inline-block;
+  white-space: nowrap;
 }
 .collected-cards {
   margin-top: 25px;

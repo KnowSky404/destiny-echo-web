@@ -1,7 +1,14 @@
-import type { BalanceProfile } from "../../data/balance/model";
-import { officialProfile, parseProfile, validateNumber } from "../../data/balance/profile";
+import type { BalanceProfile, LegacyBalanceProfile } from "../../data/balance/model";
+import {
+  migrateLegacyProfile,
+  officialProfile,
+  parseLegacyProfile,
+  parseProfile,
+  validateNumber,
+} from "../../data/balance/profile";
 
-export const STORAGE_KEY = "echoes:pre:balance:v1";
+export const STORAGE_KEY = "echoes:pre:balance:v2";
+export const LEGACY_STORAGE_KEY = "echoes:pre:balance:v1";
 interface SavedProfiles {
   draft: BalanceProfile;
   versions: BalanceProfile[];
@@ -10,6 +17,8 @@ interface SavedProfiles {
 export class ProfileStore {
   state: SavedProfiles = { draft: officialProfile(), versions: [], selected: null };
   warning = "";
+  readonly legacyProfiles: LegacyBalanceProfile[] = [];
+  legacyStorageRaw: string | null = null;
   private revisionHighWater = new Map<string, number>();
   private observedStorage: string | null = null;
 
@@ -19,6 +28,7 @@ export class ProfileStore {
   ) {
     if (this.state.draft.id !== "default")
       this.revisionHighWater.set(this.state.draft.id, this.state.draft.revision);
+    this.readLegacyProfiles();
     try {
       const raw = storage?.getItem(STORAGE_KEY);
       this.observedStorage = raw ?? null;
@@ -58,6 +68,27 @@ export class ProfileStore {
       this.revisionHighWater = revisions;
     } catch (error) {
       this.warning = `本地方案未能读取，现有存储未覆盖：${error instanceof Error ? error.message : String(error)}`;
+    }
+  }
+  private readLegacyProfiles(): void {
+    try {
+      this.legacyStorageRaw = this.storage?.getItem(LEGACY_STORAGE_KEY) ?? null;
+      if (!this.legacyStorageRaw) return;
+      const parsed: unknown = JSON.parse(this.legacyStorageRaw);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+        throw new Error("本地版本列表无效");
+      const saved = parsed as { draft?: unknown; versions?: unknown };
+      if (!Array.isArray(saved.versions) || saved.versions.length > 100)
+        throw new Error("本地版本列表无效");
+      for (const candidate of [saved.draft, ...saved.versions]) {
+        try {
+          this.legacyProfiles.push(parseLegacyProfile(candidate));
+        } catch {
+          this.warning = "部分 v1 方案无法迁移；原始存储仍可导出";
+        }
+      }
+    } catch {
+      this.warning = "v1 方案无法读取；原始存储仍可导出";
     }
   }
   get active(): BalanceProfile | undefined {
@@ -147,6 +178,15 @@ export class ProfileStore {
   importVersion(text: string): BalanceProfile {
     if (text.length > 2_000_000) throw new Error("配置文件不能超过 2 MB");
     return this.saveProfile(parseProfile(JSON.parse(text)), false, true);
+  }
+  migrateLegacy(index: number): BalanceProfile {
+    const source = this.legacyProfiles[index];
+    if (!source) throw new Error("v1 方案不存在");
+    return this.saveProfile(migrateLegacyProfile(source), false);
+  }
+  migrateLegacyVersion(text: string): BalanceProfile {
+    if (text.length > 2_000_000) throw new Error("配置文件不能超过 2 MB");
+    return this.saveProfile(migrateLegacyProfile(JSON.parse(text)), false);
   }
   select(profile: BalanceProfile): void {
     this.assertCurrent();

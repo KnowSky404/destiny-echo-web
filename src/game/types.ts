@@ -24,7 +24,8 @@ export type SynergyId =
   | "erosion";
 export type SynergyTier = 0 | 3 | 6 | 9;
 export type EnemyKind = "wisp" | "sentinel" | "hexer" | "tank" | "wizard" | "boss";
-export type BossSkill = "guard" | "summon" | "slam";
+export type EnemyRole = "minion" | "elite" | "boss";
+export type BossSkill = "guard" | "summon" | "slam" | "ward" | "ritual" | "volley";
 export type Rarity = "common" | "rare" | "epic";
 export type EnemyStage = "Approaching" | "Preparing" | "Attacking";
 export type AttackPolicy =
@@ -103,6 +104,8 @@ export interface Enemy extends Vec2 {
   id: number;
   active: boolean;
   kind: EnemyKind;
+  role: EnemyRole;
+  trainingCredit: number;
   hp: number;
   maxHp: number;
   radius: number;
@@ -122,6 +125,7 @@ export interface Enemy extends Vec2 {
   patternCooldown: number;
   telegraph: number;
   interruptDamage: number;
+  interruptHits: number;
   interruptRequired: number;
   slow: number;
   slowTime: number;
@@ -130,6 +134,11 @@ export interface Enemy extends Vec2 {
   primaryHits: number;
   skillsUsed: number;
   lastSkill: BossSkill | null;
+  castSkill: BossSkill | null;
+  castId: number;
+  pendingSkills: BossSkill[];
+  vulnerableTime: number;
+  wardTime: number;
   damageReductionTime: number;
   stars: number;
   damageScale: number;

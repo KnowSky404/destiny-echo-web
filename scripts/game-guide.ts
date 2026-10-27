@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { officialProfile, resolvedStage } from "../src/data/balance/profile";
 import { CARDS, isFirstStageExcluded, RARITY_NAMES } from "../src/data/cards";
 import { ENEMIES as BASE_ENEMIES, CAMPAIGN_KINDS, ENDLESS_KINDS } from "../src/data/enemies";
-import { STAGES as BASE_STAGES } from "../src/data/stages";
+import { STAGES as BASE_STAGES, campaignChestTiming } from "../src/data/stages";
 import { SYNERGIES } from "../src/data/synergies";
 import { TRAININGS } from "../src/data/training";
 import { CONFIG as BASE_CONFIG } from "../src/game/config";
@@ -61,6 +61,11 @@ export async function renderGuide(): Promise<Record<string, string>> {
     "src/game/systems/crowd.ts",
     "src/data/enemies.ts",
     "src/data/stages.ts",
+    "src/data/endless.ts",
+    "src/game/progression.ts",
+    "src/game/systems/encounter.ts",
+    "src/game/systems/boss-damage.ts",
+    "src/game/presentation.ts",
     "src/data/synergies.ts",
     "src/game/config.ts",
     "src/game/arena.ts",
@@ -86,28 +91,24 @@ export async function renderGuide(): Promise<Record<string, string>> {
   const player = createPlayer();
   const sanctuary = CONFIG.sanctuary;
   const endless = CONFIG.endless;
-  // Endless derives its baseline from authored stage data, before campaign-only overrides.
-  const finale = BASE_STAGES[BASE_STAGES.length - 1];
-  if (!finale) throw new Error("Missing endless baseline stage");
+  const evolution = BALANCE.payload.evolution;
+  const finale = STAGES[STAGES.length - 1];
+  if (!finale) throw new Error("Missing resolved endless baseline stage");
   const stageValues = {
-    ENDLESS_GROWTH: `min(${n(endless.healthGrowth)}^d, exp(200))`,
-    ENDLESS_HP: `${n(finale.health)} × G × P`,
-    ENDLESS_BOSS_GROWTH: `${n(finale.bossHp)} × G`,
+    ENDLESS_GROWTH: `(1 + ${n(evolution.growthLinear)} × d + ${n(evolution.growthQuadratic)} × d²) × (1 + 0.08 × max(0, d - 5))`,
+    ENDLESS_HP: `${n(finale.health)} × G`,
+    ENDLESS_BOSS_GROWTH: `${n(finale.bossHp / (BALANCE.payload.enemies.boss.hp / BASE_ENEMIES.boss.hp))} × G`,
     ENDLESS_BOSS_HP_SCALE: n(BALANCE.payload.enemies.boss.hp / BASE_ENEMIES.boss.hp),
-    ENDLESS_BUDGET: `min(${n(endless.populationCap)}, ceil(${finale.enemyCount} × G))`,
-    ENDLESS_SUPPORT: `min(${n(endless.escortCap)}, ceil(${finale.supportCount} × G))`,
-    ENDLESS_SUPPORT_INTERVAL: n(finale.supportInterval),
-    ENDLESS_COMPRESSION: `1 + (ceil(${finale.enemyCount} × G)/N - 1) + (ceil(${finale.supportCount} × G)/S - 1)`,
-    ENDLESS_DAMAGE: `${n(endless.damageMultiplier)} × min(8, ${n(finale.damage)} × ${n(endless.damageGrowth)}^min(d,100))`,
+    ENDLESS_BUDGET: `min(${n(endless.populationCap)}, 72)`,
+    ENDLESS_SUPPORT: `min(${n(endless.escortCap)}, 4)`,
+    ENDLESS_SUPPORT_INTERVAL: Math.max(5, finale.supportInterval),
+    ENDLESS_DAMAGE: `${n(endless.damageMultiplier)} × min(4, ${n(finale.damage)} × (1 + 0.035 × (d - 1)))`,
     ENDLESS_SPEED: n(finale.speed),
-    ENDLESS_BOSS_AT: n(finale.bossAt),
     ENDLESS_DAMAGE_MULTIPLIER: n(endless.damageMultiplier),
-    ENDLESS_TIMING: `max(0.35, ${n(endless.attackTiming)} × ${n(endless.timingGrowth)}^(d-1))`,
+    ENDLESS_TIMING: `max(0.7, ${n(endless.attackTiming)} / (1 + 0.015 × (d - 1)))`,
     ENDLESS_APPROACH_BASE: n(CONFIG.skills.approachInterval),
-    ENDLESS_APPROACH_FIRST: n(
-      CONFIG.skills.approachInterval * Math.max(0.35, endless.attackTiming),
-    ),
-    ENDLESS_APPROACH_MIN: n(CONFIG.skills.approachInterval * 0.35),
+    ENDLESS_APPROACH_FIRST: n(CONFIG.skills.approachInterval * Math.max(0.7, endless.attackTiming)),
+    ENDLESS_APPROACH_MIN: n(CONFIG.skills.approachInterval * 0.7),
     ENDLESS_POISON_DPS: n(endless.poisonDamagePerSecond),
     ENDLESS_SLAM: `round(${n(endless.slamDamage * endless.damageMultiplier)} + ${n(endless.slamDamagePerStage * endless.damageMultiplier)} × (d - 1))`,
     ENDLESS_SUMMON_COUNT: endless.summonCount,
@@ -115,6 +116,26 @@ export async function renderGuide(): Promise<Record<string, string>> {
     ENDLESS_PENDING_SUMMONS: endless.summonCount * endless.bossThresholds.length,
     ENDLESS_SUPPLIES: endless.supplies,
     ENDLESS_TOTAL_REWARDS: endless.supplies + 1,
+    TRAINING_BASE: evolution.trainingBase,
+    TRAINING_STEP: evolution.trainingStep,
+    FIRING_FLOOR: evolution.firingIntervalFloor,
+    BREAK_SECONDS: evolution.breakSeconds,
+    CHARGE_SECONDS: evolution.chargeSeconds,
+    RECOVERY_SECONDS: evolution.recoverySeconds,
+    VOLLEY_RECOVERY_SECONDS: 4.5,
+    LEADER_STUN_RECOVERY_SECONDS: CONFIG.endless.leaderStunRecovery,
+    INTERRUPT_HITS: evolution.interruptHits,
+    WEAK_POINT_PERCENT: percent(evolution.weakPointDamage),
+    CHEST_FIRST: CONFIG.chestFirstAt,
+    CHEST_BASE_INTERVAL: CONFIG.chestInterval,
+    CHEST_BASE_LAST: CONFIG.chestLastAt,
+    CAMPAIGN_CHEST_COUNTS: STAGES.map(
+      (stage, index) => campaignChestTiming(index, stage.bossAt).count,
+    ).join(" / "),
+    VULNERABLE_SECONDS: evolution.vulnerableSeconds,
+    BOSS_PERCENT: percent(evolution.bossPercentPerSecond),
+    ELITE_PERCENT: percent(evolution.elitePercentPerSecond),
+    VULNERABLE_MULTIPLIER: evolution.vulnerableMultiplier,
   };
   const names = (kinds: readonly (keyof typeof ENEMIES)[]) =>
     kinds.map((kind) => ENEMIES[kind].name).join("、");
@@ -132,7 +153,7 @@ ${nav}
 2. 点击敌人或金色宝箱，指定优先目标；点击空白恢复自动。
 3. 击破宝箱后从三张卡中选择一张。选牌时全部战斗与计时暂停。
 4. 同流派累计 3 / 6 / 9 层解锁三档羁绊，重复卡同样计层。
-5. 优先处理进入攻击范围的敌人，集中攻击金色蓄力中的首领可以打断技能。
+5. 优先处理进入攻击范围的敌人；打断大小首领后，主弹可趁弱点破防。无尽第4层起，每次预警需重新点选首领确认本次集火，起势结束后才累计打断命中与伤害；足够伤害也能打断。
 6. 四关通关后选择「继续无尽 · 保留构筑」，或重新开始一局。
 
 ## 阅读导航
@@ -158,7 +179,8 @@ ${table(
   [
     ["鼠标点击 / 触屏点按敌人或宝箱", "指定优先目标；嘲讽生效时遵循嘲讽顺序"],
     ["点击战场空白 / C", "取消手动目标，恢复自动索敌"],
-    ["聚焦战场后按 T", "循环切换当前允许锁定的目标"],
+    ["聚焦战场后按 T", "循环切换当前允许锁定的目标；选中预警首领也确认本次集火"],
+    ["聚焦战场后按 F / 再次点按当前首领", "重新选择当前目标，确认它本次预警的主弹打断"],
     ["Esc / P / 暂停按钮", "暂停或继续；奖励界面不能跳过选牌"],
     ["Tab / Enter / 空格", "移动界面焦点并激活按钮或卡牌"],
     ["WASD / 方向键 / 拖动", "不会移动战机"],
@@ -167,17 +189,20 @@ ${table(
 
 ## 当前规则
 
+正常四关战斗节奏目标为8–12分钟，排除暂停、选牌与极端顺逆风；这是校准目标，须以真实World测量和PRE体验验收，不能当作已验证的真人时长。
+
 - 「遗世庇护」净化中毒、重伤与攻速降低，令敌方时序短暂停滞；首层持续 ${sanctuary.baseDuration + sanctuary.durationPerLayer} 秒。
 - 庇护期间敌方嘲讽失效；巫师只在选择毒素技能时施毒，死亡不施毒。
 - 中毒期间附带重伤，全部生命治疗与护盾获得量降低 ${percent(endless.woundRecoveryReduction)}。
-- 无尽第一关重击造成 ${Math.round(endless.slamDamage * endless.damageMultiplier)} 点直接生命损失，每过一关基础值增加 ${endless.slamDamagePerStage * endless.damageMultiplier} 点，结算时四舍五入。
+- 无尽重击先蓄力 ${evolution.chargeSeconds} 秒，可被打断；成功释放后走普通受击，护盾和受击无敌有效。第4层起单次重击伤害不超过玩家最大生命45%，仍可能与其他攻击接续。
+- 战役与无尽前3层的大小首领可用伤害或 ${evolution.interruptHits} 次主弹打断。第4层起每次预警重新选择目标，起势后累计打断用的集火主弹或伤害；门槛见[机制说明](Mechanics.md)。${evolution.vulnerableSeconds} 秒弱点内主弹增加 ${percent(evolution.weakPointDamage)} 最大生命的基础破防成分，仍受共享百分比额度限制，新增部分不吸血。无尽主首领空血线队列时继续蓄力单发。
 - 手机四车道、最多 ${MINION_CAPACITY} 只小怪与 1 个首领；1920×1080 桌面约六车道、36 只小怪与 1 个首领。出生、攻击点和预算按车道数调整。无尽初始开放防线前两排对应的下方两行攻击格；每完成一关，只在未开放格中随机永久增加两个，直到覆盖全部敌方区域，战机所在行不参与抽取或计数。
 - 无尽普通怪、护卫和强化召唤共用每关 ${percent(endless.attackRegionSpawnRatio)} 攻击区出生保底；其余出生每次都从上半屏侧翼车道的合法空位中随机选择。满员或保底所需攻击区没有空位时等待，不消耗成功出生名额。
-- 首领奖励为两项随机锻体与一张残响三选一，第四关也先领奖再通关。锻体不计入羁绊。
+- 无尽前3层按怪群→小首领→怪群→主首领推进，第4层起改为怪群→巨像与巫师双精英→怪群→主首领；前三段各给一次补给，双精英不增加本层首领、护卫或补给总量。每关首领奖励为两项随机锻体与一张残响三选一，第四关也先领奖再通关。锻体不计入羁绊。
 - 首关残响奖励只提供祷言弹幕、泰坦重击、命定暴击与雷霆共振，含对应史诗；不提供自爆、吸血、护盾和控制，第二关起开放完整卡池。首关锻体排除吸血。
-- 累计分数每增加 ${CONFIG.scoreTrainingInterval} 分，随机自动获得一张锻体并立即生效，可重复，不打开选牌。
+- 总分与训练分分开：有限出怪预算内的击杀推进锻体，累计第 n 张门槛 T(n)=${evolution.trainingBase}n+${evolution.trainingStep / 2}n(n-1)；生命奖分和超额援军只加总分。
 - 全部关卡取消超时失败；只有玩家生命归零才失败，Boss 与剩余小怪全部击败才过关。
-- 普攻吸血统一乘 ${CONFIG.lifestealMultiplier}；无尽普通伤害和重击乘 ${endless.damageMultiplier}，首层攻击间隔和准备时间乘 ${endless.attackTiming}，后续继续加快；毒素使用独立的 10 点基础伤害和重复施加规则。
+- 普攻吸血统一乘 ${CONFIG.lifestealMultiplier}；无尽第4层起吸血按自身生命与有效吸血率限制每秒恢复量，治疗加成、重伤和过量转盾随后结算；第7层起战斗回血与生成护盾还共用实际获得额度。无尽普通伤害和重击乘 ${endless.damageMultiplier}；有效攻击间隔下限 ${evolution.firingIntervalFloor} 秒，毒素使用独立的10点基础伤害和重复施加规则。
 - 桌面横向战场，顶部「本局构筑」查看属性、卡组和流派；「玩法说明」打开规则；查看时暂停，关闭后手动继续。
 
 没有跨局存档；死亡或重新开始会清空构筑。本文说明当前仓库规则，线上版本以实际发布为准。
@@ -187,9 +212,9 @@ ${table(
 
 ${nav}
 
-共 ${CARDS.length} 张构筑残响卡（type=augment），另有 ${TRAININGS.length} 项首领专属锻体（type=training）。构筑残响卡：普通与稀有 ${CARDS.filter((card) => card.rarity !== "epic").length} 张，史诗 ${CARDS.filter((card) => card.rarity === "epic").length} 张。每张史诗每局只能获得一次，所有卡每次获得都只增加 1 个所属流派层数。叠加上限按卡牌 ID 独立计算，史诗的复合属性不占用普通卡叠加次数。
+共 ${CARDS.length} 张构筑残响卡（type=augment），另有 ${TRAININGS.length} 项锻体（type=training）。构筑残响卡：普通与稀有 ${CARDS.filter((card) => card.rarity !== "epic").length} 张，史诗 ${CARDS.filter((card) => card.rarity === "epic").length} 张。每张史诗每局只能获得一次，所有卡每次获得都只增加 1 个所属流派层数。叠加上限按卡牌 ID 独立计算，史诗的复合属性不占用普通卡叠加次数。
 
-以下预览以初始属性为例，局内卡牌会显示当前属性的变化。恢复数字为未重伤时的基础值；重伤把生命治疗、生命恢复和护盾获得量减至 10%。「无限」指该卡可持续获得，实际弹数、暴击、吸血等仍受机制上限限制。
+以下预览以初始属性为例，局内卡牌会显示当前属性的变化。恢复数字为未重伤时的基础值；重伤把生命治疗、生命恢复和护盾获得量减至 10%。「无限」指该卡可持续获得，实际弹数、暴击、吸血等仍受机制上限限制。无尽高星普通怪承受的敌方生命伤害项、减速强度与眩晕时长除以星级；第4层起吸血另受自身最大生命与有效吸血率决定的时间额度限制，再结算治疗加成、重伤和过量转盾。第7层起，普通怪百分比伤害还受随深度递减的共享额度限制；战斗回血与生成护盾共用自身生命额度，未来战斗补盾储量也随深度收紧。下列系数不是对所有目标的最终扣血或每秒恢复保证，详见[机制说明](Mechanics.md)。
 
 ${SYNERGIES.map(
   (family) => `## ${family.name}
@@ -217,9 +242,9 @@ ${CARDS.filter((card) => card.synergy === family.id)
 `;
 
   pages.Cards += `
-## 首领与分数锻体
+## 首领与阅历锻体
 
-累计每 ${CONFIG.scoreTrainingInterval} 分，自动随机发一张符合当前条件的锻体，跨多个门槛逐张补齐；可重复，不暂停、不选牌，分数不消耗。首关排除吸血锻体。击败任意首领后，两项不同锻体与一张构筑残响三选一；锻体不出现在宝箱或无尽定时补给中，不增加流派层数，单独记录并保留至本局结束。仅改变基础数值，生命上限锻体不附带即时治疗。
+累计训练分第 n 张的门槛为 T(n)=${evolution.trainingBase}n+${evolution.trainingStep / 2}n(n-1)，依次为5000、11500、19500、29000、40000；每张新增需求仅增加${evolution.trainingStep}，不是指数。训练分只来自有限出怪预算的击杀，与总分分开；生命清关奖分和超额援军只计总分。跨多个门槛逐张补齐；可重复，不暂停、不选牌，进度不消耗。首关排除吸血锻体。完成整关后，两项不同锻体与一张构筑残响三选一；小首领不单独发关底奖励。锻体不出现在宝箱或无尽分段补给中，不增加流派层数，单独记录并保留至本局结束。仅改变基础数值，生命上限锻体不附带即时治疗。
 
 ${table(
   ["锻体 / ID", "初始变化", "说明"],
@@ -237,7 +262,7 @@ ${nav}
 
 同流派每获得一张卡（包括重复强化、史诗）增加 1 层。3 层为小质变、6 层为中质变、9 层为大质变；多条流派可以同时生效。高档保留低档效果；描述更新了某个倍率、阈值或间隔时，使用高档数值，不把两个数值相加。达到 9 层以后仍可获取未满上限的卡。
 
-首关只开放祷言弹幕、泰坦重击、命定暴击与雷霆共振四条输出流派，其余流派从第二关开始构筑。选牌通常用两个候选延续投入最多且仍有可选卡的流派，同时保留基础输出选择；史诗晋升可能替换一个流派位置。
+首关只开放祷言弹幕、泰坦重击、命定暴击与雷霆共振四条输出流派，其余流派从第二关开始构筑。主流派未满9层时，通常用两个候选延续主流派，并保留基础输出；9层后改为延续/固定互补/自由各一项，缺少合法卡时从剩余池补齐。无论主流派是否满9层，只要仍有合法基础输出卡，三选一就保留至少一项；史诗晋升也保留唯一的基础输出项。固定互补为弹幕↔暴击、泰坦↔巨人、殉星↔侵蚀、猩红↔壁垒、永冬↔王权、裁决↔雷霆；史诗晋升最多替换一项。
 
 ${SYNERGIES.map(
   (family) => `## ${family.name}
@@ -253,14 +278,14 @@ ${table(
 `,
 ).join("\n")}
 
-输出不足时先提高基础伤害、攻速、多弹或范围能力；生存卡需要足够输出支撑，单独堆治疗不能阻止敌人释放攻击。吸血只从普攻对敌人的实际伤害获取，爆炸、反击和宝箱不提供吸血。羁绊参数是当前基础数值，不代表已完成平衡。
+输出不足时先提高基础伤害、攻速、多弹或范围能力；生存卡需要足够输出支撑，单独堆治疗不能阻止敌人释放攻击。吸血只从普攻对敌人的实际伤害获取；弱点新增破防部分、爆炸、反击和宝箱不提供吸血，原有百分比卡的普攻扣血仍可吸血。无尽第4层起另有按自身最大生命和有效吸血率计算的时间额度，治疗加成与重伤在额度后生效。羁绊参数是当前基础数值，不代表已完成平衡。
 `;
 
   pages.Enemies = `# 怪物图鉴
 
 ${nav}
 
-下表是基础数值。小怪实际生命还受关卡、波次、数量浓缩、星级及强化召唤倍率影响；小怪速度为基础速度 × 关卡速度倍率 × (1 + 0.05 × (波次 - 1))，普通攻击伤害为基础伤害 × 关卡伤害倍率，强化召唤再乘 1.5。浓缩倍率 P 使小怪生命 ×P、普通伤害 ×√P；每次升星使生命 ×3.5、普通伤害 ×2.5；强化召唤使生命与普通伤害再 ×1.5。毒素不乘这些倍率，基础 10 点/秒，重复施加随机强化一项。首领生命与攻击扇形使用[关卡表](Stages.md)覆盖。速度单位为战场逻辑单位/秒，伤害为一次普通攻击的基础值。
+下表是基础数值。小怪实际生命还受关卡、星级及强化召唤倍率影响；战役另乘波次生命项，无尽不再叠加时间波次或数量浓缩。小怪速度为基础速度 × 关卡速度倍率 × (1 + 0.05 × (波次 - 1))，普通攻击伤害为基础伤害 × 关卡伤害倍率，强化召唤再乘 1.5。每次升星使生命 ×3.5、普通伤害 ×2.5；强化召唤使生命与普通伤害再 ×1.5。毒素不乘这些倍率，基础 10 点/秒，重复施加随机强化一项。首领生命与攻击扇形使用[关卡表](Stages.md)覆盖。速度单位为战场逻辑单位/秒，伤害为一次普通攻击的基础值。
 
 ${table(
   [
@@ -300,22 +325,28 @@ ${names(CAMPAIGN_KINDS)}按 1:1:1 均衡刷新，普通波次与护卫共享配�
 
 ${names(ENDLESS_KINDS)}按 1:1:1 均衡刷新，常规波次、护卫和技能召唤均使用同一配比。三种来源共用每关 ${percent(endless.attackRegionSpawnRatio)} 攻击区出生保底：累计成功出生 N 只时，至少向上取整 N × ${percent(endless.attackRegionSpawnRatio)} 只在已开放攻击区内随机出生，自然随机出生落入攻击区也计入。其余出生每次都从上半屏侧翼车道的所有合法空位中随机选择（手机四条，1080p 桌面约六条），并保持间距。出生位置取车道内的离散空位，不保证每个画布格都能出生；中央通道留给从顶部中央登场的首领。满员、没有合法位置，或保底所需攻击区没有空位时等待，不重叠出生，也不消耗成功出生计数、兵种配比或待入场召唤。
 
-- **嘲讽巨像：** 基础生命为游离残响的 ${ENEMIES.tank.hp / ENEMIES.wisp.hp} 倍。嘲讽是持续 ${CONFIG.skills.tauntDuration} 秒的主动技能，不是固有状态。进入攻击区前先随机等待，之后首关无尽每 ${n(CONFIG.skills.approachInterval * Math.max(0.35, endless.attackTiming))} 秒尝试一次；后续按本关攻击计时倍率缩短，最低 ${n(CONFIG.skills.approachInterval * 0.35)} 秒，概率 ${percent(CONFIG.skills.tauntChance)}；进入攻击阶段后每次行动同概率选择嘲讽，否则近战攻击，同一行动不会两者一起释放。攻击区目标优先规则仍生效，庇护期间可自由锁定。
+- **嘲讽巨像：** 基础生命为游离残响的 ${ENEMIES.tank.hp / ENEMIES.wisp.hp} 倍。嘲讽是持续 ${CONFIG.skills.tauntDuration} 秒的主动技能，不是固有状态。进入攻击区前先随机等待，之后首关无尽每 ${n(CONFIG.skills.approachInterval * Math.max(0.7, endless.attackTiming))} 秒尝试一次；后续按本关攻击计时倍率缩短，最低 ${n(CONFIG.skills.approachInterval * 0.7)} 秒，概率 ${percent(CONFIG.skills.tauntChance)}；进入攻击阶段后每次行动同概率选择嘲讽，否则近战攻击，同一行动不会两者一起释放。攻击区目标优先规则仍生效，庇护期间可自由锁定。
 - **腐毒巫师：** 基础生命为游离残响的 ${ENEMIES.wizard.hp / ENEMIES.wisp.hp} 倍。每次行动有 ${percent(CONFIG.skills.poisonChance)} 概率释放毒素，否则远程射击，二选一；射击和死亡都不自动施毒。中毒持续 ${endless.poisonDuration} 秒，基础每秒 ${endless.poisonDamagePerSecond} 伤害，先扣护盾，重伤使治疗和护盾获得降低 ${percent(endless.woundRecoveryReduction)}；无护盾时总攻速降低 ${percent(endless.poisonAttackSlow)}。重复施加延长 3 秒，并随机使每秒伤害 +1 或攻速降低 +1 个百分点。
 
 ## 融合升星
 
-只在无尽发生：出生至少 ${CONFIG.fusion.grace} 秒的三只同类、同星非首领单位，彼此距离都不超过 ${CONFIG.fusion.distance}，连续相邻 ${CONFIG.fusion.duration} 秒后合为一个单位。紫色进度环提示融合。离开范围或组合变化会重置进度，眩晕阻止融合，遗世庇护及暂停冻结进度。最高 ${CONFIG.fusion.maxStars} 星，合并保留主体 ID，不放大体积。
+只在无尽发生：出生至少 ${CONFIG.fusion.grace} 秒的三只同类、同星普通单位（不含小首领与主首领），彼此距离都不超过 ${CONFIG.fusion.distance}，连续相邻 ${CONFIG.fusion.duration} 秒后合为一个单位。紫色进度环提示融合。离开范围或组合变化会重置进度，眩晕阻止融合，遗世庇护及暂停冻结进度。最高 ${CONFIG.fusion.maxStars} 星，合并保留主体 ID，不放大体积。
 
-新最大生命为三者最大生命的最高值 ×${CONFIG.fusion.health}，立即回满；普通伤害倍率取三者最高值 ×${CONFIG.fusion.damage}。强化标记保留。吸收不算击杀，不发放分数、治疗、爆炸或毒素；升星单位被击杀后分数 ×3^(星级-1)。金色星标与血条显示升星。
+新最大生命为三者最大生命的最高值 ×${CONFIG.fusion.health}，立即回满；普通伤害倍率取三者最高值 ×${CONFIG.fusion.damage}。强化标记保留。吸收不算击杀，不发放分数、治疗、爆炸或毒素；升星单位被击杀后总分 ×3^(星级-1)，训练分只继承参与融合三者已有的预算信用，不因混入超额援军而增加。无尽可直接生成升星怪，1/2/3星各消耗1/3/9个基础出怪名额；第1–2层权重100/0/0，第3–5层75/25/0，第6–10层45/45/10，第11层起20/50/30，剩余预算不足的星级先排除。金色星标与血条显示升星。无尽高星普通怪承受的敌方生命百分比伤害、减速强度和眩晕时长分别除以星级；固定伤害、玩家生命伤害项和减速持续时间保留，永冬仍统计全部普攻弹幕命中。已有较强控制不因融合强行清除。
 
 ## 首领与护卫
 
-每关首领出场时保留已有敌人与敌方弹幕，通过预留位置登场，尝试补入一批混编护卫；此后每 ${STAGES[0]?.supportInterval} 秒补充一批。护卫不受本关常规怪物总预算限制，同时存活数量仍受场上限约束。
+战役首领出场保留已有敌人与弹幕，通过预留位置登场并尝试补一批护卫，之后持续增援。无尽大小首领按段清场后登场；第4层起巨像、巫师在同一双精英段登场，先安排两位首领，再安排两批有限初始护卫。失败出生等待，不重复已成功登场的首领，也不吞护卫名额；两位首领与全部初始护卫都曾入场且清空后才推进。初始护卫计入有限训练预算；主首领后续援军与强化召唤只加总分，不给训练分。全部来源仍受原场上限和出生间距约束。
 
-战役首领抵达防线、完成准备后发射扇形弹幕。金色蓄力期间集中造成足够伤害即可打断；半血以下进入狂乱，普通攻击加快，蓄力缩短、打断门槛提高。无尽首领在任意场内位置完成准备后即可攻击，抵达防线后普通弹幕伤害翻倍，改用生命阈值技能；半血以下普通攻击间隔也会乘以 0.8，详见[关卡与无尽](Stages.md)。
+无尽大小首领保留通常准备和完整 ${evolution.chargeSeconds} 秒预警，不再额外等待2.8秒起手冷却。第4层起，取得攻击许可后的首次准备及已开始的蓄力不被减速、眩晕拖长；后续恢复仍受控制，暂停和庇护冻结敌方时序。首次有效眩晕期间及结束后 ${CONFIG.endless.leaderStunRecovery} 秒拒绝刷新眩晕；伤害、减速及可用窗口内的蓄力打断仍保留。
 
-首领死亡后取消待召唤队列和后续援军，保留所有小怪、状态与已发射弹幕。必须击败全部剩余小怪后才清除弹幕和宝箱、结算奖励；残敌仍可造成失败。
+小首领保留巨像或巫师兵种身份与通常控制强度，使用独立护阵或仪式；普通嘲讽、毒素技能只由普通怪施放。破绽凝视的首领增伤、终焉裁决6/9层对蓄力首领的额外乘区，以及减速强度减半、眩晕时长四分之一的抗性，仅属于主首领；小首领不继承这些专属规则。满足条件的巨物增伤、百分比卡、其他裁决或控制增伤仍正常生效，敌方生命成分受各自共享额度限制。
+
+战役首领抵达防线、完成准备后发射扇形弹幕。金色蓄力期间累计造成足够伤害或命中 ${evolution.interruptHits} 次主弹即可打断；半血以下进入狂乱，普通攻击加快，蓄力缩短、打断门槛提高。无尽首领在任意场内位置完成准备后即可攻击，抵达防线后普通弹幕伤害翻倍，生命阈值技能会排队蓄力，队列为空时也会进行普通蓄力单发；同一时间只施放一个技能，可集火打断并打开弱点；半血以下普通攻击间隔也会乘以 0.8，详见[关卡与无尽](Stages.md)。
+
+打断后弱点持续 ${evolution.vulnerableSeconds} 秒，主弹额外产生目标最大生命 ${percent(evolution.weakPointDamage)} 的基础破防成分；它与原有百分比卡共享首领额度，新增破防不吸血，旧百分比卡的普攻扣血仍可吸血。
+
+主首领死亡后取消待召唤队列和后续周期援军；无尽尚未完成的有限初始护卫名额仍须入场并清空。保留所有小怪、状态与已发射弹幕。必须击败全部剩余小怪后才清除弹幕和宝箱、结算奖励；残敌仍可造成失败。
 `;
 
   pages.Stages = `# 关卡与无尽模式
@@ -371,22 +402,21 @@ ${table(
 
 战役小怪生命使用上表中各关独立校准的倍率；常规预算仍逐关增长 50%。小怪生命还乘波次倍率 \`1 + (波次 - 1) × 0.12\`，波次每 11 秒递增，上限 5，护卫同样使用生成时的波次倍率。攻击计时倍率作用于普通攻击间隔与首次准备时间；首领常规间隔已计入首领基础间隔、本关首领间隔倍率和攻击计时倍率，蓄力时间单独取表中值。首领半血以下常规间隔再乘 0.8，蓄力时间减少 0.3 秒，打断门槛乘 4/3 后取整，蓄力弹基础伤害增加 4，发射时还乘本关普通伤害倍率。
 
-## 无尽成长
+## 无尽分段与成长
 
-令 d=1 表示第一关无尽，成长项 G=\`${stageValues.ENDLESS_GROWTH}\`。无尽使用第四关基础模板和当前无尽设置，战役各关的独立校准不改写这个成长基数：
+第1–3层依次为「怪群一→小首领→怪群二→主首领」，小首领奇数层为巨像、偶数层为巫师。第4层起改为「怪群一→巨像与巫师双精英→怪群二→主首领」；保留原来两位小首领及两批初始护卫的总量，把它们放在同一段供玩家选择先处理哪位。双精英先于护卫入场，空间不足就等待；全部有限名额成功入场并清空才推进。每段预算耗尽且清场后等待 ${evolution.breakSeconds} 秒再推进；主首领出场由清场驱动，不再等固定倒计时。
 
-- 普通怪生命倍率：\`${stageValues.ENDLESS_HP}\`，再乘波次、星级及强化召唤倍率。
-- 首领生命先取原成长 \`${stageValues.ENDLESS_BOSS_GROWTH}\` 与同关最强坦克生命的 1.25 倍两者较大值，四舍五入后乘首领基础生命调整倍率 ${stageValues.ENDLESS_BOSS_HP_SCALE}；最强坦克按第五波、强化召唤和三星融合计，避免数量浓缩后坦克比首领更耐打。
-- 常规怪物预算 N：\`${stageValues.ENDLESS_BUDGET}\`。
-- 每批护卫 S：\`${stageValues.ENDLESS_SUPPORT}\`，每 ${stageValues.ENDLESS_SUPPORT_INTERVAL} 秒尝试补充。
-- 数量浓缩 P：\`${stageValues.ENDLESS_COMPRESSION}\`；两类超额数量都转为当前关小怪生命 ×P、普通伤害 ×√P；首领通过最强坦克下限同步成长，毒素不乘浓缩。
-- 普通伤害倍率：\`${stageValues.ENDLESS_DAMAGE}\`；小怪速度倍率固定 ${stageValues.ENDLESS_SPEED}。
-- 首领在本关第 ${stageValues.ENDLESS_BOSS_AT} 秒出现，无时间限制；主题循环，数值持续增长。
-- 无尽普通攻击与重击的公共倍率为 ${stageValues.ENDLESS_DAMAGE_MULTIPLIER}；攻击间隔与准备时间乘 \`${stageValues.ENDLESS_TIMING}\`，减速与半血攻速继续相乘。毒素独立使用 ${stageValues.ENDLESS_POISON_DPS} 点/秒起步的规则。
-- 重击直接生命损失：\`${stageValues.ENDLESS_SLAM}\`，不乘关卡伤害或抵达防线倍率。
+令 d=1 表示第一层，总生命成长 G=\`${stageValues.ENDLESS_GROWTH}\`，基础二次项首层为1.5、第五层为7.5；第五层后再乘温和递增的尾段生命项，第20层总成长为191.4。无尽以正式方案实际第四关（包括关卡覆写）的生命、首领和行动参数为锚点：
+
+- 普通怪生命倍率 \`${stageValues.ENDLESS_HP}\`；不再叠加波次生命或超额人口浓缩。1/2/3星生命依次×1/3.5/12.25，普通伤害×1/2.5/6.25。
+- 手机普通出怪预算为 \`${stageValues.ENDLESS_BUDGET}\` 个基础单位，均分两段；护卫每批 \`${stageValues.ENDLESS_SUPPORT}\`，按车道数/4同比调整。高星消耗1/3/9预算，失败出生不扣预算。
+- 主首领生命取 \`${stageValues.ENDLESS_BOSS_GROWTH}\` 与「同层强化三星坦克生命×1.8」较大者，再四舍五入并乘首领基础生命调整 ${stageValues.ENDLESS_BOSS_HP_SCALE}。下方表格直接来自实际 stageAt/resolvedStage，不使用旧版11,000基数。
+- 小首领生命为对应兵种同星普通生命的2倍；第1–5层为2星，第6层起为3星，不参加融合。
+- 普通伤害倍率 \`${stageValues.ENDLESS_DAMAGE}\`，攻击/准备计时 \`${stageValues.ENDLESS_TIMING}\`；小怪速度倍率固定 ${stageValues.ENDLESS_SPEED}。毒素独立从 ${stageValues.ENDLESS_POISON_DPS}/秒起步。
+- 重击原始伤害 \`${stageValues.ENDLESS_SLAM}\`；第4层起再取与玩家最大生命45%的较小值。它走护盾与受击无敌的普通受击路径，不额外乘抵达防线倍率；下表重击列为封顶前数值，实际随玩家生命上限变化。
 
 ${table(
-  ["无尽关数", "怪物预算", "首领生命", "护卫/批", "重击生命损失"],
+  ["无尽关数", "怪物预算", "首领生命", "护卫/批", "重击伤害"],
   Array.from({ length: 4 }, (_, i) => {
     const stage = stageAt(STAGES.length + i);
     return [
@@ -399,6 +429,10 @@ ${table(
   }),
 )}
 
+### 深层怪群编组
+
+前6层逐只入场。第7–12层普通波次每组2只，第13层起每组3只，继续轮换原兵种和星级。设原间隔为b，组内间隔为min(0.25秒,b/2)，组尾间隔为「组数×b−组内间隔×(组数−1)」，完整一组的平均准入间隔仍为b。只按成功入场累计，满池/无合法位置等待不消耗预算或组内进度，末组可不足额；换段/重开重置，实时预算调整保留进度。原有限信用、角色轮换、出生区域保底与实体容量保留，暂停、选牌和庇护仍冻结敌方出怪时钟。
+
 ### 画面容量与间距
 
 手机为 450×800 逻辑战场、四条侧翼车道。桌面按可用宽高计算逻辑宽度（800～2400，高度800），1920×1080 约为1505×800、六车道；宽度变化会调整车道数、出生位置和下方攻击点，而非拉伸手机车道。中间保留136单位首领通道，每车道六排，排距84；手机最多24小怪与1首领，六车道桌面为36与1。常规预算、护卫批次及数量预算上限按车道数/4同比调整；上面的成长表以手机为基准。战役同时上限不超过实际容纳量。
@@ -409,33 +443,28 @@ ${table(
 
 敌方区域分成车道数×7格，战机所在行不参与抽取或格数统计；初始开放防线前两排对应的下方两行。无尽每完成一关，在尚未开放的格子中等概率、不重复选两个，排除初始两行和此前已开放的全部攻击格，永久保留至本局结束；剩余不足两个时全部开启，覆盖全部敌方区域后不再增加。全部已开放攻击格使用青金色星位、角标与淡色连线标示实际格子范围，HUD显示已开放/总格数。近战怪进入已开放格即可准备和攻击，无需到达最终防线；原本抵达自身位置的许可仍保留，远程怪与首领保留自身攻击能力。暂停、选牌、窗口缩放不重新随机；重开恢复初始区域。
 
-## 无尽首领技能
+## 大小首领技能、打断与弱点
 
-无尽首领剩余生命首次到达 ${endless.bossThresholds.map(percent).join("、")} 时，各随机选择一次技能，每次三者概率相同，允许连续抽到相同技能。
+无尽大小首领保留通常准备和完整 ${evolution.chargeSeconds} 秒预警，首次施法不额外等待2.8秒起手冷却。第4层起，取得攻击许可后的首次准备与已开始蓄力按敌方活动时间推进，不被减速、眩晕拖长；移动及后续恢复仍受控制，暂停、选牌与庇护冻结敌方时序。战役、无尽前3层与普通怪的准备/蓄力规则保留。
 
-${table(
-  ["技能", "效果"],
-  [
-    [
-      "庇护减伤",
-      `所有来源伤害降低 ${percent(endless.bossReduction)}，持续 ${endless.bossReductionDuration} 秒；再次施放刷新时间`,
-    ],
-    [
-      "强化召唤",
-      `保留原护卫，额外召唤 ${endless.summonCount} 只均衡三兵种强化援军，生命与普通伤害 ×${endless.summonMultiplier}；满员或出生位置不足时等待空位，最多 ${endless.summonCount * endless.bossThresholds.length} 个待入场名额，首领死亡取消队列`,
-    ],
-    [
-      "重击",
-      `无视护盾和受击无敌，直接损失 round(${endless.slamDamage * endless.damageMultiplier} + ${endless.slamDamagePerStage * endless.damageMultiplier} × (无尽关数 - 1)) 生命，最终伤害四舍五入，可以致死`,
-    ],
-  ],
-)}
+主首领首次跨过 ${endless.bossThresholds.map(percent).join("、")} 生命线时，各等概率抽取庇护、强化召唤或重击并排队，允许重复。每次施放先蓄力 ${evolution.chargeSeconds} 秒；战役与无尽前3层使用原伤害或 ${evolution.interruptHits} 次主弹门槛。无尽第4层起，先保留起势阶段，再累计伤害或本次确认目标的主弹；具体条件见[机制说明](Mechanics.md)。达到任一路线即取消并消耗本次技能，不能在下一帧重新施放。下一次施放优先取生命线队列；队列为空时，主首领改为普通蓄力单发。已开始的蓄力不会被新入队技能替换，同一时间只有一个施放。普通蓄力弹成功释放后后摇 ${stageValues.VOLLEY_RECOVERY_SECONDS} 秒，生命线技能及小首领技能成功释放后后摇 ${evolution.recoverySeconds} 秒，不同技能不会同帧连发。
 
-一击跨过多个阈值但未击杀首领时，依次结算每个阈值；首领死亡后不再施法。普通减速/眩晕不能阻止生命阈值技能；遗世庇护会推迟结算，庇护内击杀首领则取消未释放技能。普通弹幕在抵达防线后伤害翻倍，已发射的弹幕保留原伤害。
+- 普通蓄力弹：无生命线技能待处理时瞄准战机发射一枚蓄力弹，基础伤害取本关蓄力弹参数，再结算本关普通伤害与抵达防线倍率。
+- 庇护：主首领降低所有伤害 ${percent(endless.bossReduction)}，持续 ${endless.bossReductionDuration} 秒。
+- 强化召唤：额外 ${endless.summonCount} 只援军，生命与普通伤害×${endless.summonMultiplier}；满员等待，最多 ${stageValues.ENDLESS_PENDING_SUMMONS} 个待入场名额，主首领死亡取消。
+- 重击：蓄力成功后造成普通受击伤害；第4层起至多玩家最大生命45%，护盾先承伤，受击无敌可以抵挡。这是单次重击上限，不是所有伤害的保护线。
+- 巨像小首领护阵：成功施放使场内同伴（含自己）减伤25%，持续3秒。
+- 巫师小首领仪式：成功施放恢复其他同伴各20%最大生命，并发射三连弹；不自疗。
 
-## 无尽奖励
+打断大小首领后，弱点持续 ${evolution.vulnerableSeconds} 秒，普通伤害×1.35，百分比伤害每秒额度×${evolution.vulnerableMultiplier}；每次主弹命中额外产生目标最大生命 ${percent(evolution.weakPointDamage)} 的基础破防伤害。破防部分同样结算目标增减伤，并与原有百分比卡共享该目标额度，不是无条件追加的扣血。新增破防部分不提供吸血，原有百分比卡的普攻实际扣血仍沿用原规则吸血。生命阈值跨越只负责排队；无尽第4层起已开始的蓄力不受减速、眩晕拖延，遗世庇护仍冻结它。死亡取消未释放技能。普通弹幕在抵达防线后伤害翻倍，已发射弹幕保留其伤害。
 
-每关随机安排 ${endless.supplies} 次直接三选一补给，时间从开场 ${CONFIG.chestFirstAt} 秒至首领出现前 5 秒之间抽取并排序。击杀首领并清完残敌后从两项随机锻体与一张残响中额外选 1 项，共 ${endless.supplies + 1} 次选择奖励；每累计 ${CONFIG.scoreTrainingInterval} 分另有一张自动锻体。提前清关也会先补齐未领补给，再给首领奖励；每次都按当前卡牌上限重新抽取。无尽不生成奖励宝箱，暂停与选牌不会消耗补给时间。
+所有基于敌人最大/当前生命的伤害（主弹原有百分比、弱点破防、侵蚀脉冲、击杀爆炸与献祭中的敌方生命项）共用每个大小首领的额度：主首领每秒最大生命的 ${percent(evolution.bossPercentPerSecond)}，小首领 ${percent(evolution.elitePercentPerSecond)}，最多积攒0.25秒；弱点提高额度不重置积攒量。普通固定伤害及玩家自身生命转出的伤害不受此额度限制；无尽高星普通怪承受的敌方生命伤害项先除以星级；第7层起，每只普通怪还共用自身最大生命×0.2/(1+0.08×(层数−7))/秒的额度，积攒最多0.25秒，按玩家战斗时间补充。第7/20层速率为20%/约9.80%，所有增减伤与星级抗性在消费额度前结算。普通固定伤害、玩家生命项及末段斩杀保留原路径。
+
+## 无尽奖励与节奏
+
+正式配置前三个战斗段各完成一次直接三选一补给；自定义 N 份补给按前三段结束时累计 floor(N×k/3) 份分配，k=1/2/3。整层清场后另给一次两项锻体/一张残响的关底选择。第4层起双精英段仍只算一个补给边界，不增加份数。无尽不生成奖励宝箱，选牌与暂停不推进战斗。
+
+普通怪、小首领、主首领死亡分别留下0.5/0.6/0.8秒余响；释放的战斗位置可立即重用。整关清场保留0.8秒视觉余韵后进入领奖，这期间战斗、状态和玩家/关卡时钟均不推进，也不再结算伤害与奖励。攻击轨迹、刻印脉冲和死亡动作可见，视觉特效不消耗战斗随机数。
 `;
 
   pages.Mechanics = `# 游戏机制
@@ -446,20 +475,26 @@ ${nav}
 
 初始生命 ${player.hp}，生命上限 ${player.stats.maxHp}，护盾 ${player.shield}，伤害 ${player.stats.damage}，攻击间隔 ${player.stats.interval} 秒，每轮 ${player.stats.projectiles} 枚弹幕，额外穿透 ${player.stats.piercing}，暴击率 ${percent(player.stats.critChance)}，暴击倍率 ${player.stats.critDamage}。战机固定在 (战场宽度/2, 736)，防线基础高度 y=${CONFIG.defense.y}，不同敌人占用不同防线位置。
 
-蓝环表示推进，金环表示准备，红环表示攻击。远程单位可以提前准备和开火，战役近战单位必须抵达防线才造成近战伤害；无尽近战也可在已开放攻击格内攻击。玩家生命归零才失败，所有关卡没有时间限制。受普通攻击后有 0.7 秒无敌；护盾优先承伤，普通弹幕不会因为发射者死亡而消失。
+蓝环表示推进，金环表示准备，红环表示攻击。远程单位可以提前准备和开火，战役近战单位必须抵达防线才造成近战伤害；无尽近战也可在已开放攻击格内攻击。玩家生命归零才失败，所有关卡没有时间限制。受普通攻击后有 0.7 秒无敌；护盾优先承伤，普通弹幕不会因为发射者死亡而消失。无尽第7层起，普通近战和敌方弹幕（含蓄力弹）每次伤害至多自身最大生命35%，再走原护盾/无敌路径；毒素、献祭自耗不在此限，重击仍独立使用第4层起的45%上限。单次上限不保证同一秒的组合伤害或玩家存活。
 
 ## 自动索敌、手动选择与嘲讽
 
-自动选择顺序为：首领与准备/攻击阶段敌人 → 危险区内推进敌人 → 宝箱 → 其他推进敌人。同档通常保持当前目标；手动选择可以指定允许锁定范围内的目标。
+自动选择顺序为：大小首领与准备/攻击阶段敌人 → 危险区内推进敌人 → 宝箱 → 其他推进敌人。同档通常保持当前目标；手动选择可以指定允许锁定范围内的目标。
 
-无尽时先限制到已进入自身攻击范围的敌人（包括准备阶段）；没有这类敌人时，才由存活、在场内且嘲讽技能仍有效的坦克接管。手动目标、副弹分配和飞行中的追踪弹遵循同一限制。嘲讽只限制锁定，溅射、连锁和穿透仍可伤害其他敌人。手动偏好会被保存，嘲讽解除后恢复。
+无尽时先限制到已进入自身攻击范围的敌人（包括准备阶段），正在危险蓄力的大小首领保留可选，方便集火打断；没有这类敌人时，才由存活、在场内且嘲讽技能仍有效的坦克接管。手动目标、副弹分配和飞行中的追踪弹遵循同一限制。嘲讽只限制锁定，溅射、连锁和穿透仍可伤害其他敌人。手动偏好会被保存，嘲讽解除后恢复。
 
-遗世庇护期间敌方全部嘲讽失效，可自由选择敌人和宝箱，副弹也能分流到其他目标；时序恢复后重新执行正常嘲讽规则。T 循环切换当前可选目标，C 或点空白恢复自动。死亡、离场的目标不会保留嘲讽。
+遗世庇护期间敌方全部嘲讽失效，可自由选择敌人和宝箱，副弹也能分流到其他目标；时序恢复后重新执行正常嘲讽规则。T循环切换当前可选目标，F重新选择当前目标，C或点空白恢复自动。死亡、离场的目标不会保留嘲讽。
+
+## 打断与弱点
+
+战役与无尽前3层的大小首领，在本次蓄力中达到显示伤害门槛或命中 ${evolution.interruptHits} 次主弹即可打断。无尽第4层起，每次预警须重新点选、按T切换到该首领或按F重选当前目标，才能走主弹次数路线；自动索敌、预警前选中及上次确认均不延续到新预警。可在起势时提前确认，但前 min(0.8秒, 蓄力时长/3) 不累计打断伤害或命中，攻击伤害与永冬效果照常。起势结束后，只有本次已确认且仍为当前目标的主弹计数；次数门槛为 max(配置值, min(12, 6+floor((d−1)/4)))，第4/5/20层为6/7/10次。伤害路线无需确认，门槛至少为主首领最大生命10%、小首领25%；它与次数路线任选其一。打断取消并消费本次施放，打开 ${evolution.vulnerableSeconds} 秒弱点。弱点期普通伤害×1.35，百分比额度×${evolution.vulnerableMultiplier}，每次主弹额外产生目标最大生命 ${percent(evolution.weakPointDamage)} 的基础破防成分；它在目标增减伤结算后与原有百分比卡共用每目标额度。新增破防部分不吸血，原有百分比卡的普攻扣血保留吸血。
+
+无尽主首领下一次施放优先处理血线队列，空队列也会蓄力 ${evolution.chargeSeconds} 秒并瞄准单发，成功释放后后摇 ${stageValues.VOLLEY_RECOVERY_SECONDS} 秒；血线与小首领技能后摇 ${evolution.recoverySeconds} 秒。已经开始的蓄力不会被新入队技能替换，同一时间只有一个施放。详见[关卡与无尽](Stages.md)。
 
 ## 伤害、暴击与范围效果
 
 - 有效攻击伤害为「基础伤害 × (1 + 攻击加成) × 泰坦羁绊倍率」，再乘齐射重击、副弹及暴击倍率。对目标的阶段、首领、半血、减速和控制增伤相加后生效；对蓄力首领的终焉倍率另乘。
-- 基础副弹伤害为主弹的 ${percent(CONFIG.friendlyShot.secondaryDamage)}，弹幕羁绊提升至 80%/100%；每轮总弹数最多 6 枚。攻击间隔下限 0.08 秒，中毒攻速降低在此后计算。
+- 基础副弹伤害为主弹的 ${percent(CONFIG.friendlyShot.secondaryDamage)}，弹幕羁绊提升至 80%/100%；每轮总弹数最多 6 枚。攻击间隔下限 ${evolution.firingIntervalFloor} 秒，中毒攻速降低在此后计算。
 - 随机暴击率上限 85%，基础暴伤 ${player.stats.critDamage} 倍。九层命定羁绊每第三轮必暴，可越过随机概率上限。
 - 穿透按每枚弹幕记录已命中目标，同一枚不会重复命中同一敌人。连锁闪电每次选择不同的邻近敌人，基础伤害为触发弹幕的 30%，跳跃距离 220。
 - 溅射每层造成触发弹幕的 15% 伤害，基础半径 85，三层雷霆增加 20；不重复伤害主目标。雷暴基础间隔 6 秒，半径 150，伤害为有效攻击力 × (1 + 0.5 × 至少一层雷暴)。雷霆羁绊会缩短间隔并增加伤害。
@@ -467,11 +502,16 @@ ${nav}
 - 献祭有敌人目标才释放，每次最多扣 3 生命并至少保留 1；不消耗护盾、不触发受击无敌/反击。基础伤害为 (20 + 目标怪物最大生命 × 2%) × 至少一层献祭 + 玩家最大生命15%，九层殉星将玩家生命项改为45%。间隔为5秒，羁绊六层/九层改为4秒/3秒。
 - 荆棘圣约每次有效受击，对全场所有敌人各造成18×层数伤害；护盾吸收也触发，无敌期间、毒伤和献祭不触发。壁垒六层荆棘翻倍，再附加玩家最大生命25%全场反震；九层反震为50%。
 - 巨人杀手和百分比侵蚀共新增8张卡、两条3/6/9羁绊。主弹直接命中可附加目标最大生命/当前生命伤害；最大生命系数合计上限5%，当前生命系数上限10%，不享受暴击或齐射倍率；普通阶段/控制增伤和Boss减伤继续生效。副弹、连锁、溅射和反击不递归触发这些百分比项；主弹穿透可对新目标触发一次。撼岳之力按敌我生命比的log₂增长，猎神誓约作用于敌人生命≥玩家5倍的目标。熵蚀脉冲按各个目标最大生命结算，每4秒一次，六/九层缩短为3/2秒，单次系数最多5%。
+- 所有敌方生命百分比成分（含主弹弱点破防）在各项增伤结算后，共享主首领每秒${percent(evolution.bossPercentPerSecond)}、小首领${percent(evolution.elitePercentPerSecond)}最大生命的额度，积攒最多0.25秒；弱点期额度×${evolution.vulnerableMultiplier}。第7层起普通怪的所有敌方生命项还共享每目标20%/(1+0.08×(层数−7))/秒、最多0.25秒的玩家时间额度，先结算增减伤与星级抗性。普通伤害、玩家自身生命转出的固定项不受限制；末段斩杀不变。
 - 范围伤害、连锁、反击不会击破宝箱或直接领取奖励。
 
 ## 治疗、护盾与重伤
 
-吸血仅按普攻对敌人的实际扣血计算，过量伤害、斩杀额外扣血、宝箱、爆炸、连锁和反击不吸血；卡牌、锻体、羁绊与有盾加成的基础吸血先相加并限制为50%，再统一乘0.85，实际吸血上限42.5%。例如基础4%实际为3.4%，基础2%实际为1.7%。战斗治疗（吸血、击杀回复、持续回复）先乘治疗加成。卡牌即时治疗使用卡牌标注值，不额外享受战斗治疗加成。
+吸血仅按普攻对敌人的实际扣血计算，过量伤害、斩杀额外扣血、弱点新增破防、宝箱、爆炸、连锁和反击不吸血；原有百分比卡的普攻实际扣血仍可吸血。卡牌、锻体、羁绊与有盾加成的基础吸血先相加并限制为50%，再统一乘0.85，实际吸血上限42.5%。例如基础4%实际为3.4%，基础2%实际为1.7%。无尽第4层起，吸血先受独立时间额度限制：每玩家战斗秒最多接受「自身最大生命×有效吸血率×0.25」的基础治疗，最多储存0.25秒额度。治疗加成、重伤及过量转盾在消费额度后照常结算；其他治疗不消费吸血专属额度；第7层起另受下述共享战斗回复额度限制。暂停、选牌与清场纯视觉余韵不补额度，庇护期间玩家时间仍推进，故正常补充；更换吸血率或生命上限只更新额度上限，不额外填满，入关/重开重置为至多一份0.25秒额度。战役与无尽前3层不受此限。战斗治疗（吸血、击杀回复、持续回复）再乘治疗加成。卡牌即时治疗使用卡牌标注值，不额外享受战斗治疗加成。
+
+无尽第7层起，战斗回血与生成护盾共同消费「自身最大生命×0.04/(1+0.075×(层数−7))」每玩家战斗秒的实际获得额度，最多储存0.25秒；第7/20层约为最大生命4%/2.03%每秒。先结算治疗加成、重伤与实际缺失，再按原调用顺序消费；每次治疗先结算该次生命恢复，仅真实过量可转盾，额度拒绝的生命恢复不伪装为过量。吸血仍先走第4层起的独立基础治疗额度。普通战斗补盾与溢疗共用这份额度，溢疗不重复消费。即时卡牌治疗/补盾、生命上限提升及关间回复保留原规则；暂停、奖励和清场余韵不补，庇护期间仍补，属性变化只夹紧不额外填满。入关/重开至多建立一份0.25秒额度。
+
+第7层起，未来战斗补盾另受「最大生命×max(25%,100%−5%×(层数−6))」储量上限约束，与各来源原上限取小；第7/20层为95%/30%，最终不低于25%。已有超额盾保留，即时卡牌补盾保留原路径；构筑面板显示共享回复额度与战斗补盾上限。
 
 **重伤：全部生命治疗、生命恢复和护盾获得量减少 ${percent(endless.woundRecoveryReduction)}，最终只恢复原量的 ${percent(1 - endless.woundRecoveryReduction)}。** 有效战斗治疗 = 基础治疗 × (1 + 治疗加成) × ${n(1 - endless.woundRecoveryReduction)}。例如原本治疗30只恢复3，续杯仪式和不灭圣城的即时治疗同样受影响；生命上限提升不受影响；守夜契约24护盾变为2.4，不灭圣城60护盾变为6。
 
@@ -500,25 +540,25 @@ ${nav}
 
 ## 减速、眩晕与控制抗性
 
-减速同时影响移动、准备、攻击和战役首领蓄力计时，最高70%，首领减速强度减半。眩晕冻结这些动作，首领普通眩晕/冰冻时长为四分之一；王权持续倍率继续生效。重复控制取较强强度和较长剩余时间，不无限相加。普通减速/眩晕与遗世庇护是不同效果；生命阈值技能仅由庇护推迟。
+减速同时影响移动、准备、攻击和战役首领蓄力计时，最高70%，主首领减速强度减半；重复减速保留较强强度和较长剩余时间。眩晕冻结这些动作，主首领有效时长为四分之一，小首领保留完整时长，均继续结算王权倍率。战役敌人与无尽普通怪沿用较长剩余眩晕时间的刷新规则；无尽2/3星普通怪新受到的减速强度和眩晕时长分别除以2/3，减速持续时间、全部普攻命中计数与已有较强效果保留。无尽大小首领接受一次有效眩晕后，在该次眩晕期间及结束后 ${CONFIG.endless.leaderStunRecovery} 秒内拒绝新眩晕/冰冻刷新，即使新效果更长也不刷新。该恢复计时按敌方时间推进，暂停、选牌与遗世庇护冻结它；伤害、减速与打断路线仍保留。第4层起首次准备和已开始蓄力不受普通控制拖长，后续恢复仍受控制；打断另遵循本次确认和起势窗口。普通控制与遗世庇护是不同效果；生命线只把技能加入队列，实际施放须经过可打断蓄力。
 
 永冬的冻结计数按所有普攻弹幕命中；震慑刻印每第四次主弹命中才触发。碎冰和控制增伤会识别相应状态，控制增伤也识别准备、蓄力与庇护内的目标。
 
 ## 奖励、史诗与卡池
 
-战役第一个宝箱在本关 ${CONFIG.chestFirstAt} 秒出现，后续每 ${CONFIG.chestInterval} 秒，直到 ${CONFIG.chestLastAt} 秒。击破后从三张不同且未满上限的卡中选一张。首轮保留两个基础输出候选，后续倾向当前投入最多的可选流派，并保留至少一个基础输出选择。
+战役宝箱时序由 campaignChestTiming(index, bossAt) 根据实际本关首领时间计算。未延长的短波次保留原节奏：首个 ${CONFIG.chestFirstAt} 秒、后续每 ${CONFIG.chestInterval} 秒，最晚 ${CONFIG.chestLastAt} 秒且不晚于首领前5秒。延长首领出现时间时，保留该关原有计划机会数，把相同数量分布至首领前5秒；首个仍在 ${CONFIG.chestFirstAt} 秒，后续间隔由首尾和机会数等分计算，不因战斗变长增加总卡量。当前四关计划机会数为 ${stageValues.CAMPAIGN_CHEST_COUNTS}；实际还需及时击破已有宝箱。击破后三选一，候选不同且遵守卡牌上限。主流派未到9层时，两个位置延续主流派并保留基础输出；9层后提供延续、固定互补、自由各一项，缺卡从其余合法池补齐。满9层后仍保留合法基础输出保障，史诗晋升不会移除唯一的基础输出项。
 
-取得至少3张卡后，宝箱/无尽补给有25%概率把一个位置提升为可用史诗；过关候选同样只有25%概率出现史诗，不保底。每张史诗每局限取一次，取得后退出候选，重开恢复。首关残响只提供弹幕、泰坦、暴击和雷霆四类，其他流派第二关起解锁；这个限制在史诗提升前过滤，不能由史诗绕过。
+引导模式每次最终offer最多一张史诗，战役第1/2/3/4关概率为10%/15%/20%/25%，无尽30%；不再要求先拿3张。关底唯一卡牌槽直接按同一概率判史诗，不经过先抽三张再抽一张的稀释。没有合法史诗时回落普通/稀有候选，不补发；每张史诗每局限取一次。首关只开放弹幕、泰坦、暴击、雷霆四类，过滤在史诗判定前执行。
 
-首领专属奖励固定两项不同锻体与一张残响，三选一；残响从本次三个候选中等概率抽取，普通、稀有、史诗均可能，不优先史诗。锻体只改本局基础数值，不计入羁绊，也可由累计分数每 ${CONFIG.scoreTrainingInterval} 分自动随机发放，可重复，不消耗分数、不打开选择。首关锻体排除吸血；含羁绊加成后已达暴击、吸血或攻速上限的选项退出候选。第四关先领取奖励再进入胜利。
+完成整关后，两项不同锻体与一张残响三选一；第四关也先领奖再胜利。自动锻体以独立训练分累计，T(n)=${evolution.trainingBase}n+${evolution.trainingStep / 2}n(n-1)，前五次为5000/11500/19500/29000/40000。有限预算内的击杀才提供训练分，融合仅合并原有信用；生命清关奖分、超额援军和强化召唤只增加总分。手动锻体不抬高自动门槛。锻体不增加流派层数，不消耗分数，不打开选牌；首关排除吸血，实效暴击/吸血/攻速已满的项目退出候选。
 
-每份奖励只能领取一次；暂停、点击战场或重复点击卡牌都不能复制奖励。无尽每关固定3份随机直接补给加1份首领奖励，详见[关卡与无尽](Stages.md)。
+每份奖励凭一次性令牌领取；无尽前三段各一份补给，整关再一份混合奖励。暂停、重复点击或视觉余韵都不能复制奖励。
 
 ## 暂停、结算与重开
 
 手动暂停、进入后台或窗口失去焦点会暂停战斗，返回后需要手动继续。暂停、选牌与结算时全部战斗和状态时间停止。累计存续时间包括遗世庇护，本关时间不包括；暂停与选牌两种时钟都不增加。
 
-首领死亡停止召援，保留小怪继续战斗；清完全部小怪才清除弹幕并进入奖励选择。第四关选完奖励进入胜利，不能被剩余弹幕补杀。玩家生命归零进入失败，必须击败首领并清完残敌才过关，没有超时失败。「再次共鸣」恢复初始生命/火力，清除所有卡牌、羁绊、敌人、弹幕、毒、重伤、控制、目标、奖励、计时和分数，从第一关开始。没有账号、跨局进度或自动存档。
+首领死亡停止后续周期援军和技能召唤，有限初始护卫配额仍须入场并清空，保留小怪继续战斗；清完全部小怪后清除危险弹幕，保留0.8秒纯视觉余韵再进入奖励；期间不推进战斗、状态或计时。第四关选完奖励进入胜利，不能被剩余弹幕补杀。玩家生命归零进入失败，必须击败首领并清完残敌才过关，没有超时失败。「再次共鸣」恢复初始生命/火力，清除所有卡牌、羁绊、敌人、弹幕、毒、重伤、控制、目标、奖励、计时和分数，从第一关开始。没有账号、跨局进度或自动存档。
 
 ## PRE 数值试验与正式配置
 
@@ -526,7 +566,7 @@ ${nav}
 
 临时玩家与卡组调整持续本局；临时出怪规则只作用于本关后续生成，现有单位可以单独调整。可保留当前构筑重开、恢复入关快照，或跳至战役及无尽关卡。调试跳关不代表自然通关。
 
-方案支持玩家初始属性、敌人基础参数、关卡区间、无尽成长及分来源的卡池权重。默认保持本说明中的正式规则；引导模式保留流派扶持、基础输出保底和史诗晋升，纯权重模式直接抽取合格卡牌。权重 0 排除卡牌，资格与叠加上限继续生效。候选不足时显示实际数量，全部耗尽时明确提示并允许无奖励继续。分数自动锻体没有合格候选时消耗当前里程碑并记录跳过次数，不在后续关卡补发。
+方案采用schemaVersion 2 / baseline balance-v2，支持玩家初始属性、敌人基础参数、关卡区间、无尽基础二次成长、训练门槛、首领时序与额度及分来源卡池权重。v1 原始存储可导出，仅显式迁移为新身份副本后保存，不自动激活；旧回放仍须旧代码。默认保持本说明中的正式规则；引导模式保留流派扶持、基础输出保底和史诗晋升，纯权重模式直接抽取合格卡牌。权重 0 排除卡牌，资格与叠加上限继续生效。候选不足时显示实际数量，全部耗尽时明确提示并允许无奖励继续。阅历自动锻体没有合格候选时消耗当前里程碑并记录跳过次数，不在后续关卡补发。
 
 导出的 JSON 只包含配置。正式采用时需要校验并应用到仓库配置，核对人工规则说明、重新生成文档、验证、提交并另行发布；导出、保存版本和启用个人试验都不会修改生产环境。
 `;

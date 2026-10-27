@@ -94,19 +94,28 @@ async function fixture(page: Page, setup: string): Promise<void> {
           const kind = overrides.kind ?? "wisp";
           const data = ENEMIES[kind];
           const entity = world.enemies.acquire();
-          Object.assign(entity, { id: fixtureId++, kind, x: 225, y: 620, hp: data.hp,
+          Object.assign(entity, { id: fixtureId++, kind, role: kind === "boss" ? "boss" : "minion",
+            trainingCredit: data.score, x: 225, y: 620, hp: data.hp,
             maxHp: data.hp, radius: data.radius, speed: 0, age: 0, shotCooldown: 1000,
             patternCooldown: 1000, stage: "Approaching", attackPolicy: { ...data.attackPolicy },
             preparation: 1000, arrived: true, slot: 3, defenseX: 225, defenseY: 620,
             telegraph: 0, spawnX: overrides.x ?? 225, spawnY: overrides.y ?? 620,
-            enhanced: false, interruptDamage: 0, interruptRequired: 0,
-            skillsUsed: 0, lastSkill: null, damageReductionTime: 0,
+            enhanced: false, interruptDamage: 0, interruptHits: 0, interruptRequired: 0,
+            skillsUsed: 0, lastSkill: null, castSkill: null, castId: 0, pendingSkills: [],
+            vulnerableTime: 0, wardTime: 0, damageReductionTime: 0,
             stars: 1, damageScale: 1, fusionTime: 0, fusionPeers: "", tauntRemaining: 0,
             skillCooldown: 1000, lastAction: null, formation: false,
             slow: 0, slowTime: 0, stunTime: 0, receivedHits: 0, primaryHits: 0 }, overrides);
           return entity;
         }
         ${setup}
+        if (world.endless && world.bossSpawned && world.encounterStageIndex !== world.stageIndex) {
+          world.encounterStageIndex = world.stageIndex;
+          world.encounterState = {
+            plan: [{ id: "main", type: "main", kind: "boss" }],
+            index: 0, spentBudget: 0, admittedLeaders: 1, initialEscortsRemaining: 0, breakRemaining: 0,
+          };
+        }
         world.pause();
         const ui = new GameUI(world);
         createGame(document.querySelector("#game-canvas"), world, () => ui.ready());
@@ -207,6 +216,100 @@ test("English stage rewards preserve their token and build through language swit
   await language(page, "en", touch);
   expect(await snapshot(page)).toEqual(before);
   await fitsViewport(page);
+  const bounds = async () => {
+    const selectors = [".arena-frame", ".reward-modal", "#overlay-title", ".modal-hint"];
+    const boxes = await Promise.all(
+      selectors.map((selector) => page.locator(selector).boundingBox()),
+    );
+    return boxes.map((box) => {
+      if (!box) throw new Error("Missing fixed reward layout bounds");
+      return { y: box.y, height: box.height };
+    });
+  };
+  const fixed = await bounds();
+  const frame = fixed[0];
+  if (!frame) throw new Error("Missing reward arena bounds");
+  const emblem = page.locator(".reward-modal .modal-emblem");
+  // The narrow layout intentionally hides the emblem. Desktop keeps its
+  // external decoration visible, including when the choices need scrolling.
+  if (!touch) await expect(emblem).toBeVisible();
+  if (await emblem.isVisible()) {
+    const box = await emblem.boundingBox();
+    if (!box) throw new Error("Missing visible reward emblem bounds");
+    expect(box.y).toBeGreaterThanOrEqual(frame.y - 1);
+    expect(box.y + box.height).toBeLessThanOrEqual(frame.y + frame.height + 1);
+  }
+  for (const card of await page.locator(".reward-card").all()) {
+    const content = await card.evaluate((node) => {
+      const text = node.querySelector(".card-content");
+      if (!text) throw new Error("Missing reward card content");
+      const box = node.getBoundingClientRect();
+      const copy = text.getBoundingClientRect();
+      return {
+        clientHeight: node.clientHeight,
+        scrollHeight: node.scrollHeight,
+        clientWidth: node.clientWidth,
+        scrollWidth: node.scrollWidth,
+        top: box.top,
+        bottom: box.bottom,
+        textTop: copy.top,
+        textBottom: copy.bottom,
+      };
+    });
+    expect(content.scrollHeight).toBeLessThanOrEqual(content.clientHeight + 1);
+    expect(content.scrollWidth).toBeLessThanOrEqual(content.clientWidth + 1);
+    expect(content.textTop).toBeGreaterThanOrEqual(content.top - 1);
+    expect(content.textBottom).toBeLessThanOrEqual(content.bottom + 1);
+  }
+  const last = page.locator(".reward-card").last();
+  if (!touch) {
+    await last.focus();
+    await expect(last).toBeFocused();
+  }
+  await last.scrollIntoViewIfNeeded();
+  const choices = await page.locator(".reward-choices").boundingBox();
+  const lastBox = await last.boundingBox();
+  if (!choices || !lastBox) throw new Error("Missing scrollable reward choice bounds");
+  if (lastBox.height <= choices.height + 1) {
+    expect(lastBox.y).toBeGreaterThanOrEqual(choices.y - 1);
+    expect(lastBox.y + lastBox.height).toBeLessThanOrEqual(choices.y + choices.height + 1);
+  } else {
+    // A long card can exceed the narrow choices viewport. Both ends must be
+    // reachable inside that scroll region without moving the fixed content.
+    for (const edge of ["top", "bottom"] as const) {
+      const reached = await page.locator(".reward-choices").evaluate((node, targetEdge) => {
+        const card = node.querySelector(".reward-card:last-child");
+        if (!card) throw new Error("Missing final scrollable card");
+        node.scrollTop +=
+          card.getBoundingClientRect()[targetEdge] - node.getBoundingClientRect()[targetEdge];
+        return {
+          card: card.getBoundingClientRect()[targetEdge],
+          viewport: node.getBoundingClientRect()[targetEdge],
+        };
+      }, edge);
+      expect(Math.abs(reached.card - reached.viewport)).toBeLessThanOrEqual(1);
+      const fixedAtEdge = await bounds();
+      for (const [index, box] of fixedAtEdge.entries()) {
+        const original = fixed[index];
+        if (!original) throw new Error("Missing original reward bounds at card edge");
+        expect(box.y).toBeCloseTo(original.y, 1);
+        expect(box.height).toBeCloseTo(original.height, 1);
+      }
+      expect(await snapshot(page)).toEqual(before);
+      if (edge === "top")
+        await page.screenshot({
+          path: join(tmpdir(), `destiny-${info.project.name}-english-stage-top.png`),
+        });
+    }
+  }
+  const afterScroll = await bounds();
+  for (const [index, box] of afterScroll.entries()) {
+    const original = fixed[index];
+    if (!original) throw new Error("Missing original reward layout bounds");
+    expect(box.y).toBeCloseTo(original.y, 1);
+    expect(box.height).toBeCloseTo(original.height, 1);
+  }
+  expect(await snapshot(page)).toEqual(before);
   await page.screenshot({ path: join(tmpdir(), `destiny-${info.project.name}-english-stage.png`) });
   await activate(page.locator('[data-card="bloodpact"]'), touch);
   await page.clock.runFor(100);
@@ -294,7 +397,9 @@ test("English endless HUD covers poison, taunt, sanctuary and boss skills", asyn
   await expect(page.locator("#status-effects")).toContainText("Poison");
   await expect(page.locator("#status-effects")).toContainText("Wounded");
   await expect(page.locator("#target-label")).toContainText("Taunt lock");
-  await expect(page.locator("#boss-health")).toContainText("Skills 1/3 · Slam 189");
+  await expect(page.locator("#boss-health")).toContainText(
+    `Skills 1/3 · Slam ${(await snapshot(page)).bossSlamDamage}`,
+  );
   await expect(page.locator("#boss-health")).toContainText("Damage reduction 90%");
   await english(page.locator("#stage-route"));
   await english(page.locator("#boss-health"));

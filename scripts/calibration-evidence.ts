@@ -322,9 +322,33 @@ export async function validateCalibrationCell(
     if (steps > cell.config.maxSteps) throw new Error("Actual fixed steps exceed cell budget");
     if (playerSeconds > cell.config.maxSeconds + 1e-7)
       throw new Error("Actual player seconds exceed cell budget");
-    // Native reward actions do not advance combat time; every counted update
-    // advances World.elapsed by exactly the validated fixed step, modulo roundoff.
-    if (Math.abs(playerSeconds - steps * run.result.fixedStep) > 1e-7)
+    // Native rewards do not advance time. New death presentations consume fixed
+    // updates while freezing combat clocks; legacy evidence has no such field.
+    const presentationSeconds =
+      run.result.evolution === undefined
+        ? 0
+        : nonnegative(
+            object(run.result.evolution, "result.evolution").presentationSeconds,
+            "result.evolution.presentationSeconds",
+          );
+    const stagePresentationSeconds = run.result.stages.reduce(
+      (sum, stage) =>
+        sum +
+        (stage.evolution === undefined
+          ? 0
+          : nonnegative(
+              object(stage.evolution, "stage.evolution").presentationSeconds,
+              "stage.evolution.presentationSeconds",
+            )),
+      0,
+    );
+    equalTotals(
+      presentationSeconds,
+      stagePresentationSeconds,
+      "result.presentationSeconds",
+      "stage totals differ",
+    );
+    if (Math.abs(playerSeconds + presentationSeconds - steps * run.result.fixedStep) > 1e-7)
       throw new Error("Actual player clock differs from fixed steps");
     if (
       !run.result.validMetrics ||

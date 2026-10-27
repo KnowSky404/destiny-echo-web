@@ -14,7 +14,12 @@ export function isTargetable(target: Target): boolean {
 
 export function targetPriority(target: Target): number {
   if (!isEnemy(target)) return 2;
-  if (target.kind === "boss" || target.stage !== "Approaching") return 0;
+  if (
+    target.kind === "boss" ||
+    (target.role === "elite" && target.telegraph > 0) ||
+    target.stage !== "Approaching"
+  )
+    return 0;
   return target.y >= CONFIG.defense.dangerY ? 1 : 3;
 }
 
@@ -29,7 +34,11 @@ export function tauntedTargets(targets: Target[], endless = false, sanctuary = f
   // Stopped enemies cannot force a lock; saved manual preferences are usable again.
   if (sanctuary) return living;
   if (endless) {
-    const threats = living.filter((target) => isEnemy(target) && attackPermitted(target));
+    const threats = living.filter(
+      (target) =>
+        isEnemy(target) &&
+        (attackPermitted(target) || (target.role === "elite" && target.telegraph > 0)),
+    );
     if (threats.length > 0) return threats;
   }
   const tanks = living.filter(

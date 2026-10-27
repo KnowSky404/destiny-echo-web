@@ -3,7 +3,11 @@ import { synergyTier } from "./synergies";
 import { poisonSlow } from "./systems/damage";
 import type { Player } from "./types";
 
-export function combatStats(player: Player, stacks: ReadonlyMap<string, number>) {
+export function combatStats(
+  player: Player,
+  stacks: ReadonlyMap<string, number>,
+  intervalFloor = 0.12,
+) {
   const barrage = synergyTier(stacks, "barrage");
   const might = synergyTier(stacks, "might");
   const precision = synergyTier(stacks, "precision");
@@ -11,7 +15,10 @@ export function combatStats(player: Player, stacks: ReadonlyMap<string, number>)
   return {
     damage: player.stats.damage * (1 + player.stats.power) * (might >= 3 ? 1.2 : 1),
     interval:
-      Math.max(0.08, player.stats.interval * (barrage >= 9 ? 0.75 : barrage >= 3 ? 0.88 : 1)) /
+      Math.max(
+        intervalFloor,
+        player.stats.interval * (barrage >= 9 ? 0.75 : barrage >= 3 ? 0.88 : 1),
+      ) /
       (1 - poisonSlow(player)),
     projectiles: Math.min(6, player.stats.projectiles + (barrage >= 9 ? 1 : 0)),
     secondaryDamage: barrage >= 6 ? 1 : barrage >= 3 ? 0.8 : CONFIG.friendlyShot.secondaryDamage,

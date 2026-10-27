@@ -1,0 +1,27 @@
+{
+  "kind": "v3-final-curated-summary-hash-index",
+  "recordedAt": "2026-10-27T03:15:56.412817+00:00",
+  "files": {
+    "endless-summary-canonical-sha256.txt": {
+      "sha256": "c60308b9c0324fcdf4237fbf6ec012d5888f773ce447f786be685e69a31dc95f",
+      "bytes": 65
+    },
+    "endless-summary.json": {
+      "sha256": "8dfbb3332efe45e2785f8f4e1eaa100ec0d3a6225bb5afd6c5d9cb5d0e9794a2",
+      "bytes": 33184
+    },
+    "endless-summary.md": {
+      "sha256": "d3c057ed8af9844536048fc96fb0d3943a240cd584aa17c2b3186c718a94d18b",
+      "bytes": 3029
+    },
+    "native-case-sidecar-index.json": {
+      "sha256": "1f41e6a0bef881fe16def18d15aac81d768f31595c034fc46058c6efa7c3971d",
+      "bytes": 47457
+    }
+  },
+  "curatorSha256": "fd553ced3c0f1f255069d6a4fec3b125e316804b1d25b6a73bc9a34471235507",
+  "originalAuditAndIndexUnchanged": true,
+  "allNativeShardPerJobAuditSidecarAndSealedOutputsRecheckedUnchanged": true,
+  "summaryCanonicalEquality": true,
+  "releaseAccepted": false
+}

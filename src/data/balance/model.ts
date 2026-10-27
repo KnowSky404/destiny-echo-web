@@ -129,6 +129,39 @@ export const ENDLESS_FIELDS: Record<keyof EndlessNumbers, NumericField> = {
   slamDamage: value("重击基础伤害"),
   slamDamagePerStage: value("重击逐层增加"),
 };
+export const DEFAULT_EVOLUTION = {
+  trainingBase: 5000,
+  trainingStep: 1500,
+  growthLinear: 0.45,
+  growthQuadratic: 0.05,
+  breakSeconds: 1.5,
+  bossPercentPerSecond: 0.025,
+  elitePercentPerSecond: 0.05,
+  vulnerableMultiplier: 2,
+  chargeSeconds: 2.4,
+  recoverySeconds: 1.5,
+  vulnerableSeconds: 2,
+  weakPointDamage: 0.01,
+  interruptHits: 4,
+  firingIntervalFloor: 0.12,
+};
+export type EvolutionNumbers = { [K in keyof typeof DEFAULT_EVOLUTION]: number };
+export const EVOLUTION_FIELDS: Record<keyof EvolutionNumbers, NumericField> = {
+  trainingBase: value("首张锻体训练分", 1, 1e9, true),
+  trainingStep: value("锻体逐张追加训练分", 0, 1e9, true),
+  growthLinear: value("无尽成长一次项", 0, 100),
+  growthQuadratic: value("无尽成长二次项", 0, 100),
+  breakSeconds: value("波次间隔 / 秒", 0, 30),
+  bossPercentPerSecond: value("首领百分比伤害额度 / 秒", 0, 1),
+  elitePercentPerSecond: value("精英百分比伤害额度 / 秒", 0, 1),
+  vulnerableMultiplier: value("弱点百分比额度倍率", 1, 10),
+  chargeSeconds: value("技能蓄力 / 秒", 0.3, 30),
+  recoverySeconds: value("技能后摇 / 秒", 0, 30),
+  vulnerableSeconds: value("打断弱点持续 / 秒", 0, 30),
+  weakPointDamage: value("弱点主弹破防 / 最大生命比例", 0, 0.1),
+  interruptHits: value("连续主弹打断次数", 1, 20, true),
+  firingIntervalFloor: value("有效攻击间隔下限 / 秒", 0.08, 1),
+};
 export const STAGE_FIELDS = {
   health: value("小怪生命倍率", 0.01),
   speed: value("移动倍率", 0.01, 100),
@@ -169,8 +202,8 @@ export interface StageRule {
   rewards: Partial<Record<RewardSource, RewardPolicy>>;
 }
 export interface BalanceProfile {
-  schemaVersion: 1;
-  baseline: "balance-v1";
+  schemaVersion: 2;
+  baseline: "balance-v2";
   id: string;
   revision: number;
   name: string;
@@ -178,10 +211,19 @@ export interface BalanceProfile {
     player: { hp: number; shield: number; stats: Stats };
     enemies: Record<EnemyKind, EnemyNumbers>;
     endless: EndlessNumbers;
+    evolution: EvolutionNumbers;
     rewards: Record<RewardSource, RewardPolicy>;
     stageRules: StageRule[];
   };
 }
+export type LegacyBalanceProfile = Omit<
+  BalanceProfile,
+  "schemaVersion" | "baseline" | "payload"
+> & {
+  schemaVersion: 1;
+  baseline: "balance-v1";
+  payload: Omit<BalanceProfile["payload"], "evolution">;
+};
 export type PlayerSetup = BalanceProfile["payload"]["player"];
 export type PlayerValues = Pick<
   Player,

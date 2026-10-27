@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "kind": "development-Q-v4-summary",
+  "status": "adopted-in-task-worktree-for-fresh-selection-only",
+  "adoptedAt": "2026-10-27T04:57:44.084629+00:00",
+  "releaseAccepted": false,
+  "preparedProfile": {
+    "id": "endless-evolution-20261027-v4",
+    "revision": 1,
+    "canonicalProfileSha256": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+    "canonicalPayloadSha256": "c2327e7c0cd40e0dd707f617750bcc686383f14c4001cfc1f1f2e123621ce082",
+    "payloadChanged": false
+  },
+  "adoptionReceipt": {
+    "path": "artifacts/balance/endless-evolution/root-20261026/adopt-Q-for-selection.json",
+    "sha256": "10669c8f332ce7ed75f695ea4f9d5210d314f77c2c17525358b997930b6e5ecb"
+  },
+  "formalV4AtPreparation": {
+    "freezeRecord": null,
+    "selection": {
+      "planned": 300,
+      "executed": 0,
+      "masterSeed": 2026102701
+    },
+    "validation": {
+      "planned": 600,
+      "executed": 0,
+      "masterSeed": 2026102702
+    },
+    "endless": {
+      "planned": 120,
+      "executed": 0,
+      "masterSeed": 2026102703
+    },
+    "holdoutAccepted": false,
+    "deliveryScope": "PRE-only after checks and separate acceptance",
+    "prCreated": false,
+    "wikiPublished": false,
+    "preDeployed": false,
+    "proDeployed": false
+  },
+  "observedDevelopment": {
+    "originalDenominator": 4,
+    "clear20": 3,
+    "naturalDeaths": 1,
+    "unresolved": 0,
+    "freshInputs": 0,
+    "humanValidation": false,
+    "nativeBudget": {
+      "maxSeconds": 7200,
+      "maxSteps": 864000,
+      "endlessTarget": 20
+    },
+    "outcomes": [
+      {
+        "id": "seed1074236464-auto450",
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "deathStage": null,
+        "playerSeconds": 2233.6333333429034,
+        "fullMax1sHpRatio": 0.26139605978261365
+      },
+      {
+        "id": "seed1074236464-active1600",
+        "termination": "death",
+        "endlessCleared": 17,
+        "deathStage": 21,
+        "playerSeconds": 2113.1500000113233,
+        "fullMax1sHpRatio": 0.31515021929824794
+      },
+      {
+        "id": "seed4136239728-auto450",
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "deathStage": null,
+        "playerSeconds": 2266.475000009092,
+        "fullMax1sHpRatio": 0.45
+      },
+      {
+        "id": "seed4136239728-active1600",
+        "termination": "endless_target_reached",
+        "endlessCleared": 20,
+        "deathStage": null,
+        "playerSeconds": 2229.616666676295,
+        "fullMax1sHpRatio": 0.3391652960526316
+      }
+    ]
+  },
+  "protection": {
+    "firstCompleteStageSummaries": 10,
+    "covers": "campaign4 plus endless1-6",
+    "allFourFullSummariesExactO4": true,
+    "allNativeSidecarSourceChecksPassed": true,
+    "observerPatchReversible": true,
+    "developmentInstrumentedSourceFingerprint": "44bad0e5d5e6b1a9ffca2a959b12be6f7ee12577ce2ac367b6a9d706668a1187",
+    "developmentFingerprintIsFormalV4Fingerprint": false,
+    "adoptedRuleOnlyWorldSha256": "36127cc574208edb025fe157af3c8543e28b11a410e3466fe9787095b43d5d55"
+  },
+  "nativeArchive": {
+    "directory": "artifacts/balance/endless-evolution/v4-Q-development-20261027",
+    "storage": "main checkout ignored persistent artifacts; not bundled native records",
+    "hashIndex": {
+      "path": "hash-index.json",
+      "sha256": "3ffc2c1eb26bc90d71fb995b32b85e9345af32ee776bfb2194295b5d714ba673",
+      "indexedFiles": 535
+    },
+    "finalAudit": {
+      "path": "final-audit.json",
+      "sha256": "907d1397715f7b0e6ff179056ad09a1f34c7359430fbe6e99b92aea88282566a"
+    },
+    "archiveReceipt": {
+      "path": "../v4-Q-development-20261027-archive-receipt.json",
+      "sha256": "f1bc8385a59dc715c9e04d9c5e32a74261ce30ef23b947b3201d659f71f403cd"
+    },
+    "pairedReport": {
+      "path": "paired-O4-P-Q-d5-d7-d10-d20.json",
+      "sha256": "5e8565dd0491cf38fa0f78d588521f8459c99ed332a4e2a7d375fb1a486f1114"
+    },
+    "predeclaration": {
+      "path": "predeclaration.json",
+      "sha256": "8c8ee6a2532330fb8adb5076b06fd1d14a5f94510272e89dbd156890db4fa4c6"
+    },
+    "developmentSeal": {
+      "path": "receipts/Q-seal.json",
+      "sha256": "1eaf033de6f1a6287fce3df95f130ad508df9ff4238628d7e659c9953ac5f4ad"
+    }
+  },
+  "limitations": [
+    "Four previously observed development inputs only; no fresh or human inference.",
+    "Natural builds/rewards diverge after depth7 and three Q changes are combined; no single-component causal effect.",
+    "D20 common cohort is three original inputs; the D18 death remains in original denominator4, not zero-filled.",
+    "TTK is actual defeated-unit birth-to-death lifetime including approach/control; no fake living/fusion-donor deaths.",
+    "Player/hostile clocks differ under Sanctuary. Common strata do not control species, location or exact fusion time.",
+    "Successful warnings alone do not prove pressure; two strong D20 builds have zero enemy HP loss.",
+    "No required death quota or claim that every group must lose HP. Fresh challenge/pacing/safety gates remain pending."
+  ],
+  "formalV4CurrentStatus": {
+    "freezeRecord": "experiments/balance/endless-evolution/freeze-v4.json",
+    "freezeSha256": "ceb885236b1592346bc746da3d57174b49671ac6cdc24a159a5c662aa7811574",
+    "frozenAt": "2026-10-27T05:08:19.169Z",
+    "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+    "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+    "selectionStatus": "complete_independent_audit_passed",
+    "selectionInitializedAt": "2026-10-27T05:08:30.774Z",
+    "validationStatus": "complete_independent_audit_passed",
+    "endlessStatus": "complete_independent_audit_passed",
+    "holdoutAdopted": true,
+    "releaseAccepted": false,
+    "selectionCompleted": 300,
+    "selectionAudit": "experiments/balance/endless-evolution/selection-v4-audit.json",
+    "selectionAuditSha256": "5ec2720c823212a3a49aebaf8cd99041dd14929ee66b39750540222ed11ef994",
+    "validationInitializedAt": "2026-10-27T05:48:51.760Z",
+    "endlessInitializedAt": "2026-10-27T05:48:51.976Z",
+    "holdoutAdoptedAt": "2026-10-27T05:48:29.847Z",
+    "holdoutAdoptionSha256": "b33ee12ea55c7e8e3cf11ee7369add25aa3af840c66c2c8286e202ad7507d342",
+    "validationCompleted": 600,
+    "validationAudit": "experiments/balance/endless-evolution/validation-v4-audit.json",
+    "endlessCompleted": 120,
+    "endlessAudit": "experiments/balance/endless-evolution/endless-v4-audit.json",
+    "measurementCheckpoint": {
+      "path": "experiments/balance/endless-evolution/pre-candidate-acceptance-v4.json",
+      "sha256": "554f9ab9e8b9446aded15db2eb841952085073f5b389a1e2042aca9b67eac285",
+      "decidedAt": "2026-10-27T07:02:13.897Z",
+      "calibrationAccepted": true,
+      "acceptedForPreDelivery": true,
+      "deliveryComplete": false,
+      "productionReleaseAuthorized": false,
+      "humanAcceptanceCompleted": false
+    }
+  },
+  "knownInputActualWorktreeEquivalence": {
+    "path": "artifacts/balance/v4-adoption-equivalence-20261027/summary.json",
+    "sha256": "f41d1c70ebbe19656b9e557926325659a3328159ea8cf02a359045e8e99eb1d2",
+    "fourCompleteNativeResultHashesEqual": true,
+    "freshSamples": 0
+  }
+}

@@ -134,6 +134,9 @@ async function endlessFixture(): Promise<Fixture> {
   // rewards and recovery to exercise the target's zero-time next-stage entry.
   profile.id = "collector-endless-fixture";
   profile.payload.player.hp = 10;
+  profile.payload.player.stats.damage = 100000;
+  profile.payload.enemies.tank.hp = 1;
+  profile.payload.enemies.wizard.hp = 1;
   profile.payload.stageRules = [
     {
       from: 1,
@@ -351,6 +354,28 @@ describe("calibration evidence adoption gates", () => {
     const input = await fixture();
     present(input.runs[0]).result.steps++;
     await expect(validate(input)).rejects.toThrow("Actual player clock differs from fixed steps");
+  });
+
+  test("presentation time reconciles by stage, legacy absence is zero, and null is rejected", async () => {
+    const input = await endlessFixture();
+    const result = present(input.runs[0]).result;
+    expect(result.evolution.presentationSeconds).toBeGreaterThan(0);
+    await expect(validate(input)).resolves.toBeDefined();
+
+    const mismatched = structuredClone(input);
+    present(present(mismatched.runs[0]).result.stages[0]).evolution.presentationSeconds += 1;
+    await expect(validate(mismatched)).rejects.toThrow("presentationSeconds");
+
+    const invalid = structuredClone(input);
+    Object.assign(present(invalid.runs[0]).result.evolution, { presentationSeconds: null });
+    await expect(validate(invalid)).rejects.toThrow("presentationSeconds");
+
+    const legacy = structuredClone(input);
+    const legacyResult = present(legacy.runs[0]).result;
+    legacyResult.steps -= Math.round(legacyResult.evolution.presentationSeconds / CONFIG.fixedStep);
+    Reflect.deleteProperty(legacyResult, "evolution");
+    for (const stage of legacyResult.stages) Reflect.deleteProperty(stage, "evolution");
+    await expect(validate(legacy)).resolves.toBeDefined();
   });
 
   test("sub-tolerance clock roundoff at both budget boundaries is retained", async () => {

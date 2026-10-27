@@ -1,7 +1,13 @@
 import { arenaLayout } from "../game/arena";
 import { CONFIG } from "../game/config";
 import type { AttackPolicy } from "../game/types";
-import { DEFAULT_ENDLESS, type EndlessNumbers } from "./balance/model";
+import {
+  DEFAULT_ENDLESS,
+  DEFAULT_EVOLUTION,
+  type EndlessNumbers,
+  type EvolutionNumbers,
+} from "./balance/model";
+import { endlessGrowth } from "./endless";
 import { ENEMIES } from "./enemies";
 
 export interface Stage {
@@ -129,12 +135,31 @@ export const STAGES: readonly Stage[] = [
   }),
 ];
 
+/** Stretch the authored chest opportunities over a longer combat wave without
+ * granting additional cards merely because the pre-boss phase lasts longer. */
+export function campaignChestTiming(index: number, bossAt: number) {
+  const authored = STAGES[index];
+  if (!authored) throw new Error("Missing campaign encounter");
+  const first = CONFIG.chestFirstAt;
+  const authoredLast = Math.min(CONFIG.chestLastAt, authored.bossAt - 5);
+  const count = Math.max(0, Math.floor((authoredLast - first) / CONFIG.chestInterval) + 1);
+  const last =
+    bossAt > authored.bossAt
+      ? Math.max(first, bossAt - 5)
+      : Math.min(CONFIG.chestLastAt, bossAt - 5);
+  const interval =
+    bossAt > authored.bossAt && count > 1 ? (last - first) / (count - 1) : CONFIG.chestInterval;
+  return { first, last, interval, count };
+}
+
 // Physical capacity follows arena geometry; bosses share the health pressure.
 export function stageAt(
   index: number,
   width: number = CONFIG.width,
   tuning: EndlessNumbers = DEFAULT_ENDLESS,
   tankHp = ENEMIES.tank.hp,
+  evolution: EvolutionNumbers = DEFAULT_EVOLUTION,
+  resolvedFinale?: Stage,
 ): Stage {
   if (!Number.isSafeInteger(index) || index < 0) throw new Error("Invalid stage index");
   const arena = arenaLayout(width);
@@ -151,36 +176,41 @@ export function stageAt(
     };
   }
   const theme = STAGES[index % STAGES.length];
-  const finale = STAGES[STAGES.length - 1];
+  const finale = resolvedFinale ?? STAGES[STAGES.length - 1];
   if (!theme || !finale) throw new Error("Missing stage configuration");
   const depth = index - STAGES.length + 1;
   // Only protects numeric overflow in unreachable depths; no gameplay-scale plateau.
-  const growth = Math.min(tuning.healthGrowth ** depth, Math.exp(200));
-  const plannedCount = Math.ceil(finale.enemyCount * growth * population);
-  const enemyCount = Math.min(plannedCount, tuning.populationCap * population);
-  const plannedSupport = Math.ceil(finale.supportCount * growth * population);
-  const supportCount = Math.min(plannedSupport, tuning.escortCap * population);
-  const populationScale = 1 + (plannedCount / enemyCount - 1) + (plannedSupport / supportCount - 1);
+  const growth = endlessGrowth(depth, evolution);
+  const healthTail = 1 + 0.08 * Math.max(0, depth - 5);
+  // Depth pressure is represented once. Native stars spend the same finite
+  // population budget instead of multiplying an exponential overflow again.
+  const enemyCount = Math.min(
+    Math.ceil(72 * population),
+    Math.ceil(tuning.populationCap * population),
+  );
+  const supportCount = Math.min(
+    Math.ceil(4 * population),
+    Math.ceil(tuning.escortCap * population),
+  );
+  const populationScale = 1;
   return {
     ...theme,
     name: `${theme.name} · 无尽 ${depth}`,
-    subtitle: `最多 ${arena.minionCapacity} 只小怪与 1 个首领；清完护卫才过关。每关 ${tuning.supplies} 次补给，通关后随机扩展两个攻击区域。`,
+    subtitle: `分段击破怪群与小首领后迎战主首领；场内最多 ${arena.encounterCapacity} 个敌人。每层三次补给，清场后推进。`,
     attackPolicy: { ...finale.attackPolicy },
     bossFan: finale.bossFan,
     bossInterval: finale.bossInterval,
     specialDamage: finale.specialDamage,
     chargeTime: finale.chargeTime,
-    health: finale.health * growth,
+    health: finale.health * growth * healthTail,
     growth,
     populationScale,
     enemyCount,
     maxEnemies: arena.encounterCapacity,
-    damage:
-      Math.min(8, finale.damage * tuning.damageGrowth ** Math.min(depth, 100)) *
-      tuning.damageMultiplier,
-    attackTiming: Math.max(0.35, tuning.attackTiming * tuning.timingGrowth ** (depth - 1)),
+    damage: Math.min(4, finale.damage * (1 + (depth - 1) * 0.035)) * tuning.damageMultiplier,
+    attackTiming: Math.max(0.7, tuning.attackTiming / (1 + (depth - 1) * 0.015)),
     speed: finale.speed,
-    spawnInterval: (finale.bossAt - 0.8) / enemyCount,
+    spawnInterval: Math.max(0.55, 1.2 / population),
     bossAt: finale.bossAt,
     bossHp: Math.round(
       Math.max(
@@ -189,11 +219,10 @@ export function stageAt(
           finale.health *
           growth *
           populationScale *
-          1.48 *
           tuning.summonMultiplier *
           CONFIG.fusion.health ** (CONFIG.fusion.maxStars - 1) *
-          1.25,
-      ),
+          1.8,
+      ) * healthTail,
     ),
     interrupt: Math.round(finale.interrupt * Math.sqrt(growth)),
     supportInterval: finale.supportInterval,

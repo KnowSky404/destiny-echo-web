@@ -1,0 +1,394 @@
+{
+  "kind": "endless-evolution-candidate-freeze",
+  "revision": 1,
+  "phase": "selection",
+  "developmentOnlyProbes": ["B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+  "code": {
+    "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+    "dirty": true,
+    "fingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+    "bunVersion": "1.4.3",
+    "fixedStep": 0.008333333333333333,
+    "files": {
+      "bun.lock": "7e682ae945aa93bd7723eb00dea5d1f7ba9aac383e2b0e277299562788cfa430",
+      "package.json": "f83f0765f8a3db2b9edeb098fb4c7aaaeb15ed141e0229dad95bfa5e7388490b",
+      "scripts/balance-sim/config.ts": "1d82aca9803e211bb67a42f552eaeabe5c013220d03376c0b20851d98e99e264",
+      "scripts/balance-sim/evidence.ts": "be1e1545012876ac34de50d211722a121e4c1462b50c9e768c833f8583841f93",
+      "scripts/balance-sim/statistics.ts": "bc695ca7246cd0a2e003d633420fe2308a1c0936097f6d6732a611458fb43824",
+      "scripts/balance-sim/sweep.ts": "020febbf558db193cb8a2bfc9ce01d3354d2d4343e6a9aee3ebfbabe9b7e6ee3",
+      "scripts/balance-simulator.ts": "1154256f7ae3a40105de8d304552747ef1757796bace1327282a06d1b305d7f4",
+      "src/balance-sim/encoding.ts": "08f261ecf86dec26cb53265fb4fef9075aeb4ffb8240cfc601bf16e51d55d0ce",
+      "src/balance-sim/evolution-metrics.ts": "78b9d2ee5a8f8f570777d7082d3f5fdb66d5a169780ed84b29855f16ecfaf207",
+      "src/balance-sim/review.ts": "f0f63593fa20cda299fc2b8514f08f164749bfc22620838cde21e0b89aebe052",
+      "src/balance-sim/runner.ts": "6f67e649c10b0ec91936d3b49394e5ad4f06288f9bbeb2de5e74abb7b0ed667b",
+      "src/balance-sim/strategies.ts": "c2d6b1a71d6f7409223733fcb72d8766b43e2f8e04b906ccc2d9c01a44480c42",
+      "src/balance-sim/types.ts": "924d878273dc94b2efb1c29d9ebb6d7d66f15cd758a30c91535f68cb195a4229",
+      "src/data/balance/model.ts": "d4fb227c3b0b592af8b6acd574ba446fe53bc73c1bb15a3967cebc8b8e24611a",
+      "src/data/balance/official.json": "53d31243c6d48fdd38adc1773f9a745e8b6ac30e6126333d5995adad2e236c40",
+      "src/data/balance/profile.ts": "652a93dd20752cd69c1a447febc4820c6d00818b058bf33ade5a714dc43bab4a",
+      "src/data/cards.ts": "fbdfa1fe825d5bb8eb7b7429fa0b3c132bc8caefb58b12cae13169db60591dfc",
+      "src/data/endless.ts": "2228581749a5cea40e6652cb6802eb716f40dc50daf4c310f24e3ce3a446c360",
+      "src/data/enemies.ts": "e09e7cf376320509cf6238f99050c6b5b25ab126d3612f2bec69ed861b12a59f",
+      "src/data/stages.ts": "77e97b704ca7acc78aa25a2527b8952977e5b85bb8b8fcaf1e63cddcea7b4ca5",
+      "src/data/synergies.ts": "8ec86760b8e5e9cc95629063da9834b046a55ccbfb88f88f75eddec3b523e13f",
+      "src/data/training.ts": "82a02b54f89a99f8849be9430542486e22c3dc7140fd35aab8fb4568508343ca",
+      "src/game/arena.ts": "37d1b1b5968cc361288d3c5081564f684da71131bb7b3c27bc9310b77c6df297",
+      "src/game/config.ts": "09a3af4af2452a61a0b365cd9492a9fe3bc0eecba4978933d0be7023d3d9e208",
+      "src/game/createGame.ts": "fe1509a72edd4002b7dfb8ffa87344bd30f5d9d2ee2ef13b7f5f483a426e9a92",
+      "src/game/debug/DebugWorld.ts": "0095dc84c1532854dad608a1e8ec381a2e9daa579b3471d06f277c9df8e850b1",
+      "src/game/input.ts": "dfa617792cf39f967bbfdbbce45f49c28813192273155aeb102815172784d9bc",
+      "src/game/observation.ts": "1fcb5e21623faec55cb4d6c0eb8ab9784b62bbf945d92931908220d8220c98d9",
+      "src/game/pool.ts": "a4fc8192f64067377f81b04ec11f76cab449a5612b562a25acffedc4b8b10538",
+      "src/game/presentation.ts": "659bcc1d328a6047c74fa02f2984da2aa0870663f3a6f81bccc7f04d928ab0f7",
+      "src/game/progression.ts": "afe73fa9c54dcc0c31e66ae0508cddde601824dcd4d518cd636e4bdc02afee2d",
+      "src/game/random.ts": "0a7c5b2a9907c583d4c9a4ae46a41bcdec93700dae3ba851fc7e9a451740a8dd",
+      "src/game/scenes/BattleScene.ts": "57731aeda0eac6e7a9bed18f893d812d193f3a90ad75de1c89f49bc7181565e9",
+      "src/game/scenes/textures.ts": "5baea1cb3e4f95b3c15f06121031c2ae52ca6d7164e13af033256cb747459868",
+      "src/game/state.ts": "cffd73754b386f026afaeef405e5e640974822f2e69cac0f9f47bbc3d7118433",
+      "src/game/stats.ts": "38605d1c883b3c5c1b4a6c5c2dd8f3168bb300dba615b9433b12bf7c834624ad",
+      "src/game/synergies.ts": "b14e68896c2c7245c61dbfaae159846dd5d67e25b5ae1868571ba9f8084f5e1e",
+      "src/game/systems/boss-damage.ts": "41f8a43dc99b4ecf152f9e54391cf9c17346e3f766da55c98932b0ce9ff64c1b",
+      "src/game/systems/crowd.ts": "5f4829d4c8c440a14f0cfe32f3acd27dac4da611b8888aed1893c71b700afbad",
+      "src/game/systems/damage.ts": "abfe2e5ce12aa33292e0dbb54ce2489f14fb38f84b71a5553e3e6e089ffa12c4",
+      "src/game/systems/encounter.ts": "864df08dd981e55528f2cc89dba4188e3473235b856843240742a7fc1c0aa868",
+      "src/game/systems/enemy.ts": "93d94d121ef9b84c335861c6668a0e9b62586e1bbd0e0fcd681f4e736f80f15d",
+      "src/game/systems/movement.ts": "0723936d780db523771a593761e9491041a471f0e572d5bea1721fc0b2462192",
+      "src/game/systems/targeting.ts": "bb80224492640e4a9ab256a53a57ec7305211e616d6ea1ce3d59be0b3f1c0a50",
+      "src/game/types.ts": "0ac45fef0ef354b89619f972cfa2eac1e7f0cc5645a516e272ca1b815d763be6",
+      "src/game/world.ts": "01ef784a88f5bb5b14a9d5d9c7d8ad07651515314fe232c6ae65afc13f3514d8",
+      "tsconfig.json": "662ce94dd4c768d5018e790bd8be169075d9621a2a4ef8c4bc0320da18285863"
+    }
+  },
+  "profile": {
+    "schemaVersion": 2,
+    "baseline": "balance-v2",
+    "id": "endless-evolution-20261023",
+    "name": "Endless evolution 2026-10-23",
+    "revision": 1,
+    "payload": {
+      "player": {
+        "hp": 100,
+        "shield": 0,
+        "stats": {
+          "damage": 12,
+          "interval": 0.38,
+          "projectiles": 1,
+          "piercing": 0,
+          "maxHp": 100,
+          "execution": 0,
+          "fuse": 0,
+          "bloodpact": 0,
+          "thorns": 0,
+          "focus": 0,
+          "harvest": 0,
+          "power": 0,
+          "crush": 0,
+          "lifesteal": 0,
+          "regeneration": 0,
+          "recovery": 0,
+          "critChance": 0,
+          "critDamage": 1.5,
+          "expose": 0,
+          "chain": 0,
+          "splash": 0,
+          "storm": 0,
+          "slow": 0,
+          "frostbite": 0,
+          "frostPulse": 0,
+          "stun": 0,
+          "control": 0,
+          "controlPulse": 0,
+          "overheal": 0,
+          "shieldCapacity": 0,
+          "shieldLeech": 0,
+          "giantSlayer": 0,
+          "giantPower": 0,
+          "giantHunt": 0,
+          "maxHealthDamage": 0,
+          "currentHealthDamage": 0,
+          "erosionPulse": 0
+        }
+      },
+      "enemies": {
+        "wisp": {
+          "hp": 50,
+          "radius": 16,
+          "speed": 112,
+          "interval": 3.2,
+          "damage": 6,
+          "score": 100,
+          "preparation": 1.4,
+          "fan": 1,
+          "shotSpeed": 155
+        },
+        "sentinel": {
+          "hp": 108,
+          "radius": 21,
+          "speed": 86,
+          "interval": 3.8,
+          "damage": 9,
+          "score": 180,
+          "preparation": 1.8,
+          "fan": 3,
+          "shotSpeed": 140
+        },
+        "hexer": {
+          "hp": 66,
+          "radius": 18,
+          "speed": 96,
+          "interval": 2.8,
+          "damage": 7,
+          "score": 160,
+          "preparation": 1.2,
+          "fan": 1,
+          "shotSpeed": 190
+        },
+        "tank": {
+          "hp": 500,
+          "radius": 23,
+          "speed": 72,
+          "interval": 4,
+          "damage": 9,
+          "score": 250,
+          "preparation": 1.8,
+          "fan": 1,
+          "shotSpeed": 140
+        },
+        "wizard": {
+          "hp": 250,
+          "radius": 19,
+          "speed": 92,
+          "interval": 3.4,
+          "damage": 7,
+          "score": 220,
+          "preparation": 1.2,
+          "fan": 1,
+          "shotSpeed": 190
+        },
+        "boss": {
+          "hp": 2000,
+          "radius": 48,
+          "speed": 112,
+          "interval": 2.7,
+          "damage": 10,
+          "score": 3000,
+          "preparation": 2,
+          "fan": 3,
+          "shotSpeed": 170
+        }
+      },
+      "endless": {
+        "healthGrowth": 1.7,
+        "damageGrowth": 1.06,
+        "timingGrowth": 0.98,
+        "damageMultiplier": 1.5,
+        "attackTiming": 0.8,
+        "populationCap": 360,
+        "escortCap": 12,
+        "summonCount": 6,
+        "supplies": 3,
+        "summonMultiplier": 1.5,
+        "slamDamage": 60,
+        "slamDamagePerStage": 5
+      },
+      "evolution": {
+        "trainingBase": 5000,
+        "trainingStep": 1500,
+        "growthLinear": 0.45,
+        "growthQuadratic": 0.05,
+        "breakSeconds": 1.5,
+        "bossPercentPerSecond": 0.025,
+        "elitePercentPerSecond": 0.05,
+        "vulnerableMultiplier": 2,
+        "chargeSeconds": 2.4,
+        "recoverySeconds": 1.5,
+        "vulnerableSeconds": 2,
+        "firingIntervalFloor": 0.12,
+        "weakPointDamage": 0.01,
+        "interruptHits": 4
+      },
+      "rewards": {
+        "chest": {
+          "mode": "guided",
+          "firstStageRestriction": true,
+          "epicChance": 0.3,
+          "cardWeights": {},
+          "trainingWeights": {}
+        },
+        "supply": {
+          "mode": "guided",
+          "firstStageRestriction": true,
+          "epicChance": 0.3,
+          "cardWeights": {},
+          "trainingWeights": {}
+        },
+        "stage": {
+          "mode": "guided",
+          "firstStageRestriction": true,
+          "epicChance": 0.3,
+          "cardWeights": {},
+          "trainingWeights": {}
+        }
+      },
+      "stageRules": [
+        {
+          "from": 1,
+          "to": 1,
+          "stage": {
+            "health": 0.6,
+            "damage": 0.12,
+            "attackTiming": 1.4,
+            "bossHp": 12000,
+            "bossAt": 90,
+            "speed": 0.85,
+            "interrupt": 120
+          },
+          "kindWeights": null,
+          "rewards": {
+            "chest": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.1,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "supply": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.1,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "stage": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.1,
+              "cardWeights": {},
+              "trainingWeights": {}
+            }
+          }
+        },
+        {
+          "from": 2,
+          "to": 2,
+          "stage": {
+            "health": 4.5,
+            "bossHp": 260000,
+            "interrupt": 700,
+            "speed": 1,
+            "attackTiming": 1.2,
+            "bossAt": 90,
+            "damage": 0.4
+          },
+          "kindWeights": null,
+          "rewards": {
+            "chest": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.15,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "supply": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.15,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "stage": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.15,
+              "cardWeights": {},
+              "trainingWeights": {}
+            }
+          }
+        },
+        {
+          "from": 3,
+          "to": 3,
+          "stage": {
+            "health": 9,
+            "bossHp": 650000,
+            "interrupt": 2200,
+            "damage": 0.55,
+            "speed": 1.25,
+            "attackTiming": 1.05,
+            "bossAt": 90
+          },
+          "kindWeights": null,
+          "rewards": {
+            "chest": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.2,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "supply": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.2,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "stage": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.2,
+              "cardWeights": {},
+              "trainingWeights": {}
+            }
+          }
+        },
+        {
+          "from": 4,
+          "to": 4,
+          "stage": {
+            "health": 18,
+            "bossHp": 1400000,
+            "interrupt": 6000,
+            "damage": 0.65,
+            "speed": 1.35,
+            "attackTiming": 1,
+            "bossAt": 90
+          },
+          "kindWeights": null,
+          "rewards": {
+            "chest": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.25,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "supply": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.25,
+              "cardWeights": {},
+              "trainingWeights": {}
+            },
+            "stage": {
+              "mode": "guided",
+              "firstStageRestriction": true,
+              "epicChance": 0.25,
+              "cardWeights": {},
+              "trainingWeights": {}
+            }
+          }
+        }
+      ]
+    }
+  },
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "selectionMasterSeed": 2026102301,
+  "selectionCount": 50,
+  "validationMasterSeed": 2026102302,
+  "validationCount": 100,
+  "endlessMasterSeed": 2026102303,
+  "endlessCount": 20,
+  "normalSuccessMedianTargetSeconds": [480, 720],
+  "interpretation": "Agent-policy observations; exclude reward selection, pauses and presentation time. Report layouts and strategies separately. No player win-rate claim."
+}

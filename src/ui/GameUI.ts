@@ -8,7 +8,7 @@ import { synergyPreview, synergyProgress, synergyTier, synergyUnlock } from "../
 import { poisonSlow } from "../game/systems/damage";
 import { attackPermitted } from "../game/systems/enemy";
 import { isEnemy } from "../game/systems/targeting";
-import type { Phase } from "../game/types";
+import type { BossSkill, Enemy, Phase } from "../game/types";
 import type { World } from "../game/world";
 import {
   bossName,
@@ -33,6 +33,58 @@ export function formatTime(seconds: number): string {
   return `${Math.floor(time / 60)
     .toString()
     .padStart(2, "0")}:${(time % 60).toString().padStart(2, "0")}`;
+}
+
+function castName(skill: BossSkill): string {
+  switch (skill) {
+    case "guard":
+      return t("守护", "Guard");
+    case "summon":
+      return t("召唤", "Summon");
+    case "slam":
+      return t("重击", "Slam");
+    case "volley":
+      return t("蓄力弹", "Charged volley");
+    case "ward":
+      return t("护卫结界", "Warding barrier");
+    case "ritual":
+      return t("强化仪式", "Empowering ritual");
+  }
+}
+
+function threatName(enemy: Enemy, stageIndex: number): string {
+  const name = enemy.kind === "boss" ? bossName(stageIndex) : enemyName(enemy.kind);
+  return enemy.role === "elite" ? `${t("小首领", "Sub-boss")} · ${name}` : name;
+}
+
+function counterplayState(enemy: Enemy, world: World): string {
+  if (enemy.telegraph <= 0) return enemy.vulnerableTime > 0 ? "exposed" : "idle";
+  if (world.interruptOpeningRemaining(enemy) > 0) return "forming";
+  if (!world.counterFocusRequired(enemy)) return "open";
+  return world.counterFocusConfirmed(enemy) ? "confirmed" : "needs-focus";
+}
+
+function threatAction(enemy: Enemy, world: World): string {
+  if (enemy.telegraph > 0 && enemy.castSkill) {
+    const opening = world.interruptOpeningRemaining(enemy);
+    const required = world.counterFocusRequired(enemy);
+    const confirmation = world.counterFocusConfirmed(enemy)
+      ? t("本次已确认", "Cast confirmed")
+      : world.target?.id === enemy.id
+        ? t("重选 / F确认", "Reselect / F to confirm")
+        : t("点选确认", "Select to confirm");
+    const window =
+      opening > 0
+        ? t(`起势 ${opening.toFixed(1)}s`, `Forming ${opening.toFixed(1)}s`)
+        : t("打断窗口", "Interrupt window");
+    return `${t(`${castName(enemy.castSkill)}蓄力 ${enemy.telegraph.toFixed(1)}s`, `${castName(enemy.castSkill)} charging ${enemy.telegraph.toFixed(1)}s`)} · ${window}${required ? ` · ${confirmation}` : ""} · ${t(`主弹 ${enemy.interruptHits ?? 0}/${world.interruptHitTarget} 或伤害 ${Math.floor(enemy.interruptDamage)}/${Math.ceil(enemy.interruptRequired)}`, `Primary ${enemy.interruptHits ?? 0}/${world.interruptHitTarget} or damage ${Math.floor(enemy.interruptDamage)}/${Math.ceil(enemy.interruptRequired)}`)}`;
+  }
+  if (enemy.vulnerableTime > 0)
+    return t(
+      `弱点暴露 ${enemy.vulnerableTime.toFixed(1)}s`,
+      `Exposed ${enemy.vulnerableTime.toFixed(1)}s`,
+    );
+  return "";
 }
 
 export class GameUI {
@@ -244,29 +296,38 @@ export class GameUI {
       ),
     );
     this.stageLabel.textContent = `${world.endless ? t("无尽", "Endless") : t(`第 ${world.stageIndex + 1} / ${STAGES.length} 关`, `Stage ${world.stageIndex + 1} / ${STAGES.length}`)} · ${stageName(world.stageIndex)}`;
-    this.stageRoute.textContent = `${t(`${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制`, `${world.clearedStages} stages cleared · Stage ${formatTime(world.stageElapsed)} · No time limit`)}${world.sanctuaryRemaining > 0 ? t(" · 敌方时序已冻结", " · Enemy time frozen") : ""}${world.endless ? t(` · 攻击区 ${world.attackRegions.length}/${world.arena.attackRegions.length} · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/${world.endlessRules.supplies}`, ` · Attack zones ${world.attackRegions.length}/${world.arena.attackRegions.length} · On field ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · Spawn budget ${world.stage.enemyCount} · Density ×${Number(world.stage.populationScale.toPrecision(3))} · Supplies ${world.stageSupplies}/${world.endlessRules.supplies}`) : ""}`;
+    this.stageRoute.textContent = `${t(`${world.clearedStages} 关已突破 · 本关 ${formatTime(world.stageElapsed)} · 无时间限制`, `${world.clearedStages} stages cleared · Stage ${formatTime(world.stageElapsed)} · No time limit`)}${world.sanctuaryRemaining > 0 ? t(" · 敌方时序已冻结", " · Enemy time frozen") : ""}${world.endless ? ` · ${world.encounterLabel}${t(` · 攻击区 ${world.attackRegions.length}/${world.arena.attackRegions.length} · 场内 ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · 出怪预算 ${world.stage.enemyCount} · 浓缩 ×${Number(world.stage.populationScale.toPrecision(3))} · 补给 ${world.stageSupplies}/${world.endlessRules.supplies}`, ` · Attack zones ${world.attackRegions.length}/${world.arena.attackRegions.length} · On field ${world.enemies.items.filter((enemy) => enemy.active).length}/${world.stage.maxEnemies} · Spawn budget ${world.stage.enemyCount} · Density ×${Number(world.stage.populationScale.toPrecision(3))} · Supplies ${world.stageSupplies}/${world.endlessRules.supplies}`)}` : ""}`;
     this.waveLabel.textContent =
       world.phase === "Menu"
         ? t("等待共鸣", "Awaiting resonance")
-        : world.bossSpawned
-          ? world.bossDefeated
+        : world.clearPresentationRemaining > 0
+          ? t("余响消散 · 即将结算", "Echoes fading · Rewards ahead")
+          : world.bossDefeated
             ? t("清剿残敌 · 全灭后过关", "Clear remaining enemies to advance")
-            : t("首领战 · 集中火力", "Boss battle · Focus fire")
-          : t(`第 ${world.wave} 波 · 残响涌动`, `Wave ${world.wave} · Echoes rising`);
+            : world.endless
+              ? world.encounterLabel
+              : world.bossSpawned
+                ? world.bossDefeated
+                  ? t("清剿残敌 · 全灭后过关", "Clear remaining enemies to advance")
+                  : t("首领战 · 集中火力", "Boss battle · Focus fire")
+                : t(`第 ${world.wave} 波 · 残响涌动`, `Wave ${world.wave} · Echoes rising`);
     this.scoreValue.textContent = t(
-      `${world.score.toLocaleString("zh-CN")} 分`,
-      `${world.score.toLocaleString("en-US")} pts`,
+      `总分 ${world.score.toLocaleString("zh-CN")} 分`,
+      `Total ${world.score.toLocaleString("en-US")} pts`,
     );
-    this.scoreProgress.textContent = `${t(`分数锻体已发 ${world.scoreTrainings} 张 · 下一张 ${(world.scoreMilestones + 1) * CONFIG.scoreTrainingInterval} 分`, `Score training awarded ${world.scoreTrainings} · Next at ${(world.scoreMilestones + 1) * CONFIG.scoreTrainingInterval} pts`)}${world.scoreMilestones > world.scoreTrainings ? t(` · 无候选跳过 ${world.scoreMilestones - world.scoreTrainings} 次`, ` · No eligible training: ${world.scoreMilestones - world.scoreTrainings} skipped`) : ""}${world.lastScoreTraining ? t(` · 最近获得：${rewardName(world.lastScoreTraining)}`, ` · Latest: ${rewardName(world.lastScoreTraining)}`) : ""}`;
+    this.scoreProgress.textContent = `${t(`锻体阅历 ${world.trainingScore.toLocaleString("zh-CN")} / ${world.nextTrainingThreshold.toLocaleString("zh-CN")} · 已获得 ${world.scoreTrainings} 次`, `Training XP ${world.trainingScore.toLocaleString("en-US")} / ${world.nextTrainingThreshold.toLocaleString("en-US")} · Awarded ${world.scoreTrainings}`)}${world.scoreMilestones > world.scoreTrainings ? t(` · 无候选跳过 ${world.scoreMilestones - world.scoreTrainings} 次`, ` · No eligible training: ${world.scoreMilestones - world.scoreTrainings} skipped`) : ""}${world.lastScoreTraining ? t(` · 最近获得：${rewardName(world.lastScoreTraining)}`, ` · Latest: ${rewardName(world.lastScoreTraining)}`) : ""}`;
     this.killLabel.textContent = t(`击破 ${world.kills}`, `Kills ${world.kills}`);
     const target = world.target;
     this.targetLabel.textContent = target
-      ? `${world.sanctuaryRemaining <= 0 && world.endless && isEnemy(target) && attackPermitted(target) ? t("攻击区优先", "Attack zone priority") : world.sanctuaryRemaining <= 0 && isEnemy(target) && target.kind === "tank" && target.tauntRemaining > 0 ? t("嘲讽锁定", "Taunt lock") : world.manualTargetId !== null ? t("手动优先", "Manual priority") : t("自动锁定", "Auto lock")} · ${isEnemy(target) ? (target.kind === "boss" ? bossName(world.stageIndex) : `${enemyName(target.kind)} · ${t(`${target.stars}星`, `${target.stars}★`)}${target.tauntRemaining > 0 ? t(` · 嘲讽 ${target.tauntRemaining.toFixed(1)}s`, ` · Taunt ${target.tauntRemaining.toFixed(1)}s`) : ""}`) : t("残响宝箱", "Echo chest")}`
+      ? `${world.sanctuaryRemaining <= 0 && world.endless && isEnemy(target) && attackPermitted(target) ? t("攻击区优先", "Attack zone priority") : world.sanctuaryRemaining <= 0 && isEnemy(target) && target.kind === "tank" && target.tauntRemaining > 0 ? t("嘲讽锁定", "Taunt lock") : world.manualTargetId !== null ? t("手动优先", "Manual priority") : t("自动锁定", "Auto lock")} · ${isEnemy(target) ? `${threatName(target, world.stageIndex)}${target.kind !== "boss" ? ` · ${t(`${target.stars}星`, `${target.stars}★`)}` : ""}${target.tauntRemaining > 0 ? t(` · 嘲讽 ${target.tauntRemaining.toFixed(1)}s`, ` · Taunt ${target.tauntRemaining.toFixed(1)}s`) : ""}${threatAction(target, world) ? ` · ${threatAction(target, world)}` : ""}` : t("残响宝箱", "Echo chest")}`
       : t("自动索敌 · 等待目标", "Auto targeting · Awaiting target");
     const threats = world.enemies.items.filter(
       (enemy) => enemy.active && enemy.stage !== "Approaching",
     ).length;
-    this.threatLabel.textContent = t(`防线威胁 ${threats}`, `Threats ${threats}`);
+    const elites = world.enemies.items.filter(
+      (enemy) => enemy.active && enemy.role === "elite",
+    ).length;
+    this.threatLabel.textContent = `${t(`防线威胁 ${threats}`, `Threats ${threats}`)}${elites > 0 ? t(` · 小首领 ${elites}`, ` · Sub-boss ${elites}`) : ""}`;
     this.pauseButton.disabled = !this.loaded || !["Playing", "Paused"].includes(world.phase);
     this.pauseButton.dataset.action = world.phase === "Paused" ? "resume" : "pause";
     this.pauseButton.setAttribute(
@@ -278,22 +339,47 @@ export class GameUI {
     this.pauseButton
       .querySelector("path")
       ?.setAttribute("d", world.phase === "Paused" ? "m8 5 11 7-11 7Z" : "M8 5v14M16 5v14");
-    const boss = world.boss;
+    const leaders = world.enemies.items.filter((enemy) => enemy.active && enemy.role !== "minion");
+    const selectedLeader = target && isEnemy(target) && target.role !== "minion" ? target : null;
+    const urgentLeader = leaders
+      .filter((enemy) => enemy.telegraph > 0)
+      .sort((a, b) => a.telegraph - b.telegraph)[0];
+    const boss = selectedLeader ?? urgentLeader ?? world.boss ?? leaders[0];
     this.bossHealth.hidden = !boss;
     if (boss) {
+      this.bossHealth.dataset.enemyId = String(boss.id);
+      this.bossHealth.dataset.counterplay = counterplayState(boss, world);
       this.bossFill.style.width = `${(boss.hp / boss.maxHp) * 100}%`;
-      this.bossName.textContent = world.endless
-        ? `${bossName(world.stageIndex)} · ${t(`技能 ${boss.skillsUsed}/3 · 重击 ${world.bossSlamDamage}`, `Skills ${boss.skillsUsed}/3 · Slam ${world.bossSlamDamage}`)}${boss.damageReductionTime > 0 ? t(` · 减伤 90% ${boss.damageReductionTime.toFixed(1)}s`, ` · Damage reduction 90% ${boss.damageReductionTime.toFixed(1)}s`) : ""}${boss.arrived ? t(" · 攻击 ×2", " · Attack ×2") : ""}`
-        : boss.hp < boss.maxHp / 2
-          ? `${bossName(world.stageIndex)} · ${t("狂乱阶段", "Frenzy phase")}`
-          : bossName(world.stageIndex);
+      this.bossName.textContent =
+        boss.role === "elite"
+          ? `${threatName(boss, world.stageIndex)} · ${Math.ceil(boss.hp).toLocaleString()} / ${Math.ceil(boss.maxHp).toLocaleString()}${threatAction(boss, world) ? ` · ${threatAction(boss, world)}` : ""}`
+          : world.endless
+            ? `${bossName(world.stageIndex)} · ${t(`技能 ${boss.skillsUsed}/3 · 重击 ${world.bossSlamDamage}`, `Skills ${boss.skillsUsed}/3 · Slam ${world.bossSlamDamage}`)}${threatAction(boss, world) ? ` · ${threatAction(boss, world)}` : ""}${boss.damageReductionTime > 0 ? t(` · 减伤 90% ${boss.damageReductionTime.toFixed(1)}s`, ` · Damage reduction 90% ${boss.damageReductionTime.toFixed(1)}s`) : ""}${boss.arrived ? t(" · 攻击 ×2", " · Attack ×2") : ""}`
+            : boss.hp < boss.maxHp / 2
+              ? `${bossName(world.stageIndex)} · ${t("狂乱阶段", "Frenzy phase")}`
+              : bossName(world.stageIndex);
     }
     const notice =
-      world.phase === "Playing" && world.elapsed < world.noticeUntil ? world.localizedNotice : "";
+      world.clearPresentationRemaining > 0
+        ? t("余响消散 · 即将结算", "Echoes fading · Rewards ahead")
+        : world.phase === "Playing" && world.elapsed < world.noticeUntil
+          ? world.localizedNotice
+          : "";
     if (this.notice.textContent !== notice) this.notice.textContent = notice;
-    const effective = combatStats(player, world.stacks);
+    const effective = combatStats(player, world.stacks, world.firingIntervalFloor);
     const overflow = overhealStats(player, world.stacks);
-    const statKey = JSON.stringify([player.stats, effective, overflow]);
+    const lifestealCeiling = world.lifestealRecoveryPerSecond;
+    const combatRecoveryCeiling = world.combatRecoveryPerSecond;
+    const combatShieldCeiling = world.combatShieldCeiling;
+    const overflowCapacity = Math.min(overflow.capacity, combatShieldCeiling ?? Infinity);
+    const statKey = JSON.stringify([
+      player.stats,
+      effective,
+      overflow,
+      lifestealCeiling,
+      combatRecoveryCeiling,
+      combatShieldCeiling,
+    ]);
     if (this.lastStats !== statKey) {
       this.lastStats = statKey;
       const rows = [
@@ -312,10 +398,29 @@ export class GameUI {
           t("普攻吸血", "Attack lifesteal"),
           `${Number((effective.lifesteal * 100).toFixed(2))}%`,
         ],
+        ...(lifestealCeiling === null
+          ? []
+          : [
+              [
+                "bloodpact",
+                t("吸血回复上限", "Lifesteal recovery ceiling"),
+                `${Number(lifestealCeiling.toFixed(2))} HP/s`,
+              ],
+            ]),
+        ...(combatRecoveryCeiling === null
+          ? []
+          : [
+              [
+                "harvest",
+                t("生命/护盾共享回复", "Shared HP / shield recovery"),
+                `${Number(combatRecoveryCeiling.toFixed(2))} <span class="stat-unit">HP/s</span>`,
+                "combat-recovery",
+              ],
+            ]),
         [
           "ward",
           t("过量转盾 / 储量", "Overheal shield / capacity"),
-          `${Math.round(overflow.conversion * 100)}% / ${Math.round(overflow.capacity)}`,
+          `${Math.round(overflow.conversion * 100)}% / ${Number(overflowCapacity.toFixed(2))}`,
         ],
         [
           "frost",
@@ -342,8 +447,8 @@ export class GameUI {
       ];
       this.stats.innerHTML = rows
         .map(
-          ([symbol, label, value]) =>
-            `<div><dt>${icon(symbol ?? "damage")}<span>${label}</span></dt><dd>${value}</dd></div>`,
+          ([symbol, label, value, key]) =>
+            `<div${key ? ` data-stat="${key}"` : ""}><dt${key ? ' style="white-space:normal;min-width:0"' : ""}>${icon(symbol ?? "damage")}<span>${label}</span></dt><dd>${value}</dd></div>`,
         )
         .join("");
     }
@@ -378,7 +483,7 @@ export class GameUI {
       else
         this.collection.innerHTML = `<div class="empty-build"><div class="empty-sigil" aria-hidden="true">✧</div><p>${t("击破宝箱，<br/>收集你的第一张卡牌。", "Break a chest to collect<br/>your first card.")}</p></div>`;
       if (world.trainingStacks.size > 0) {
-        this.collection.innerHTML += `<p class="build-caption">${t("本局锻体 · 首领或分数获得 · 不计入羁绊", "Run training · Boss or score rewards · No synergy stacks")}</p>${[
+        this.collection.innerHTML += `<p class="build-caption">${t("本局锻体 · 首领或阅历获得 · 不计入羁绊", "Run training · Boss or XP rewards · No synergy stacks")}</p>${[
           ...world.trainingStacks,
         ]
           .map(([id, count]) => {
@@ -441,16 +546,16 @@ export class GameUI {
         ? t(`第 ${world.stageIndex + 1} 关突破`, `Stage ${world.stageIndex + 1} cleared`)
         : supply
           ? t(
-              `无尽随机补给 ${world.stageSupplies} / ${world.endlessRules.supplies}`,
-              `Endless supplies ${world.stageSupplies} / ${world.endlessRules.supplies}`,
+              `无尽分段补给 ${world.stageSupplies} / ${world.endlessRules.supplies}`,
+              `Endless segment supplies ${world.stageSupplies} / ${world.endlessRules.supplies}`,
             )
           : t("选择一道残响", "Choose an echo");
       const rewardDescriptionText = stageClear
         ? `${finale ? t("选择奖励后完成战役", "Choose a reward to complete the campaign") : t(`下一站：${stageName(world.stageIndex + 1)} · 保留构筑，恢复 35 生命`, `Next: ${stageName(world.stageIndex + 1)} · Keep your build, recover 35 HP`)} · ${t("两项锻体与一张残响三选一", "Choose one of two training upgrades and one echo")}`
         : supply
           ? t(
-              `本关固定 ${world.endlessRules.supplies} 次随机补给 · 首领另有锻体与残响三选一`,
-              `${world.endlessRules.supplies} random supplies per stage · Boss offers a separate training / echo choice`,
+              `本关按清场进度获得 ${world.endlessRules.supplies} 次分段补给 · 首领另有锻体与残响三选一`,
+              `${world.endlessRules.supplies} supplies earned by clearing segments · Boss offers a separate training / echo choice`,
             )
           : t(
               "同流派 3 / 6 / 9 层质变 · 重复升级计入",

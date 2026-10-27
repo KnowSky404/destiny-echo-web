@@ -1,0 +1,159 @@
+{
+  "kind": "v3-selection-integrity-and-success-duration-audit",
+  "recordedAt": "2026-10-27T02:16:24.612058+00:00",
+  "sourceFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "profileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+  "planned": 300,
+  "completed": 300,
+  "wins": 156,
+  "naturalDeaths": 144,
+  "unresolved": 0,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "denominator": 50,
+      "wins": 19,
+      "deaths": 31,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 19,
+        "p10": 510.4066666663668,
+        "p50": 542.8999999996706,
+        "p90": 609.55999999961,
+        "min": 492.47499999971643,
+        "max": 761.5416666661384
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 16,
+      "deaths": 34,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 16,
+        "p10": 507.36666666636955,
+        "p50": 539.4749999996737,
+        "p90": 572.508333332977,
+        "min": 505.6333333330378,
+        "max": 572.8499999996434
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "denominator": 50,
+      "wins": 31,
+      "deaths": 19,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 31,
+        "p10": 482.2166666663924,
+        "p50": 500.6916666663756,
+        "p90": 556.9083333329912,
+        "min": 467.46666666640584,
+        "max": 665.8999999995588
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 30,
+      "deaths": 20,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 30,
+        "p10": 486.7791666663883,
+        "p50": 508.11666666636887,
+        "p90": 540.8624999996725,
+        "min": 471.44999999973555,
+        "max": 625.2999999995957
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "denominator": 50,
+      "wins": 29,
+      "deaths": 21,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 29,
+        "p10": 483.19166666639154,
+        "p50": 498.88333333304394,
+        "p90": 547.198333333,
+        "min": 467.46666666640584,
+        "max": 617.8499999996025
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "denominator": 50,
+      "wins": 31,
+      "deaths": 19,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 31,
+        "p10": 487.1583333330546,
+        "p50": 510.17499999970033,
+        "p90": 565.4999999996501,
+        "min": 471.1749999997358,
+        "max": 699.9416666661945
+      },
+      "normalSuccessMedian480to720": true
+    }
+  ],
+  "normalSuccessMedian480to720AllFourAccepted": true,
+  "deathStageIndexCounts": {
+    "1": 135,
+    "2": 6,
+    "3": 3
+  },
+  "integrity": {
+    "runtimeSourceFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 300,
+    "nativeShardFiles": 300,
+    "perRunAudits": 300,
+    "passiveObservationFiles": 300,
+    "eachNativeRecordWithinExactlyOneBoundedCarrier": true,
+    "currentFrozenArchivedSourceAndProfileEqual": true,
+    "freshFullStrictCollectorCanonicalEqual": true,
+    "allPassiveTtkStarCreditAndCastReconciliationsAccepted": true,
+    "missingDuplicateUnplannedUnresolved": 0,
+    "originalNativeOutputsUnchanged": true
+  },
+  "nativeBindings": {
+    "nativeStrictSha256": "4e21d7bc79e7081a9646443b3efb655b812a17a7b41cf34ec616213fd7d42dcd",
+    "manifestSha256": "93dbd08900d9957a9c5887fb8c5a135ee93252e03d1ed5a4bf5f5e4ffdac2e23",
+    "receiptSha256": "acf6a57581f5c25e7fbee07093533b70d2aa7c50447644023df5ae396f35290c",
+    "rawSha256": "1047c2d845f9474677eefcbbc83f60540ea3bd6085e60af3390826e730f751e9"
+  },
+  "fullAudit": {
+    "path": "audit.json",
+    "sha256": "a6309ec9563e2cb91fa7d6fbf12d8ed593a20ab12598ac6841da3b1f2b16ef14",
+    "bytes": 29758187,
+    "indexPath": "hash-index.json",
+    "indexSha256": "65065b06963020c8104fb1de9313cb8d283c9eef759389c8c3a3ff35a8e93ff7",
+    "auditorSha256": "ef9cfd8acc4a8ee25ac6c79f1157693ae10b77ff3115c261ec45e864082e75f8"
+  },
+  "releaseAccepted": false,
+  "holdoutsStartedByAuditor": false,
+  "newWorldRunsByAuditor": 0,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V3 seeds differ from V1/V2. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment."
+  ]
+}

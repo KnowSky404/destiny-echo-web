@@ -21,6 +21,8 @@ This is local software-browser evidence, with explicit fixtures for late-game st
 
 ## What a passing check means
 
+V4 completed its frozen 300/600/120 matrices and independent integrity audits: selection170 wins/130 deaths, campaign355 wins/245 deaths, endless30 clear20/90 deaths, with zero unresolved outcomes. Normal-build successful campaign medians are502–507s. Of49 depth7 entrants,30 clear20; later attrition, actual HP/shield costs and counterplay support acceptance for PRE candidate delivery. Strong defensive builds, some faster common strata and concentrated stage2 deaths remain limits. Fixed-policy results are not human win rates. Historical v1/v2/v3 rejection is preserved. Source review/merge, Wiki and environment publication are separately verified in the delivery PR; see the [v4 calibration record](https://github.com/KnowSky404/destiny-echo-web/blob/main/docs/endless-evolution-calibration-v4-2026-10-27.md).
+
 Simulation tests include frame-rate invariance, actual offered-card campaigns/endless runs, failures and restarts, plus explicitly marked setup fixtures for particular late-game states. Fixed-policy outcomes are not human win rates. Browser captures demonstrate the rendered app and real input paths; stage jumps and fixtures do not prove natural progression. Browser plugin was unavailable in those runs, so repository Playwright with software WebGL was used. Test traces and temporary evidence were stored in `/tmp`; the documentation gallery separately preserves selected PNGs in the repository.
 
 ## Known limits

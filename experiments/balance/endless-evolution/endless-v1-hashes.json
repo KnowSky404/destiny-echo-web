@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "continued-validation-formatted-report-hash-index",
+  "label": "endless",
+  "collectedAt": "2026-10-26T03:16:30.977Z",
+  "reportsFormattedBeforeHashing": true,
+  "files": {
+    "endless-v1-evidence.json": {
+      "sha256": "20d65d6a3d7d30848b1cae7d91271a4ea52c7b15dc39ec59e55fec407cb3b47b",
+      "canonicalSha256": "a022f5b6938db10a42f6d6a722540e66b1da2e1786f11064f62f2b398ebb1061"
+    },
+    "endless-v1-audit.json": {
+      "sha256": "2a120a92d0daf79925a129113ce5ab3b5c0a7b6d8ffe4e7841360b33f2dfe929",
+      "canonicalSha256": "52b0de82c62e46396e668f1a97d5f9d7e06398e1b708c6af9876576ecbfcd082"
+    }
+  },
+  "sourceFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "collectorSha256": "04bfb66501227247f5a18f3ea41e5868e0baf66cee0f42ac982724cd23a2b2a2",
+  "auditScriptSha256": "89041aa4689c75a634121429ab5b6e0ce06a06da6e99ad3701fe3510959efb27",
+  "originalDriverSha256": "af5778c59b74ac11f96c5a832b7464a52edabf634cbcae33ba225cebaa4eb568",
+  "continuationDriverSha256": "84a5d532fbc55ffe0ca431e18490a21335e12e0cae2075006effc60f7c2272a8",
+  "samplingBodySha256": "c24c322b68d69169e658b3cc2ec57f00eadb7afe03056bc3b25fe0d67bfbb8df",
+  "rawInputs": {
+    "candidate": "2152a2bb9cc780fc783d13bacaa8952e4a182e077b4607f47c1ea56075783966",
+    "baseline": "8a9ea8c8eb987335048f8bfd8729cac00be6c339226a24ec2645eabc3a65ef82"
+  },
+  "manifests": {
+    "candidate": "a72c45bd28c5f0fc8b02a0323179f417fec11bd943dda421e2aa806915599fa1",
+    "baseline": "08a13a8553187ff53db2c5b04b718e86281a9047ae39828075ec913310245970"
+  },
+  "driverReceipt": "7a5dea15d8ca85ffe056c9a46fd0cf4396ca4947815a407200abb6db5216722c"
+}

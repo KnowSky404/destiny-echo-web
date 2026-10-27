@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "kind": "endless-evolution-selection-adoption",
+  "recordedAt": "2026-10-23T11:20:00.433Z",
+  "adoptedForIndependentValidation": true,
+  "releaseAccepted": false,
+  "simulationFingerprint": "ae7c35351218276d254846198944310a5f01b6c67b1b7be652813187dbee478d",
+  "profileHash": "c6611673c84d96f72010d5429929f5f3244277a6acf1d3ba6e67060ac3a1c38f",
+  "selectionEvidenceSha256": "d764b0b7f2dca3c6d2295f56ebd7285af23d78e1246fdb63af64d784ba571e02",
+  "selectionAuditSha256": "eb6d6bafac0276a26d7dc38525f78d9809551cefffc85150c9be22b819542e8d",
+  "checks": {
+    "completedCandidate": 300,
+    "completedBaseline": 300,
+    "errors": 0,
+    "invalid": 0,
+    "budget": 0,
+    "cancelled": 0,
+    "missing": 0,
+    "duplicate": 0,
+    "normalBuildMedianTargetGroups": 4,
+    "normalBuildMedianTargetGroupsMet": 4
+  },
+  "reason": "All four build strategy/layout successful medians meet the prospective 480–720s band; six groups resolve naturally with safe cast/lifecycle telemetry. Observed outcome regressions and fast/slow tails are retained. This supports independent validation, not a human completion-rate claim.",
+  "next": {
+    "campaign": {
+      "masterSeed": 2026102302,
+      "perGroup": 100,
+      "total": 600,
+      "seconds": 900,
+      "steps": 108000
+    },
+    "endless": {
+      "masterSeed": 2026102303,
+      "perGroup": 20,
+      "total": 120,
+      "target": 20,
+      "seconds": 7200,
+      "steps": 864000
+    }
+  },
+  "candidateHoldoutPreviouslyExecuted": false,
+  "candidateHoldoutPreviouslyRead": false,
+  "boundaries": [
+    "Selection includes development probe seeds and is calibration evidence.",
+    "Independent holdout/deep results, browser matrix, exact-head review, merge, Wiki and PRE acceptance remain required.",
+    "PRO remains outside deployment authorization."
+  ]
+}

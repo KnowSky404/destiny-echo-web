@@ -9,7 +9,7 @@ import { CONFIG } from "../../src/game/config";
 import { seededRandom } from "../../src/game/random";
 import { combatStats } from "../../src/game/stats";
 import { World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, hit, isolateEndless, tick } from "./helpers";
 
 function arena(width: number = CONFIG.width) {
   // Keep fixed mechanic expectations independent of the calibrated release profile.
@@ -55,6 +55,7 @@ describe("automatic score training", () => {
   test("crossing the boundary grants once without opening or consuming a reward", () => {
     const world = arena();
     world.score = 4899;
+    world.trainingScore = 4899;
     hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
     expect(world.score).toBe(4999);
     expect(world.scoreTrainings).toBe(0);
@@ -71,11 +72,17 @@ describe("automatic score training", () => {
     expect([...world.trainingStacks]).toEqual(before);
   });
 
-  test("a boss score bonus crossing several milestones grants each before its normal reward", () => {
+  test("funded boss credit crosses nonlinear milestones while clear HP score adds no training", () => {
     const world = arena();
     world.player.stats.maxHp = 1200;
     world.player.hp = 1200;
-    hit(world, enemy(world, { kind: "boss", x: 225, y: 300, speed: 0, hp: 1 }), 1);
+    world.trainingScore = 4000;
+    hit(
+      world,
+      enemy(world, { kind: "boss", x: 225, y: 300, speed: 0, hp: 1, trainingCredit: 16000 }),
+      1,
+    );
+    tick(world, 0.9);
     expect(world.score).toBe(15000);
     expect(world.scoreTrainings).toBe(3);
     expect([...world.trainingStacks.values()].reduce((a, b) => a + b, 0)).toBe(3);
@@ -103,8 +110,9 @@ describe("automatic score training", () => {
       world.player.stats.lifesteal = 0.5;
       world.player.stats.interval = 0.08;
       world.score = 99999;
+      world.trainingScore = 99999;
       hit(world, enemy(world, { x: 225, y: 300, speed: 0, hp: 1 }), 1);
-      expect(world.scoreTrainings).toBe(20);
+      expect(world.scoreTrainings).toBe(9);
       expect(world.trainingStacks.size).toBeLessThanOrEqual(5);
       for (const [id] of world.trainingStacks) expect(TRAINING_BY_ID.has(id)).toBe(true);
       expect(world.trainingStacks.has("training-critical")).toBe(false);
@@ -119,6 +127,7 @@ test("living campaign and endless runs continue beyond every former deadline", (
   for (const index of [0, 1, 2, 3, 4, 9]) {
     const world = arena();
     world.stageIndex = index;
+    isolateEndless(world);
     world.stageSupplies = CONFIG.endless.supplies;
     world.stageElapsed = 10000;
     tick(world, 1);
@@ -131,17 +140,18 @@ test("living campaign and endless runs continue beyond every former deadline", (
 });
 
 test("endless damage and preparation/cadence use the agreed multipliers", () => {
-  expect(stageAt(4).damage).toBeCloseTo(1.35 * 1.08 * 1.8, 8);
+  expect(stageAt(4).damage).toBeCloseTo(1.35 * 1.8, 8);
   const world = arena();
   world.stageIndex = 4;
+  isolateEndless(world);
   world.stageSupplies = 3;
   const target = enemy(world, { kind: "wisp", y: 620, arrived: true, speed: 0 });
   tick(world, CONFIG.fixedStep);
-  expect(target.preparation).toBeCloseTo(ENEMIES.wisp.preparation * 0.6);
-  tick(world, Math.ceil((ENEMIES.wisp.preparation * 0.6) / CONFIG.fixedStep) * CONFIG.fixedStep);
+  expect(target.preparation).toBeCloseTo(ENEMIES.wisp.preparation * 0.7);
+  tick(world, Math.ceil((ENEMIES.wisp.preparation * 0.7) / CONFIG.fixedStep) * CONFIG.fixedStep);
   expect(world.regularAttacks).toBe(1);
   expect(world.damageTaken).toBeCloseTo(ENEMIES.wisp.damage * world.stage.damage);
-  expect(target.shotCooldown).toBeCloseTo(ENEMIES.wisp.interval * 0.6, 1);
+  expect(target.shotCooldown).toBeCloseTo(ENEMIES.wisp.interval * 0.7, 1);
   expect(world.bossSlamDamage).toBe(180);
 });
 
@@ -160,7 +170,7 @@ test("all lifesteal sources and its cap are reduced by 15 percent", () => {
 });
 
 test("wide worlds spawn across the field and keep fixed position through pause and restart", () => {
-  const world = new World(DESKTOP_WIDTH);
+  const world = new World(DESKTOP_WIDTH, defaultProfile());
   world.start(3);
   tick(world, 4);
   expect(world.player.x).toBe(800);

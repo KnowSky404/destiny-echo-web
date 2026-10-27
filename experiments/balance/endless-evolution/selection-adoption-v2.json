@@ -1,0 +1,50 @@
+{
+  "kind": "endless-evolution-v2-holdout-adoption",
+  "acceptedForValidation": true,
+  "releaseAccepted": false,
+  "codeFingerprint": "a70d80614f38f3ee09c7da4abcd936cbb2893730d3cda6be1a221ab716a70273",
+  "profileHash": "011462d76f4c4fb2c523e98eb6df08a510fe9cb94e8163fcf9309ca674c5a5e6",
+  "selectionEvidenceSha256": "de089e76b1458b4a190488dba69f02fb05503c9a491d2b0408fbb8184f84d648",
+  "selectionReceiptSha256": "6503aae8637f1bd1ccb8bddc3149b2db967c35d8a46ff19f95d5088c655cd624",
+  "adoptedAt": "2026-10-26T08:32:23.976Z",
+  "reason": "Complete strict300selection has zero unresolved/error/invalid records and all four normal successful medians meet480–720seconds. Independent raw/source/output audit passed; full491unit tests passed. This authorizes reserved validation, not release or a human win-rate claim.",
+  "selectionCounts": {
+    "campaign_victory": 169,
+    "death": 131,
+    "endless_target_reached": 0,
+    "budget_exhausted": 0,
+    "error": 0,
+    "cancelled": 0
+  },
+  "normalGroups": [
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "successes": 36,
+      "originalDenominator": 50,
+      "p50": 505.97499999970415
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "successes": 30,
+      "originalDenominator": 50,
+      "p50": 502.8833333330403
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "successes": 36,
+      "originalDenominator": 50,
+      "p50": 507.249999999703
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "successes": 30,
+      "originalDenominator": 50,
+      "p50": 506.7333333330368
+    }
+  ],
+  "unitProofSha256": "4a28d0efc0d5e1f433856a248ae1077fd0b33f5d48aa8f3bd1cc469616ca2fec"
+}

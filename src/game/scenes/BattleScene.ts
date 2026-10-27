@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { onLocaleChange, t } from "../../i18n/locale";
 import { CONFIG } from "../config";
 import { InputController } from "../input";
+import { presentationProgress } from "../presentation";
 import { seededRandom } from "../random";
 import { synergyTier } from "../synergies";
 import type { World } from "../world";
@@ -13,6 +14,7 @@ export class BattleScene extends Phaser.Scene {
   private halo?: Phaser.GameObjects.Graphics;
   private sigil?: Phaser.GameObjects.Image;
   private overlay?: Phaser.GameObjects.Graphics;
+  private tracery?: Phaser.GameObjects.Graphics;
   private views = new Map<string, Phaser.GameObjects.Image[]>();
   private previousHitAt = -10;
   private readonly reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -57,21 +59,22 @@ export class BattleScene extends Phaser.Scene {
       .setScale(0.74 / TEXTURE_SCALE)
       .setDepth(5);
     this.halo = this.add.graphics().setDepth(4);
+    this.tracery = this.add.graphics().setDepth(4);
     this.overlay = this.add.graphics().setDepth(6);
     this.inputController = new InputController(this.game.canvas, this.world);
     const labelCanvas = () =>
       this.game.canvas.setAttribute(
         "aria-label",
         t(
-          "命运残响固定阵地：点击敌人或宝箱优先攻击，点击空白恢复自动。聚焦战场后 T 切换目标，C 恢复自动。",
-          "Echoes of Destiny defense arena: select enemies or chests to focus fire; select empty space for auto targeting. Focus the arena, then press T to cycle targets or C for auto targeting.",
+          "命运残响固定阵地：点击敌人或宝箱优先攻击，点击空白恢复自动。聚焦战场后 T 切换目标，C 恢复自动，F 确认本次集火。",
+          "Echoes of Destiny defense arena: select enemies or chests to focus fire; select empty space for auto targeting. Focus the arena, then press T to cycle targets, C for auto targeting, or F to confirm the current cast.",
         ),
       );
     labelCanvas();
     const unsubscribe = onLocaleChange(labelCanvas);
     this.game.canvas.setAttribute("role", "img");
     this.game.canvas.tabIndex = 0;
-    this.game.canvas.setAttribute("aria-keyshortcuts", "T C");
+    this.game.canvas.setAttribute("aria-keyshortcuts", "T C F");
     this.onStop(() => {
       this.inputController?.destroy();
       this.inputController = undefined;
@@ -151,7 +154,7 @@ export class BattleScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
-    if (!this.ship || !this.halo || !this.overlay) return;
+    if (!this.ship || !this.halo || !this.overlay || !this.tracery) return;
     this.world.update(delta / 1000);
     const { player } = this.world;
     this.ship.setPosition(player.x, player.y);
@@ -177,6 +180,7 @@ export class BattleScene extends Phaser.Scene {
       this.sigil.setTint(this.world.stage.color);
     }
     this.renderPools();
+    this.renderTracery();
     this.overlay.clear();
     if (this.world.endless) {
       for (const region of this.world.attackRegions) {
@@ -235,6 +239,43 @@ export class BattleScene extends Phaser.Scene {
         preparing || attacking ? 0.8 : 0.25,
       );
       this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 5);
+      if (enemy.role === "elite") {
+        // A broken diamond identifies a sub-boss without hiding its species silhouette.
+        this.overlay.lineStyle(2, COLORS.gold, 0.9);
+        const radius = enemy.radius + 16;
+        for (const direction of [-1, 1]) {
+          this.overlay.lineBetween(
+            enemy.x + direction * radius,
+            enemy.y,
+            enemy.x + direction * radius * 0.5,
+            enemy.y - radius * 0.5,
+          );
+          this.overlay.lineBetween(
+            enemy.x + direction * radius,
+            enemy.y,
+            enemy.x + direction * radius * 0.5,
+            enemy.y + radius * 0.5,
+          );
+        }
+        this.overlay.fillStyle(COLORS.gold, 0.95);
+        this.overlay.fillTriangle(
+          enemy.x,
+          enemy.y - radius - 11,
+          enemy.x - 5,
+          enemy.y - radius - 3,
+          enemy.x + 5,
+          enemy.y - radius - 3,
+        );
+      }
+      if (enemy.vulnerableTime > 0) {
+        this.overlay.lineStyle(3, COLORS.blue, 0.95);
+        for (let corner = 0; corner < 4; corner++) {
+          const angle = (corner * Math.PI) / 2;
+          this.overlay.beginPath();
+          this.overlay.arc(enemy.x, enemy.y, enemy.radius + 12, angle + 0.15, angle + 0.9);
+          this.overlay.strokePath();
+        }
+      }
       if (enemy.tauntRemaining > 0 || enemy.damageReductionTime > 0 || enemy.enhanced) {
         this.overlay.lineStyle(2, enemy.tauntRemaining > 0 ? 0xf1b464 : COLORS.gold, 0.85);
         this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 10);
@@ -260,7 +301,7 @@ export class BattleScene extends Phaser.Scene {
           this.overlay.strokePath();
         }
       }
-      const width = enemy.kind === "boss" ? 84 : 34;
+      const width = enemy.kind === "boss" ? 84 : enemy.role === "elite" ? 56 : 34;
       const y = enemy.y + enemy.radius + 10;
       this.overlay.fillStyle(0x303044, 1);
       this.overlay.fillRect(enemy.x - width / 2, y, width, 3);
@@ -288,14 +329,115 @@ export class BattleScene extends Phaser.Scene {
         this.overlay.strokePath();
       }
       if (enemy.telegraph > 0) {
-        this.overlay.lineStyle(2, COLORS.gold, 0.55);
-        this.overlay.lineBetween(enemy.x, enemy.y + enemy.radius, player.x, player.y);
-        this.overlay.strokeCircle(enemy.x, enemy.y, enemy.radius + 12);
-        this.overlay.fillStyle(COLORS.gold, 1);
+        const forming = this.world.interruptOpeningRemaining(enemy) > 0;
+        const needsFocus =
+          this.world.counterFocusRequired(enemy) && !this.world.counterFocusConfirmed(enemy);
+        const warningColor = forming ? 0xc7b7e8 : needsFocus ? COLORS.gold : COLORS.blue;
+        this.overlay.lineStyle(2, warningColor, 0.8);
+        if (!enemy.castSkill || enemy.castSkill === "slam" || enemy.castSkill === "volley")
+          this.overlay.lineBetween(enemy.x, enemy.y + enemy.radius, player.x, player.y);
+        const warningRadius = enemy.radius + 12;
+        if (forming) {
+          // Four separated arcs mark the unopened window without motion or color alone.
+          for (let arc = 0; arc < 4; arc++) {
+            const angle = (arc * Math.PI) / 2;
+            this.overlay.beginPath();
+            this.overlay.arc(enemy.x, enemy.y, warningRadius, angle + 0.15, angle + 0.95);
+            this.overlay.strokePath();
+          }
+        } else {
+          this.overlay.strokeCircle(enemy.x, enemy.y, warningRadius);
+          if (needsFocus) {
+            // An open diamond asks for a fresh target selection for this cast.
+            for (const direction of [-1, 1]) {
+              this.overlay.lineBetween(
+                enemy.x,
+                enemy.y - warningRadius - 12,
+                enemy.x + direction * 6,
+                enemy.y - warningRadius - 6,
+              );
+              this.overlay.lineBetween(
+                enemy.x + direction * 6,
+                enemy.y - warningRadius - 6,
+                enemy.x,
+                enemy.y - warningRadius,
+              );
+            }
+          } else {
+            // Double ring and a check identify an armed hit route, including reduced motion.
+            this.overlay.strokeCircle(enemy.x, enemy.y, warningRadius + 4);
+            this.overlay.lineBetween(
+              enemy.x - 5,
+              enemy.y - warningRadius - 9,
+              enemy.x - 1,
+              enemy.y - warningRadius - 5,
+            );
+            this.overlay.lineBetween(
+              enemy.x - 1,
+              enemy.y - warningRadius - 5,
+              enemy.x + 6,
+              enemy.y - warningRadius - 13,
+            );
+          }
+        }
+        // Confirmation may be made during the opening; the check remains visible
+        // while the separated arcs still say that hits cannot count yet.
+        if (forming && this.world.counterFocusConfirmed(enemy)) {
+          this.overlay.lineBetween(
+            enemy.x - 5,
+            enemy.y - warningRadius - 9,
+            enemy.x - 1,
+            enemy.y - warningRadius - 5,
+          );
+          this.overlay.lineBetween(
+            enemy.x - 1,
+            enemy.y - warningRadius - 5,
+            enemy.x + 6,
+            enemy.y - warningRadius - 13,
+          );
+        }
+        // The release location remains explicit even with reduced motion enabled.
+        if (enemy.castSkill === "slam") {
+          this.overlay.lineStyle(2.5, COLORS.pink, 0.85);
+          this.overlay.strokeCircle(player.x, player.y, 43);
+          for (const direction of [-1, 1]) {
+            this.overlay.lineBetween(
+              player.x + direction * 30,
+              player.y - 30,
+              player.x + direction * 16,
+              player.y - 16,
+            );
+            this.overlay.lineBetween(
+              player.x + direction * 30,
+              player.y + 30,
+              player.x + direction * 16,
+              player.y + 16,
+            );
+          }
+        } else if (enemy.castSkill) {
+          const points = enemy.castSkill === "ritual" || enemy.castSkill === "summon" ? 6 : 4;
+          this.overlay.fillStyle(COLORS.gold, 0.9);
+          for (let point = 0; point < points; point++) {
+            const angle = (point / points) * Math.PI * 2;
+            this.overlay.fillCircle(
+              enemy.x + Math.cos(angle) * (enemy.radius + 18),
+              enemy.y + Math.sin(angle) * (enemy.radius + 18),
+              2.5,
+            );
+          }
+        }
+        this.overlay.fillStyle(warningColor, 1);
         this.overlay.fillRect(
           enemy.x - 42,
           y + 7,
-          84 * Math.min(1, enemy.interruptDamage / enemy.interruptRequired),
+          84 *
+            Math.min(
+              1,
+              Math.max(
+                enemy.interruptDamage / Math.max(1, enemy.interruptRequired),
+                (enemy.interruptHits ?? 0) / this.world.interruptHitTarget,
+              ),
+            ),
           4,
         );
       }
@@ -331,6 +473,93 @@ export class BattleScene extends Phaser.Scene {
     }
   }
 
+  private renderTracery(): void {
+    const graphics = this.tracery;
+    if (!graphics) return;
+    graphics.clear();
+    if (!this.reducedMotion) {
+      for (const shot of this.world.shots.items) {
+        if (!shot.active) continue;
+        const speed = Math.max(1, Math.hypot(shot.vx, shot.vy));
+        graphics.lineStyle(shot.primary ? 2 : 1, shot.critical ? COLORS.gold : COLORS.blue, 0.35);
+        graphics.lineBetween(
+          shot.x,
+          shot.y,
+          shot.x - (shot.vx / speed) * 18,
+          shot.y - (shot.vy / speed) * 18,
+        );
+      }
+    }
+    for (const effect of this.world.effects) {
+      const progress = presentationProgress(effect);
+      const alpha = (1 - progress) * 0.9;
+      graphics.lineStyle(effect.kind === "impact" ? 3 : 1.5, effect.color, alpha);
+      if (effect.kind === "chain") {
+        const endX = effect.toX ?? effect.x;
+        const endY = effect.toY ?? effect.y;
+        if (this.reducedMotion) graphics.lineBetween(effect.x, effect.y, endX, endY);
+        else {
+          const dx = endX - effect.x;
+          const dy = endY - effect.y;
+          const length = Math.max(1, Math.hypot(dx, dy));
+          let previousX = effect.x;
+          let previousY = effect.y;
+          for (let point = 1; point <= 5; point++) {
+            const offset = point === 5 ? 0 : (point % 2 ? 1 : -1) * Math.min(7, length * 0.06);
+            const x = effect.x + (dx * point) / 5 - (dy / length) * offset;
+            const y = effect.y + (dy * point) / 5 + (dx / length) * offset;
+            graphics.lineBetween(previousX, previousY, x, y);
+            previousX = x;
+            previousY = y;
+          }
+        }
+        graphics.strokeCircle(endX, endY, 7);
+        continue;
+      }
+      const radius = effect.radius * (this.reducedMotion ? 1 : 0.6 + progress * 0.5);
+      graphics.strokeCircle(effect.x, effect.y, radius);
+      if (effect.kind === "erosion") {
+        graphics.strokeCircle(effect.x, effect.y, radius * 0.65);
+        for (let spoke = 0; spoke < 3; spoke++) {
+          const angle = (spoke / 3) * Math.PI * 2 - Math.PI / 2;
+          graphics.lineBetween(
+            effect.x + Math.cos(angle) * radius,
+            effect.y + Math.sin(angle) * radius,
+            effect.x + Math.cos(angle + (Math.PI * 2) / 3) * radius,
+            effect.y + Math.sin(angle + (Math.PI * 2) / 3) * radius,
+          );
+        }
+      } else if (effect.kind === "impact") {
+        for (let spoke = 0; spoke < 8; spoke++) {
+          const angle = (spoke / 8) * Math.PI * 2;
+          graphics.lineBetween(
+            effect.x + Math.cos(angle) * radius * 0.45,
+            effect.y + Math.sin(angle) * radius * 0.45,
+            effect.x + Math.cos(angle) * radius,
+            effect.y + Math.sin(angle) * radius,
+          );
+        }
+      }
+    }
+    for (const echo of this.world.deathEchoes) {
+      const progress = presentationProgress(echo);
+      const radius = echo.role === "boss" ? 48 : echo.role === "elite" ? 29 : 18;
+      graphics.lineStyle(1.5, echo.color, (1 - progress) * 0.7);
+      const spread = this.reducedMotion ? 0 : progress * (echo.role === "boss" ? 34 : 18);
+      for (let piece = 0; piece < 6; piece++) {
+        const angle = (piece / 6) * Math.PI * 2;
+        const x = echo.x + Math.cos(angle) * (radius + spread);
+        const y = echo.y + Math.sin(angle) * (radius + spread);
+        graphics.lineBetween(
+          x - Math.cos(angle + 0.5) * 5,
+          y - Math.sin(angle + 0.5) * 5,
+          x + Math.cos(angle + 0.5) * 5,
+          y + Math.sin(angle + 0.5) * 5,
+        );
+      }
+    }
+  }
+
   private renderPools(): void {
     const menu = this.world.phase === "Menu";
     for (const kind of ["wisp", "sentinel", "hexer", "tank", "wizard", "boss"] as const) {
@@ -338,27 +567,48 @@ export class BattleScene extends Phaser.Scene {
         (enemy) => enemy.active && enemy.kind === kind,
       );
       this.render(kind, enemies, (image, enemy) => {
-        image.setPosition(enemy.x, enemy.y).setScale((kind === "boss" ? 0.9 : 0.8) / TEXTURE_SCALE);
+        image
+          .setPosition(enemy.x, enemy.y)
+          .setScale((kind === "boss" ? 0.9 : enemy.role === "elite" ? 0.96 : 0.8) / TEXTURE_SCALE);
         image.rotation = this.reducedMotion
           ? 0
           : kind === "sentinel"
             ? enemy.age * 0.4
             : Math.sin(enemy.age) * 0.06;
         image.setTint(
-          enemy.stunTime > 0
-            ? 0xc7b7e8
-            : enemy.slowTime > 0
-              ? 0x9ce2ef
-              : enemy.stage === "Attacking"
-                ? 0xffb3cc
-                : enemy.stage === "Preparing"
-                  ? 0xffdf9c
-                  : kind === "boss"
-                    ? this.world.stage.color
-                    : 0xffffff,
+          enemy.vulnerableTime > 0
+            ? COLORS.blue
+            : enemy.stunTime > 0
+              ? 0xc7b7e8
+              : enemy.slowTime > 0
+                ? 0x9ce2ef
+                : enemy.stage === "Attacking"
+                  ? 0xffb3cc
+                  : enemy.stage === "Preparing"
+                    ? 0xffdf9c
+                    : kind === "boss"
+                      ? this.world.stage.color
+                      : 0xffffff,
         );
       });
     }
+    this.render(
+      "death-echo",
+      this.world.deathEchoes,
+      (image, echo) => {
+        const progress = presentationProgress(echo);
+        const scale = echo.role === "boss" ? 0.9 : echo.role === "elite" ? 0.96 : 0.8;
+        image
+          .setTexture(echo.kind)
+          .setPosition(echo.x, echo.y)
+          .setTint(echo.color)
+          .setDepth(4)
+          .setAlpha((1 - progress) * 0.8)
+          .setScale((scale * (this.reducedMotion ? 1 : 1 + progress * 0.22)) / TEXTURE_SCALE)
+          .setRotation(this.reducedMotion ? 0 : progress * 0.12);
+      },
+      "wisp",
+    );
     this.render(
       "chest",
       this.world.chests.items.filter((item) => item.active),
@@ -435,8 +685,9 @@ export class BattleScene extends Phaser.Scene {
 
   private render<T>(
     key: string,
-    items: T[],
+    items: readonly T[],
     update: (image: Phaser.GameObjects.Image, item: T) => void,
+    texture = key.startsWith("menu-") ? key.slice(5) : key,
   ): void {
     let views = this.views.get(key);
     if (!views) {
@@ -446,9 +697,7 @@ export class BattleScene extends Phaser.Scene {
     for (let index = 0; index < items.length; index++) {
       let view = views[index];
       if (!view) {
-        view = this.add
-          .image(0, 0, key.startsWith("menu-") ? key.slice(5) : key)
-          .setDepth(key === "spark" ? 7 : 3);
+        view = this.add.image(0, 0, texture).setDepth(key === "spark" ? 7 : 3);
         views.push(view);
       }
       view.setVisible(true);

@@ -1,0 +1,82 @@
+{
+  "kind": "endless-evolution-v2-campaign-validation-curated-custody",
+  "recordedAt": "2026-10-26T09:43:46.304Z",
+  "formattingOnly": {
+    "evidenceInitiallyByteIdentical": true,
+    "jsonCanonicalHashesUnchanged": true,
+    "nativeUnchanged": {
+      "nativeEvidence": true,
+      "manifest": true,
+      "raw": true,
+      "receipt": true
+    },
+    "evidenceCopyCanonicalEqualToNative": true,
+    "markdownUnchangedDuringJsonFormatting": true
+  },
+  "native": {
+    "directory": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/data/validation",
+    "evidenceSha256": "24b7a518e3e0f65f8ce1d850a08c83cd0b3a93d56b3762c272ecc7dd00579a6d",
+    "evidenceCanonicalHash": "314564d68cffb99bc306441dd7a16ed983c1126a0444c57f101673843448501f",
+    "manifestSha256": "d9c91de1aae3b69954799fbbe24fa1d33d832c2a52347197857c76b6a77a1fe8",
+    "rawSha256": "9961debaf743952c70698383f3486fd8a93efb3c24b5df0a11c0e961b0de03e2",
+    "receiptSha256": "5da36d5786a7fbbcfc89ad7f7db24b3aa48479cb4b9cce1379f5e10fd2d9b383"
+  },
+  "documents": [
+    {
+      "path": "validation-v2-evidence.json",
+      "bytes": 890122,
+      "sha256": "fa0f68379e25133a945cef5fe9aa788dd6b4f5ce734a7cc3e6266792829b0406",
+      "canonicalHash": "314564d68cffb99bc306441dd7a16ed983c1126a0444c57f101673843448501f"
+    },
+    {
+      "path": "validation-v2-audit.json",
+      "bytes": 695804,
+      "sha256": "ebef150be93fc2301b627b036d80cd93c20ff79a39921520b557b6ea25743e42",
+      "canonicalHash": "a9e2c4b8b8b3ba2864f8d257d55097c5eaf7b8c9048b2be1bcdaa29d4eac69f4"
+    },
+    {
+      "path": "validation-v2-audit.md",
+      "bytes": 6432,
+      "sha256": "21f9aa12041237fb730d1009131d50e80d10d2ee1077b2eaa88180f227bbb1dc",
+      "canonicalHash": null
+    }
+  ],
+  "auditorFiles": [
+    {
+      "path": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-validation-final/collect.ts",
+      "sha256": "265eaa61d9e13630abb8812a8fee76347d48f4d5ff3c60ea7dfc407bc63feaf2"
+    },
+    {
+      "path": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-validation-final/sign.ts",
+      "sha256": "58366c918c0b72def2c604f4dd9aecb06227dc9ffa5a59528e4acb0138f924e5"
+    },
+    {
+      "path": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-validation-final/finalize-layout.py",
+      "sha256": "bb690fbdb22977449f125194e833b9b0e453a38289ae7113e709d9085ed7e734"
+    }
+  ],
+  "nativeAdditionalAttachmentsReverified": {
+    "sourceFiles": 47,
+    "shards": 600,
+    "perJobAudits": 600,
+    "cases": 2,
+    "sealedOutputs": 11,
+    "carrierLogs": 151,
+    "schedulingSnapshots": 3
+  },
+  "prospectiveAdoptionPreserved": true,
+  "manualReleaseAccepted": false,
+  "releaseAccepted": false,
+  "markdownSpacingAdjustment": {
+    "recordedAt": "2026-10-26T09:46:04.689337+00:00",
+    "reason": "Insert one blank line before the provisional-warning list; no text or data changes.",
+    "beforeMarkdownSha256": "7a42075bb76738bd4564726ba9d90e4340c5bebab517dcfc73ef2abea6941690",
+    "afterMarkdownSha256": "21f9aa12041237fb730d1009131d50e80d10d2ee1077b2eaa88180f227bbb1dc",
+    "priorIndexSnapshotPath": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/audit-validation-final/before-final-markdown-spacing/validation-v2-hashes.json",
+    "priorIndexSha256": "57e44c4ed0fff2a95d2ae579db1742812fcb4ecfda41db23951efe74e2ff4146",
+    "priorGeneratorSnapshotPath": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/audit-validation-final/before-final-markdown-spacing/collect.ts",
+    "priorGeneratorSha256": "51881e3795b99651d78ee96bbcf453ed9ebc89f8127a3ef7e18b820508d3ec08",
+    "jsonDocumentBytesUnchanged": true,
+    "allNativeCustodyChecksRepeatedAndPassed": true
+  }
+}

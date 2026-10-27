@@ -95,6 +95,7 @@ export function advanceFusion(
       (enemy) =>
         enemy.active &&
         enemy.kind !== "boss" &&
+        enemy.role !== "elite" &&
         enemy.stars < CONFIG.fusion.maxStars &&
         enemy.age >= CONFIG.fusion.grace &&
         enemy.stunTime <= 0,
@@ -131,6 +132,7 @@ export function advanceFusion(
     anchor.damageScale =
       Math.max(...group.map((enemy) => enemy.damageScale)) * CONFIG.fusion.damage;
     anchor.enhanced = group.some((enemy) => enemy.enhanced);
+    anchor.trainingCredit = group.reduce((sum, enemy) => sum + enemy.trainingCredit, 0);
     anchor.fusionTime = 0;
     anchor.fusionPeers = "";
     for (const donor of pair) donor.active = false;

@@ -1,10 +1,10 @@
 import { CONFIG } from "../game/config";
-import { type Random, shuffled, weightedChoice, weightedShuffle } from "../game/random";
+import { type Random, weightedShuffle } from "../game/random";
 import { combatStats } from "../game/stats";
 import type { Player, Stats, Training } from "../game/types";
 import { t } from "../i18n/locale";
-import type { RewardPolicy } from "./balance/model";
-import { CARDS, drawCards } from "./cards";
+import { DEFAULT_EVOLUTION, type RewardPolicy } from "./balance/model";
+import { CARDS, drawBossCard } from "./cards";
 
 function training(
   id: string,
@@ -58,13 +58,14 @@ export const TRAININGS: readonly Training[] = [
     rarity: "common",
     symbol: "haste",
     maxStacks: null,
-    description: "本局锻体：本局基础攻击间隔缩短 6%，最低 0.08 秒；不计入流派层数。",
+    description:
+      "本局锻体：基础攻击间隔缩短 6%；实际间隔受本局下限约束，正式配置最低 0.12 秒；不计入流派层数。",
     eligible: (player) => player.stats.interval > 0.080001,
     apply: (player) => {
       player.stats.interval = Math.max(0.08, player.stats.interval * 0.94);
     },
     preview: (player) =>
-      `${t("攻击间隔", "Firing interval")} ${player.stats.interval.toFixed(3)}s → ${Math.max(0.08, player.stats.interval * 0.94).toFixed(3)}s`,
+      `${t("基础攻击间隔", "Base firing interval")} ${player.stats.interval.toFixed(3)}s → ${Math.max(0.08, player.stats.interval * 0.94).toFixed(3)}s · ${t("实际间隔受本局下限约束", "Effective interval respects this run's floor")}`,
   },
 ];
 export const TRAINING_BY_ID = new Map(TRAININGS.map((item) => [item.id, item]));
@@ -77,9 +78,14 @@ export function eligibleTrainings(
   stacks: ReadonlyMap<string, number>,
   stageIndex: number,
   policy?: RewardPolicy,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
 ): Training[] {
   // Shield is ignored so conditional leech does not hide a useful permanent upgrade.
-  const effective = combatStats({ ...player, shield: 0, poisonSlowTime: 0 }, stacks);
+  const effective = combatStats(
+    { ...player, shield: 0, poisonTime: 0, poisonSlowTime: 0 },
+    stacks,
+    firingIntervalFloor,
+  );
   return TRAININGS.filter(
     (item) =>
       item.eligible(player) &&
@@ -88,7 +94,7 @@ export function eligibleTrainings(
       (item.id !== "training-leech" ||
         ((stageIndex > 0 || policy?.firstStageRestriction === false) &&
           effective.lifesteal < 0.5 * CONFIG.lifestealMultiplier - 1e-9)) &&
-      (item.id !== "training-haste" || effective.interval > 0.08 + 1e-9),
+      (item.id !== "training-haste" || effective.interval > firingIntervalFloor + 1e-9),
   );
 }
 
@@ -98,21 +104,14 @@ export function drawBossRewards(
   random: Random,
   stageIndex: number,
   policy?: RewardPolicy,
+  firingIntervalFloor: number = DEFAULT_EVOLUTION.firingIntervalFloor,
 ): string[] {
   const trainingChoices = weightedShuffle(
-    eligibleTrainings(player, stacks, stageIndex, policy),
+    eligibleTrainings(player, stacks, stageIndex, policy, firingIntervalFloor),
     (item) => policy?.trainingWeights[item.id] ?? 1,
     random,
   ).slice(0, 2);
-  const augments = drawCards(player, stacks, random, "stage", stageIndex, policy);
-  const weight = (id: string) => policy?.cardWeights[id] ?? 1;
-  const uniform = augments.every((id) => weight(id) === weight(augments[0] ?? ""));
-  const card =
-    policy?.mode === "weighted"
-      ? augments[0]
-      : uniform
-        ? shuffled(augments, random)[0]
-        : weightedChoice(augments, weight, random);
+  const card = drawBossCard(player, stacks, random, stageIndex, policy, firingIntervalFloor);
   return [...trainingChoices.map((item) => item.id), ...(card ? [card] : [])];
 }
 

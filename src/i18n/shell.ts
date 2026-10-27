@@ -8,7 +8,7 @@ const strings: Record<string, readonly [string, string]> = {
   helpTrigger: ["玩法说明", "Help"],
   health: ["生命", "HP"],
   defenseLine: ["防线 / DEFENSE LINE", "DEFENSE LINE"],
-  scoreInitial: ["0 分", "0 points"],
+  scoreInitial: ["总分 0 分", "Total 0 pts"],
   stageInitial: ["第 1 / 4 关 · 圣杯前庭", "Stage 1 / 4 · Grail Courtyard"],
   bossInitial: ["失控圣杯 · 空愿之器", "Runaway Grail · Vessel of Empty Wishes"],
   loadingTitle: ["开启这一轮命运", "Begin a new turn of fate"],
@@ -39,18 +39,18 @@ const strings: Record<string, readonly [string, string]> = {
   ],
   targetingTitle: ["自动攻击，自由点选", "Automatic fire, priority targets"],
   targetingHelp: [
-    "战机自动攻击。点选敌人或宝箱优先锁定，点空白 / C 恢复自动；T 切换目标。",
-    "Your ship fires automatically. Select an enemy or chest to prioritize it; empty space / C restores auto targeting. T cycles targets.",
+    "战机自动攻击。点选敌人或宝箱优先锁定，点空白 / C 恢复自动；T 切换目标，F 重新确认当前目标。无尽第 4 层起，每次大小首领预警都需重新点选才累计主弹打断，可在起势时提前确认；起势结束才累计打断命中与伤害，自动射击照常。伤害达标仍可自动打断，随后主弹可趁弱点破防。第 4 层起，首领首次准备与已开始蓄力不受减速、眩晕拖延；遗世庇护可冻结，眩晕后短暂恢复。",
+    "Your ship fires automatically. Select an enemy or chest to prioritize it; empty space / C restores auto targeting. T cycles targets; F reconfirms the current target. From Endless depth 4, reselect a leader for each warning to count primary hits. Confirm during forming if desired; interruption hits and damage count after forming ends. Automatic fire continues, and enough damage can still interrupt automatically. Primary hits exploit the exposed weak point. From depth 4, slow and stun cannot delay a leader’s first preparation or an active charge; Sanctuary freezes them. Leaders briefly recover after a stun.",
   ],
   augmentsTitle: ["三选一，组合流派", "Choose one, shape your build"],
   augmentsHelp: [
-    "宝箱和补给三选一。同流派叠加 3 / 6 / 9 层解锁羁绊，顶部查看本局构筑。",
-    "Choose one of three chest or supply rewards. Matching families unlock synergies at 3 / 6 / 9 stacks. Inspect your cards in Build.",
+    "宝箱和补给三选一。同流派叠加 3 / 6 / 9 层解锁羁绊。击破常规波次与首领积累锻体阅历，每次所需阅历递增；总分另计，顶部构筑面板查看进度。",
+    "Choose one of three chest or supply rewards. Matching families unlock synergies at 3 / 6 / 9 stacks. Regular waves and bosses grant Training XP; each training costs more XP. Total score is tracked separately. Check progress in Build.",
   ],
   rewardsTitle: ["突破四关，挑战无尽", "Clear four stages, enter Endless"],
   rewardsHelp: [
-    "首领与小怪全灭后领奖。突破四关可保留构筑挑战无尽；生命归零则本局结束。",
-    "Clear the boss and all minions to claim a reward. Complete four stages to keep your build for Endless. Zero HP ends the run.",
+    "首领与小怪全灭、余响消散后领奖。突破四关可保留构筑挑战无尽：清空怪群与小首领推进分段、获得补给，最后迎战主首领。第 4 层起两只小首领同段；第 7 层起普通怪两只成组，第 13 层起三只成组。高星普通怪承受的敌方生命伤害项、减速强度与眩晕时长按星级减弱；第 7 层起，普通怪的百分比伤害额度，以及战斗回血与转盾共享的回复额度随层数温和下降，构筑可查看 HP/s 与转盾储量，已有护盾与卡牌即时效果保留。吸血另受自身生命上限和吸血对应的回复上限限制。无尽第 7 层起，普通近战与敌方弹幕单次最多承受生命上限的 35%；首领重击第 4 层起为 45%。多次攻击和持续伤害仍可致命。生命归零则本局结束。",
+    "Clear the boss and all minions, then let their echoes fade to claim a reward. Keep your build after four stages for Endless: clear waves and sub-bosses to earn supplies before the main boss. From depth 4, two sub-bosses share a segment. Minions arrive in groups of two from depth 7 and three from depth 13. Higher-star minions resist enemy-HP damage, slow strength and stun duration according to their stars. From depth 7, the minion percentage-damage allowance and the shared allowance for combat HP recovery and shield generation gently decline with depth. Check HP/s and shield storage in Build; existing shield and immediate card effects remain. Lifesteal also keeps its maximum-HP and lifesteal-based ceiling. From Endless depth 7, ordinary melee and enemy projectiles each deal at most 35% of maximum HP; boss slams are capped at 45% from depth 4. Multiple attacks and ongoing damage can still kill. Zero HP ends the run.",
   ],
   pauseTitle: ["随时暂停，重新出发", "Pause and start again"],
   pauseHelp: [

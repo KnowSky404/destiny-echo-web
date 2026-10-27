@@ -19,7 +19,13 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
+      testMatch: [
+        "desktop.spec.ts",
+        "i18n.spec.ts",
+        "endless-evolution.spec.ts",
+        "counterplay.spec.ts",
+        "recovery-budget.spec.ts",
+      ],
       use: {
         browserName: "chromium",
         launchOptions: {
@@ -33,7 +39,13 @@ export default defineConfig({
     },
     {
       name: "firefox",
-      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
+      testMatch: [
+        "desktop.spec.ts",
+        "i18n.spec.ts",
+        "endless-evolution.spec.ts",
+        "counterplay.spec.ts",
+        "recovery-budget.spec.ts",
+      ],
       use: {
         browserName: "firefox",
         viewport: { width: 1920, height: 1080 },
@@ -47,12 +59,24 @@ export default defineConfig({
     },
     {
       name: "webkit",
-      testMatch: ["desktop.spec.ts", "i18n.spec.ts"],
+      testMatch: [
+        "desktop.spec.ts",
+        "i18n.spec.ts",
+        "endless-evolution.spec.ts",
+        "counterplay.spec.ts",
+        "recovery-budget.spec.ts",
+      ],
       use: { browserName: "webkit" },
     },
     {
       name: "mobile-chromium",
-      testMatch: ["mobile.spec.ts", "i18n.spec.ts"],
+      testMatch: [
+        "mobile.spec.ts",
+        "i18n.spec.ts",
+        "endless-evolution.spec.ts",
+        "counterplay.spec.ts",
+        "recovery-budget.spec.ts",
+      ],
       use: {
         ...devices["Pixel 7"],
         browserName: "chromium",

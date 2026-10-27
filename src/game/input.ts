@@ -27,6 +27,7 @@ export class InputController {
         const key = event.key.toLowerCase();
         if (key === "t") world.cycleTarget();
         else if (key === "c") world.clearTarget();
+        else if (key === "f" && world.target) world.selectTargetAt(world.target);
         else return;
         event.preventDefault();
       },

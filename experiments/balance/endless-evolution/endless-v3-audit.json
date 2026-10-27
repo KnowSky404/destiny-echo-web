@@ -1,0 +1,1064 @@
+{
+  "kind": "v3-endless-final-curated-integrity-summary",
+  "recordedAt": "2026-10-27T03:15:56.256187+00:00",
+  "sourceFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48",
+  "profileHash": "c2b3a2525f8e7e87f7feb5a32f20d64afa7235657b29968f8f30659bf216287a",
+  "planned": 120,
+  "completed": 120,
+  "wins": 36,
+  "naturalDeaths": 84,
+  "unresolved": 0,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "denominator": 20,
+      "wins": 0,
+      "deaths": 20,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 0,
+        "p10": null,
+        "p50": null,
+        "p90": null,
+        "min": null,
+        "max": null
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 9,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 2,
+          "cleared": 1,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 11,
+      "endlessNonentrants": 11,
+      "endlessDeathsAfterEntry": 9,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 0,
+          "interrupts": 0,
+          "releases": 0,
+          "deathCancelled": 0,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 0,
+          "interrupts": 0,
+          "releases": 0,
+          "deathCancelled": 0,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "denominator": 20,
+      "wins": 2,
+      "deaths": 18,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 2,
+        "p10": 2766.305000001819,
+        "p50": 3095.524999997028,
+        "p90": 3424.7449999922374,
+        "min": 2684.0000000030163,
+        "max": 3507.0499999910394
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 11,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 4,
+          "cleared": 2,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 2,
+          "cleared": 2,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 2,
+          "cleared": 2,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 9,
+      "endlessNonentrants": 9,
+      "endlessDeathsAfterEntry": 9,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 6,
+          "interrupts": 3,
+          "releases": 2,
+          "deathCancelled": 1,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 9,
+          "interrupts": 4,
+          "releases": 4,
+          "deathCancelled": 1,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "denominator": 20,
+      "wins": 9,
+      "deaths": 11,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 9,
+        "p10": 2267.491666675744,
+        "p50": 2354.066666674484,
+        "p90": 2487.0016666725496,
+        "min": 2211.9916666765516,
+        "max": 2521.10833333872
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 12,
+          "cleared": 11,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 10,
+          "cleared": 10,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 8,
+      "endlessNonentrants": 8,
+      "endlessDeathsAfterEntry": 3,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 23,
+          "interrupts": 4,
+          "releases": 16,
+          "deathCancelled": 3,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 28,
+          "interrupts": 7,
+          "releases": 18,
+          "deathCancelled": 3,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "denominator": 20,
+      "wins": 8,
+      "deaths": 12,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 8,
+        "p10": 2208.8208333432644,
+        "p50": 2327.670833341535,
+        "p90": 2399.835833340485,
+        "min": 2201.675000010035,
+        "max": 2415.358333340259
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 14,
+          "cleared": 12,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 8,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 8,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 8,
+          "cleared": 8,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 6,
+      "endlessNonentrants": 6,
+      "endlessDeathsAfterEntry": 6,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 23,
+          "interrupts": 4,
+          "releases": 16,
+          "deathCancelled": 3,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 27,
+          "interrupts": 7,
+          "releases": 18,
+          "deathCancelled": 2,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "denominator": 20,
+      "wins": 9,
+      "deaths": 11,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 9,
+        "p10": 2067.7116666784814,
+        "p50": 2170.0583333438285,
+        "p90": 2236.9883333428547,
+        "min": 2016.8916666785422,
+        "max": 2247.2750000093715
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 9,
+          "cleared": 9,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 11,
+      "endlessNonentrants": 11,
+      "endlessDeathsAfterEntry": 0,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 20,
+          "interrupts": 18,
+          "releases": 1,
+          "deathCancelled": 1,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 29,
+          "interrupts": 29,
+          "releases": 0,
+          "deathCancelled": 0,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "denominator": 20,
+      "wins": 8,
+      "deaths": 12,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 8,
+        "p10": 2068.9125000116574,
+        "p50": 2126.466666677796,
+        "p90": 2348.1258333412375,
+        "min": 2010.1416666784562,
+        "max": 2423.0083333401476
+      },
+      "normalSuccessMedian480to720": null,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 15,
+          "cleared": 12,
+          "denominator": 20
+        },
+        {
+          "depth": 5,
+          "entered": 9,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 10,
+          "entered": 8,
+          "cleared": 8,
+          "denominator": 20
+        },
+        {
+          "depth": 20,
+          "entered": 8,
+          "cleared": 8,
+          "denominator": 20
+        }
+      ],
+      "campaignDeathsBeforeEndless": 5,
+      "endlessNonentrants": 5,
+      "endlessDeathsAfterEntry": 7,
+      "depth20CastsByRole": {
+        "elite": {
+          "starts": 18,
+          "interrupts": 17,
+          "releases": 0,
+          "deathCancelled": 1,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        },
+        "boss": {
+          "starts": 28,
+          "interrupts": 27,
+          "releases": 0,
+          "deathCancelled": 1,
+          "otherCensored": 0,
+          "censoredLatenciesAreNull": true
+        }
+      }
+    }
+  ],
+  "normalSuccessMedian480to720AllFourAccepted": null,
+  "deathStageIndexCounts": {
+    "1": 47,
+    "2": 3,
+    "4": 10,
+    "5": 2,
+    "6": 2,
+    "7": 14,
+    "8": 4,
+    "9": 1,
+    "10": 1
+  },
+  "depth20": {
+    "entered": 36,
+    "cleared": 36,
+    "castsByRole": {
+      "elite": {
+        "starts": 90,
+        "interrupts": 46,
+        "releases": 35,
+        "deathCancelled": 9,
+        "otherCensored": 0,
+        "censoredLatenciesAreNull": true
+      },
+      "boss": {
+        "starts": 121,
+        "interrupts": 74,
+        "releases": 40,
+        "deathCancelled": 7,
+        "otherCensored": 0,
+        "censoredLatenciesAreNull": true
+      }
+    },
+    "actualHpShieldHealingAndSkillCounters": {
+      "hpLoss": 2022,
+      "shieldAbsorbed": 5828.789156249856,
+      "healing": 2251.999999999985,
+      "shieldGained": 6351.698875989407,
+      "hpLossBySource": {
+        "melee:wisp": 0,
+        "poison": 0,
+        "bloodpact": 2022,
+        "projectile:wizard": 0,
+        "melee:tank": 0,
+        "boss_slam": 0,
+        "projectile:boss": 0
+      },
+      "shieldAbsorbedBySource": {
+        "melee:wisp": 472.40212499999996,
+        "poison": 813.8999999998553,
+        "bloodpact": 0,
+        "projectile:wizard": 1190.3397187500004,
+        "melee:tank": 664.7720624999997,
+        "boss_slam": 1314.0,
+        "projectile:boss": 1373.37525
+      },
+      "healingBySource": {
+        "regeneration": 1008.635182395827,
+        "lifesteal": 827.2908342708251,
+        "harvest": 246.07398333333327,
+        "reward:vitality": 80,
+        "stage_recovery": 90
+      },
+      "shieldBySource": {
+        "overheal:regeneration": 1597.2853893801405,
+        "overheal:lifesteal": 2683.3777526353383,
+        "overheal:harvest": 671.7093741822761,
+        "bastion": 1063.9390264583285,
+        "dominion_kill": 191.38733333333332,
+        "reward:ward": 144
+      },
+      "skillCounters": {
+        "boss_skill:slam": 10,
+        "boss_skill:guard": 6,
+        "boss_skill:ritual": 12,
+        "boss_skill:ward": 23,
+        "boss_skill:volley": 18,
+        "boss_skill:summon": 6
+      },
+      "hostileHpLoss": 0
+    }
+  },
+  "sameClear20CohortTtk": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 0,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "elite": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "boss": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "elite": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "boss": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "elite": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            },
+            "boss": {
+              "defeatedCount": 0,
+              "lifetimeSumSeconds": 0,
+              "defeatedMeanLifetimeSeconds": null,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 2,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 592,
+              "lifetimeSumSeconds": 1476.7750000188037,
+              "defeatedMeanLifetimeSeconds": 2.4945523648966277,
+              "atMostOneSecondCount": 115,
+              "atMostOneSecondFraction": 0.19425675675675674
+            },
+            "elite": {
+              "defeatedCount": 4,
+              "lifetimeSumSeconds": 58.216666667407935,
+              "defeatedMeanLifetimeSeconds": 14.554166666851984,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 2,
+              "lifetimeSumSeconds": 364.9083333379797,
+              "defeatedMeanLifetimeSeconds": 182.45416666898984,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 196,
+              "lifetimeSumSeconds": 430.8333333308815,
+              "defeatedMeanLifetimeSeconds": 2.198129251688171,
+              "atMostOneSecondCount": 60,
+              "atMostOneSecondFraction": 0.30612244897959184
+            },
+            "elite": {
+              "defeatedCount": 4,
+              "lifetimeSumSeconds": 67.54999999980237,
+              "defeatedMeanLifetimeSeconds": 16.88749999995059,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 2,
+              "lifetimeSumSeconds": 74.44166666658361,
+              "defeatedMeanLifetimeSeconds": 37.22083333329181,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 138,
+              "lifetimeSumSeconds": 179.79166666405035,
+              "defeatedMeanLifetimeSeconds": 1.3028381642322489,
+              "atMostOneSecondCount": 67,
+              "atMostOneSecondFraction": 0.4855072463768116
+            },
+            "elite": {
+              "defeatedCount": 4,
+              "lifetimeSumSeconds": 45.766666666000674,
+              "defeatedMeanLifetimeSeconds": 11.441666666500169,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 2,
+              "lifetimeSumSeconds": 63.69166666573983,
+              "defeatedMeanLifetimeSeconds": 31.845833332869915,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 9,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 766,
+              "lifetimeSumSeconds": 996.5000000066723,
+              "defeatedMeanLifetimeSeconds": 1.300913838128815,
+              "atMostOneSecondCount": 406,
+              "atMostOneSecondFraction": 0.5300261096605744
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 112.1916666672405,
+              "defeatedMeanLifetimeSeconds": 6.2328703704022494,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 272.9083333363094,
+              "defeatedMeanLifetimeSeconds": 30.323148148478822,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 576,
+              "lifetimeSumSeconds": 667.7166666751687,
+              "defeatedMeanLifetimeSeconds": 1.1592303240888344,
+              "atMostOneSecondCount": 293,
+              "atMostOneSecondFraction": 0.5086805555555556
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 243.91666666977244,
+              "defeatedMeanLifetimeSeconds": 13.550925926098468,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 287.9000000036658,
+              "defeatedMeanLifetimeSeconds": 31.988888889296202,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 458,
+              "lifetimeSumSeconds": 431.6583333270519,
+              "defeatedMeanLifetimeSeconds": 0.9424854439455281,
+              "atMostOneSecondCount": 289,
+              "atMostOneSecondFraction": 0.631004366812227
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 227.01666666336314,
+              "defeatedMeanLifetimeSeconds": 12.612037036853508,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 253.34999999631327,
+              "defeatedMeanLifetimeSeconds": 28.149999999590364,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 8,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 1006,
+              "lifetimeSumSeconds": 1471.9666666762369,
+              "defeatedMeanLifetimeSeconds": 1.463187541427671,
+              "atMostOneSecondCount": 433,
+              "atMostOneSecondFraction": 0.4304174950298211
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 120.61666666727854,
+              "defeatedMeanLifetimeSeconds": 7.5385416667049086,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 263.175000002949,
+              "defeatedMeanLifetimeSeconds": 32.896875000368624,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 714,
+              "lifetimeSumSeconds": 852.6916666775239,
+              "defeatedMeanLifetimeSeconds": 1.194246031761238,
+              "atMostOneSecondCount": 360,
+              "atMostOneSecondFraction": 0.5042016806722689
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 178.96666666894544,
+              "defeatedMeanLifetimeSeconds": 11.18541666680909,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 235.76666666966867,
+              "defeatedMeanLifetimeSeconds": 29.470833333708583,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 558,
+              "lifetimeSumSeconds": 494.3666666594727,
+              "defeatedMeanLifetimeSeconds": 0.8859617682069403,
+              "atMostOneSecondCount": 379,
+              "atMostOneSecondFraction": 0.6792114695340502
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 185.71666666396413,
+              "defeatedMeanLifetimeSeconds": 11.607291666497758,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 224.0166666634068,
+              "defeatedMeanLifetimeSeconds": 28.00208333292585,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 9,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 692,
+              "lifetimeSumSeconds": 800.2416666704523,
+              "defeatedMeanLifetimeSeconds": 1.156418593454411,
+              "atMostOneSecondCount": 373,
+              "atMostOneSecondFraction": 0.5390173410404624
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 88.17500000033067,
+              "defeatedMeanLifetimeSeconds": 4.898611111129481,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 198.97500000167747,
+              "defeatedMeanLifetimeSeconds": 22.10833333351972,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 472,
+              "lifetimeSumSeconds": 555.725000007076,
+              "defeatedMeanLifetimeSeconds": 1.1773834745912628,
+              "atMostOneSecondCount": 240,
+              "atMostOneSecondFraction": 0.5084745762711864
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 184.03333333567662,
+              "defeatedMeanLifetimeSeconds": 10.224074074204257,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 209.24166666933093,
+              "defeatedMeanLifetimeSeconds": 23.249074074370103,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 396,
+              "lifetimeSumSeconds": 393.87499999615966,
+              "defeatedMeanLifetimeSeconds": 0.9946338383741405,
+              "atMostOneSecondCount": 233,
+              "atMostOneSecondFraction": 0.5883838383838383
+            },
+            "elite": {
+              "defeatedCount": 18,
+              "lifetimeSumSeconds": 165.93333333190822,
+              "defeatedMeanLifetimeSeconds": 9.218518518439346,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 9,
+              "lifetimeSumSeconds": 208.69166666422166,
+              "defeatedMeanLifetimeSeconds": 23.187962962691294,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "plannedDenominator": 20,
+      "sameClear20CohortN": 8,
+      "depths": [
+        {
+          "depth": 5,
+          "roles": {
+            "minion": {
+              "defeatedCount": 908,
+              "lifetimeSumSeconds": 1383.3333333407231,
+              "defeatedMeanLifetimeSeconds": 1.5234948605074043,
+              "atMostOneSecondCount": 430,
+              "atMostOneSecondFraction": 0.473568281938326
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 104.20833333375833,
+              "defeatedMeanLifetimeSeconds": 6.513020833359896,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 184.23333333474523,
+              "defeatedMeanLifetimeSeconds": 23.029166666843153,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roles": {
+            "minion": {
+              "defeatedCount": 674,
+              "lifetimeSumSeconds": 923.8833333450971,
+              "defeatedMeanLifetimeSeconds": 1.3707467853784823,
+              "atMostOneSecondCount": 314,
+              "atMostOneSecondFraction": 0.4658753709198813
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 148.12500000188606,
+              "defeatedMeanLifetimeSeconds": 9.257812500117879,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 178.89166666894448,
+              "defeatedMeanLifetimeSeconds": 22.36145833361806,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roles": {
+            "minion": {
+              "defeatedCount": 530,
+              "lifetimeSumSeconds": 510.5999999948158,
+              "defeatedMeanLifetimeSeconds": 0.9633962264053129,
+              "atMostOneSecondCount": 310,
+              "atMostOneSecondFraction": 0.5849056603773585
+            },
+            "elite": {
+              "defeatedCount": 16,
+              "lifetimeSumSeconds": 133.17499999878805,
+              "defeatedMeanLifetimeSeconds": 8.323437499924253,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            },
+            "boss": {
+              "defeatedCount": 8,
+              "lifetimeSumSeconds": 182.1249999980089,
+              "defeatedMeanLifetimeSeconds": 22.76562499975111,
+              "atMostOneSecondCount": 0,
+              "atMostOneSecondFraction": 0.0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "integrity": {
+    "runtimeSourceFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 120,
+    "nativeShardFiles": 120,
+    "perJobAudits": 120,
+    "passiveSidecarFiles": 120,
+    "eachNativeRunWithinOneBoundedCarrier": true,
+    "allCurrentFrozenArchivedSourceProfileProtocolAndCollectorEqual": true,
+    "freshFullStrictCollectorEqual": true,
+    "allNativePassiveTtkCreditStarsCastsAndChronologyAccepted": true,
+    "missingDuplicateUnplannedUnresolved": 0
+  },
+  "bindings": {
+    "nativeStrictSha256": "7762e66229acc9075fa2c449916e3db2b4bdab7ca91e95c8c4af3496f6d2441a",
+    "manifestSha256": "eb9c19bc126776fb9c3f1045224e43cf289f1dded628a12ed8e701d2dc597541",
+    "receiptSha256": "15f6380490dd7a379f17b612fc5eb079ffe0332d7415d166bfc9194e06c6802d",
+    "rawSha256": "fc16f16de6d7080a591c95c93beeeb051309103ff2007283f4049d25c999ff1d",
+    "adoptionHash": "8c9a2d661d36e07cf8338f3e56d5e6bdcdab9153bc2a72c9e3e788743f17e068",
+    "freezeSha256": "c0e9fadd1697468416a235b67988e7c29b5a932ee77ead997e958198dea62418",
+    "protocolSha256": "6b396a8e1c25ff91db4edac309f20ef47578fc3c7e958449956c111740577115",
+    "collectorSha256": "4b0251f96756b2492f57f2d523139b813bcde274a91e0f6c49d6288aa26b4847",
+    "runnerHashes": {
+      "driver.ts": "44db8aef062979f12146c87e683178bd92fbc16517aee3ebf74553157d6aedd2",
+      "core.ts": "c9b2c6a31689899267ddfc579f9fbc8a36dc79934f03962355868befc7feb882",
+      "coordinator.py": "567afa4787ff8589b48a4d12ca230334c32aebaef232b1e440172c9636ecc705",
+      "observation.ts": "d91ab3635386c457a7461df4cb32e5464ae3d121a19938c511af1ae075ff7d2f"
+    },
+    "caseHashes": [
+      {
+        "path": "cases/death.json",
+        "sha256": "ef826346b5417d340508009dc61f9e2e59825b0bcc34fd49adc512692f740ea5",
+        "expectedHash": "fbb495d931e3817744c5834122d85125ed9df436d174dc30377c5a8e474895e2",
+        "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48"
+      },
+      {
+        "path": "cases/endless_target_reached.json",
+        "sha256": "529531d17b0339a2f897be535287d92229d51b3ada769a96479c55a2eeb40942",
+        "expectedHash": "c02de0e28c7ab8d77d068cb6bdf99813b7eb7f202064033ed83d527c6a2fcce3",
+        "codeFingerprint": "0aa08e7d6ba58e05399fd31d6a753af7ac556df039f159f81e7647abc3edad48"
+      }
+    ],
+    "sidecarShardAndPerJobAuditIndex": {
+      "path": "native-case-sidecar-index.json",
+      "sha256": "1f41e6a0bef881fe16def18d15aac81d768f31595c034fc46058c6efa7c3971d",
+      "sidecarCount": 120
+    },
+    "fullAudit": {
+      "path": "../audit.json",
+      "sha256": "c0078d1ffb113f735686bf4a638c36cddaf2ad90410463bb7604725d1d57d6cd",
+      "bytes": 55695080
+    },
+    "fullAuditOriginalHashIndexSha256": "72f1be79634de0318e6cb33406143f11ac9d985d5f303e8dfffaf529e59100a0"
+  },
+  "releaseAccepted": false,
+  "newWorldRunsByAuditor": 0,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V3 seeds differ from V1/V2. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment.",
+    "Native maximum1second HP/source aggregates do not prove a specific human reaction or per-cast causality. A single authored slam cap does not cap combined damage from all sources.",
+    "All exact cases/native sidecar hash rows remain in ignored NFS evidence; this compact summary binds their original hashes rather than copying large raw evidence into Git.",
+    "No attrition was observed after depth10 among its36 clears: all36 also cleared20. Depth20 hostile HP loss is zero; absorbed shield damage is still observed.",
+    "The matched clear20 cohort pooled minion lifetime means decrease from depth5 to20 in all four normal build/layout groups. Mixed star/credit populations require the recorded cohort strata; this summary does not claim every minion is a single-hit kill or that sustained challenge is solved."
+  ]
+}

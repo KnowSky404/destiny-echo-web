@@ -50,7 +50,7 @@ export async function woundsFlow(page: Page, name: string, touch = false) {
   );
   const before = await snapshot(page);
   await expect(page.locator("#status-effects")).toContainText("治疗 / 护盾获得 -90%");
-  await expect(page.locator("#boss-health")).toContainText("重击 189");
+  await expect(page.locator("#boss-health")).toContainText(`重击 ${before.bossSlamDamage}`);
   await page.clock.runFor(1000);
   const after = await snapshot(page);
   // Native rAF cadence can cover one fewer fixed step than the requested wall time.

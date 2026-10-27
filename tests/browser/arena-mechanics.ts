@@ -16,7 +16,9 @@ export async function endlessSpawnFlow(page: Page, name: string, touch = false) 
   const initial = await snapshot(page);
   expect([...new Set(initial.attackRegions.map((region) => region.y))].sort()).toEqual([500, 600]);
   const admissions = new Map<number, { spawnX: number; spawnY: number }>();
-  for (let step = 0; step < 8; step++) {
+  // Admission geometry is independent of the slower endless spawn cadence.
+  // Observe a bounded sample without requiring the former units-per-second rate.
+  for (let step = 0; step < 16 && admissions.size < 10; step++) {
     await page.clock.runFor(800);
     for (const enemy of (await snapshot(page)).enemies)
       if (enemy.kind !== "boss") admissions.set(enemy.id, enemy);

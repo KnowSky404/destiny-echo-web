@@ -6,13 +6,14 @@ import { combatStats } from "../../src/game/stats";
 import { applyPoison } from "../../src/game/systems/damage";
 import { chooseTarget } from "../../src/game/systems/targeting";
 import { createPlayer, World } from "../../src/game/world";
-import { enemy, hit, tick } from "./helpers";
+import { enemy, enterBossEncounter, hit, isolateEndless, tick } from "./helpers";
 
 function arena(seed = 30): World {
   // Keep fixed mechanic expectations independent of the calibrated release profile.
   const world = new World(CONFIG.width, defaultProfile());
   world.start(seed);
   world.stageIndex = 4;
+  isolateEndless(world);
   world.bossSpawned = true;
   // Isolate combat mechanics from random reward interrupts and survival limits.
   world.stageSupplies = 3;
@@ -32,6 +33,8 @@ function boss(world: World) {
     speed: 0,
     hp: 1000,
     maxHp: 1000,
+    patternCooldown: 0,
+    stage: "Attacking",
     attackPolicy: { type: "anywhere" },
   });
 }
@@ -48,15 +51,16 @@ describe("balanced species and endless random spawning", () => {
       const world = arena();
       world.stageIndex = index;
       world.bossSpawned = false;
+      if (world.endless) enterBossEncounter(world);
       const kinds = world.endless ? ENDLESS_KINDS : CAMPAIGN_KINDS;
       for (let frame = 0; frame < 120 * 20; frame++) {
-        for (const item of world.enemies.items) item.active = false;
+        for (const item of world.enemies.items) if (item.kind !== "boss") item.active = false;
         world.update(CONFIG.fixedStep);
         const counts = kinds.map((kind) => world.stageKindSpawns[kind]);
         expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
       }
-      for (const item of world.enemies.items) item.active = false;
-      world.stageElapsed = world.stage.bossAt;
+      for (const item of world.enemies.items) if (item.kind !== "boss") item.active = false;
+      if (!world.boss) enterBossEncounter(world);
       tick(world, 0.1);
       for (let batch = 0; batch < 6; batch++) {
         const counts = kinds.map((kind) => world.stageKindSpawns[kind]);
@@ -72,6 +76,7 @@ describe("balanced species and endless random spawning", () => {
   test("endless minions spawn in the upper half or attack regions, bosses stay at the top", () => {
     const world = arena();
     world.bossSpawned = false;
+    Reflect.set(world, "encounterStageIndex", -1);
     tick(world, 6);
     const minions = world.enemies.items.filter((item) => item.active);
     expect(minions.length).toBeGreaterThan(4);
@@ -96,7 +101,7 @@ describe("balanced species and endless random spawning", () => {
     expect(minions.some((item) => item.spawnY >= 500 && item.spawnY <= 700)).toBe(true);
     expect(new Set(minions.map((item) => item.spawnY)).size).toBeGreaterThan(1);
     expect(new Set(minions.map((item) => item.spawnX)).size).toBe(4 + world.scoreTrainings);
-    world.stageElapsed = world.stage.bossAt;
+    enterBossEncounter(world);
     tick(world, 0.1);
     expect(world.boss?.spawnY).toBe(-55);
     expect(
@@ -288,7 +293,7 @@ describe("single poison effect and conditional attack slow", () => {
     tick(world, 10);
     expect(world.snapshot()).toEqual(ended);
     world.start(1);
-    expect(world.player).toEqual(createPlayer());
+    expect(world.player).toEqual(createPlayer(CONFIG.player, 1, defaultProfile().payload.player));
   });
 
   test("poison, taunt and real firing stay identical at 30, 60 and 144 Hz", () => {
@@ -324,15 +329,17 @@ describe("single poison effect and conditional attack slow", () => {
   });
 });
 
-describe("endless boss health thresholds and independent skills", () => {
-  test("scheduled endless boss attacks while approaching and doubles only its regular damage on arrival", () => {
+describe("endless boss warnings and independent skills", () => {
+  test("segmented main boss attacks while approaching and doubles only regular damage on arrival", () => {
     const world = arena();
-    world.bossSpawned = false;
-    world.stageElapsed = world.stage.bossAt;
+    enterBossEncounter(world);
     tick(world, 0.1);
     const target = world.boss;
     if (!target) throw new Error("Missing boss");
     for (const item of world.enemies.items) if (item !== target) item.active = false;
+    isolateEndless(world);
+    // Exercise ordinary projectile damage separately from the prompt opening cast.
+    target.patternCooldown = 1000;
     tick(world, 2.9);
     expect(target.attackPolicy).toEqual({ type: "anywhere" });
     expect(target.arrived).toBe(false);
@@ -340,65 +347,90 @@ describe("endless boss health thresholds and independent skills", () => {
     const distant = world.hostileShots.items.find((shot) => shot.active && shot.damage > 10);
     expect(distant?.damage).toBeCloseTo(ENEMIES.boss.damage * world.stage.damage, 6);
     world.hostileShots.clear();
-    for (const item of world.enemies.items) if (item !== target) item.active = false;
     target.y = target.defenseY;
     target.shotCooldown = 0;
     world.update(CONFIG.fixedStep);
     expect(target.arrived).toBe(true);
+    const shots = world.hostileShots.items.filter((shot) => shot.active);
+    expect(shots.length).toBeGreaterThan(0);
     expect(
-      world.hostileShots.items
-        .filter((shot) => shot.active)
-        .every(
-          (shot) => Math.abs(shot.damage - ENEMIES.boss.damage * world.stage.damage * 2) < 1e-6,
-        ),
+      shots.every(
+        (shot) => Math.abs(shot.damage - ENEMIES.boss.damage * world.stage.damage * 2) < 1e-6,
+      ),
     ).toBe(true);
     expect(world.bossSpecials).toBe(0);
     expect(target.telegraph).toBe(0);
   });
 
-  test("70/40/10 percent thresholds allow three consecutive guards and never repeat a threshold", () => {
-    const world = arena(30); // Independent boss RNG draws guard three times.
+  test("70/40/10 percent thresholds queue three guards with individual warnings and never repeat", () => {
+    const world = arena(30);
     const target = boss(world);
+    target.patternCooldown = 1000; // Isolate threshold guards from the regular volley.
     hit(world, target, 299);
     expect(target.skillsUsed).toBe(0);
+    target.patternCooldown = 0;
     hit(world, target, 1);
     expect(target.skillsUsed).toBe(1);
+    expect(target.castSkill).toBe("guard");
+    expect(target.lastSkill).toBeNull();
+    expect(target.damageReductionTime).toBe(0);
+    tick(world, world.profile.payload.evolution.chargeSeconds + 0.02);
     expect(target.lastSkill).toBe("guard");
-    expect(target.damageReductionTime).toBe(3);
+    expect(target.damageReductionTime).toBeGreaterThan(2.9);
     hit(world, target, 100);
     expect(target.hp).toBeCloseTo(690, 6);
-    expect(target.skillsUsed).toBe(1);
     hit(world, target, 2900);
     expect(target.skillsUsed).toBe(2);
+    expect(world.bossSpecials).toBe(1);
+    tick(
+      world,
+      world.profile.payload.evolution.recoverySeconds +
+        world.profile.payload.evolution.chargeSeconds +
+        0.03,
+    );
+    expect(world.bossSpecials).toBe(2);
     expect(target.lastSkill).toBe("guard");
     hit(world, target, 3000);
     expect(target.skillsUsed).toBe(3);
-    expect(target.lastSkill).toBe("guard");
+    tick(
+      world,
+      world.profile.payload.evolution.recoverySeconds +
+        world.profile.payload.evolution.chargeSeconds +
+        0.03,
+    );
+    expect(world.bossSpecials).toBe(3);
     hit(world, target, 10);
     expect(target.skillsUsed).toBe(3);
-    expect(world.bossSpecials).toBe(3);
   });
 
-  test("one nonlethal hit crossing all thresholds releases three skills; death cancels further casting", () => {
+  test("one nonlethal hit crossing all thresholds queues skills; death cancels unreleased casts", () => {
     const world = arena(30);
     const target = boss(world);
     hit(world, target, 950);
     expect(target.skillsUsed).toBe(3);
-    expect(world.bossSpecials).toBe(3);
+    expect(target.telegraph).toBeGreaterThan(0);
+    expect(target.pendingSkills).toHaveLength(2);
+    expect(world.bossSpecials).toBe(0);
+    tick(world, 0.5);
+    expect(world.bossSpecials).toBe(0);
     hit(world, target, 1000);
     expect(target.active).toBe(false);
-    expect(world.bossSpecials).toBe(3);
+    tick(world, 0.9);
+    expect(world.bossSpecials).toBe(0);
     expect(world.phase).toBe("StageClear");
   });
 
-  test("90 percent reduction expires after three combat seconds and freezes during pause", () => {
+  test("guard reduction expires after three combat seconds and freezes during pause", () => {
     const world = arena(30);
     const target = boss(world);
     hit(world, target, 300);
+    tick(world, world.profile.payload.evolution.chargeSeconds + 0.02);
+    const remaining = target.damageReductionTime;
+    expect(remaining).toBeGreaterThan(2.9);
     target.stunTime = 10;
     world.pause();
     tick(world, 5);
-    expect(target.damageReductionTime).toBe(3);
+    expect(target.damageReductionTime).toBe(remaining);
     world.resume();
     tick(world, 3.01);
     expect(target.damageReductionTime).toBe(0);
@@ -407,34 +439,43 @@ describe("endless boss health thresholds and independent skills", () => {
     expect(before - target.hp).toBeCloseTo(100, 6);
   });
 
-  test("slam removes exactly 180 HP through shields and invulnerability and can be lethal", () => {
-    const world = arena(11);
-    const target = boss(world);
-    world.player.invulnerable = 10;
-    const shield = world.player.shield;
-    hit(world, target, 300);
-    expect(target.lastSkill).toBe("slam");
-    expect(world.player.hp).toBe(820);
-    expect(world.player.shield).toBe(shield);
-    world.player.hp = 80;
-    hit(world, target, 300);
-    expect(world.player.hp).toBe(0);
-    expect(world.player.shield).toBe(shield);
-    expect(world.phase).toBe("GameOver");
+  test("warned slam respects shields and invulnerability, and can kill an unshielded defense", () => {
+    for (const [shield, invulnerable, hp, expectedShield, expectedHp] of [
+      [200, 0, 1000, 20, 1000],
+      [200, 10, 1000, 200, 1000],
+      [0, 0, 80, 0, 0],
+    ] as const) {
+      const world = arena();
+      const target = boss(world);
+      world.player.shield = shield as number;
+      world.player.hp = hp as number;
+      world.player.invulnerable = invulnerable as number;
+      target.pendingSkills.push("slam");
+      world.update(CONFIG.fixedStep);
+      expect(target.castSkill).toBe("slam");
+      expect(world.player.hp).toBe(hp);
+      expect(world.player.shield).toBe(shield);
+      tick(world, world.profile.payload.evolution.chargeSeconds + 0.02);
+      expect(target.lastSkill).toBe("slam");
+      expect(world.player.hp).toBe(expectedHp);
+      expect(world.player.shield).toBe(expectedShield);
+      expect(world.phase).toBe(expectedHp === 0 ? "GameOver" : "Playing");
+    }
   });
 });
 
-describe("three random supplies plus one mixed boss reward", () => {
-  test("different seeds have different schedules, fixed three awards, and frozen one-use choices", () => {
-    const schedules: number[][] = [];
+describe("three earned segment supplies plus one main boss reward", () => {
+  test("waiting earns no supplies; segment clears grant exactly three frozen one-use choices", () => {
     for (const seed of [4, 5]) {
       const world = arena(seed);
       world.stageSupplies = 0;
-      world.update(CONFIG.fixedStep);
-      schedules.push(world.snapshot().endlessRewardTimes);
-      expect(schedules.at(-1)).toHaveLength(3);
+      Reflect.set(world, "encounterStageIndex", -1);
+      tick(world, 20);
+      expect(world.reward).toBeNull();
+      expect(world.stageSupplies).toBe(0);
+      expect(world.snapshot().endlessRewardTimes).toEqual([]);
       let offers = 0;
-      for (let frame = 0; frame < 120 * 47; frame++) {
+      for (let frame = 0; frame < 120 * 180 && !world.boss; frame++) {
         if (world.reward) {
           expect(world.reward.source).toBe("supply");
           const frozen = world.snapshot();
@@ -447,14 +488,20 @@ describe("three random supplies plus one mixed boss reward", () => {
           expect(world.chooseCard(reward.choices[0] ?? "", reward.token)).toBe(false);
           offers++;
         }
+        for (const item of world.enemies.items) item.active = false;
         world.update(CONFIG.fixedStep);
       }
       expect(offers).toBe(3);
+      expect(world.stageSupplies).toBe(3);
+      expect(world.boss).toBeDefined();
       expect(world.openedChests).toBe(0);
       expect(world.chests.items.some((item) => item.active)).toBe(false);
-      expect([...world.stacks.values()].reduce((a, b) => a + b, 0)).toBe(3);
-      const target = boss(world);
+      const target = world.boss;
+      if (!target) throw new Error("Missing main boss");
       hit(world, target, target.maxHp + 1);
+      for (const escort of world.enemies.items)
+        if (escort.active) hit(world, escort, escort.hp + 1);
+      tick(world, 0.9);
       expect(world.phase).toBe("StageClear");
       expect(world.reward?.source).toBe("stage");
       claim(world);
@@ -465,13 +512,13 @@ describe("three random supplies plus one mixed boss reward", () => {
       expect(world.stageSupplies).toBe(0);
       expect(world.player.poisonTime + world.player.poisonSlowTime).toBe(0);
     }
-    expect(schedules[0]).not.toEqual(schedules[1]);
   });
 
-  test("an early boss kill settles missing supplies before its extra card, across two endless stages", () => {
+  test("bypassing segments does not grant unearned supplies before its stage card across layers", () => {
     const world = arena();
     world.stageSupplies = 0;
     for (const stage of [4, 5]) {
+      isolateEndless(world);
       const trainingBefore = world.scoreTrainings;
       const countBefore = [...world.stacks.values(), ...world.trainingStacks.values()].reduce(
         (a, b) => a + b,
@@ -479,22 +526,18 @@ describe("three random supplies plus one mixed boss reward", () => {
       );
       const target = boss(world);
       hit(world, target, 1001);
-      for (let supply = 1; supply <= 3; supply++) {
-        expect(world.phase).toBe("RewardSelection");
-        expect(world.stageSupplies).toBe(supply);
-        expect(world.reward?.source).toBe("supply");
-        const frozen = world.snapshot();
-        tick(world, 2);
-        expect(world.snapshot()).toEqual(frozen);
-        claim(world);
-      }
+      tick(world, 0.9);
       expect(world.phase).toBe("StageClear");
       expect(world.reward?.source).toBe("stage");
+      expect(world.stageSupplies).toBe(0);
+      const frozen = world.snapshot();
+      tick(world, 2);
+      expect(world.snapshot()).toEqual(frozen);
       claim(world);
       expect(world.stageIndex).toBe(stage + 1);
       expect(
         [...world.stacks.values(), ...world.trainingStacks.values()].reduce((a, b) => a + b, 0),
-      ).toBe(countBefore + 4 + world.scoreTrainings - trainingBefore);
+      ).toBe(countBefore + 1 + world.scoreTrainings - trainingBefore);
       expect(world.enemies.items.every((item) => !item.active)).toBe(true);
     }
   });

@@ -1,0 +1,1672 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-endless-independent-integrity-and-gameplay-summary",
+  "recordedAt": "2026-10-27T07:04:51.790449+00:00",
+  "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "originalDenominator": 120,
+  "completed": 120,
+  "clear20": 30,
+  "naturalDeaths": 90,
+  "unresolved": 0,
+  "entry7": 49,
+  "clear7": 47,
+  "clear10": 43,
+  "deathsAtOrAfter7": 19,
+  "deathsAfterClearing7": 17,
+  "deathsByEndlessDepth": {
+    "1": 9,
+    "4": 14,
+    "5": 2,
+    "6": 3,
+    "7": 2,
+    "8": 3,
+    "9": 1,
+    "11": 1,
+    "12": 2,
+    "13": 2,
+    "14": 2,
+    "16": 1,
+    "17": 4,
+    "19": 1
+  },
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "originalDenominator": 20,
+      "clear20": 1,
+      "naturalDeaths": 19,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 8,
+          "cleared": 6,
+          "notEntered": 12
+        },
+        {
+          "depth": 5,
+          "entered": 2,
+          "cleared": 2,
+          "notEntered": 18
+        },
+        {
+          "depth": 7,
+          "entered": 1,
+          "cleared": 1,
+          "notEntered": 19
+        },
+        {
+          "depth": 10,
+          "entered": 1,
+          "cleared": 1,
+          "notEntered": 19
+        },
+        {
+          "depth": 20,
+          "entered": 1,
+          "cleared": 1,
+          "notEntered": 19
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 1,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": 1.3920542635836164,
+              "hostile": 1.3125968992251766
+            },
+            "elite": {
+              "player": 6.750000000085947,
+              "hostile": 6.374999999999638
+            },
+            "boss": {
+              "player": 29.53333333370938,
+              "hostile": 26.53333333335445
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": 1.6214460784520184,
+              "hostile": 1.4094362745099753
+            },
+            "elite": {
+              "player": 10.89166666680535,
+              "hostile": 9.429166666666132
+            },
+            "boss": {
+              "player": 29.81666666704632,
+              "hostile": 26.891666666678006
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": 1.6658854166878783,
+              "hostile": 1.478385416666746
+            },
+            "elite": {
+              "player": 11.645833333481619,
+              "hostile": 9.208333333332812
+            },
+            "boss": {
+              "player": 33.316666667090885,
+              "hostile": 26.816666666679836
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": 2.1455555555243335,
+              "hostile": 1.8705555555557019
+            },
+            "elite": {
+              "player": 14.649999999786814,
+              "hostile": 11.666666666666005
+            },
+            "boss": {
+              "player": 31.933333332868642,
+              "hostile": 25.433333333336044
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2536159831562628,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2871399099117684,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.3450650343932924,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.237295625276182,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0709893795124217,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9457700650756239,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2071111629950633,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2327146167202394,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2579606439728324,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.2669683257918551,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.958479239593658,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9484151646982059,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        }
+      },
+      "d20EnemyHpLoss": 56.59477769246968,
+      "d20ShieldAbsorbed": 203.11606605752064,
+      "d20EnemyHpZeroCases": 0,
+      "d20FullHpEntryCases": 1,
+      "d20HpLossBySource": {
+        "bloodpact": 51,
+        "melee:tank": 26.751176884868585,
+        "melee:wisp": 0.22269432322701732,
+        "poison": 1.2118439843740703,
+        "projectile:wizard": 28.409062500000005
+      },
+      "d20ShieldAbsorbedBySource": {
+        "bloodpact": 0,
+        "melee:tank": 130.31035436513145,
+        "melee:wisp": 9.517555676773004,
+        "poison": 63.288156015623215,
+        "projectile:wizard": 0
+      },
+      "d20Casts": {
+        "starts": 8,
+        "interrupts": 0,
+        "releases": 5,
+        "entityDeath": 3,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {
+        "kill:boss": 3000,
+        "kill:elite": 4230,
+        "kill:minion": 16500
+      },
+      "d20ActualHealingBySource": {
+        "harvest": 2.629569518064346,
+        "lifesteal": 62.54675201738795,
+        "regeneration": 72.41845615700682
+      },
+      "d20ActualShieldGenerationBySource": {
+        "bastion": 2.8057732067510557,
+        "overheal:harvest": 3.6569999999999983,
+        "overheal:lifesteal": 78.25878041207088,
+        "overheal:regeneration": 111.39451243870715
+      },
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 1,
+          "deaths": 68,
+          "playerMean": 1.6214460784520184,
+          "hostileMean": 1.4094362745099753
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 1,
+          "deaths": 64,
+          "playerMean": 1.6658854166878783,
+          "hostileMean": 1.478385416666746
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 1,
+          "deaths": 60,
+          "playerMean": 2.1455555555243335,
+          "hostileMean": 1.8705555555557019
+        }
+      ]
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "originalDenominator": 20,
+      "clear20": 0,
+      "naturalDeaths": 20,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 8,
+          "cleared": 7,
+          "notEntered": 12
+        },
+        {
+          "depth": 5,
+          "entered": 0,
+          "cleared": 0,
+          "notEntered": 20
+        },
+        {
+          "depth": 7,
+          "entered": 0,
+          "cleared": 0,
+          "notEntered": 20
+        },
+        {
+          "depth": 10,
+          "entered": 0,
+          "cleared": 0,
+          "notEntered": 20
+        },
+        {
+          "depth": 20,
+          "entered": 0,
+          "cleared": 0,
+          "notEntered": 20
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 0,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": null,
+              "hostile": null
+            },
+            "elite": {
+              "player": null,
+              "hostile": null
+            },
+            "boss": {
+              "player": null,
+              "hostile": null
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": null,
+              "hostile": null
+            },
+            "elite": {
+              "player": null,
+              "hostile": null
+            },
+            "boss": {
+              "player": null,
+              "hostile": null
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": null,
+              "hostile": null
+            },
+            "elite": {
+              "player": null,
+              "hostile": null
+            },
+            "boss": {
+              "player": null,
+              "hostile": null
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": null,
+              "hostile": null
+            },
+            "elite": {
+              "player": null,
+              "hostile": null
+            },
+            "boss": {
+              "player": null,
+              "hostile": null
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": null,
+            "commonEarlierDeathCoverage": null,
+            "commonLaterDeathCoverage": null,
+            "commonStrata": 0
+          }
+        }
+      },
+      "d20EnemyHpLoss": 0,
+      "d20ShieldAbsorbed": 0,
+      "d20EnemyHpZeroCases": 0,
+      "d20FullHpEntryCases": 0,
+      "d20HpLossBySource": {},
+      "d20ShieldAbsorbedBySource": {},
+      "d20Casts": {
+        "starts": 0,
+        "interrupts": 0,
+        "releases": 0,
+        "entityDeath": 0,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {},
+      "d20ActualHealingBySource": {},
+      "d20ActualShieldGenerationBySource": {},
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 0,
+          "deaths": 0,
+          "playerMean": null,
+          "hostileMean": null
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 0,
+          "deaths": 0,
+          "playerMean": null,
+          "hostileMean": null
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 0,
+          "deaths": 0,
+          "playerMean": null,
+          "hostileMean": null
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "originalDenominator": 20,
+      "clear20": 8,
+      "naturalDeaths": 12,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 16,
+          "cleared": 15,
+          "notEntered": 4
+        },
+        {
+          "depth": 5,
+          "entered": 14,
+          "cleared": 13,
+          "notEntered": 6
+        },
+        {
+          "depth": 7,
+          "entered": 13,
+          "cleared": 13,
+          "notEntered": 7
+        },
+        {
+          "depth": 10,
+          "entered": 11,
+          "cleared": 11,
+          "notEntered": 9
+        },
+        {
+          "depth": 20,
+          "entered": 8,
+          "cleared": 8,
+          "notEntered": 12
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 8,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": 1.1236363636424538,
+              "hostile": 1.057310606060881
+            },
+            "elite": {
+              "player": 5.613541666695248,
+              "hostile": 5.229687499999704
+            },
+            "boss": {
+              "player": 28.208333333611236,
+              "hostile": 24.373958333352725
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": 1.6189741036062717,
+              "hostile": 1.521796148738505
+            },
+            "elite": {
+              "player": 10.711979166803062,
+              "hostile": 9.393749999999466
+            },
+            "boss": {
+              "player": 29.49791666704226,
+              "hostile": 25.269791666674177
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": 1.6410879629838588,
+              "hostile": 1.4310019841271093
+            },
+            "elite": {
+              "player": 12.288541666823136,
+              "hostile": 10.015624999999432
+            },
+            "boss": {
+              "player": 30.85416666705953,
+              "hostile": 24.707291666677577
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": 1.924240558264281,
+              "hostile": 1.6242610837437885
+            },
+            "elite": {
+              "player": 11.105208333171731,
+              "hostile": 8.559374999999513
+            },
+            "boss": {
+              "player": 29.56354166623646,
+              "hostile": 22.23854166666631
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.1118657830328784,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0076741313093718,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0367092915553184,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9111776447105787,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0022247333577805,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8800445195594754,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.1128048244894202,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0898514310410965,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9037043315850739,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8546021840873633,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9581701552743291,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9000801045571158,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        }
+      },
+      "d20EnemyHpLoss": 579.4176953130216,
+      "d20ShieldAbsorbed": 1084.267346353635,
+      "d20EnemyHpZeroCases": 5,
+      "d20FullHpEntryCases": 6,
+      "d20HpLossBySource": {
+        "bloodpact": 441,
+        "boss_slam": 134.2200410484499,
+        "melee:tank": 71.64292180907069,
+        "melee:wisp": 19.480500000000006,
+        "poison": 63.17116830583723,
+        "projectile:boss": 116.34861594296581,
+        "projectile:wizard": 174.554448206698
+      },
+      "d20ShieldAbsorbedBySource": {
+        "bloodpact": 0,
+        "boss_slam": 252.7799589515501,
+        "melee:tank": 107.33417194092932,
+        "melee:wisp": 192.36993750000005,
+        "poison": 107.9954983608191,
+        "projectile:boss": 214.81988405703422,
+        "projectile:wizard": 208.96789554330212
+      },
+      "d20Casts": {
+        "starts": 42,
+        "interrupts": 13,
+        "releases": 27,
+        "entityDeath": 2,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {
+        "kill:boss": 24000,
+        "kill:elite": 33840,
+        "kill:minion": 127830
+      },
+      "d20ActualHealingBySource": {
+        "harvest": 12.057355327004219,
+        "lifesteal": 424.21810374353805,
+        "regeneration": 770.9766199663045,
+        "stage_recovery": 60.00476309485305
+      },
+      "d20ActualShieldGenerationBySource": {
+        "bastion": 3.918404229957804,
+        "overheal:harvest": 7.592425474683358,
+        "overheal:lifesteal": 402.02711959998334,
+        "overheal:regeneration": 902.6965933209556,
+        "reward:ward": 72
+      },
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 13,
+          "deaths": 854,
+          "playerMean": 1.803542154589709,
+          "hostileMean": 1.664919984387448
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 11,
+          "deaths": 718,
+          "playerMean": 1.547156453130192,
+          "hostileMean": 1.3748259052926248
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 8,
+          "deaths": 406,
+          "playerMean": 1.924240558264281,
+          "hostileMean": 1.6242610837437885
+        }
+      ]
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "originalDenominator": 20,
+      "clear20": 6,
+      "naturalDeaths": 14,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 15,
+          "cleared": 14,
+          "notEntered": 5
+        },
+        {
+          "depth": 5,
+          "entered": 13,
+          "cleared": 12,
+          "notEntered": 7
+        },
+        {
+          "depth": 7,
+          "entered": 12,
+          "cleared": 11,
+          "notEntered": 8
+        },
+        {
+          "depth": 10,
+          "entered": 11,
+          "cleared": 11,
+          "notEntered": 9
+        },
+        {
+          "depth": 20,
+          "entered": 6,
+          "cleared": 6,
+          "notEntered": 14
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 6,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": 1.2901124338704901,
+              "hostile": 1.2298170194007205
+            },
+            "elite": {
+              "player": 5.618750000032236,
+              "hostile": 4.943055555555277
+            },
+            "boss": {
+              "player": 31.49444444471601,
+              "hostile": 28.327777777800076
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": 1.8007277397489558,
+              "hostile": 1.6023116438358864
+            },
+            "elite": {
+              "player": 13.27916666683575,
+              "hostile": 11.31874999999936
+            },
+            "boss": {
+              "player": 32.20000000041,
+              "hostile": 27.56666666668059
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": 1.8404226618939377,
+              "hostile": 1.6098920863311892
+            },
+            "elite": {
+              "player": 14.240277777959099,
+              "hostile": 11.742361111110446
+            },
+            "boss": {
+              "player": 33.18611111153367,
+              "hostile": 27.402777777791314
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": 2.0709898278258883,
+              "hostile": 1.7230242566509988
+            },
+            "elite": {
+              "player": 12.445833333152223,
+              "hostile": 9.344444444443914
+            },
+            "boss": {
+              "player": 29.66666666623496,
+              "hostile": 22.858333333333917
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.048763225673684,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9915313294226173,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9372450580227487,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8255721209890176,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9213250517346961,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8292019347033509,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.055104677215168,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0099884250153877,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8739881010197503,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.7957892246732509,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.893948271508211,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8341611758739124,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        }
+      },
+      "d20EnemyHpLoss": 1090.2402226308259,
+      "d20ShieldAbsorbed": 717.305235702477,
+      "d20EnemyHpZeroCases": 4,
+      "d20FullHpEntryCases": 5,
+      "d20HpLossBySource": {
+        "bloodpact": 402,
+        "boss_slam": 253.5,
+        "melee:tank": 328.414691301737,
+        "melee:wisp": 163.06931065400846,
+        "poison": 135.02915817508034,
+        "projectile:boss": 0,
+        "projectile:wizard": 210.22706250000005
+      },
+      "d20ShieldAbsorbedBySource": {
+        "bloodpact": 0,
+        "boss_slam": 146.99999999999997,
+        "melee:tank": 55.10765244826304,
+        "melee:wisp": 192.4498143459916,
+        "poison": 85.3291751582274,
+        "projectile:boss": 103.89600000000002,
+        "projectile:wizard": 133.52259375
+      },
+      "d20Casts": {
+        "starts": 33,
+        "interrupts": 7,
+        "releases": 24,
+        "entityDeath": 2,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {
+        "kill:boss": 18000,
+        "kill:elite": 25380,
+        "kill:minion": 143340
+      },
+      "d20ActualHealingBySource": {
+        "harvest": 2.1214133043248946,
+        "lifesteal": 575.833492592591,
+        "regeneration": 683.6914347455811,
+        "stage_recovery": 35
+      },
+      "d20ActualShieldGenerationBySource": {
+        "bastion": 11.30327939741561,
+        "dominion_kill": 3.999999999999999,
+        "overheal:harvest": 4.686490318433541,
+        "overheal:lifesteal": 380.9942627731574,
+        "overheal:regeneration": 334.34121677372605
+      },
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 12,
+          "deaths": 1054,
+          "playerMean": 1.7504506641589108,
+          "hostileMean": 1.5620414294752498
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 11,
+          "deaths": 992,
+          "playerMean": 1.756619623678281,
+          "hostileMean": 1.552763776881909
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 6,
+          "deaths": 426,
+          "playerMean": 2.0709898278258883,
+          "hostileMean": 1.7230242566509988
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "originalDenominator": 20,
+      "clear20": 8,
+      "naturalDeaths": 12,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 14,
+          "cleared": 13,
+          "notEntered": 6
+        },
+        {
+          "depth": 5,
+          "entered": 12,
+          "cleared": 12,
+          "notEntered": 8
+        },
+        {
+          "depth": 7,
+          "entered": 11,
+          "cleared": 11,
+          "notEntered": 9
+        },
+        {
+          "depth": 10,
+          "entered": 9,
+          "cleared": 9,
+          "notEntered": 11
+        },
+        {
+          "depth": 20,
+          "entered": 8,
+          "cleared": 8,
+          "notEntered": 12
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 8,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": 1.407928802596783,
+              "hostile": 1.2921251348438247
+            },
+            "elite": {
+              "player": 6.128645833350973,
+              "hostile": 5.152604166666374
+            },
+            "boss": {
+              "player": 22.861458333581822,
+              "hostile": 18.711458333348155
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": 1.821224569663252,
+              "hostile": 1.644640062597806
+            },
+            "elite": {
+              "player": 10.341145833465006,
+              "hostile": 8.419270833332856
+            },
+            "boss": {
+              "player": 22.53125000028689,
+              "hostile": 18.688541666669302
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": 1.8185143288316015,
+              "hostile": 1.553733031674228
+            },
+            "elite": {
+              "player": 10.228125000130234,
+              "hostile": 7.964583333332881
+            },
+            "boss": {
+              "player": 24.239583333641974,
+              "hostile": 19.42812500000376
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": 2.075258945355865,
+              "hostile": 1.6625706214689024
+            },
+            "elite": {
+              "player": 10.029166666520723,
+              "hostile": 7.078645833332932
+            },
+            "boss": {
+              "player": 24.088541666316132,
+              "hostile": 17.243750000000134
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0602133317725881,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9479597173571755,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9698312767300228,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8407670893906588,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.069116967146049,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9226910428625937,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.071645951435483,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0148055847287691,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9805479172764336,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.888765367512425,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.993768801004256,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8875663503295761,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        }
+      },
+      "d20EnemyHpLoss": 399.5332946766525,
+      "d20ShieldAbsorbed": 1042.942288656681,
+      "d20EnemyHpZeroCases": 6,
+      "d20FullHpEntryCases": 8,
+      "d20HpLossBySource": {
+        "bloodpact": 468,
+        "melee:tank": 211.02427482463133,
+        "melee:wisp": 9.740250000000003,
+        "poison": 46.9692343618766,
+        "projectile:boss": 5.523079124773062,
+        "projectile:wizard": 126.27645636537147
+      },
+      "d20ShieldAbsorbedBySource": {
+        "bloodpact": 0,
+        "melee:tank": 234.59216267536868,
+        "melee:wisp": 214.28550000000007,
+        "poison": 139.0140989714539,
+        "projectile:boss": 75.64567087522693,
+        "projectile:wizard": 379.40485613462863
+      },
+      "d20Casts": {
+        "starts": 42,
+        "interrupts": 40,
+        "releases": 1,
+        "entityDeath": 1,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {
+        "kill:boss": 24000,
+        "kill:elite": 33840,
+        "kill:minion": 129840
+      },
+      "d20ActualHealingBySource": {
+        "harvest": 11.655976951476795,
+        "lifesteal": 272.7480522461901,
+        "regeneration": 613.1292654790285
+      },
+      "d20ActualShieldGenerationBySource": {
+        "bastion": 15.001731544699375,
+        "overheal:harvest": 12.740252619618753,
+        "overheal:lifesteal": 288.52614430478695,
+        "overheal:regeneration": 584.577700901135,
+        "reward:ward": 24
+      },
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 11,
+          "deaths": 618,
+          "playerMean": 2.1026159655068155,
+          "hostileMean": 1.9199568500540474
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 9,
+          "deaths": 506,
+          "playerMean": 1.7620388669526073,
+          "hostileMean": 1.5206851119894855
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 8,
+          "deaths": 354,
+          "playerMean": 2.075258945355865,
+          "hostileMean": 1.6625706214689024
+        }
+      ]
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "originalDenominator": 20,
+      "clear20": 7,
+      "naturalDeaths": 13,
+      "unresolved": 0,
+      "depths": [
+        {
+          "depth": 1,
+          "entered": 16,
+          "cleared": 13,
+          "notEntered": 4
+        },
+        {
+          "depth": 5,
+          "entered": 13,
+          "cleared": 13,
+          "notEntered": 7
+        },
+        {
+          "depth": 7,
+          "entered": 12,
+          "cleared": 11,
+          "notEntered": 8
+        },
+        {
+          "depth": 10,
+          "entered": 11,
+          "cleared": 11,
+          "notEntered": 9
+        },
+        {
+          "depth": 20,
+          "entered": 7,
+          "cleared": 7,
+          "notEntered": 13
+        }
+      ],
+      "sameDepth20SurvivorInputCount": 7,
+      "sameDepth20SurvivorRoleMeans": [
+        {
+          "depth": 5,
+          "roleMeans": {
+            "minion": {
+              "player": 1.6833029197186042,
+              "hostile": 1.582512165450526
+            },
+            "elite": {
+              "player": 6.814880952407293,
+              "hostile": 6.110714285713939
+            },
+            "boss": {
+              "player": 24.91785714312685,
+              "hostile": 21.842857142874525
+            }
+          }
+        },
+        {
+          "depth": 7,
+          "roleMeans": {
+            "minion": {
+              "player": 1.9500995449622593,
+              "hostile": 1.7379692832765443
+            },
+            "elite": {
+              "player": 11.180357142999501,
+              "hostile": 9.876190476189915
+            },
+            "boss": {
+              "player": 24.72142857174335,
+              "hostile": 21.29285714286487
+            }
+          }
+        },
+        {
+          "depth": 10,
+          "roleMeans": {
+            "minion": {
+              "player": 1.8094314079652776,
+              "hostile": 1.6105896510228803
+            },
+            "elite": {
+              "player": 10.200000000129876,
+              "hostile": 8.57857142857094
+            },
+            "boss": {
+              "player": 24.022619047924927,
+              "hostile": 19.68690476190752
+            }
+          }
+        },
+        {
+          "depth": 20,
+          "roleMeans": {
+            "minion": {
+              "player": 1.9516134751490852,
+              "hostile": 1.6487765957446416
+            },
+            "elite": {
+              "player": 9.736904761763071,
+              "hostile": 7.488095238094814
+            },
+            "boss": {
+              "player": 24.796428571067736,
+              "hostile": 18.727380952381477
+            }
+          }
+        }
+      ],
+      "commonStrataRatios": {
+        "7": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9170473846511275,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8886543576552053,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8708938933904954,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.7581967213114755,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0030338052312282,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8795147042376569,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        },
+        "10": {
+          "minion/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.0182902818006212,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "minion/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9798323910743723,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 7
+          },
+          "elite/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9545985060430482,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "elite/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.8728837080210937,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/playerClockLifetime": {
+            "standardizedLaterOverEarlier": 1.032211705209955,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          },
+          "boss/hostileClockLifetime": {
+            "standardizedLaterOverEarlier": 0.9512608090946506,
+            "commonEarlierDeathCoverage": 1,
+            "commonLaterDeathCoverage": 1,
+            "commonStrata": 1
+          }
+        }
+      },
+      "d20EnemyHpLoss": 0,
+      "d20ShieldAbsorbed": 962.2752812499964,
+      "d20EnemyHpZeroCases": 7,
+      "d20FullHpEntryCases": 7,
+      "d20HpLossBySource": {
+        "bloodpact": 435,
+        "melee:tank": 0,
+        "melee:wisp": 0,
+        "poison": 0,
+        "projectile:boss": 0,
+        "projectile:wizard": 0
+      },
+      "d20ShieldAbsorbedBySource": {
+        "bloodpact": 0,
+        "melee:tank": 43.831125000000014,
+        "melee:wisp": 177.75956250000004,
+        "poison": 269.49999999999704,
+        "projectile:boss": 292.20750000000004,
+        "projectile:wizard": 178.97709375
+      },
+      "d20Casts": {
+        "starts": 37,
+        "interrupts": 34,
+        "releases": 1,
+        "entityDeath": 2,
+        "runTermination": 0
+      },
+      "d20TrainingScoreBySource": {
+        "kill:boss": 21000,
+        "kill:elite": 29610,
+        "kill:minion": 169140
+      },
+      "d20ActualHealingBySource": {
+        "harvest": 4.520925788502111,
+        "lifesteal": 205.47122001055874,
+        "regeneration": 223.67874027691363,
+        "stage_recovery": 1.3291139240506595
+      },
+      "d20ActualShieldGenerationBySource": {
+        "bastion": 11.55620147415697,
+        "dominion_kill": 0.7999999999999998,
+        "overheal:harvest": 16.8777563251577,
+        "overheal:lifesteal": 359.71920019140106,
+        "overheal:regeneration": 439.34621775183774
+      },
+      "allArrivalMinionLifetimes": [
+        {
+          "depth": 7,
+          "enteredInputCount": 12,
+          "deaths": 938,
+          "playerMean": 1.9500000000248292,
+          "hostileMean": 1.7706734186212836
+        },
+        {
+          "depth": 10,
+          "enteredInputCount": 11,
+          "deaths": 872,
+          "playerMean": 1.8603211009411185,
+          "hostileMean": 1.6501146788991061
+        },
+        {
+          "depth": 20,
+          "enteredInputCount": 7,
+          "deaths": 470,
+          "playerMean": 1.9516134751490852,
+          "hostileMean": 1.6487765957446416
+        }
+      ]
+    }
+  ],
+  "d20AllEnteredSurvivorSummary": {
+    "enteredAndCleared": 30,
+    "enemyHpLossExcludingBloodpact": 2125.7859903129697,
+    "bloodpactSelfHpLoss": 1797,
+    "shieldAbsorbed": 4009.90621802031,
+    "enemyHpZeroCases": 22,
+    "fullHpEntryCases": 27,
+    "castStarts": 162,
+    "interrupts": 94,
+    "releases": 58,
+    "casterDeaths": 10,
+    "runEndCancellations": 0,
+    "normalAutoReleases": 51,
+    "normalActiveReleases": 2,
+    "normalAutoBossSlamHpLoss": 387.7200410484499,
+    "normalAutoBossSlamShieldAbsorbed": 399.77995895155004
+  },
+  "risk": {
+    "campaignNormalMax1sHpLossRatio": 0.12349999999999994,
+    "campaignNormalTerminalDeathsObserved": 130,
+    "campaignNormalFullHpOrdinarySingleFatalObserved": 0,
+    "endlessGlobalMax1sHpLossRatio": 0.594724999999996,
+    "endlessGlobalPeakCase": [
+      {
+        "id": "run-39",
+        "stageIndex": 7,
+        "depth": 4,
+        "cleared": false
+      }
+    ],
+    "endlessD7plusMax1sHpLossRatio": 0.5392948265750118,
+    "endlessD7plusPeakCase": [
+      {
+        "id": "run-67",
+        "stageIndex": 14,
+        "depth": 11,
+        "cleared": true
+      }
+    ],
+    "endlessTerminalDeathsObserved": 90,
+    "endlessFullHpSingleFatalObserved": 0,
+    "endlessD7plusTerminalDeathsObserved": 19,
+    "endlessD7plusOrdinaryTerminalDeaths": 18,
+    "endlessD7plusSlamTerminalDeaths": 1,
+    "longestEndlessLayerPlayerSeconds": 153.97499999985996,
+    "longestD7plusLayerPlayerSeconds": 120.5166666682012,
+    "longestIdleSeconds": 4.749999999930878,
+    "longestCompleteRunPlayerSeconds": 2581.275000004511,
+    "budgetErrorCancelled": 0,
+    "endlessD7plusTerminalBeforeHpFractionRange": [0.02110663344978136, 0.3343437727808207]
+  },
+  "trainingSources": {
+    "all120": {
+      "kill:boss": 3741000,
+      "kill:elite": 2769780,
+      "kill:minion": 23772820
+    },
+    "depth7plus": {
+      "kill:boss": 1578000,
+      "kill:elite": 2252070,
+      "kill:minion": 10638140
+    },
+    "lifeAwardOrExcessReinforcementTraining": 0
+  },
+  "integrity": {
+    "runtimeFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 120,
+    "shards": 120,
+    "perRunAudits": 120,
+    "passiveSidecars": 120,
+    "boundedCarriers": 121,
+    "allCarrierExitsZero": true,
+    "currentFrozenArchivedSourceProfileEqual": true,
+    "fullStrictCollectorCanonicalEqual": true,
+    "allNativeSidecarRoleStarCreditTtkCastsReconciled": true,
+    "nativeOutputsUnchanged": true,
+    "missingDuplicateUnplannedUnresolved": 0,
+    "prospectiveAdoptionHash": "b33ee12ea55c7e8e3cf11ee7369add25aa3af840c66c2c8286e202ad7507d342"
+  },
+  "nativeBindings": {
+    "nativeStrictSha256": "e4e18d79d3d26cada5331cf294b5592237fa3689dea0a64f499d39e50c74d0ba",
+    "manifestSha256": "f08378f924f1d9918c8ba2e97d546f91caca778800cbd4a5d72e7adde1645f03",
+    "receiptSha256": "9fb42e6a4ed21bec9e11e13678eb29b098bcec92104aa04fbaf73e5244c69a2b",
+    "rawSha256": "575f8a0563615e2eda692f0d727f46be793ca200a717fa112f944cb1a8f068a6"
+  },
+  "fullAudit": {
+    "directory": "artifacts/balance/endless-evolution/v4-runner-20261027/audit-v4/outputs/endless-2026-10-27T06-50-41-172Z",
+    "auditSha256": "9367d06fdc4c9952cfe07af3b1277a7879542018e2a4c4108acb0027ba49961d",
+    "indexSha256": "0e2bddb0897e2605e0bd8be993b12c068aaeefd3e1860bdf9bf99fe84df2fd9f",
+    "auditorSha256": "7abf838163bc1158633d49f11c48d9c10a86eadf4f1c247373e478c75fa676f7"
+  },
+  "analysisIndices": {
+    "gameplay": "c3d831dbc3e665452c44a545065a3b3b051da7b5208a308d7c06546a6595ba88",
+    "d5CommonStrata": "e77011a70b1e0833e4e561373b6056e671d6df9e8e375440ccd2bcc77d4ab2f0",
+    "d7d10CommonStrata": "454b3a1e743af391391177e15b8e053a59ad9f95535d2d34383cc8a29e9c8076",
+    "keyObservations": "f041bbd76563b4b4ff2af98872643cc2b294662d664d044c7fec504309d1ba8d",
+    "terminalCheck": "65f4e693628a57ca69edd4e80e48c392f852fca6991aa9699d2ce492f6c28854"
+  },
+  "rootMeasurementCheckpoint": {
+    "path": "experiments/balance/endless-evolution/pre-candidate-acceptance-v4.json",
+    "sha256": "554f9ab9e8b9446aded15db2eb841952085073f5b389a1e2042aca9b67eac285",
+    "decidedAt": "2026-10-27T07:02:13.897Z",
+    "calibrationAccepted": true,
+    "acceptedForPreDelivery": true,
+    "deliveryComplete": false,
+    "productionReleaseAuthorized": false,
+    "humanAcceptanceCompleted": false
+  },
+  "newWorldRunsByAuditor": 0,
+  "releaseAcceptedByAuditor": false,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V4 seeds differ from V1/V2/V3. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment.",
+    "D20 is conditioned on survival:22/30 have zero enemy HP loss and27/30 enter fullHP; active1600 has7/7 zero enemy HP cases.",
+    "Some late common strata still accelerate, especially active1600; leaders hostile-clock lifetimes shorten.",
+    "Common-stratum weights hold role, birth/death stars and finite-credit band across the same surviving input set, not per-input contributions/species/build/position/fusion time.",
+    "Peak one-second metrics store no exact window/source binding; fatal source and stage totals cannot identify peak cause.",
+    "projectile:boss mixes ordinary and charged projectiles, so per-cast damage is not causally identifiable; boss_slam is a distinct aggregate source.",
+    "Observed absence of fullHP single-fatal hits is sample evidence, not a survival guarantee. Single-impact caps do not cap combined one-second damage.",
+    "Root calibration acceptance permits PRE candidate delivery only; PR/review/merge/Wiki/cloud results require separate delivery records."
+  ]
+}

@@ -3,16 +3,19 @@ import { CONFIG } from "../../game/config";
 import type { Stats } from "../../game/types";
 import { CARDS } from "../cards";
 import { ENEMIES } from "../enemies";
-import { type Stage, stageAt } from "../stages";
+import { STAGES, type Stage, stageAt } from "../stages";
 import { TRAININGS } from "../training";
 import {
   BASE_STATS,
   type BalanceProfile,
   DEFAULT_ENDLESS,
+  DEFAULT_EVOLUTION,
   ENDLESS_FIELDS,
   ENEMY_FIELDS,
   type EnemyNumbers,
+  EVOLUTION_FIELDS,
   type KindWeights,
+  type LegacyBalanceProfile,
   MINION_KINDS,
   type NumericField,
   REWARD_SOURCES,
@@ -45,8 +48,8 @@ export function defaultProfile(): BalanceProfile {
     ]),
   ) as BalanceProfile["payload"]["enemies"];
   return {
-    schemaVersion: 1,
-    baseline: "balance-v1",
+    schemaVersion: 2,
+    baseline: "balance-v2",
     id: "default",
     revision: 1,
     name: "当前正式数值",
@@ -54,6 +57,7 @@ export function defaultProfile(): BalanceProfile {
       player: { hp: 100, shield: 0, stats: { ...BASE_STATS } },
       enemies,
       endless: { ...DEFAULT_ENDLESS },
+      evolution: { ...DEFAULT_EVOLUTION },
       rewards: {
         chest: defaultRewardPolicy(),
         supply: defaultRewardPolicy(),
@@ -166,15 +170,15 @@ export function validateStagePatch(input: unknown, path = "stage"): StagePatch {
 export function parseProfile(input: unknown): BalanceProfile {
   const root = object(input, "方案");
   keys(root, ["schemaVersion", "baseline", "id", "revision", "name", "payload"], "方案");
-  if (root.schemaVersion !== 1 || root.baseline !== "balance-v1")
-    throw new Error("方案版本或规则基线不兼容；需要显式迁移");
+  if (root.schemaVersion !== 2 || root.baseline !== "balance-v2")
+    throw new Error("方案版本或规则基线不兼容；v1 方案需要显式迁移为副本");
   if (typeof root.id !== "string" || !/^[a-zA-Z0-9_-]{1,100}$/.test(root.id))
     throw new Error("id: 需要 1–100 位字母、数字、连字符或下划线");
   if (typeof root.name !== "string" || !root.name.trim() || root.name.length > 100)
     throw new Error("name: 需要 1–100 位名称");
   const revision = validateNumber(root.revision, ["版本", 1, 1e6, true], "revision");
   const payload = object(root.payload, "payload");
-  keys(payload, ["player", "enemies", "endless", "rewards", "stageRules"], "payload");
+  keys(payload, ["player", "enemies", "endless", "evolution", "rewards", "stageRules"], "payload");
   const player = object(payload.player, "player");
   keys(player, ["hp", "shield", "stats"], "player");
   const stats = validateNumbers<keyof Stats>(player.stats, STAT_FIELDS, "player.stats");
@@ -189,6 +193,7 @@ export function parseProfile(input: unknown): BalanceProfile {
     ]),
   ) as BalanceProfile["payload"]["enemies"];
   const endless = validateNumbers(payload.endless, ENDLESS_FIELDS, "endless");
+  const evolution = validateNumbers(payload.evolution, EVOLUTION_FIELDS, "evolution");
   if (!Array.isArray(payload.stageRules) || payload.stageRules.length > 200)
     throw new Error("stageRules: 最多 200 条规则");
   const stageRules = payload.stageRules.map((input: unknown, index: number): StageRule => {
@@ -224,8 +229,8 @@ export function parseProfile(input: unknown): BalanceProfile {
         throw new Error("stageRules: 同优先级规则不能重叠（全局、区间、单关分别检查）");
   }
   return {
-    schemaVersion: 1,
-    baseline: "balance-v1",
+    schemaVersion: 2,
+    baseline: "balance-v2",
     id: root.id,
     name: root.name.trim(),
     revision,
@@ -233,10 +238,42 @@ export function parseProfile(input: unknown): BalanceProfile {
       player: { hp, shield, stats },
       enemies: parsedEnemies,
       endless,
+      evolution,
       rewards: policies(payload.rewards, "rewards") as Record<RewardSource, RewardPolicy>,
       stageRules,
     },
   };
+}
+/** Validate legacy data without making it eligible for execution or overwriting its source. */
+export function parseLegacyProfile(input: unknown): LegacyBalanceProfile {
+  const root = object(input, "v1 方案");
+  keys(root, ["schemaVersion", "baseline", "id", "revision", "name", "payload"], "v1 方案");
+  if (root.schemaVersion !== 1 || root.baseline !== "balance-v1")
+    throw new Error("需要 balance-v1 方案");
+  const payload = object(root.payload, "v1 payload");
+  keys(payload, ["player", "enemies", "endless", "rewards", "stageRules"], "v1 payload");
+  const checked = parseProfile({
+    ...root,
+    schemaVersion: 2,
+    baseline: "balance-v2",
+    payload: { ...payload, evolution: { ...DEFAULT_EVOLUTION } },
+  });
+  const { evolution: _evolution, ...legacyPayload } = checked.payload;
+  return { ...checked, schemaVersion: 1, baseline: "balance-v1", payload: legacyPayload };
+}
+
+/** Explicit migration creates a new identity; old numerical overrides remain inspectable. */
+export function migrateLegacyProfile(input: unknown): BalanceProfile {
+  const legacy = parseLegacyProfile(input);
+  return parseProfile({
+    ...legacy,
+    schemaVersion: 2,
+    baseline: "balance-v2",
+    id: crypto.randomUUID(),
+    revision: 1,
+    name: `${legacy.name.slice(0, 85)} · v2 副本`,
+    payload: { ...legacy.payload, evolution: { ...DEFAULT_EVOLUTION } },
+  });
 }
 function specificity(rule: StageRule): number {
   return rule.from === rule.to ? 2 : rule.from === 1 && rule.to === null ? 0 : 1;
@@ -284,7 +321,14 @@ export function resolvedStage(
   index: number,
   width: number = CONFIG.width,
 ): Stage {
-  const stage = stageAt(index, width, profile.payload.endless, profile.payload.enemies.tank.hp);
+  const stage = stageAt(
+    index,
+    width,
+    profile.payload.endless,
+    profile.payload.enemies.tank.hp,
+    profile.payload.evolution,
+    index >= STAGES.length ? resolvedStage(profile, STAGES.length - 1, width) : undefined,
+  );
   const patch = Object.assign(
     {},
     ...stageRulesAt(profile, index).map((rule) => rule.stage),

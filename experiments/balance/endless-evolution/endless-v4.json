@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "mode": "endless",
+  "masterSeed": 2026102703,
+  "seedCount": 20,
+  "strategies": [
+    {
+      "name": "random-auto"
+    },
+    {
+      "name": "build-auto"
+    },
+    {
+      "name": "build-active"
+    }
+  ],
+  "layouts": [
+    {
+      "id": "portrait",
+      "width": 450
+    },
+    {
+      "id": "desktop",
+      "width": 1600
+    }
+  ],
+  "maxSeconds": 7200,
+  "maxSteps": 864000,
+  "maxRuns": 5000,
+  "endlessTarget": 20,
+  "trace": false,
+  "sampleIntervalSeconds": 1,
+  "traceCapacity": 1000,
+  "deathWindowSeconds": 8,
+  "eventCapacity": 400,
+  "validationSeeds": []
+}

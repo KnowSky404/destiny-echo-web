@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "kind": "v4-validation-independent-integrity-and-pacing-summary",
+  "recordedAt": "2026-10-27T06:49:16.623904+00:00",
+  "status": "complete-integrity-and-successful-pacing-pass-gameplay-separate",
+  "codeFingerprint": "ea026afaf9b62a25a3712692dc80983bf5a12b76adfec499fde151be6152cc8f",
+  "profileHash": "997accea6b158f020c12342839b872bc9bdf8277c0aba67bdb0a876a94c2e573",
+  "sampledGitIdentity": {
+    "commit": "acce7ad94fc6d919ed9127a5a39bbd8a006501a8",
+    "dirty": true,
+    "finalCommitSourceMappingRequired": true
+  },
+  "planned": 600,
+  "completed": 600,
+  "victories": 355,
+  "naturalDeaths": 245,
+  "unresolved": 0,
+  "groups": [
+    {
+      "strategy": "random-auto",
+      "width": 450,
+      "denominator": 100,
+      "wins": 37,
+      "deaths": 63,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 37,
+        "p10": 507.59666666636934,
+        "p50": 530.1083333330156,
+        "p90": 589.5349999996282,
+        "min": 491.2416666663842,
+        "max": 726.9749999995032
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "random-auto",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 48,
+      "deaths": 52,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 48,
+        "p10": 507.35333333303623,
+        "p50": 533.0708333330128,
+        "p90": 560.8208333329877,
+        "min": 481.54166666639304,
+        "max": 884.8166666660263
+      },
+      "normalSuccessMedian480to720": null
+    },
+    {
+      "strategy": "build-auto",
+      "width": 450,
+      "denominator": 100,
+      "wins": 67,
+      "deaths": 33,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 67,
+        "p10": 481.05833333306015,
+        "p50": 502.47499999970734,
+        "p90": 540.2199999996731,
+        "min": 463.0166666664099,
+        "max": 792.1333333327773
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-auto",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 62,
+      "deaths": 38,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 62,
+        "p10": 480.135833333061,
+        "p50": 502.72083333304045,
+        "p90": 535.143333333011,
+        "min": 464.7999999997416,
+        "max": 618.0249999996023
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 450,
+      "denominator": 100,
+      "wins": 73,
+      "deaths": 27,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 73,
+        "p10": 484.2133333330573,
+        "p50": 506.58333333303693,
+        "p90": 553.0333333329947,
+        "min": 463.51666666640944,
+        "max": 777.9249999994569
+      },
+      "normalSuccessMedian480to720": true
+    },
+    {
+      "strategy": "build-active",
+      "width": 1600,
+      "denominator": 100,
+      "wins": 68,
+      "deaths": 32,
+      "unresolved": 0,
+      "successfulPlayerSeconds": {
+        "n": 68,
+        "p10": 479.9316666663945,
+        "p50": 506.5999999997036,
+        "p90": 549.9249999996642,
+        "min": 466.6083333330733,
+        "max": 663.2333333328945
+      },
+      "normalSuccessMedian480to720": true
+    }
+  ],
+  "normalSuccessMedian480to720AllFour": true,
+  "deathStageCounts1to4": [0, 219, 21, 5],
+  "normalDeathStageCounts1to4": [0, 115, 12, 3],
+  "integrity": {
+    "runtimeFiles": 47,
+    "runnerFiles": 4,
+    "nativeRecords": 600,
+    "shards": 600,
+    "perRunAudits": 600,
+    "passiveSidecars": 600,
+    "boundedCarriers": 151,
+    "allCarrierExitsZero": true,
+    "eachRecordWithinExactlyOneCarrier": true,
+    "currentFrozenArchivedSourceProfileEqual": true,
+    "fullStrictCollectorCanonicalEqual": true,
+    "allNativeSidecarRoleStarCreditTtkCastsReconciled": true,
+    "nativeOutputsUnchanged": true,
+    "missingDuplicateUnplannedUnresolved": 0,
+    "prospectiveAdoptionHash": "b33ee12ea55c7e8e3cf11ee7369add25aa3af840c66c2c8286e202ad7507d342"
+  },
+  "nativeBindings": {
+    "nativeStrictSha256": "2e75f15d58e25897590299895efd861461cd16e66afe216c6c3c75528285b769",
+    "manifestSha256": "01cc74a5a67619edd1bb4a9dd93add0fd1ef8f6a7377ef62e9189192b87ae010",
+    "receiptSha256": "acd2511fc7427bcc45a480b626612b348521082ac2d5017dc98526b3376b1c4a",
+    "rawSha256": "215dfacc88873d9b59fe9a8b45aab2c333b417db70582a7583062211cdeb8ddc"
+  },
+  "fullAudit": {
+    "directory": "artifacts/balance/endless-evolution/v4-runner-20261027/audit-v4/outputs/validation-2026-10-27T06-46-45-375Z",
+    "auditSha256": "4bc079880958977eca26865c4bd23bbb129feb8e0cb91121abfc3f4e726fb4d1",
+    "auditBytes": 62806507,
+    "indexSha256": "c8e32f2ced499608470ba67abddac7b674863bf89e47528426a6ce73e5cd58f2",
+    "auditorSha256": "7abf838163bc1158633d49f11c48d9c10a86eadf4f1c247373e478c75fa676f7"
+  },
+  "gameplayAnalysis": {
+    "directory": "artifacts/balance/endless-evolution/v4-gameplay-analysis-20261027/validation-final-20261027",
+    "indexSha256": "aa8f89ddcd6a95ab02680d6e2452b62941ba6867ff5d3203691239598dc0ffda"
+  },
+  "releaseAccepted": false,
+  "newWorldRunsByAuditor": 0,
+  "limits": [
+    "All group denominators include deaths and nonentrants. Successful duration quantiles use wins only, never deaths/all runs.",
+    "Death-star/finite-credit TTK counts defeated entities only; fusion donors and living units are censored. <=1second lifetimes do not establish a single hit.",
+    "Native public observation records interruption, but not its damage-versus-hit cause. No cause is inferred.",
+    "Fresh V4 seeds differ from V1/V2/V3. Historical comparisons are unpaired unless both sides really share policy and exact seed/config sets.",
+    "Engineering/strict recording acceptance does not establish sustained challenge, human survival, browser acceptance or deployment.",
+    "Second-stage deaths remain219/245 overall and115/130 in the normal four groups; concentration is not eliminated.",
+    "Campaign success-time acceptance does not establish sustained endless challenge or human pacing."
+  ],
+  "rootMeasurementCheckpoint": {
+    "path": "experiments/balance/endless-evolution/pre-candidate-acceptance-v4.json",
+    "sha256": "554f9ab9e8b9446aded15db2eb841952085073f5b389a1e2042aca9b67eac285",
+    "decidedAt": "2026-10-27T07:02:13.897Z",
+    "calibrationAccepted": true,
+    "acceptedForPreDelivery": true,
+    "deliveryComplete": false,
+    "productionReleaseAuthorized": false,
+    "humanAcceptanceCompleted": false
+  },
+  "normalCampaignHpRisk": {
+    "ordinaryOriginalDenominator": 400,
+    "naturalDeathTerminalEventsPresent": 130,
+    "fullHpOrdinarySingleFatalObserved": 0,
+    "maxOneSecondHpLossRatioEachOrdinaryGroup": 0.12349999999999994,
+    "peakStage1Based": 4,
+    "tiedRecordIds": {
+      "build-auto/450": ["run-224"],
+      "build-auto/1600": ["run-309", "run-314"],
+      "build-active/450": ["run-441", "run-484"],
+      "build-active/1600": ["run-505", "run-509"]
+    },
+    "sourceAttribution": "Peak windows store no time/per-hit source binding; stage totals and fatalSource cannot identify the peak cause. Bloodpact is excluded.",
+    "terminalSampleLimit": "Actual terminal events show no fullHP ordinary single-fatal hit in these130 deaths; not a guarantee on other inputs."
+  }
+}

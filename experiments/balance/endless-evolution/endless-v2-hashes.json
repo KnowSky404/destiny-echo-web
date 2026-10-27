@@ -1,0 +1,101 @@
+{
+  "kind": "endless-evolution-v2-endless-curated-custody",
+  "recordedAt": "2026-10-26T09:52:28.426Z",
+  "formattingOnly": {
+    "evidenceInitiallyByteIdentical": true,
+    "jsonCanonicalHashesUnchanged": true,
+    "markdownUnchanged": true,
+    "nativeUnchanged": {
+      "nativeEvidence": true,
+      "manifest": true,
+      "raw": true,
+      "receipt": true
+    },
+    "evidenceCopyCanonicalEqualToNative": true
+  },
+  "native": {
+    "directory": "/root/Clouds/destiny-echo-web/.worktrees/endless-evolution/artifacts/balance/endless-evolution/v2-runner-20261026/data/endless",
+    "evidenceSha256": "30dfa837a8e1738b6dc04a0bb6b463cd0a142d3875a10b2b8a8686cb03d7979a",
+    "evidenceCanonicalHash": "fe953b9ade354271882db91215f134083ee8c432a1b0317f1649dcc9109cff5b",
+    "manifestSha256": "f617c2c6fe458e7c35da064fb92fa5dcb3089f073a8543e45c3ef8e532f3dcc9",
+    "rawSha256": "a227fd437c59290f2eae710503b3164cc50f02e8f6e94abb482ef7d2fb9f4e71",
+    "receiptSha256": "057aaf134550c79d44f2b5d01ec9f51942005412dbf3f85b0a0d6769999df05d"
+  },
+  "documents": [
+    {
+      "path": "endless-v2-evidence.json",
+      "bytes": 2179340,
+      "sha256": "58ba7d837917c344c4a115d94a5ec2715432e43bbb8a447a31127ebaa25bd224",
+      "canonicalHash": "fe953b9ade354271882db91215f134083ee8c432a1b0317f1649dcc9109cff5b"
+    },
+    {
+      "path": "endless-v2-audit.json",
+      "bytes": 874808,
+      "sha256": "96a6bfb9ab91a1a6d1638c5962cdb4bdaccd1a7cab34b5634f4f93273aa8573e",
+      "canonicalHash": "1d17d8468b3c6d3fddfbb70724260b0364d4c9c1e5fa4f576102ce6bf0f8f7ba"
+    },
+    {
+      "path": "endless-v2-audit.md",
+      "bytes": 7287,
+      "sha256": "9b4d9e4037c7f3413d8058bccfc18f83652f81fbadc530543ad0286fbaa4d78f",
+      "canonicalHash": null
+    }
+  ],
+  "auditorFiles": [
+    {
+      "path": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-endless-final/collect.ts",
+      "sha256": "7f86a7859f3797bfc9636571da00b50531e41fff96a1b8ad12df20169e823026"
+    },
+    {
+      "path": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-endless-final/sign.ts",
+      "sha256": "edc9fd0544b46a0dba6e8e8ef1000bdd0730b629726dc5c1eb59e97fbb4309e8"
+    }
+  ],
+  "nativeAdditionalAttachmentsReverified": {
+    "sourceFiles": 47,
+    "shards": 120,
+    "perJobAudits": 120,
+    "cases": 2,
+    "sealedOutputs": 11
+  },
+  "resourceSchedulingSnapshotsReverified": [
+    {
+      "path": "resource-scheduling-source.json",
+      "expected": "51626697f5670662dcdb8565ec123f89005bea604f7c5b8e16f0defae22f45bc"
+    },
+    {
+      "path": "resource-scheduling-events-source.jsonl",
+      "expected": "a0307235f3a96c219cb314abc41c4708f31125741695843f2464e8ae3713f452"
+    },
+    {
+      "path": "endless-carrier-events-source.jsonl",
+      "expected": "ef9d49640ceb014d22742fdaf74cf02051a868b380181b1be80a1ea8fdcdd938"
+    }
+  ],
+  "carrierLogsReverified": 121,
+  "prospectiveAdoptionPreserved": true,
+  "manualReleaseAccepted": false,
+  "releaseAccepted": false,
+  "rootDecisionEditorialCustody": {
+    "recordedAt": "2026-10-26T09:51:54.439Z",
+    "source": "Root explicit post-complete120 decision; final new report before release",
+    "observedDataCanonicalEqualToPreservedInitialDraft": true,
+    "editorialChangesOnly": [
+      "rootPostHoldoutDecision",
+      "gates.sustainedLateChallengeDemonstrated=false",
+      "gates.fullGameplayAcceptancePassed=false",
+      "gates.preDeploymentAccepted=false",
+      "Markdown root decision sentence"
+    ],
+    "reconciliationPath": "artifacts/balance/endless-evolution/v2-runner-20261026/audit-endless-final/root-post-holdout-decision-reconciliation.json",
+    "reconciliationSha256": "c1fca4b2576c7707326a67639a230c9a313f64ad3a4dfbc7297270758ee9d3fe",
+    "preservedInitialDrafts": {
+      "endless-v2-audit.json": "df865fc810d6abd9ce5ebcaeee0b148d5d35d86371b99379a23c228799372c61",
+      "endless-v2-audit.md": "85e98ba512ad59ca9038085c6aeb4c853d1d9a7dda0de116131c65e080d4edf8",
+      "endless-v2-hashes.json": "2865490e3f6965f5347827254f4c36513cfbcd4da817c978fc29a30bfcbe8502"
+    }
+  },
+  "sustainedLateChallengeDemonstrated": false,
+  "fullGameplayAcceptancePassed": false,
+  "preDeploymentAccepted": false
+}

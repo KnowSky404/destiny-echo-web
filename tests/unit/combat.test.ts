@@ -141,7 +141,7 @@ describe("targeting and real projectile coverage", () => {
   });
 
   test("lost-target shots expire and pool reuse cannot preserve a stale manual lock", () => {
-    const world = new World();
+    const world = new World(CONFIG.width, defaultProfile());
     world.start(2);
     tick(world, 1);
     const old = world.enemies.items.find((item) => item.active);
@@ -282,7 +282,7 @@ describe("approach, defense and attack permission", () => {
   });
 
   test("defense slots stay distinct and bounded, and a full pool cannot block the boss", () => {
-    const world = new World();
+    const world = new World(CONFIG.width, defaultProfile());
     world.start(1);
     world.player.cooldown = 100;
     world.player.shield = 10000;
@@ -332,7 +332,7 @@ describe("boss counterplay, execution and endings", () => {
     expect(world.bossSpecials).toBe(1);
   });
   test("the scheduled boss moves to the defense and releases a damaging special", () => {
-    const world = new World();
+    const world = new World(CONFIG.width, defaultProfile());
     world.start(8);
     world.stageElapsed = world.stage.bossAt - 0.01;
     world.player.cooldown = 100;

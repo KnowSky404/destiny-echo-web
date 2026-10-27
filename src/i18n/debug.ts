@@ -8,6 +8,43 @@ import { getLocale, type Locale } from "./locale";
 // These keys belong to the PRE component. User profile names, imported JSON and
 // input values are never passed through word-by-word replacement.
 const DEBUG_EN: Record<string, string> = {
+  "无尽预算修改只重分当前及后续怪群的剩余名额，已出场信用不追回；显示有效预算，保留构筑重开才完整采用请求值。补给数量按前三段累计 floor(N×k/3) 分配，可能连续选多次。":
+    "Endless budget edits redistribute only remaining current/future wave credits. Admitted credit is retained; the display shows the effective budget. Keep-build restart applies the requested value in full. Supplies are allocated across the first three segments by cumulative floor(N×k/3), so several choices may follow a segment.",
+  "方案：锻体与无尽节奏": "Profile: training and endless pacing",
+  "v2 生命成长使用下方一次项与二次项；旧版指数成长字段仅保留在 JSON 中。":
+    "v2 HP growth uses the linear and quadratic coefficients below; legacy exponential growth fields are retained only in JSON.",
+  首张锻体训练分: "First training credit threshold",
+  锻体逐张追加训练分: "Additional credit per training",
+  无尽成长一次项: "Endless linear growth coefficient",
+  无尽成长二次项: "Endless quadratic growth coefficient",
+  "波次间隔 / 秒": "Wave break / seconds",
+  "首领百分比伤害额度 / 秒": "Boss percentage damage budget / second",
+  "精英百分比伤害额度 / 秒": "Elite percentage damage budget / second",
+  弱点百分比额度倍率: "Vulnerable percentage budget multiplier",
+  "技能蓄力 / 秒": "Ability charge / seconds",
+  "技能后摇 / 秒": "Ability recovery / seconds",
+  "打断弱点持续 / 秒": "Interrupted vulnerability / seconds",
+  "弱点主弹破防 / 最大生命比例": "Weak-point primary damage / maximum HP ratio",
+  连续主弹打断次数: "Primary hits needed to interrupt",
+  "有效攻击间隔下限 / 秒": "Effective firing interval floor / seconds",
+  "v1 方案备份与迁移": "v1 profile backup and migration",
+  "v1 原始数据保留。迁移仅保存新的 v2 副本，补齐新规则参数；不会启用或重开战斗，旧版回放仍需旧代码。":
+    "Original v1 data is retained. Migration saves a separate v2 copy with new rule parameters. Activate it separately to test; old replays require the old code.",
+  "导出 v1 原始存储": "Export original v1 storage",
+  "导出 v1 方案": "Export v1 profile",
+  "迁移为 v2 独立版本": "Migrate as a separate v2 version",
+  "导入并迁移 v1 方案副本": "Import and migrate a v1 profile copy",
+  "已迁移为独立 v2 版本；草稿、选中版本与当前战斗保持不变":
+    "Saved a separate v2 version; draft, selection and battle are unchanged.",
+  "已导出原始 v1 数据": "Original v1 data exported",
+  "v1 方案不存在": "v1 profile not found",
+  "需要 balance-v1 方案": "A balance-v1 profile is required",
+  "部分 v1 方案无法迁移；原始存储仍可导出":
+    "Some v1 profiles could not be migrated; original storage can still be exported.",
+  "v1 方案无法读取；原始存储仍可导出":
+    "v1 profiles could not be read; original storage can still be exported.",
+  "方案版本或规则基线不兼容；v1 方案需要显式迁移为副本":
+    "Profile schema or rule baseline is incompatible; explicitly migrate a v1 profile as a copy.",
   版本: "Version",
   整数: "integer",
   有限数值: "finite number",
