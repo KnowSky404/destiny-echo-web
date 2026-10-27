@@ -6,6 +6,15 @@
 
 [首页](Home-zh-CN.md) · [卡牌](Cards-zh-CN.md) · [流派](Builds-zh-CN.md) · [敌人](Enemies-zh-CN.md) · [关卡](Stages-zh-CN.md) · [机制](Mechanics-zh-CN.md) · [开发与发布](Development-zh-CN.md) · [版本日志](Changelog-zh-CN.md) · [配图](Gallery-zh-CN.md) · [品牌](Brand-zh-CN.md) · [验证历史](Validation-zh-CN.md)
 
+## 生产发布 — 2026-10-27
+
+- 发布 [PR #19](https://github.com/KnowSky404/destiny-echo-web/pull/19) 已合并的无尽遭遇、主动反制和锻体进度更新，游戏提交为 `35b3eb917ab784d9ae8052e943cd9e06144a4676`。其完整目录树与审阅通过的 PR head `1c055b0f0fca7d6e2f43af8c2795ccbf68fd3949` 一致；保留下方候选报告和校准局限。
+- PRE：复核现有版本 `be4a6d2c-da14-4d3f-ab0c-d93516074937` 承担 100% 流量，不重复部署。15 个公开文件的 SHA-256 全部匹配干净合并源码的 PRE 构建。
+- PRO：PRE 核验后，通过 `bun run deploy:pro` 发布同一游戏提交。权威 GET 确认版本 `41ad6148-57fc-45e2-80e2-0ed0f416239a` 承担 100% 流量；12 个公开文件全部匹配生产构建。两个环境的 MIME、缓存/安全响应头和真实缺失文件 404 检查通过。原 PRO 版本为 `d51ac3d9-3ee9-4519-9aa9-583d51fd1e21`。
+- 本地文档、类型、lint、587 项 Bun 测试、PRE/PRO 构建及部署 dry-run 均通过。lint 保留三个已有的大型证据文件警告，原有 Phaser 分包体积提示保留。
+- PRE、PRO 均通过 Firefox 1920×1080 和 Chromium 320×568 触屏的线上检查，覆盖初始化、开始、计时推进、暂停冻结、双语帮助/构筑及继续，没有应用或请求错误。PRO 不暴露 PRE 实验室和只读 World 诊断接口。
+- 当前没有 Browser 插件，使用已安装的 Playwright、全新上下文和受控时钟完成软件渲染界面检查；自然时钟进程中断的尝试单独保留。这不代表真实帧率、长局平衡或真机验收。PRE 的 v1 方案仍须显式迁移为 v2 副本，生产环境不包含数值实验室。Wiki 与 Worker 分别发布核验。
+
 ## 未发布 — 反制候选，2026-10-27
 
 - 保留v1/v2/v3拒收报告。v3完整执行300/600/120且记录完整性和战役时长通过，后期无尽挑战仍未通过；V4现已获PRE候选校准采纳，源码发布与真人验收分别验证。

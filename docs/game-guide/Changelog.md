@@ -6,6 +6,15 @@ English · [简体中文](Changelog-zh-CN.md)
 
 [Home](Home.md) · [Cards](Cards.md) · [Builds](Builds.md) · [Enemies](Enemies.md) · [Stages](Stages.md) · [Mechanics](Mechanics.md) · [Development](Development.md) · [Changelog](Changelog.md) · [Gallery](Gallery.md) · [Brand](Brand.md) · [Validation](Validation.md)
 
+## Production rollout — 2026-10-27
+
+- Release the merged endless encounter, counterplay and training progression update from [PR #19](https://github.com/KnowSky404/destiny-echo-web/pull/19), game commit `35b3eb917ab784d9ae8052e943cd9e06144a4676`. Its tree matches the reviewed PR head `1c055b0f0fca7d6e2f43af8c2795ccbf68fd3949`; preserve the candidate reports and their calibration limits below.
+- PRE: revalidate existing version `be4a6d2c-da14-4d3f-ab0c-d93516074937` at 100% traffic without redeploying it. All 15 public files match the clean merged-source PRE build by SHA-256.
+- PRO: after PRE verification, deploy the same game commit through `bun run deploy:pro`. Authoritative GET confirms version `41ad6148-57fc-45e2-80e2-0ed0f416239a` at 100% traffic. All 12 public files match the production build; both environments pass MIME, cache/security-header and genuine missing-asset 404 checks. Previous PRO version: `d51ac3d9-3ee9-4519-9aa9-583d51fd1e21`.
+- Local verification: documentation, typecheck, lint, all 587 Bun tests, PRE/PRO builds and deployment dry-runs pass. Lint retains three existing oversized evidence-file warnings; the existing Phaser chunk-size notice remains.
+- PRE and PRO live smoke both pass on Firefox 1920×1080 and Chromium 320×568 touch, covering initialization, start, timer progression, pause freeze, bilingual Help/Build and resume, with no application or request errors. PRO exposes neither the PRE laboratory nor its read-only World diagnostics.
+- Browser plugin unavailable; use installed Playwright with fresh contexts and a bounded clock for software-rendered UI checks. Preserve the interrupted natural-clock attempt separately. This does not establish real-time frame rate, long-run balance or physical-device acceptance. PRE profile migration remains an explicit v1-to-v2 copy; production has no balance laboratory. Wiki publication remains separate from Worker deployment.
+
 ## Unreleased — counterplay candidate, 2026-10-27
 
 - Preserve the rejected v1/v2/v3 reports. V3 completed 300/600/120 and passed recording integrity and campaign pacing, but late endless challenge still failed; V4 now has calibration acceptance for PRE candidate delivery, with publication and human acceptance verified separately.
